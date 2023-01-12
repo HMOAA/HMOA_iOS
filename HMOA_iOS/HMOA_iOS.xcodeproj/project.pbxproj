@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */; };
 		2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */; };
-		2C39AA1A296DB4DE000C6F71 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA19296DB4DE000C6F71 /* ViewController.swift */; };
 		2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */; };
 		2C39AA22296DB4E0000C6F71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C39AA21296DB4E0000C6F71 /* Assets.xcassets */; };
 		2C39AA25296DB4E0000C6F71 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */; };
@@ -39,7 +38,6 @@
 		2C39AA12296DB4DE000C6F71 /* HMOA_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HMOA_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2C39AA19296DB4DE000C6F71 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2C39AA1F296DB4DE000C6F71 /* HMOA_iOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HMOA_iOS.xcdatamodel; sourceTree = "<group>"; };
 		2C39AA21296DB4E0000C6F71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C39AA24296DB4E0000C6F71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -99,13 +97,9 @@
 		2C39AA14296DB4DE000C6F71 /* HMOA_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */,
-				2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */,
-				2C39AA19296DB4DE000C6F71 /* ViewController.swift */,
-				2C39AA21296DB4E0000C6F71 /* Assets.xcassets */,
-				2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */,
-				2C39AA26296DB4E0000C6F71 /* Info.plist */,
-				2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */,
+				2C39AA4C297041D4000C6F71 /* Resource */,
+				2C39AA4B2970418F000C6F71 /* Application */,
+				2C39AA4A2970417D000C6F71 /* Presentation */,
 			);
 			path = HMOA_iOS;
 			sourceTree = "<group>";
@@ -125,6 +119,81 @@
 				2C39AA3B296DB4E0000C6F71 /* HMOA_iOSUITestsLaunchTests.swift */,
 			);
 			path = HMOA_iOSUITests;
+			sourceTree = "<group>";
+		};
+		2C39AA4A2970417D000C6F71 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				2C39AA4D29704215000C6F71 /* Tab */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		2C39AA4B2970418F000C6F71 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */,
+				2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		2C39AA4C297041D4000C6F71 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */,
+				2C39AA21296DB4E0000C6F71 /* Assets.xcassets */,
+				2C39AA26296DB4E0000C6F71 /* Info.plist */,
+				2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		2C39AA4D29704215000C6F71 /* Tab */ = {
+			isa = PBXGroup;
+			children = (
+				2C39AA5229704292000C6F71 /* Drawer */,
+				2C39AA512970426E000C6F71 /* MyPage */,
+				2C39AA5029704265000C6F71 /* Menu */,
+				2C39AA4F2970425D000C6F71 /* News */,
+				2C39AA4E29704253000C6F71 /* Home */,
+			);
+			path = Tab;
+			sourceTree = "<group>";
+		};
+		2C39AA4E29704253000C6F71 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		2C39AA4F2970425D000C6F71 /* News */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		2C39AA5029704265000C6F71 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		2C39AA512970426E000C6F71 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		2C39AA5229704292000C6F71 /* Drawer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Drawer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +327,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
-				2C39AA1A296DB4DE000C6F71 /* ViewController.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
 			);
