@@ -201,6 +201,7 @@
 		2C39AA4E29704253000C6F71 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				2C4DD366297547620027CE40 /* View */,
 				2C39AA6E29704866000C6F71 /* ViewController */,
 			);
 			path = Home;
@@ -298,6 +299,13 @@
 			path = Extenstions;
 			sourceTree = "<group>";
 		};
+		2C4DD366297547620027CE40 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BC28113BDB150DAB2A9BA07C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -319,6 +327,7 @@
 				2C39AA0E296DB4DE000C6F71 /* Sources */,
 				2C39AA0F296DB4DE000C6F71 /* Frameworks */,
 				2C39AA10296DB4DE000C6F71 /* Resources */,
+				4D92FF9F35A52A03249AB255 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -337,7 +346,6 @@
 				2C39AA27296DB4E0000C6F71 /* Sources */,
 				2C39AA28296DB4E0000C6F71 /* Frameworks */,
 				2C39AA29296DB4E0000C6F71 /* Resources */,
-				316AD5FA4D3C82552A2CFED4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -357,6 +365,7 @@
 				2C39AA31296DB4E0000C6F71 /* Sources */,
 				2C39AA32296DB4E0000C6F71 /* Frameworks */,
 				2C39AA33296DB4E0000C6F71 /* Resources */,
+				689D7BDE513B428374E1D0DF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -438,21 +447,38 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		316AD5FA4D3C82552A2CFED4 /* [CP] Embed Pods Frameworks */ = {
+		4D92FF9F35A52A03249AB255 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		689D7BDE513B428374E1D0DF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		73BCB1B8AB9DBB1F54604B15 /* [CP] Check Pods Manifest.lock */ = {
@@ -746,6 +772,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HMOA_iOS/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
