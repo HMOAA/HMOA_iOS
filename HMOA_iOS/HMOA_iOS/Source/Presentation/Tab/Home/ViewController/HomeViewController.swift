@@ -9,6 +9,10 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    // MARK: ViewModel
+    
+    let viewModel = HomeViewModel()
+    
     // MARK: Properties
     
     lazy var homeView = HomeView()
@@ -17,6 +21,23 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureAction()
+    }
+    
+    // MARK: objc functions
+    
+    @objc func leftButtonClicked() {
+        DispatchQueue.main.async {
+            self.viewModel.newsButtonClicked(true)
+            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex, section: 0), at: .right, animated: true)
+        }
+    }
+    
+    @objc func rightButtonClicked() {
+        DispatchQueue.main.async {
+            self.viewModel.newsButtonClicked(false)
+            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex, section: 0), at: .right, animated: true)
+        }
     }
 }
 
@@ -24,7 +45,6 @@ class HomeViewController: UIViewController {
 extension HomeViewController {
     
     func configureUI() {
-        
         view.backgroundColor = UIColor.white
         
         [homeView] .forEach { view.addSubview($0) }
@@ -36,6 +56,18 @@ extension HomeViewController {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview()
         }
+    }
+    
+    func configureAction() {
+        homeView.leftButton.addTarget(
+            self,
+            action: #selector(leftButtonClicked),
+            for: .touchUpInside)
+        
+        homeView.rightButton.addTarget(
+            self,
+            action: #selector(rightButtonClicked),
+            for: .touchUpInside)
     }
 }
 
