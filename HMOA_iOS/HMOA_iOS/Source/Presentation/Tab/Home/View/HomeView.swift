@@ -12,6 +12,7 @@ import Then
 class HomeView: UIView {
     
     // MARK: - Properties
+    let scrollView = UIScrollView()
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
         $0.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.identifier)
@@ -19,6 +20,25 @@ class HomeView: UIView {
         $0.register(HomeCellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCellHeaderView.identifier)
         $0.register(HomeTopCellFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: HomeTopCellFooterView.identifier)
     }
+    
+    lazy var leftButton: UIButton = {
+        
+        let button = UIButton()
+        
+        button.setImage(UIImage(named: "leftButton"), for: .normal)
+        
+        return button
+        
+    }()
+    
+    lazy var rightButton: UIButton = {
+        let button = UIButton()
+        
+        button.setImage(UIImage(named: "rightButton"), for: .normal)
+        
+        return button
+    }()
+    
     
     // MARK: - Init
     
@@ -37,10 +57,27 @@ class HomeView: UIView {
 extension HomeView {
     
     func configureUI() {
-        addSubview(collectionView)
+        [scrollView] .forEach { addSubview($0) }
+                
+        [collectionView, leftButton, rightButton] .forEach { scrollView.addSubview($0) }
+        
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.height.equalTo(910)
+            $0.width.equalTo(scrollView)
+        }
+        
+        leftButton.snp.makeConstraints {            $0.top.equalToSuperview().inset(93)
+            $0.leading.equalToSuperview().inset(14)
+        }
+        
+        rightButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(93)
+            $0.trailing.equalToSuperview().inset(34)
         }
     }
     
