@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
     @objc func leftButtonClicked() {
         DispatchQueue.main.async {
             self.viewModel.newsButtonClicked(true)
-            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex, section: 0), at: .right, animated: true)
+            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex, section: 0), at: .left, animated: true)
         }
     }
     
@@ -79,9 +79,13 @@ extension HomeViewController: UICollectionViewDelegate {
         
         guard let homeTopCell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeTopCell.identifier, for: indexPath) as? HomeTopCell else { return UICollectionViewCell() }
         
+        guard let homeWatchCell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeWatchCell.identifier, for: indexPath) as? HomeWatchCell else { return UICollectionViewCell() }
+        
         switch indexPath.section {
         case 0:
             return homeTopCell
+        case 3:
+            return homeWatchCell
         default:
             homeCell.perfumeImageView.image = UIImage(named: "jomalon")
             homeCell.perfumeTitleLabel.text = "조 말론 런던"
@@ -91,16 +95,23 @@ extension HomeViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCellHeaderView.identifier, for: indexPath) as? HomeCellHeaderView else { return UICollectionReusableView() }
-     
+             
         guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: HomeTopCellFooterView.identifier, for: indexPath) as? HomeTopCellFooterView else { return UICollectionReusableView() }
         
-        switch kind {
-        case UICollectionView.elementKindSectionFooter:
+        var header = UICollectionReusableView()
+                
+        switch indexPath.section {
+        case 0:
             return footer
+        case 3:
+            guard let homeWatchCellHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeWatchCellHeaderView.identifier, for: indexPath) as? HomeWatchCellHeaderView else { return UICollectionReusableView() }
+            header = homeWatchCellHeader
         default:
-            return header
+            guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCellHeaderView.identifier, for: indexPath) as? HomeCellHeaderView else { return UICollectionReusableView() }
+            header = homeCellheader
         }
+        
+        return header
     }
 }
 
@@ -108,7 +119,7 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("클릭")
+        print("\(indexPath) 클릭")
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -116,6 +127,12 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        
+        switch section {
+        case 3:
+            return 7
+        default:
+            return 10
+        }
     }
 }
