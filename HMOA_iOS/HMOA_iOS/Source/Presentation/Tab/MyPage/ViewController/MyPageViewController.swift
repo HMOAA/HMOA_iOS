@@ -13,5 +13,6 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        setNavigationBarTitle(title: "마이페이지", isHidden: true)
     }
 }
