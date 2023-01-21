@@ -37,6 +37,29 @@ extension UIViewController {
         self.navigationController?.navigationBar.barTintColor = .white
     }
     
+    func setNavigationBarTitle(title: String, isHidden: Bool) {
+        
+        if !isHidden {
+            let backButton = UIBarButtonItem(
+                image: UIImage(named: "backButton"),
+                style: .done,
+                target: self,
+                action: #selector(popViewController))
+           
+            backButton.tintColor = .black
+            
+            self.navigationItem.leftBarButtonItems = [backButton]
+        }
+        
+        self.navigationItem.title = title
+        self.navigationController?.navigationBar.backgroundColor = UIColor.customColor(.searchBarColor)
+        self.navigationController?.navigationBar.barTintColor = UIColor.customColor(.searchBarColor)
+    }
+    
+    @objc func popViewController() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func spacerItem(_ width: Int) -> UIBarButtonItem {
         let spacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         

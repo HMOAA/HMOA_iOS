@@ -66,7 +66,7 @@ extension AppTabbarController {
         newsVC = NewsViewController(),
         homeVC = UINavigationController(rootViewController: HomeViewController()),
         drawerVC = DrawerViewController(),
-        myPageVC = MyPageViewController()
+        myPageVC = UINavigationController(rootViewController: MyPageViewController())
         
         viewControllers = [menuVC, newsVC, homeVC, drawerVC, myPageVC]
         
