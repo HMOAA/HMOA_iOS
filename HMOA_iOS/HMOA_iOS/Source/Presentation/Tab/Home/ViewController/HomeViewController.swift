@@ -11,7 +11,7 @@ class HomeViewController: UIViewController {
     
     // MARK: ViewModel
     
-    let viewModel = HomeViewModel()
+    let viewModel = HomeViewModel.shared
     
     // MARK: Properties
     
@@ -29,15 +29,14 @@ class HomeViewController: UIViewController {
     
     @objc func leftButtonClicked() {
         DispatchQueue.main.async {
-            self.viewModel.newsButtonClicked(true)
-            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex, section: 0), at: .left, animated: true)
+            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex - 1, section: 0), at: .left, animated: true)
+
         }
     }
     
     @objc func rightButtonClicked() {
         DispatchQueue.main.async {
-            self.viewModel.newsButtonClicked(false)
-            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex, section: 0), at: .right, animated: true)
+            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex + 1, section: 0), at: .right, animated: true)
         }
     }
 }
@@ -135,5 +134,12 @@ extension HomeViewController: UICollectionViewDataSource {
         default:
             return 10
         }
+    }
+}
+
+extension HomeViewController: UIScrollViewDelegate {
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print(velocity)
     }
 }
