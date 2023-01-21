@@ -20,7 +20,9 @@ class HomeWatchCell: UICollectionViewCell {
     lazy var perfumeImageView = UIImageView().then {
         $0.image = UIImage(named: "jomalon")
         $0.layer.borderWidth = 0.5
+        $0.contentMode = .scaleAspectFit
     }
+
     
     let perfumeNameLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 8, weight: .bold)
@@ -38,7 +40,6 @@ class HomeWatchCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         configureUI()
-        backgroundColor = .green
     }
 }
 
