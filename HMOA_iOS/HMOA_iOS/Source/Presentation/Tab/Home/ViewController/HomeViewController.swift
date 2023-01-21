@@ -22,6 +22,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureAction()
+        setNavigationSearchBar()
     }
     
     // MARK: objc functions
