@@ -52,8 +52,14 @@ extension UIViewController {
         }
         
         self.navigationItem.title = title
-        self.navigationController?.navigationBar.backgroundColor = UIColor.customColor(.searchBarColor)
-        self.navigationController?.navigationBar.barTintColor = UIColor.customColor(.searchBarColor)
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor.customColor(.searchBarColor)
+
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
     }
     
     @objc func popViewController() {

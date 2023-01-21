@@ -11,8 +11,14 @@ import SnapKit
 class MyPageView: UIView {
     
     // MARK: Properies
-    
     let myPageTopView = MyPageTopView()
+    
+    let scrollView = UIScrollView()
+    
+    lazy var tableView = UITableView().then {
+        $0.register(MyPageCell.self, forCellReuseIdentifier: MyPageCell.identifier)
+        $0.isScrollEnabled = false
+    }
     
     // MARK: - init
     override init(frame: CGRect) {
@@ -31,10 +37,25 @@ extension MyPageView {
     
     func configureUI() {
         
-        [myPageTopView] .forEach { addSubview($0) }
+        [scrollView] .forEach { addSubview($0) }
+        
+        [myPageTopView, tableView] .forEach { scrollView.addSubview($0) }
+        
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         myPageTopView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(205)
+        }
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(myPageTopView.snp.bottom)
+            $0.leading.trailing.bottom.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView)
+            $0.height.equalTo(500)
         }
     }
 }
