@@ -8,9 +8,9 @@ class LoginViewController: UIViewController {
 
     //MARK: -
     let titleLabel = UILabel().then {
+        $0.font = .customFont(.slabo27px, 30)
         $0.text = "HMOA"
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: 27)
     }
     
     let idPwStackView = UIStackView().then {
@@ -20,14 +20,14 @@ class LoginViewController: UIViewController {
     }
     let idTextField = UITextField().then {
         $0.addLeftPadding()
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = .customFont(.pretendard, 14)
         $0.placeholder = "이메일 주소 또는 아이디"
         $0.setPlaceholder(color: .black)
         $0.backgroundColor = #colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1)
     }
     let pwTextField = UITextField().then {
         $0.addLeftPadding()
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = .customFont(.pretendard, 14)
         $0.placeholder = "비밀번호"
         $0.setPlaceholder(color: .black)
         $0.backgroundColor = #colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1)
@@ -35,7 +35,7 @@ class LoginViewController: UIViewController {
     
     let loginButton = UIButton().then {
         $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font = .systemFont(ofSize: 14)
+        $0.titleLabel?.font = .customFont(.pretendard, 14)
         $0.layer.cornerRadius = 25
         $0.backgroundColor = #colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1)
         $0.setTitle("로그인", for: .normal)
@@ -47,20 +47,20 @@ class LoginViewController: UIViewController {
         $0.axis = .horizontal
     }
     let findIdLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 12)
+        $0.font = .customFont(.pretendard, 12)
         $0.text = "아이디 찾기"
     }
     let resetPwLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 12)
+        $0.font = .customFont(.pretendard, 12)
         $0.text = "비밀번호 재설정"
     }
     let registerLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 12)
+        $0.font = .customFont(.pretendard, 12)
         $0.text = "회원가입"
     }
     
     let easyLoginLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 12)
+        $0.font = .customFont(.pretendard, 12)
         $0.text = "간편 로그인"
     }
     

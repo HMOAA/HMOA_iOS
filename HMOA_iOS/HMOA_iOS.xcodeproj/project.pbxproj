@@ -41,6 +41,9 @@
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
 		CA91448F297E760800762BC0 /* UITextField++Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstion.swift */; };
 		CA914491297E7EE600762BC0 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914490297E7EE600762BC0 /* LoginViewModel.swift */; };
+		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
+		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
+		CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */; };
 		E5DAC5FE1598DDCD2E1F1131 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1010CAD33467EC8F888DFEC6 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +108,9 @@
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CA91448E297E760800762BC0 /* UITextField++Extenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstion.swift"; sourceTree = "<group>"; };
 		CA914490297E7EE600762BC0 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
+		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
+		CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 		D7A11DAE423D71B1F9301948 /* Pods-HMOA_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		FD433F530CC172AADE2B97A9 /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -211,6 +217,7 @@
 		2C39AA4C297041D4000C6F71 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				CA914492297E854700762BC0 /* Font */,
 				2C39AA7629704C2F000C6F71 /* Info.plist */,
 				2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */,
 				2C39AA21296DB4E0000C6F71 /* Assets.xcassets */,
@@ -333,6 +340,7 @@
 				2C39AA7E29705B4C000C6F71 /* UITabBarItem++Extensions.swift */,
 				2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */,
 				CA91448E297E760800762BC0 /* UITextField++Extenstion.swift */,
+				CA914497297E873300762BC0 /* UIFont++Extenstions.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -410,6 +418,15 @@
 				CA91448C297E75C700762BC0 /* LoginViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CA914492297E854700762BC0 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */,
+				CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -523,6 +540,8 @@
 			files = (
 				2C39AA25296DB4E0000C6F71 /* LaunchScreen.storyboard in Resources */,
 				2C39AA22296DB4E0000C6F71 /* Assets.xcassets in Resources */,
+				CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */,
+				CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,6 +672,7 @@
 				2C4DD377297704B20027CE40 /* HomeViewModel.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
+				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstion.swift in Sources */,
 				2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */,
