@@ -9,6 +9,7 @@ import UIKit
 
 enum Colors {
     case tabbarColor
+    case searchBarColor
 }
 
 extension UIColor {
@@ -16,6 +17,8 @@ extension UIColor {
         switch color {
         case .tabbarColor:
             return #colorLiteral(red: 0.3999999464, green: 0.3999999464, blue: 0.3999999464, alpha: 1)
+        case .searchBarColor:
+            return #colorLiteral(red: 0.8509805202, green: 0.8509804606, blue: 0.8509804606, alpha: 1)
         }
     }
 }

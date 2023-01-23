@@ -64,16 +64,20 @@ extension AppTabbarController {
     func configureTabbar() {
         let menuVC = MenuViewController(),
         newsVC = NewsViewController(),
-        homeVC = HomeViewController(),
+        homeVC = UINavigationController(rootViewController: HomeViewController()),
         drawerVC = DrawerViewController(),
-        myPageVC = MyPageViewController()
+        myPageVC = UINavigationController(rootViewController: MyPageViewController())
         
         viewControllers = [menuVC, newsVC, homeVC, drawerVC, myPageVC]
         
         self.selectedIndex = 2
-        tabBar.backgroundColor = .black
+        view.backgroundColor = .white
+        tabBar.barTintColor = .black
         tabBar.tintColor = .white
+        tabBar.backgroundColor = .black
+        tabBar.isTranslucent = false
         tabBar.unselectedItemTintColor = UIColor.customColor(.tabbarColor)
+        tabBar.layer.masksToBounds = true
         tabBar.layer.cornerRadius = tabBar.frame.height * 0.22
         tabBar.layer.maskedCorners = [ .layerMinXMinYCorner, .layerMaxXMinYCorner]
         
