@@ -86,5 +86,8 @@ extension AppTabbarController {
         homeVC.tabBarItem = homeTab
         drawerVC.tabBarItem = drawerTab
         myPageVC.tabBarItem = myPageTab
+        
+        //지훈 수정
+        modalPresentationStyle = .fullScreen
     }
 }
