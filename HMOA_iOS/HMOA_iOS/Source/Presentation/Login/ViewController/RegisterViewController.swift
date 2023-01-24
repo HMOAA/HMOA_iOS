@@ -12,6 +12,7 @@ import Then
 
 class RegisterViewController: UIViewController {
     
+    //Property
     let registerLabel = UILabel().then {
         $0.textAlignment = .center
         $0.backgroundColor = .customColor(.searchBarColor)
@@ -83,7 +84,7 @@ class RegisterViewController: UIViewController {
         $0.setTitle("가입완료", for: .normal)
     }
     
-
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -93,6 +94,7 @@ class RegisterViewController: UIViewController {
 
     private func setUpUI() {
         view.backgroundColor = .white
+        registerButton.addTarget(self, action: #selector(didTapRegisterButton(_: )), for: .touchUpInside)
     }
     
     private func setAddView() {
@@ -155,5 +157,10 @@ class RegisterViewController: UIViewController {
         stackView.distribution = .fill
         stackView.spacing = spacing
         stackView.axis = axis
+    }
+    
+    //MARK: - Function
+    @objc func didTapRegisterButton(_ sender: UIButton) {
+        dismiss(animated: true)
     }
 }
