@@ -6,7 +6,7 @@ import Then
 
 class LoginViewController: UIViewController {
 
-    //MARK: -
+    //MARK: - Property
     let titleLabel = UILabel().then {
         $0.font = .customFont(.slabo27px, 30)
         $0.text = "HMOA"
@@ -35,8 +35,8 @@ class LoginViewController: UIViewController {
     
     let loginButton = UIButton().then {
         $0.setTitleColor(.black, for: .normal)
+        $0.layer.cornerRadius = 22
         $0.titleLabel?.font = .customFont(.pretendard, 14)
-        $0.layer.cornerRadius = 25
         $0.backgroundColor = #colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1)
         $0.setTitle("로그인", for: .normal)
     }
@@ -46,17 +46,20 @@ class LoginViewController: UIViewController {
         $0.spacing = 30
         $0.axis = .horizontal
     }
-    let findIdLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 12)
-        $0.text = "아이디 찾기"
+    let findIdButton = UIButton().then {
+        $0.setTitleColor(.black, for: .normal)
+        $0.setTitle("아이디 찾기", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 12)
     }
-    let resetPwLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 12)
-        $0.text = "비밀번호 재설정"
+    let resetPwButton = UIButton().then {
+        $0.setTitleColor(.black, for: .normal)
+        $0.setTitle("비밀번호 재설정", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 12)
     }
-    let registerLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 12)
-        $0.text = "회원가입"
+    let registerButton = UIButton().then {
+        $0.setTitleColor(.black, for: .normal)
+        $0.setTitle("회원가입", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 12)
     }
     
     let easyLoginLabel = UILabel().then {
@@ -87,6 +90,7 @@ class LoginViewController: UIViewController {
         setUpUI()
         setAddView()
         setUpConstraints()
+        
     }
     
     
@@ -94,6 +98,7 @@ class LoginViewController: UIViewController {
     private func setUpUI() {
         view.backgroundColor = .white
         loginButton.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
+        registerButton.addTarget(self, action: #selector(didTapRegisterButton(_: )), for: .touchUpInside)
     }
     
     
@@ -101,7 +106,7 @@ class LoginViewController: UIViewController {
         
         [idTextField, pwTextField].forEach { idPwStackView.addArrangedSubview($0) }
         
-        [findIdLabel, resetPwLabel, registerLabel].forEach { idPwRegisterStackView.addArrangedSubview($0)}
+        [findIdButton, resetPwButton, registerButton].forEach { idPwRegisterStackView.addArrangedSubview($0)}
         
         [naverButton, kakaoButton, googleButton].forEach { easyLoginStackView.addArrangedSubview($0) }
         
@@ -113,7 +118,7 @@ class LoginViewController: UIViewController {
         
         titleLabel.snp.makeConstraints { make in
             make.height.equalTo(23)
-            make.top.equalToSuperview().inset(211)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(181)
             make.centerX.equalToSuperview()
         }
         
@@ -124,7 +129,6 @@ class LoginViewController: UIViewController {
         }
         
         loginButton.snp.makeConstraints { make in
-            
             make.height.equalTo(44)
             make.top.equalTo(pwTextField.snp.bottom).offset(19)
             make.leading.equalToSuperview().inset(40)
@@ -153,7 +157,16 @@ class LoginViewController: UIViewController {
     //MARK: - Function
     @objc private func didTapLoginButton(_ sender: UIButton) {
         let tabBar = AppTabbarController()
+        tabBar.modalPresentationStyle = .fullScreen
         present(tabBar, animated: true)
     }
+    
+    @objc private func didTapRegisterButton(_ sender: UIButton) {
+        let registerVC = RegisterViewController()
+        registerVC.modalPresentationStyle = .fullScreen
+        present(registerVC, animated: true)
+    }
+    
+                                
 
 }
