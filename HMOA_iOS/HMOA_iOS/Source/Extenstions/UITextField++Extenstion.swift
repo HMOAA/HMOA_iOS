@@ -16,8 +16,8 @@ extension UITextField {
             attributedPlaceholder = NSAttributedString(string: string, attributes: [.foregroundColor: color])
         }
     
-    func addLeftPadding() {
-        self.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+    func addLeftPadding(_ width: CGFloat) {
+        self.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: width, height: 0.0))
         self.leftViewMode = .always
     }
 }

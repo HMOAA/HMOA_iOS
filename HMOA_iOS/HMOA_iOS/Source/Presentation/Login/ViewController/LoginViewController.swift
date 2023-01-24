@@ -19,14 +19,14 @@ class LoginViewController: UIViewController {
         $0.axis = .vertical
     }
     let idTextField = UITextField().then {
-        $0.addLeftPadding()
+        $0.addLeftPadding(8)
         $0.font = .customFont(.pretendard, 14)
         $0.placeholder = "이메일 주소 또는 아이디"
         $0.setPlaceholder(color: .black)
         $0.backgroundColor = #colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1)
     }
     let pwTextField = UITextField().then {
-        $0.addLeftPadding()
+        $0.addLeftPadding(8)
         $0.font = .customFont(.pretendard, 14)
         $0.placeholder = "비밀번호"
         $0.setPlaceholder(color: .black)
