@@ -156,9 +156,9 @@ class LoginViewController: UIViewController {
     
     //MARK: - Function
     @objc private func didTapLoginButton(_ sender: UIButton) {
-        let tabBar = AppTabbarController()
-        tabBar.modalPresentationStyle = .fullScreen
-        present(tabBar, animated: true)
+        let vc = StartViewController()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
     
     @objc private func didTapRegisterButton(_ sender: UIButton) {
