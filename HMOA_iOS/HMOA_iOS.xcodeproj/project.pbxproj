@@ -259,6 +259,7 @@
 		2C39AA4F2970425D000C6F71 /* News */ = {
 			isa = PBXGroup;
 			children = (
+				2CDFFDCC2983F6B700F60304 /* View */,
 				2C39AA6D29704862000C6F71 /* ViewController */,
 			);
 			path = News;
@@ -393,6 +394,13 @@
 				2C710EFE297C183F006BE23B /* MyPageViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2CDFFDCC2983F6B700F60304 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		BC28113BDB150DAB2A9BA07C /* Frameworks */ = {
