@@ -86,5 +86,6 @@ extension AppTabbarController {
         homeVC.tabBarItem = homeTab
         drawerVC.tabBarItem = drawerTab
         myPageVC.tabBarItem = myPageTab
+        
     }
 }
