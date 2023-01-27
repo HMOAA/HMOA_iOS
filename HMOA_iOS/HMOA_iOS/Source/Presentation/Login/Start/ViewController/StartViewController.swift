@@ -32,10 +32,10 @@ class StartViewController: UIViewController {
         $0.font = .customFont(.pretendard, 14)
     }
     
-    var selectYearButton: UIButton! = nil
+    var selectYearButton: UIButton!
     
-    var womanButton: UIButton! = nil
-    var manButton: UIButton! = nil
+    var womanButton: UIButton!
+    var manButton: UIButton!
     
     let startButton = UIButton().then {
         $0.setTitleColor(.black, for: .normal)
@@ -129,7 +129,6 @@ class StartViewController: UIViewController {
         } else {
             let imageConfig = UIImage.SymbolConfiguration(pointSize: 32)
             config.image = UIImage(systemName: imageName)
-            config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
             config.imagePadding = 7
             config.preferredSymbolConfigurationForImage = imageConfig
             config.baseForegroundColor = .customColor(.searchBarColor)

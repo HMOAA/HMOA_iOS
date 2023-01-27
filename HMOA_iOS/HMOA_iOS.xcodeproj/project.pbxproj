@@ -39,9 +39,11 @@
 		2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFB297C15DF006BE23B /* MyPageCell.swift */; };
 		2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFE297C183F006BE23B /* MyPageViewModel.swift */; };
 		CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* StartViewController.swift */; };
+		CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */; };
+		CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */; };
 		CA5D74A5297F9DFC006AE5FE /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D74A4297F9DFC006AE5FE /* RegisterViewController.swift */; };
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
-		CA91448F297E760800762BC0 /* UITextField++Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstion.swift */; };
+		CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */; };
 		CA914491297E7EE600762BC0 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914490297E7EE600762BC0 /* LoginViewModel.swift */; };
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
 		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
@@ -108,9 +110,11 @@
 		A7A0E2C9C257B262DBFD4DCA /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B8B8B44657C226494B4D2190 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA051CAF297FDA0F001865F5 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel++Extenstions.swift"; sourceTree = "<group>"; };
+		CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5D74A4297F9DFC006AE5FE /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		CA91448E297E760800762BC0 /* UITextField++Extenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstion.swift"; sourceTree = "<group>"; };
+		CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914490297E7EE600762BC0 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
 		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
@@ -343,8 +347,10 @@
 				2C39AA7A29705524000C6F71 /* UIColor++Extenstions.swift */,
 				2C39AA7E29705B4C000C6F71 /* UITabBarItem++Extensions.swift */,
 				2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */,
-				CA91448E297E760800762BC0 /* UITextField++Extenstion.swift */,
+				CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */,
+				CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */,
 				CA914497297E873300762BC0 /* UIFont++Extenstions.swift */,
+				CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -701,11 +707,12 @@
 			files = (
 				2C4DD377297704B20027CE40 /* HomeViewModel.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
+				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */,
-				CA91448F297E760800762BC0 /* UITextField++Extenstion.swift in Sources */,
+				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
 				2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */,
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
@@ -722,6 +729,7 @@
 				2C4DD3722976CEE30027CE40 /* HomeTopCellFooterView.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageTopView.swift in Sources */,
 				2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */,
+				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
