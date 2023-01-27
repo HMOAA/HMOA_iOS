@@ -63,7 +63,7 @@ extension AppTabbarController {
     
     func configureTabbar() {
         let menuVC = MenuViewController(),
-        newsVC = NewsViewController(),
+        newsVC = UINavigationController(rootViewController: NewsViewController()),
         homeVC = UINavigationController(rootViewController: HomeViewController()),
         drawerVC = DrawerViewController(),
         myPageVC = UINavigationController(rootViewController: MyPageViewController())
