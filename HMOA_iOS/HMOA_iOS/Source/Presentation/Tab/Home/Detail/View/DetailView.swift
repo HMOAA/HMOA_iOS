@@ -16,6 +16,7 @@ class DetailView: UIView {
     let scrollView = UIScrollView()
     let contentView = UIView()
     let perfumeInfoView = PerfumeInfoView()
+    let perfumeMiddleInfoView = PerfumeMiddleInfoView()
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -37,7 +38,8 @@ extension DetailView {
         scrollView.addSubview(contentView)
         scrollView.backgroundColor = .white
 
-        [ perfumeInfoView ] .forEach { contentView.addSubview($0) }
+        [   perfumeInfoView,
+            perfumeMiddleInfoView   ] .forEach { contentView.addSubview($0) }
         
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -50,6 +52,12 @@ extension DetailView {
         
         perfumeInfoView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(380)
+        }
+        
+        perfumeMiddleInfoView.snp.makeConstraints {
+            $0.top.equalTo(perfumeInfoView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(400)
         }
     }

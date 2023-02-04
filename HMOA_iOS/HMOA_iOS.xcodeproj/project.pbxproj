@@ -42,6 +42,8 @@
 		2CAD9637298E483800974500 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9636298E483800974500 /* DetailView.swift */; };
 		2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */; };
 		2CAD963B298E618000974500 /* PerfumeMiddleInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD963A298E618000974500 /* PerfumeMiddleInfoView.swift */; };
+		2CAD963F298E698800974500 /* PerfumeLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD963E298E698800974500 /* PerfumeLineView.swift */; };
+		2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */; };
 		2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDFFDD42983F9D300F60304 /* NewsCell.swift */; };
 		2CDFFDD72983F9E500F60304 /* NewsCellFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDFFDD62983F9E500F60304 /* NewsCellFooterView.swift */; };
 		2CDFFDD92983F9FB00F60304 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDFFDD82983F9FB00F60304 /* NewsView.swift */; };
@@ -116,6 +118,8 @@
 		2CAD9636298E483800974500 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoView.swift; sourceTree = "<group>"; };
 		2CAD963A298E618000974500 /* PerfumeMiddleInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeMiddleInfoView.swift; sourceTree = "<group>"; };
+		2CAD963E298E698800974500 /* PerfumeLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeLineView.swift; sourceTree = "<group>"; };
+		2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagListView++Extenstions.swift"; sourceTree = "<group>"; };
 		2CDFFDD42983F9D300F60304 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		2CDFFDD62983F9E500F60304 /* NewsCellFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellFooterView.swift; sourceTree = "<group>"; };
 		2CDFFDD82983F9FB00F60304 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
@@ -351,6 +355,7 @@
 		2C39AA78297054CD000C6F71 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				2CAD963C298E693D00974500 /* CustomView */,
 				2C39AA4A2970417D000C6F71 /* Presentation */,
 				2C39AA79297054EA000C6F71 /* Extenstions */,
 				2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */,
@@ -369,6 +374,7 @@
 				CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */,
 				CA914497297E873300762BC0 /* UIFont++Extenstions.swift */,
 				CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */,
+				2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -446,6 +452,22 @@
 			children = (
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2CAD963C298E693D00974500 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				2CAD963D298E695200974500 /* View */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		2CAD963D298E695200974500 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2CAD963E298E698800974500 /* PerfumeLineView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		2CDFFDCC2983F6B700F60304 /* View */ = {
@@ -779,6 +801,8 @@
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
+				2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */,
+				2CAD963F298E698800974500 /* PerfumeLineView.swift in Sources */,
 				2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */,
 				2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */,
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,
