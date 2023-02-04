@@ -41,6 +41,7 @@
 		2CAD9635298E469200974500 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9634298E469200974500 /* DetailViewController.swift */; };
 		2CAD9637298E483800974500 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9636298E483800974500 /* DetailView.swift */; };
 		2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */; };
+		2CAD963B298E618000974500 /* PerfumeMiddleInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD963A298E618000974500 /* PerfumeMiddleInfoView.swift */; };
 		2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDFFDD42983F9D300F60304 /* NewsCell.swift */; };
 		2CDFFDD72983F9E500F60304 /* NewsCellFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDFFDD62983F9E500F60304 /* NewsCellFooterView.swift */; };
 		2CDFFDD92983F9FB00F60304 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDFFDD82983F9FB00F60304 /* NewsView.swift */; };
@@ -114,6 +115,7 @@
 		2CAD9634298E469200974500 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		2CAD9636298E483800974500 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoView.swift; sourceTree = "<group>"; };
+		2CAD963A298E618000974500 /* PerfumeMiddleInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeMiddleInfoView.swift; sourceTree = "<group>"; };
 		2CDFFDD42983F9D300F60304 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		2CDFFDD62983F9E500F60304 /* NewsCellFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellFooterView.swift; sourceTree = "<group>"; };
 		2CDFFDD82983F9FB00F60304 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 			children = (
 				2CAD9636298E483800974500 /* DetailView.swift */,
 				2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */,
+				2CAD963A298E618000974500 /* PerfumeMiddleInfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -782,6 +785,7 @@
 				2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				CA914491297E7EE600762BC0 /* LoginViewModel.swift in Sources */,
+				2CAD963B298E618000974500 /* PerfumeMiddleInfoView.swift in Sources */,
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
 				2C39AA60297047F9000C6F71 /* DrawerViewController.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
