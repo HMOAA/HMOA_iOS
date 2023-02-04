@@ -10,6 +10,7 @@ target 'HMOA_iOS' do
   pod 'Kingfisher'
   pod 'Alamofire'
   pod 'TagListView'
+  pod 'DropDown'
 
   use_frameworks!
 
