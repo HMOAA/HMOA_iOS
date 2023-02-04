@@ -119,7 +119,7 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(indexPath) 클릭")
+        presentDatailViewController()
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
