@@ -58,7 +58,7 @@ extension DetailView {
         perfumeMiddleInfoView.snp.makeConstraints {
             $0.top.equalTo(perfumeInfoView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(400)
+            $0.height.equalTo(430)
         }
     }
 }
