@@ -47,6 +47,23 @@ class PerfumeMiddleInfoView: UIView {
         $0.addTags(["20대", "여성"])
     }
     
+    lazy var userCommentTitleLabel = UILabel().then {
+        $0.setLabelUI("사용자 코멘트")
+    }
+    
+    lazy var userCommentLabel = UILabel().then {
+        $0.textColor = UIColor.customColor(.textGrayColor)
+        $0.setLabelUI("32")
+    }
+    
+    lazy var commentButton = UIButton().then {
+        $0.layer.cornerRadius = 10
+        $0.backgroundColor = UIColor.customColor(.searchBarColor)
+        $0.titleLabel!.font = UIFont.customFont(.pretendard, 14)
+        $0.setTitle("코멘트 남기기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+    }
+    
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -73,7 +90,10 @@ extension PerfumeMiddleInfoView {
             userTagList,
             topLineView,
             heartLineView,
-            baseLineView    ] .forEach { addSubview($0) }
+            baseLineView,
+            userCommentTitleLabel,
+            userCommentLabel,
+            commentButton   ] .forEach { addSubview($0) }
         
         priceTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -119,6 +139,24 @@ extension PerfumeMiddleInfoView {
             $0.leading.equalToSuperview().inset(80)
             $0.top.equalTo(topLineView.snp.bottom).offset(90)
         }
+        
+        userCommentTitleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalTo(userTagList.snp.bottom).offset(10)
+        }
+        
+        userCommentLabel.snp.makeConstraints {
+            $0.leading.equalTo(userCommentTitleLabel.snp.trailing).offset(5)
+            $0.top.equalTo(userCommentTitleLabel)
+        }
+        
+        commentButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalTo(userCommentTitleLabel.snp.bottom).offset(10)
+            $0.width.equalTo(UIScreen.main.bounds.width - 40)
+            $0.height.equalTo(35)
+        }
+        
         
         topLineView.setLabel(label: "Cherry")
         heartLineView.setLabel(label: "Woody")

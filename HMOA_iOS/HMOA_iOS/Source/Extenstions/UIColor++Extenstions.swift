@@ -11,6 +11,7 @@ enum Colors {
     case tabbarColor
     case searchBarColor
     case labelGrayColor
+    case textGrayColor
 }
 
 extension UIColor {
@@ -22,6 +23,8 @@ extension UIColor {
             return #colorLiteral(red: 0.8509805202, green: 0.8509804606, blue: 0.8509804606, alpha: 1)
         case .labelGrayColor:
             return #colorLiteral(red: 0.5450980392, green: 0.5450980392, blue: 0.5450980392, alpha: 1)
+        case .textGrayColor:
+            return #colorLiteral(red: 0.611764729, green: 0.611764729, blue: 0.611764729, alpha: 1)
         }
     }
 }
