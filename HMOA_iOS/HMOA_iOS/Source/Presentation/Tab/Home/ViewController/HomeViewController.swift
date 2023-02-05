@@ -136,10 +136,3 @@ extension HomeViewController: UICollectionViewDataSource {
         }
     }
 }
-
-extension HomeViewController: UIScrollViewDelegate {
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        print(velocity)
-    }
-}

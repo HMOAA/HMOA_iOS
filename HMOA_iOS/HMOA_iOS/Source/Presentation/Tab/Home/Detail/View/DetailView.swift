@@ -12,11 +12,12 @@ import Then
 class DetailView: UIView {
     
     // MARK: - Properies
-    
-    let scrollView = UIScrollView()
-    let contentView = UIView()
-    let perfumeInfoView = PerfumeInfoView()
-    let perfumeMiddleInfoView = PerfumeMiddleInfoView()
+
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
+        
+        $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
+        $0.register(PerfumeInfoCell.self, forCellWithReuseIdentifier: PerfumeInfoCell.identifier)
+    }
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -34,31 +35,45 @@ class DetailView: UIView {
 
 extension DetailView {
     func configureUI() {
-        addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        scrollView.backgroundColor = .white
+        
+        addSubview(collectionView)
+        
+        collectionView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    func perfumeInfoCellCompositionalLayout() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(840)))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(840)), subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        return section
+    }
+    
+    func commentCellCompositionalLayout() -> NSCollectionLayoutSection {
+        
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(1.0)))
 
-        [   perfumeInfoView,
-            perfumeMiddleInfoView   ] .forEach { contentView.addSubview($0) }
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100)), subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 16
         
-        scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        contentView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
-            $0.width.equalTo(scrollView.frameLayoutGuide)
-        }
-        
-        perfumeInfoView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(380)
-        }
-        
-        perfumeMiddleInfoView.snp.makeConstraints {
-            $0.top.equalTo(perfumeInfoView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(430)
+        return section
+    }
+    
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
+            switch sectionIndex {
+            case 0:
+                return self.perfumeInfoCellCompositionalLayout()
+            default:
+                return self.commentCellCompositionalLayout()
+            }
         }
     }
 }
