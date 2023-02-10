@@ -14,6 +14,7 @@
 		2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */; };
 		2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */; };
 		2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B2298FF14F0059A43D /* SimilarHeaderView.swift */; };
+		2C1BD6B629968CE00059A43D /* Pretendard in Frameworks */ = {isa = PBXBuildFile; productRef = 2C1BD6B529968CE00059A43D /* Pretendard */; };
 		2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */; };
 		2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */; };
 		2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */; };
@@ -159,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AA456DA519D9C9FE9B6355B /* Pods_HMOA_iOS.framework in Frameworks */,
+				2C1BD6B629968CE00059A43D /* Pretendard in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +586,9 @@
 			dependencies = (
 			);
 			name = HMOA_iOS;
+			packageProductDependencies = (
+				2C1BD6B529968CE00059A43D /* Pretendard */,
+			);
 			productName = HMOA_iOS;
 			productReference = 2C39AA12296DB4DE000C6F71 /* HMOA_iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -659,6 +664,9 @@
 				Base,
 			);
 			mainGroup = 2C39AA09296DB4DE000C6F71;
+			packageReferences = (
+				2C1BD6B429968CE00059A43D /* XCRemoteSwiftPackageReference "Pretendard" */,
+			);
 			productRefGroup = 2C39AA13296DB4DE000C6F71 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1197,6 +1205,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2C1BD6B429968CE00059A43D /* XCRemoteSwiftPackageReference "Pretendard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jaemyeong/Pretendard.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2C1BD6B529968CE00059A43D /* Pretendard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C1BD6B429968CE00059A43D /* XCRemoteSwiftPackageReference "Pretendard" */;
+			productName = Pretendard;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */ = {
