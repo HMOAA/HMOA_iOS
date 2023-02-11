@@ -22,10 +22,10 @@ class CommentCell: UICollectionViewCell {
     }
     
     lazy var userImageView = UIImageView().then {
-        $0.layer.borderColor = UIColor.customColor(.searchBarColor).cgColor
+        $0.layer.borderColor = UIColor.white.cgColor
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 27 / 2
-        $0.image = UIImage(named: "jomalon")
+        $0.layer.backgroundColor = UIColor.customColor(.tabbarColor).cgColor
     }
     
     lazy var userNameLabel = UILabel().then {
@@ -34,23 +34,11 @@ class CommentCell: UICollectionViewCell {
     }
     
     lazy var contentLabel = UILabel().then {
-        $0.numberOfLines = 0
-        $0.font = UIFont.customFont(.pretendard, 12)
+        $0.numberOfLines = 2
+        $0.font = UIFont.customFont(.pretendard, 14)
     }
     
-    lazy var likeButton = UIButton().then {
-        let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .regular, scale: .default)
-        let image = UIImage(systemName: "heart", withConfiguration: config)
-        
-        $0.layer.cornerRadius = 10
-        $0.tintColor = .black
-        $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel!.font = UIFont.customFont(.pretendard, 12)
-        $0.setTitle("80", for: .normal)
-        $0.setImage(image, for: .normal)
-        $0.backgroundColor = UIColor.customColor(.searchBarColor)
-
-    }
+    lazy var likeView = LikeView()
     
     // MARK: - init
     override init(frame: CGRect) {
@@ -74,16 +62,17 @@ extension CommentCell {
         [   userImageView,
             userNameLabel,
             contentLabel,
-            likeButton  ] .forEach { subView.addSubview($0) }
+            likeView  ] .forEach { subView.addSubview($0) }
 
         subView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
         
         userImageView.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().inset(5)
-            $0.width.height.equalTo(27)
+            $0.top.equalToSuperview().inset(9)
+            $0.leading.equalToSuperview().inset(16)
+            $0.width.height.equalTo(28)
         }
         
         userNameLabel.snp.makeConstraints {
@@ -92,14 +81,15 @@ extension CommentCell {
         }
         
         contentLabel.snp.makeConstraints {
-            $0.top.equalTo(userImageView.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(5)
-            $0.bottom.equalTo(likeButton.snp.top)
+            $0.top.equalTo(userImageView.snp.bottom).offset(9)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(9)
         }
         
-        likeButton.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview().inset(10)
-            $0.width.equalTo(50)
+        likeView.snp.makeConstraints {
+            $0.centerY.equalTo(userImageView)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.width.equalTo(60)
             $0.height.equalTo(20)
         }
     }

@@ -13,6 +13,9 @@ enum Colors {
     case labelGrayColor
     case textGrayColor
     case gray1
+    case gray2
+    case gray3
+    case gray4
 }
 
 extension UIColor {
@@ -28,6 +31,12 @@ extension UIColor {
             return #colorLiteral(red: 0.611764729, green: 0.611764729, blue: 0.611764729, alpha: 1)
         case .gray1:
             return #colorLiteral(red: 0.9568627477, green: 0.9568627477, blue: 0.9568627477, alpha: 1)
+        case .gray2:
+            return #colorLiteral(red: 0.8078431373, green: 0.8078431373, blue: 0.8078431373, alpha: 1)
+        case .gray3:
+            return #colorLiteral(red: 0.611764729, green: 0.611764729, blue: 0.611764729, alpha: 1)
+        case .gray4:
+            return #colorLiteral(red: 0.2549019456, green: 0.2549019456, blue: 0.2549019456, alpha: 1)
         }
     }
 }
