@@ -11,6 +11,7 @@ extension UITabBarItem {
     
     func customTabBar(imageName: String) {
         image = UIImage(named: imageName)
-        imageInsets.bottom = -25
+        selectedImage = UIImage(named: imageName + "Selected")
+        imageInsets.bottom = -16
     }
 }

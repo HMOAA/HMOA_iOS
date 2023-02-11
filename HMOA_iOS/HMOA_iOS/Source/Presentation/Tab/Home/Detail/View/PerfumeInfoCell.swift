@@ -18,7 +18,6 @@ class PerfumeInfoCell: UICollectionViewCell {
     // MARK: - View
     
     let perfumeInfoView = PerfumeInfoView()
-    let perfumeMiddleInfoView = PerfumeMiddleInfoView()
     
     // MARK: - init
     
