@@ -1,29 +1,30 @@
 //
-//  SimilarHeaderView.swift
+//  CommentHeaderView.swift
 //  HMOA_iOS
 //
-//  Created by 임현규 on 2023/02/05.
+//  Created by 임현규 on 2023/02/11.
 //
 
 import UIKit
 import SnapKit
 import Then
 
-class SimilarHeaderView: UICollectionReusableView {
+class CommentHeaderView: UICollectionReusableView {
 
     // MARK: - identifier
     
-    static let identifier = "SimilarHeaderView"
+    static let identifier = "CommentHeaderView"
     
     // MARK: - Properies
     
     let titleLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard_medium, 16)
-        $0.text = "이 제품도 좋아하실 것 같아요"
+        $0.text = "댓글"
     }
     
-    let seperatorLine = UIView().then {
-        $0.backgroundColor = UIColor.customColor(.gray2)
+    let countLabel = UILabel().then {
+        $0.font = UIFont.customFont(.pretendard_light, 12)
+        $0.text = "+565"
     }
     
     // MARK: - init
@@ -39,22 +40,21 @@ class SimilarHeaderView: UICollectionReusableView {
 }
 
 // MARK: - Functions
-extension SimilarHeaderView {
+extension CommentHeaderView {
     
     func configureUI() {
         
         [   titleLabel,
-            seperatorLine   ]   .forEach { addSubview($0) }
+            countLabel  ]   .forEach { addSubview($0) }
         
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
         }
         
-        seperatorLine.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-            $0.width.equalTo(UIScreen.main.bounds.width - 32)
-            $0.height.equalTo(1)
+        countLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(4)
         }
     }
 }

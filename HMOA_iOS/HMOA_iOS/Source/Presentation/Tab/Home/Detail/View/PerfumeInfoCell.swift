@@ -37,18 +37,11 @@ class PerfumeInfoCell: UICollectionViewCell {
 extension PerfumeInfoCell {
     
     func configureUI() {
-        [   perfumeInfoView,
-            perfumeMiddleInfoView   ] .forEach { addSubview($0) }
+        [   perfumeInfoView ] .forEach { addSubview($0) }
         
         perfumeInfoView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(380)
-        }
-        
-        perfumeMiddleInfoView.snp.makeConstraints {
-            $0.top.equalTo(perfumeInfoView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(430)
+            $0.bottom.equalToSuperview().inset(48)
         }
     }
 }

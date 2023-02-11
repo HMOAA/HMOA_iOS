@@ -16,6 +16,11 @@
 		2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B2298FF14F0059A43D /* SimilarHeaderView.swift */; };
 		2C1BD6B629968CE00059A43D /* Pretendard in Frameworks */ = {isa = PBXBuildFile; productRef = 2C1BD6B529968CE00059A43D /* Pretendard */; };
 		2C1BD6BA29969E4B0059A43D /* LikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B929969E4B0059A43D /* LikeView.swift */; };
+		2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */; };
+		2C1BD6BE29978EDD0059A43D /* BrandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6BD29978EDD0059A43D /* BrandView.swift */; };
+		2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6BF299798660059A43D /* TastingNoteView.swift */; };
+		2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6C12997A35C0059A43D /* CommentHeaderView.swift */; };
+		2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6C32997A6F80059A43D /* CommentFooterView.swift */; };
 		2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */; };
 		2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */; };
 		2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */; };
@@ -48,8 +53,6 @@
 		2CAD9635298E469200974500 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9634298E469200974500 /* DetailViewController.swift */; };
 		2CAD9637298E483800974500 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9636298E483800974500 /* DetailView.swift */; };
 		2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */; };
-		2CAD963B298E618000974500 /* PerfumeMiddleInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD963A298E618000974500 /* PerfumeMiddleInfoView.swift */; };
-		2CAD963F298E698800974500 /* PerfumeLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD963E298E698800974500 /* PerfumeLineView.swift */; };
 		2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */; };
 		2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDFFDD42983F9D300F60304 /* NewsCell.swift */; };
 		2CDFFDD72983F9E500F60304 /* NewsCellFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDFFDD62983F9E500F60304 /* NewsCellFooterView.swift */; };
@@ -94,6 +97,11 @@
 		2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarCell.swift; sourceTree = "<group>"; };
 		2C1BD6B2298FF14F0059A43D /* SimilarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarHeaderView.swift; sourceTree = "<group>"; };
 		2C1BD6B929969E4B0059A43D /* LikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeView.swift; sourceTree = "<group>"; };
+		2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyPerfumeView.swift; sourceTree = "<group>"; };
+		2C1BD6BD29978EDD0059A43D /* BrandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandView.swift; sourceTree = "<group>"; };
+		2C1BD6BF299798660059A43D /* TastingNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TastingNoteView.swift; sourceTree = "<group>"; };
+		2C1BD6C12997A35C0059A43D /* CommentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderView.swift; sourceTree = "<group>"; };
+		2C1BD6C32997A6F80059A43D /* CommentFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFooterView.swift; sourceTree = "<group>"; };
 		2C39AA12296DB4DE000C6F71 /* HMOA_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HMOA_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,8 +138,6 @@
 		2CAD9634298E469200974500 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		2CAD9636298E483800974500 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoView.swift; sourceTree = "<group>"; };
-		2CAD963A298E618000974500 /* PerfumeMiddleInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeMiddleInfoView.swift; sourceTree = "<group>"; };
-		2CAD963E298E698800974500 /* PerfumeLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeLineView.swift; sourceTree = "<group>"; };
 		2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagListView++Extenstions.swift"; sourceTree = "<group>"; };
 		2CDFFDD42983F9D300F60304 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		2CDFFDD62983F9E500F60304 /* NewsCellFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellFooterView.swift; sourceTree = "<group>"; };
@@ -456,11 +462,14 @@
 			children = (
 				2CAD9636298E483800974500 /* DetailView.swift */,
 				2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */,
-				2CAD963A298E618000974500 /* PerfumeMiddleInfoView.swift */,
 				2C1BD6A8298FAA370059A43D /* CommentCell.swift */,
 				2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */,
 				2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */,
 				2C1BD6B2298FF14F0059A43D /* SimilarHeaderView.swift */,
+				2C1BD6BD29978EDD0059A43D /* BrandView.swift */,
+				2C1BD6BF299798660059A43D /* TastingNoteView.swift */,
+				2C1BD6C12997A35C0059A43D /* CommentHeaderView.swift */,
+				2C1BD6C32997A6F80059A43D /* CommentFooterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -484,8 +493,8 @@
 		2CAD963D298E695200974500 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2CAD963E298E698800974500 /* PerfumeLineView.swift */,
 				2C1BD6B929969E4B0059A43D /* LikeView.swift */,
+				2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -818,6 +827,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C4DD377297704B20027CE40 /* HomeViewModel.swift in Sources */,
+				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
 				2CDFFDD92983F9FB00F60304 /* NewsView.swift in Sources */,
@@ -825,18 +835,20 @@
 				2CDFFDD72983F9E500F60304 /* NewsCellFooterView.swift in Sources */,
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
+				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
 				2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */,
-				2CAD963F298E698800974500 /* PerfumeLineView.swift in Sources */,
+				2C1BD6BE29978EDD0059A43D /* BrandView.swift in Sources */,
 				2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */,
 				2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */,
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,
+				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
 				2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				CA914491297E7EE600762BC0 /* LoginViewModel.swift in Sources */,
-				2CAD963B298E618000974500 /* PerfumeMiddleInfoView.swift in Sources */,
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
+				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				2C39AA60297047F9000C6F71 /* DrawerViewController.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,

@@ -60,6 +60,8 @@ extension DetailViewController: UICollectionViewDataSource {
         switch section {
         case 0:
             return 1
+        case 1:
+            return 3
         default:
             return 10
         }
@@ -76,7 +78,7 @@ extension DetailViewController: UICollectionViewDataSource {
         case 0:
             return perfumeInfoCell
         case 1:
-            commentCell.contentLabel.text = "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest"
+            commentCell.contentLabel.text = "기존에 사용하던 향이라 재구매 했어요. 계절에 상관없이 사용할 수 있어서 좋아요. "
             return commentCell
         default:
             return similarCell
@@ -84,8 +86,25 @@ extension DetailViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SimilarHeaderView.identifier, for: indexPath) as? SimilarHeaderView else { return UICollectionReusableView() }
+        var header = UICollectionReusableView()
         
-        return header
+        switch indexPath.section {
+        case 1:
+            guard let commentHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentHeaderView.identifier, for: indexPath) as? CommentHeaderView else { return UICollectionReusableView() }
+            
+            header = commentHeader
+        default:
+            guard let similarHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SimilarHeaderView.identifier, for: indexPath) as? SimilarHeaderView else { return UICollectionReusableView() }
+            
+            header = similarHeader
+        }
+        
+        if kind == UICollectionView.elementKindSectionFooter {
+            guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
+            
+            return commentFooter
+        } else {
+            return header
+        }
     }
 }
