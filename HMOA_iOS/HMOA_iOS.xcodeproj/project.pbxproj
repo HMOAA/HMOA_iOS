@@ -21,6 +21,7 @@
 		2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6BF299798660059A43D /* TastingNoteView.swift */; };
 		2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6C12997A35C0059A43D /* CommentHeaderView.swift */; };
 		2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6C32997A6F80059A43D /* CommentFooterView.swift */; };
+		2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6C52998D34F0059A43D /* DetailBottomView.swift */; };
 		2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */; };
 		2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */; };
 		2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */; };
@@ -102,6 +103,7 @@
 		2C1BD6BF299798660059A43D /* TastingNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TastingNoteView.swift; sourceTree = "<group>"; };
 		2C1BD6C12997A35C0059A43D /* CommentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderView.swift; sourceTree = "<group>"; };
 		2C1BD6C32997A6F80059A43D /* CommentFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFooterView.swift; sourceTree = "<group>"; };
+		2C1BD6C52998D34F0059A43D /* DetailBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBottomView.swift; sourceTree = "<group>"; };
 		2C39AA12296DB4DE000C6F71 /* HMOA_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HMOA_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -470,6 +472,7 @@
 				2C1BD6BF299798660059A43D /* TastingNoteView.swift */,
 				2C1BD6C12997A35C0059A43D /* CommentHeaderView.swift */,
 				2C1BD6C32997A6F80059A43D /* CommentFooterView.swift */,
+				2C1BD6C52998D34F0059A43D /* DetailBottomView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -830,6 +833,7 @@
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
+				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
 				2CDFFDD92983F9FB00F60304 /* NewsView.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
 				2CDFFDD72983F9E500F60304 /* NewsCellFooterView.swift in Sources */,

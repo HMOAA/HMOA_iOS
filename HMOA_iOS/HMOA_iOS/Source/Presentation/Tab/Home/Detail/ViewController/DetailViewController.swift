@@ -16,6 +16,8 @@ class DetailViewController: UIViewController {
     
     let detailView = DetailView()
     
+    let bottomView = DetailBottomView()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -28,15 +30,23 @@ class DetailViewController: UIViewController {
 // MARK: - Functions
 extension DetailViewController {
     func configureUI() {
-        
+                
         detailView.collectionView.delegate = self
         detailView.collectionView.dataSource = self
         
-        view.addSubview(detailView)
+        [   detailView,
+            bottomView  ]   .forEach { view.addSubview($0) }
         
         detailView.snp.makeConstraints {
-            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(bottomView.snp.top)
+        }
+        
+        bottomView.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(83)
         }
     }
 }
