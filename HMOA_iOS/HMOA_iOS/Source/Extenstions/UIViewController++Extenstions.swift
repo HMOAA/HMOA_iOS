@@ -12,7 +12,9 @@ import Then
 extension UIViewController {
     
     func presentDatailViewController() {
-        self.navigationController?.pushViewController(DetailViewController(), animated: true)
+        let detailVC = DetailViewController()
+        detailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func setNavigationSearchBar() {

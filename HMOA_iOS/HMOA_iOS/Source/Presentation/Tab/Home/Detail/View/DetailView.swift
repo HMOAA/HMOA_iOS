@@ -44,7 +44,7 @@ extension DetailView {
         collectionView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview()
         }
     }
     
@@ -92,7 +92,7 @@ extension DetailView {
         
         section.boundarySupplementaryItems = [ sectionHeader ]
         
-        section.contentInsets = NSDirectionalEdgeInsets(top: 80, leading: 20, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 80, leading: 20, bottom: 36, trailing: 0)
 
         return section
     }
