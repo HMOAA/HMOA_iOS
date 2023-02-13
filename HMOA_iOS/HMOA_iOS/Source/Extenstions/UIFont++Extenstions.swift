@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import Pretendard
 
 enum Fonts {
-    case pretendard
+    case pretendard_medium
+    case pretendard_light
+    case pretendard // pretendard_regular와 같음
     case slabo27px
 }
 
@@ -16,8 +19,12 @@ extension UIFont {
     
     static func customFont(_ font: Fonts, _ size: CGFloat) -> UIFont {
         switch font {
+        case .pretendard_medium:
+            return .pretendardFont(ofSize: size, weight: .medium)
+        case .pretendard_light:
+            return .pretendardFont(ofSize: size, weight: .light)
         case .pretendard:
-            return UIFont(name: "Pretendard-Regular", size: size)!
+            return .pretendardFont(ofSize: size, weight: .regular)
         case .slabo27px:
             return UIFont(name: "Slabo27px-Regular", size: size)!
         }

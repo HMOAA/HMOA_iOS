@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.6.4)
+  - DropDown (2.3.13)
   - Kingfisher (7.5.0)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
@@ -8,35 +9,42 @@ PODS:
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
   - SnapKit (5.6.0)
+  - TagListView (1.4.1)
   - Then (3.0.0)
 
 DEPENDENCIES:
   - Alamofire
+  - DropDown
   - Kingfisher
   - RxCocoa
   - RxSwift
   - SnapKit
+  - TagListView
   - Then
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - DropDown
     - Kingfisher
     - RxCocoa
     - RxRelay
     - RxSwift
     - SnapKit
+    - TagListView
     - Then
 
 SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   Kingfisher: b9c2a4a4af2990a768445c277359b27bde287d71
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  TagListView: a1c236d17960a0cf64156725a76ce6d73ebce2be
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: bcab701f74bb18486a7ef0a9917623e95758fbf0
+PODFILE CHECKSUM: 6a550a0118702dbacf79807eace08c22df279285
 
 COCOAPODS: 1.11.3
