@@ -10,6 +10,12 @@ import UIKit
 enum Colors {
     case tabbarColor
     case searchBarColor
+    case labelGrayColor
+    case textGrayColor
+    case gray1
+    case gray2
+    case gray3
+    case gray4
 }
 
 extension UIColor {
@@ -19,6 +25,19 @@ extension UIColor {
             return #colorLiteral(red: 0.3999999464, green: 0.3999999464, blue: 0.3999999464, alpha: 1)
         case .searchBarColor:
             return #colorLiteral(red: 0.8509805202, green: 0.8509804606, blue: 0.8509804606, alpha: 1)
+        case .labelGrayColor:
+            return #colorLiteral(red: 0.5450980392, green: 0.5450980392, blue: 0.5450980392, alpha: 1)
+        case .textGrayColor:
+            return #colorLiteral(red: 0.611764729, green: 0.611764729, blue: 0.611764729, alpha: 1)
+        case .gray1:
+            return #colorLiteral(red: 0.9568627477, green: 0.9568627477, blue: 0.9568627477, alpha: 1)
+        case .gray2:
+            return #colorLiteral(red: 0.8078431373, green: 0.8078431373, blue: 0.8078431373, alpha: 1)
+        case .gray3:
+            return #colorLiteral(red: 0.611764729, green: 0.611764729, blue: 0.611764729, alpha: 1)
+        case .gray4:
+            return #colorLiteral(red: 0.2549019456, green: 0.2549019456, blue: 0.2549019456, alpha: 1)
         }
     }
 }
+

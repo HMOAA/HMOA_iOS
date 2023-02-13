@@ -19,7 +19,7 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setNavigationBarTitle(title: "마이페이지", isHidden: true)
+        setNavigationBarTitle(title: "마이페이지", color: UIColor.customColor(.searchBarColor), isHidden: true)
     }
 }
 

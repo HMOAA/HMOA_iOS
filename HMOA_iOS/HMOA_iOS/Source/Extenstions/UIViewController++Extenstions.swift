@@ -11,6 +11,12 @@ import Then
 
 extension UIViewController {
     
+    func presentDatailViewController() {
+        let detailVC = DetailViewController()
+        detailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
     func setNavigationSearchBar() {
         let logoImageView = UIImageView(image: UIImage(named: "mainLogo"))
         let logoImageItem = UIBarButtonItem(customView: logoImageView)
@@ -37,7 +43,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.barTintColor = .white
     }
     
-    func setNavigationBarTitle(title: String, isHidden: Bool) {
+    func setNavigationBarTitle(title: String, color: UIColor, isHidden: Bool) {
         
         if !isHidden {
             let backButton = UIBarButtonItem(
@@ -54,7 +60,7 @@ extension UIViewController {
         self.navigationItem.title = title
         
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor.customColor(.searchBarColor)
+        appearance.backgroundColor = color
 
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.compactAppearance = appearance

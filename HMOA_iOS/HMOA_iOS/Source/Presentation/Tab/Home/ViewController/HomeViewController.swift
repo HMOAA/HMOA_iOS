@@ -119,7 +119,7 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(indexPath) 클릭")
+        presentDatailViewController()
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -134,12 +134,5 @@ extension HomeViewController: UICollectionViewDataSource {
         default:
             return 10
         }
-    }
-}
-
-extension HomeViewController: UIScrollViewDelegate {
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        print(velocity)
     }
 }

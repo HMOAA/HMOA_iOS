@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "errorkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jaemyeong/ErrorKit.git",
+      "state" : {
+        "revision" : "27d7e4f11e5730ad6ee6bd7a54282cda70e4ba2b",
+        "version" : "0.1.10"
+      }
+    },
+    {
+      "identity" : "pretendard",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jaemyeong/Pretendard.git",
+      "state" : {
+        "revision" : "b0ca1773eb0559abcfaa1298caa14fea79d7072a",
+        "version" : "0.2.5"
+      }
+    }
+  ],
+  "version" : 2
+}
