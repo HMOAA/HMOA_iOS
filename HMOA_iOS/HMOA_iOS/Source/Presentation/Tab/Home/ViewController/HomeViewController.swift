@@ -66,17 +66,23 @@ extension HomeViewController {
         
         setNavigationColor()
         
+        let titleLabel = UILabel().then {
+            $0.text = "H  M  O  A"
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
         let menuButton = navigationItem.makeButtonItem(self, action: #selector(menuButtonClicked), imageName: "homeMenu")
                 
         let bellButton = navigationItem.makeButtonItem(self, action: #selector(bellButtonClicked), imageName: "bell")
         
         let searchButton = navigationItem.makeButtonItem(self, action: #selector(searchButtonClicked), imageName: "search")
         
-        navigationItem.title = "H M O A"
+        navigationItem.titleView = titleLabel
         
         navigationItem.leftBarButtonItems = [spacerItem(13), menuButton]
         
-        navigationItem.rightBarButtonItems = [bellButton, spacerItem(22), searchButton]
+        navigationItem.rightBarButtonItems = [bellButton, spacerItem(15), searchButton]
     }
     
     func configureUI() {
