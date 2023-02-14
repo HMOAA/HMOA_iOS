@@ -22,7 +22,7 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: "조 말론", color:  .white, isHidden: false)
+        setBackHomeSearchNaviBar("조말론 런던")
         configureUI()
     }
 }
