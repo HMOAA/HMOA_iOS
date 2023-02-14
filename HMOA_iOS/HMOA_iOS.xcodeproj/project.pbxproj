@@ -44,6 +44,7 @@
 		2C4DD3722976CEE30027CE40 /* HomeTopCellFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD3712976CEE30027CE40 /* HomeTopCellFooterView.swift */; };
 		2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD3732976E1A70027CE40 /* HomeView.swift */; };
 		2C4DD377297704B20027CE40 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD376297704B20027CE40 /* HomeViewModel.swift */; };
+		2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DEECC299BBF7500DE9778 /* UINavigationItem++Extenstions.swift */; };
 		2C710EED29798172006BE23B /* HomeWatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEC29798172006BE23B /* HomeWatchCell.swift */; };
 		2C710EEF29798330006BE23B /* HomeWatchCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEE29798330006BE23B /* HomeWatchCellHeaderView.swift */; };
 		2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */; };
@@ -130,6 +131,7 @@
 		2C4DD3712976CEE30027CE40 /* HomeTopCellFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopCellFooterView.swift; sourceTree = "<group>"; };
 		2C4DD3732976E1A70027CE40 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2C4DD376297704B20027CE40 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		2C4DEECC299BBF7500DE9778 /* UINavigationItem++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem++Extenstions.swift"; sourceTree = "<group>"; };
 		2C710EEC29798172006BE23B /* HomeWatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWatchCell.swift; sourceTree = "<group>"; };
 		2C710EEE29798330006BE23B /* HomeWatchCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWatchCellHeaderView.swift; sourceTree = "<group>"; };
 		2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extenstions.swift"; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				CA914497297E873300762BC0 /* UIFont++Extenstions.swift */,
 				CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */,
 				2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */,
+				2C4DEECC299BBF7500DE9778 /* UINavigationItem++Extenstions.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -849,6 +852,7 @@
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
 				2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */,
+				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				CA914491297E7EE600762BC0 /* LoginViewModel.swift in Sources */,
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,

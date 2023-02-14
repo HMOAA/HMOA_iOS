@@ -17,32 +17,6 @@ extension UIViewController {
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
-    func setNavigationSearchBar() {
-        let logoImageView = UIImageView(image: UIImage(named: "mainLogo"))
-        let logoImageItem = UIBarButtonItem(customView: logoImageView)
-        let searchBarView = UISearchBar()
-        searchBarView.frame = CGRect(x: 0, y: 0, width: Int(UIScreen.main.bounds.size.width) - 60 - Int(logoImageView.frame.size.width), height: 44)
-        searchBarView.backgroundColor = UIColor.customColor(.searchBarColor)
-        searchBarView.searchTextField.backgroundColor = UIColor.clear
-        
-        let searchImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 30.0, height: 0))
-        searchImage.image = UIImage(named: "search")
-        searchImage.contentMode = .right
-
-        let emptyView = UIView(frame: CGRect(x: 0, y: 0, width: 30.0, height: 0))
-        emptyView.backgroundColor = .clear
-        emptyView.addSubview(searchImage)
-        
-        searchBarView.searchTextField.leftView = emptyView
-
-        let searchBarItem = UIBarButtonItem(customView: searchBarView)
-        
-        self.navigationItem.leftBarButtonItems = [spacerItem(13), logoImageItem, spacerItem(20), searchBarItem]
-        
-
-        self.navigationController?.navigationBar.barTintColor = .white
-    }
-    
     func setNavigationBarTitle(title: String, color: UIColor, isHidden: Bool) {
         
         if !isHidden {
