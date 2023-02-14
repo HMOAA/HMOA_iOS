@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureAction()
-        setNavigationSearchBar()
+        configureNavigationBar()
     }
     
     // MARK: objc functions
@@ -39,10 +39,44 @@ class HomeViewController: UIViewController {
             self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex + 1, section: 0), at: .right, animated: true)
         }
     }
+    
+    @objc func menuButtonClicked() {
+        DispatchQueue.main.async {
+            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex + 1, section: 0), at: .right, animated: true)
+        }
+    }
+    
+    @objc func searchButtonClicked() {
+        DispatchQueue.main.async {
+            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex + 1, section: 0), at: .right, animated: true)
+        }
+    }
+    
+    @objc func bellButtonClicked() {
+        DispatchQueue.main.async {
+            self.homeView.collectionView.scrollToItem(at: IndexPath(row: self.viewModel.newsIndex + 1, section: 0), at: .right, animated: true)
+        }
+    }
 }
 
 // MARK: - Functions
 extension HomeViewController {
+    
+    func configureNavigationBar() {
+        
+        
+        let menuButton = navigationItem.makeButtonItem(self, action: #selector(menuButtonClicked), imageName: "homeMenu")
+                
+        let bellButton = navigationItem.makeButtonItem(self, action: #selector(bellButtonClicked), imageName: "bell")
+        
+        let searchButton = navigationItem.makeButtonItem(self, action: #selector(searchButtonClicked), imageName: "search")
+        
+        navigationItem.title = "H M O A"
+        
+        navigationItem.leftBarButtonItems = [spacerItem(13), menuButton]
+        
+        navigationItem.rightBarButtonItems = [bellButton, spacerItem(22), searchButton]
+    }
     
     func configureUI() {
         view.backgroundColor = UIColor.white
