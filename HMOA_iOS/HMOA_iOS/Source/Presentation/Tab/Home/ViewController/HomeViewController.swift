@@ -64,6 +64,7 @@ extension HomeViewController {
     
     func configureNavigationBar() {
         
+        setNavigationColor()
         
         let menuButton = navigationItem.makeButtonItem(self, action: #selector(menuButtonClicked), imageName: "homeMenu")
                 

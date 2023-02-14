@@ -20,7 +20,7 @@ extension UINavigationItem {
         let barButtonItem = UIBarButtonItem(customView: button)
         
         barButtonItem.customView?.snp.makeConstraints {
-            $0.width.height.equalTo(20)
+            $0.width.height.equalTo(24)
         }
         
         return barButtonItem
