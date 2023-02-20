@@ -19,6 +19,12 @@ extension UIViewController {
         }
     }
     
+    func presentSearchViewController() {
+        let searchVC = SearchViewController()
+        searchVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(searchVC, animated: true)
+    }
+    
     func setNavigationColor() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
