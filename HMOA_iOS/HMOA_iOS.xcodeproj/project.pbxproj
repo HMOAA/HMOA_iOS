@@ -13,6 +13,7 @@
 		2C04246429A39C26009CF0FE /* Perfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246329A39C26009CF0FE /* Perfume.swift */; };
 		2C04246629A39C30009CF0FE /* HomeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246529A39C30009CF0FE /* HomeSection.swift */; };
 		2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246829A3A992009CF0FE /* SearchViewController.swift */; };
+		2C04246B29A3B3E3009CF0FE /* HomeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246A29A3B3E3009CF0FE /* HomeCellReactor.swift */; };
 		2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6A8298FAA370059A43D /* CommentCell.swift */; };
 		2C1BD6AB298FC5990059A43D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6AA298FC5990059A43D /* DetailViewModel.swift */; };
 		2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */; };
@@ -46,7 +47,6 @@
 		2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36D29754B410027CE40 /* HomeCell.swift */; };
 		2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */; };
 		2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD3732976E1A70027CE40 /* HomeView.swift */; };
-		2C4DD377297704B20027CE40 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD376297704B20027CE40 /* HomeViewModel.swift */; };
 		2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DEECC299BBF7500DE9778 /* UINavigationItem++Extenstions.swift */; };
 		2C710EED29798172006BE23B /* HomeWatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEC29798172006BE23B /* HomeWatchCell.swift */; };
 		2C710EEF29798330006BE23B /* HomeWatchCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEE29798330006BE23B /* HomeWatchCellHeaderView.swift */; };
@@ -100,6 +100,7 @@
 		2C04246329A39C26009CF0FE /* Perfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perfume.swift; sourceTree = "<group>"; };
 		2C04246529A39C30009CF0FE /* HomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSection.swift; sourceTree = "<group>"; };
 		2C04246829A3A992009CF0FE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		2C04246A29A3B3E3009CF0FE /* HomeCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellReactor.swift; sourceTree = "<group>"; };
 		2C1BD6A8298FAA370059A43D /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		2C1BD6AA298FC5990059A43D /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoCell.swift; sourceTree = "<group>"; };
@@ -136,7 +137,6 @@
 		2C4DD36D29754B410027CE40 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellHeaderView.swift; sourceTree = "<group>"; };
 		2C4DD3732976E1A70027CE40 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		2C4DD376297704B20027CE40 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		2C4DEECC299BBF7500DE9778 /* UINavigationItem++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem++Extenstions.swift"; sourceTree = "<group>"; };
 		2C710EEC29798172006BE23B /* HomeWatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWatchCell.swift; sourceTree = "<group>"; };
 		2C710EEE29798330006BE23B /* HomeWatchCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWatchCellHeaderView.swift; sourceTree = "<group>"; };
@@ -218,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				2C04246029A37F7B009CF0FE /* HomeViewReactor.swift */,
+				2C04246A29A3B3E3009CF0FE /* HomeCellReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -328,7 +329,6 @@
 				2C04246229A39C13009CF0FE /* Model */,
 				2C04245F29A37F5C009CF0FE /* Reactor */,
 				2CAD9630298E465600974500 /* Detail */,
-				2C4DD375297704A80027CE40 /* ViewModel */,
 				2C4DD366297547620027CE40 /* View */,
 				2C39AA6E29704866000C6F71 /* ViewController */,
 			);
@@ -449,14 +449,6 @@
 				2C710EEE29798330006BE23B /* HomeWatchCellHeaderView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		2C4DD375297704A80027CE40 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				2C4DD376297704B20027CE40 /* HomeViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		2C710EF6297C0E75006BE23B /* View */ = {
@@ -865,7 +857,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C4DD377297704B20027CE40 /* HomeViewModel.swift in Sources */,
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
@@ -888,6 +879,7 @@
 				2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */,
 				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
+				2C04246B29A3B3E3009CF0FE /* HomeCellReactor.swift in Sources */,
 				CA914491297E7EE600762BC0 /* LoginViewModel.swift in Sources */,
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,

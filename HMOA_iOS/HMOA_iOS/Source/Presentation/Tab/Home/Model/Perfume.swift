@@ -8,6 +8,7 @@
 import UIKit
 
 struct Perfume: Equatable {
+    var perfumeId: Int
     var titleName: String
     var content: String
     var image: UIImage

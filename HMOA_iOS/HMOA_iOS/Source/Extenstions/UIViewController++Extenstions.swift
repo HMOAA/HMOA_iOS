@@ -11,12 +11,12 @@ import Then
 
 extension UIViewController {
     
-    func presentDatailViewController(_ bool: Bool) {
-        if bool {
-            let detailVC = DetailViewController()
-            detailVC.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(detailVC, animated: true)
-        }
+    func presentDatailViewController(_ id: Int) {
+        print(id)
+        let detailVC = DetailViewController()
+        detailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(detailVC, animated: true)
+        
     }
     
     func presentSearchViewController() {

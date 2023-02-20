@@ -8,10 +8,16 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxCocoa
+import RxSwift
 
-class HomeCell: UICollectionViewCell {
+class HomeCell: UICollectionViewCell, View {
+    
+    typealias Reactor = HomeCellReactor
     
     // MARK: - identifier
+    var disposeBag = DisposeBag()
     static let identifier = "HomeCell"
     
     // MARK: - Properties
@@ -34,6 +40,12 @@ class HomeCell: UICollectionViewCell {
 }
 
 extension HomeCell {
+    
+    func bind(reactor: HomeCellReactor) {
+        perfumeInfoLabel.text = reactor.currentState.content
+        perfumeTitleLabel.text = reactor.currentState.title
+        perfumeImageView.image = reactor.currentState.image
+    }
     
     func configureUI() {
         [perfumeImageView, perfumeTitleLabel, perfumeInfoLabel] .forEach { addSubview($0) }

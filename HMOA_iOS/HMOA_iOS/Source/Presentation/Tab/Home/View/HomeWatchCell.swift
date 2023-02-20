@@ -8,15 +8,22 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxCocoa
+import RxSwift
 
-class HomeWatchCell: UICollectionViewCell {
+
+class HomeWatchCell: UICollectionViewCell, View {
     
+    typealias Reactor = HomeCellReactor
+
     // MARK: - identifier
     
     static let identifier = "HomeWatchCell"
     
     // MARK: - Properties
-    
+    var disposeBag = DisposeBag()
+
     lazy var perfumeImageView = UIImageView().then {
         $0.layer.borderWidth = 0.5
         $0.contentMode = .scaleAspectFit
@@ -43,6 +50,12 @@ class HomeWatchCell: UICollectionViewCell {
 // MARK: - Functions
 
 extension HomeWatchCell {
+    
+    func bind(reactor: HomeCellReactor) {
+        perfumeInfoLabel.text = reactor.currentState.content
+        perfumeNameLabel.text = reactor.currentState.title
+        perfumeImageView.image = reactor.currentState.image
+    }
     
     func configureUI() {
         [perfumeImageView, perfumeNameLabel, perfumeInfoLabel] .forEach { addSubview($0) }

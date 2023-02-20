@@ -15,11 +15,10 @@ class HomeViewController: UIViewController, View {
     
     // MARK: ViewModel
     
-    let viewModel = HomeViewModel()
     let homeReactor = HomeViewReactor()
     
     // MARK: Properties
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<HomeSection.Model>!
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<HomeSection>!
     var disposeBag = DisposeBag()
 
     lazy var homeView = HomeView()
@@ -58,77 +57,66 @@ extension HomeViewController {
     func bind(reactor: HomeViewReactor) {
 
         // action
-        homeReactor.action.onNext(HomeViewReactor.Action.viewDidLoad)
-        
         self.homeView.collectionView.rx.itemSelected
-            .do(onNext: {
-                print($0)
-            })
             .map { Reactor.Action.itemSelected($0) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
         // state
-        reactor.state.map { [$0.homeTopSection, $0.homeFirstSection, $0.homeSecondSection, $0.homeWatchSection] }
-            .distinctUntilChanged()
+        reactor.state.map { $0.sections }
             .bind(to: self.homeView.collectionView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
 
         reactor.state
-            .map { $0.isPresentDetailVC }
-            .distinctUntilChanged()
-            .filter { $0 }
+            .compactMap { $0.selectedPerfumeId }
             .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection.Model>(configureCell: { dataSource, collectionView, indexPath, item -> UICollectionViewCell in
+        dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
             
-            switch indexPath.section {
-            case 0:
+            switch item {
+            case .homeTopCell(let image, _):
                 guard let homeTopCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeTopCell.identifier,
                     for: indexPath) as? HomeTopCell else {
                     return UICollectionViewCell()
                 }
-                switch item {
-                case .photo(let photo):
-                    homeTopCell.setImage(photo!)
-                case .Info(_):
-                    break
-                }
+                
+                homeTopCell.setImage(image!)
+                
                 return homeTopCell
-            case 3:
-                guard let homeWatchCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeWatchCell.identifier,
-                    for: indexPath) as? HomeWatchCell else {
-                    return UICollectionViewCell()
-                }
-                
-                switch item {
-                case .photo(_):
-                    break
-                case .Info(let perfume):
-                    homeWatchCell.setUI(item: perfume)
-                }
-                
-                return homeWatchCell
-            default:
+            case .homeFirstCell(let reactor, _):
                 guard let homeCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeCell.identifier,
                     for: indexPath) as? HomeCell else {
                     return UICollectionViewCell()
                 }
                 
-                switch item {
-                case .photo(_):
-                    break
-                case .Info(let perfume):
-                    homeCell.setUI(item: perfume)
-                }
+                homeCell.reactor = reactor
                 
                 return homeCell
+            case .homeSecondCell(let reactor, _):
+                guard let homeCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HomeCell.identifier,
+                    for: indexPath) as? HomeCell else {
+                    return UICollectionViewCell()
+                }
+                
+                homeCell.reactor = reactor
+                
+                return homeCell
+            case .homeWatchCell(let reactor, _):
+                guard let homeWatchCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HomeWatchCell.identifier,
+                    for: indexPath) as? HomeWatchCell else {
+                    return UICollectionViewCell()
+                }
+            
+                homeWatchCell.reactor = reactor
+                
+                return homeWatchCell
             }
         }, configureSupplementaryView: { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
 
