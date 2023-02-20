@@ -11,10 +11,12 @@ import Then
 
 extension UIViewController {
     
-    func presentDatailViewController() {
-        let detailVC = DetailViewController()
-        detailVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(detailVC, animated: true)
+    func presentDatailViewController(_ bool: Bool) {
+        if bool {
+            let detailVC = DetailViewController()
+            detailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
     }
     
     func setNavigationColor() {

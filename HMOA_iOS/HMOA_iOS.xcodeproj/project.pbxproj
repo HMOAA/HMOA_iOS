@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0A0A6DE3C1361CCF9D8E7016 /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8B8B44657C226494B4D2190 /* Pods_HMOA_iOSTests.framework */; };
 		2AA456DA519D9C9FE9B6355B /* Pods_HMOA_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A266DA0D7E24CB1ED544B374 /* Pods_HMOA_iOS.framework */; };
+		2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246029A37F7B009CF0FE /* HomeViewReactor.swift */; };
+		2C04246429A39C26009CF0FE /* Perfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246329A39C26009CF0FE /* Perfume.swift */; };
+		2C04246629A39C30009CF0FE /* HomeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246529A39C30009CF0FE /* HomeSection.swift */; };
 		2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6A8298FAA370059A43D /* CommentCell.swift */; };
 		2C1BD6AB298FC5990059A43D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6AA298FC5990059A43D /* DetailViewModel.swift */; };
 		2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */; };
@@ -93,6 +96,9 @@
 /* Begin PBXFileReference section */
 		0FCFEF4C58883983391F1277 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		1010CAD33467EC8F888DFEC6 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS_HMOA_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C04246029A37F7B009CF0FE /* HomeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewReactor.swift; sourceTree = "<group>"; };
+		2C04246329A39C26009CF0FE /* Perfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perfume.swift; sourceTree = "<group>"; };
+		2C04246529A39C30009CF0FE /* HomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSection.swift; sourceTree = "<group>"; };
 		2C1BD6A8298FAA370059A43D /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		2C1BD6AA298FC5990059A43D /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoCell.swift; sourceTree = "<group>"; };
@@ -208,6 +214,23 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		2C04245F29A37F5C009CF0FE /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				2C04246029A37F7B009CF0FE /* HomeViewReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		2C04246229A39C13009CF0FE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C04246329A39C26009CF0FE /* Perfume.swift */,
+				2C04246529A39C30009CF0FE /* HomeSection.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		2C39AA09296DB4DE000C6F71 = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +316,8 @@
 		2C39AA4E29704253000C6F71 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				2C04246229A39C13009CF0FE /* Model */,
+				2C04245F29A37F5C009CF0FE /* Reactor */,
 				2CAD9630298E465600974500 /* Detail */,
 				2C4DD375297704A80027CE40 /* ViewModel */,
 				2C4DD366297547620027CE40 /* View */,
@@ -850,6 +875,7 @@
 				2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */,
 				2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */,
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,
+				2C04246629A39C30009CF0FE /* HomeSection.swift in Sources */,
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
 				2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */,
 				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
@@ -862,6 +888,7 @@
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
 				2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */,
 				2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */,
+				2C04246429A39C26009CF0FE /* Perfume.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeWatchCell.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
@@ -870,6 +897,7 @@
 				2CDFFDDB2984094300F60304 /* NewsCellHeaderView.swift in Sources */,
 				2C4DD3722976CEE30027CE40 /* HomeTopCellFooterView.swift in Sources */,
 				2C1BD6AB298FC5990059A43D /* DetailViewModel.swift in Sources */,
+				2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageTopView.swift in Sources */,
 				2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */,

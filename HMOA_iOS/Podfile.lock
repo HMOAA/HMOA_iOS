@@ -3,6 +3,9 @@ PODS:
   - Differentiator (5.0.0)
   - DropDown (2.3.13)
   - Kingfisher (7.5.0)
+  - ReactorKit (3.2.0):
+    - RxSwift (~> 6.0)
+    - WeakMapTable (~> 1.1)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
@@ -16,11 +19,13 @@ PODS:
   - SnapKit (5.6.0)
   - TagListView (1.4.1)
   - Then (3.0.0)
+  - WeakMapTable (1.2.0)
 
 DEPENDENCIES:
   - Alamofire
   - DropDown
   - Kingfisher
+  - ReactorKit
   - RxCocoa
   - RxDataSources
   - RxSwift
@@ -34,6 +39,7 @@ SPEC REPOS:
     - Differentiator
     - DropDown
     - Kingfisher
+    - ReactorKit
     - RxCocoa
     - RxDataSources
     - RxRelay
@@ -41,12 +47,14 @@ SPEC REPOS:
     - SnapKit
     - TagListView
     - Then
+    - WeakMapTable
 
 SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   Kingfisher: b9c2a4a4af2990a768445c277359b27bde287d71
+  ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
@@ -54,7 +62,8 @@ SPEC CHECKSUMS:
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   TagListView: a1c236d17960a0cf64156725a76ce6d73ebce2be
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
+  WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 3e4297b03ae12131a7c70147f9aa40fc4f5022b1
+PODFILE CHECKSUM: 142c5411cc6a14127ea678de12b40cf218b05f07
 
 COCOAPODS: 1.11.3
