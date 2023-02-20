@@ -20,11 +20,11 @@ class HomeCell: UICollectionViewCell {
     }
     
     let perfumeTitleLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        $0.font = .customFont(.pretendard_medium, 10)
     }
     
     let perfumeInfoLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 10)
+        $0.font = .customFont(.pretendard, 10)
         $0.numberOfLines = 2
     }
     
@@ -40,18 +40,18 @@ extension HomeCell {
         
         perfumeImageView.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
-            $0.width.height.equalTo(93)
+            $0.width.height.equalTo(126)
         }
         
         perfumeTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(perfumeImageView.snp.bottom).offset(8)
-            $0.leading.equalToSuperview()
-            $0.height.equalTo(12)
+            $0.bottom.equalTo(perfumeInfoLabel.snp.top).offset(-2)
+            $0.leading.equalToSuperview().inset(4)
+            $0.height.equalTo(10)
         }
         
         perfumeInfoLabel.snp.makeConstraints {
-            $0.top.equalTo(perfumeTitleLabel.snp.bottom).offset(5)
-            $0.leading.equalToSuperview()
+            $0.bottom.equalTo(perfumeImageView).inset(4)
+            $0.leading.equalToSuperview().inset(4)
             $0.width.equalTo(perfumeImageView.snp.width)
         }
     }

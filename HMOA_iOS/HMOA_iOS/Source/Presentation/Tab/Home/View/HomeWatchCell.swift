@@ -24,13 +24,13 @@ class HomeWatchCell: UICollectionViewCell {
 
     
     let perfumeNameLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 8, weight: .bold)
+        $0.font = .customFont(.pretendard_medium, 10)
     }
     
     let perfumeInfoLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 8)
-        $0.numberOfLines = 2
-        $0.textAlignment = .right
+        $0.font = .customFont(.pretendard, 10)
+        $0.numberOfLines = 3
+        $0.textAlignment = .left
     }
     
     // MARK: - Lifecycle
@@ -52,14 +52,14 @@ extension HomeWatchCell {
         }
         
         perfumeInfoLabel.snp.makeConstraints {
-            $0.bottom.equalTo(perfumeImageView)
-            $0.trailing.equalTo(perfumeImageView)
+            $0.bottom.equalTo(perfumeImageView).inset(4)
+            $0.leading.equalTo(perfumeImageView).inset(4)
             $0.width.equalTo(75)
         }
         
         perfumeNameLabel.snp.makeConstraints {
             $0.bottom.equalTo(perfumeInfoLabel.snp.top)
-            $0.trailing.equalTo(perfumeInfoLabel)
+            $0.leading.equalTo(perfumeInfoLabel)
         }
     }
     

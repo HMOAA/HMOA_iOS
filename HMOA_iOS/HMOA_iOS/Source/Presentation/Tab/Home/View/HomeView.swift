@@ -19,29 +19,8 @@ class HomeView: UIView {
         $0.register(HomeTopCell.self, forCellWithReuseIdentifier: HomeTopCell.identifier)
         $0.register(HomeWatchCell.self, forCellWithReuseIdentifier: HomeWatchCell.identifier)
         $0.register(HomeCellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCellHeaderView.identifier)
-        $0.register(HomeTopCellFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: HomeTopCellFooterView.identifier)
         $0.register(HomeWatchCellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeWatchCellHeaderView.identifier)
-        
-        $0.isScrollEnabled = false
     }
-    
-    lazy var leftButton: UIButton = {
-        
-        let button = UIButton()
-        
-        button.setImage(UIImage(named: "leftButton"), for: .normal)
-        
-        return button
-        
-    }()
-    
-    lazy var rightButton: UIButton = {
-        let button = UIButton()
-        
-        button.setImage(UIImage(named: "rightButton"), for: .normal)
-        
-        return button
-    }()
     
     
     // MARK: - Init
@@ -61,65 +40,46 @@ class HomeView: UIView {
 extension HomeView {
     
     func configureUI() {
-        [scrollView] .forEach { addSubview($0) }
-                
-        [collectionView, leftButton, rightButton] .forEach { scrollView.addSubview($0) }
-        
-        scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+        [collectionView] .forEach { addSubview($0) }
+
         collectionView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
-            $0.height.equalTo(1050)
-            $0.width.equalTo(scrollView)
-        }
-        
-        leftButton.snp.makeConstraints {            $0.top.equalToSuperview().inset(93)
-            $0.leading.equalToSuperview().inset(14)
-        }
-        
-        rightButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(93)
-            $0.trailing.equalToSuperview().inset(34)
+            $0.edges.equalToSuperview()
         }
     }
     
     func homeTopCellCompositionalLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(202))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(460))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(202))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(460))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(33))
-        let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottomLeading)
-        sectionFooter.contentInsets = NSDirectionalEdgeInsets(top: -50, leading: 0, bottom: 0, trailing: 0)
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 25, trailing: 0)
-        section.boundarySupplementaryItems = [ sectionFooter ]
         section.orthogonalScrollingBehavior = .groupPaging
 
         return section
     }
     
     func homeCellCompositionalLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(100), heightDimension: .absolute(150))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .estimated(126))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 1.5)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.29), heightDimension: .absolute(170))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .estimated(126))
 
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(10))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         
         let section = NSCollectionLayoutSection(group: group)
         section.boundarySupplementaryItems = [ sectionHeader ]
         section.orthogonalScrollingBehavior = .continuous
-
+        section.interGroupSpacing = 8
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 48, leading: 0, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 74, leading: 0, bottom: 0, trailing: 0)
         return section
     }
     
@@ -159,14 +119,17 @@ extension HomeView {
         
         let finalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(306)), subitems: [leftGroup, rightGroup])
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(10))
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
         
         
         let section = NSCollectionLayoutSection(group: finalGroup)
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 48, leading: 0, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 74, leading: 0, bottom: 40, trailing: 0)
+
         section.boundarySupplementaryItems = [ sectionHeader ]
-        
+
         return section
     }
     
