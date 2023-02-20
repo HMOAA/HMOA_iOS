@@ -10,10 +10,7 @@ import SnapKit
 import Then
 
 class HomeView: UIView {
-    
-    // MARK: - ViewModel
-    let viewModel = HomeViewModel.shared
-    
+        
     // MARK: - Properties
     let scrollView = UIScrollView()
     
@@ -103,11 +100,6 @@ extension HomeView {
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 25, trailing: 0)
         section.boundarySupplementaryItems = [ sectionFooter ]
         section.orthogonalScrollingBehavior = .groupPaging
-        section.visibleItemsInvalidationHandler = { [weak self] (visibleItems, scrollOffset, layoutEnvironment) in
-            visibleItems.forEach { item in
-                self!.viewModel.newsIndex = item.indexPath.row
-            }
-        }
 
         return section
     }

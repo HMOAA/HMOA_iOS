@@ -16,9 +16,8 @@ class HomeTopCell: UICollectionViewCell {
     
     // MARK: - Properies
     
-    lazy var newsImageView = UIImageView().then {
-        $0.image = UIImage(named: "newsImage")
-    }
+    lazy var newsImageView = UIImageView()
+    
     
     // MARK: - Lifecycle
     override func layoutSubviews() {
@@ -36,5 +35,9 @@ extension HomeTopCell {
         newsImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    func setImage(_ image: UIImage) {
+        newsImageView.image = image
     }
 }

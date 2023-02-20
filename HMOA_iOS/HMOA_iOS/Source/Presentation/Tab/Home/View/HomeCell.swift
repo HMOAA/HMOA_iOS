@@ -55,4 +55,10 @@ extension HomeCell {
             $0.width.equalTo(perfumeImageView.snp.width)
         }
     }
+    
+    func setUI(item: Perfume) {
+        perfumeInfoLabel.text = item.content
+        perfumeTitleLabel.text = item.titleName
+        perfumeImageView.image = item.image
+    }
 }

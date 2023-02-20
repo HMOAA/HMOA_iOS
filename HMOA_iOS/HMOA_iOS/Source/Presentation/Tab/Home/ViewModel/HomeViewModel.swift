@@ -6,18 +6,22 @@
 //
 
 import UIKit
+import RxSwift
 
 class HomeViewModel {
     
-    static let shared = HomeViewModel()
-    
-    var newsIndex = 0 {
-        didSet {
-            if newsIndex < 0 {
-                newsIndex = 0
-            } else if newsIndex > 9 {
-                newsIndex = 9
-            }
-        }
+    lazy var perfumess: [Perfume] = [
+        Perfume(titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+        Perfume(titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+        Perfume(titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+        Perfume(titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+        Perfume(titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+        Perfume(titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+        Perfume(titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!)
+    ]
+
+    init() {
+        
     }
+
 }

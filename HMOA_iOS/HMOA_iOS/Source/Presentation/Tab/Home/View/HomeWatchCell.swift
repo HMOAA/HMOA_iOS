@@ -18,7 +18,6 @@ class HomeWatchCell: UICollectionViewCell {
     // MARK: - Properties
     
     lazy var perfumeImageView = UIImageView().then {
-        $0.image = UIImage(named: "jomalon")
         $0.layer.borderWidth = 0.5
         $0.contentMode = .scaleAspectFit
     }
@@ -26,12 +25,10 @@ class HomeWatchCell: UICollectionViewCell {
     
     let perfumeNameLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 8, weight: .bold)
-        $0.text = "조 말론 런던"
     }
     
     let perfumeInfoLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 8)
-        $0.text = "우드 세이지 앤 씨 솔트 코튼 100ml"
         $0.numberOfLines = 2
         $0.textAlignment = .right
     }
@@ -64,5 +61,11 @@ extension HomeWatchCell {
             $0.bottom.equalTo(perfumeInfoLabel.snp.top)
             $0.trailing.equalTo(perfumeInfoLabel)
         }
+    }
+    
+    func setUI(item: Perfume) {
+        perfumeInfoLabel.text = item.content
+        perfumeNameLabel.text = item.titleName
+        perfumeImageView.image = item.image
     }
 }
