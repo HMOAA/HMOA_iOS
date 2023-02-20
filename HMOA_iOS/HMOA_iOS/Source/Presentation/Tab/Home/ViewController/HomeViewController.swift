@@ -45,6 +45,7 @@ class HomeViewController: UIViewController, View {
     }
     
     @objc func searchButtonClicked() {
+        presentSearchViewController()
     }
     
     @objc func bellButtonClicked() {
