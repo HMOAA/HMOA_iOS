@@ -9,63 +9,35 @@ import ReactorKit
 import RxCocoa
 
 final class HomeViewReactor: Reactor {
-    typealias State = HomeViewReactor.state
     
-    let viewModel = HomeViewModel()
+    var initialState: State
     
     enum Action {
-        case viewDidLoad
         case itemSelected(IndexPath)
     }
     
     enum Mutation {
-        case setHomeTop
-        case setHomeFirst
-        case setHomeSecond
-        case setHomeWatch
-        case setIsPresentDetailVC(Bool)
+        case setSelectedPerfumeId(IndexPath?)
     }
     
-    struct state {
-        var homeTopSection = HomeSection.Model(
-            model: .homeTop,
-            items: []
-        )
-        
-        var homeFirstSection = HomeSection.Model(
-            model: .homeFirst,
-            items: []
-        )
-        
-        var homeSecondSection = HomeSection.Model(
-            model: .homeSecond,
-            items: []
-        )
-        
-        var homeWatchSection = HomeSection.Model(
-            model: .homeWatch,
-            items: []
-        )
-        
-        var isPresentDetailVC: Bool = false
+    struct State {
+        var sections: [HomeSection]
+        var selectedPerfumeId: Int?
     }
     
-    var initialState = State()
+    init() {
+        self.initialState = State(
+            sections: HomeViewReactor.setUpSections()
+        )
+    }
+    
 
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
-            return .concat(
-                [Observable<Mutation>.just(.setHomeTop),
-                 Observable<Mutation>.just(.setHomeFirst),
-                 Observable<Mutation>.just(.setHomeSecond),
-                 Observable<Mutation>.just(.setHomeWatch)
-                ]
-            )
-        case .itemSelected:
+        case .itemSelected(let indexPath):
             return .concat([
-                Observable<Mutation>.just(.setIsPresentDetailVC(true)),
-                Observable<Mutation>.just(.setIsPresentDetailVC(false))
+                Observable<Mutation>.just(.setSelectedPerfumeId(indexPath)),
+                Observable<Mutation>.just(.setSelectedPerfumeId(nil))
             ])
         }
     }
@@ -74,30 +46,52 @@ final class HomeViewReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setHomeTop:
-            let item = HomeSection.Item.photo(UIImage(named: "jomalon")!)
-            let sectionModel = HomeSection.Model(model: .homeTop, items: [item])
+        case .setSelectedPerfumeId(let indexPath):
             
-            state.homeTopSection = sectionModel
-        case .setHomeFirst:
+            guard let indexPath = indexPath else {
+                state.selectedPerfumeId = nil
+                return state
+            }
             
-            let item = viewModel.perfumess.map(HomeSection.Item.Info)
-            let sectionModel = HomeSection.Model(model: .homeFirst, items: item)
-            state.homeFirstSection = sectionModel
-        case .setHomeSecond:
-            let item = viewModel.perfumess.map(HomeSection.Item.Info)
-            let sectionModel = HomeSection.Model(model: .homeSecond, items: item)
-            state.homeSecondSection = sectionModel
-        case .setHomeWatch:
-            let item = viewModel.perfumess.map(HomeSection.Item.Info)
-            let sectionModel = HomeSection.Model(model: .homeWatch, items: item)
-            state.homeWatchSection = sectionModel
-        case .setIsPresentDetailVC(let isPresent):
-            state.isPresentDetailVC = isPresent
+            state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.item].perfumeId
+            
+            return state
+            
         }
-        
-        return state
-        
     }
+}
+
+extension HomeViewReactor {
     
+    static func setUpSections() -> [HomeSection] {
+        
+        // TODO: 더미 데이터 -> 실제 데이터 서버에서 받아오면 수정
+        let perfumes = [
+            Perfume(perfumeId: 1, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 2, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 3, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 4, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 5, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 6, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 7, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!)
+        ]
+        
+        let homeTopItem = HomeSectionItem.homeTopCell(UIImage(named: "jomalon"), 1)
+        
+        let homeTopSection = HomeSection.homeTop([homeTopItem])
+        
+        let homeFirstItem = perfumes.map { HomeSectionItem.homeFirstCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
+        
+        let homeFirstSection = HomeSection.homeTop(homeFirstItem)
+        
+        let homeSecondItem = perfumes.map { HomeSectionItem.homeSecondCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
+        
+        let homeSecondSection = HomeSection.homeSecond(homeSecondItem)
+        
+        let homeWatchItem = perfumes.map { HomeSectionItem.homeWatchCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
+        
+        let homeWatchSection = HomeSection.homeWatch(homeWatchItem)
+        
+        return [homeTopSection, homeFirstSection, homeSecondSection, homeWatchSection]
+    }
 }
