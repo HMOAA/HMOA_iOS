@@ -28,7 +28,6 @@ class HomeViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureAction()
         configureNavigationBar()
         configureCollectionViewDataSource()
         bind(reactor: homeReactor)
@@ -131,18 +130,10 @@ extension HomeViewController {
                 return homeCell
             }
         }, configureSupplementaryView: { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
-            guard let footer = collectionView.dequeueReusableSupplementaryView(
-                ofKind: UICollectionView.elementKindSectionFooter,
-                withReuseIdentifier: HomeTopCellFooterView.identifier,
-                for: indexPath) as? HomeTopCellFooterView else {
-                return UICollectionReusableView()
-            }
 
             var header = UICollectionReusableView()
         
             switch indexPath.section {
-            case 0:
-                return footer
             case 3:
                 guard let homeWatchCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
@@ -198,17 +189,5 @@ extension HomeViewController {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview()
         }
-    }
-    
-    func configureAction() {
-        homeView.leftButton.addTarget(
-            self,
-            action: #selector(leftButtonClicked),
-            for: .touchUpInside)
-        
-        homeView.rightButton.addTarget(
-            self,
-            action: #selector(rightButtonClicked),
-            for: .touchUpInside)
     }
 }
