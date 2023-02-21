@@ -13,13 +13,16 @@ final class DetailViewReactor: Reactor {
     var initialState: State
     
     enum Action {
+        case didTapMoreButton
     }
     
     enum Mutation {
+        case setPresentCommentVC(Bool)
     }
     
     struct State {
         var sections: [DetailSection]
+        var isPresentCommetVC: Bool = false
     }
     
     init() {
@@ -28,12 +31,24 @@ final class DetailViewReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-            
-        
+        switch action {
+        case .didTapMoreButton:
+            return .concat([
+                .just(.setPresentCommentVC(true)),
+                .just(.setPresentCommentVC(false))
+            ])
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-    
+        var state = state
+        
+        switch mutation {
+        case .setPresentCommentVC(let isPresent):
+            state.isPresentCommetVC = isPresent
+        }
+        
+        return state
     }
 }
 

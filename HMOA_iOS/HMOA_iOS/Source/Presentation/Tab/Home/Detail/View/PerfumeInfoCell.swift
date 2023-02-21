@@ -45,7 +45,8 @@ extension PerfumeInfoCell {
         perfumeInfoView.perfumeImageView.image = reactor.currentState.perfumeImage
         perfumeInfoView.titleKoreanLabel.text = reactor.currentState.koreanName
         perfumeInfoView.titleEnglishLabel.text = reactor.currentState.englishName
-        perfumeInfoView.keywordTagListView.addTags(reactor.currentState.category)
+        // 나중에 수정
+//        perfumeInfoView.keywordTagListView.addTags(reactor.currentState.category)
         perfumeInfoView.priceLabel.text = "\(reactor.currentState.price)"
         perfumeInfoView.ageLabel.text = "\(reactor.currentState.age)"
         perfumeInfoView.gendarLabel.text = reactor.currentState.gender
