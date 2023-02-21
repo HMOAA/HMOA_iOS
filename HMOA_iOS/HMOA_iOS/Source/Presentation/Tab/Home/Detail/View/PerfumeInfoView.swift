@@ -143,7 +143,8 @@ extension PerfumeInfoView {
         perfumeImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.width.equalTo(360)
+            $0.width.equalTo(UIScreen.main.bounds.width)
+            $0.height.equalTo(360)
         }
         
         perfumLikeView.snp.makeConstraints {

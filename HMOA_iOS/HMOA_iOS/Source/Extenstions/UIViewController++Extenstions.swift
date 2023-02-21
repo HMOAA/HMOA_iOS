@@ -16,7 +16,15 @@ extension UIViewController {
         let detailVC = DetailViewController()
         detailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    func presentCommentViewContorller(_ isPresent: Bool) {
         
+        if isPresent {
+            let commentVC = CommentViewController()
+            commentVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(commentVC, animated: true)
+        }
     }
     
     func presentSearchViewController() {

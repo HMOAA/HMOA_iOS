@@ -15,12 +15,13 @@ import RxDataSources
 
 class DetailViewController: UIViewController, View {
     
-    let DetailReactor = DetailViewReactor()
-    var disposeBag = DisposeBag()
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<DetailSection>!
-
     // MARK: - Properties
     
+    let DetailReactor = DetailViewReactor()
+    var disposeBag = DisposeBag()
+    
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<DetailSection>!
+
     let detailView = DetailView()
     
     let bottomView = DetailBottomView()
@@ -41,11 +42,16 @@ extension DetailViewController {
     
     func bind(reactor: DetailViewReactor) {
         
-        // action
-        
         // state
-        reactor.state.map { $0.sections }
+        reactor.state
+            .map { $0.sections }
             .bind(to: self.detailView.collectionView.rx.items(dataSource: self.dataSource))
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPresentCommetVC }
+            .distinctUntilChanged()
+            .bind(onNext: presentCommentViewContorller)
             .disposed(by: disposeBag)
     }
     
@@ -90,6 +96,8 @@ extension DetailViewController {
             
             if kind == UICollectionView.elementKindSectionFooter {
                 guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
+                
+                commentFooter.reactor = self.DetailReactor
                 
                 return commentFooter
             } else {
