@@ -58,13 +58,10 @@ extension DetailViewController {
                 perfumeInfoCell.reactor = reactor
                 
                 return perfumeInfoCell
-            case .commentCell(let comment):
+            case .commentCell(let reactor):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
-                commentCell.contentLabel.text = comment.content
-                commentCell.userImageView.image = comment.image
-                commentCell.userNameLabel.text = comment.name
-                commentCell.likeView.likeCountLabel.text = "\(comment.likeCount)"
+                commentCell.reactor = reactor
                 
                 return commentCell
             case .recommendCell(let perfume):

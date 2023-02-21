@@ -8,10 +8,15 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxSwift
+import RxCocoa
 
-class CommentCell: UICollectionViewCell {
+class CommentCell: UICollectionViewCell, View {
     
     // MARK: - identifier
+    typealias Reactor = CommentReactor
+    var disposeBag = DisposeBag()
     
     static let identifier = "CommentCell"
     
@@ -54,6 +59,35 @@ class CommentCell: UICollectionViewCell {
 
 // MARK: - Functions
 extension CommentCell {
+    
+    func bind(reactor: CommentReactor) {
+        userImageView.image = reactor.currentState.image
+        userNameLabel.text = reactor.currentState.name
+        contentLabel.text = reactor.currentState.content
+        likeView.likeButton.isSelected = reactor.currentState.isLike
+        likeView.likeCountLabel.text = "\(reactor.currentState.likeCount)"
+        
+        // action
+        likeView.likeButton.rx.tap
+            .map { Reactor.Action.didTapLikeButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // state
+        
+        reactor.state
+            .map { $0.isLike }
+            .distinctUntilChanged()
+            .bind(to: likeView.likeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.likeCount }
+            .distinctUntilChanged()
+            .map { String($0)}
+            .bind(to: likeView.likeCountLabel.rx.text)
+            .disposed(by: disposeBag)
+    }
     
     func configureUI() {
         

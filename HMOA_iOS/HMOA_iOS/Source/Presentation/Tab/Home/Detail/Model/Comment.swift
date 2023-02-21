@@ -8,8 +8,10 @@
 import UIKit
 
 struct Comment {
-    let name: String
-    let image: UIImage
-    let likeCount: Int
-    let content: String
+    var commentId: Int
+    var name: String
+    var image: UIImage
+    var likeCount: Int
+    var content: String
+    var isLike: Bool
 }

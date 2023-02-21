@@ -61,9 +61,9 @@ extension DetailViewReactor {
         )
         
         let commentItems = [
-            Comment(name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test"),
-            Comment(name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test"),
-            Comment(name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test")
+            Comment(commentId: 1, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
+            Comment(commentId: 2, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
+            Comment(commentId: 3, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false)
         ]
         
         let recommendItems = [
@@ -79,7 +79,8 @@ extension DetailViewReactor {
         let topItem = DetailSectionItem.topCell(PerfumeDetailReactor(detail: perfumeDetail))
         let topSection = DetailSection.top(topItem)
         
-        let commentItem = commentItems.map { DetailSectionItem.commentCell($0) }
+        let commentItem = commentItems.map { DetailSectionItem.commentCell(CommentReactor(comment: $0)) }
+        
         let commentSections = DetailSection.comment(commentItem)
         
         let recommed = recommendItems.map { DetailSectionItem.recommendCell($0) }
