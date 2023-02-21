@@ -8,13 +8,19 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxCocoa
+import RxSwift
 
-class PerfumeInfoCell: UICollectionViewCell {
+class PerfumeInfoCell: UICollectionViewCell, View {
+    
+    typealias Reactor = PerfumeDetailReactor
     
     // MARK: - identifier
     
     static let identifier = "PerfumeInfoCell"
-    
+    var disposeBag = DisposeBag()
+
     // MARK: - View
     
     let perfumeInfoView = PerfumeInfoView()
@@ -34,6 +40,49 @@ class PerfumeInfoCell: UICollectionViewCell {
 // MARK: - Functions
 
 extension PerfumeInfoCell {
+    
+    func bind(reactor: PerfumeDetailReactor) {
+        perfumeInfoView.perfumeImageView.image = reactor.currentState.perfumeImage
+        perfumeInfoView.titleKoreanLabel.text = reactor.currentState.koreanName
+        perfumeInfoView.titleEnglishLabel.text = reactor.currentState.englishName
+        perfumeInfoView.keywordTagListView.addTags(reactor.currentState.category)
+        perfumeInfoView.priceLabel.text = "\(reactor.currentState.price)"
+        perfumeInfoView.ageLabel.text = "\(reactor.currentState.age)"
+        perfumeInfoView.gendarLabel.text = reactor.currentState.gender
+        perfumeInfoView.productInfoContentLabel.text = reactor.currentState.productInfo
+        perfumeInfoView.topNote.nameLabel.text = reactor.currentState.topTasting
+        perfumeInfoView.heartNote.nameLabel.text = reactor.currentState.heartTasting
+        perfumeInfoView.baseNote.nameLabel.text = reactor.currentState.baseTasting
+        
+        // action
+        perfumeInfoView.perfumLikeView.likeButton.rx.tap
+            .map { Reactor.Action.didTapPerfumeLikeButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        perfumeInfoView.brandView.likeButton.rx.tap
+            .do(onNext: { print("Clicked")} )
+            .map { Reactor.Action.didTapBrandLikeButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // state
+        reactor.state
+            .map { $0.isLikePerfume }
+            .distinctUntilChanged()
+            .bind(to:
+                    perfumeInfoView.perfumLikeView.likeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isLikeBrand }
+            .distinctUntilChanged()
+            .do(onNext: {
+                print($0)
+            })
+            .bind(to: perfumeInfoView.brandView.likeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+    }
     
     func configureUI() {
         [   perfumeInfoView ] .forEach { addSubview($0) }
