@@ -33,6 +33,14 @@ extension UIViewController {
         self.navigationController?.pushViewController(searchVC, animated: true)
     }
     
+    func presentCommentDetailViewController(_ id: Int) {
+        let commentDetailVC = CommentDetailViewController()
+        commentDetailVC.hidesBottomBarWhenPushed = true
+        commentDetailVC.reactor = CommentDetailReactor()
+        self.navigationController?.pushViewController(commentDetailVC, animated: true)
+        
+    }
+    
     func setNavigationColor() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white

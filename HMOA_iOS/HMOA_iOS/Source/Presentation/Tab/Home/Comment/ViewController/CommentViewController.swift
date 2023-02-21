@@ -43,12 +43,18 @@ class CommentViewController: UIViewController, View {
 }
 
 extension CommentViewController {
-//
-    func bind(reactor: CommendListReactor) {
 
+    func bind(reactor: CommendListReactor) {
+        
         // action
         reactor.action.onNext(.viewDidLoad)
-        
+
+        collectionView.rx.itemSelected
+            .do(onNext: { print("clicked\($0)")})
+            .map { Reactor.Action.didTapCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         // state
         reactor.state
             .map { $0.comments }
@@ -62,13 +68,20 @@ extension CommentViewController {
             .bind(to: topView.commentCountLabel.rx.text )
             .disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.presentCommentId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentCommentDetailViewController)
+            .disposed(by: disposeBag)
+        
     }
-
+    
     func configureCollectionViewDataSource() {
         
         dataSource = RxCollectionViewSectionedReloadDataSource<CommentSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
             switch item {
-            case .commentCell(let reactor):
+            case .commentCell(let reactor, _):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 cell.reactor = reactor

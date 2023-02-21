@@ -13,7 +13,17 @@ enum CommentSection {
 }
 
 enum CommentSectionItem {
-    case commentCell(CommentReactor)
+    case commentCell(CommentReactor, Int)
+}
+
+extension CommentSectionItem {
+    
+    var commentId: Int {
+        switch self {
+        case .commentCell(_, let commentId):
+            return commentId
+        }
+    }
 }
 
 extension CommentSection: SectionModelType {

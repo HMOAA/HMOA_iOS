@@ -14,15 +14,18 @@ class CommendListReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case didTapCell(IndexPath)
     }
     
     enum Mutation {
         case setCommentCount
+        case setSelectedCommentId(IndexPath?)
     }
     
     struct State {
         var comments: [CommentSection]
         var commentCount: Int = 0
+        var presentCommentId: Int? = nil
     }
     
     init() {
@@ -33,6 +36,12 @@ class CommendListReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return .just(.setCommentCount)
+        case .didTapCell(let indexPath):
+
+            return .concat([
+                .just(.setSelectedCommentId(indexPath)),
+                .just(.setSelectedCommentId(nil))
+            ])
         }
     }
     
@@ -44,6 +53,15 @@ class CommendListReactor: Reactor {
         case .setCommentCount:
             // TODO: 서버 통신해서 댓글 Count 값 가져오기
             state.commentCount = 100
+        case .setSelectedCommentId(let indexPath):
+            
+            guard let indexPath = indexPath else {
+                state.presentCommentId = nil
+                return state
+            }
+            
+            print(state.comments[indexPath.section].items[indexPath.row].commentId)
+            state.presentCommentId = 5
         }
         return state
     }
@@ -69,7 +87,7 @@ extension CommendListReactor {
             Comment(commentId: 12, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false)
         ]
         
-        let commentItems = comments.map {CommentSectionItem.commentCell(CommentReactor(comment: $0))}
+        let commentItems = comments.map {CommentSectionItem.commentCell(CommentReactor(comment: $0), $0.commentId)}
         
         let commentSection = CommentSection.comment(commentItems)
         
