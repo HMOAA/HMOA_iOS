@@ -14,11 +14,11 @@ class CommentDetailReactor: Reactor {
     var initialState: State
     
     enum Action {
-        
+        case didTapLikeButton
     }
     
     enum Mutation {
-        
+        case setCommentLike(Bool)
     }
     
     struct State {
@@ -30,11 +30,27 @@ class CommentDetailReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        
+        switch action {
+        case .didTapLikeButton:
+            // TODO: 서버 통신
+            if Int.random(in: 0...10).isMultiple(of: 2) {
+                return .just(.setCommentLike(true))
+            } else {
+                return .just(.setCommentLike(false))
+            }
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-
+        var state = state
+        
+        switch mutation {
+        case .setCommentLike(let isLike):
+            state.comment.isLike = isLike
+            state.comment.likeCount += isLike ? 1 : -1
+        }
+        
+        return state
     }
 }
 

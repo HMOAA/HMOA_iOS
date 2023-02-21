@@ -31,7 +31,7 @@ class CommentDetailViewController: UIViewController, View {
     }
     
     lazy var contentLabel = UILabel().then {
-        $0.numberOfLines = 0 
+        $0.numberOfLines = 0
         $0.font = .customFont(.pretendard, 14)
     }
     
@@ -52,6 +52,13 @@ class CommentDetailViewController: UIViewController, View {
 extension CommentDetailViewController {
         
     func bind(reactor: CommentDetailReactor) {
+        
+        // action
+        
+        likeView.likeButton.rx.tap
+            .map { Reactor.Action.didTapLikeButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // state
         
@@ -74,7 +81,6 @@ extension CommentDetailViewController {
             .map { $0.comment.name }
             .bind(to: userNameLabel.rx.text)
             .disposed(by: disposeBag)
-        
         
         reactor.state
             .map { $0.comment.likeCount }
