@@ -89,6 +89,14 @@ extension CommentCell {
             .disposed(by: disposeBag)
     }
     
+    func updateCell(_ item: Comment) {
+        userImageView.image = item.image
+        userNameLabel.text = item.name
+        contentLabel.text = item.content
+        likeView.likeButton.isSelected = item.isLike
+        likeView.likeCountLabel.text = "\(item.likeCount)"
+    }
+    
     func configureUI() {
         
         addSubview(subView)

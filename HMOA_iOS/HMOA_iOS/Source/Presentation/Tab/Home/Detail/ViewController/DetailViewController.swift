@@ -45,12 +45,13 @@ extension DetailViewController {
         // state
         reactor.state
             .map { $0.sections }
-            .bind(to: self.detailView.collectionView.rx.items(dataSource: self.dataSource))
+            .bind(to: detailView.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.isPresentCommetVC }
             .distinctUntilChanged()
+            .filter { $0 }
             .bind(onNext: presentCommentViewContorller)
             .disposed(by: disposeBag)
     }

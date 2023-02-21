@@ -23,6 +23,8 @@
 		2C04247B29A3FD0C009CF0FE /* RecommendReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247A29A3FD0C009CF0FE /* RecommendReactor.swift */; };
 		2C04247F29A4C329009CF0FE /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247E29A4C329009CF0FE /* CommentViewController.swift */; };
 		2C04248529A4D859009CF0FE /* CommendListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248429A4D859009CF0FE /* CommendListReactor.swift */; };
+		2C04248829A4E4CE009CF0FE /* CommentTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248729A4E4CE009CF0FE /* CommentTopView.swift */; };
+		2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248A29A4FABA009CF0FE /* CommentSection.swift */; };
 		2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6A8298FAA370059A43D /* CommentCell.swift */; };
 		2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */; };
 		2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */; };
@@ -118,6 +120,8 @@
 		2C04247A29A3FD0C009CF0FE /* RecommendReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendReactor.swift; sourceTree = "<group>"; };
 		2C04247E29A4C329009CF0FE /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		2C04248429A4D859009CF0FE /* CommendListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommendListReactor.swift; sourceTree = "<group>"; };
+		2C04248729A4E4CE009CF0FE /* CommentTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommentTopView.swift; path = ../../../../../../../../../../Documents/CommentTopView.swift; sourceTree = "<group>"; };
+		2C04248A29A4FABA009CF0FE /* CommentSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection.swift; sourceTree = "<group>"; };
 		2C1BD6A8298FAA370059A43D /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoCell.swift; sourceTree = "<group>"; };
 		2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarCell.swift; sourceTree = "<group>"; };
@@ -280,6 +284,8 @@
 		2C04247D29A4C312009CF0FE /* Comment */ = {
 			isa = PBXGroup;
 			children = (
+				2C04248929A4FAA9009CF0FE /* Model */,
+				2C04248629A4E4A1009CF0FE /* View */,
 				2C04248329A4D846009CF0FE /* Reactor */,
 				2C04248029A4C335009CF0FE /* ViewController */,
 			);
@@ -300,6 +306,22 @@
 				2C04248429A4D859009CF0FE /* CommendListReactor.swift */,
 			);
 			path = Reactor;
+			sourceTree = "<group>";
+		};
+		2C04248629A4E4A1009CF0FE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2C04248729A4E4CE009CF0FE /* CommentTopView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2C04248929A4FAA9009CF0FE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C04248A29A4FABA009CF0FE /* CommentSection.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2C39AA09296DB4DE000C6F71 = {
@@ -916,6 +938,7 @@
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
+				2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
 				2CDFFDD92983F9FB00F60304 /* NewsView.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
@@ -961,6 +984,7 @@
 				2C1BD6BA29969E4B0059A43D /* LikeView.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
+				2C04248829A4E4CE009CF0FE /* CommentTopView.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,

@@ -10,28 +10,101 @@ import SnapKit
 import Then
 import ReactorKit
 import RxSwift
+import RxCocoa
+import RxDataSources
 
 class CommentViewController: UIViewController, View {
     
+    // MARK: - Properties
+    let commendReactor = CommendListReactor()
+    
+    let topView = CommentTopView()
+    
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<CommentSection>!
+    
+    lazy var layout = UICollectionViewFlowLayout()
+    
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+        $0.alwaysBounceVertical = true
+        $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
+    }
+    
     var disposeBag = DisposeBag()
+    
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setBackItemNaviBar("댓글")
         configureUI()
+        configureCollectionViewDataSource()
+        bind(reactor: commendReactor)
     }
 }
 
 extension CommentViewController {
-    
+//
     func bind(reactor: CommendListReactor) {
+
+        // action
+        reactor.action.onNext(.viewDidLoad)
+        
+        // state
+        reactor.state
+            .map { $0.comments }
+            .bind(to: self.collectionView.rx.items(dataSource: self.dataSource))
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.commentCount }
+            .distinctUntilChanged()
+            .map { String($0) }
+            .bind(to: topView.commentCountLabel.rx.text )
+            .disposed(by: disposeBag)
         
     }
 
+    func configureCollectionViewDataSource() {
+        
+        dataSource = RxCollectionViewSectionedReloadDataSource<CommentSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
+            switch item {
+            case .commentCell(let reactor):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
+                
+                cell.reactor = reactor
+                
+                return cell
+            }
+        })
+    }
     
     func configureUI() {
-     
         view.backgroundColor = .white
+        
+        collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        [
+            topView,
+            collectionView
+        ]   .forEach { view.addSubview($0) }
+        
+        topView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(44)
+        }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(topView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+}
+
+extension CommentViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 102)
     }
 }
