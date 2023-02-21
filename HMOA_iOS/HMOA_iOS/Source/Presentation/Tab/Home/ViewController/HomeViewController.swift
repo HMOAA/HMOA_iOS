@@ -67,8 +67,9 @@ extension HomeViewController {
             .bind(to: self.homeView.collectionView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
 
-        reactor.state
-            .compactMap { $0.selectedPerfumeId }
+        reactor.state.map { $0.selectedPerfumeId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
             .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
     }

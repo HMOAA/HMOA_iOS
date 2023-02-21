@@ -53,7 +53,9 @@ final class HomeViewReactor: Reactor {
                 return state
             }
             
-            state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.item].perfumeId
+            if indexPath.section != 0 {
+                state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.item].perfumeId
+            }
             
             return state
             
