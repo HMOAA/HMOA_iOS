@@ -14,15 +14,20 @@ final class DetailViewReactor: Reactor {
     
     enum Action {
         case didTapMoreButton
+        case didTapCell(DetailSectionItem)
     }
     
     enum Mutation {
         case setPresentCommentVC(Bool)
+        case setSelectedComment(Int?)
+        case setSelecctedPerfume(Int?)
     }
     
     struct State {
         var sections: [DetailSection]
         var isPresentCommetVC: Bool = false
+        var presentCommentId: Int? = nil
+        var presentPerfumeId: Int? = nil
     }
     
     init() {
@@ -37,6 +42,19 @@ final class DetailViewReactor: Reactor {
                 .just(.setPresentCommentVC(true)),
                 .just(.setPresentCommentVC(false))
             ])
+        case .didTapCell(let item):
+            
+            if item.section == 1 {
+                return .concat([
+                    .just(.setSelectedComment(item.id)),
+                    .just(.setSelectedComment(nil))
+                ])
+            } else {
+                return .concat([
+                    .just(.setSelecctedPerfume(item.id)),
+                    .just(.setSelecctedPerfume(nil))
+                ])
+            }
         }
     }
     
@@ -46,6 +64,12 @@ final class DetailViewReactor: Reactor {
         switch mutation {
         case .setPresentCommentVC(let isPresent):
             state.isPresentCommetVC = isPresent
+            
+        case .setSelectedComment(let commentId):
+            state.presentCommentId = commentId
+            
+        case .setSelecctedPerfume(let perfumeId):
+            state.presentPerfumeId = perfumeId
         }
         
         return state
@@ -94,11 +118,11 @@ extension DetailViewReactor {
         let topItem = DetailSectionItem.topCell(PerfumeDetailReactor(detail: perfumeDetail))
         let topSection = DetailSection.top(topItem)
         
-        let commentItem = commentItems.map { DetailSectionItem.commentCell(CommentReactor(comment: $0)) }
+        let commentItem = commentItems.map { DetailSectionItem.commentCell(CommentReactor(comment: $0), $0.commentId) }
         
         let commentSections = DetailSection.comment(commentItem)
         
-        let recommed = recommendItems.map { DetailSectionItem.recommendCell($0) }
+        let recommed = recommendItems.map { DetailSectionItem.recommendCell($0, $0.perfumeId) }
         let recommendSections = DetailSection.recommend(recommed)
         
         return [topSection, commentSections, recommendSections]

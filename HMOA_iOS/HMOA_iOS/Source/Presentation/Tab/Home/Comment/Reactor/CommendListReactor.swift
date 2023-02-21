@@ -60,8 +60,7 @@ class CommendListReactor: Reactor {
                 return state
             }
             
-            print(state.comments[indexPath.section].items[indexPath.row].commentId)
-            state.presentCommentId = 5
+            state.presentCommentId = state.comments[indexPath.section].items[indexPath.row].commentId
         }
         return state
     }
