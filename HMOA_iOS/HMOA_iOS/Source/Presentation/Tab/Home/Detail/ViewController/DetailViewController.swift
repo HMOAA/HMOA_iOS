@@ -42,6 +42,13 @@ extension DetailViewController {
     
     func bind(reactor: DetailViewReactor) {
         
+        // action
+        detailView.collectionView.rx.itemSelected
+            .map { reactor.currentState.sections[$0.section].items[$0.item]}
+            .map { Reactor.Action.didTapCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // state
         reactor.state
             .map { $0.sections }
@@ -54,6 +61,21 @@ extension DetailViewController {
             .filter { $0 }
             .bind(onNext: presentCommentViewContorller)
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.presentCommentId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentCommentDetailViewController)
+            .disposed(by: disposeBag)
+        
+        
+        reactor.state
+            .map { $0.presentPerfumeId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
     }
     
     func configureCollectionViewDataSource() {
@@ -65,13 +87,13 @@ extension DetailViewController {
                 perfumeInfoCell.reactor = reactor
                 
                 return perfumeInfoCell
-            case .commentCell(let reactor):
+            case .commentCell(let reactor, _):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 commentCell.reactor = reactor
                 
                 return commentCell
-            case .recommendCell(let perfume):
+            case .recommendCell(let perfume, _):
                 guard let similarCell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarCell.identifier, for: indexPath) as? SimilarCell else { return UICollectionViewCell() }
                 
                 similarCell.perfumeContentLabel.text = perfume.content

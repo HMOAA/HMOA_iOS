@@ -16,8 +16,32 @@ enum DetailSection {
 
 enum DetailSectionItem {
     case topCell(PerfumeDetailReactor)
-    case commentCell(CommentReactor)
-    case recommendCell(Perfume)
+    case commentCell(CommentReactor, Int)
+    case recommendCell(Perfume, Int)
+}
+
+extension DetailSectionItem {
+    var id: Int {
+        switch self {
+        case .topCell:
+            return 0
+        case .commentCell(_ , let commentId):
+            return commentId
+        case .recommendCell(_ , let perfumeId):
+            return perfumeId
+        }
+    }
+    
+    var section: Int {
+        switch self {
+        case .topCell:
+            return 0
+        case .commentCell:
+            return 1
+        case .recommendCell:
+            return 2
+        }
+    }
 }
 
 extension DetailSection: SectionModelType {
