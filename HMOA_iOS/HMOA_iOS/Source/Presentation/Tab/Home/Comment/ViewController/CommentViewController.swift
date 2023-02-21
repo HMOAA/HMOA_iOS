@@ -17,10 +17,13 @@ class CommentViewController: UIViewController, View {
     
     // MARK: - Properties
     let commendReactor = CommendListReactor()
+    var disposeBag = DisposeBag()
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<CommentSection>!
+    
+    // MARK: - UI Component
     
     let topView = CommentTopView()
-    
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<CommentSection>!
+    let bottomView = CommentBottomView()
     
     lazy var layout = UICollectionViewFlowLayout()
     
@@ -28,8 +31,6 @@ class CommentViewController: UIViewController, View {
         $0.alwaysBounceVertical = true
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
     }
-    
-    var disposeBag = DisposeBag()
     
     
     // MARK: - Lifecycle
@@ -97,9 +98,9 @@ extension CommentViewController {
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        [
-            topView,
-            collectionView
+        [   topView,
+            collectionView,
+            bottomView
         ]   .forEach { view.addSubview($0) }
         
         topView.snp.makeConstraints {
@@ -111,7 +112,13 @@ extension CommentViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(topView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(bottomView.snp.top)
+        }
+        
+        bottomView.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(72)
         }
     }
 }

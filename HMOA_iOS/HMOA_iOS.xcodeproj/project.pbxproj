@@ -27,6 +27,7 @@
 		2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248A29A4FABA009CF0FE /* CommentSection.swift */; };
 		2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249129A504D3009CF0FE /* CommentDetailViewController.swift */; };
 		2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249329A50DB4009CF0FE /* CommentDetailReactor.swift */; };
+		2C04249629A533DF009CF0FE /* CommentBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249529A533DF009CF0FE /* CommentBottomView.swift */; };
 		2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6A8298FAA370059A43D /* CommentCell.swift */; };
 		2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */; };
 		2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */; };
@@ -126,6 +127,7 @@
 		2C04248A29A4FABA009CF0FE /* CommentSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection.swift; sourceTree = "<group>"; };
 		2C04249129A504D3009CF0FE /* CommentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailViewController.swift; sourceTree = "<group>"; };
 		2C04249329A50DB4009CF0FE /* CommentDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailReactor.swift; sourceTree = "<group>"; };
+		2C04249529A533DF009CF0FE /* CommentBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBottomView.swift; sourceTree = "<group>"; };
 		2C1BD6A8298FAA370059A43D /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoCell.swift; sourceTree = "<group>"; };
 		2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarCell.swift; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				2C04248729A4E4CE009CF0FE /* CommentTopView.swift */,
+				2C04249529A533DF009CF0FE /* CommentBottomView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -973,6 +976,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C04249629A533DF009CF0FE /* CommentBottomView.swift in Sources */,
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
