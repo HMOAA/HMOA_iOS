@@ -40,6 +40,7 @@ extension UIViewController {
     
     func presentCommentWriteViewController(_ id: Int) {
         let commentWriteVC = CommentWriteViewController()
+        commentWriteVC.reactor = CommentWriteReactor(id)
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
@@ -60,7 +61,7 @@ extension UIViewController {
             $0.textColor = .black
         }
         
-        let backButton = self.navigationItem.makeButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
@@ -73,11 +74,11 @@ extension UIViewController {
             $0.textColor = .black
         }
         
-        let backButton = self.navigationItem.makeButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
         
-        let homeButton = self.navigationItem.makeButtonItem(self, action: #selector(goToHome), imageName: "homeNavi")
+        let homeButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "homeNavi")
         
-        let searchButton = self.navigationItem.makeButtonItem(self, action: #selector(goToSearch), imageName: "search")
+        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton, spacerItem(15), homeButton]
