@@ -85,6 +85,16 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [searchButton]
     }
     
+    func setNavigationBarTitle(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        self.navigationItem.titleView = titleLabel
+    }
+    
     func setNavigationBarTitle(title: String, color: UIColor, isHidden: Bool) {
         
         if !isHidden {
