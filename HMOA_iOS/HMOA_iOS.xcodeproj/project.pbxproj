@@ -27,6 +27,7 @@
 		2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249129A504D3009CF0FE /* CommentDetailViewController.swift */; };
 		2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249329A50DB4009CF0FE /* CommentDetailReactor.swift */; };
 		2C04249629A533DF009CF0FE /* CommentBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249529A533DF009CF0FE /* CommentBottomView.swift */; };
+		2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249A29A656BB009CF0FE /* CommentWriteViewController.swift */; };
 		2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6A8298FAA370059A43D /* CommentCell.swift */; };
 		2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */; };
 		2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */; };
@@ -126,6 +127,7 @@
 		2C04249129A504D3009CF0FE /* CommentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailViewController.swift; sourceTree = "<group>"; };
 		2C04249329A50DB4009CF0FE /* CommentDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailReactor.swift; sourceTree = "<group>"; };
 		2C04249529A533DF009CF0FE /* CommentBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBottomView.swift; sourceTree = "<group>"; };
+		2C04249A29A656BB009CF0FE /* CommentWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWriteViewController.swift; sourceTree = "<group>"; };
 		2C1BD6A8298FAA370059A43D /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoCell.swift; sourceTree = "<group>"; };
 		2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarCell.swift; sourceTree = "<group>"; };
@@ -284,7 +286,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		2C04247D29A4C312009CF0FE /* Comment */ = {
+		2C04247D29A4C312009CF0FE /* CommentList */ = {
 			isa = PBXGroup;
 			children = (
 				2C04248929A4FAA9009CF0FE /* Model */,
@@ -292,7 +294,7 @@
 				2C04248329A4D846009CF0FE /* Reactor */,
 				2C04248029A4C335009CF0FE /* ViewController */,
 			);
-			path = Comment;
+			path = CommentList;
 			sourceTree = "<group>";
 		};
 		2C04248029A4C335009CF0FE /* ViewController */ = {
@@ -359,6 +361,30 @@
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		2C04249729A6565E009CF0FE /* CommentWrite */ = {
+			isa = PBXGroup;
+			children = (
+				2C04249929A65676009CF0FE /* Reactor */,
+				2C04249829A6566D009CF0FE /* ViewController */,
+			);
+			path = CommentWrite;
+			sourceTree = "<group>";
+		};
+		2C04249829A6566D009CF0FE /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C04249A29A656BB009CF0FE /* CommentWriteViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2C04249929A65676009CF0FE /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		2C39AA09296DB4DE000C6F71 = {
@@ -446,8 +472,9 @@
 		2C39AA4E29704253000C6F71 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				2C04249729A6565E009CF0FE /* CommentWrite */,
 				2C04248C29A50439009CF0FE /* CommentDetail */,
-				2C04247D29A4C312009CF0FE /* Comment */,
+				2C04247D29A4C312009CF0FE /* CommentList */,
 				2C04246729A3A983009CF0FE /* Search */,
 				2C04246229A39C13009CF0FE /* Model */,
 				2C04245F29A37F5C009CF0FE /* Reactor */,
@@ -1006,6 +1033,7 @@
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
 				2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */,
+				2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */,
 				2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */,
 				2C04246429A39C26009CF0FE /* Perfume.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* PerfumeDetail.swift in Sources */,

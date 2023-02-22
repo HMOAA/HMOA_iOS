@@ -16,7 +16,7 @@ class CommentListBottomView: UIView {
         $0.backgroundColor = .black
     }
     
-    lazy var commentButton: UIButton = {
+    lazy var writeButton: UIButton = {
        
         var config = UIButton.Configuration.plain()
         let attri = AttributedString.init("댓글작성")
@@ -48,14 +48,14 @@ extension CommentListBottomView {
     func configureUI() {
         
         [   backgroundView,
-            commentButton
+            writeButton
         ]   .forEach { addSubview($0) }
         
         backgroundView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        commentButton.snp.makeConstraints {
+        writeButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(5)
             $0.centerX.equalToSuperview()
         }
