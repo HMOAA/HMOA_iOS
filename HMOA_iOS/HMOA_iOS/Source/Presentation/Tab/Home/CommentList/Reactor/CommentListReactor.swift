@@ -16,11 +16,13 @@ class CommentListReactor: Reactor {
     enum Action {
         case viewDidLoad
         case didTapCell(IndexPath)
+        case didTapWriteButton
     }
     
     enum Mutation {
         case setCommentCount
         case setSelectedCommentId(IndexPath?)
+        case setIsPresentCommentWrite(Int?)
     }
     
     struct State {
@@ -28,6 +30,7 @@ class CommentListReactor: Reactor {
         var nowPerfumeId: Int? = nil
         var commentCount: Int = 0
         var presentCommentId: Int? = nil
+        var isPresentCommentWriteVC: Int? = nil
     }
     
     init(_ currentPerfumeId: Int) {
@@ -40,10 +43,14 @@ class CommentListReactor: Reactor {
         case .viewDidLoad:
             return .just(.setCommentCount)
         case .didTapCell(let indexPath):
-
             return .concat([
                 .just(.setSelectedCommentId(indexPath)),
                 .just(.setSelectedCommentId(nil))
+            ])
+        case .didTapWriteButton:
+            return .concat([
+                .just(.setIsPresentCommentWrite(currentPerfumeId)),
+                .just(.setIsPresentCommentWrite(nil))
             ])
         }
     }
@@ -64,6 +71,9 @@ class CommentListReactor: Reactor {
             }
             
             state.presentCommentId = state.comments[indexPath.section].items[indexPath.row].commentId
+            
+        case .setIsPresentCommentWrite(let perfumeId):
+            state.isPresentCommentWriteVC = perfumeId
         }
         return state
     }

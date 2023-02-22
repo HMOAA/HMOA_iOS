@@ -21,7 +21,7 @@ class DetailBottomView: UIView {
         $0.setImage(UIImage(named: "bottomShare"), for: .normal)
     }
 
-    lazy var commentButton: UIButton = {
+    lazy var wirteButton: UIButton = {
        
         var config = UIButton.Configuration.plain()
         let attri = AttributedString.init("댓글작성")
@@ -58,7 +58,7 @@ extension DetailBottomView {
         
         [   likeButton,
             shareButton,
-            commentButton   ]   .forEach { addSubview($0) }
+            wirteButton   ]   .forEach { addSubview($0) }
         
         likeButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(17)
@@ -70,7 +70,7 @@ extension DetailBottomView {
             $0.leading.equalTo(likeButton.snp.trailing).offset(21)
         }
         
-        commentButton.snp.makeConstraints {
+        wirteButton.snp.makeConstraints {
             $0.top.equalTo(likeButton)
             $0.trailing.equalToSuperview().inset(32)
             $0.height.equalTo(23)

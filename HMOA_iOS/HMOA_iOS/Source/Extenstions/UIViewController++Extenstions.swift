@@ -19,7 +19,7 @@ extension UIViewController {
     }
     
     func presentCommentViewContorller(_ id: Int) {
-        let commentVC = CommentViewController()
+        let commentVC = CommentListViewController()
         commentVC.perfumeId = id
         commentVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentVC, animated: true)
@@ -36,7 +36,12 @@ extension UIViewController {
         commentDetailVC.hidesBottomBarWhenPushed = true
         commentDetailVC.reactor = CommentDetailReactor(id)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
-        
+    }
+    
+    func presentCommentWriteViewController(_ id: Int) {
+        let commentWriteVC = CommentWriteViewController()
+        commentWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
     func setNavigationColor() {

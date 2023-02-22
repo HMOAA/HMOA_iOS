@@ -55,6 +55,12 @@ extension DetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 댓글 작성 버튼 클릭
+        bottomView.wirteButton.rx.tap
+            .map { Reactor.Action.didTapWriteButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // collectionView 바인딩
@@ -85,6 +91,15 @@ extension DetailViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
+        
+        // 댓글 작성 페이지로 이동
+        
+        reactor.state
+            .map { $0.isPresentCommentWirteVC }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentCommentWriteViewController)
             .disposed(by: disposeBag)
     }
     

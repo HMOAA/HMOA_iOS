@@ -16,12 +16,14 @@ final class DetailViewReactor: Reactor {
     enum Action {
         case didTapMoreButton
         case didTapCell(DetailSectionItem)
+        case didTapWriteButton
     }
     
     enum Mutation {
         case setPresentCommentVC(Int?)
         case setSelectedComment(Int?)
         case setSelecctedPerfume(Int?)
+        case setIsPresentCommentWrite(Int?)
     }
     
     struct State {
@@ -29,6 +31,7 @@ final class DetailViewReactor: Reactor {
         var persentCommentPerfumeId: Int? = nil
         var presentCommentId: Int? = nil
         var presentPerfumeId: Int? = nil
+        var isPresentCommentWirteVC: Int? = nil
     }
     
     init(_ id: Int) {
@@ -57,6 +60,11 @@ final class DetailViewReactor: Reactor {
                     .just(.setSelecctedPerfume(nil))
                 ])
             }
+        case .didTapWriteButton:
+            return .concat([
+                .just(.setIsPresentCommentWrite(currentPerfumeId)),
+                .just(.setIsPresentCommentWrite(nil))
+            ])
         }
     }
     
@@ -72,6 +80,9 @@ final class DetailViewReactor: Reactor {
             
         case .setSelecctedPerfume(let perfumeId):
             state.presentPerfumeId = perfumeId
+            
+        case .setIsPresentCommentWrite(let perfumeId):
+            state.isPresentCommentWirteVC = perfumeId
         }
         
         return state

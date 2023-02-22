@@ -19,13 +19,13 @@ class CommentListViewController: UIViewController, View {
     var perfumeId: Int = 0
 
     private var dataSource: RxCollectionViewSectionedReloadDataSource<CommentSection>!
-    lazy var commendReactor = CommendListReactor(perfumeId)
+    lazy var commendReactor = CommentListReactor(perfumeId)
     var disposeBag = DisposeBag()
 
     // MARK: - UI Component
     
-    let topView = CommentTopView()
-    let bottomView = CommentBottomView()
+    let topView = CommentListTopView()
+    let bottomView = CommentListBottomView()
     
     lazy var layout = UICollectionViewFlowLayout()
     
@@ -49,7 +49,7 @@ extension CommentListViewController {
 
     // MARK: - Bind
     
-    func bind(reactor: CommendListReactor) {
+    func bind(reactor: CommentListReactor) {
         
         // MARK: - Action
         
@@ -62,8 +62,14 @@ extension CommentListViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
-        // MARK: - State
+        // 댓글 작성 버튼 클릭
+        bottomView.writeButton.rx.tap
+            .map { Reactor.Action.didTapWriteButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
+        // MARK: - State
+
         // collectionView 바인딩
         reactor.state
             .map { $0.comments }
@@ -86,6 +92,13 @@ extension CommentListViewController {
             .bind(onNext: presentCommentDetailViewController)
             .disposed(by: disposeBag)
         
+        // 댓글 작성 페이지로 이동
+        reactor.state
+            .map { $0.isPresentCommentWriteVC }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentCommentWriteViewController)
+            .disposed(by: disposeBag)
     }
     
     func configureCollectionViewDataSource() {
@@ -133,7 +146,7 @@ extension CommentListViewController {
     }
 }
 
-extension CommentViewController: UICollectionViewDelegateFlowLayout {
+extension CommentListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 102)
     }
