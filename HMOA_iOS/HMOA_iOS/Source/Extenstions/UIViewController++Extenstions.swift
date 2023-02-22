@@ -12,19 +12,17 @@ import Then
 extension UIViewController {
     
     func presentDatailViewController(_ id: Int) {
-        print(id)
         let detailVC = DetailViewController()
+        detailVC.perfumeId = id
         detailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
-    func presentCommentViewContorller(_ isPresent: Bool) {
-        
-        if isPresent {
-            let commentVC = CommentViewController()
-            commentVC.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(commentVC, animated: true)
-        }
+    func presentCommentViewContorller(_ id: Int) {
+        let commentVC = CommentViewController()
+        commentVC.perfumeId = id
+        commentVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(commentVC, animated: true)
     }
     
     func presentSearchViewController() {
@@ -36,7 +34,7 @@ extension UIViewController {
     func presentCommentDetailViewController(_ id: Int) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor()
+        commentDetailVC.reactor = CommentDetailReactor(id)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
         
     }

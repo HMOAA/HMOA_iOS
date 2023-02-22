@@ -17,7 +17,7 @@ enum DetailSection {
 enum DetailSectionItem {
     case topCell(PerfumeDetailReactor)
     case commentCell(CommentReactor, Int)
-    case recommendCell(Perfume, Int)
+    case recommendCell(HomeCellReactor, Int)
 }
 
 extension DetailSectionItem {

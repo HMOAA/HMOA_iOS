@@ -78,9 +78,6 @@ extension PerfumeInfoCell {
         reactor.state
             .map { $0.isLikeBrand }
             .distinctUntilChanged()
-            .do(onNext: {
-                print($0)
-            })
             .bind(to: perfumeInfoView.brandView.likeButton.rx.isSelected)
             .disposed(by: disposeBag)
     }
