@@ -163,11 +163,11 @@ extension HomeViewController {
             $0.textColor = .black
         }
         
-        let menuButton = navigationItem.makeButtonItem(self, action: #selector(menuButtonClicked), imageName: "homeMenu")
+        let menuButton = navigationItem.makeImageButtonItem(self, action: #selector(menuButtonClicked), imageName: "homeMenu")
                 
-        let bellButton = navigationItem.makeButtonItem(self, action: #selector(bellButtonClicked), imageName: "bell")
+        let bellButton = navigationItem.makeImageButtonItem(self, action: #selector(bellButtonClicked), imageName: "bell")
         
-        let searchButton = navigationItem.makeButtonItem(self, action: #selector(searchButtonClicked), imageName: "search")
+        let searchButton = navigationItem.makeImageButtonItem(self, action: #selector(searchButtonClicked), imageName: "search")
         
         navigationItem.titleView = titleLabel
         
