@@ -28,13 +28,17 @@ class DetailViewController: UIViewController, View {
     
     let bottomView = DetailBottomView()
     
+    let homeBarButton = UIButton().makeImageButton(UIImage(named: "homeNavi")!)
+    let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
+    let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setBackHomeSearchNaviBar("조말론 런던")
         configureUI()
         configureCollectionViewDataSource()
+        configreNavigationBar()
         bind(reactor: DetailReactor)
     }
 }
@@ -58,6 +62,25 @@ extension DetailViewController {
         // 댓글 작성 버튼 클릭
         bottomView.wirteButton.rx.tap
             .map { Reactor.Action.didTapWriteButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 뒤로가기 버튼 클릭
+        backBarButton.rx.tap
+            .map { Reactor.Action.didTapBackButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 홈 버튼 클릭
+        homeBarButton.rx.tap
+            .map { Reactor.Action.didTapHomeButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 검색 버튼 클릭
+        
+        searchBarButton.rx.tap
+            .map { Reactor.Action.didTapSearchButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -100,6 +123,34 @@ extension DetailViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: presentCommentWriteViewController)
+            .disposed(by: disposeBag)
+        
+        // 홈 페이지로 이동
+        reactor.state
+            .map { $0.isPopRootVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: popViewController) // 임시로 Pop
+            .disposed(by: disposeBag)
+        
+        // 뒤로 이동
+        reactor.state
+            .map { $0.isPopVC}
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: self.popViewController)
+            .disposed(by: disposeBag)
+        
+        // 검색 페이지로 이동
+        
+        reactor.state
+            .map { $0.isPresentSearchVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: presentSearchViewController)
             .disposed(by: disposeBag)
     }
     
@@ -168,5 +219,16 @@ extension DetailViewController {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(72)
         }
+    }
+    
+    func configreNavigationBar() {
+        setNavigationBarTitle("조말론 런던")
+        
+        let backBarButtonItem = self.navigationItem.makeImageButtonItem(backBarButton)
+        let homeBarButtonItem = self.navigationItem.makeImageButtonItem(homeBarButton)
+        let searchBarButtonItem = self.navigationItem.makeImageButtonItem(searchBarButton)
+        
+        self.navigationItem.leftBarButtonItems = [backBarButtonItem, spacerItem(15), homeBarButtonItem]
+        self.navigationItem.rightBarButtonItems = [searchBarButtonItem]
     }
 }

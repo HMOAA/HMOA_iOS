@@ -17,6 +17,9 @@ final class DetailViewReactor: Reactor {
         case didTapMoreButton
         case didTapCell(DetailSectionItem)
         case didTapWriteButton
+        case didTapBackButton
+        case didTapHomeButton
+        case didTapSearchButton
     }
     
     enum Mutation {
@@ -24,6 +27,9 @@ final class DetailViewReactor: Reactor {
         case setSelectedComment(Int?)
         case setSelecctedPerfume(Int?)
         case setIsPresentCommentWrite(Int?)
+        case setIsPopVC(Bool)
+        case setIsPopRootVC(Bool)
+        case setIsPresentSearchVC(Bool)
     }
     
     struct State {
@@ -32,6 +38,9 @@ final class DetailViewReactor: Reactor {
         var presentCommentId: Int? = nil
         var presentPerfumeId: Int? = nil
         var isPresentCommentWirteVC: Int? = nil
+        var isPopVC: Bool = false
+        var isPopRootVC: Bool = false
+        var isPresentSearchVC: Bool = false
     }
     
     init(_ id: Int) {
@@ -65,6 +74,24 @@ final class DetailViewReactor: Reactor {
                 .just(.setIsPresentCommentWrite(currentPerfumeId)),
                 .just(.setIsPresentCommentWrite(nil))
             ])
+            
+        case .didTapBackButton:
+            return .concat([
+                .just(.setIsPopVC(true)),
+                .just(.setIsPopVC(false))
+            ])
+            
+        case .didTapHomeButton:
+            return .concat([
+                .just(.setIsPopRootVC(true)),
+                .just(.setIsPopRootVC(false))
+            ])
+        
+        case .didTapSearchButton:
+            return .concat([
+                .just(.setIsPresentSearchVC(true)),
+                .just(.setIsPresentSearchVC(false))
+            ])
         }
     }
     
@@ -83,6 +110,15 @@ final class DetailViewReactor: Reactor {
             
         case .setIsPresentCommentWrite(let perfumeId):
             state.isPresentCommentWirteVC = perfumeId
+       
+        case .setIsPopVC(let isPop):
+            state.isPopVC = isPop
+            
+        case .setIsPopRootVC(let isPop):
+            state.isPopRootVC = isPop
+            
+        case .setIsPresentSearchVC(let isPresent):
+            state.isPresentSearchVC = isPresent
         }
         
         return state
