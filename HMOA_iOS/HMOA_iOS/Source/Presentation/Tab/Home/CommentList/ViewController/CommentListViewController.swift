@@ -12,6 +12,7 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import RxAppState
 
 class CommentListViewController: UIViewController, View {
     
@@ -53,9 +54,12 @@ extension CommentListViewController {
         
         // MARK: - Action
         
-        // viewDidLoad
-        reactor.action.onNext(.viewDidLoad)
-
+        // viewWillAppear
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // collectionView item 선택
         collectionView.rx.itemSelected
             .map { Reactor.Action.didTapCell($0) }

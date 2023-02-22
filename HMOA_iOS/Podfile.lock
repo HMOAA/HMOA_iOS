@@ -6,6 +6,9 @@ PODS:
   - ReactorKit (3.2.0):
     - RxSwift (~> 6.0)
     - WeakMapTable (~> 1.1)
+  - RxAppState (1.7.1):
+    - RxCocoa (~> 6.2)
+    - RxSwift (~> 6.2)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
@@ -26,6 +29,7 @@ DEPENDENCIES:
   - DropDown
   - Kingfisher
   - ReactorKit
+  - RxAppState
   - RxCocoa
   - RxDataSources
   - RxSwift
@@ -40,6 +44,7 @@ SPEC REPOS:
     - DropDown
     - Kingfisher
     - ReactorKit
+    - RxAppState
     - RxCocoa
     - RxDataSources
     - RxRelay
@@ -55,6 +60,7 @@ SPEC CHECKSUMS:
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   Kingfisher: b9c2a4a4af2990a768445c277359b27bde287d71
   ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
+  RxAppState: 9c34f951d4ff8b9034f84016fe766202365bceb2
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
@@ -64,6 +70,6 @@ SPEC CHECKSUMS:
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 142c5411cc6a14127ea678de12b40cf218b05f07
+PODFILE CHECKSUM: 34309820ff9dcee36f000fc7d8c44db28a012eef
 
 COCOAPODS: 1.11.3

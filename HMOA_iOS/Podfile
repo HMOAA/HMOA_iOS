@@ -6,6 +6,7 @@ target 'HMOA_iOS' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources'
+  pod 'RxAppState'
   pod 'ReactorKit'
   pod 'SnapKit'
   pod 'Then'
