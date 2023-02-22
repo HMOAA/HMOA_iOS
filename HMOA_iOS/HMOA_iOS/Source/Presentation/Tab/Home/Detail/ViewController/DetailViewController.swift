@@ -17,8 +17,10 @@ class DetailViewController: UIViewController, View {
     
     // MARK: - Properties
     
-    let DetailReactor = DetailViewReactor()
     var disposeBag = DisposeBag()
+    var perfumeId: Int = 0
+    
+    lazy var DetailReactor = DetailViewReactor(perfumeId)
     
     private var dataSource: RxCollectionViewSectionedReloadDataSource<DetailSection>!
 
@@ -56,9 +58,9 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.isPresentCommetVC }
+            .map { $0.persentCommentPerfumeId }
             .distinctUntilChanged()
-            .filter { $0 }
+            .compactMap { $0 }
             .bind(onNext: presentCommentViewContorller)
             .disposed(by: disposeBag)
         
@@ -93,12 +95,10 @@ extension DetailViewController {
                 commentCell.reactor = reactor
                 
                 return commentCell
-            case .recommendCell(let perfume, _):
+            case .recommendCell(let reactor, _):
                 guard let similarCell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarCell.identifier, for: indexPath) as? SimilarCell else { return UICollectionViewCell() }
                 
-                similarCell.perfumeContentLabel.text = perfume.content
-                similarCell.perfumeImageView.image = perfume.image
-                similarCell.perfumetitleLabel.text = perfume.titleName
+                similarCell.reactor = reactor
                 
                 return similarCell
 

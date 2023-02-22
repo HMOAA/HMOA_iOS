@@ -11,6 +11,7 @@ import RxDataSources
 
 class CommendListReactor: Reactor {
     var initialState: State
+    var currentPerfumeId: Int
     
     enum Action {
         case viewDidLoad
@@ -24,12 +25,14 @@ class CommendListReactor: Reactor {
     
     struct State {
         var comments: [CommentSection]
+        var nowPerfumeId: Int? = nil
         var commentCount: Int = 0
         var presentCommentId: Int? = nil
     }
     
-    init() {
-        self.initialState = State(comments: CommendListReactor.setCommentsList())
+    init(_ currentPerfumeId: Int) {
+        self.currentPerfumeId = currentPerfumeId
+        self.initialState = State(comments: CommendListReactor.setCommentsList(currentPerfumeId))
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -67,9 +70,10 @@ class CommendListReactor: Reactor {
 }
 
 extension CommendListReactor {
-    static func setCommentsList() -> [CommentSection] {
+    static func setCommentsList(_ id: Int) -> [CommentSection] {
         
-        // TODO: 서버 통신해서 댓글 가져오기
+        print(id)
+        // TODO: currentPerfumeId로 서버 통신해서 댓글 가져오기
         
         let comments = [
             Comment(commentId: 1, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),

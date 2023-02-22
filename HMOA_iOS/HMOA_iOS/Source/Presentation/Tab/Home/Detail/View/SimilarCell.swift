@@ -8,10 +8,15 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxSwift
+import RxCocoa
 
-class SimilarCell: UICollectionViewCell {
+class SimilarCell: UICollectionViewCell, View {
     
     // MARK: - identifier
+    typealias Reactor = HomeCellReactor
+    var disposeBag = DisposeBag()
     
     static let identifier = "SimilarCell"
     
@@ -47,6 +52,13 @@ class SimilarCell: UICollectionViewCell {
 // MARK: - Functions
 
 extension SimilarCell {
+    
+    func bind(reactor: HomeCellReactor) {
+        perfumeImageView.image = reactor.currentState.image
+        perfumetitleLabel.text = reactor.currentState.title
+        perfumeContentLabel.text = reactor.currentState.content
+    }
+    
     func configureUI() {
         
         [   perfumeImageView,

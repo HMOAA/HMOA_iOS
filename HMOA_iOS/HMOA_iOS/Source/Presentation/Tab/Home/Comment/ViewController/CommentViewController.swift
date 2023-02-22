@@ -16,10 +16,12 @@ import RxDataSources
 class CommentViewController: UIViewController, View {
     
     // MARK: - Properties
-    let commendReactor = CommendListReactor()
-    var disposeBag = DisposeBag()
+    var perfumeId: Int = 0
+
     private var dataSource: RxCollectionViewSectionedReloadDataSource<CommentSection>!
-    
+    lazy var commendReactor = CommendListReactor(perfumeId)
+    var disposeBag = DisposeBag()
+
     // MARK: - UI Component
     
     let topView = CommentTopView()
@@ -51,7 +53,6 @@ extension CommentViewController {
         reactor.action.onNext(.viewDidLoad)
 
         collectionView.rx.itemSelected
-            .do(onNext: { print("clicked\($0)")})
             .map { Reactor.Action.didTapCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
