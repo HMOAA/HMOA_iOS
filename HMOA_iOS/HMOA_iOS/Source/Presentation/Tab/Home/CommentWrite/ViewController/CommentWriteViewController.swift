@@ -86,6 +86,7 @@ extension CommentWriteViewController {
             .map { $0.isPopVC }
             .distinctUntilChanged()
             .filter { $0 }
+            .map { _ in }
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
     }

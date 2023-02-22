@@ -10,43 +10,45 @@ import ReactorKit
 import RxDataSources
 
 class CommentListReactor: Reactor {
-    var initialState: State
     var currentPerfumeId: Int
     
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case didTapCell(IndexPath)
         case didTapWriteButton
     }
     
     enum Mutation {
-        case setCommentCount
         case setSelectedCommentId(IndexPath?)
         case setIsPresentCommentWrite(Int?)
+        case setCommentData
     }
     
     struct State {
-        var comments: [CommentSection]
+        var comments: [CommentSection] = []
         var nowPerfumeId: Int? = nil
         var commentCount: Int = 0
         var presentCommentId: Int? = nil
         var isPresentCommentWriteVC: Int? = nil
     }
     
+    var initialState: State = State()
+
     init(_ currentPerfumeId: Int) {
         self.currentPerfumeId = currentPerfumeId
-        self.initialState = State(comments: CommentListReactor.setCommentsList(currentPerfumeId))
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
-            return .just(.setCommentCount)
+        case .viewWillAppear:
+            return .just(.setCommentData)
+            
         case .didTapCell(let indexPath):
             return .concat([
                 .just(.setSelectedCommentId(indexPath)),
                 .just(.setSelectedCommentId(nil))
             ])
+            
         case .didTapWriteButton:
             return .concat([
                 .just(.setIsPresentCommentWrite(currentPerfumeId)),
@@ -60,11 +62,7 @@ class CommentListReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setCommentCount:
-            // TODO: 서버 통신해서 댓글 Count 값 가져오기
-            state.commentCount = 100
         case .setSelectedCommentId(let indexPath):
-            
             guard let indexPath = indexPath else {
                 state.presentCommentId = nil
                 return state
@@ -74,13 +72,19 @@ class CommentListReactor: Reactor {
             
         case .setIsPresentCommentWrite(let perfumeId):
             state.isPresentCommentWriteVC = perfumeId
+            
+        case .setCommentData:
+            let data = CommentListReactor.setCommentsList(currentPerfumeId)
+            state.comments = data.0
+            state.commentCount = data.1
+            
         }
         return state
     }
 }
 
 extension CommentListReactor {
-    static func setCommentsList(_ id: Int) -> [CommentSection] {
+    static func setCommentsList(_ id: Int) -> ([CommentSection], Int) {
         
         print(id)
         // TODO: currentPerfumeId로 서버 통신해서 댓글 가져오기
@@ -104,6 +108,7 @@ extension CommentListReactor {
         
         let commentSection = CommentSection.comment(commentItems)
         
-        return [commentSection]
+        let count = 100
+        return ([commentSection], count)
     }
 }
