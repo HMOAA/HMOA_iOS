@@ -102,8 +102,11 @@ extension UIViewController {
         self.navigationItem.title = title
     }
     
-    @objc func popViewController() {
-        self.navigationController?.popViewController(animated: true)
+    @objc func popViewController(_ isPop: Bool = true) {
+        
+        if isPop {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     @objc func goToHome() {
