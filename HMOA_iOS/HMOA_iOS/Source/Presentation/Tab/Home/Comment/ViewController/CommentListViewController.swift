@@ -1,5 +1,5 @@
 //
-//  CommentViewController.swift
+//  CommentListViewController.swift
 //  HMOA_iOS
 //
 //  Created by 임현규 on 2023/02/21.
@@ -13,7 +13,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class CommentViewController: UIViewController, View {
+class CommentListViewController: UIViewController, View {
     
     // MARK: - Properties
     var perfumeId: Int = 0
@@ -45,24 +45,32 @@ class CommentViewController: UIViewController, View {
     }
 }
 
-extension CommentViewController {
+extension CommentListViewController {
 
+    // MARK: - Bind
+    
     func bind(reactor: CommendListReactor) {
         
-        // action
+        // MARK: - Action
+        
+        // viewDidLoad
         reactor.action.onNext(.viewDidLoad)
 
+        // collectionView item 선택
         collectionView.rx.itemSelected
             .map { Reactor.Action.didTapCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
-        // state
+        // MARK: - State
+        
+        // collectionView 바인딩
         reactor.state
             .map { $0.comments }
             .bind(to: self.collectionView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
         
+        // 댓글 개수 반응
         reactor.state
             .map { $0.commentCount }
             .distinctUntilChanged()
@@ -70,6 +78,7 @@ extension CommentViewController {
             .bind(to: topView.commentCountLabel.rx.text )
             .disposed(by: disposeBag)
         
+        // 댓글 디테일 페이지로 이동
         reactor.state
             .map { $0.presentCommentId }
             .distinctUntilChanged()

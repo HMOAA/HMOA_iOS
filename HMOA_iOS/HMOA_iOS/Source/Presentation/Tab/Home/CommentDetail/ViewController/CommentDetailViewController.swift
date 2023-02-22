@@ -51,37 +51,44 @@ class CommentDetailViewController: UIViewController, View {
 
 extension CommentDetailViewController {
         
+    // MARK: - Bind
     func bind(reactor: CommentDetailReactor) {
         
-        // action
+        // MARK: - Action
         
+        // 댓글 좋아요 버튼 클릭
         likeView.likeButton.rx.tap
             .map { Reactor.Action.didTapLikeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // state
+        // MARK: - State
         
+        // 유저 이미지
         reactor.state
             .map { $0.comment.image }
             .bind(to: userImageView.rx.image)
             .disposed(by: disposeBag)
         
+        // 댓글 내용
         reactor.state
             .map { $0.comment.content }
             .bind(to: contentLabel.rx.text)
             .disposed(by: disposeBag)
         
+        // 좋아요 상태
         reactor.state
             .map { $0.comment.isLike }
             .bind(to: likeView.likeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
+        // 유저 이름
         reactor.state
             .map { $0.comment.name }
             .bind(to: userNameLabel.rx.text)
             .disposed(by: disposeBag)
         
+        // 좋아요 개수
         reactor.state
             .map { $0.comment.likeCount }
             .map { String($0) }

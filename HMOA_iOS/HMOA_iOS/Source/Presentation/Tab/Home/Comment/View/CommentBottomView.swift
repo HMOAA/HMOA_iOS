@@ -1,5 +1,5 @@
 //
-//  CommentBottomView.swift
+//  CommentListBottomView.swift
 //  HMOA_iOS
 //
 //  Created by 임현규 on 2023/02/22.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CommentBottomView: UIView {
+class CommentListBottomView: UIView {
     
     // MARK: - UI Component
     lazy var backgroundView = UIView().then {
@@ -43,7 +43,7 @@ class CommentBottomView: UIView {
     }
 }
 
-extension CommentBottomView {
+extension CommentListBottomView {
     
     func configureUI() {
         

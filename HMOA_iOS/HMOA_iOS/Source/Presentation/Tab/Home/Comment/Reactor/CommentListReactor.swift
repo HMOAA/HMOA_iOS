@@ -1,5 +1,5 @@
 //
-//  CommendListReactor.swift
+//  CommentListReactor.swift
 //  HMOA_iOS
 //
 //  Created by 임현규 on 2023/02/21.
@@ -9,7 +9,7 @@ import RxSwift
 import ReactorKit
 import RxDataSources
 
-class CommendListReactor: Reactor {
+class CommentListReactor: Reactor {
     var initialState: State
     var currentPerfumeId: Int
     
@@ -32,7 +32,7 @@ class CommendListReactor: Reactor {
     
     init(_ currentPerfumeId: Int) {
         self.currentPerfumeId = currentPerfumeId
-        self.initialState = State(comments: CommendListReactor.setCommentsList(currentPerfumeId))
+        self.initialState = State(comments: CommentListReactor.setCommentsList(currentPerfumeId))
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -69,7 +69,7 @@ class CommendListReactor: Reactor {
     }
 }
 
-extension CommendListReactor {
+extension CommentListReactor {
     static func setCommentsList(_ id: Int) -> [CommentSection] {
         
         print(id)
@@ -90,7 +90,7 @@ extension CommendListReactor {
             Comment(commentId: 12, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false)
         ]
         
-        let commentItems = comments.map {CommentSectionItem.commentCell(CommentReactor(comment: $0), $0.commentId)}
+        let commentItems = comments.map {CommentSectionItem.commentCell(CommentCellReactor(comment: $0), $0.commentId)}
         
         let commentSection = CommentSection.comment(commentItems)
         

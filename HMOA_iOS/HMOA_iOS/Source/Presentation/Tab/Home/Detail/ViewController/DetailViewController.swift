@@ -42,21 +42,28 @@ class DetailViewController: UIViewController, View {
 // MARK: - Functions
 extension DetailViewController {
     
+    // MARK: - Bind
+    
     func bind(reactor: DetailViewReactor) {
         
-        // action
+        // MARK: - Action
+        
+        // collectionView 아이템 클릭
         detailView.collectionView.rx.itemSelected
             .map { reactor.currentState.sections[$0.section].items[$0.item]}
             .map { Reactor.Action.didTapCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // state
+        // MARK: - State
+        
+        // collectionView 바인딩
         reactor.state
             .map { $0.sections }
             .bind(to: detailView.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        // 댓글 전체 보기 페이지로 이동
         reactor.state
             .map { $0.persentCommentPerfumeId }
             .distinctUntilChanged()
@@ -64,6 +71,7 @@ extension DetailViewController {
             .bind(onNext: presentCommentViewContorller)
             .disposed(by: disposeBag)
         
+        // 댓글 디테일 페이지로 이동
         reactor.state
             .map { $0.presentCommentId }
             .distinctUntilChanged()
@@ -71,7 +79,7 @@ extension DetailViewController {
             .bind(onNext: presentCommentDetailViewController)
             .disposed(by: disposeBag)
         
-        
+        // 향수 디테일 페이지로 이동
         reactor.state
             .map { $0.presentPerfumeId }
             .distinctUntilChanged()

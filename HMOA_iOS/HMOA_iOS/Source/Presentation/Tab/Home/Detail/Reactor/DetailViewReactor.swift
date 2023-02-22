@@ -120,10 +120,10 @@ extension DetailViewReactor {
             Perfume(perfumeId: 7, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!)
         ]
         
-        let topItem = DetailSectionItem.topCell(PerfumeDetailReactor(detail: perfumeDetail))
+        let topItem = DetailSectionItem.topCell(PerfumeInfoViewReactor(detail: perfumeDetail))
         let topSection = DetailSection.top(topItem)
         
-        let commentItem = commentItems.map { DetailSectionItem.commentCell(CommentReactor(comment: $0), $0.commentId) }
+        let commentItem = commentItems.map { DetailSectionItem.commentCell(CommentCellReactor(comment: $0), $0.commentId) }
         
         let commentSections = DetailSection.comment(commentItem)
         

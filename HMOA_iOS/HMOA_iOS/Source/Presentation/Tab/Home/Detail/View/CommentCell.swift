@@ -15,7 +15,7 @@ import RxCocoa
 class CommentCell: UICollectionViewCell, View {
     
     // MARK: - identifier
-    typealias Reactor = CommentReactor
+    typealias Reactor = CommentCellReactor
     var disposeBag = DisposeBag()
     
     static let identifier = "CommentCell"
@@ -60,27 +60,31 @@ class CommentCell: UICollectionViewCell, View {
 // MARK: - Functions
 extension CommentCell {
     
-    func bind(reactor: CommentReactor) {
+    func bind(reactor: CommentCellReactor) {
         userImageView.image = reactor.currentState.image
         userNameLabel.text = reactor.currentState.name
         contentLabel.text = reactor.currentState.content
         likeView.likeButton.isSelected = reactor.currentState.isLike
         likeView.likeCountLabel.text = "\(reactor.currentState.likeCount)"
         
-        // action
+        // MARK: - Action
+        
+        // 댓글 좋아요 버튼 클릭
         likeView.likeButton.rx.tap
             .map { Reactor.Action.didTapLikeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // state
+        // MARK: - State
         
+        // 좋아요 상태 반응
         reactor.state
             .map { $0.isLike }
             .distinctUntilChanged()
             .bind(to: likeView.likeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
+        // 좋아요 개수 반응
         reactor.state
             .map { $0.likeCount }
             .distinctUntilChanged()
