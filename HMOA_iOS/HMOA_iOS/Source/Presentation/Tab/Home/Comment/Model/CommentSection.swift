@@ -13,7 +13,7 @@ enum CommentSection {
 }
 
 enum CommentSectionItem {
-    case commentCell(CommentReactor, Int)
+    case commentCell(CommentCellReactor, Int)
 }
 
 extension CommentSectionItem {

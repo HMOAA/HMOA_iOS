@@ -14,7 +14,7 @@ import RxSwift
 
 class PerfumeInfoCell: UICollectionViewCell, View {
     
-    typealias Reactor = PerfumeDetailReactor
+    typealias Reactor = PerfumeInfoViewReactor
     
     // MARK: - identifier
     
@@ -41,7 +41,9 @@ class PerfumeInfoCell: UICollectionViewCell, View {
 
 extension PerfumeInfoCell {
     
-    func bind(reactor: PerfumeDetailReactor) {
+    // MARK: - Bind
+    
+    func bind(reactor: PerfumeInfoViewReactor) {
         perfumeInfoView.perfumeImageView.image = reactor.currentState.perfumeImage
         perfumeInfoView.titleKoreanLabel.text = reactor.currentState.koreanName
         perfumeInfoView.titleEnglishLabel.text = reactor.currentState.englishName
@@ -55,19 +57,24 @@ extension PerfumeInfoCell {
         perfumeInfoView.heartNote.nameLabel.text = reactor.currentState.heartTasting
         perfumeInfoView.baseNote.nameLabel.text = reactor.currentState.baseTasting
         
-        // action
+        // MARK: - Ation
+        
+        // 향수 좋아요 버튼 클릭
         perfumeInfoView.perfumLikeView.likeButton.rx.tap
             .map { Reactor.Action.didTapPerfumeLikeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 향수 브랜드 좋아요 버튼 클릭
         perfumeInfoView.brandView.likeButton.rx.tap
             .do(onNext: { print("Clicked")} )
             .map { Reactor.Action.didTapBrandLikeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // state
+        // MARK: - State
+        
+        // 향수 좋아요 상태 변경
         reactor.state
             .map { $0.isLikePerfume }
             .distinctUntilChanged()
@@ -75,6 +82,7 @@ extension PerfumeInfoCell {
                     perfumeInfoView.perfumLikeView.likeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
+        // 향수 브랜드 좋아요 상태 변경
         reactor.state
             .map { $0.isLikeBrand }
             .distinctUntilChanged()

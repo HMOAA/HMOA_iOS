@@ -1,13 +1,12 @@
 //
 //  PerfumeDetailReactor.swift
-//  HMOA_iOS
-//
+//  HMOA_iOSPerfumeInfoViewReactor//
 //  Created by 임현규 on 2023/02/21.
 //
 
 import ReactorKit
 
-class PerfumeDetailReactor: Reactor {
+class PerfumeInfoViewReactor: Reactor {
     
     let initialState: State
     

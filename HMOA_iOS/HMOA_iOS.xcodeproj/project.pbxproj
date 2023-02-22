@@ -18,11 +18,10 @@
 		2C04247129A3E3D4009CF0FE /* PerfumeDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247029A3E3D4009CF0FE /* PerfumeDetail.swift */; };
 		2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247229A3F7A6009CF0FE /* DetailSection.swift */; };
 		2C04247529A3F899009CF0FE /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247429A3F899009CF0FE /* Comment.swift */; };
-		2C04247729A3FCED009CF0FE /* PerfumeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247629A3FCED009CF0FE /* PerfumeDetailReactor.swift */; };
-		2C04247929A3FD03009CF0FE /* CommentReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247829A3FD03009CF0FE /* CommentReactor.swift */; };
-		2C04247B29A3FD0C009CF0FE /* RecommendReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247A29A3FD0C009CF0FE /* RecommendReactor.swift */; };
-		2C04247F29A4C329009CF0FE /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247E29A4C329009CF0FE /* CommentViewController.swift */; };
-		2C04248529A4D859009CF0FE /* CommendListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248429A4D859009CF0FE /* CommendListReactor.swift */; };
+		2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247629A3FCED009CF0FE /* PerfumeInfoViewReactor.swift */; };
+		2C04247929A3FD03009CF0FE /* CommentCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */; };
+		2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247E29A4C329009CF0FE /* CommentListViewController.swift */; };
+		2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248429A4D859009CF0FE /* CommentListReactor.swift */; };
 		2C04248829A4E4CE009CF0FE /* CommentTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248729A4E4CE009CF0FE /* CommentTopView.swift */; };
 		2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248A29A4FABA009CF0FE /* CommentSection.swift */; };
 		2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249129A504D3009CF0FE /* CommentDetailViewController.swift */; };
@@ -118,11 +117,10 @@
 		2C04247029A3E3D4009CF0FE /* PerfumeDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeDetail.swift; sourceTree = "<group>"; };
 		2C04247229A3F7A6009CF0FE /* DetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSection.swift; sourceTree = "<group>"; };
 		2C04247429A3F899009CF0FE /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		2C04247629A3FCED009CF0FE /* PerfumeDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeDetailReactor.swift; sourceTree = "<group>"; };
-		2C04247829A3FD03009CF0FE /* CommentReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReactor.swift; sourceTree = "<group>"; };
-		2C04247A29A3FD0C009CF0FE /* RecommendReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendReactor.swift; sourceTree = "<group>"; };
-		2C04247E29A4C329009CF0FE /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
-		2C04248429A4D859009CF0FE /* CommendListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommendListReactor.swift; sourceTree = "<group>"; };
+		2C04247629A3FCED009CF0FE /* PerfumeInfoViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoViewReactor.swift; sourceTree = "<group>"; };
+		2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellReactor.swift; sourceTree = "<group>"; };
+		2C04247E29A4C329009CF0FE /* CommentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListViewController.swift; sourceTree = "<group>"; };
+		2C04248429A4D859009CF0FE /* CommentListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListReactor.swift; sourceTree = "<group>"; };
 		2C04248729A4E4CE009CF0FE /* CommentTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommentTopView.swift; path = ../../../../../../../../../../Documents/CommentTopView.swift; sourceTree = "<group>"; };
 		2C04248A29A4FABA009CF0FE /* CommentSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection.swift; sourceTree = "<group>"; };
 		2C04249129A504D3009CF0FE /* CommentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailViewController.swift; sourceTree = "<group>"; };
@@ -270,9 +268,8 @@
 			isa = PBXGroup;
 			children = (
 				2C04246D29A3E112009CF0FE /* DetailViewReactor.swift */,
-				2C04247629A3FCED009CF0FE /* PerfumeDetailReactor.swift */,
-				2C04247829A3FD03009CF0FE /* CommentReactor.swift */,
-				2C04247A29A3FD0C009CF0FE /* RecommendReactor.swift */,
+				2C04247629A3FCED009CF0FE /* PerfumeInfoViewReactor.swift */,
+				2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -301,7 +298,7 @@
 		2C04248029A4C335009CF0FE /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2C04247E29A4C329009CF0FE /* CommentViewController.swift */,
+				2C04247E29A4C329009CF0FE /* CommentListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -309,7 +306,7 @@
 		2C04248329A4D846009CF0FE /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
-				2C04248429A4D859009CF0FE /* CommendListReactor.swift */,
+				2C04248429A4D859009CF0FE /* CommentListReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1014,7 +1011,7 @@
 				2C04247129A3E3D4009CF0FE /* PerfumeDetail.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeWatchCell.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
-				2C04247F29A4C329009CF0FE /* CommentViewController.swift in Sources */,
+				2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
@@ -1023,7 +1020,7 @@
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageTopView.swift in Sources */,
 				2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */,
-				2C04247729A3FCED009CF0FE /* PerfumeDetailReactor.swift in Sources */,
+				2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */,
 				2C1BD6BA29969E4B0059A43D /* LikeView.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
@@ -1031,18 +1028,17 @@
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
-				2C04248529A4D859009CF0FE /* CommendListReactor.swift in Sources */,
+				2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */,
 				2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */,
 				2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */,
 				2C39AA6629704817000C6F71 /* NewsViewController.swift in Sources */,
 				2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */,
 				2C710EEF29798330006BE23B /* HomeWatchCellHeaderView.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
-				2C04247929A3FD03009CF0FE /* CommentReactor.swift in Sources */,
+				2C04247929A3FD03009CF0FE /* CommentCellReactor.swift in Sources */,
 				2C04247529A3F899009CF0FE /* Comment.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
-				2C04247B29A3FD0C009CF0FE /* RecommendReactor.swift in Sources */,
 				2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */,
 				CA5D74A5297F9DFC006AE5FE /* RegisterViewController.swift in Sources */,
 			);

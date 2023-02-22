@@ -54,19 +54,26 @@ class HomeViewController: UIViewController, View {
 // MARK: - Functions
 extension HomeViewController {
     
+    // MARK: - Bind
+    
     func bind(reactor: HomeViewReactor) {
 
-        // action
+        // MARK: - Action
+        
+        // collectionView item 클릭
         self.homeView.collectionView.rx.itemSelected
             .map { Reactor.Action.itemSelected($0) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        // state
+        // MARK: - State
+        
+        // collectionView 바인딩
         reactor.state.map { $0.sections }
             .bind(to: self.homeView.collectionView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
 
+        // 향수 디테일 페이지로 이동
         reactor.state.map { $0.selectedPerfumeId }
             .distinctUntilChanged()
             .compactMap { $0 }

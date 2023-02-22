@@ -1,5 +1,5 @@
 //
-//  CommentReactor.swift
+//  CommentCellReactor.swift
 //  HMOA_iOS
 //
 //  Created by 임현규 on 2023/02/21.
@@ -8,7 +8,7 @@
 import ReactorKit
 import RxSwift
 
-class CommentReactor: Reactor {
+class CommentCellReactor: Reactor {
     var initialState: State
     
     enum Action {
