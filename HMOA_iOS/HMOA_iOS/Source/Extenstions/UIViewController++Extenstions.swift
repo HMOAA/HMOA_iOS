@@ -27,6 +27,7 @@ extension UIViewController {
     
     func presentSearchViewController() {
         let searchVC = SearchViewController()
+        searchVC.reactor = SearchReactor()
         searchVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(searchVC, animated: true)
     }
