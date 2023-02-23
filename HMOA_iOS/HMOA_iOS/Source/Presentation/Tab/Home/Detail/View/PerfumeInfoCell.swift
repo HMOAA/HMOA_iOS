@@ -60,7 +60,7 @@ extension PerfumeInfoCell {
         // MARK: - Ation
         
         // 향수 좋아요 버튼 클릭
-        perfumeInfoView.perfumLikeView.likeButton.rx.tap
+        perfumeInfoView.perfumeLikeButton.rx.tap
             .map { Reactor.Action.didTapPerfumeLikeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -79,7 +79,7 @@ extension PerfumeInfoCell {
             .map { $0.isLikePerfume }
             .distinctUntilChanged()
             .bind(to:
-                    perfumeInfoView.perfumLikeView.likeButton.rx.isSelected)
+                    perfumeInfoView.perfumeLikeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
         // 향수 브랜드 좋아요 상태 변경
@@ -87,6 +87,16 @@ extension PerfumeInfoCell {
             .map { $0.isLikeBrand }
             .distinctUntilChanged()
             .bind(to: perfumeInfoView.brandView.likeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        // 향수 좋아요 개수 변경
+        reactor.state
+            .map { $0.likeCount }
+            .distinctUntilChanged()
+            .map { String($0) }
+            .bind(onNext: {
+                self.perfumeInfoView.perfumeLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -97,5 +107,12 @@ extension PerfumeInfoCell {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(48)
         }
+    }
+    
+    func setLikeButtonText(_ text: String) -> AttributedString {
+        var attri = AttributedString.init(text)
+        attri.font = .customFont(.pretendard_light, 12)
+        
+        return attri
     }
 }

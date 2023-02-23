@@ -90,6 +90,7 @@ class PerfumeInfoViewReactor: Reactor {
         switch mutation {
         case .setPerfumeLike(let isLike):
             state.isLikePerfume = isLike
+            state.likeCount += isLike ? 1 : -1
         case .setBrandLike(let isLike):
             state.isLikeBrand = isLike
         }

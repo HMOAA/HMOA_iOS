@@ -15,19 +15,17 @@ class PerfumeInfoView: UIView {
     
     // MARK: - Properies
     
-    lazy var perfumeImageView = UIImageView().then {
-        $0.image = UIImage(named: "jomalon")
+    lazy var perfumeImageView = UIImageView()
+    
+    lazy var perfumeLikeButton = UIButton().then {
+        $0.makeLikeButton()
     }
     
-    lazy var perfumLikeView = LikeView()
-    
     lazy var titleKoreanLabel = UILabel().then {
-        $0.text = "우드 세이지 앤 씨 솔트 코롱"
         $0.font = UIFont.customFont(.pretendard_medium, 20)
     }
     
     lazy var titleEnglishLabel = UILabel().then {
-        $0.text = "Wood Sage & Sea Salt Cologne"
         $0.font = UIFont.customFont(.pretendard, 12)
     }
     
@@ -41,7 +39,6 @@ class PerfumeInfoView: UIView {
         $0.textFont = UIFont.customFont(.pretendard, 10)
         $0.paddingY = 5
         $0.paddingX = 12
-        $0.addTags(["우디한", "자연의"])
     }
     
     let seperatorLine1 = UIView().then {
@@ -50,14 +47,12 @@ class PerfumeInfoView: UIView {
     
     lazy var priceLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard_medium, 16)
-        $0.text = "₩218,000 ~"
     }
     
     lazy var perfumeView30 = EmptyPerfumeView("30ml")
     
     lazy var ageLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard_medium, 14)
-        $0.text = "20"
     }
     
     lazy var ageNearLabel = UILabel().then {
@@ -67,7 +62,6 @@ class PerfumeInfoView: UIView {
     
     lazy var gendarLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard_medium, 14)
-        $0.text = "여성"
     }
 
     lazy var gendarNearLabel = UILabel().then {
@@ -89,7 +83,6 @@ class PerfumeInfoView: UIView {
     lazy var productInfoContentLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.font = UIFont.customFont(.pretendard, 14)
-        $0.text = "바람부는 해안을 따라 걸으며 일상을 벗어나보세요. 하얗게 부서지는 파도, 소금기를 머금은 신선한 바다 공기. 험준한 절벽에서 느껴지는 투박한 자연의 향기와 세이지의 우디한 흙 내음이 어우러져 자유롭고 활기찬 에너지와 즐거움이 가득합니다.바람부는 해안을 따라 걸으며 일상을 벗어나보세요. 하얗게 부서지는 파도, 소금기를 머금은 신선한 바다 공기. 험준한 절벽에서 느껴지는 투박한 자연의 향기와 세이지의 우디한 흙 내음이 어우러져 자유롭고 활기찬 에너지와 즐거움이 가득합니다.바람부는 해안을 따라 걸으며 일상을 벗어나보세요. 하얗게 부서지는 파도, 소금기를 머금은 신선한 바다 공기. 험준한 절벽에서 느껴지는 투박한 자연의 향기와 세이지의 우디한 흙 내음이 어우러져 자유롭고 활기찬 에너지와 즐거움이 가득합니다.바람부는 해안을 따라 걸으며 일상을 벗어나보세요. 하얗게 부서지는 파도, 소금기를 머금은 신선한 바다 공기. 험준한 절벽에서 느껴지는 투박한 자연의 향기와 세이지의 우디한 흙 내음이 어우러져 자유롭고 활기찬 에너지와 즐거움이 가득합니다.바람부는 해안을 따라 걸으며 일상을 벗어나보세요. 하얗게 부서지는 파도, 소금기를 머금은 신선한 바다 공기. 험준한 절벽에서 느껴지는 투박한 자연의 향기와 세이지의 우디한 흙 내음이 어우러져 자유롭고 활기찬 에너지와 즐거움이 가득합니다.바람부는 해안을 따라 걸으며 일상을 벗어나보세요. 하얗게 부서지는 파도, 소금기를 머금은 신선한 바다 공기. 험준한 절벽에서 느껴지는 투박한 자연의 향기와 세이지의 우디한 흙 내음이 어우러져 자유롭고 활기찬 에너지와 즐거움이 가득합니다."
     }
     
     lazy var tastingLabel = UILabel().then {
@@ -120,7 +113,7 @@ extension PerfumeInfoView {
     func configureUI() {
         
         [   perfumeImageView,
-            perfumLikeView,
+            perfumeLikeButton,
             titleEnglishLabel,
             titleKoreanLabel,
             keywordTagListView,
@@ -147,15 +140,14 @@ extension PerfumeInfoView {
             $0.height.equalTo(360)
         }
         
-        perfumLikeView.snp.makeConstraints {
+        perfumeLikeButton.snp.makeConstraints {
             $0.top.equalTo(perfumeImageView.snp.bottom).offset(16)
             $0.leading.equalToSuperview().inset(16)
-            $0.width.equalTo(60)
             $0.height.equalTo(20)
         }
         
         titleKoreanLabel.snp.makeConstraints {
-            $0.top.equalTo(perfumLikeView.snp.bottom).offset(6)
+            $0.top.equalTo(perfumeLikeButton.snp.bottom).offset(6)
             $0.leading.equalToSuperview().inset(16)
         }
         

@@ -35,7 +35,6 @@
 		2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */; };
 		2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B2298FF14F0059A43D /* SimilarHeaderView.swift */; };
 		2C1BD6B629968CE00059A43D /* Pretendard in Frameworks */ = {isa = PBXBuildFile; productRef = 2C1BD6B529968CE00059A43D /* Pretendard */; };
-		2C1BD6BA29969E4B0059A43D /* LikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B929969E4B0059A43D /* LikeView.swift */; };
 		2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */; };
 		2C1BD6BE29978EDD0059A43D /* BrandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6BD29978EDD0059A43D /* BrandView.swift */; };
 		2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6BF299798660059A43D /* TastingNoteView.swift */; };
@@ -137,7 +136,6 @@
 		2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoCell.swift; sourceTree = "<group>"; };
 		2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarCell.swift; sourceTree = "<group>"; };
 		2C1BD6B2298FF14F0059A43D /* SimilarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarHeaderView.swift; sourceTree = "<group>"; };
-		2C1BD6B929969E4B0059A43D /* LikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeView.swift; sourceTree = "<group>"; };
 		2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyPerfumeView.swift; sourceTree = "<group>"; };
 		2C1BD6BD29978EDD0059A43D /* BrandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandView.swift; sourceTree = "<group>"; };
 		2C1BD6BF299798660059A43D /* TastingNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TastingNoteView.swift; sourceTree = "<group>"; };
@@ -692,7 +690,6 @@
 		2CAD963D298E695200974500 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2C1BD6B929969E4B0059A43D /* LikeView.swift */,
 				2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */,
 			);
 			path = View;
@@ -1076,7 +1073,6 @@
 				2C710EF5297C0C8C006BE23B /* MyPageTopView.swift in Sources */,
 				2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */,
 				2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */,
-				2C1BD6BA29969E4B0059A43D /* LikeView.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,

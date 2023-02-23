@@ -49,9 +49,6 @@ extension SearchViewController {
         
         // 뒤로 가기 버튼 클릭
         backButton.rx.tap
-            .do(onNext: {
-                print($0)
-            })
             .map { Reactor.Action.didTapBackButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
