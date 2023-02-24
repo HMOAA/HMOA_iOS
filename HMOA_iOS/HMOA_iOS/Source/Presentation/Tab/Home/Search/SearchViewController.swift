@@ -32,7 +32,7 @@ class SearchViewController: UIViewController, View {
         $0.searchTextField.textAlignment = .left
         $0.searchTextField.font = .customFont(.pretendard_light, 16)
         $0.placeholder = "제품/브랜드/키워드 검색"
-    }
+    } //
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
