@@ -24,7 +24,7 @@ class CommentWriteViewController: UIViewController, View {
         $0.text = "댓글"
         $0.font = .customFont(.pretendard_medium, 20)
         $0.textColor = .black
-    }
+    } //
     
     let cancleButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
