@@ -34,12 +34,13 @@ class BrandView: UIView {
     
     lazy var likeButton = UIButton().then {
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)
-        let normalImage = UIImage(systemName: "heart", withConfiguration: config)
-        let selectedImage = UIImage(systemName: "heart_fill", withConfiguration: config)
-        
+        let normalImage = UIImage(named: "heart", in: .none, with: config)
+        let selectedImage = UIImage(named: "heart_fill", in: .none, with: config)
+
         $0.setImage(normalImage, for: .normal)
         $0.setImage(selectedImage, for: .selected)
         $0.tintColor = .white
+        $0.backgroundColor = .white
     }
     
     override init(frame: CGRect) {
