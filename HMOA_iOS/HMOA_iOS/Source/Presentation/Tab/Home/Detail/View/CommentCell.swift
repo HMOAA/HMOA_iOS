@@ -8,10 +8,15 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxSwift
+import RxCocoa
 
-class CommentCell: UICollectionViewCell {
+class CommentCell: UICollectionViewCell, View {
     
     // MARK: - identifier
+    typealias Reactor = CommentCellReactor
+    var disposeBag = DisposeBag()
     
     static let identifier = "CommentCell"
     
@@ -38,7 +43,10 @@ class CommentCell: UICollectionViewCell {
         $0.font = UIFont.customFont(.pretendard, 14)
     }
     
-    lazy var likeView = LikeView()
+//    lazy var likeView = LikeView()
+    lazy var commentLikeButton = UIButton().then {
+        $0.makeLikeButton()
+    }
     
     // MARK: - init
     override init(frame: CGRect) {
@@ -55,14 +63,56 @@ class CommentCell: UICollectionViewCell {
 // MARK: - Functions
 extension CommentCell {
     
+    func bind(reactor: CommentCellReactor) {
+        userImageView.image = reactor.currentState.image
+        userNameLabel.text = reactor.currentState.name
+        contentLabel.text = reactor.currentState.content
+        commentLikeButton.isSelected = reactor.currentState.isLike
+        // MARK: - Action
+
+        // 댓글 좋아요 버튼 클릭
+        commentLikeButton.rx.tap
+            .map { Reactor.Action.didTapLikeButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // MARK: - State
+        
+        // 좋아요 상태 반응
+        reactor.state
+            .map { $0.isLike }
+            .distinctUntilChanged()
+            .bind(to: commentLikeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        // 좋아요 개수 반응
+        reactor.state
+            .map { $0.likeCount }
+            .distinctUntilChanged()
+            .map { String($0)}
+            .bind(onNext: {
+                self.commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func updateCell(_ item: Comment) {
+        userImageView.image = item.image
+        userNameLabel.text = item.name
+        contentLabel.text = item.content
+        commentLikeButton.isSelected = item.isLike
+        commentLikeButton.setTitle("\(item.likeCount)", for: .normal)
+    }
+    
     func configureUI() {
         
         addSubview(subView)
         
+        
         [   userImageView,
             userNameLabel,
             contentLabel,
-            likeView  ] .forEach { subView.addSubview($0) }
+            commentLikeButton  ] .forEach { subView.addSubview($0) }
 
         subView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
@@ -86,11 +136,18 @@ extension CommentCell {
             $0.bottom.equalToSuperview().inset(9)
         }
         
-        likeView.snp.makeConstraints {
+        commentLikeButton.snp.makeConstraints {
             $0.centerY.equalTo(userImageView)
             $0.trailing.equalToSuperview().inset(16)
-            $0.width.equalTo(60)
+//            $0.width.equalTo(60)
             $0.height.equalTo(20)
         }
+    }
+    
+    func setLikeButtonText(_ text: String) -> AttributedString {
+        var attri = AttributedString.init(text)
+        attri.font = .customFont(.pretendard_light, 12)
+        
+        return attri
     }
 }

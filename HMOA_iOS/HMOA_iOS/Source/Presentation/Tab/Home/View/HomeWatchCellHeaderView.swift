@@ -17,13 +17,13 @@ class HomeWatchCellHeaderView: UICollectionReusableView {
     // MARK: - Properties
     
     let titleLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 14)
-        $0.text = "다른 사람들이 많이 본 향수"
+        $0.font = .customFont(.pretendard_medium, 14)
+        $0.text = "HOT"
     }
     
     lazy var moreButton = UIButton().then {
         $0.setTitle("랭킹더보기", for: .normal)
-        $0.titleLabel!.font = .systemFont(ofSize: 10)
+        $0.titleLabel!.font = .customFont(.pretendard, 12)
         $0.setTitleColor(.black, for: .normal)
     }
     
@@ -38,7 +38,8 @@ class HomeWatchCellHeaderView: UICollectionReusableView {
 extension HomeWatchCellHeaderView {
     func configureUI() {
         
-        [titleLabel, moreButton] .forEach { addSubview($0) }
+        [   titleLabel,
+            moreButton  ] .forEach { addSubview($0) }
         
         titleLabel.snp.makeConstraints {
             $0.centerY.leading.equalToSuperview()

@@ -11,36 +11,89 @@ import Then
 
 extension UIViewController {
     
-    func presentDatailViewController() {
+    func presentDatailViewController(_ id: Int) {
         let detailVC = DetailViewController()
+        detailVC.perfumeId = id
         detailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
-    func setNavigationSearchBar() {
-        let logoImageView = UIImageView(image: UIImage(named: "mainLogo"))
-        let logoImageItem = UIBarButtonItem(customView: logoImageView)
-        let searchBarView = UISearchBar()
-        searchBarView.frame = CGRect(x: 0, y: 0, width: Int(UIScreen.main.bounds.size.width) - 60 - Int(logoImageView.frame.size.width), height: 44)
-        searchBarView.backgroundColor = UIColor.customColor(.searchBarColor)
-        searchBarView.searchTextField.backgroundColor = UIColor.clear
-        
-        let searchImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 30.0, height: 0))
-        searchImage.image = UIImage(named: "search")
-        searchImage.contentMode = .right
+    func presentCommentViewContorller(_ id: Int) {
+        let commentVC = CommentListViewController()
+        commentVC.perfumeId = id
+        commentVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(commentVC, animated: true)
+    }
+    
+    func presentSearchViewController() {
+        let searchVC = SearchViewController()
+        searchVC.reactor = SearchReactor()
+        searchVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(searchVC, animated: true)
+    }
+    
+    func presentCommentDetailViewController(_ id: Int) {
+        let commentDetailVC = CommentDetailViewController()
+        commentDetailVC.hidesBottomBarWhenPushed = true
+        commentDetailVC.reactor = CommentDetailReactor(id)
+        self.navigationController?.pushViewController(commentDetailVC, animated: true)
+    }
+    
+    func presentCommentWriteViewController(_ id: Int) {
+        let commentWriteVC = CommentWriteViewController()
+        commentWriteVC.reactor = CommentWriteReactor(id)
+        commentWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(commentWriteVC, animated: true)
+    }
+    
+    func setNavigationColor() {
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
 
-        let emptyView = UIView(frame: CGRect(x: 0, y: 0, width: 30.0, height: 0))
-        emptyView.backgroundColor = .clear
-        emptyView.addSubview(searchImage)
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    func setBackItemNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
         
-        searchBarView.searchTextField.leftView = emptyView
-
-        let searchBarItem = UIBarButtonItem(customView: searchBarView)
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
         
-        self.navigationItem.leftBarButtonItems = [spacerItem(13), logoImageItem, spacerItem(20), searchBarItem]
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+    }
+    
+    func setBackHomeSearchNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
         
-
-        self.navigationController?.navigationBar.barTintColor = .white
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        
+        let homeButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "homeNavi")
+        
+        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton, spacerItem(15), homeButton]
+        self.navigationItem.rightBarButtonItems = [searchButton]
+    }
+    
+    func setNavigationBarTitle(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        self.navigationItem.titleView = titleLabel
     }
     
     func setNavigationBarTitle(title: String, color: UIColor, isHidden: Bool) {
@@ -58,18 +111,19 @@ extension UIViewController {
         }
         
         self.navigationItem.title = title
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = color
-
-        self.navigationController?.navigationBar.standardAppearance = appearance
-        self.navigationController?.navigationBar.compactAppearance = appearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-
     }
     
     @objc func popViewController() {
         self.navigationController?.popViewController(animated: true)
+        
+    }
+    
+    @objc func goToHome() {
+        
+    }
+    
+    @objc func goToSearch() {
+        
     }
     
     func spacerItem(_ width: Int) -> UIBarButtonItem {

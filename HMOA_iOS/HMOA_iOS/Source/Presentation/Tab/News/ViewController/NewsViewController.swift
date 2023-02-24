@@ -18,7 +18,7 @@ class NewsViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationSearchBar()
+//        setNavigationSearchBar()
         configureUI()
     }
 }
