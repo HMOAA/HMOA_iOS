@@ -22,7 +22,6 @@
 		2C04247929A3FD03009CF0FE /* CommentCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */; };
 		2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247E29A4C329009CF0FE /* CommentListViewController.swift */; };
 		2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248429A4D859009CF0FE /* CommentListReactor.swift */; };
-		2C04248829A4E4CE009CF0FE /* CommentTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248729A4E4CE009CF0FE /* CommentTopView.swift */; };
 		2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248A29A4FABA009CF0FE /* CommentSection.swift */; };
 		2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249129A504D3009CF0FE /* CommentDetailViewController.swift */; };
 		2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249329A50DB4009CF0FE /* CommentDetailReactor.swift */; };
@@ -70,6 +69,7 @@
 		2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF7297C0F5E006BE23B /* MyPageView.swift */; };
 		2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFB297C15DF006BE23B /* MyPageCell.swift */; };
 		2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFE297C183F006BE23B /* MyPageViewModel.swift */; };
+		2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */; };
 		2CAD9635298E469200974500 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9634298E469200974500 /* DetailViewController.swift */; };
 		2CAD9637298E483800974500 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9636298E483800974500 /* DetailView.swift */; };
 		2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */; };
@@ -124,7 +124,6 @@
 		2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellReactor.swift; sourceTree = "<group>"; };
 		2C04247E29A4C329009CF0FE /* CommentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListViewController.swift; sourceTree = "<group>"; };
 		2C04248429A4D859009CF0FE /* CommentListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListReactor.swift; sourceTree = "<group>"; };
-		2C04248729A4E4CE009CF0FE /* CommentTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommentTopView.swift; path = ../../../../../../../../../../Documents/CommentTopView.swift; sourceTree = "<group>"; };
 		2C04248A29A4FABA009CF0FE /* CommentSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection.swift; sourceTree = "<group>"; };
 		2C04249129A504D3009CF0FE /* CommentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailViewController.swift; sourceTree = "<group>"; };
 		2C04249329A50DB4009CF0FE /* CommentDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailReactor.swift; sourceTree = "<group>"; };
@@ -175,6 +174,7 @@
 		2C710EF7297C0F5E006BE23B /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		2C710EFB297C15DF006BE23B /* MyPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
 		2C710EFE297C183F006BE23B /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
+		2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListTopView.swift; sourceTree = "<group>"; };
 		2CAD9634298E469200974500 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		2CAD9636298E483800974500 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoView.swift; sourceTree = "<group>"; };
@@ -322,8 +322,8 @@
 		2C04248629A4E4A1009CF0FE /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2C04248729A4E4CE009CF0FE /* CommentTopView.swift */,
 				2C04249529A533DF009CF0FE /* CommentBottomView.swift */,
+				2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1054,6 +1054,7 @@
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				2C39AA60297047F9000C6F71 /* DrawerViewController.swift in Sources */,
 				2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */,
+				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
 				2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */,
@@ -1076,7 +1077,6 @@
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
-				2C04248829A4E4CE009CF0FE /* CommentTopView.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
