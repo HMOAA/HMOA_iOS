@@ -96,7 +96,7 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
     }
     
-    func setNavigationBarTitle(title: String, color: UIColor, isHidden: Bool) {
+    func setNavigationBarTitle(title: String, color: UIColor, isHidden: Bool, isScroll: Bool = true) {
         
         if !isHidden {
             let backButton = UIBarButtonItem(
@@ -111,6 +111,18 @@ extension UIViewController {
         }
         
         self.navigationItem.title = title
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = color
+
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        
+        //로그인 navigationBar에서도 함수를 쓰기 위해 기존 코드에 영향이 안가게 처리 해놨습니다.
+        if isScroll {
+            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        }
+
     }
     
     @objc func popViewController() {
@@ -131,5 +143,18 @@ extension UIViewController {
         
         spacer.width = CGFloat(width)
         return spacer
+    }
+    
+    func setBottomBorder(_ sender: AnyObject, width: CGFloat, height: CGFloat, color: Colors = .gray2) {
+        let border = CALayer()
+        if sender is UITextField {
+            border.frame = CGRect(x: 0, y: height -  1, width: width - 16, height: 1)
+        } else if sender is UIView {
+            border.frame = CGRect(x: 0, y: height -  1, width: width, height: 1)
+        }
+        border.borderColor = UIColor.customColor(color).cgColor
+        border.borderWidth = 1
+        sender.layer.addSublayer(border)
+        sender.layer.masksToBounds = true
     }
 }
