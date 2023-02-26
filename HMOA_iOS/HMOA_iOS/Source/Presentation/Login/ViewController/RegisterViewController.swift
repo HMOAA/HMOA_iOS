@@ -9,133 +9,234 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 class RegisterViewController: UIViewController {
     
-    //Property
-    let registerLabel = UILabel().then {
-        $0.textAlignment = .center
-        $0.backgroundColor = .customColor(.searchBarColor)
-        $0.font = .customFont(.pretendard, 16)
-        $0.text = "회원가입"
-    }
+    //MARK: - Property
     
     let entireStackView = UIStackView().then {
-        $0.setStackViewUI(spacing: 29)
+        $0.setStackViewUI(spacing: 24)
     }
     
-    let nameStackView = UIStackView().then {
-        $0.setStackViewUI(spacing: 7)
+    let nicknameStackView = UIStackView().then {
+        $0.setStackViewUI(spacing: 8)
     }
-    let nameLabel = UILabel().then {
-        $0.setLabelUI("이름")
+    let nicknameLabel = UILabel().then {
+        $0.setLabelUI("닉네임", font: .pretendard_medium, size: 14, color: .gray4)
     }
-    let nameTextField = UITextField().then {
-        $0.setTextFieldUI("이름", leftPadding: 14)
+    let nicknameTextField = UITextField().then {
+        $0.setTextFieldUI("닉네임을 입력하세요", leftPadding: 16, font: .pretendard_light, isCapsule: false)
+    }
+    let nicknameCaptionLabel = PaddingLabel().then {
+        $0.setLabelUI("닉네임 제한 캡션입니다.", font: .pretendard_light, size: 12, color: .gray4)
     }
     
     let idStackView = UIStackView().then {
-        $0.setStackViewUI(spacing: 7)
+        $0.setStackViewUI(spacing: 8)
     }
     let idLabel = UILabel().then {
-        $0.setLabelUI("아이디")
+        $0.setLabelUI("아이디", font: .pretendard_medium, size: 14, color: .gray4)
     }
     let idHorizontalStackView = UIStackView().then {
-        $0.setStackViewUI(spacing: 9, axis: .horizontal)
+        $0.setStackViewUI(spacing: 8, axis: .horizontal)
     }
     let idTextField = UITextField().then {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        $0.setTextFieldUI("아이디", leftPadding: 14)
+        $0.setTextFieldUI("아이디를 입력하세요", leftPadding: 16, font: .pretendard_light, isCapsule: false)
     }
-    
     let duplicateCheckButton = UIButton().then {
-        $0.layer.cornerRadius = 33 / 2
-        $0.setTitle("  중복확인", for: .normal)
-        $0.contentHorizontalAlignment = .left
-        $0.setTitleColor(.black, for: .normal)
-        $0.backgroundColor = .customColor(.searchBarColor)
-        $0.titleLabel?.font = .customFont(.pretendard, 14)
+        $0.layer.cornerRadius = 5
+        $0.setTitle("중복확인", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = .black
+        $0.titleLabel?.font = .customFont(.pretendard_light, 14)
+    }
+    let idCaptionLabel = PaddingLabel().then {
+        $0.setLabelUI("아이디 제한 캡션입니다.", font: .pretendard_light, size: 12, color: .gray4)
     }
     
-    lazy var pwStackView = UIStackView().then {
-        $0.setStackViewUI(spacing: 7)
+    let emailStackView = UIStackView().then {
+        $0.setStackViewUI(spacing: 8)
     }
-    let pwLabel = UILabel().then {
-        $0.setLabelUI("비밀번호")
+    let emailLabel = UILabel().then {
+        $0.setLabelUI("이메일", font: .pretendard_medium, size: 14, color: .gray4)
     }
-    let pwTextField = UITextField().then {
-        $0.setTextFieldUI("비밀번호 (영어소문자+숫자 8자리 이상)", leftPadding: 14)
+    let emailHorizontalView = UIView()
+    let emailTextField = UITextField().then {
+        $0.setTextFieldUI("이메일", leftPadding: 16, font: .pretendard_light, isCapsule: false)
     }
-    
-    lazy var pwCheckStackView = UIStackView().then {
-        $0.setStackViewUI(spacing: 7)
-    }
-    let pwCheckLabel = UILabel().then {
-        $0.setLabelUI("비밀빈호 재확인")
-    }
-    let pwCheckTextField = UITextField().then {
-        $0.setTextFieldUI("비밀번호 재확인", leftPadding: 14)
+    let atLabel = UILabel().then {
+        $0.snp.contentHuggingHorizontalPriority = 251
+        $0.setLabelUI("@", font: .pretendard_light, size: 14, color: .gray4)
     }
     
-    let registerButton = UIButton().then {
-        $0.setTitleColor(.black, for: .normal)
-        $0.backgroundColor = .customColor(.searchBarColor)
-        $0.titleLabel?.font = .customFont(.pretendard, 16)
-        $0.setTitle("가입완료", for: .normal)
+    let choiceHorizhontalView = UIView()
+    let choiceTextField = UITextField().then {
+        $0.isUserInteractionEnabled = false
+        $0.setTextFieldUI("선택", leftPadding: 0, font: .pretendard_light)
+        $0.textColor = .customColor(.gray3)
     }
+    let emailChoiceButton = UIButton().then {
+        $0.tintColor = .customColor(.gray2)
+        $0.setImage(UIImage(named: "choiceDown"), for: .normal)
+    }
+    let emailCaption = PaddingLabel().then {
+        $0.setLabelUI("비밀번호와 아이디 분실시, 이메일을 이용해 찾을 수 있습니다.", font: .pretendard_light, size: 12, color: .gray4)
+    }
+
+    let nextButton = UIButton().then {
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_medium, 20)
+        $0.backgroundColor = .customColor(.gray2)
+        $0.setTitle("다음", for: .normal)
+    }
+    
+    let disposeBag = DisposeBag()
+    
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationBarTitle(title: "회원가입", color: .white, isHidden: false, isScroll: false)
         setUpUI()
         setAddView()
         setUpConstraints()
+        
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        [emailTextField, idTextField, nicknameTextField, choiceHorizhontalView].forEach {
+            setBottomBorder($0, width: $0.frame.width, height: $0.frame.height)
+        }
+    }
+    
+    //MARK: - SetUp
 
     private func setUpUI() {
         view.backgroundColor = .white
-        registerButton.addTarget(self, action: #selector(didTapRegisterButton(_: )), for: .touchUpInside)
+        
+        nextButton.addTarget(self, action: #selector(didTapNextButton(_: )), for: .touchUpInside)
+        emailChoiceButton.addTarget(self, action: #selector(didTapEmailChoiceButton(_: )), for: .touchUpInside)
     }
     
     private func setAddView() {
-        [nameLabel, nameTextField].forEach { nameStackView.addArrangedSubview($0)}
+        [nicknameLabel, nicknameTextField, nicknameCaptionLabel].forEach { nicknameStackView.addArrangedSubview($0) }
+        
         [idTextField, duplicateCheckButton].forEach { idHorizontalStackView.addArrangedSubview($0) }
-        [idLabel, idHorizontalStackView].forEach { idStackView.addArrangedSubview($0)}
-        [pwLabel, pwTextField].forEach { pwStackView.addArrangedSubview($0)}
-        [pwCheckLabel, pwCheckTextField].forEach { pwCheckStackView.addArrangedSubview($0) }
+        [idLabel, idHorizontalStackView, idCaptionLabel].forEach { idStackView.addArrangedSubview($0) }
         
+        [choiceTextField, emailChoiceButton].forEach { choiceHorizhontalView.addSubview($0) }
+        [emailTextField, atLabel, choiceHorizhontalView].forEach { emailHorizontalView.addSubview($0) }
+    
         
-        [nameStackView, idStackView, pwStackView, pwCheckStackView].forEach { entireStackView.addArrangedSubview($0)}
+        [emailLabel, emailHorizontalView, emailCaption].forEach { emailStackView.addArrangedSubview($0) }
         
-        [registerLabel, entireStackView, registerButton].forEach { view.addSubview($0) }
+        [nicknameStackView, idStackView, emailStackView].forEach { entireStackView.addArrangedSubview($0)}
         
+        [entireStackView, nextButton].forEach { view.addSubview($0)}
         
     }
+    
     private func setUpConstraints() {
-        duplicateCheckButton.snp.makeConstraints { make in
-            make.width.equalTo(114)
+        
+        
+        atLabel.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
         
-        registerLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(23)
-            make.height.equalTo(42)
+        emailTextField.snp.makeConstraints { make in
+            make.top.bottom.leading.equalToSuperview()
+            make.trailing.equalTo(atLabel.snp.leading).offset(5)
+        }
+        
+        emailChoiceButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
+        }
+        
+        choiceTextField.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+        }
+        
+        choiceHorizhontalView.snp.makeConstraints { make in
+            make.leading.equalTo(atLabel.snp.trailing).offset(5)
+            make.top.bottom.trailing.equalToSuperview()
         }
         
         entireStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(registerLabel.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(36)
         }
         
-        registerButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(66)
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        
+        duplicateCheckButton.snp.makeConstraints { make in
+            make.width.equalTo(80)
         }
+        
+        nextButton.snp.makeConstraints { make in
+            make.height.equalTo(80)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+    
+        [emailHorizontalView, nicknameTextField, idHorizontalStackView].forEach {
+            $0.snp.makeConstraints { make in
+                make.height.equalTo(46)
+            }
+        }
+        
+        [emailCaption, idCaptionLabel, nicknameCaptionLabel].forEach {
+            $0.setPadding(padding: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0))
+        }
+        
+        
+    
     }
        
     //MARK: - Function
-    @objc func didTapRegisterButton(_ sender: UIButton) {
-        dismiss(animated: true)
+    @objc func didTapNextButton(_ sender: UIButton) {
+        navigationController?.pushViewController(PwRegisterViewController(), animated: true)
+    }
+    
+    @objc func didTapEmailChoiceButton(_ sender: UIButton) {
+        
+        let vc = ChoiceEmailViewController()
+        
+        vc.emailViewModel.selectedIndex
+            .map { vc.emailViewModel.emailData[Int($0)] }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { email in
+                self.setChoiceTextField(email)
+            })
+            .disposed(by: disposeBag)
+        
+        vc.modalPresentationStyle = .pageSheet
+        
+        if let sheet = vc.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+        }
+        
+        present(vc, animated: true)
+        
+    }
+    
+    
+    private func setChoiceTextField(_ email: String) {
+        
+        choiceTextField.textColor = .black
+        if email == "직접입력" {
+            choiceTextField.isUserInteractionEnabled = true
+            choiceTextField.placeholder = email
+            choiceTextField.text = ""
+        } else {
+            choiceTextField.text = email
+            choiceTextField.isUserInteractionEnabled = false
+        }
     }
 }
+
