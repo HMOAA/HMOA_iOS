@@ -12,15 +12,21 @@ class SearchReactor: Reactor {
     
     enum Action {
         case didTapBackButton
+        case didChangeTextField
+        case didEndTextField
     }
     
     enum Mutation {
         case isPopVC(Bool)
+        case isChangeToResultVC(Bool)
+        case isChangeToListVC(Bool)
     }
     
     struct State {
         var Content: String = ""
         var isPopVC: Bool = false
+        var isChangeTextField: Bool = false
+        var isEndTextField: Bool = false
     }
     
     var initialState = State()
@@ -32,6 +38,16 @@ class SearchReactor: Reactor {
                 .just(.isPopVC(true)),
                 .just(.isPopVC(false))
             ])
+        case .didChangeTextField:
+            return .concat([
+                .just(.isChangeToListVC(true)),
+                .just(.isChangeToListVC(false))
+            ])
+        case .didEndTextField:
+            return .concat([
+                .just(.isChangeToResultVC(true)),
+                .just(.isChangeToResultVC(false))
+            ])
         }
     }
     
@@ -41,6 +57,10 @@ class SearchReactor: Reactor {
         switch mutation {
         case .isPopVC(let isPop):
             state.isPopVC = isPop
+        case .isChangeToListVC(let isChange):
+            state.isChangeTextField = isChange
+        case .isChangeToResultVC(let isEnd):
+            state.isEndTextField = isEnd
         }
         
         return state
