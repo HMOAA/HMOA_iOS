@@ -73,6 +73,12 @@ extension SearchViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // keywordVC - viewDidLoad
+        keywordVC.rx.viewDidLoad
+            .map { Reactor.Action.keywordViewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // 이전 뷰 컨트롤러로 이동
@@ -100,6 +106,14 @@ extension SearchViewController {
             .filter { $0 }
             .map { _ in }
             .bind(onNext: { self.changeViewController(self.ResultVC) })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.keywords }
+            .distinctUntilChanged()
+            .bind(onNext: {
+                self.keywordVC.keywordList.addTags($0)
+            })
             .disposed(by: disposeBag)
     }
     
