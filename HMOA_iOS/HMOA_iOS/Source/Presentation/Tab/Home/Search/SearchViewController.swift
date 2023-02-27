@@ -72,9 +72,13 @@ extension SearchViewController {
     func configureNavigationBar() {
      
         let backButtonItem = UIBarButtonItem(customView: backButton)
-                
+        
+        let searchBarWrapper = SearchBarContainerView(customSearchBar: searchBar)
+        
+        searchBarWrapper.frame = CGRect(x: 0, y: 0, width: self.navigationController!.view.frame.size.width - 42, height: 30)
+        
         self.navigationItem.leftBarButtonItems = [backButtonItem]
         
-        self.navigationItem.titleView = searchBar
+        self.navigationItem.titleView = searchBarWrapper
     }
 }
