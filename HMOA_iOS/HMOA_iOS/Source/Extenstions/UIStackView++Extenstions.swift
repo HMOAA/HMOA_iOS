@@ -10,7 +10,7 @@ import UIKit
 extension UIStackView {
     
     func setStackViewUI(spacing: CGFloat, axis: NSLayoutConstraint.Axis = .vertical) {
-        self.distribution = .fill
+    
         self.spacing = spacing
         self.axis = axis
     }
