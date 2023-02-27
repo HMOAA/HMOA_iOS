@@ -7,10 +7,17 @@ import Then
 class LoginViewController: UIViewController {
 
     //MARK: - Property
-    let titleLabel = UILabel().then {
-        $0.font = .customFont(.slabo27px, 30)
-        $0.text = "HMOA"
-        $0.textAlignment = .center
+    let noLoginLabel = UILabel().then {
+        $0.textColor = .customColor(.gray4)
+        $0.font = .customFont(.pretendard, 12)
+        $0.text = "로그인없이 사용하기"
+    }
+    let noLoginButton = UIButton().then {
+        $0.setImage(UIImage(named: "noLoginButton"), for: .normal)
+    }
+    
+    let titleImageView = UIImageView().then {
+        $0.image = UIImage(named: "logo_EG")
     }
     
     let idPwStackView = UIStackView().then {
@@ -19,59 +26,81 @@ class LoginViewController: UIViewController {
         $0.axis = .vertical
     }
     let idTextField = UITextField().then {
-        $0.setTextFieldUI("아이디", leftPadding: 8, isCapsule: false)
+        $0.setTextFieldUI("이메일 주소 또는 아이디", leftPadding: 16, font: .pretendard, isCapsule: true)
     }
     let pwTextField = UITextField().then {
-        $0.setTextFieldUI("아이디", leftPadding: 8, isCapsule: false)
+        $0.setTextFieldUI("비밀번호", leftPadding: 16, font: .pretendard, isCapsule: true)
+    }
+    
+    
+    let loginRetainStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 8
+    }
+    let checkLoginRetainButton = UIButton().then {
+        $0.setImage(UIImage(), for: .normal)
+        $0.setImage(UIImage(named: "checkButton"), for: .selected)
+        $0.backgroundColor = .customColor(.gray3)
+    }
+    let loginRetainLabel = UILabel().then {
+        $0.textColor = .customColor(.gray4)
+        $0.font = .customFont(.pretendard_light, 12)
+        $0.text = "로그인 상태 유지"
     }
     
     let loginButton = UIButton().then {
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = 22
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.cornerRadius = 20
+        $0.backgroundColor = .black
         $0.titleLabel?.font = .customFont(.pretendard, 14)
-        $0.backgroundColor = #colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1)
         $0.setTitle("로그인", for: .normal)
     }
     
     let idPwRegisterStackView = UIStackView().then {
         $0.distribution = .equalSpacing
-        $0.spacing = 30
+        $0.spacing = 32
         $0.axis = .horizontal
     }
     let findIdButton = UIButton().then {
         $0.setTitleColor(.black, for: .normal)
         $0.setTitle("아이디 찾기", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard, 12)
+        $0.titleLabel?.font = .customFont(.pretendard_light, 12)
     }
     let resetPwButton = UIButton().then {
         $0.setTitleColor(.black, for: .normal)
         $0.setTitle("비밀번호 재설정", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard, 12)
+        $0.titleLabel?.font = .customFont(.pretendard_light, 12)
     }
     let registerButton = UIButton().then {
         $0.setTitleColor(.black, for: .normal)
         $0.setTitle("회원가입", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard, 12)
+        $0.titleLabel?.font = .customFont(.pretendard_light, 12)
     }
     
     let easyLoginLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 12)
-        $0.text = "간편 로그인"
+        $0.font = .customFont(.pretendard, 10)
+        $0.text = "간편로그인"
     }
     
     let easyLoginStackView = UIStackView().then {
-        $0.distribution = .fillEqually
+        $0.distribution = .fill
         $0.spacing = 33
         $0.axis = .horizontal
     }
-    let naverButton = UIButton().then {
-        $0.setImage(UIImage(named: "naver"), for: .normal)
-    }
-    let kakaoButton = UIButton().then {
-        $0.setImage(UIImage(named: "kakaotalk"), for: .normal)
+    let appleButton = UIButton().then {
+        $0.clipsToBounds = true
+        $0.backgroundColor = #colorLiteral(red: 0.7540718913, green: 0.7540718913, blue: 0.7540718913, alpha: 1)
+        $0.setImage(UIImage(named: "apple"), for: .normal)
     }
     let googleButton = UIButton().then {
+        $0.layer.borderColor = UIColor.customColor(.gray1).cgColor
+        $0.layer.borderWidth = 1
+        $0.layer.cornerCurve = .circular
         $0.setImage(UIImage(named: "google"), for: .normal)
+    }
+    let kakaoButton = UIButton().then {
+        $0.backgroundColor = #colorLiteral(red: 0.9960784314, green: 0.8980392157, blue: 0, alpha: 1)
+        $0.setImage(UIImage(named: "kakaotalk"), for: .normal)
     }
     
     let viewModel = LoginViewModel()
@@ -79,10 +108,9 @@ class LoginViewController: UIViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
         setAddView()
         setUpConstraints()
-        
+        setUpUI()
     }
     
     
@@ -91,6 +119,12 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .white
         loginButton.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(didTapRegisterButton(_: )), for: .touchUpInside)
+        checkLoginRetainButton.addTarget(self, action: #selector(didTapLoginRetainButton(_: )), for: .touchUpInside)
+        noLoginButton.addTarget(self, action: #selector(didTapNoLoginButton(_: )), for: .touchUpInside)
+        
+        [appleButton, googleButton, kakaoButton].forEach {
+            $0.layer.cornerRadius = 25
+        }
     }
     
     
@@ -98,65 +132,103 @@ class LoginViewController: UIViewController {
         
         [idTextField, pwTextField].forEach { idPwStackView.addArrangedSubview($0) }
         
+        [checkLoginRetainButton, loginRetainLabel].forEach { loginRetainStackView.addArrangedSubview($0) }
+        
         [findIdButton, resetPwButton, registerButton].forEach { idPwRegisterStackView.addArrangedSubview($0)}
         
-        [naverButton, kakaoButton, googleButton].forEach { easyLoginStackView.addArrangedSubview($0) }
+        [appleButton, googleButton, kakaoButton].forEach { easyLoginStackView.addArrangedSubview($0) }
         
-        [titleLabel, loginButton, idPwStackView, idPwRegisterStackView, easyLoginLabel, easyLoginStackView].forEach { view.addSubview($0) }
+        [noLoginLabel, noLoginButton, titleImageView, loginRetainStackView, loginButton, idPwStackView, idPwRegisterStackView, easyLoginLabel, easyLoginStackView].forEach { view.addSubview($0) }
         
     }
     
     private func setUpConstraints() {
         
-        titleLabel.snp.makeConstraints { make in
-            make.height.equalTo(23)
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(181)
+        noLoginButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(19.1)
+            make.top.equalToSuperview().inset(69)
+        }
+        
+        noLoginLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(71)
+            make.trailing.equalTo(noLoginButton.snp.leading).offset(-15.09)
+
+        }
+        
+        titleImageView.snp.makeConstraints { make in
+            make.top.lessThanOrEqualToSuperview().inset(152)
+            make.width.equalTo(200)
+            make.height.equalTo(100)
             make.centerX.equalToSuperview()
         }
         
+        checkLoginRetainButton.snp.makeConstraints { make in
+            make.width.equalTo(16)
+        }
+        
         idPwStackView.snp.makeConstraints{ make in
-            make.height.equalTo(106)
-            make.top.equalTo(titleLabel.snp.bottom).offset(48)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(100)
+            make.top.equalTo(titleImageView.snp.bottom)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        loginRetainStackView.snp.makeConstraints { make in
+            make.height.equalTo(16)
+            make.leading.equalToSuperview().inset(16)
+            make.top.equalTo(idPwStackView.snp.bottom).offset(10)
         }
         
         loginButton.snp.makeConstraints { make in
             make.height.equalTo(44)
-            make.top.equalTo(pwTextField.snp.bottom).offset(19)
-            make.leading.equalToSuperview().inset(40)
-            make.trailing.equalToSuperview().inset(38)
+            make.top.equalTo(loginRetainStackView.snp.bottom).offset(38)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
         
         idPwRegisterStackView.snp.makeConstraints { make in
-            make.height.equalTo(35)
+            make.height.equalTo(12)
             make.centerX.equalToSuperview()
-            make.top.equalTo(loginButton.snp.bottom).offset(13)
+            make.top.equalTo(loginButton.snp.bottom).offset(16)
         }
         
         easyLoginLabel.snp.makeConstraints { make in
-            make.top.equalTo(idPwRegisterStackView.snp.bottom).offset(88)
+            make.top.equalTo(idPwRegisterStackView.snp.bottom).offset(92)
             make.centerX.equalToSuperview()
             make.height.equalTo(35)
         }
         
         easyLoginStackView.snp.makeConstraints { make in
-            make.height.equalTo(50)
-            make.top.equalTo(easyLoginLabel.snp.bottom).offset(6)
+            make.top.equalTo(easyLoginLabel.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(66).priority(750)
+        }
+        
+        [kakaoButton, googleButton, appleButton].forEach{
+            $0.snp.makeConstraints { make in
+                make.height.equalTo(50)
+                make.width.equalTo(50)
+           }
         }
     }
     
     //MARK: - Function
     @objc private func didTapLoginButton(_ sender: UIButton) {
-        let vc = StartViewController()
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+        let tabBar = AppTabbarController()
+        tabBar.modalPresentationStyle = .fullScreen
+        present(tabBar, animated: true)
     }
     
     @objc private func didTapRegisterButton(_ sender: UIButton) {
         let registerVC = RegisterViewController()
-        registerVC.modalPresentationStyle = .fullScreen
-        present(registerVC, animated: true)
+        navigationController?.pushViewController(registerVC, animated: true)
+    }
+    
+    @objc private func didTapLoginRetainButton(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        
+    }
+    
+    //TODO: - NoLoginButton Event
+    @objc private func didTapNoLoginButton(_ sender: UIButton) {
     }
     
                                 

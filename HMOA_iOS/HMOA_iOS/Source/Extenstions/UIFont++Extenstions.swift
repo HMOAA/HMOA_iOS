@@ -9,6 +9,7 @@ import UIKit
 import Pretendard
 
 enum Fonts {
+    case pretendard_semibold
     case pretendard_medium
     case pretendard_light
     case pretendard // pretendard_regular와 같음
@@ -19,6 +20,8 @@ extension UIFont {
     
     static func customFont(_ font: Fonts, _ size: CGFloat) -> UIFont {
         switch font {
+        case .pretendard_semibold:
+            return .pretendardFont(ofSize: size, weight: .semibold)
         case .pretendard_medium:
             return .pretendardFont(ofSize: size, weight: .medium)
         case .pretendard_light:
