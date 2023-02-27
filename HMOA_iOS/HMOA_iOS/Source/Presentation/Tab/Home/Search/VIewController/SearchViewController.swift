@@ -61,6 +61,18 @@ extension SearchViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // Text 입력
+        searchBar.rx.text.orEmpty
+            .map { _ in Reactor.Action.didChangeTextField }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 검색 버튼 클릭
+        searchBar.rx.searchButtonClicked
+            .map { Reactor.Action.didEndTextField }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // 이전 뷰 컨트롤러로 이동
@@ -71,10 +83,30 @@ extension SearchViewController {
             .map { _ in }
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
+        
+        // 텍스트 값이 변경되면 listVC으로 이동
+        reactor.state
+            .map { $0.isChangeTextField }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: { self.changeViewController(self.listVC) })
+            .disposed(by: disposeBag)
+        
+        // 검색 버튼 눌러지면 ResultVC으로 이동
+        reactor.state
+            .map { $0.isEndTextField }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: { self.changeViewController(self.ResultVC) })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
     func configureUI() {
+        
+
         view.backgroundColor = .white
         
         [   keywordVC,
@@ -89,6 +121,8 @@ extension SearchViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        self.changeViewController(self.keywordVC)
     }
     
     
@@ -103,5 +137,15 @@ extension SearchViewController {
         self.navigationItem.leftBarButtonItems = [backButtonItem]
         
         self.navigationItem.titleView = searchBarWrapper
+    }
+    
+    // MARK: - functions
+    
+    // 입력받은 VC를 containerView에 호출
+    func changeViewController(_ vc: UIViewController) {
+        vc.willMove(toParent: self)
+        containerView.addSubview(vc.view)
+        vc.view.frame = containerView.bounds
+        vc.didMove(toParent: self)
     }
 }
