@@ -18,7 +18,6 @@ class SearchViewController: UIViewController, View {
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
-    private var page = 0
     
     // MARK: - UI Component
     
@@ -63,6 +62,7 @@ extension SearchViewController {
         
         // Text 입력
         searchBar.rx.text.orEmpty
+            .filter { $0 != "" }
             .map { _ in Reactor.Action.didChangeTextField }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -108,6 +108,7 @@ extension SearchViewController {
             .bind(onNext: { self.changeViewController(self.ResultVC) })
             .disposed(by: disposeBag)
         
+        // keywordVC에서 viewDidLoad발생시 받아온 keywrods 데이터 바인딩
         reactor.state
             .map { $0.keywords }
             .distinctUntilChanged()
@@ -115,12 +116,40 @@ extension SearchViewController {
                 self.keywordVC.keywordList.addTags($0)
             })
             .disposed(by: disposeBag)
+        
+        // 연관 검색어 값이 바뀌면 tableView에 바인딩
+        reactor.state
+            .map { $0.lists }
+            .distinctUntilChanged()
+            .bind(to: self.listVC.tableView.rx.items(
+                cellIdentifier: SearchListTableViewCell.identifier,
+                cellType: SearchListTableViewCell.self)) { index, item, cell in
+                    cell.updateCell(item)
+            }
+            .disposed(by: disposeBag)
+
+        // 화면이 바뀌면 이전 페이지(VC)의 자식관계를 해지시켜줌
+        reactor.state
+            .map { $0.prePage }
+            .distinctUntilChanged()
+            .bind(onNext: {
+                switch $0 {
+                case 1:
+                    self.removeChiledViewController(self.keywordVC)
+                case 2:
+                    self.removeChiledViewController(self.listVC)
+                case 3:
+                    self.removeChiledViewController(self.ResultVC)
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
     func configureUI() {
         
-
         view.backgroundColor = .white
         
         [   keywordVC,
@@ -157,9 +186,15 @@ extension SearchViewController {
     
     // 입력받은 VC를 containerView에 호출
     func changeViewController(_ vc: UIViewController) {
-        vc.willMove(toParent: self)
         containerView.addSubview(vc.view)
         vc.view.frame = containerView.bounds
         vc.didMove(toParent: self)
+    }
+    
+    // 입력받은 VC의 자식관계 해제
+    func removeChiledViewController(_ vc: UIViewController) {
+        vc.willMove(toParent: self)
+        vc.removeFromParent()
+        vc.view.removeFromSuperview()
     }
 }
