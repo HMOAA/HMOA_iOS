@@ -57,6 +57,9 @@
 		2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA7A29705524000C6F71 /* UIColor++Extenstions.swift */; };
 		2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA7E29705B4C000C6F71 /* UITabBarItem++Extensions.swift */; };
 		2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041CD29ACD94D009247E7 /* SearchBarContainerView.swift */; };
+		2C4041D029ACDC13009247E7 /* SearchKeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041CF29ACDC13009247E7 /* SearchKeywordViewController.swift */; };
+		2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D129ACDC58009247E7 /* SearchListViewController.swift */; };
+		2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */; };
 		2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36B29754B3A0027CE40 /* HomeTopCell.swift */; };
 		2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36D29754B410027CE40 /* HomeCell.swift */; };
 		2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */; };
@@ -174,6 +177,9 @@
 		2C39AA7A29705524000C6F71 /* UIColor++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++Extenstions.swift"; sourceTree = "<group>"; };
 		2C39AA7E29705B4C000C6F71 /* UITabBarItem++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarItem++Extensions.swift"; sourceTree = "<group>"; };
 		2C4041CD29ACD94D009247E7 /* SearchBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarContainerView.swift; sourceTree = "<group>"; };
+		2C4041CF29ACDC13009247E7 /* SearchKeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeywordViewController.swift; sourceTree = "<group>"; };
+		2C4041D129ACDC58009247E7 /* SearchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
+		2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		2C4DD36B29754B3A0027CE40 /* HomeTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopCell.swift; sourceTree = "<group>"; };
 		2C4DD36D29754B410027CE40 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellHeaderView.swift; sourceTree = "<group>"; };
@@ -292,7 +298,6 @@
 				2C4041CC29ACD92A009247E7 /* View */,
 				2C6DAD0929A76EF9003F0E98 /* Reactor */,
 				2C6DAD0829A76EF3003F0E98 /* VIewController */,
-				2C04246829A3A992009CF0FE /* SearchViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -645,6 +650,10 @@
 		2C6DAD0829A76EF3003F0E98 /* VIewController */ = {
 			isa = PBXGroup;
 			children = (
+				2C04246829A3A992009CF0FE /* SearchViewController.swift */,
+				2C4041CF29ACDC13009247E7 /* SearchKeywordViewController.swift */,
+				2C4041D129ACDC58009247E7 /* SearchListViewController.swift */,
+				2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */,
 			);
 			path = VIewController;
 			sourceTree = "<group>";
@@ -1128,12 +1137,14 @@
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
 				2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */,
 				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
+				2C4041D029ACDC13009247E7 /* SearchKeywordViewController.swift in Sources */,
 				CAFA451329AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				2C04246B29A3B3E3009CF0FE /* HomeCellReactor.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
 				CA914491297E7EE600762BC0 /* LoginViewModel.swift in Sources */,
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
+				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				2C39AA60297047F9000C6F71 /* DrawerViewController.swift in Sources */,
 				2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */,
@@ -1166,6 +1177,7 @@
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
+				2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */,
 				2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */,
 				2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */,
 				2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */,

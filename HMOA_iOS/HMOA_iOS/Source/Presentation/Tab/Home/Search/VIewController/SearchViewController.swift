@@ -18,12 +18,18 @@ class SearchViewController: UIViewController, View {
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
+    private var page = 0
     
     // MARK: - UI Component
     
-    let backButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
+    private lazy var keywordVC = SearchKeywordViewController()
+    private lazy var listVC = SearchListViewController()
+    private lazy var ResultVC = SearchResultViewController()
+    private lazy var containerView = UIView()
     
-    let searchBar = UISearchBar().then {
+    lazy var backButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
+    
+    lazy var searchBar = UISearchBar().then {
         $0.showsBookmarkButton = true
         $0.setImage(UIImage(named: "clearButton"), for: .clear, state: .normal)
         $0.setImage(UIImage(named: "search")?.withTintColor(.customColor(.gray3)), for: .bookmark, state: .normal)
@@ -44,6 +50,8 @@ class SearchViewController: UIViewController, View {
 
 extension SearchViewController {
     
+    
+    // MARK: - Binding
     func bind(reactor: SearchReactor) {
         // MARK: - Action
         
@@ -65,9 +73,24 @@ extension SearchViewController {
             .disposed(by: disposeBag)
     }
     
+    // MARK: - Configure
     func configureUI() {
         view.backgroundColor = .white
+        
+        [   keywordVC,
+            listVC,
+            ResultVC
+        ]   .forEach {  self.addChild($0)   }
+        
+        [   containerView
+        ]   .forEach { view.addSubview($0) }
+        
+        containerView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
+    
     
     func configureNavigationBar() {
      
