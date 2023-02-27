@@ -19,9 +19,10 @@ class SearchReactor: Reactor {
     
     enum Mutation {
         case isPopVC(Bool)
-        case isChangeToResultVC(Bool)
-        case isChangeToListVC(Bool)
+        case isChangeToResultVC(Bool, Int?)
+        case isChangeToListVC(Bool, Int?)
         case setKeyword([String])
+        case setList([String])
     }
     
     struct State {
@@ -30,6 +31,9 @@ class SearchReactor: Reactor {
         var isChangeTextField: Bool = false
         var isEndTextField: Bool = false
         var keywords: [String] = []
+        var lists: [String] = [] // 연관 검색어 리스트
+        var nowPage: Int = 1 // 현재 보여지고 있는 페이지
+        var prePage: Int = 0 // 이전 페이지
     }
     
     var initialState = State()
@@ -45,13 +49,14 @@ class SearchReactor: Reactor {
             ])
         case .didChangeTextField:
             return .concat([
-                .just(.isChangeToListVC(true)),
-                .just(.isChangeToListVC(false))
+                .just(.isChangeToListVC(true, 2)),
+                reqeustList(),
+                .just(.isChangeToListVC(false, nil))
             ])
         case .didEndTextField:
             return .concat([
-                .just(.isChangeToResultVC(true)),
-                .just(.isChangeToResultVC(false))
+                .just(.isChangeToResultVC(true, 3)),
+                .just(.isChangeToResultVC(false, nil))
             ])
         }
     }
@@ -62,15 +67,31 @@ class SearchReactor: Reactor {
         switch mutation {
         case .setKeyword(let keywords):
             state.keywords = keywords
+        case .setList(let lists):
+            state.lists = lists
         case .isPopVC(let isPop):
             state.isPopVC = isPop
-        case .isChangeToListVC(let isChange):
+        case .isChangeToListVC(let isChange, let nowPage):
             state.isChangeTextField = isChange
-        case .isChangeToResultVC(let isEnd):
+            
+            // 이전 페이지 값을 state.nowPage로 구현해봤는데 코드가 좀 복잡해져서 나중에 손봐야될 것 같습니다
+            if let nowPage = nowPage {
+                if state.nowPage != 2 { // text가 바뀔 때 state.nowPage도 2, 전달되어지는 nowPage값도 2인 경우가 있어서 일단 이렇게 처리
+                    state.prePage = state.nowPage
+                    state.nowPage = nowPage
+                }
+            }
+            
+        case .isChangeToResultVC(let isEnd, let nowPage):
             state.isEndTextField = isEnd
+
+            if let nowPage = nowPage {
+                state.prePage = state.nowPage
+                state.nowPage = nowPage
+            }
         }
-        
         return state
+
     }
 }
 
@@ -85,5 +106,23 @@ extension SearchReactor {
         return .concat([
             .just(.setKeyword(data))
         ])
+    }
+    
+    func reqeustList() -> Observable<Mutation> {
+        
+        // TODO: - 서버 통신해서 검색어 받아오기
+        
+        let data =  ["랑방 모던 프린세스",
+                     "랑방 블루 오키드",
+                     "랑방 워터 릴리",
+                     "랑방 잔느",
+                     "랑방 블루 오키드",
+                     "랑방 워터 릴리",
+                     "랑방 잔느",
+                     "랑방 블루 오키드",
+                     "랑방 워터 릴리",
+                     "랑방 잔느"]
+        
+        return .just(.setList(data))
     }
 }

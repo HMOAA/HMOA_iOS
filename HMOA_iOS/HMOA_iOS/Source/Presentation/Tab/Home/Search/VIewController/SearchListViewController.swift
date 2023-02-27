@@ -9,21 +9,32 @@ import UIKit
 
 class SearchListViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .green
-        // Do any additional setup after loading the view.
+    // MARK: - UI Component
+    
+    lazy var tableView = UITableView().then {
+        $0.register(SearchListTableViewCell.self, forCellReuseIdentifier: SearchListTableViewCell.identifier)
+        $0.separatorStyle = .none
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureUI()
     }
-    */
+}
 
+extension SearchListViewController {
+    
+    // MARK: - Configure
+    
+    func configureUI() {
+        
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(26)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
 }
