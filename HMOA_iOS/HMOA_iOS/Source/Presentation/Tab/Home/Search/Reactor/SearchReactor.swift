@@ -15,6 +15,10 @@ class SearchReactor: Reactor {
         case didTapBackButton
         case didChangeTextField
         case didEndTextField
+        case didTapProductButton
+        case didTapBrandButton
+        case didTapPostButton
+        case didTapHpediaButton
     }
     
     enum Mutation {
@@ -23,6 +27,11 @@ class SearchReactor: Reactor {
         case isChangeToListVC(Bool, Int?)
         case setKeyword([String])
         case setList([String])
+        case setResultProduct([Product])
+        case setProductButtonState(Bool)
+        case setBrandButtonState(Bool)
+        case setPostButtonState(Bool)
+        case setHpediaButtonState(Bool)
     }
     
     struct State {
@@ -32,8 +41,13 @@ class SearchReactor: Reactor {
         var isEndTextField: Bool = false
         var keywords: [String] = []
         var lists: [String] = [] // 연관 검색어 리스트
+        var resultProduct: [Product] = []
         var nowPage: Int = 1 // 현재 보여지고 있는 페이지
         var prePage: Int = 0 // 이전 페이지
+        var isSelectedProductButton: Bool = true
+        var isSelectedBrandButton: Bool = false
+        var isSelectedPostButton: Bool = false
+        var isSelectedHpediaButton: Bool = false
     }
     
     var initialState = State()
@@ -56,8 +70,21 @@ class SearchReactor: Reactor {
         case .didEndTextField:
             return .concat([
                 .just(.isChangeToResultVC(true, 3)),
+                requestResult(),
                 .just(.isChangeToResultVC(false, nil))
             ])
+        case .didTapProductButton:
+            return .just(.setProductButtonState(true))
+
+        case .didTapBrandButton:
+            return .just(.setBrandButtonState(true))
+
+        case .didTapPostButton:
+            return .just(.setPostButtonState(true))
+
+        case .didTapHpediaButton:
+            return .just(.setHpediaButtonState(true))
+        
         }
     }
     
@@ -69,6 +96,8 @@ class SearchReactor: Reactor {
             state.keywords = keywords
         case .setList(let lists):
             state.lists = lists
+        case .setResultProduct(let products):
+            state.resultProduct = products
         case .isPopVC(let isPop):
             state.isPopVC = isPop
         case .isChangeToListVC(let isChange, let nowPage):
@@ -84,14 +113,38 @@ class SearchReactor: Reactor {
             
         case .isChangeToResultVC(let isEnd, let nowPage):
             state.isEndTextField = isEnd
-
+            
             if let nowPage = nowPage {
                 state.prePage = state.nowPage
                 state.nowPage = nowPage
             }
+            
+        case .setProductButtonState(let isSelected):
+            state.isSelectedProductButton = isSelected
+            state.isSelectedBrandButton = false
+            state.isSelectedPostButton = false
+            state.isSelectedHpediaButton = false
+            
+        case .setBrandButtonState(let isSelected):
+            state.isSelectedBrandButton = isSelected
+            state.isSelectedProductButton = false
+            state.isSelectedPostButton = false
+            state.isSelectedHpediaButton = false
+            
+        case .setPostButtonState(let isSelected):
+            state.isSelectedPostButton = isSelected
+            state.isSelectedBrandButton = false
+            state.isSelectedProductButton = false
+            state.isSelectedHpediaButton = false
+            
+        case .setHpediaButtonState(let isSelected):
+            state.isSelectedHpediaButton = isSelected
+            state.isSelectedBrandButton = false
+            state.isSelectedPostButton = false
+            state.isSelectedProductButton = false
         }
+        
         return state
-
     }
 }
 
@@ -124,5 +177,12 @@ extension SearchReactor {
                      "랑방 잔느"]
         
         return .just(.setList(data))
+    }
+    
+    func requestResult() -> Observable<Mutation> {
+        
+        let data: [Product] = [Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛")]
+        
+        return .just(.setResultProduct(data))
     }
 }

@@ -75,6 +75,9 @@
 		2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFB297C15DF006BE23B /* MyPageCell.swift */; };
 		2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFE297C183F006BE23B /* MyPageViewModel.swift */; };
 		2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */; };
+		2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB7A9729B07A2300E74809 /* SearchResultTopView.swift */; };
+		2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB7A9929B08BBA00E74809 /* SearchResultCollectionViewCell.swift */; };
+		2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB7A9C29B08E4100E74809 /* Product.swift */; };
 		2CAD9635298E469200974500 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9634298E469200974500 /* DetailViewController.swift */; };
 		2CAD9637298E483800974500 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9636298E483800974500 /* DetailView.swift */; };
 		2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */; };
@@ -196,6 +199,9 @@
 		2C710EFB297C15DF006BE23B /* MyPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
 		2C710EFE297C183F006BE23B /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListTopView.swift; sourceTree = "<group>"; };
+		2CAB7A9729B07A2300E74809 /* SearchResultTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTopView.swift; sourceTree = "<group>"; };
+		2CAB7A9929B08BBA00E74809 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
+		2CAB7A9C29B08E4100E74809 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		2CAD9634298E469200974500 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		2CAD9636298E483800974500 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoView.swift; sourceTree = "<group>"; };
@@ -297,6 +303,7 @@
 		2C04246729A3A983009CF0FE /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				2CAB7A9B29B08E3200E74809 /* Model */,
 				2C4041CC29ACD92A009247E7 /* View */,
 				2C6DAD0929A76EF9003F0E98 /* Reactor */,
 				2C6DAD0829A76EF3003F0E98 /* VIewController */,
@@ -633,6 +640,9 @@
 			children = (
 				2C4041CD29ACD94D009247E7 /* SearchBarContainerView.swift */,
 				2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */,
+				2CAB7A9729B07A2300E74809 /* SearchResultTopView.swift */,
+				2CAB7A9929B08BBA00E74809 /* SearchResultCollectionViewCell.swift */,
+				2CAB7A9C29B08E4100E74809 /* Product.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -685,6 +695,13 @@
 				2C710EFE297C183F006BE23B /* MyPageViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2CAB7A9B29B08E3200E74809 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2CAD9630298E465600974500 /* Detail */ = {
@@ -1120,6 +1137,7 @@
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
 				2CDFFDD92983F9FB00F60304 /* NewsView.swift in Sources */,
 				CAFA450329AB7CEE00ACF2C1 /* PwRegisetrViewModel.swift in Sources */,
+				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
 				2CDFFDD72983F9E500F60304 /* NewsCellFooterView.swift in Sources */,
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
@@ -1149,12 +1167,14 @@
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
+				2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */,
 				2C39AA60297047F9000C6F71 /* DrawerViewController.swift in Sources */,
 				2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */,
 				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
 				CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */,
 				CAFA450129AB7CDD00ACF2C1 /* ChocieEmailViewModel.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
+				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
 				2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */,
 				2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */,

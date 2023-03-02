@@ -8,22 +8,57 @@
 import UIKit
 
 class SearchResultViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .blue
-        // Do any additional setup after loading the view.
+    
+    // MARK: - UI Component
+    
+    lazy var topView = SearchResultTopView()
+    
+    lazy var layout = UICollectionViewFlowLayout()
+    
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+        $0.register(SearchResultCollectionViewCell.self, forCellWithReuseIdentifier: SearchResultCollectionViewCell.identifier)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureUI()
     }
-    */
+}
 
+extension SearchResultViewController {
+    
+    // MARK: - Configure
+    func configureUI() {
+
+        collectionView.delegate = self
+        
+        [   topView,
+            collectionView
+        ]   .forEach { view.addSubview($0) }
+        
+        topView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(42)
+        }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(topView.snp.bottom).offset(3)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+}
+
+extension SearchResultViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let width = (UIScreen.main.bounds.width - 40) / 2
+        let height = width + 82
+        return CGSize(width: width, height: height)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+    }
 }
