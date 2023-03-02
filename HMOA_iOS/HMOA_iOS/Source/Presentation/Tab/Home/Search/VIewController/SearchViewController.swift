@@ -62,6 +62,7 @@ extension SearchViewController {
         
         // Text 입력
         searchBar.rx.text.orEmpty
+            .distinctUntilChanged()
             .filter { $0 != "" }
             .map { _ in Reactor.Action.didChangeTextField }
             .bind(to: reactor.action)
@@ -79,25 +80,30 @@ extension SearchViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 상품 버튼 클릭
         ResultVC.topView.productButton.rx.tap
             .map { Reactor.Action.didTapProductButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 브랜드 버튼 클릭
         ResultVC.topView.brandButton.rx.tap
             .map { Reactor.Action.didTapBrandButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 포스트 버튼 클릭
         ResultVC.topView.postButton.rx.tap
             .map { Reactor.Action.didTapPostButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // Hpedia 버튼 클릭
         ResultVC.topView.hpediaButton.rx.tap
             .map { Reactor.Action.didTapHpediaButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // 이전 뷰 컨트롤러로 이동
@@ -135,6 +141,7 @@ extension SearchViewController {
                 self.keywordVC.keywordList.addTags($0)
             })
             .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.resultProduct }
             .distinctUntilChanged()
@@ -143,6 +150,7 @@ extension SearchViewController {
                     cell.updateCell(item)
             }
             .disposed(by: disposeBag)
+        
         // 연관 검색어 값이 바뀌면 tableView에 바인딩
         reactor.state
             .map { $0.lists }
@@ -153,8 +161,6 @@ extension SearchViewController {
                     cell.updateCell(item)
             }
             .disposed(by: disposeBag)
-
-
 
         // 화면이 바뀌면 이전 페이지(VC)의 자식관계를 해지시켜줌
         reactor.state
@@ -174,29 +180,34 @@ extension SearchViewController {
             })
             .disposed(by: disposeBag)
         
+        // 상품 버튼 상태 변화
         reactor.state
             .map { $0.isSelectedProductButton }
             .distinctUntilChanged()
             .bind(to: ResultVC.topView.productButton.rx.isSelected)
             .disposed(by: disposeBag)
         
+        // 브랜드 버튼 상태 변화
         reactor.state
             .map { $0.isSelectedBrandButton }
             .distinctUntilChanged()
             .bind(to: ResultVC.topView.brandButton.rx.isSelected )
             .disposed(by: disposeBag)
         
+        // 포스트 버튼 상태 변화
         reactor.state
             .map { $0.isSelectedPostButton }
             .distinctUntilChanged()
             .bind(to: ResultVC.topView.postButton.rx.isSelected)
             .disposed(by: disposeBag)
         
+        // Hepdia 버튼 상태 변화
         reactor.state
             .map { $0.isSelectedHpediaButton }
             .distinctUntilChanged()
             .bind(to: ResultVC.topView.hpediaButton.rx.isSelected )
             .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Configure
