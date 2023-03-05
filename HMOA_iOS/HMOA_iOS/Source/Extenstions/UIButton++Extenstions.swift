@@ -37,4 +37,35 @@ extension UIButton {
         self.layer.cornerRadius = 10
         self.backgroundColor = .customColor(.gray1)
     }
+    
+    func makeCategoryButton(_ title: String) {
+        
+        var selectedConfig = UIButton.Configuration.plain()
+        var normalConfig = UIButton.Configuration.plain()
+        var attribute = AttributedString.init(title)
+        attribute.font = .customFont(.pretendard, 14)
+                
+        selectedConfig.baseBackgroundColor = .white
+        selectedConfig.baseForegroundColor = .white
+        normalConfig.baseForegroundColor = .customColor(.gray3)
+        normalConfig.baseBackgroundColor = .white
+
+        selectedConfig.attributedTitle = attribute
+        normalConfig.attributedTitle = attribute
+        
+        self.configurationUpdateHandler = {
+            switch $0.state {
+            case .selected:
+                $0.configuration = selectedConfig
+                $0.backgroundColor = .black
+            default:
+                $0.configuration = normalConfig
+                $0.backgroundColor = .white
+                $0.layer.borderColor = UIColor.customColor(.gray3).cgColor
+                $0.layer.borderWidth = 1
+            }
+        }
+        
+        self.layer.cornerRadius = 10
+    }
 }
