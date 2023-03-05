@@ -147,6 +147,9 @@ extension DetailViewController {
         
         reactor.state
             .map { $0.isPresentSearchVC }
+            .do(onNext: {
+                print($0)
+            })
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
