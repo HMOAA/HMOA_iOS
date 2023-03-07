@@ -17,7 +17,6 @@ class LoginReactor: Reactor {
     //유저 액션
     enum Action {
         case didTapLoginButton
-        case didTapRegisterButton
         case didTapLoginRetainButton
         case didTapNoLoginButton
     }
@@ -25,19 +24,17 @@ class LoginReactor: Reactor {
     //상태 변화
     enum Mutation {
         case setPresentTabBar(Bool)
-        case setPushRegisterVC(Bool)
         case toggleRetainButton(Bool)
     }
     
     //현재 뷰 상태
     struct State {
-        var isPushRegisterVC: Bool
         var isPresentTabBar: Bool
         var isChecked: Bool
     }
     
     init() {
-        initialState = State(isPushRegisterVC: false, isPresentTabBar: false, isChecked: false)
+        initialState = State(isPresentTabBar: false, isChecked: false)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -47,11 +44,6 @@ class LoginReactor: Reactor {
             return .concat([
                 .just(.setPresentTabBar(true)),
                 .just(.setPresentTabBar(false))
-                      ])
-        case .didTapRegisterButton:
-            return .concat([
-                .just(.setPushRegisterVC(true)),
-                .just(.setPushRegisterVC(false))
                       ])
         case .didTapLoginRetainButton:
             return .concat([
@@ -68,8 +60,6 @@ class LoginReactor: Reactor {
         switch mutation {
         case .setPresentTabBar(let isPresent):
             state.isPresentTabBar = isPresent
-        case .setPushRegisterVC(let isPush):
-            state.isPushRegisterVC = isPush
         case .toggleRetainButton(let isCheck):
             state.isChecked = isCheck
         }
