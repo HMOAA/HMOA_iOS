@@ -245,6 +245,17 @@ class LoginViewController: UIViewController {
             }).disposed(by: disposeBag)
         
         reactor.state
+            .map { $0.isPushStartVC}
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { isPush in
+                if isPush {
+                    let startVC = StartViewController()
+                    self.navigationController?
+                        .pushViewController(startVC, animated: true)
+                }
+            }).disposed(by: disposeBag)
+        
+        reactor.state
             .map { $0.isChecked}
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { isCheck in
