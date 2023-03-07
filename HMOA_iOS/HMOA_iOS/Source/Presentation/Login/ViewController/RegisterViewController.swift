@@ -94,20 +94,24 @@ class RegisterViewController: UIViewController {
     }
     
     let disposeBag = DisposeBag()
+    let registerReactor = RegisterReactor()
     
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarTitle(title: "회원가입", color: .white, isHidden: false, isScroll: false)
+        
         setUpUI()
         setAddView()
         setUpConstraints()
+        
+        bind(reactor: registerReactor)
         
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         [emailTextField, idTextField, nicknameTextField, choiceHorizhontalView].forEach {
             setBottomBorder($0, width: $0.frame.width, height: $0.frame.height)
         }
@@ -118,8 +122,7 @@ class RegisterViewController: UIViewController {
     private func setUpUI() {
         view.backgroundColor = .white
         
-        nextButton.addTarget(self, action: #selector(didTapNextButton(_: )), for: .touchUpInside)
-        emailChoiceButton.addTarget(self, action: #selector(didTapEmailChoiceButton(_: )), for: .touchUpInside)
+        setNavigationBarTitle(title: "회원가입", color: .white, isHidden: false, isScroll: false)
     }
     
     private func setAddView() {
@@ -141,7 +144,6 @@ class RegisterViewController: UIViewController {
     }
     
     private func setUpConstraints() {
-        
         
         atLabel.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
@@ -198,32 +200,7 @@ class RegisterViewController: UIViewController {
     }
        
     //MARK: - Function
-    @objc func didTapNextButton(_ sender: UIButton) {
-        navigationController?.pushViewController(PwRegisterViewController(), animated: true)
-    }
-    
-    @objc func didTapEmailChoiceButton(_ sender: UIButton) {
-        
-        let vc = ChoiceEmailViewController()
-        
-        vc.emailViewModel.selectedIndex
-            .map { vc.emailViewModel.emailData[Int($0)] }
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { email in
-                self.setChoiceTextField(email)
-            })
-            .disposed(by: disposeBag)
-        
-        vc.modalPresentationStyle = .pageSheet
-        
-        if let sheet = vc.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.largestUndimmedDetentIdentifier = .medium
-        }
-        
-        present(vc, animated: true)
-        
-    }
+   
     
     
     private func setChoiceTextField(_ email: String) {
@@ -237,6 +214,58 @@ class RegisterViewController: UIViewController {
             choiceTextField.text = email
             choiceTextField.isUserInteractionEnabled = false
         }
+    }
+    
+    private func bind(reactor: RegisterReactor) {
+        //Input
+        nextButton.rx.tap
+            .map { RegisterReactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        emailChoiceButton.rx.tap
+            .map { RegisterReactor.Action.didTapEmailChoiceButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //Output
+        reactor.state
+            .map { $0.isPush }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { isPush in
+                if isPush{
+                    self.navigationController?
+                        .pushViewController(PwRegisterViewController(), animated: true)
+                }
+            }).disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPresent }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { isPresent in
+                if isPresent {
+                    let vc = ChoiceEmailViewController()
+                    
+            //        vc.emailViewModel.selectedIndex
+            //            .map { vc.emailViewModel.emailData[Int($0)] }
+            //            .observe(on: MainScheduler.instance)
+            //            .subscribe(onNext: { email in
+            //                self.setChoiceTextField(email)
+            //            })
+            //            .disposed(by: disposeBag)
+                    
+                    vc.modalPresentationStyle = .pageSheet
+                    
+                    if let sheet = vc.sheetPresentationController {
+                        sheet.detents = [.medium()]
+                        sheet.largestUndimmedDetentIdentifier = .medium
+                    }
+                    
+                    self.present(vc, animated: true)
+                }
+            }).disposed(by: disposeBag)
+        
+        
     }
 }
 
