@@ -107,6 +107,8 @@
 		CAFA451329AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451229AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift */; };
 		CAFA451529AB7E8C00ACF2C1 /* PwRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451429AB7E8C00ACF2C1 /* PwRegisterViewController.swift */; };
 		CAFA451829AB7ED000ACF2C1 /* EmailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451729AB7ED000ACF2C1 /* EmailCell.swift */; };
+		CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */; };
+		CAFB9F4229B5DC140009654C /* RegisterReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB9F4129B5DC140009654C /* RegisterReactor.swift */; };
 		E5DAC5FE1598DDCD2E1F1131 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1010CAD33467EC8F888DFEC6 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -236,6 +238,8 @@
 		CAFA451229AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceEmailViewController.swift; sourceTree = "<group>"; };
 		CAFA451429AB7E8C00ACF2C1 /* PwRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwRegisterViewController.swift; sourceTree = "<group>"; };
 		CAFA451729AB7ED000ACF2C1 /* EmailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCell.swift; sourceTree = "<group>"; };
+		CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginReactor.swift; sourceTree = "<group>"; };
+		CAFB9F4129B5DC140009654C /* RegisterReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterReactor.swift; sourceTree = "<group>"; };
 		D7A11DAE423D71B1F9301948 /* Pods-HMOA_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		FD433F530CC172AADE2B97A9 /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -810,6 +814,7 @@
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				CAFB9F3E29B5C6710009654C /* Reactor */,
 				CAFA44FC29AB7C3600ACF2C1 /* Model */,
 				CA051CAC297FD9BD001865F5 /* Start */,
 				CAFA451629AB7EB500ACF2C1 /* View */,
@@ -879,6 +884,15 @@
 				CAFA451729AB7ED000ACF2C1 /* EmailCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		CAFB9F3E29B5C6710009654C /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */,
+				CAFB9F4129B5DC140009654C /* RegisterReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1140,6 +1154,7 @@
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
 				2CDFFDD72983F9E500F60304 /* NewsCellFooterView.swift in Sources */,
+				CAFB9F4229B5DC140009654C /* RegisterReactor.swift in Sources */,
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				CAFA450E29AB7E1300ACF2C1 /* StartViewModel.swift in Sources */,
@@ -1184,6 +1199,7 @@
 				2C710EED29798172006BE23B /* HomeWatchCell.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */,
+				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
