@@ -40,14 +40,12 @@ class CommentWriteViewController: UIViewController, View {
         $0.tintColor = .black
     }
     
-    lazy var textField: UITextField = {
-       let textField = UITextField()
-        textField.font = .customFont(.pretendard, 14)
-        textField.textAlignment = .left
-        textField.contentVerticalAlignment = .top
-        textField.attributedPlaceholder = NSAttributedString(string: "해당 제품에 대한 의견을 남겨주세요")
-        return textField
-    }()
+    lazy var textView = UITextView().then {
+        $0.font = .customFont(.pretendard, 14)
+        $0.text = "해당 제품에 대한 의견을 남겨주세요"
+        $0.textColor = .customColor(.gray3)
+        $0.textAlignment = .left
+    }
 
     // MARK: - Lifecycle
     
@@ -79,6 +77,18 @@ extension CommentWriteViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // textView 사용자가 입력 시작
+        textView.rx.didBeginEditing
+            .map { Reactor.Action.didBeginTextViewEditing }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // textView 사용자가 입력 종료 (textView가 비활성화)
+        textView.rx.didEndEditing
+            .map { Reactor.Action.didEndTextViewEditing }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // 화면 Pop
@@ -89,14 +99,42 @@ extension CommentWriteViewController {
             .map { _ in }
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
+        
+        // 사용자 입력 시작
+        reactor.state
+            .map { $0.isBeginEditing }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: {
+                if self.textView.text == "해당 제품에 대한 의견을 남겨주세요" {
+                    self.textView.text = nil
+                    self.textView.textColor = .black
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        // 사용자가 입력 종료 (textView 비활성화)
+        reactor.state
+            .map { $0.isEndEditing }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: {
+                if self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    self.textView.text = "해당 제품에 대한 의견을 남겨주세요"
+                    self.textView.textColor = .customColor(.gray3)
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     func configureUI() {
         
         view.backgroundColor = .white
-        view.addSubview(textField)
+        view.addSubview(textView)
         
-        textField.snp.makeConstraints {
+        textView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.leading.trailing.equalToSuperview().inset(32)
             $0.height.equalTo(588)
