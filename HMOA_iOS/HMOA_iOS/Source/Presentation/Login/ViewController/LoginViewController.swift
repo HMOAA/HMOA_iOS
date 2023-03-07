@@ -222,11 +222,6 @@ class LoginViewController: UIViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        registerButton.rx.tap
-            .map { LoginReactor.Action.didTapRegisterButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         noLoginButton.rx.tap
             .map { LoginReactor.Action.didTapNoLoginButton }
             .bind(to: reactor.action)
@@ -246,17 +241,6 @@ class LoginViewController: UIViewController {
                     let tabBar = AppTabbarController()
                     tabBar.modalPresentationStyle = .fullScreen
                     self.present(tabBar, animated: true)
-                }
-            }).disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.isPushRegisterVC}
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { isPush in
-                if isPush {
-                    let registerVC = RegisterViewController()
-                    self.navigationController?
-                        .pushViewController(registerVC, animated: true)
                 }
             }).disposed(by: disposeBag)
         
