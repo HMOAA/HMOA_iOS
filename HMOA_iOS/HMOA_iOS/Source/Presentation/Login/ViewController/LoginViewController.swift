@@ -3,11 +3,14 @@ import UIKit
 
 import SnapKit
 import Then
+import ReactorKit
+import RxCocoa
 
 class LoginViewController: UIViewController {
 
     //MARK: - Property
     let noLoginLabel = UILabel().then {
+        $0.sizeToFit()
         $0.textColor = .customColor(.gray4)
         $0.font = .customFont(.pretendard, 12)
         $0.text = "로그인없이 사용하기"
@@ -50,7 +53,6 @@ class LoginViewController: UIViewController {
     
     let loginButton = UIButton().then {
         $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 20
         $0.backgroundColor = .black
         $0.titleLabel?.font = .customFont(.pretendard, 14)
         $0.setTitle("로그인", for: .normal)
@@ -103,7 +105,8 @@ class LoginViewController: UIViewController {
         $0.setImage(UIImage(named: "kakaotalk"), for: .normal)
     }
     
-    let viewModel = LoginViewModel()
+    let loginReactor = LoginReactor()
+    let disposeBag = DisposeBag()
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -111,23 +114,25 @@ class LoginViewController: UIViewController {
         setAddView()
         setUpConstraints()
         setUpUI()
+        
+        bind(reactor: loginReactor)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.isNavigationBarHidden = false
+    }
     
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = .white
-        loginButton.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
-        registerButton.addTarget(self, action: #selector(didTapRegisterButton(_: )), for: .touchUpInside)
-        checkLoginRetainButton.addTarget(self, action: #selector(didTapLoginRetainButton(_: )), for: .touchUpInside)
-        noLoginButton.addTarget(self, action: #selector(didTapNoLoginButton(_: )), for: .touchUpInside)
-        
+        navigationController?.isNavigationBarHidden = true
         [appleButton, googleButton, kakaoButton].forEach {
             $0.layer.cornerRadius = 25
         }
     }
-    
-    
+
     private func setAddView() {
         
         [idTextField, pwTextField].forEach { idPwStackView.addArrangedSubview($0) }
@@ -138,21 +143,20 @@ class LoginViewController: UIViewController {
         
         [appleButton, googleButton, kakaoButton].forEach { easyLoginStackView.addArrangedSubview($0) }
         
-        [noLoginLabel, noLoginButton, titleImageView, loginRetainStackView, loginButton, idPwStackView, idPwRegisterStackView, easyLoginLabel, easyLoginStackView].forEach { view.addSubview($0) }
+        [noLoginButton, noLoginLabel, titleImageView, loginRetainStackView, loginButton, idPwStackView, idPwRegisterStackView, easyLoginLabel, easyLoginStackView].forEach { view.addSubview($0) }
         
     }
     
     private func setUpConstraints() {
         
         noLoginButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(19.1)
+            make.trailing.equalToSuperview().inset(19)
             make.top.equalToSuperview().inset(69)
         }
         
         noLoginLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(71)
+            make.top.equalToSuperview().inset(72)
             make.trailing.equalTo(noLoginButton.snp.leading).offset(-15.09)
-
         }
         
         titleImageView.snp.makeConstraints { make in
@@ -210,27 +214,59 @@ class LoginViewController: UIViewController {
         }
     }
     
-    //MARK: - Function
-    @objc private func didTapLoginButton(_ sender: UIButton) {
-        let tabBar = AppTabbarController()
-        tabBar.modalPresentationStyle = .fullScreen
-        present(tabBar, animated: true)
-    }
-    
-    @objc private func didTapRegisterButton(_ sender: UIButton) {
-        let registerVC = RegisterViewController()
-        navigationController?.pushViewController(registerVC, animated: true)
-    }
-    
-    @objc private func didTapLoginRetainButton(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    //MARK: - Bind
+    private func bind(reactor: LoginReactor) {
+        //Input
+        loginButton.rx.tap
+            .map { LoginReactor.Action.didTapLoginButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
+        registerButton.rx.tap
+            .map { LoginReactor.Action.didTapRegisterButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        noLoginButton.rx.tap
+            .map { LoginReactor.Action.didTapNoLoginButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        checkLoginRetainButton.rx.tap
+            .map { LoginReactor.Action.didTapLoginRetainButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //Output
+        reactor.state
+            .map { $0.isPresentTabBar}
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { isPresent in
+                if isPresent {
+                    let tabBar = AppTabbarController()
+                    tabBar.modalPresentationStyle = .fullScreen
+                    self.present(tabBar, animated: true)
+                }
+            }).disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushRegisterVC}
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { isPush in
+                if isPush {
+                    let registerVC = RegisterViewController()
+                    self.navigationController?
+                        .pushViewController(registerVC, animated: true)
+                }
+            }).disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isChecked}
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { isCheck in
+                if isCheck {
+                    self.checkLoginRetainButton.isSelected.toggle()
+                }
+            }).disposed(by: disposeBag)
     }
-    
-    //TODO: - NoLoginButton Event
-    @objc private func didTapNoLoginButton(_ sender: UIButton) {
-    }
-    
-                                
-
 }
