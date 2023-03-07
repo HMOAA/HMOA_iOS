@@ -92,9 +92,9 @@ extension CommentListReactor {
         let comments = [
             Comment(commentId: 1, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
             Comment(commentId: 2, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 3, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 4, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 5, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
+            Comment(commentId: 3, name: "test", image: UIImage(named: "jomalon")!, likeCount: 0, content: "test", isLike: false),
+            Comment(commentId: 4, name: "test", image: UIImage(named: "jomalon")!, likeCount: 0, content: "test", isLike: false),
+            Comment(commentId: 5, name: "test", image: UIImage(named: "jomalon")!, likeCount: 0, content: "test", isLike: false),
             Comment(commentId: 6, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
             Comment(commentId: 7, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
             Comment(commentId: 8, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
