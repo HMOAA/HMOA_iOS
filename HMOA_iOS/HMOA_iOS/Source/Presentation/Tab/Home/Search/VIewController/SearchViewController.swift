@@ -62,21 +62,24 @@ extension SearchViewController {
         
         // Text 입력
         searchBar.rx.text.orEmpty
+            .do(onNext: { print($0)})
             .distinctUntilChanged()
             .filter { $0 != "" }
             .map { _ in Reactor.Action.didChangeTextField }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // 검색 버튼 클릭
-        searchBar.rx.searchButtonClicked
-            .map { Reactor.Action.didEndTextField }
+        // TextField의 값이 없어질 때
+        searchBar.rx.text.orEmpty
+            .distinctUntilChanged()
+            .filter { $0 == "" }
+            .map { _ in Reactor.Action.didClearTextField }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // keywordVC - viewDidLoad
-        keywordVC.rx.viewDidLoad
-            .map { Reactor.Action.keywordViewDidLoad }
+        // 검색 버튼 클릭
+        searchBar.rx.searchButtonClicked
+            .map { Reactor.Action.didEndTextField }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -132,16 +135,8 @@ extension SearchViewController {
             .map { _ in }
             .bind(onNext: { self.changeViewController(self.ResultVC) })
             .disposed(by: disposeBag)
-        
-        // keywordVC에서 viewDidLoad발생시 받아온 keywrods 데이터 바인딩
-        reactor.state
-            .map { $0.keywords }
-            .distinctUntilChanged()
-            .bind(onNext: {
-                self.keywordVC.keywordList.addTags($0)
-            })
-            .disposed(by: disposeBag)
-        
+
+        // 서버로부터 검색 결과 값을 받아오면 collectionView에 바인딩
         reactor.state
             .map { $0.resultProduct }
             .distinctUntilChanged()
@@ -168,8 +163,6 @@ extension SearchViewController {
             .distinctUntilChanged()
             .bind(onNext: {
                 switch $0 {
-                case 1:
-                    self.removeChiledViewController(self.keywordVC)
                 case 2:
                     self.removeChiledViewController(self.listVC)
                 case 3:
@@ -227,8 +220,6 @@ extension SearchViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        
-        self.changeViewController(self.keywordVC)
     }
     
     

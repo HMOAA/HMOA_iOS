@@ -57,7 +57,6 @@
 		2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA7A29705524000C6F71 /* UIColor++Extenstions.swift */; };
 		2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA7E29705B4C000C6F71 /* UITabBarItem++Extensions.swift */; };
 		2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041CD29ACD94D009247E7 /* SearchBarContainerView.swift */; };
-		2C4041D029ACDC13009247E7 /* SearchKeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041CF29ACDC13009247E7 /* SearchKeywordViewController.swift */; };
 		2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D129ACDC58009247E7 /* SearchListViewController.swift */; };
 		2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */; };
 		2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */; };
@@ -76,6 +75,7 @@
 		2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFE297C183F006BE23B /* MyPageViewModel.swift */; };
 		2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */; };
 		2CA0531F29B76B7600C39DC3 /* Int++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA0531E29B76B7600C39DC3 /* Int++Extenstions.swift */; };
+		2CA0532129B9EA3100C39DC3 /* SearchKeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA0532029B9EA3100C39DC3 /* SearchKeywordViewController.swift */; };
 		2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB7A9729B07A2300E74809 /* SearchResultTopView.swift */; };
 		2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB7A9929B08BBA00E74809 /* SearchResultCollectionViewCell.swift */; };
 		2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB7A9C29B08E4100E74809 /* Product.swift */; };
@@ -182,7 +182,6 @@
 		2C39AA7A29705524000C6F71 /* UIColor++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++Extenstions.swift"; sourceTree = "<group>"; };
 		2C39AA7E29705B4C000C6F71 /* UITabBarItem++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarItem++Extensions.swift"; sourceTree = "<group>"; };
 		2C4041CD29ACD94D009247E7 /* SearchBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarContainerView.swift; sourceTree = "<group>"; };
-		2C4041CF29ACDC13009247E7 /* SearchKeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeywordViewController.swift; sourceTree = "<group>"; };
 		2C4041D129ACDC58009247E7 /* SearchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
 		2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListTableViewCell.swift; sourceTree = "<group>"; };
@@ -201,6 +200,7 @@
 		2C710EFE297C183F006BE23B /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListTopView.swift; sourceTree = "<group>"; };
 		2CA0531E29B76B7600C39DC3 /* Int++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int++Extenstions.swift"; sourceTree = "<group>"; };
+		2CA0532029B9EA3100C39DC3 /* SearchKeywordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchKeywordViewController.swift; path = ../../../../../../../../../../.Trash/SearchKeywordViewController.swift; sourceTree = "<group>"; };
 		2CAB7A9729B07A2300E74809 /* SearchResultTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTopView.swift; sourceTree = "<group>"; };
 		2CAB7A9929B08BBA00E74809 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		2CAB7A9C29B08E4100E74809 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -667,7 +667,7 @@
 			isa = PBXGroup;
 			children = (
 				2C04246829A3A992009CF0FE /* SearchViewController.swift */,
-				2C4041CF29ACDC13009247E7 /* SearchKeywordViewController.swift */,
+				2CA0532029B9EA3100C39DC3 /* SearchKeywordViewController.swift */,
 				2C4041D129ACDC58009247E7 /* SearchListViewController.swift */,
 				2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */,
 			);
@@ -1162,7 +1162,6 @@
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
 				2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */,
 				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
-				2C4041D029ACDC13009247E7 /* SearchKeywordViewController.swift in Sources */,
 				CAFA451329AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				2C04246B29A3B3E3009CF0FE /* HomeCellReactor.swift in Sources */,
@@ -1182,6 +1181,7 @@
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
 				2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */,
 				2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */,
+				2CA0532129B9EA3100C39DC3 /* SearchKeywordViewController.swift in Sources */,
 				2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */,
 				2C04246429A39C26009CF0FE /* Perfume.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* PerfumeDetail.swift in Sources */,
