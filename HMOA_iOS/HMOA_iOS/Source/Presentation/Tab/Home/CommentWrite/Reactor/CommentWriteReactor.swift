@@ -15,15 +15,21 @@ class CommentWriteReactor: Reactor {
     enum Action {
         case didTapOkButton
         case didTapCancleButton
+        case didBeginTextViewEditing
+        case didEndTextViewEditing
     }
     
     enum Mutation {
+        case setIsBeginEditing(Bool)
+        case setIsEndEditing(Bool)
         case setIsPopVC(Bool)
     }
     
     struct State {
         var content: String
         var isPopVC: Bool = false
+        var isBeginEditing: Bool = false
+        var isEndEditing: Bool = false
     }
     
     init(_ currentPerfumeId: Int) {
@@ -43,6 +49,17 @@ class CommentWriteReactor: Reactor {
                 .just(.setIsPopVC(true)),
                 .just(.setIsPopVC(false))
             ])
+        case .didBeginTextViewEditing:
+            return .concat([
+                .just(.setIsBeginEditing(true)),
+                .just(.setIsBeginEditing(false))
+            ])
+        
+        case .didEndTextViewEditing:
+            return .concat([
+                .just(.setIsEndEditing(true)),
+                .just(.setIsEndEditing(false))
+            ])
         }
     }
     
@@ -52,6 +69,10 @@ class CommentWriteReactor: Reactor {
         switch mutation {
         case .setIsPopVC(let isPop):
             state.isPopVC = isPop
+        case .setIsBeginEditing(let isEditing):
+            state.isBeginEditing = isEditing
+        case .setIsEndEditing(let isEnd):
+            state.isEndEditing = isEnd
         }
         
         return state
