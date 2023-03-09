@@ -149,7 +149,7 @@ extension CommentListViewController {
         bottomView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(72)
+            $0.height.equalTo(83)
         }
     }
 }
