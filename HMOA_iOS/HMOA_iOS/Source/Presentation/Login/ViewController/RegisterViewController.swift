@@ -245,15 +245,6 @@ class RegisterViewController: UIViewController {
             .subscribe(onNext: { isPresent in
                 if isPresent {
                     let vc = ChoiceEmailViewController()
-                    
-            //        vc.emailViewModel.selectedIndex
-            //            .map { vc.emailViewModel.emailData[Int($0)] }
-            //            .observe(on: MainScheduler.instance)
-            //            .subscribe(onNext: { email in
-            //                self.setChoiceTextField(email)
-            //            })
-            //            .disposed(by: disposeBag)
-                    
                     vc.modalPresentationStyle = .pageSheet
                     
                     if let sheet = vc.sheetPresentationController {
