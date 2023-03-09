@@ -135,15 +135,29 @@ class LoginViewController: UIViewController {
 
     private func setAddView() {
         
-        [idTextField, pwTextField].forEach { idPwStackView.addArrangedSubview($0) }
+        [idTextField,
+         pwTextField].forEach { idPwStackView.addArrangedSubview($0) }
         
-        [checkLoginRetainButton, loginRetainLabel].forEach { loginRetainStackView.addArrangedSubview($0) }
+        [checkLoginRetainButton,
+         loginRetainLabel].forEach { loginRetainStackView.addArrangedSubview($0) }
         
-        [findIdButton, resetPwButton, registerButton].forEach { idPwRegisterStackView.addArrangedSubview($0)}
+        [findIdButton,
+         resetPwButton,
+         registerButton].forEach { idPwRegisterStackView.addArrangedSubview($0)}
         
-        [appleButton, googleButton, kakaoButton].forEach { easyLoginStackView.addArrangedSubview($0) }
+        [appleButton,
+         googleButton,
+         kakaoButton].forEach { easyLoginStackView.addArrangedSubview($0) }
         
-        [noLoginButton, noLoginLabel, titleImageView, loginRetainStackView, loginButton, idPwStackView, idPwRegisterStackView, easyLoginLabel, easyLoginStackView].forEach { view.addSubview($0) }
+        [noLoginButton,
+         noLoginLabel,
+         titleImageView,
+         loginRetainStackView,
+         loginButton,
+         idPwStackView,
+         idPwRegisterStackView,
+         easyLoginLabel,
+         easyLoginStackView].forEach { view.addSubview($0) }
         
     }
     
@@ -206,7 +220,9 @@ class LoginViewController: UIViewController {
             make.bottom.equalToSuperview().inset(66).priority(750)
         }
         
-        [kakaoButton, googleButton, appleButton].forEach{
+        [kakaoButton,
+         googleButton,
+         appleButton].forEach{
             $0.snp.makeConstraints { make in
                 make.height.equalTo(50)
                 make.width.equalTo(50)
@@ -216,52 +232,59 @@ class LoginViewController: UIViewController {
     
     //MARK: - Bind
     private func bind(reactor: LoginReactor) {
+        
+        //MARK: - Actiong
         //Input
+        
+        //로그인 버튼 터치
         loginButton.rx.tap
             .map { LoginReactor.Action.didTapLoginButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+        //로그인 없이 이용하기 버튼 터치
         noLoginButton.rx.tap
             .map { LoginReactor.Action.didTapNoLoginButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+        //로그인 상태 유지 버튼 터치
         checkLoginRetainButton.rx.tap
             .map { LoginReactor.Action.didTapLoginRetainButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        //MARK: - State
         //Output
+        //메인 탭바로 이동
         reactor.state
             .map { $0.isPresentTabBar}
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { isPresent in
-                if isPresent {
-                    let tabBar = AppTabbarController()
-                    tabBar.modalPresentationStyle = .fullScreen
-                    self.present(tabBar, animated: true)
-                }
+            .distinctUntilChanged()
+            .compactMap { $0}
+            .filter { $0 }
+            .bind(onNext: { _ in
+                let tabBar = AppTabbarController()
+                tabBar.modalPresentationStyle = .fullScreen
+                self.present(tabBar, animated: true)
             }).disposed(by: disposeBag)
         
+        //StartVC로 이동
         reactor.state
             .map { $0.isPushStartVC}
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { isPush in
-                if isPush {
-                    let startVC = StartViewController()
-                    self.navigationController?
-                        .pushViewController(startVC, animated: true)
-                }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .filter { $0 }
+            .bind(onNext: { _ in
+                self.navigationController?
+                    .pushViewController(StartViewController(),
+                                        animated: true)
             }).disposed(by: disposeBag)
         
+        //로그인 상태 유지 체크버튼 toggle
         reactor.state
             .map { $0.isChecked}
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { isCheck in
-                if isCheck {
-                    self.checkLoginRetainButton.isSelected.toggle()
-                }
-            }).disposed(by: disposeBag)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: { _ in
+                self.checkLoginRetainButton.isSelected.toggle()
+        }).disposed(by: disposeBag)
     }
 }
