@@ -217,6 +217,10 @@ extension SearchViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        backButton.snp.makeConstraints {
+            $0.width.height.equalTo(24)
+        }
     }
     
     
