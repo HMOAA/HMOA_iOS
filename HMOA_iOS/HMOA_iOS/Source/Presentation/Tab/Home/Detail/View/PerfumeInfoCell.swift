@@ -49,7 +49,7 @@ extension PerfumeInfoCell {
         perfumeInfoView.titleEnglishLabel.text = reactor.currentState.englishName
         // 나중에 수정
 //        perfumeInfoView.keywordTagListView.addTags(reactor.currentState.category)
-        perfumeInfoView.priceLabel.text = "\(reactor.currentState.price)"
+        perfumeInfoView.priceLabel.text = reactor.currentState.price.numberFormatterToWon()
         perfumeInfoView.ageLabel.text = "\(reactor.currentState.age)"
         perfumeInfoView.gendarLabel.text = reactor.currentState.gender
         perfumeInfoView.productInfoContentLabel.text = reactor.currentState.productInfo
