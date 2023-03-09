@@ -66,6 +66,7 @@
 		2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */; };
 		2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD3732976E1A70027CE40 /* HomeView.swift */; };
 		2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DEECC299BBF7500DE9778 /* UINavigationItem++Extenstions.swift */; };
+		2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C60F21F29BA0F4000595EF4 /* Int++Extenstions.swift */; };
 		2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6DAD0A29A76F0D003F0E98 /* SearchReactor.swift */; };
 		2C710EED29798172006BE23B /* HomeWatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEC29798172006BE23B /* HomeWatchCell.swift */; };
 		2C710EEF29798330006BE23B /* HomeWatchCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEE29798330006BE23B /* HomeWatchCellHeaderView.swift */; };
@@ -184,6 +185,7 @@
 		2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellHeaderView.swift; sourceTree = "<group>"; };
 		2C4DD3732976E1A70027CE40 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2C4DEECC299BBF7500DE9778 /* UINavigationItem++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem++Extenstions.swift"; sourceTree = "<group>"; };
+		2C60F21F29BA0F4000595EF4 /* Int++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int++Extenstions.swift"; sourceTree = "<group>"; };
 		2C6DAD0A29A76F0D003F0E98 /* SearchReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReactor.swift; sourceTree = "<group>"; };
 		2C710EEC29798172006BE23B /* HomeWatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWatchCell.swift; sourceTree = "<group>"; };
 		2C710EEE29798330006BE23B /* HomeWatchCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWatchCellHeaderView.swift; sourceTree = "<group>"; };
@@ -619,6 +621,7 @@
 				2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */,
 				2C4DEECC299BBF7500DE9778 /* UINavigationItem++Extenstions.swift */,
 				2C04249E29A67F07009CF0FE /* UIButton++Extenstions.swift */,
+				2C60F21F29BA0F4000595EF4 /* Int++Extenstions.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -1097,6 +1100,7 @@
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
+				2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */,
 				2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
