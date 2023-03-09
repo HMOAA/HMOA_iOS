@@ -29,7 +29,8 @@ class SearchResultCollectionViewCell: UICollectionViewCell {
     }
     
     lazy var likeButton = UIButton().then {
-        $0.makeLikeButton()
+        $0.setImage(UIImage(named: "heart"), for: .normal)
+        $0.setImage(UIImage(named: "heart_fill"), for: .selected)
     }
     
     override init(frame: CGRect) {
