@@ -57,7 +57,6 @@
 		2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA7A29705524000C6F71 /* UIColor++Extenstions.swift */; };
 		2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA7E29705B4C000C6F71 /* UITabBarItem++Extensions.swift */; };
 		2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041CD29ACD94D009247E7 /* SearchBarContainerView.swift */; };
-		2C4041D029ACDC13009247E7 /* SearchKeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041CF29ACDC13009247E7 /* SearchKeywordViewController.swift */; };
 		2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D129ACDC58009247E7 /* SearchListViewController.swift */; };
 		2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */; };
 		2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */; };
@@ -176,7 +175,6 @@
 		2C39AA7A29705524000C6F71 /* UIColor++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++Extenstions.swift"; sourceTree = "<group>"; };
 		2C39AA7E29705B4C000C6F71 /* UITabBarItem++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarItem++Extensions.swift"; sourceTree = "<group>"; };
 		2C4041CD29ACD94D009247E7 /* SearchBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarContainerView.swift; sourceTree = "<group>"; };
-		2C4041CF29ACDC13009247E7 /* SearchKeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeywordViewController.swift; sourceTree = "<group>"; };
 		2C4041D129ACDC58009247E7 /* SearchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
 		2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListTableViewCell.swift; sourceTree = "<group>"; };
@@ -655,7 +653,6 @@
 			isa = PBXGroup;
 			children = (
 				2C04246829A3A992009CF0FE /* SearchViewController.swift */,
-				2C4041CF29ACDC13009247E7 /* SearchKeywordViewController.swift */,
 				2C4041D129ACDC58009247E7 /* SearchListViewController.swift */,
 				2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */,
 			);
@@ -1127,7 +1124,6 @@
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
 				2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */,
 				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
-				2C4041D029ACDC13009247E7 /* SearchKeywordViewController.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				2C04246B29A3B3E3009CF0FE /* HomeCellReactor.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
