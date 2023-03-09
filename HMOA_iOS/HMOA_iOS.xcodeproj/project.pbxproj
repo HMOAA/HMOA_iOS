@@ -89,24 +89,18 @@
 		CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* StartViewController.swift */; };
 		CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */; };
 		CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */; };
-		CA5D74A5297F9DFC006AE5FE /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D74A4297F9DFC006AE5FE /* RegisterViewController.swift */; };
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
 		CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */; };
-		CA914491297E7EE600762BC0 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914490297E7EE600762BC0 /* LoginViewModel.swift */; };
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
 		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
 		CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */; };
-		CAFA44FF29AB7C6600ACF2C1 /* PwTextFieldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA44FE29AB7C6600ACF2C1 /* PwTextFieldState.swift */; };
-		CAFA450129AB7CDD00ACF2C1 /* ChocieEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450029AB7CDD00ACF2C1 /* ChocieEmailViewModel.swift */; };
-		CAFA450329AB7CEE00ACF2C1 /* PwRegisetrViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450229AB7CEE00ACF2C1 /* PwRegisetrViewModel.swift */; };
 		CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450729AB7DC300ACF2C1 /* YearModel.swift */; };
 		CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */; };
 		CAFA450C29AB7E0600ACF2C1 /* ChoiceYearViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450B29AB7E0600ACF2C1 /* ChoiceYearViewModel.swift */; };
 		CAFA450E29AB7E1300ACF2C1 /* StartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450D29AB7E1300ACF2C1 /* StartViewModel.swift */; };
 		CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */; };
-		CAFA451329AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451229AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift */; };
-		CAFA451529AB7E8C00ACF2C1 /* PwRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451429AB7E8C00ACF2C1 /* PwRegisterViewController.swift */; };
-		CAFA451829AB7ED000ACF2C1 /* EmailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451729AB7ED000ACF2C1 /* EmailCell.swift */; };
+		CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */; };
+		CAFB9F4229B5DC140009654C /* RegisterReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB9F4129B5DC140009654C /* RegisterReactor.swift */; };
 		E5DAC5FE1598DDCD2E1F1131 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1010CAD33467EC8F888DFEC6 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -218,24 +212,18 @@
 		CA051CAF297FDA0F001865F5 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView++Extenstions.swift"; sourceTree = "<group>"; };
-		CA5D74A4297F9DFC006AE5FE /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstions.swift"; sourceTree = "<group>"; };
-		CA914490297E7EE600762BC0 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
 		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
-		CAFA44FE29AB7C6600ACF2C1 /* PwTextFieldState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwTextFieldState.swift; sourceTree = "<group>"; };
-		CAFA450029AB7CDD00ACF2C1 /* ChocieEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChocieEmailViewModel.swift; sourceTree = "<group>"; };
-		CAFA450229AB7CEE00ACF2C1 /* PwRegisetrViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwRegisetrViewModel.swift; sourceTree = "<group>"; };
 		CAFA450729AB7DC300ACF2C1 /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
 		CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearViewController.swift; sourceTree = "<group>"; };
 		CAFA450B29AB7E0600ACF2C1 /* ChoiceYearViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearViewModel.swift; sourceTree = "<group>"; };
 		CAFA450D29AB7E1300ACF2C1 /* StartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewModel.swift; sourceTree = "<group>"; };
 		CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
-		CAFA451229AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceEmailViewController.swift; sourceTree = "<group>"; };
-		CAFA451429AB7E8C00ACF2C1 /* PwRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwRegisterViewController.swift; sourceTree = "<group>"; };
-		CAFA451729AB7ED000ACF2C1 /* EmailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCell.swift; sourceTree = "<group>"; };
+		CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginReactor.swift; sourceTree = "<group>"; };
+		CAFB9F4129B5DC140009654C /* RegisterReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterReactor.swift; sourceTree = "<group>"; };
 		D7A11DAE423D71B1F9301948 /* Pods-HMOA_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		FD433F530CC172AADE2B97A9 /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -810,32 +798,17 @@
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				CAFA44FC29AB7C3600ACF2C1 /* Model */,
+				CAFB9F3E29B5C6710009654C /* Reactor */,
 				CA051CAC297FD9BD001865F5 /* Start */,
-				CAFA451629AB7EB500ACF2C1 /* View */,
 				CA91448B297E75B100762BC0 /* ViewController */,
-				CA91448A297E759500762BC0 /* ViewModel */,
 			);
 			path = Login;
-			sourceTree = "<group>";
-		};
-		CA91448A297E759500762BC0 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				CA914490297E7EE600762BC0 /* LoginViewModel.swift */,
-				CAFA450029AB7CDD00ACF2C1 /* ChocieEmailViewModel.swift */,
-				CAFA450229AB7CEE00ACF2C1 /* PwRegisetrViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		CA91448B297E75B100762BC0 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				CA91448C297E75C700762BC0 /* LoginViewController.swift */,
-				CA5D74A4297F9DFC006AE5FE /* RegisterViewController.swift */,
-				CAFA451229AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift */,
-				CAFA451429AB7E8C00ACF2C1 /* PwRegisterViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -847,14 +820,6 @@
 				CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */,
 			);
 			path = Font;
-			sourceTree = "<group>";
-		};
-		CAFA44FC29AB7C3600ACF2C1 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				CAFA44FE29AB7C6600ACF2C1 /* PwTextFieldState.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		CAFA450629AB7D9B00ACF2C1 /* Model */ = {
@@ -873,12 +838,13 @@
 			path = Label;
 			sourceTree = "<group>";
 		};
-		CAFA451629AB7EB500ACF2C1 /* View */ = {
+		CAFB9F3E29B5C6710009654C /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
-				CAFA451729AB7ED000ACF2C1 /* EmailCell.swift */,
+				CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */,
+				CAFB9F4129B5DC140009654C /* RegisterReactor.swift */,
 			);
-			path = View;
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1136,15 +1102,14 @@
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
 				2CDFFDD92983F9FB00F60304 /* NewsView.swift in Sources */,
-				CAFA450329AB7CEE00ACF2C1 /* PwRegisetrViewModel.swift in Sources */,
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
 				2CDFFDD72983F9E500F60304 /* NewsCellFooterView.swift in Sources */,
+				CAFB9F4229B5DC140009654C /* RegisterReactor.swift in Sources */,
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				CAFA450E29AB7E1300ACF2C1 /* StartViewModel.swift in Sources */,
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
-				CAFA451529AB7E8C00ACF2C1 /* PwRegisterViewController.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
 				CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */,
@@ -1159,11 +1124,9 @@
 				2CDFFDD52983F9D300F60304 /* NewsCell.swift in Sources */,
 				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
 				2C4041D029ACDC13009247E7 /* SearchKeywordViewController.swift in Sources */,
-				CAFA451329AB7E7B00ACF2C1 /* ChoiceEmailViewController.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				2C04246B29A3B3E3009CF0FE /* HomeCellReactor.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
-				CA914491297E7EE600762BC0 /* LoginViewModel.swift in Sources */,
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
@@ -1172,7 +1135,6 @@
 				2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */,
 				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
 				CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */,
-				CAFA450129AB7CDD00ACF2C1 /* ChocieEmailViewModel.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
@@ -1184,6 +1146,7 @@
 				2C710EED29798172006BE23B /* HomeWatchCell.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */,
+				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
@@ -1205,7 +1168,6 @@
 				2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */,
 				2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */,
 				2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */,
-				CAFA44FF29AB7C6600ACF2C1 /* PwTextFieldState.swift in Sources */,
 				2C39AA6629704817000C6F71 /* NewsViewController.swift in Sources */,
 				2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */,
 				2C710EEF29798330006BE23B /* HomeWatchCellHeaderView.swift in Sources */,
@@ -1213,10 +1175,8 @@
 				2C04247929A3FD03009CF0FE /* CommentCellReactor.swift in Sources */,
 				2C04247529A3F899009CF0FE /* Comment.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
-				CAFA451829AB7ED000ACF2C1 /* EmailCell.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
 				2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */,
-				CA5D74A5297F9DFC006AE5FE /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
