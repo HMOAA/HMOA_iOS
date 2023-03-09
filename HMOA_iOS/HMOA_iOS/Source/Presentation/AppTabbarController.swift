@@ -61,7 +61,7 @@ extension AppTabbarController {
         let homeVC = UINavigationController(
             rootViewController: HomeViewController()),
         hPediaVC = UINavigationController(
-            rootViewController: NewsViewController()),
+            rootViewController: HPediaViewController()),
         drawerVC = UINavigationController(
             rootViewController: DrawerViewController()),
         myPageVC = UINavigationController(
