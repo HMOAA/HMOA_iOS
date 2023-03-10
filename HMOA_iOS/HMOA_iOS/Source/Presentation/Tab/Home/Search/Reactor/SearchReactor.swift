@@ -27,7 +27,7 @@ class SearchReactor: Reactor {
         case isChangeToResultVC(Bool, Int?)
         case isChangeToListVC(Bool, Int?)
         case isChangeToDefaultVC(Int?)
-        case isTapSearchListCell(String?)
+        case isTapSearchListCell(String)
         case setKeyword([String])
         case setList([String])
         case setContent(String)
@@ -99,7 +99,7 @@ class SearchReactor: Reactor {
                 .just(.isTapSearchListCell(currentState.lists[indexPath.item])),
                 requestResult(currentState.lists[indexPath.item]),
                 .just(.isChangeToResultVC(false, nil)),
-                .just(.isTapSearchListCell(nil))
+                .just(.isTapSearchListCell(""))
             ])
         }
     }
@@ -169,9 +169,7 @@ class SearchReactor: Reactor {
             state.isSelectedProductButton = false
             
         case .isTapSearchListCell(let content):
-            if let content = content {
-                state.listContent = content
-            }
+            state.listContent = content
         }
         
         return state
