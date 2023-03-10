@@ -104,6 +104,12 @@ extension SearchViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 연관 검색어 List Cell 클릭
+        listVC.tableView.rx.itemSelected
+            .map { Reactor.Action.didTapSearchListCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // 이전 뷰 컨트롤러로 이동
@@ -205,6 +211,9 @@ extension SearchViewController {
         
         view.backgroundColor = .white
         
+        listVC.tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         [   listVC,
             ResultVC
         ]   .forEach {  self.addChild($0)   }
@@ -250,5 +259,12 @@ extension SearchViewController {
         vc.willMove(toParent: self)
         vc.removeFromParent()
         vc.view.removeFromSuperview()
+    }
+}
+
+extension SearchViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 34
     }
 }
