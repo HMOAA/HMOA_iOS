@@ -11,7 +11,6 @@ import RxSwift
 class SearchReactor: Reactor {
     
     enum Action {
-        case keywordViewDidLoad
         case didTapBackButton
         case didChangeTextField
         case didEndTextField
@@ -19,12 +18,14 @@ class SearchReactor: Reactor {
         case didTapBrandButton
         case didTapPostButton
         case didTapHpediaButton
+        case didClearTextField
     }
     
     enum Mutation {
         case isPopVC(Bool)
         case isChangeToResultVC(Bool, Int?)
         case isChangeToListVC(Bool, Int?)
+        case isChangeToDefaultVC(Int?)
         case setKeyword([String])
         case setList([String])
         case setResultProduct([Product])
@@ -54,8 +55,6 @@ class SearchReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .keywordViewDidLoad:
-            return requestKeyword()
         case .didTapBackButton:
             return .concat([
                 .just(.isPopVC(true)),
@@ -72,6 +71,11 @@ class SearchReactor: Reactor {
                 .just(.isChangeToResultVC(true, 3)),
                 requestResult(),
                 .just(.isChangeToResultVC(false, nil))
+            ])
+        case .didClearTextField:
+            return .concat([
+                .just(.isChangeToDefaultVC(1)),
+                .just(.isChangeToDefaultVC(nil))
             ])
         case .didTapProductButton:
             return .just(.setProductButtonState(true))
@@ -119,6 +123,13 @@ class SearchReactor: Reactor {
                 state.nowPage = nowPage
             }
             
+        case .isChangeToDefaultVC(let nowPage):
+            
+            if let nowPage = nowPage {
+                state.prePage = state.nowPage
+                state.nowPage = nowPage
+            }
+            
         case .setProductButtonState(let isSelected):
             state.isSelectedProductButton = isSelected
             state.isSelectedBrandButton = false
@@ -149,17 +160,6 @@ class SearchReactor: Reactor {
 }
 
 extension SearchReactor {
-    
-    func requestKeyword() -> Observable<Mutation> {
-        
-        // TODO: - 서버 통신해서 키워드 받아오기
-        
-        let data = ["자연", "도손", "오프레옹", "롬브로단로", "우드앤세이지", "딥티크", "르라보", "선물", "크리스찬디올", "존바바토스", "30대"]
-        
-        return .concat([
-            .just(.setKeyword(data))
-        ])
-    }
     
     func reqeustList() -> Observable<Mutation> {
         

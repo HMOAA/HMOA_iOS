@@ -32,9 +32,18 @@ extension SearchListViewController {
         
         view.addSubview(tableView)
         
+        tableView.delegate = self
+        
         tableView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(26)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+    }
+}
+
+extension SearchListViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 34
     }
 }
