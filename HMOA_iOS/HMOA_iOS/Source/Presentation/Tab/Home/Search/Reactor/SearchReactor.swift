@@ -12,7 +12,7 @@ class SearchReactor: Reactor {
     
     enum Action {
         case didTapBackButton
-        case didChangeTextField
+        case didChangeTextField(String)
         case didEndTextField
         case didTapProductButton
         case didTapBrandButton
@@ -28,6 +28,7 @@ class SearchReactor: Reactor {
         case isChangeToDefaultVC(Int?)
         case setKeyword([String])
         case setList([String])
+        case setContent(String)
         case setResultProduct([Product])
         case setProductButtonState(Bool)
         case setBrandButtonState(Bool)
@@ -36,7 +37,7 @@ class SearchReactor: Reactor {
     }
     
     struct State {
-        var Content: String = ""
+        var content: String = "" // textField에 입력된 값
         var isPopVC: Bool = false
         var isChangeTextField: Bool = false
         var isEndTextField: Bool = false
@@ -60,10 +61,10 @@ class SearchReactor: Reactor {
                 .just(.isPopVC(true)),
                 .just(.isPopVC(false))
             ])
-        case .didChangeTextField:
+        case .didChangeTextField(let inputContent):
             return .concat([
                 .just(.isChangeToListVC(true, 2)),
-                reqeustList(),
+                reqeustList(inputContent),
                 .just(.isChangeToListVC(false, nil))
             ])
         case .didEndTextField:
@@ -100,6 +101,8 @@ class SearchReactor: Reactor {
             state.keywords = keywords
         case .setList(let lists):
             state.lists = lists
+        case .setContent(let inputContent):
+            state.content = inputContent
         case .setResultProduct(let products):
             state.resultProduct = products
         case .isPopVC(let isPop):
@@ -161,10 +164,10 @@ class SearchReactor: Reactor {
 
 extension SearchReactor {
     
-    func reqeustList() -> Observable<Mutation> {
+    func reqeustList(_ inputContent: String) -> Observable<Mutation> {
         
-        // TODO: - 서버 통신해서 검색어 받아오기
-        
+        // TODO: - inputContent값으로 서버 통신해서 검색어 받아오기
+                
         let data =  ["랑방 모던 프린세스",
                      "랑방 블루 오키드",
                      "랑방 워터 릴리",
@@ -176,7 +179,10 @@ extension SearchReactor {
                      "랑방 워터 릴리",
                      "랑방 잔느"]
         
-        return .just(.setList(data))
+        return .concat([
+            .just(.setList(data)),
+            .just(.setContent(inputContent))
+        ])
     }
     
     func requestResult() -> Observable<Mutation> {
