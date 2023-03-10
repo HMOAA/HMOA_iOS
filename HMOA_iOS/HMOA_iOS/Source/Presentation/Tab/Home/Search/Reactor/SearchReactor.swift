@@ -18,6 +18,7 @@ class SearchReactor: Reactor {
         case didTapBrandButton
         case didTapPostButton
         case didTapHpediaButton
+        case didTapSearchListCell(IndexPath)
         case didClearTextField
     }
     
@@ -89,6 +90,13 @@ class SearchReactor: Reactor {
 
         case .didTapHpediaButton:
             return .just(.setHpediaButtonState(true))
+            
+        case .didTapSearchListCell(let indexPath):
+            return .concat([
+                .just(.isChangeToResultVC(true, 3)),
+                requestResult(currentState.lists[indexPath.item]),
+                .just(.isChangeToResultVC(false, nil))
+            ])
         }
     }
     
@@ -166,7 +174,8 @@ extension SearchReactor {
     func reqeustList(_ content: String) -> Observable<Mutation> {
         
         // TODO: - content값으로 서버 통신해서 검색어 받아오기
-                
+        print("입력한 값:", content)
+
         let data =  ["랑방 모던 프린세스",
                      "랑방 블루 오키드",
                      "랑방 워터 릴리",
@@ -187,6 +196,7 @@ extension SearchReactor {
     func requestResult(_ content: String) -> Observable<Mutation> {
         
         // TODO: - 입력받은 content값으로 서버 통신해서 결과값 받아오기
+        print("검색하는 값:", content)
         
         let data: [Product] = [Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛")]
         
