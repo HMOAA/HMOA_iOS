@@ -61,16 +61,16 @@ class SearchReactor: Reactor {
                 .just(.isPopVC(true)),
                 .just(.isPopVC(false))
             ])
-        case .didChangeTextField(let inputContent):
+        case .didChangeTextField(let content):
             return .concat([
                 .just(.isChangeToListVC(true, 2)),
-                reqeustList(inputContent),
+                reqeustList(content),
                 .just(.isChangeToListVC(false, nil))
             ])
         case .didEndTextField:
             return .concat([
                 .just(.isChangeToResultVC(true, 3)),
-                requestResult(),
+                requestResult(currentState.content),
                 .just(.isChangeToResultVC(false, nil))
             ])
         case .didClearTextField:
@@ -89,7 +89,6 @@ class SearchReactor: Reactor {
 
         case .didTapHpediaButton:
             return .just(.setHpediaButtonState(true))
-        
         }
     }
     
@@ -164,9 +163,9 @@ class SearchReactor: Reactor {
 
 extension SearchReactor {
     
-    func reqeustList(_ inputContent: String) -> Observable<Mutation> {
+    func reqeustList(_ content: String) -> Observable<Mutation> {
         
-        // TODO: - inputContent값으로 서버 통신해서 검색어 받아오기
+        // TODO: - content값으로 서버 통신해서 검색어 받아오기
                 
         let data =  ["랑방 모던 프린세스",
                      "랑방 블루 오키드",
@@ -181,11 +180,13 @@ extension SearchReactor {
         
         return .concat([
             .just(.setList(data)),
-            .just(.setContent(inputContent))
+            .just(.setContent(content))
         ])
     }
     
-    func requestResult() -> Observable<Mutation> {
+    func requestResult(_ content: String) -> Observable<Mutation> {
+        
+        // TODO: - 입력받은 content값으로 서버 통신해서 결과값 받아오기
         
         let data: [Product] = [Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛")]
         
