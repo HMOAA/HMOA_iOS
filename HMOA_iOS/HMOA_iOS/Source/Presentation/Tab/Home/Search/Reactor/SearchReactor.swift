@@ -19,6 +19,7 @@ class SearchReactor: Reactor {
         case didTapPostButton
         case didTapHpediaButton
         case didTapSearchListCell(IndexPath)
+        case didTapSearchResultCell(IndexPath)
         case didClearTextField
     }
     
@@ -31,11 +32,12 @@ class SearchReactor: Reactor {
         case setKeyword([String])
         case setList([String])
         case setContent(String)
-        case setResultProduct([Product])
+        case setResultProduct([Perfume])
         case setProductButtonState(Bool)
         case setBrandButtonState(Bool)
         case setPostButtonState(Bool)
         case setHpediaButtonState(Bool)
+        case setSelectedPerfumeId(Int?)
     }
     
     struct State {
@@ -46,13 +48,14 @@ class SearchReactor: Reactor {
         var isEndTextField: Bool = false
         var keywords: [String] = []
         var lists: [String] = [] // 연관 검색어 리스트
-        var resultProduct: [Product] = []
+        var resultProduct: [Perfume] = []
         var nowPage: Int = 1 // 현재 보여지고 있는 페이지
         var prePage: Int = 0 // 이전 페이지
         var isSelectedProductButton: Bool = true
         var isSelectedBrandButton: Bool = false
         var isSelectedPostButton: Bool = false
         var isSelectedHpediaButton: Bool = false
+        var selectedPerfumeId: Int? = nil
     }
     
     var initialState = State()
@@ -100,6 +103,12 @@ class SearchReactor: Reactor {
                 requestResult(currentState.lists[indexPath.item]),
                 .just(.isChangeToResultVC(false, nil)),
                 .just(.isTapSearchListCell(""))
+            ])
+            
+        case .didTapSearchResultCell(let indexPath):
+            return .concat([
+                .just(.setSelectedPerfumeId(currentState.resultProduct[indexPath.item].perfumeId)),
+                .just(.setSelectedPerfumeId(nil))
             ])
         }
     }
@@ -170,6 +179,9 @@ class SearchReactor: Reactor {
             
         case .isTapSearchListCell(let content):
             state.listContent = content
+            
+        case .setSelectedPerfumeId(let perfumeId):
+            state.selectedPerfumeId = perfumeId
         }
         
         return state
@@ -205,7 +217,19 @@ extension SearchReactor {
         // TODO: - 입력받은 content값으로 서버 통신해서 결과값 받아오기
         print("검색하는 값:", content)
         
-        let data: [Product] = [Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛"), Product(image: UIImage(named: "jomalon")!, title: "랑방", content: "랑방 모던프린세스 불루밍 오 드 뚜왈렛")]
+        let data: [Perfume] = [
+            Perfume(perfumeId: 1, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 2, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 3, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 4, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 5, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 6, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 7, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 8, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 9, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 10, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 11, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
+            Perfume(perfumeId: 12, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!)]
         
         return .just(.setResultProduct(data))
     }
