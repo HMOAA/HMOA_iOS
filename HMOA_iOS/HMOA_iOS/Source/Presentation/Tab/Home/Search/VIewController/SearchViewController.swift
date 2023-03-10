@@ -62,8 +62,7 @@ extension SearchViewController {
         // Text 입력
         searchBar.rx.text.orEmpty
             .distinctUntilChanged()
-            .filter { $0 != "" }
-            .map { _ in Reactor.Action.didChangeTextField }
+            .map { Reactor.Action.didChangeTextField($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
