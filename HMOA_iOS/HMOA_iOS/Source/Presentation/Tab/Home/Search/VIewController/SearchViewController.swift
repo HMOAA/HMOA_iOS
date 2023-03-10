@@ -110,6 +110,12 @@ extension SearchViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 검색 결과 Result Cell 클릭
+        ResultVC.collectionView.rx.itemSelected
+            .map { Reactor.Action.didTapSearchResultCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // 이전 뷰 컨트롤러로 이동
@@ -209,7 +215,18 @@ extension SearchViewController {
             .map { $0.listContent }
             .distinctUntilChanged()
             .filter { $0 != "" }
-            .bind(to: searchBar.rx.text)
+            .bind(onNext: { content in
+                self.searchBar.endEditing(false)
+                self.searchBar.text = content
+            })
+            .disposed(by: disposeBag)
+        
+        // 검새 결과를 클릭하면 해당 PerfumeId가지고 향수 상세보기 페이지로 이동
+        reactor.state
+            .map { $0.selectedPerfumeId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
     }
     
@@ -219,6 +236,9 @@ extension SearchViewController {
         view.backgroundColor = .white
         
         listVC.tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        ResultVC.collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
         [   listVC,
@@ -269,9 +289,27 @@ extension SearchViewController {
     }
 }
 
+// MARK: - UITableViewDelegate
+
 extension SearchViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 34
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension SearchViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let width = (UIScreen.main.bounds.width - 40) / 2
+        let height = width + 82
+        return CGSize(width: width, height: height)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
 }

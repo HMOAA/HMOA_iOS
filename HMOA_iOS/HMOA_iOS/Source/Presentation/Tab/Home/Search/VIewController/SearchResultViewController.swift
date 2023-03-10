@@ -30,8 +30,6 @@ extension SearchResultViewController {
     
     // MARK: - Configure
     func configureUI() {
-
-        collectionView.delegate = self
         
         [   topView,
             collectionView
@@ -46,19 +44,5 @@ extension SearchResultViewController {
             $0.top.equalTo(topView.snp.bottom).offset(3)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-    }
-}
-
-extension SearchResultViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let width = (UIScreen.main.bounds.width - 40) / 2
-        let height = width + 82
-        return CGSize(width: width, height: height)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
 }
