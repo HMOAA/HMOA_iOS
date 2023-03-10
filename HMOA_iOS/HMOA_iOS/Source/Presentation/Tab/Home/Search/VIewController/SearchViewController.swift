@@ -204,6 +204,14 @@ extension SearchViewController {
             .bind(to: ResultVC.topView.hpediaButton.rx.isSelected )
             .disposed(by: disposeBag)
         
+        // 연관 검색어를 클릭하면 해당 값을 searchBar의 text에 바인딩
+        reactor.state
+            .map { $0.listContent }
+            .distinctUntilChanged()
+            .bind(to: searchBar.rx.text)
+            .disposed(by: disposeBag)
+        
+        
     }
     
     // MARK: - Configure

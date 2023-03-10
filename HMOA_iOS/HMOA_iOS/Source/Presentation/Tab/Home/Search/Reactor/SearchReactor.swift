@@ -27,6 +27,7 @@ class SearchReactor: Reactor {
         case isChangeToResultVC(Bool, Int?)
         case isChangeToListVC(Bool, Int?)
         case isChangeToDefaultVC(Int?)
+        case isTapSearchListCell(String?)
         case setKeyword([String])
         case setList([String])
         case setContent(String)
@@ -39,6 +40,7 @@ class SearchReactor: Reactor {
     
     struct State {
         var content: String = "" // textField에 입력된 값
+        var listContent: String = "" // 연관 검색어 List 클릭한 값
         var isPopVC: Bool = false
         var isChangeTextField: Bool = false
         var isEndTextField: Bool = false
@@ -94,8 +96,10 @@ class SearchReactor: Reactor {
         case .didTapSearchListCell(let indexPath):
             return .concat([
                 .just(.isChangeToResultVC(true, 3)),
+                .just(.isTapSearchListCell(currentState.lists[indexPath.item])),
                 requestResult(currentState.lists[indexPath.item]),
-                .just(.isChangeToResultVC(false, nil))
+                .just(.isChangeToResultVC(false, nil)),
+                .just(.isTapSearchListCell(nil))
             ])
         }
     }
@@ -163,6 +167,11 @@ class SearchReactor: Reactor {
             state.isSelectedBrandButton = false
             state.isSelectedPostButton = false
             state.isSelectedProductButton = false
+            
+        case .isTapSearchListCell(let content):
+            if let content = content {
+                state.listContent = content
+            }
         }
         
         return state
