@@ -208,10 +208,9 @@ extension SearchViewController {
         reactor.state
             .map { $0.listContent }
             .distinctUntilChanged()
+            .filter { $0 != "" }
             .bind(to: searchBar.rx.text)
             .disposed(by: disposeBag)
-        
-        
     }
     
     // MARK: - Configure
