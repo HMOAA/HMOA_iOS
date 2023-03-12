@@ -89,6 +89,12 @@ extension CommentDetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 수정하기 버튼 클릭
+        changeButton.rx.tap
+            .map { Reactor.Action.didTapChangeButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // 유저 이미지
@@ -121,6 +127,26 @@ extension CommentDetailViewController {
             .map { String($0) }
             .bind(onNext: {
                 self.commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)
+            })
+            .disposed(by: disposeBag)
+        
+        // 수정 버튼 상태
+        reactor.state
+            .map { $0.comment.isWrite }
+            .map { !$0 }
+            .bind(to: changeButton.rx.isHidden )
+            .disposed(by: disposeBag)
+        
+        // 수정 버튼 클릭 상태
+        reactor.state
+            .map { $0.isTapChangeButton }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: {
+                self.presentCommentWirteViewControllerForWriter(
+                    (self.reactor?.currentState.comment.commentId)!,
+                    (self.reactor?.currentState.comment.content)!)
             })
             .disposed(by: disposeBag)
     }
