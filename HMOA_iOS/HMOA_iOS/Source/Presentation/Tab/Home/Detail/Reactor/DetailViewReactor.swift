@@ -147,7 +147,7 @@ extension DetailViewReactor {
             topTasting: "test",
             heartTasting: "test",
             baseTasting: "test",
-            isLikePerfume: false,
+            isLikePerfume: true,
             isLikeBrand: false
         )
         

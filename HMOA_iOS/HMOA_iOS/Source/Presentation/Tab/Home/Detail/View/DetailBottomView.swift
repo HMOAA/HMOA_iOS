@@ -14,7 +14,12 @@ class DetailBottomView: UIView {
     // MARK: Properties
 
     lazy var likeButton = UIButton().then {
-        $0.setImage(UIImage(named: "bottomHeart"), for: .normal)
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)
+        let normalImage = UIImage(named: "bottomHeart", in: .none, with: config)
+        let selectedImage = UIImage(named: "bottomHeart", in: .none, with: config)?.withTintColor(.red)
+
+        $0.setImage(normalImage, for: .normal)
+        $0.setImage(selectedImage, for: .selected)
     }
 
     lazy var shareButton = UIButton().then {
