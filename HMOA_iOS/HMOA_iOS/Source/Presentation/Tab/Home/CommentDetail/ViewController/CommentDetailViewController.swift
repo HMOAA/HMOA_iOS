@@ -60,11 +60,19 @@ class CommentDetailViewController: UIViewController, View {
         $0.backgroundColor = .customColor(.gray1)
     }
     
+    lazy var changeButton = UIButton().then {
+        $0.titleLabel?.font = .customFont(.pretendard, 16)
+        $0.setTitle("수정", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.tintColor = .black
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setBackItemNaviBar("댓글")
         configureUI()
+        configureNavigationBar()
     }
 }
 
@@ -155,6 +163,12 @@ extension CommentDetailViewController {
             $0.height.equalTo(20)
         }
 
+    }
+    
+    func configureNavigationBar() {
+        let changeButtonItem = UIBarButtonItem(customView: changeButton)
+        
+        self.navigationItem.rightBarButtonItem = changeButtonItem
     }
     
     func setLikeButtonText(_ text: String) -> AttributedString {
