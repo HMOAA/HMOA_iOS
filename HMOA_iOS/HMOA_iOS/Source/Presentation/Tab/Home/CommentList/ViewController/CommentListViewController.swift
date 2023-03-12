@@ -28,6 +28,7 @@ class CommentListViewController: UIViewController, View {
     let bottomView = CommentListBottomView()
     
     lazy var layout = UICollectionViewFlowLayout()
+    private var header: CommentListTopView!
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.alwaysBounceVertical = true
@@ -104,6 +105,26 @@ extension CommentListViewController {
             .disposed(by: disposeBag)
     }
     
+    func bindHeader() {
+                
+        // MARK: - bindHeader - Action
+        
+        // 좋아요순 버튼 클릭
+        header.likeSortButton.rx.tap
+            .do(onNext: { print("좋아요순")})
+            .map { Reactor.Action.didTapLikeSortButton }
+            .bind(to: commendReactor.action)
+            .disposed(by: disposeBag)
+        
+        // 최신순 버튼 클릭
+        header.recentSortButton.rx.tap
+            .do(onNext: { print("최신순")})
+            .map { Reactor.Action.didTapRecentSortButton }
+            .bind(to: commendReactor.action)
+            .disposed(by: disposeBag)
+        
+    }
+    
     func configureCollectionViewDataSource() {
         
         dataSource = RxCollectionViewSectionedReloadDataSource<CommentSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
@@ -120,6 +141,9 @@ extension CommentListViewController {
             switch indexPath.section {
             case 0:
                 guard let commentListTopView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentListTopView.identifier, for: indexPath) as? CommentListTopView else { return UICollectionReusableView() }
+                
+                self.header = commentListTopView
+                self.bindHeader()
                 
                 return commentListTopView
                 
