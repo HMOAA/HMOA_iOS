@@ -89,6 +89,7 @@ extension CommentCell {
         reactor.state
             .map { $0.likeCount }
             .distinctUntilChanged()
+            .filter { $0 != 0 }
             .map { String($0)}
             .bind(onNext: {
                 self.commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)

@@ -11,26 +11,19 @@ class AppTabbarController: UITabBarController {
     
     // MARK: - Properties
     
-    let menuTab: UITabBarItem = {
-       
-        let item = UITabBarItem()
-        item.customTabBar(imageName: "menu")
-
-        return item
-    }()
-    
-    let newsTab: UITabBarItem = {
-       
-        let item = UITabBarItem()
-        item.customTabBar(imageName: "news")
-
-        return item
-    }()
-    
     let homeTab: UITabBarItem = {
        
         let item = UITabBarItem()
         item.customTabBar(imageName: "home")
+        item.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -8, right: 0)
+        item.title = "Home"
+        return item
+    }()
+    
+    let hPediaTab: UITabBarItem = {
+       
+        let item = UITabBarItem()
+        item.customTabBar(imageName: "HPeida")
         
         return item
     }()
@@ -62,13 +55,19 @@ class AppTabbarController: UITabBarController {
 extension AppTabbarController {
     
     func configureTabbar() {
-        let menuVC = MenuViewController(),
-        newsVC = UINavigationController(rootViewController: NewsViewController()),
-        homeVC = UINavigationController(rootViewController: HomeViewController()),
-        drawerVC = DrawerViewController(),
-        myPageVC = UINavigationController(rootViewController: MyPageViewController())
         
-        viewControllers = [homeVC, menuVC, newsVC, drawerVC, myPageVC]
+        delegate = self
+        
+        let homeVC = UINavigationController(
+            rootViewController: HomeViewController()),
+        hPediaVC = UINavigationController(
+            rootViewController: HPediaViewController()),
+        drawerVC = UINavigationController(
+            rootViewController: DrawerViewController()),
+        myPageVC = UINavigationController(
+            rootViewController: MyPageViewController())
+        
+        viewControllers = [homeVC, hPediaVC, drawerVC, myPageVC]
         
         self.selectedIndex = 0
         view.backgroundColor = .white
@@ -79,10 +78,40 @@ extension AppTabbarController {
         tabBar.unselectedItemTintColor = UIColor.customColor(.tabbarColor)
         tabBar.layer.masksToBounds = true
         
-        menuVC.tabBarItem = menuTab
-        newsVC.tabBarItem = newsTab
         homeVC.tabBarItem = homeTab
+        hPediaVC.tabBarItem = hPediaTab
         drawerVC.tabBarItem = drawerTab
         myPageVC.tabBarItem = myPageTab
+        
+    }
+}
+
+extension AppTabbarController: UITabBarControllerDelegate {
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        guard let index = viewControllers?.firstIndex(of: viewController), let item = tabBar.items?[index] else { return true }
+        
+        switch index {
+        case 0:
+            item.title = "Home"
+        case 1:
+            item.title = "HPedia"
+        case 2:
+            item.title = "Like"
+        case 3:
+            item.title = "My"
+        default:
+            break
+        }
+        
+        item.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -10, right: 0)
+        
+        tabBar.items?.filter { $0 != item }.forEach {
+            $0.title = nil
+            $0.imageInsets = UIEdgeInsets(top: 16, left: 0, bottom: -20, right: 0)
+        }
+        
+        return true
+    
     }
 }

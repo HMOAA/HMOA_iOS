@@ -14,4 +14,5 @@ struct Comment {
     var likeCount: Int
     var content: String
     var isLike: Bool
+    var isWrite: Bool
 }

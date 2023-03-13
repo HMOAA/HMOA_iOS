@@ -29,7 +29,8 @@ class SearchResultCollectionViewCell: UICollectionViewCell {
     }
     
     lazy var likeButton = UIButton().then {
-        $0.makeLikeButton()
+        $0.setImage(UIImage(named: "heart"), for: .normal)
+        $0.setImage(UIImage(named: "heart_fill"), for: .selected)
     }
     
     override init(frame: CGRect) {
@@ -73,9 +74,9 @@ extension SearchResultCollectionViewCell {
         }
     }
     
-    func updateCell(_ product: Product) {
+    func updateCell(_ product: Perfume) {
 //        self.productImageView.image = product.image
-        self.titleLabel.text = product.title
+        self.titleLabel.text = product.titleName
         self.contentLabel.text = product.content
     }
 }

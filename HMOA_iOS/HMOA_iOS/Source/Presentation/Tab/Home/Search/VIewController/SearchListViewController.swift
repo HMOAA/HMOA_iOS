@@ -19,7 +19,6 @@ class SearchListViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
     }
 }
@@ -31,10 +30,11 @@ extension SearchListViewController {
     func configureUI() {
         
         view.addSubview(tableView)
-        
+                
         tableView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(26)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 }
+
