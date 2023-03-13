@@ -39,9 +39,25 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
-    func presentCommentWriteViewController(_ id: Int) {
+    func presentCommentWriteViewController(_ perfumeId: Int) {
         let commentWriteVC = CommentWriteViewController()
-        commentWriteVC.reactor = CommentWriteReactor(id)
+        commentWriteVC.reactor = CommentWriteReactor(
+            currentPerfumeId: perfumeId,
+            isWrite: false)
+        
+        commentWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(commentWriteVC, animated: true)
+    }
+    
+    func presentCommentWirteViewControllerForWriter(_ commentId: Int, _ comment: String) {
+        
+        let commentWriteVC = CommentWriteViewController()
+        commentWriteVC.reactor = CommentWriteReactor(
+            isWrite: true,
+            content: comment,
+            commentId: commentId
+        )
+        
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
