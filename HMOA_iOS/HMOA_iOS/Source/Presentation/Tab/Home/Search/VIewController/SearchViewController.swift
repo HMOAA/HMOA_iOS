@@ -62,8 +62,7 @@ extension SearchViewController {
         // Text 입력
         searchBar.rx.text.orEmpty
             .distinctUntilChanged()
-            .filter { $0 != "" }
-            .map { _ in Reactor.Action.didChangeTextField }
+            .map { Reactor.Action.didChangeTextField($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -102,6 +101,18 @@ extension SearchViewController {
         // Hpedia 버튼 클릭
         ResultVC.topView.hpediaButton.rx.tap
             .map { Reactor.Action.didTapHpediaButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 연관 검색어 List Cell 클릭
+        listVC.tableView.rx.itemSelected
+            .map { Reactor.Action.didTapSearchListCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 검색 결과 Result Cell 클릭
+        ResultVC.collectionView.rx.itemSelected
+            .map { Reactor.Action.didTapSearchResultCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -199,12 +210,36 @@ extension SearchViewController {
             .bind(to: ResultVC.topView.hpediaButton.rx.isSelected )
             .disposed(by: disposeBag)
         
+        // 연관 검색어를 클릭하면 해당 값을 searchBar의 text에 바인딩
+        reactor.state
+            .map { $0.listContent }
+            .distinctUntilChanged()
+            .filter { $0 != "" }
+            .bind(onNext: { content in
+                self.searchBar.endEditing(false)
+                self.searchBar.text = content
+            })
+            .disposed(by: disposeBag)
+        
+        // 검새 결과를 클릭하면 해당 PerfumeId가지고 향수 상세보기 페이지로 이동
+        reactor.state
+            .map { $0.selectedPerfumeId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
     func configureUI() {
         
         view.backgroundColor = .white
+        
+        listVC.tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        ResultVC.collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
         
         [   listVC,
             ResultVC
@@ -251,5 +286,30 @@ extension SearchViewController {
         vc.willMove(toParent: self)
         vc.removeFromParent()
         vc.view.removeFromSuperview()
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension SearchViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 34
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension SearchViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let width = (UIScreen.main.bounds.width - 40) / 2
+        let height = width + 82
+        return CGSize(width: width, height: height)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
 }
