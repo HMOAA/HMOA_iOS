@@ -74,9 +74,9 @@ extension SearchResultCollectionViewCell {
         }
     }
     
-    func updateCell(_ product: Product) {
+    func updateCell(_ product: Perfume) {
 //        self.productImageView.image = product.image
-        self.titleLabel.text = product.title
+        self.titleLabel.text = product.titleName
         self.contentLabel.text = product.content
     }
 }
