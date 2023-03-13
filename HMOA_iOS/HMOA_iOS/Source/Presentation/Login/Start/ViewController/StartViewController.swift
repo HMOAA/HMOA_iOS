@@ -61,7 +61,12 @@ class StartViewController: UIViewController {
     }
     
     let viewModel = StartViewModel()
+    let startReactor = StartReactor()
     var disposeBag = DisposeBag()
+    
+    let yearList = Year().year
+    var isSexCheck = false
+    var index: Int = 0
 
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -72,7 +77,7 @@ class StartViewController: UIViewController {
         setAddView()
         setUpConstraints()
         
-        bind()
+        bind(reactor: startReactor)
     }
     
     override func viewDidLayoutSubviews() {
@@ -92,6 +97,7 @@ class StartViewController: UIViewController {
         womanButton.setImage(UIImage(named: "selectCircle"), for: .selected)
         manButton.setImage(UIImage(named: "selectCircle"), for: .selected)
         manButton.setImage(UIImage(named: "circle"), for: .normal)
+    
     }
     
     private func configureButton(_ title: String) -> UIButton.Configuration {
@@ -164,75 +170,124 @@ class StartViewController: UIViewController {
     }
     
     //MARK: - Bind
-    private func bind() {
+    private func bind(reactor: StartReactor) {
+        //Input
         
         //연도 선택 터치 이벤트
         selectYearButton.rx.tap
-            .subscribe(onNext: {
-                let vc = self.viewModel.presentSelectYear()
-                self.present(vc, animated: true)
-                self.updateYearLabel(vc)
-            }).disposed(by: disposeBag)
+            .map { StartReactor.Action.didTapChoiceYearButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         //여성 버튼 터치 이벤트
         womanButton.rx.tap
-            .bind(onNext: {
-                self.viewModel.womanButtonOb.onNext(true)
-                self.viewModel.manButtonOb.onNext(false)
-            }).disposed(by: disposeBag)
-            
-        //남성 버튼 터치 이벤트
-        manButton.rx.tap
-            .bind(onNext: {
-                self.viewModel.womanButtonOb.onNext(false)
-                self.viewModel.manButtonOb.onNext(true)
-            }).disposed(by: disposeBag)
-        
-        viewModel.manButtonOb
-            .bind(to: self.manButton.rx.isSelected)
+            .map { StartReactor.Action.didTapWomanButton }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        viewModel.womanButtonOb
+        //남성 버튼 터치 이벤트
+        manButton.rx.tap
+            .map { StartReactor.Action.didTapManButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        //시작 버튼 터치 이베느
+        startButton.rx.tap
+            .map { StartReactor.Action.didTapStartButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //OutPut
+        
+        //ChoiceYearVC로 이동 및 년도 값 받아와 UI 업데이트
+        reactor.state
+            .map { $0.isPresentChoiceYearVC }
+            .distinctUntilChanged()
+            .compactMap{ $0 }
+            .filter { $0 }
+            .bind(onNext: { _ in
+                let yearVC = self.presentSelectYear()
+                self.present(yearVC, animated: true)
+                self.updateYearLabel(yearVC)
+            }).disposed(by: disposeBag)
+        
+        //woman 버튼 활성화
+        reactor.state
+            .map { $0.isCheckedWoman }
+            .distinctUntilChanged()
+            .compactMap { $0 }
             .bind(to: self.womanButton.rx.isSelected)
             .disposed(by: disposeBag)
         
-        viewModel.isComplete
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { result in
-                self.updateStartButton(result)
+        //man 버튼 활성화
+        reactor.state
+            .map { $0.isCheckedMan }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(to: self.manButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        //성별 버튼 활성화 체크 및 UI 업데이트
+        reactor.state
+            .map { $0.isSexCheck }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: { isSexCheck in
+                self.isSexCheck = isSexCheck
+                self.updateUIStartAndYear(self.index, isSexCheck)
             }).disposed(by: disposeBag)
         
-        //시작 버튼 터치 이벤트
-        startButton.rx.tap
-            .subscribe(onNext: {
+        //메인 탭바로 이동
+        reactor.state
+            .map { $0.isPresentTabBar }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .filter { $0 }
+            .bind(onNext: { _ in
                 let tabBar = AppTabbarController()
                 tabBar.modalPresentationStyle = .fullScreen
                 self.present(tabBar, animated: true)
             }).disposed(by: disposeBag)
     }
-
-    
     
     //MARK: - UpdateUI
+    
+    //selectLabel text 변경
     func updateYearLabel(_ vc: ChoiceYearViewController) {
-       vc.viewModel.selectedIndex
-            .map { vc.viewModel.years[$0] }
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { year in
-                self.viewModel.yearTextOb.onNext("selected")
-                self.selectLabel.text = "\(year)"
-                self.selectLabel.textColor = .black
+        vc.reactor.state
+            .map { $0.selectedIndex}
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: { index in
+                self.index = index
+                self.updateUIStartAndYear(index, self.isSexCheck)
+                self.selectLabel.text = self.yearList[index]
             }).disposed(by: disposeBag)
     }
     
-    func updateStartButton(_ result: Bool) {
-        if result {
-            startButton.backgroundColor = .black
-            startButton.isEnabled = result
+    //selectLabel, StartButton UI 변경
+    func updateUIStartAndYear(_ index: Int, _ isSexCheck: Bool) {
+        if index != 0{
+            if isSexCheck {
+                startButton.backgroundColor = .black
+                startButton.isEnabled = true
+            }
+            selectLabel.textColor = .black
         }
+        
         else {
+            selectLabel.textColor = .customColor(.gray3)
             startButton.backgroundColor = .customColor(.gray2)
-            startButton.isEnabled = result
+            startButton.isEnabled = false
         }
+    }
+    
+    func presentSelectYear() -> ChoiceYearViewController {
+        let vc = ChoiceYearViewController()
+        vc.modalPresentationStyle = .pageSheet
+        if let sheet = vc.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+        }
+        return vc
     }
 }
