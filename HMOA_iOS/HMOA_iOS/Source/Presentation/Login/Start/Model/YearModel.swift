@@ -8,7 +8,7 @@
 import Foundation
 
 struct Year {
-    var year = [String]()
+    var year = ["선택"]
     
     init() {
         for i in (1960...2016).reversed() {

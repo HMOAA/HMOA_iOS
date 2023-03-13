@@ -16,7 +16,9 @@ class LoginReactor: Reactor {
     
     //유저 액션
     enum Action {
-        case didTapLoginButton
+        case didTapGoogleLoginButton
+        case didTapAppleLoginButton
+        case didTapKakaoLoginButton
         case didTapLoginRetainButton
         case didTapNoLoginButton
     }
@@ -46,7 +48,17 @@ class LoginReactor: Reactor {
                 .just(.setPresentTabBar(true)),
                 .just(.setPresentTabBar(false))
                       ])
-        case .didTapLoginButton:
+        case .didTapGoogleLoginButton:
+            return .concat([
+                .just(.setPushStartVC(true)),
+                .just(.setPushStartVC(false))
+                      ])
+        case .didTapAppleLoginButton:
+            return .concat([
+                .just(.setPushStartVC(true)),
+                .just(.setPushStartVC(false))
+                      ])
+        case .didTapKakaoLoginButton:
             return .concat([
                 .just(.setPushStartVC(true)),
                 .just(.setPushStartVC(false))

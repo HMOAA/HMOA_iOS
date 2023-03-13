@@ -11,6 +11,7 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
+import ReactorKit
 
 class ChoiceYearViewController: UIViewController {
     //MARK: - Property
@@ -31,6 +32,7 @@ class ChoiceYearViewController: UIViewController {
         $0.backgroundColor = .black
     }
     
+    let reactor = ChoiceYearReactor()
     let disposeBag = DisposeBag()
     let viewModel = ChoiceYearViewModel()
     
@@ -40,7 +42,7 @@ class ChoiceYearViewController: UIViewController {
         setUpUI()
         setAddView()
         setConstraints()
-        bind()
+        bind(reactor: reactor)
     }
     
     override func viewDidLayoutSubviews() {
@@ -94,29 +96,38 @@ class ChoiceYearViewController: UIViewController {
         }
     }
     
-    private func bind() {
+    private func bind(reactor: ChoiceYearReactor) {
         
-        viewModel.yearOb
+        xButton.rx.tap
+            .map { ChoiceYearReactor.Action.didTapXButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        okButton.rx.tap
+            .map { ChoiceYearReactor.Action.didTapOkButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        yearPicker.rx.itemSelected
+            .map { ChoiceYearReactor.Action.didSelecteYear($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.sections }
             .bind(to: yearPicker.rx.itemTitles) { _, item in
                 return "\(item)"
             }.disposed(by: disposeBag)
         
-        xButton.rx.tap
-            .subscribe(onNext: {
+        reactor.state
+            .map { $0.isDismiss }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .filter { $0 }
+            .bind(onNext: { _ in
                 self.dismiss(animated: true)
             }).disposed(by: disposeBag)
         
-        okButton.rx.tap
-            .subscribe(onNext: {
-            self.dismiss(animated: true)
-            }).disposed(by: disposeBag)
-        
-        yearPicker.rx.itemSelected
-            .map { $0.row }
-            .subscribe(onNext: { index in
-                self.viewModel.selectedIndex.onNext(index)
-            }).disposed(by: disposeBag)
-    
     }
 }
 
