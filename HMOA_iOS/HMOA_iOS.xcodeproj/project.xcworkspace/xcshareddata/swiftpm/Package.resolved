@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "errorkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jaemyeong/ErrorKit.git",
+      "state" : {
+        "revision" : "4510255a5254f8f8f26b2d9ada4afc03a7c49b1a",
+        "version" : "0.1.14"
+      }
+    },
+    {
+      "identity" : "pretendard",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jaemyeong/Pretendard.git",
+      "state" : {
+        "revision" : "b0ca1773eb0559abcfaa1298caa14fea79d7072a",
+        "version" : "0.2.5"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log.git",
+      "state" : {
+        "revision" : "32e8d724467f8fe623624570367e3d50c5638e46",
+        "version" : "1.5.2"
+      }
+    }
+  ],
+  "version" : 2
+}
