@@ -165,6 +165,19 @@ extension DetailViewController {
                 
                 perfumeInfoCell.reactor = reactor
                 
+                // 하단 뷰 향수 좋아요 버튼 클릭시 액션 전달
+                self.bottomView.likeButton.rx.tap
+                    .map { _ in .didTapPerfumeLikeButton }
+                    .bind(to: perfumeInfoCell.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
+                // perfumeInfoReactor의 향수 좋아요 상태 변화
+                perfumeInfoCell.reactor?.state
+                    .map { $0.isLikePerfume }
+                    .distinctUntilChanged()
+                    .bind(to: self.bottomView.likeButton.rx.isSelected)
+                    .disposed(by: self.disposeBag)
+                
                 return perfumeInfoCell
             case .commentCell(let reactor, _):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }

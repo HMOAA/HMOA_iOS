@@ -60,11 +60,19 @@ class CommentDetailViewController: UIViewController, View {
         $0.backgroundColor = .customColor(.gray1)
     }
     
+    lazy var changeButton = UIButton().then {
+        $0.titleLabel?.font = .customFont(.pretendard, 16)
+        $0.setTitle("수정", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.tintColor = .black
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setBackItemNaviBar("댓글")
         configureUI()
+        configureNavigationBar()
     }
 }
 
@@ -78,6 +86,12 @@ extension CommentDetailViewController {
         // 댓글 좋아요 버튼 클릭
         commentLikeButton.rx.tap
             .map { Reactor.Action.didTapLikeButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 수정하기 버튼 클릭
+        changeButton.rx.tap
+            .map { Reactor.Action.didTapChangeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -113,6 +127,26 @@ extension CommentDetailViewController {
             .map { String($0) }
             .bind(onNext: {
                 self.commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)
+            })
+            .disposed(by: disposeBag)
+        
+        // 수정 버튼 상태
+        reactor.state
+            .map { $0.comment.isWrite }
+            .map { !$0 }
+            .bind(to: changeButton.rx.isHidden )
+            .disposed(by: disposeBag)
+        
+        // 수정 버튼 클릭 상태
+        reactor.state
+            .map { $0.isTapChangeButton }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: {
+                self.presentCommentWirteViewControllerForWriter(
+                    (self.reactor?.currentState.comment.commentId)!,
+                    (self.reactor?.currentState.comment.content)!)
             })
             .disposed(by: disposeBag)
     }
@@ -155,6 +189,12 @@ extension CommentDetailViewController {
             $0.height.equalTo(20)
         }
 
+    }
+    
+    func configureNavigationBar() {
+        let changeButtonItem = UIBarButtonItem(customView: changeButton)
+        
+        self.navigationItem.rightBarButtonItem = changeButtonItem
     }
     
     func setLikeButtonText(_ text: String) -> AttributedString {

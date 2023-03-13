@@ -42,8 +42,6 @@ class CommentWriteViewController: UIViewController, View {
     
     lazy var textView = UITextView().then {
         $0.font = .customFont(.pretendard, 14)
-        $0.text = "해당 제품에 대한 의견을 남겨주세요"
-        $0.textColor = .customColor(.gray3)
         $0.textAlignment = .left
     }
 
@@ -76,9 +74,9 @@ extension CommentWriteViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // textView 사용자가 입력 시작
+        // textView 사용자가 입력 시작 -> Action으로 전달한 textView.text값에 따라서 Reactor의 Content값 바꿈
         textView.rx.didBeginEditing
-            .map { Reactor.Action.didBeginTextViewEditing }
+            .map { Reactor.Action.didBeginTextViewEditing(self.textView.text) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -99,19 +97,6 @@ extension CommentWriteViewController {
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
         
-        // 사용자 입력 시작
-        reactor.state
-            .map { $0.isBeginEditing }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: {
-                if self.textView.text == "해당 제품에 대한 의견을 남겨주세요" {
-                    self.textView.text = nil
-                    self.textView.textColor = .black
-                }
-            })
-            .disposed(by: disposeBag)
         
         // 사용자가 입력 종료 (textView 비활성화)
         reactor.state
@@ -124,6 +109,17 @@ extension CommentWriteViewController {
                     self.textView.text = "해당 제품에 대한 의견을 남겨주세요"
                     self.textView.textColor = .customColor(.gray3)
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        // 댓글 내용에 따른 색상 변화
+        reactor.state
+            .map { $0.content }
+            .bind(onNext: {
+                self.textView.textColor =
+                $0 == "해당 제품에 대한 의견을 남겨주세요" ? .customColor(.gray3) : .black
+                
+                self.textView.text = $0
             })
             .disposed(by: disposeBag)
     }

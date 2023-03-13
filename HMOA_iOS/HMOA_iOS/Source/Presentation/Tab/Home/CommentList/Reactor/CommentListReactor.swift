@@ -16,12 +16,15 @@ class CommentListReactor: Reactor {
         case viewWillAppear
         case didTapCell(IndexPath)
         case didTapWriteButton
+        case didTapLikeSortButton
+        case didTapRecentSortButton
     }
     
     enum Mutation {
         case setSelectedCommentId(IndexPath?)
         case setIsPresentCommentWrite(Int?)
         case setCommentData
+        case setSort(Int)
     }
     
     struct State {
@@ -54,6 +57,12 @@ class CommentListReactor: Reactor {
                 .just(.setIsPresentCommentWrite(currentPerfumeId)),
                 .just(.setIsPresentCommentWrite(nil))
             ])
+        
+        case .didTapLikeSortButton:
+            return .just(.setSort(1))
+            
+        case .didTapRecentSortButton:
+            return .just(.setSort(2))
         }
     }
     
@@ -74,35 +83,42 @@ class CommentListReactor: Reactor {
             state.isPresentCommentWriteVC = perfumeId
             
         case .setCommentData:
-            let data = CommentListReactor.setCommentsList(currentPerfumeId)
+            let data = CommentListReactor.setCommentsList(currentPerfumeId, 1)
             state.comments = data.0
             state.commentCount = data.1
             
+        case .setSort(let sortType):
+            let data = CommentListReactor.setCommentsList(currentPerfumeId, sortType)
+            state.comments = data.0
+            state.commentCount = data.1
         }
         return state
     }
 }
 
 extension CommentListReactor {
-    static func setCommentsList(_ id: Int) -> ([CommentSection], Int) {
+    static func setCommentsList(_ id: Int, _ sortType: Int) -> ([CommentSection], Int) {
         
         print(id)
-        // TODO: currentPerfumeId로 서버 통신해서 댓글 가져오기
+        // TODO: currentPerfumeId와 sortType으로 서버 통신해서 댓글 가져오기
         
-        let comments = [
-            Comment(commentId: 1, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 2, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 3, name: "test", image: UIImage(named: "jomalon")!, likeCount: 0, content: "test", isLike: false),
-            Comment(commentId: 4, name: "test", image: UIImage(named: "jomalon")!, likeCount: 0, content: "test", isLike: false),
-            Comment(commentId: 5, name: "test", image: UIImage(named: "jomalon")!, likeCount: 0, content: "test", isLike: false),
-            Comment(commentId: 6, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 7, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 8, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 9, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 10, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 11, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false),
-            Comment(commentId: 12, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false)
+        var comments = [
+            Comment(commentId: 1, name: "test", image: UIImage(named: "jomalon")!, likeCount: 124, content: "1", isLike: false, isWrite: false),
+            Comment(commentId: 2, name: "test", image: UIImage(named: "jomalon")!, likeCount: 5123, content: "2", isLike: false, isWrite: false),
+            Comment(commentId: 3, name: "test", image: UIImage(named: "jomalon")!, likeCount: 10, content: "3", isLike: false, isWrite: false),
+            Comment(commentId: 4, name: "test", image: UIImage(named: "jomalon")!, likeCount: 23, content: "4", isLike: false, isWrite: false),
+            Comment(commentId: 5, name: "test", image: UIImage(named: "jomalon")!, likeCount: 20, content: "5", isLike: false, isWrite: false),
+            Comment(commentId: 6, name: "test", image: UIImage(named: "jomalon")!, likeCount: 2341, content: "6", isLike: false, isWrite: false),
+            Comment(commentId: 7, name: "test", image: UIImage(named: "jomalon")!, likeCount: 122, content: "7", isLike: false, isWrite: false),
+            Comment(commentId: 8, name: "test", image: UIImage(named: "jomalon")!, likeCount: 341, content: "8", isLike: false, isWrite: false),
+            Comment(commentId: 9, name: "test", image: UIImage(named: "jomalon")!, likeCount: 55, content: "9", isLike: false, isWrite: false),
+            Comment(commentId: 10, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "10", isLike: false, isWrite: false),
+            Comment(commentId: 11, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "11", isLike: false, isWrite: false),
+            Comment(commentId: 12, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "12", isLike: false, isWrite: false)
         ]
+        
+        sortType == 1 ? comments.sort { $0.likeCount > $1.likeCount }: comments.sort { $0.commentId < $1.commentId }
+        
         
         let commentItems = comments.map {CommentSectionItem.commentCell(CommentCellReactor(comment: $0), $0.commentId)}
         
