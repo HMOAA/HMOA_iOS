@@ -9,7 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
-class CommentListTopView: UIView {
+class CommentListTopView: UICollectionReusableView {
+    
+    // MARK: - identifier
+    static let identifier = "CommentListTopView"
     
     // MARK: - UI Component
     

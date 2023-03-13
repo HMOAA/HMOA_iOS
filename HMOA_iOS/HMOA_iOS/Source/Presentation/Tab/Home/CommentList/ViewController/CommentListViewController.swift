@@ -25,14 +25,15 @@ class CommentListViewController: UIViewController, View {
 
     // MARK: - UI Component
     
-    let topView = CommentListTopView()
     let bottomView = CommentListBottomView()
     
     lazy var layout = UICollectionViewFlowLayout()
+    private var header: CommentListTopView!
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.alwaysBounceVertical = true
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
+        $0.register(CommentListTopView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentListTopView.identifier)
     }
     
     
@@ -73,7 +74,6 @@ extension CommentListViewController {
             .disposed(by: disposeBag)
         
         // MARK: - State
-
         // collectionView 바인딩
         reactor.state
             .map { $0.comments }
@@ -81,12 +81,12 @@ extension CommentListViewController {
             .disposed(by: disposeBag)
         
         // 댓글 개수 반응
-        reactor.state
-            .map { $0.commentCount }
-            .distinctUntilChanged()
-            .map { String($0) }
-            .bind(to: topView.commentCountLabel.rx.text )
-            .disposed(by: disposeBag)
+//        reactor.state
+//            .map { $0.commentCount }
+//            .distinctUntilChanged()
+//            .map { String($0) }
+//            .bind(to: topView.commentCountLabel.rx.text )
+//            .disposed(by: disposeBag)
         
         // 댓글 디테일 페이지로 이동
         reactor.state
@@ -105,6 +105,26 @@ extension CommentListViewController {
             .disposed(by: disposeBag)
     }
     
+    func bindHeader() {
+                
+        // MARK: - bindHeader - Action
+        
+        // 좋아요순 버튼 클릭
+        header.likeSortButton.rx.tap
+            .do(onNext: { print("좋아요순")})
+            .map { Reactor.Action.didTapLikeSortButton }
+            .bind(to: commendReactor.action)
+            .disposed(by: disposeBag)
+        
+        // 최신순 버튼 클릭
+        header.recentSortButton.rx.tap
+            .do(onNext: { print("최신순")})
+            .map { Reactor.Action.didTapRecentSortButton }
+            .bind(to: commendReactor.action)
+            .disposed(by: disposeBag)
+        
+    }
+    
     func configureCollectionViewDataSource() {
         
         dataSource = RxCollectionViewSectionedReloadDataSource<CommentSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
@@ -116,6 +136,20 @@ extension CommentListViewController {
                 
                 return cell
             }
+        }, configureSupplementaryView: { _, collectionView, kind, indexPath -> UICollectionReusableView in
+            
+            switch indexPath.section {
+            case 0:
+                guard let commentListTopView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentListTopView.identifier, for: indexPath) as? CommentListTopView else { return UICollectionReusableView() }
+                
+                self.header = commentListTopView
+                self.bindHeader()
+                
+                return commentListTopView
+                
+            default:
+                return UICollectionReusableView()
+            }
         })
     }
     
@@ -125,19 +159,13 @@ extension CommentListViewController {
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        [   topView,
-            collectionView,
+        [   collectionView,
             bottomView
         ]   .forEach { view.addSubview($0) }
         
-        topView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(44)
-        }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(topView.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(bottomView.snp.top)
         }
@@ -145,7 +173,7 @@ extension CommentListViewController {
         bottomView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(72)
+            $0.height.equalTo(83)
         }
     }
 }
@@ -153,5 +181,9 @@ extension CommentListViewController {
 extension CommentListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 102)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: 44)
     }
 }

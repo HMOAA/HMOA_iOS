@@ -16,14 +16,17 @@ class CommentDetailReactor: Reactor {
     
     enum Action {
         case didTapLikeButton
+        case didTapChangeButton
     }
     
     enum Mutation {
         case setCommentLike(Bool)
+        case setIsPresentChangeVC(Bool)
     }
     
     struct State {
         var comment: Comment
+        var isTapChangeButton: Bool = false
     }
     
     init(_ currentCommentId: Int) {
@@ -40,6 +43,12 @@ class CommentDetailReactor: Reactor {
             } else {
                 return .just(.setCommentLike(false))
             }
+            
+        case .didTapChangeButton:
+            return .concat([
+                .just(.setIsPresentChangeVC(true)),
+                .just(.setIsPresentChangeVC(false))
+            ])
         }
     }
     
@@ -50,6 +59,9 @@ class CommentDetailReactor: Reactor {
         case .setCommentLike(let isLike):
             state.comment.isLike = isLike
             state.comment.likeCount += isLike ? 1 : -1
+            
+        case .setIsPresentChangeVC(let isPresent):
+            state.isTapChangeButton = isPresent
         }
         
         return state
@@ -63,6 +75,6 @@ extension CommentDetailReactor {
         print(id)
         
         // TODO: currentCommentId로 서버와 통신
-        return Comment(commentId: 1, name: "안녕하세요", image: UIImage(named: "jomalon")!, likeCount: 150, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요", isLike: false)
+        return Comment(commentId: 1, name: "안녕하세요", image: UIImage(named: "jomalon")!, likeCount: 150, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요", isLike: false, isWrite: true)
     }
 }
