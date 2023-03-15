@@ -13,13 +13,13 @@ import RxCocoa
 import RxSwift
 
 
-class HomeWatchCell: UICollectionViewCell, View {
+class HomeFirstCell: UICollectionViewCell, View {
     
     typealias Reactor = HomeCellReactor
 
     // MARK: - identifier
     
-    static let identifier = "HomeWatchCell"
+    static let identifier = "HomeFirstCell"
     
     // MARK: - Properties
     var disposeBag = DisposeBag()
@@ -49,7 +49,7 @@ class HomeWatchCell: UICollectionViewCell, View {
 
 // MARK: - Functions
 
-extension HomeWatchCell {
+extension HomeFirstCell {
     
     func bind(reactor: HomeCellReactor) {
         perfumeInfoLabel.text = reactor.currentState.content

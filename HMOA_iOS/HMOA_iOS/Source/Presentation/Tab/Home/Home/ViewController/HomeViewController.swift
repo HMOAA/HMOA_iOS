@@ -96,15 +96,15 @@ extension HomeViewController {
                 
                 return homeTopCell
             case .homeFirstCell(let reactor, _):
-                guard let homeCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeCell.identifier,
-                    for: indexPath) as? HomeCell else {
+                guard let homeFirstCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HomeFirstCell.identifier,
+                    for: indexPath) as? HomeFirstCell else {
                     return UICollectionViewCell()
                 }
+            
+                homeFirstCell.reactor = reactor
                 
-                homeCell.reactor = reactor
-                
-                return homeCell
+                return homeFirstCell
             case .homeSecondCell(let reactor, _):
                 guard let homeCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeCell.identifier,
@@ -115,27 +115,37 @@ extension HomeViewController {
                 homeCell.reactor = reactor
                 
                 return homeCell
-            case .homeWatchCell(let reactor, _):
-                guard let homeWatchCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeWatchCell.identifier,
-                    for: indexPath) as? HomeWatchCell else {
+            case .homeThridCell(let reactor, _):
+                guard let homeCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HomeCell.identifier,
+                    for: indexPath) as? HomeCell else {
                     return UICollectionViewCell()
                 }
-            
-                homeWatchCell.reactor = reactor
                 
-                return homeWatchCell
+                homeCell.reactor = reactor
+                
+                return homeCell
+            case .homeFourthCell(let reactor, _):
+                guard let homeCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HomeCell.identifier,
+                    for: indexPath) as? HomeCell else {
+                    return UICollectionViewCell()
+                }
+                
+                homeCell.reactor = reactor
+                
+                return homeCell
             }
         }, configureSupplementaryView: { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
 
             var header = UICollectionReusableView()
         
             switch indexPath.section {
-            case 3:
+            case 1:
                 guard let homeWatchCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: HomeWatchCellHeaderView.identifier,
-                    for: indexPath) as? HomeWatchCellHeaderView else {
+                    withReuseIdentifier: HomeFirstCellHeaderView.identifier,
+                    for: indexPath) as? HomeFirstCellHeaderView else {
                     return UICollectionReusableView()
                 }
                 header = homeWatchCellHeader
