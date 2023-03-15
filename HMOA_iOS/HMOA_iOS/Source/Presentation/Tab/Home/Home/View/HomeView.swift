@@ -17,9 +17,9 @@ class HomeView: UIView {
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
         $0.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.identifier)
         $0.register(HomeTopCell.self, forCellWithReuseIdentifier: HomeTopCell.identifier)
-        $0.register(HomeWatchCell.self, forCellWithReuseIdentifier: HomeWatchCell.identifier)
+        $0.register(HomeFirstCell.self, forCellWithReuseIdentifier: HomeFirstCell.identifier)
         $0.register(HomeCellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCellHeaderView.identifier)
-        $0.register(HomeWatchCellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeWatchCellHeaderView.identifier)
+        $0.register(HomeFirstCellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeFirstCellHeaderView.identifier)
     }
     
     
@@ -63,11 +63,11 @@ extension HomeView {
     }
     
     func homeCellCompositionalLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .estimated(126))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .absolute(160))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 1.5)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .estimated(126))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .absolute(160))
 
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
@@ -78,28 +78,20 @@ extension HomeView {
         section.boundarySupplementaryItems = [ sectionHeader ]
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 8
-        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 48, leading: 0, bottom: 0, trailing: 0)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 74, leading: 0, bottom: 0, trailing: 0)
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 0, bottom: 40, trailing: 0)
         return section
     }
     
-    func homeWatchCellCompositionalLayout() -> NSCollectionLayoutSection {
+    func homeFirstCellCompositionalLayout() -> NSCollectionLayoutSection {
         
-        let leftItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5)))
+        let leftTopItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5)))
         
-        let leftBottomHalfItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5)))
-        
-        leftBottomHalfItem.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 0, bottom: 0, trailing: 6)
-        
-        let leftBottomItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1)))
+        let leftBottomItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5)))
         
         leftBottomItem.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 0, bottom: 0, trailing: 0)
         
-        let leftBottomHalfGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1)), subitems: [leftBottomHalfItem, leftBottomHalfItem])
-        
-        let leftBottomGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5)), subitems: [leftBottomHalfGroup, leftBottomItem])
-        
-        let leftGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .fractionalHeight(1)), subitems: [leftItem, leftBottomGroup])
+        let leftGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalHeight(1)), subitems: [leftTopItem, leftBottomItem])
         
         let rightTopHalfFirstItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .fractionalHeight(1)))
         
@@ -109,11 +101,11 @@ extension HomeView {
         
         rightTopHalfSecondItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 0)
        
-        let rightTopHalfGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.4)), subitems: [rightTopHalfFirstItem, rightTopHalfSecondItem])
+        let rightTopHalfGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.267)), subitems: [rightTopHalfFirstItem, rightTopHalfSecondItem])
         
-        let rightButtomItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.6)))
+        let rightButtomItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
         
-        let rightGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.6), heightDimension: .fractionalHeight(1)), subitems: [rightTopHalfGroup, rightButtomItem])
+        let rightGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.67), heightDimension: .fractionalHeight(1)), subitems: [rightTopHalfGroup, rightButtomItem])
         
         rightGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 20)
         
@@ -138,8 +130,8 @@ extension HomeView {
             switch sectionIndex {
             case 0:
                 return self.homeTopCellCompositionalLayout()
-            case 3:
-                return self.homeWatchCellCompositionalLayout()
+            case 1:
+                return self.homeFirstCellCompositionalLayout()
             default:
                 return self.homeCellCompositionalLayout()
             }

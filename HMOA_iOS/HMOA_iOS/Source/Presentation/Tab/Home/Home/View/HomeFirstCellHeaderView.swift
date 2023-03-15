@@ -9,10 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
-class HomeWatchCellHeaderView: UICollectionReusableView {
+class HomeFirstCellHeaderView: UICollectionReusableView {
     
     // MARK: - identifier
-    static let identifier = "HomeWatchCellHeaderView"
+    static let identifier = "HomeFirstCellHeaderView"
     
     // MARK: - Properties
     
@@ -35,7 +35,7 @@ class HomeWatchCellHeaderView: UICollectionReusableView {
 
 // MARK: - Functions
 
-extension HomeWatchCellHeaderView {
+extension HomeFirstCellHeaderView {
     func configureUI() {
         
         [   titleLabel,

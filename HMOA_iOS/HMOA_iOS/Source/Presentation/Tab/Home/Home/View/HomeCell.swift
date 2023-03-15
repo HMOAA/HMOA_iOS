@@ -56,15 +56,13 @@ extension HomeCell {
         }
         
         perfumeTitleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(perfumeInfoLabel.snp.top).offset(-2)
-            $0.leading.equalToSuperview().inset(4)
-            $0.height.equalTo(10)
+            $0.top.equalTo(perfumeImageView.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview()
         }
         
         perfumeInfoLabel.snp.makeConstraints {
-            $0.bottom.equalTo(perfumeImageView).inset(4)
-            $0.leading.equalToSuperview().inset(4)
-            $0.width.equalTo(perfumeImageView.snp.width)
+            $0.top.equalTo(perfumeTitleLabel.snp.bottom).offset(4)
+            $0.leading.trailing.equalToSuperview()
         }
     }
     
