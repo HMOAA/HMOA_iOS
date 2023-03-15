@@ -67,6 +67,7 @@
 		2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C60F21F29BA0F4000595EF4 /* Int++Extenstions.swift */; };
 		2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C60F22B29BA130300595EF4 /* HPediaViewController.swift */; };
 		2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6DAD0A29A76F0D003F0E98 /* SearchReactor.swift */; };
+		2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C700DE729C1A84F00DDEF77 /* HomeHeaderReactor.swift */; };
 		2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEC29798172006BE23B /* HomeFirstCell.swift */; };
 		2C710EEF29798330006BE23B /* HomeFirstCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEE29798330006BE23B /* HomeFirstCellHeaderView.swift */; };
 		2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */; };
@@ -182,6 +183,7 @@
 		2C60F21F29BA0F4000595EF4 /* Int++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int++Extenstions.swift"; sourceTree = "<group>"; };
 		2C60F22B29BA130300595EF4 /* HPediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaViewController.swift; sourceTree = "<group>"; };
 		2C6DAD0A29A76F0D003F0E98 /* SearchReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReactor.swift; sourceTree = "<group>"; };
+		2C700DE729C1A84F00DDEF77 /* HomeHeaderReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderReactor.swift; sourceTree = "<group>"; };
 		2C710EEC29798172006BE23B /* HomeFirstCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFirstCell.swift; sourceTree = "<group>"; };
 		2C710EEE29798330006BE23B /* HomeFirstCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFirstCellHeaderView.swift; sourceTree = "<group>"; };
 		2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extenstions.swift"; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 			children = (
 				2C04246029A37F7B009CF0FE /* HomeViewReactor.swift */,
 				2C04246A29A3B3E3009CF0FE /* HomeCellReactor.swift */,
+				2C700DE729C1A84F00DDEF77 /* HomeHeaderReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1134,6 +1137,7 @@
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */,
+				2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,

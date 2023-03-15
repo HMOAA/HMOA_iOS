@@ -8,21 +8,26 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxSwift
+import RxCocoa
 
-class HomeFirstCellHeaderView: UICollectionReusableView {
+class HomeFirstCellHeaderView: UICollectionReusableView, View {
+    typealias Reactor = HomeHeaderReactor
     
     // MARK: - identifier
     static let identifier = "HomeFirstCellHeaderView"
     
     // MARK: - Properties
     
+    var disposeBag = DisposeBag()
+
     let titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 14)
-        $0.text = "HOT"
     }
     
     lazy var moreButton = UIButton().then {
-        $0.setTitle("랭킹더보기", for: .normal)
+        $0.setTitle("전체보기", for: .normal)
         $0.titleLabel!.font = .customFont(.pretendard, 12)
         $0.setTitleColor(.black, for: .normal)
     }
@@ -49,5 +54,25 @@ extension HomeFirstCellHeaderView {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(20)
         }
+    }
+    
+    func bind(reactor: HomeHeaderReactor) {
+        
+        // MARK: - Action
+        
+        // 전체보기 버튼 클릭
+        moreButton.rx.tap
+            .map { Reactor.Action.didTapMoreButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // MARK: - State
+    
+        // headerTitle titleLabel에 바인딩
+        reactor.state
+            .map { $0.headerTitle }
+            .distinctUntilChanged()
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 }
