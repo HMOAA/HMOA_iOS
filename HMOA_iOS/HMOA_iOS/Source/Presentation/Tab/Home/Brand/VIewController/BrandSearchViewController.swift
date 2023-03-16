@@ -6,8 +6,17 @@
 //
 
 import UIKit
+import SnapKit
+import Then
+import ReactorKit
+import RxSwift
+import RxCocoa
 
-class BrandSearchViewController: UIViewController {
+class BrandSearchViewController: UIViewController, View {
+    typealias Reactor = BrandSearchReactor
+    
+    var disposeBag = DisposeBag()
+    
 
     // MARK: - UI Component
     lazy var backButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
@@ -33,6 +42,11 @@ class BrandSearchViewController: UIViewController {
 }
 
 extension BrandSearchViewController {
+    // MARK: - bind
+    
+    func bind(reactor: BrandSearchReactor) {
+        <#code#>
+    }
     
     // MARK: - Configure
     
