@@ -59,6 +59,8 @@
 		2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D129ACDC58009247E7 /* SearchListViewController.swift */; };
 		2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */; };
 		2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */; };
+		2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */; };
+		2C4A265F29C2F716009F288F /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A265E29C2F716009F288F /* Address.swift */; };
 		2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36B29754B3A0027CE40 /* HomeTopCell.swift */; };
 		2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36D29754B410027CE40 /* HomeCell.swift */; };
 		2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */; };
@@ -175,6 +177,8 @@
 		2C4041D129ACDC58009247E7 /* SearchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
 		2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListTableViewCell.swift; sourceTree = "<group>"; };
+		2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
+		2C4A265E29C2F716009F288F /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		2C4DD36B29754B3A0027CE40 /* HomeTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopCell.swift; sourceTree = "<group>"; };
 		2C4DD36D29754B410027CE40 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellHeaderView.swift; sourceTree = "<group>"; };
@@ -574,6 +578,7 @@
 		2C39AA78297054CD000C6F71 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				2C4A265B29C2F6E1009F288F /* Network */,
 				2CAD963C298E693D00974500 /* CustomView */,
 				2C39AA4A2970417D000C6F71 /* Presentation */,
 				2C39AA79297054EA000C6F71 /* Extenstions */,
@@ -611,6 +616,15 @@
 				2CAB7A9C29B08E4100E74809 /* Product.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		2C4A265B29C2F6E1009F288F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */,
+				2C4A265E29C2F716009F288F /* Address.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		2C4DD366297547620027CE40 /* View */ = {
@@ -1093,6 +1107,7 @@
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
 				2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */,
 				2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */,
+				2C4A265F29C2F716009F288F /* Address.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
@@ -1135,6 +1150,7 @@
 				2C04246429A39C26009CF0FE /* Perfume.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* PerfumeDetail.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
+				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */,
 				2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */,
