@@ -49,7 +49,7 @@
 		2C39AA3A296DB4E0000C6F71 /* HMOA_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA39296DB4E0000C6F71 /* HMOA_iOSUITests.swift */; };
 		2C39AA3C296DB4E0000C6F71 /* HMOA_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA3B296DB4E0000C6F71 /* HMOA_iOSUITestsLaunchTests.swift */; };
 		2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA5D2970470D000C6F71 /* AppTabbarController.swift */; };
-		2C39AA60297047F9000C6F71 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA5F297047F9000C6F71 /* DrawerViewController.swift */; };
+		2C39AA60297047F9000C6F71 /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA5F297047F9000C6F71 /* LikeViewController.swift */; };
 		2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA6129704803000C6F71 /* MyPageViewController.swift */; };
 		2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA632970480E000C6F71 /* MenuViewController.swift */; };
 		2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA672970481F000C6F71 /* HomeViewController.swift */; };
@@ -164,7 +164,7 @@
 		2C39AA39296DB4E0000C6F71 /* HMOA_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMOA_iOSUITests.swift; sourceTree = "<group>"; };
 		2C39AA3B296DB4E0000C6F71 /* HMOA_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMOA_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2C39AA5D2970470D000C6F71 /* AppTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabbarController.swift; sourceTree = "<group>"; };
-		2C39AA5F297047F9000C6F71 /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
+		2C39AA5F297047F9000C6F71 /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		2C39AA6129704803000C6F71 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		2C39AA632970480E000C6F71 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		2C39AA672970481F000C6F71 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -492,7 +492,7 @@
 			isa = PBXGroup;
 			children = (
 				2C60F22929BA12E300595EF4 /* HPedia */,
-				2C39AA5229704292000C6F71 /* Drawer */,
+				2C39AA5229704292000C6F71 /* Like */,
 				2C39AA512970426E000C6F71 /* MyPage */,
 				2C39AA5029704265000C6F71 /* Menu */,
 				2C39AA4E29704253000C6F71 /* Home */,
@@ -531,18 +531,18 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
-		2C39AA5229704292000C6F71 /* Drawer */ = {
+		2C39AA5229704292000C6F71 /* Like */ = {
 			isa = PBXGroup;
 			children = (
 				2C39AA6A29704846000C6F71 /* ViewController */,
 			);
-			path = Drawer;
+			path = Like;
 			sourceTree = "<group>";
 		};
 		2C39AA6A29704846000C6F71 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2C39AA5F297047F9000C6F71 /* DrawerViewController.swift */,
+				2C39AA5F297047F9000C6F71 /* LikeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1122,7 +1122,7 @@
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */,
-				2C39AA60297047F9000C6F71 /* DrawerViewController.swift in Sources */,
+				2C39AA60297047F9000C6F71 /* LikeViewController.swift in Sources */,
 				2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */,
 				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
 				CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */,
