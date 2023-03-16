@@ -8,27 +8,28 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxCocoa
+import RxSwift
 
-class HomeCellHeaderView: UICollectionReusableView {
+class HomeCellHeaderView: UICollectionReusableView, View{
+    typealias Reactor = HomeHeaderReactor
+    
+    // MARK: - Properties
+    var disposeBag = DisposeBag()
     
     // MARK: - identifier
     
     static let identifier = "HomeCellHeaderView"
     
     // MARK: - Properties
-    let searchLabel = UILabel().then {
-        $0.font = .customFont(.pretendard_medium, 14)
-        $0.text = "시트러스"
-    }
-    
-    let forYouLabel = UILabel().then {
+    let titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard, 14)
-        $0.text = "를 검색한 당신에게"
     }
     
     lazy var moreButton = UIButton().then {
         $0.setTitle("전체보기", for: .normal)
-        $0.titleLabel!.font = .customFont(.pretendard, 12)
+        $0.titleLabel!.font = .customFont(.pretendard_light, 12)
         $0.setTitleColor(.black, for: .normal)
     }
     
@@ -46,22 +47,35 @@ class HomeCellHeaderView: UICollectionReusableView {
 
 extension HomeCellHeaderView {
     func configureUI() {
-        [   searchLabel,
-            forYouLabel,
+        [   titleLabel,
             moreButton  ] .forEach { addSubview($0) }
         
-        searchLabel.snp.makeConstraints {
+        titleLabel.snp.makeConstraints {
             $0.leading.centerY.equalToSuperview()
         }
         
-        forYouLabel.snp.makeConstraints {
-            $0.leading.equalTo(searchLabel.snp.trailing)
-            $0.centerY.equalToSuperview()
-        }
-        
         moreButton.snp.makeConstraints {
-            $0.centerY.equalTo(forYouLabel)
+            $0.centerY.equalTo(titleLabel)
             $0.trailing.equalToSuperview().inset(20)
         }
+    }
+    
+    func bind(reactor: HomeHeaderReactor) {
+        // MARK: - Action
+        
+        // 전체보기 버튼 클릭
+        moreButton.rx.tap
+            .map { Reactor.Action.didTapMoreButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // MARK: - State
+        
+        // headerTitle titleLabel에 바인딩
+        reactor.state
+            .map { $0.headerTitle }
+            .distinctUntilChanged()
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 }
