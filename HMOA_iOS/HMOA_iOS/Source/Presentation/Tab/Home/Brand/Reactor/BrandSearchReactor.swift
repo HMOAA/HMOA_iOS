@@ -12,22 +12,36 @@ class BrandSearchReactor: Reactor {
     var initialState: State = State()
     
     enum Action {
-        
+        case didTapBackButton
     }
     
     enum Mutation {
-        
+        case setIsPopVC(Bool)
     }
     
     struct State {
-        
+        var isPopVC: Bool = false
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        <#code#>
+        
+        switch action {
+        case .didTapBackButton:
+            return .concat([
+                .just(.setIsPopVC(true)),
+                .just(.setIsPopVC(false))
+            ])
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        <#code#>
+        var state = state
+        
+        switch mutation {
+        case .setIsPopVC(let isPop):
+            state.isPopVC = isPop
+        }
+        
+        return state
     }
 }
