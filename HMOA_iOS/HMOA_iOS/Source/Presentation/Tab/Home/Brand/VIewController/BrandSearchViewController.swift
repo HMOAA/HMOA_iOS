@@ -29,7 +29,7 @@ class BrandSearchViewController: UIViewController, View {
         $0.searchTextField.backgroundColor = .white
         $0.searchTextField.textAlignment = .left
         $0.searchTextField.font = .customFont(.pretendard_light, 16)
-        $0.placeholder = "제품/브랜드/키워드 검색"
+        $0.placeholder = "브랜드 검색"
     }
     
     
@@ -45,7 +45,25 @@ extension BrandSearchViewController {
     // MARK: - bind
     
     func bind(reactor: BrandSearchReactor) {
-        <#code#>
+        
+        // MARK: - Action
+        
+        // 뒤로가기 버튼 클릭
+        backButton.rx.tap
+            .map { Reactor.Action.didTapBackButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // MARK: - State
+        
+        // 이전 화면으로 이동
+        reactor.state
+            .map { $0.isPopVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: popViewController)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
