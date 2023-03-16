@@ -14,15 +14,24 @@ final class HomeViewReactor: Reactor {
     
     enum Action {
         case itemSelected(IndexPath)
+        case didTapBrandSearchButton
+        case didTapSearchButton
+        case didTapBellButton
     }
     
     enum Mutation {
         case setSelectedPerfumeId(IndexPath?)
+        case setIsPresentBrandSearchVC(Bool)
+        case setIsPresentSearchVC(Bool)
+        case setIsPresentBellVC(Bool)
     }
     
     struct State {
         var sections: [HomeSection]
         var selectedPerfumeId: Int?
+        var isPresentBrandSearchVC: Bool = false
+        var isPresentSearchVC: Bool = false
+        var isPresentBellVC: Bool = false
     }
     
     init() {
@@ -38,6 +47,23 @@ final class HomeViewReactor: Reactor {
             return .concat([
                 Observable<Mutation>.just(.setSelectedPerfumeId(indexPath)),
                 Observable<Mutation>.just(.setSelectedPerfumeId(nil))
+            ])
+        case .didTapBrandSearchButton:
+            return .concat([
+                .just(.setIsPresentBrandSearchVC(true)),
+                .just(.setIsPresentBrandSearchVC(false))
+            ])
+            
+        case .didTapSearchButton:
+            return .concat([
+                .just(.setIsPresentSearchVC(true)),
+                .just(.setIsPresentSearchVC(false))
+            ])
+        
+        case .didTapBellButton:
+            return .concat([
+                .just(.setIsPresentBellVC(true)),
+                .just(.setIsPresentBellVC(false))
             ])
         }
     }
@@ -57,9 +83,17 @@ final class HomeViewReactor: Reactor {
                 state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.item].perfumeId
             }
             
-            return state
+        case .setIsPresentBrandSearchVC(let isPresent):
+            state.isPresentBrandSearchVC = isPresent
             
+        case .setIsPresentSearchVC(let isPresent):
+            state.isPresentSearchVC = isPresent
+            
+        case .setIsPresentBellVC(let isPresent):
+            state.isPresentBellVC = isPresent
         }
+        return state
+
     }
 }
 

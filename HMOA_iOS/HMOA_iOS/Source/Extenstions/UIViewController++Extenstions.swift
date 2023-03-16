@@ -62,6 +62,12 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
+    func presentBrandSearchViewController() {
+        let brandSearchVC = BrandSearchViewController()
+        brandSearchVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(brandSearchVC, animated: true)
+    }
+    
     func setNavigationColor() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
