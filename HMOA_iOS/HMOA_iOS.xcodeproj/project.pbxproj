@@ -59,6 +59,7 @@
 		2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D129ACDC58009247E7 /* SearchListViewController.swift */; };
 		2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */; };
 		2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */; };
+		2C4A266629C320B5009F288F /* BrandSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A266529C320B5009F288F /* BrandSearchViewController.swift */; };
 		2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36B29754B3A0027CE40 /* HomeTopCell.swift */; };
 		2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36D29754B410027CE40 /* HomeCell.swift */; };
 		2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */; };
@@ -175,6 +176,7 @@
 		2C4041D129ACDC58009247E7 /* SearchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
 		2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListTableViewCell.swift; sourceTree = "<group>"; };
+		2C4A266529C320B5009F288F /* BrandSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandSearchViewController.swift; sourceTree = "<group>"; };
 		2C4DD36B29754B3A0027CE40 /* HomeTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopCell.swift; sourceTree = "<group>"; };
 		2C4DD36D29754B410027CE40 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellHeaderView.swift; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 		2C39AA4E29704253000C6F71 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				2C4A266029C3207C009F288F /* Brand */,
 				2C700DE629C1988000DDEF77 /* Home */,
 				2C04249729A6565E009CF0FE /* CommentWrite */,
 				2C04248C29A50439009CF0FE /* CommentDetail */,
@@ -611,6 +614,46 @@
 				2CAB7A9C29B08E4100E74809 /* Product.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		2C4A266029C3207C009F288F /* Brand */ = {
+			isa = PBXGroup;
+			children = (
+				2C4A266429C32098009F288F /* Reactor */,
+				2C4A266329C32091009F288F /* Model */,
+				2C4A266229C3208D009F288F /* View */,
+				2C4A266129C32087009F288F /* VIewController */,
+			);
+			path = Brand;
+			sourceTree = "<group>";
+		};
+		2C4A266129C32087009F288F /* VIewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C4A266529C320B5009F288F /* BrandSearchViewController.swift */,
+			);
+			path = VIewController;
+			sourceTree = "<group>";
+		};
+		2C4A266229C3208D009F288F /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2C4A266329C32091009F288F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2C4A266429C32098009F288F /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		2C4DD366297547620027CE40 /* View */ = {
@@ -1092,6 +1135,7 @@
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
 				2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */,
+				2C4A266629C320B5009F288F /* BrandSearchViewController.swift in Sources */,
 				2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
