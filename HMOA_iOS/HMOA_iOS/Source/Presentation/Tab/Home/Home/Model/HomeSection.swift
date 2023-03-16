@@ -12,14 +12,16 @@ enum HomeSection {
     case homeTop([HomeSectionItem])
     case homeFirst([HomeSectionItem])
     case homeSecond([HomeSectionItem])
-    case homeWatch([HomeSectionItem])
+    case homeThrid([HomeSectionItem])
+    case homeFourth([HomeSectionItem])
 }
 
 enum HomeSectionItem {
     case homeTopCell(UIImage?, Int)
     case homeFirstCell(HomeCellReactor, Int)
     case homeSecondCell(HomeCellReactor, Int)
-    case homeWatchCell(HomeCellReactor, Int)
+    case homeThridCell(HomeCellReactor, Int)
+    case homeFourthCell(HomeCellReactor, Int)
 }
 
 extension HomeSectionItem {
@@ -32,7 +34,9 @@ extension HomeSectionItem {
             return perfumeId
         case .homeSecondCell(_, let perfumeId):
             return perfumeId
-        case .homeWatchCell(_, let perfumeId):
+        case .homeThridCell(_, let perfumeId):
+            return perfumeId
+        case .homeFourthCell(_, let perfumeId):
             return perfumeId
         }
     }
@@ -49,7 +53,9 @@ extension HomeSection: SectionModelType {
             return items
         case .homeSecond(let items):
             return items
-        case .homeWatch(let items):
+        case .homeThrid(let items):
+            return items
+        case .homeFourth(let items):
             return items
 
         }
@@ -63,8 +69,10 @@ extension HomeSection: SectionModelType {
             self = .homeFirst(items)
         case .homeSecond:
             self = .homeSecond(items)
-        case .homeWatch:
-            self = .homeWatch(items)
+        case .homeThrid:
+            self = .homeThrid(items)
+        case .homeFourth:
+            self = .homeFourth(items)
         }
     }
 }

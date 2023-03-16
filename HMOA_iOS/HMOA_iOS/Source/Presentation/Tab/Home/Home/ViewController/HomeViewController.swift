@@ -81,6 +81,14 @@ extension HomeViewController {
             .disposed(by: disposeBag)
     }
     
+    func bindHeader() {
+        
+        // MARK: - Action
+        
+        // MARK: - State
+        
+    }
+    
     func configureCollectionViewDataSource() {
         dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
             
@@ -96,15 +104,15 @@ extension HomeViewController {
                 
                 return homeTopCell
             case .homeFirstCell(let reactor, _):
-                guard let homeCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeCell.identifier,
-                    for: indexPath) as? HomeCell else {
+                guard let homeFirstCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HomeFirstCell.identifier,
+                    for: indexPath) as? HomeFirstCell else {
                     return UICollectionViewCell()
                 }
+            
+                homeFirstCell.reactor = reactor
                 
-                homeCell.reactor = reactor
-                
-                return homeCell
+                return homeFirstCell
             case .homeSecondCell(let reactor, _):
                 guard let homeCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeCell.identifier,
@@ -115,38 +123,80 @@ extension HomeViewController {
                 homeCell.reactor = reactor
                 
                 return homeCell
-            case .homeWatchCell(let reactor, _):
-                guard let homeWatchCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeWatchCell.identifier,
-                    for: indexPath) as? HomeWatchCell else {
+            case .homeThridCell(let reactor, _):
+                guard let homeCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HomeCell.identifier,
+                    for: indexPath) as? HomeCell else {
                     return UICollectionViewCell()
                 }
-            
-                homeWatchCell.reactor = reactor
                 
-                return homeWatchCell
+                homeCell.reactor = reactor
+                
+                return homeCell
+            case .homeFourthCell(let reactor, _):
+                guard let homeCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HomeCell.identifier,
+                    for: indexPath) as? HomeCell else {
+                    return UICollectionViewCell()
+                }
+                
+                homeCell.reactor = reactor
+                
+                return homeCell
             }
         }, configureSupplementaryView: { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
 
             var header = UICollectionReusableView()
-        
+            
+            
             switch indexPath.section {
-            case 3:
-                guard let homeWatchCellHeader = collectionView.dequeueReusableSupplementaryView(
+            case 1:
+                guard let homeFirstCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: HomeWatchCellHeaderView.identifier,
-                    for: indexPath) as? HomeWatchCellHeaderView else {
+                    withReuseIdentifier: HomeFirstCellHeaderView.identifier,
+                    for: indexPath) as? HomeFirstCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                header = homeWatchCellHeader
-            default:
+                
+                homeFirstCellHeader.reactor = HomeHeaderReactor("향모아 사용자들이 좋아한")
+                
+                header = homeFirstCellHeader
+                
+            case 2:
                 guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeCellHeaderView.identifier,
                     for: indexPath) as? HomeCellHeaderView else {
                     return UICollectionReusableView()
                 }
+                homeCellheader.reactor = HomeHeaderReactor("이 제품 어떠세요? 향모아가 추천하는")
+                
                 header = homeCellheader
+                
+            case 3:
+                guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: UICollectionView.elementKindSectionHeader,
+                    withReuseIdentifier: HomeCellHeaderView.identifier,
+                    for: indexPath) as? HomeCellHeaderView else {
+                    return UICollectionReusableView()
+                }
+                homeCellheader.reactor = HomeHeaderReactor("변함없이 사랑받는, 스테디 셀러")
+                header = homeCellheader
+
+
+            case 4:
+                guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: UICollectionView.elementKindSectionHeader,
+                    withReuseIdentifier: HomeCellHeaderView.identifier,
+                    for: indexPath) as? HomeCellHeaderView else {
+                    return UICollectionReusableView()
+                }
+                
+                homeCellheader.reactor = HomeHeaderReactor("최근 발매된")
+                header = homeCellheader
+
+            default: return header
+                
             }
             
             return header

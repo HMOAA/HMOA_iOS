@@ -73,9 +73,7 @@ extension HomeViewReactor {
             Perfume(perfumeId: 2, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
             Perfume(perfumeId: 3, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
             Perfume(perfumeId: 4, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 5, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 6, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 7, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!)
+            Perfume(perfumeId: 5, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!)
         ]
         
         let homeTopItem = HomeSectionItem.homeTopCell(UIImage(named: "jomalon"), 1)
@@ -84,16 +82,22 @@ extension HomeViewReactor {
         
         let homeFirstItem = perfumes.map { HomeSectionItem.homeFirstCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
         
-        let homeFirstSection = HomeSection.homeTop(homeFirstItem)
+        let homeFirstSection = HomeSection.homeFirst(homeFirstItem)
         
         let homeSecondItem = perfumes.map { HomeSectionItem.homeSecondCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
         
-        let homeSecondSection = HomeSection.homeSecond(homeSecondItem)
+        let homeSecondSection = HomeSection.homeTop(homeSecondItem)
         
-        let homeWatchItem = perfumes.map { HomeSectionItem.homeWatchCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
+        let homeThridItem = perfumes.map { HomeSectionItem.homeThridCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
         
-        let homeWatchSection = HomeSection.homeWatch(homeWatchItem)
+        let homeThridSection = HomeSection.homeSecond(homeThridItem)
         
-        return [homeTopSection, homeFirstSection, homeSecondSection, homeWatchSection]
+        
+        let homeFourthItem = perfumes.map { HomeSectionItem.homeFourthCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
+        
+        let homeFourthSection = HomeSection.homeSecond(homeFourthItem)
+        
+        
+        return [homeTopSection, homeFirstSection, homeSecondSection, homeThridSection, homeFourthSection]
     }
 }
