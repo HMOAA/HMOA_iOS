@@ -32,6 +32,12 @@ class BrandSearchViewController: UIViewController, View {
         $0.placeholder = "브랜드 검색"
     }
     
+    lazy var layout = UICollectionViewFlowLayout()
+
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+        $0.register(BrandListCollectionViewCell.self, forCellWithReuseIdentifier: BrandListCollectionViewCell.identifier)
+    }
+    
     
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -47,12 +53,18 @@ extension BrandSearchViewController {
     func bind(reactor: BrandSearchReactor) {
         
         // MARK: - Action
+        rx.viewDidLoad
+            .map { _ in Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         
         // 뒤로가기 버튼 클릭
         backButton.rx.tap
             .map { Reactor.Action.didTapBackButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
         
         // MARK: - State
         
@@ -64,12 +76,32 @@ extension BrandSearchViewController {
             .map { _ in }
             .bind(onNext: popViewController)
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.brandList }
+            .distinctUntilChanged()
+            .bind(to: collectionView.rx.items(cellIdentifier: BrandListCollectionViewCell.identifier, cellType: BrandListCollectionViewCell.self)) { index, item, cell in
+                cell.updateCell(item)
+            }
+            .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Configure
     
     func configureUI() {
+        
+        collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         view.backgroundColor = .white
+        
+        view.addSubview(collectionView)
+        
+        collectionView.snp.makeConstraints {
+            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+        }
     }
     
     func configureNavigationBar() {
@@ -83,5 +115,23 @@ extension BrandSearchViewController {
         self.navigationItem.leftBarButtonItems = [backButtonItem]
         
         self.navigationItem.titleView = searchBarWrapper
+    }
+}
+
+extension BrandSearchViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (UIScreen.main.bounds.width - 56) / 4
+        let heigth = width + 36
+        
+        return CGSize(width: width, height: heigth)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
 }
