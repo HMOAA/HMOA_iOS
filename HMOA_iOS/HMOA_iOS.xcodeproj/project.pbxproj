@@ -78,6 +78,8 @@
 		2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFB297C15DF006BE23B /* MyPageCell.swift */; };
 		2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFE297C183F006BE23B /* MyPageViewModel.swift */; };
 		2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */; };
+		2C730DD929C4A46C001E2B87 /* BrandListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C730DD829C4A46C001E2B87 /* BrandListCollectionViewCell.swift */; };
+		2C730DDB29C4AC06001E2B87 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C730DDA29C4AC06001E2B87 /* Brand.swift */; };
 		2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB7A9729B07A2300E74809 /* SearchResultTopView.swift */; };
 		2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB7A9929B08BBA00E74809 /* SearchResultCollectionViewCell.swift */; };
 		2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB7A9C29B08E4100E74809 /* Product.swift */; };
@@ -196,6 +198,8 @@
 		2C710EFB297C15DF006BE23B /* MyPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
 		2C710EFE297C183F006BE23B /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListTopView.swift; sourceTree = "<group>"; };
+		2C730DD829C4A46C001E2B87 /* BrandListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandListCollectionViewCell.swift; sourceTree = "<group>"; };
+		2C730DDA29C4AC06001E2B87 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		2CAB7A9729B07A2300E74809 /* SearchResultTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTopView.swift; sourceTree = "<group>"; };
 		2CAB7A9929B08BBA00E74809 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		2CAB7A9C29B08E4100E74809 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -640,6 +644,7 @@
 		2C4A266229C3208D009F288F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2C730DD829C4A46C001E2B87 /* BrandListCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -647,6 +652,7 @@
 		2C4A266329C32091009F288F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2C730DDA29C4AC06001E2B87 /* Brand.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1146,6 +1152,7 @@
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
+				2C730DDB29C4AC06001E2B87 /* Brand.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				CAFA450E29AB7E1300ACF2C1 /* StartViewModel.swift in Sources */,
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
@@ -1193,6 +1200,7 @@
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
 				2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
+				2C730DD929C4A46C001E2B87 /* BrandListCollectionViewCell.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageTopView.swift in Sources */,
 				2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */,
 				2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */,
