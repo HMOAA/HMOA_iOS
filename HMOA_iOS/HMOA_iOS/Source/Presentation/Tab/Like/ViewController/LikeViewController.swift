@@ -32,19 +32,12 @@ class LikeViewController: UIViewController {
                     for: .selected)
     }
     
-    let cardLayout = UICollectionViewFlowLayout().then {
-        $0.minimumLineSpacing = 16
-        $0.itemSize = CGSizeMake(280, 354)
-        $0.scrollDirection = .horizontal
-        
-    }
-    
     let reactor = LikeReactor()
     let disposeBag = DisposeBag()
     private var datasource: RxCollectionViewSectionedReloadDataSource<CardSection>!
     
     lazy var cardCollectionView = UICollectionView(frame: .zero,
-                                                   collectionViewLayout: cardLayout).then {
+                                                   collectionViewLayout: configureLayout()).then {
         $0.showsHorizontalScrollIndicator = false
         $0.register(LikeCardCell.self,
                     forCellWithReuseIdentifier: LikeCardCell.identifier)
@@ -93,8 +86,7 @@ class LikeViewController: UIViewController {
         }
         
         cardCollectionView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(40)
-            make.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(357)
             make.centerY.equalToSuperview()
         }
@@ -123,4 +115,21 @@ class LikeViewController: UIViewController {
             .bind(to: cardCollectionView.rx.items(dataSource: datasource))
             .disposed(by: disposeBag)
     }
+    
+    private func configureLayout() -> UICollectionViewCompositionalLayout {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(354))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .fractionalHeight(1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        section.interGroupSpacing = 16
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 }
+
