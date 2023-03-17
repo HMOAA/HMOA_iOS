@@ -90,6 +90,7 @@
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
 		CA54DD9329C447AB00167F05 /* LiekModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD9229C447AB00167F05 /* LiekModel.swift */; };
 		CA54DD9529C44A8C00167F05 /* CardSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD9429C44A8C00167F05 /* CardSection.swift */; };
+		CA54DD9729C4716A00167F05 /* TagReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD9629C4716A00167F05 /* TagReactor.swift */; };
 		CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */; };
 		CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */; };
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
@@ -217,6 +218,7 @@
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
 		CA54DD9229C447AB00167F05 /* LiekModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiekModel.swift; sourceTree = "<group>"; };
 		CA54DD9429C44A8C00167F05 /* CardSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSection.swift; sourceTree = "<group>"; };
+		CA54DD9629C4716A00167F05 /* TagReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagReactor.swift; sourceTree = "<group>"; };
 		CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView++Extenstions.swift"; sourceTree = "<group>"; };
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -807,6 +809,7 @@
 			isa = PBXGroup;
 			children = (
 				CA54DD8F29C445EE00167F05 /* LikeReactor.swift */,
+				CA54DD9629C4716A00167F05 /* TagReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1129,6 +1132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA54DD9729C4716A00167F05 /* TagReactor.swift in Sources */,
 				2C04249629A533DF009CF0FE /* CommentBottomView.swift in Sources */,
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
