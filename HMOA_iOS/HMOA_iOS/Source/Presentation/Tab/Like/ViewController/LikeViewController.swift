@@ -26,6 +26,7 @@ class LikeViewController: UIViewController {
     }
     
     let cardButton = UIButton().then {
+        $0.isSelected = true
         $0.setImage(UIImage(systemName: "lanyardcard")
                     , for: .normal)
         $0.setImage(UIImage(systemName: "lanyardcard.fill"),
@@ -34,16 +35,23 @@ class LikeViewController: UIViewController {
     
     let reactor = LikeReactor()
     let disposeBag = DisposeBag()
-    private var datasource: RxCollectionViewSectionedReloadDataSource<CardSection>!
+    private var cardDatasource: RxCollectionViewSectionedReloadDataSource<CardSection>!
+    private var listDatasource: RxCollectionViewSectionedReloadDataSource<ListSection>!
     
     lazy var cardCollectionView = UICollectionView(frame: .zero,
-                                                   collectionViewLayout: configureLayout()).then {
+                                                   collectionViewLayout: configureCardLayout()).then {
+        $0.alwaysBounceVertical = false
         $0.showsHorizontalScrollIndicator = false
         $0.register(LikeCardCell.self,
                     forCellWithReuseIdentifier: LikeCardCell.identifier)
+        $0.isHidden = true
     }
     
-    //let listCollectionView = UICollectionView()
+    lazy var listCollectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: configureListLayout()).then {
+        $0.register(LikeListCell.self, forCellWithReuseIdentifier: LikeListCell.identifier)
+        //$0.isHidden = true
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -53,7 +61,8 @@ class LikeViewController: UIViewController {
         setAddView()
         setConstraints()
         
-        configureDataSource()
+        configureCardDataSource()
+        configureListDataSource()
         bind(reactor: reactor)
     }
     
@@ -69,7 +78,8 @@ class LikeViewController: UIViewController {
     private func setAddView() {
         [cardButton,
          listButton,
-         cardCollectionView].forEach { view.addSubview($0) }
+         cardCollectionView,
+         listCollectionView].forEach { view.addSubview($0) }
     }
     
     private func setConstraints() {
@@ -91,15 +101,15 @@ class LikeViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
-//        listCollectionView.snp.makeConstraints { make in
-//            make.top.equalTo(listButton.snp.bottom).offset(19)
-//            make.leading.trailing.equalToSuperview().inset(16)
-//            make.bottom.equalToSuperview()
-//        }
+        listCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(listButton.snp.bottom).offset(19)
+            make.leading.trailing.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview()
+        }
     }
     
-    func configureDataSource() {
-        datasource = RxCollectionViewSectionedReloadDataSource(configureCell: { _, collectionView, indexPath, item in
+    func configureCardDataSource() {
+        cardDatasource = RxCollectionViewSectionedReloadDataSource(configureCell: { _, collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCardCell.identifier, for: indexPath) as? LikeCardCell
             else { return UICollectionViewCell() }
             
@@ -109,24 +119,56 @@ class LikeViewController: UIViewController {
         
     }
     
+    func configureListDataSource() {
+        listDatasource = RxCollectionViewSectionedReloadDataSource(configureCell: { _, collectionView, indexPath, item in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeListCell.identifier, for: indexPath) as? LikeListCell
+            else { return UICollectionViewCell() }
+            
+            cell.perpumeImageView.image = UIImage(named: item.imgName)
+            return cell
+        })
+        
+    }
+    
     private func bind(reactor: LikeReactor) {
+        
         reactor.state
-            .map { $0.sections }
-            .bind(to: cardCollectionView.rx.items(dataSource: datasource))
+            .map { $0.cardSections }
+            .bind(to: cardCollectionView.rx.items(dataSource: cardDatasource))
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.listSections }
+            .bind(to: listCollectionView.rx.items(dataSource: listDatasource))
             .disposed(by: disposeBag)
     }
     
-    private func configureLayout() -> UICollectionViewCompositionalLayout {
+    private func configureCardLayout() -> UICollectionViewCompositionalLayout {
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(354))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .fractionalHeight(1))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.79), heightDimension: .fractionalHeight(1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.interGroupSpacing = 16
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
+    private func configureListLayout() -> UICollectionViewCompositionalLayout {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalWidth(0.33))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.23))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout

@@ -13,7 +13,8 @@ class LikeReactor: Reactor {
     let initialState: State
     
     init() {
-        initialState = State(sections: [CardSection(items: CardData.items)])
+        initialState = State(cardSections: [CardSection(items: CardData.items)],
+                             listSections: [ListSection(items: ListData.items)])
     }
     
     enum Action {
@@ -25,7 +26,8 @@ class LikeReactor: Reactor {
     }
     
     struct State {
-        var sections: [CardSection]
+        var cardSections: [CardSection]
+        var listSections: [ListSection]
     }
     
 //    func mutate(action: Action) -> Observable<Mutation> {
