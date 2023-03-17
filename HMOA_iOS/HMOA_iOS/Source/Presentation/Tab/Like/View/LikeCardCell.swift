@@ -179,7 +179,6 @@ class LikeCardCell: UICollectionViewCell {
     }
     
     func bind(reactor: TagReactor) {
-        
         reactor.state
             .map { $0.sections }
             .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCell.identifier,

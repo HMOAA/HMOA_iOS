@@ -14,6 +14,7 @@ struct CardData {
     let price: Int
 }
 
+
 extension CardData {
     static let items: [CardData] = [
         CardData(brandName: "조말론 런던",
