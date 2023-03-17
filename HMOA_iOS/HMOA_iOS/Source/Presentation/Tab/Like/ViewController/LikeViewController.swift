@@ -44,13 +44,11 @@ class LikeViewController: UIViewController {
         $0.showsHorizontalScrollIndicator = false
         $0.register(LikeCardCell.self,
                     forCellWithReuseIdentifier: LikeCardCell.identifier)
-        $0.isHidden = true
     }
     
     lazy var listCollectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: configureListLayout()).then {
         $0.register(LikeListCell.self, forCellWithReuseIdentifier: LikeListCell.identifier)
-        //$0.isHidden = true
     }
     
     // MARK: - Lifecycle
@@ -130,19 +128,6 @@ class LikeViewController: UIViewController {
         
     }
     
-    private func bind(reactor: LikeReactor) {
-        
-        reactor.state
-            .map { $0.cardSections }
-            .bind(to: cardCollectionView.rx.items(dataSource: cardDatasource))
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.listSections }
-            .bind(to: listCollectionView.rx.items(dataSource: listDatasource))
-            .disposed(by: disposeBag)
-    }
-    
     private func configureCardLayout() -> UICollectionViewCompositionalLayout {
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(354))
@@ -172,6 +157,63 @@ class LikeViewController: UIViewController {
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
+    }
+    
+    //MARK: - Bind
+    private func bind(reactor: LikeReactor) {
+        
+        //Input
+        
+        //카드버튼 터치 이벤트
+        cardButton.rx.tap
+            .map { LikeReactor.Action.didTapCardButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        //리스트 버튼 터치 이벤트
+        listButton.rx.tap
+            .map { LikeReactor.Action.didTapListButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //cardCollectionView Binding
+        reactor.state
+            .map { $0.cardSections }
+            .bind(to: cardCollectionView.rx.items(dataSource: cardDatasource))
+            .disposed(by: disposeBag)
+        
+        //listCollectionView Binding
+        reactor.state
+            .map { $0.listSections }
+            .bind(to: listCollectionView.rx.items(dataSource: listDatasource))
+            .disposed(by: disposeBag)
+        
+        //cardCollectionView 보여주기
+        reactor.state
+            .map { $0.isSelectedCard }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(onNext: { result in
+                self.listCollectionView.isHidden = result
+                self.cardCollectionView.isHidden = !result
+                self.cardButton.isSelected = result
+                self.listButton.isSelected = !result
+            })
+            .disposed(by: disposeBag)
+        
+        //listCollectionView 보여주기
+        reactor.state
+            .map { $0.isSelectedList }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(onNext: { result in
+                self.listCollectionView.isHidden = !result
+                self.cardCollectionView.isHidden = result
+                self.cardButton.isSelected = !result
+                self.listButton.isSelected = result
+                
+            })
+            .disposed(by: disposeBag)
+      
     }
 }
 
