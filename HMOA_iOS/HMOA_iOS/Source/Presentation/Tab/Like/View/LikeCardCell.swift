@@ -9,6 +9,9 @@ import UIKit
 
 import SnapKit
 import Then
+import RxDataSources
+import RxCocoa
+import ReactorKit
 
 class LikeCardCell: UICollectionViewCell {
     
@@ -33,8 +36,16 @@ class LikeCardCell: UICollectionViewCell {
         $0.image = UIImage(named: "jomalon")
     }
     
-    let tagTableView = UITableView().then {
-        $0.register(TagCell.self, forCellReuseIdentifier: TagCell.identifier)
+    let layout = UICollectionViewFlowLayout().then {
+        $0.itemSize = CGSize(width: 50, height: 18)
+        $0.minimumLineSpacing = 4
+        $0.scrollDirection = .horizontal
+    }
+    
+    lazy var tagCollectionView = UICollectionView(frame: .zero,
+                                        collectionViewLayout: layout).then {
+        $0.isScrollEnabled = false
+        $0.register(TagCell.self, forCellWithReuseIdentifier: TagCell.identifier)
     }
     
     let nameStackView = UIStackView().then {
@@ -66,6 +77,9 @@ class LikeCardCell: UICollectionViewCell {
                       color: .black)
     }
     
+    let reacotr = TagReactor()
+    let disposeBag = DisposeBag()
+    
     //MARK: - LifeCycle
     override func layoutSubviews() {
         super .layoutSubviews()
@@ -76,6 +90,8 @@ class LikeCardCell: UICollectionViewCell {
         
         setAddView()
         setConstraints()
+        
+        bind(reactor: reacotr)
     }
     
     required init?(coder: NSCoder) {
@@ -104,12 +120,13 @@ class LikeCardCell: UICollectionViewCell {
         [xButton,
          brandNameLabel].forEach { topView.addSubview($0) }
         
-        [tagTableView,
+        [
          korNameLabel,
          engNameLabel].forEach { nameStackView.addArrangedSubview($0) }
         
         [topView,
          perpumeImageView,
+         tagCollectionView,
          nameStackView,
          priceTextLabel,
          priceLabel].forEach { contentView.addSubview($0) }
@@ -136,9 +153,16 @@ class LikeCardCell: UICollectionViewCell {
             make.height.width.equalTo(120)
         }
         
+        tagCollectionView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(24)
+            make.trailing.equalToSuperview()
+            make.height.equalTo(18)
+            make.top.equalTo(perpumeImageView.snp.bottom).offset(20)
+        }
+        
         nameStackView.snp.makeConstraints { make in
             make.trailing.leading.equalToSuperview().inset(24)
-            make.top.equalTo(perpumeImageView.snp.bottom)
+            make.top.equalTo(tagCollectionView.snp.bottom).offset(8)
         }
         
         priceTextLabel.snp.makeConstraints { make in
@@ -152,6 +176,16 @@ class LikeCardCell: UICollectionViewCell {
             make.bottom.equalToSuperview().inset(40)
             make.trailing.equalToSuperview().inset(24)
         }
+    }
+    
+    func bind(reactor: TagReactor) {
+        
+        reactor.state
+            .map { $0.sections }
+            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCell.identifier,
+                                            cellType: TagCell.self)) { ( _, element, cell) in
+                cell.tagLabel.text = element
+            }.disposed(by: disposeBag)
     }
     
     func configure(item: CardSection.Item) {
@@ -168,4 +202,5 @@ class LikeCardCell: UICollectionViewCell {
             
             return result
         }
+    
 }
