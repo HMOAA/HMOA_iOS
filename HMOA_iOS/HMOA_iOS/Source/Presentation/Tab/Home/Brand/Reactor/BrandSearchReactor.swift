@@ -18,12 +18,27 @@ class BrandSearchReactor: Reactor {
     
     enum Mutation {
         case setIsPopVC(Bool)
-        case setBrandList([Brand])
+        case setBrandList([BrandList])
     }
     
     struct State {
         var isPopVC: Bool = false
-        var brandList: [Brand] = []
+        var brandList: [BrandList] = []
+        var firstSection = BrandSectionModel(
+            model: .first,
+            items: [])
+        var secondSection = BrandSectionModel(
+            model: .second,
+            items: [])
+        var thridSection = BrandSectionModel(
+            model: .third,
+            items: [])
+        var fourthSection = BrandSectionModel(
+            model: .fourth,
+            items: [])
+        var fiveSection = BrandSectionModel(
+            model: .five,
+            items: [])
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -48,7 +63,26 @@ class BrandSearchReactor: Reactor {
             state.isPopVC = isPop
             
         case .setBrandList(let list):
-            state.brandList = list
+            
+            state.firstSection = BrandSectionModel(
+                model: .first,
+                items: list[0].brands.map(BrandCell.BrandItem))
+                
+            state.secondSection = BrandSectionModel(
+                model: .first,
+                items: list[1].brands.map(BrandCell.BrandItem))
+                
+            state.thridSection = BrandSectionModel(
+                model: .first,
+                items: list[2].brands.map(BrandCell.BrandItem))
+                    
+            state.fourthSection = BrandSectionModel(
+                model: .first,
+                items: list[3].brands.map(BrandCell.BrandItem))
+            
+            state.fiveSection = BrandSectionModel(
+                model: .five,
+                items: list[4].brands.map(BrandCell.BrandItem))
         }
         
         return state
@@ -59,24 +93,46 @@ extension BrandSearchReactor {
     
     func reqeustBrandList() -> Observable<Mutation>{
         
-        let data: [Brand] = [
-            Brand(brandId: 1, brandName: "구찌"),
-            Brand(brandId: 2, brandName: "구찌"),
-            Brand(brandId: 3, brandName: "구찌"),
-            Brand(brandId: 4, brandName: "구찌"),
-            Brand(brandId: 5, brandName: "구찌"),
-            Brand(brandId: 6, brandName: "구찌"),
-            Brand(brandId: 7, brandName: "구찌"),
-            Brand(brandId: 8, brandName: "구찌"),
-            Brand(brandId: 9, brandName: "구찌"),
-            Brand(brandId: 10, brandName: "구찌"),
-            Brand(brandId: 11, brandName: "구찌"),
-            Brand(brandId: 12, brandName: "구찌"),
-            Brand(brandId: 13, brandName: "구찌"),
-            Brand(brandId: 14, brandName: "구찌"),
-            Brand(brandId: 15, brandName: "구찌"),
-            Brand(brandId: 16, brandName: "구찌"),
-            Brand(brandId: 17, brandName: "구찌")
+        let data: [BrandList] = [
+            BrandList(consonant: "ㄱ", brands: [
+                Brand(brandId: 1, brandName: "가"),
+                Brand(brandId: 2, brandName: "가"),
+                Brand(brandId: 3, brandName: "가"),
+                Brand(brandId: 4, brandName: "가"),
+                Brand(brandId: 5, brandName: "가")
+            ]),
+            
+            BrandList(consonant: "ㄴ", brands: [
+                Brand(brandId: 6, brandName: "나"),
+                Brand(brandId: 7, brandName: "나"),
+                Brand(brandId: 8, brandName: "나"),
+                Brand(brandId: 9, brandName: "나"),
+                Brand(brandId: 10, brandName: "나")
+            ]),
+            
+            BrandList(consonant: "ㄷ", brands: [
+                Brand(brandId: 11, brandName: "다"),
+                Brand(brandId: 12, brandName: "다"),
+                Brand(brandId: 13, brandName: "다"),
+                Brand(brandId: 14, brandName: "다"),
+                Brand(brandId: 15, brandName: "다")
+            ]),
+            
+            BrandList(consonant: "ㄹ", brands: [
+                Brand(brandId: 16, brandName: "라"),
+                Brand(brandId: 17, brandName: "라"),
+                Brand(brandId: 18, brandName: "라"),
+                Brand(brandId: 19, brandName: "라"),
+                Brand(brandId: 20, brandName: "라")
+            ]),
+            
+            BrandList(consonant: "ㅁ", brands: [
+                Brand(brandId: 21, brandName: "마"),
+                Brand(brandId: 22, brandName: "마"),
+                Brand(brandId: 23, brandName: "마"),
+                Brand(brandId: 24, brandName: "마"),
+                Brand(brandId: 25, brandName: "마")
+            ])
         ]
         
         return .just(.setBrandList(data))

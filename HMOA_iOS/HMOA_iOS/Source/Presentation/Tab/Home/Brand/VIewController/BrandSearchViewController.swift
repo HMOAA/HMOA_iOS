@@ -11,9 +11,13 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 class BrandSearchViewController: UIViewController, View {
     typealias Reactor = BrandSearchReactor
+
+    // MARK: - Properties
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<BrandSectionModel>!
     
     var disposeBag = DisposeBag()
     
@@ -35,6 +39,7 @@ class BrandSearchViewController: UIViewController, View {
     lazy var layout = UICollectionViewFlowLayout()
 
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+        $0.register(BrandListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandListHeaderView.identifier)
         $0.register(BrandListCollectionViewCell.self, forCellWithReuseIdentifier: BrandListCollectionViewCell.identifier)
     }
     
@@ -51,7 +56,8 @@ extension BrandSearchViewController {
     // MARK: - bind
     
     func bind(reactor: BrandSearchReactor) {
-        
+        configureCollectionViewDataSource()
+
         // MARK: - Action
         rx.viewDidLoad
             .map { _ in Reactor.Action.viewDidLoad }
@@ -67,6 +73,12 @@ extension BrandSearchViewController {
         
         
         // MARK: - State
+ 
+        reactor.state
+            .map { [$0.firstSection, $0.secondSection, $0.thridSection, $0.fourthSection, $0.fiveSection] }
+            .distinctUntilChanged()
+            .bind(to: self.collectionView.rx.items(dataSource: self.dataSource))
+            .disposed(by: disposeBag)
         
         // 이전 화면으로 이동
         reactor.state
@@ -76,15 +88,6 @@ extension BrandSearchViewController {
             .map { _ in }
             .bind(onNext: popViewController)
             .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.brandList }
-            .distinctUntilChanged()
-            .bind(to: collectionView.rx.items(cellIdentifier: BrandListCollectionViewCell.identifier, cellType: BrandListCollectionViewCell.self)) { index, item, cell in
-                cell.updateCell(item)
-            }
-            .disposed(by: disposeBag)
-        
     }
     
     // MARK: - Configure
@@ -116,6 +119,41 @@ extension BrandSearchViewController {
         
         self.navigationItem.titleView = searchBarWrapper
     }
+    
+    func configureCollectionViewDataSource() {
+        dataSource = RxCollectionViewSectionedReloadDataSource<BrandSectionModel>(configureCell: { _, collectionView, indexPath, item in
+            switch item {
+            case .BrandItem(let brand):
+                
+                guard let brandCell = collectionView.dequeueReusableCell(withReuseIdentifier: BrandListCollectionViewCell.identifier, for: indexPath) as? BrandListCollectionViewCell else { return UICollectionViewCell() }
+                
+                brandCell.updateCell(brand)
+                
+                return brandCell
+            }
+            
+        }, configureSupplementaryView: { (_, collectionview, kind, indexPath) -> UICollectionReusableView in
+          
+            guard let header = collectionview.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandListHeaderView.identifier, for: indexPath) as? BrandListHeaderView else { return UICollectionReusableView() }
+            
+            switch indexPath.section {
+            case 0:
+                header.updateUI("ㄱ")
+            case 1:
+                header.updateUI("ㄴ")
+            case 2:
+                header.updateUI("ㄷ")
+            case 3:
+                header.updateUI("ㄹ")
+            case 4:
+                header.updateUI("ㅁ")
+            default:
+                break
+            }
+            
+            return header
+        })
+    }
 }
 
 extension BrandSearchViewController: UICollectionViewDelegateFlowLayout {
@@ -133,5 +171,9 @@ extension BrandSearchViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: 40)
     }
 }
