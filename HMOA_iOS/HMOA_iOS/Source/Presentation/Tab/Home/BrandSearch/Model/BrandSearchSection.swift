@@ -22,3 +22,13 @@ enum BrandCell: Equatable {
     case BrandItem(Brand)
 }
 
+extension BrandCell {
+    
+    var item: Brand {
+        switch self {
+        case .BrandItem(let brand):
+            return brand
+        }
+    }
+}
+
