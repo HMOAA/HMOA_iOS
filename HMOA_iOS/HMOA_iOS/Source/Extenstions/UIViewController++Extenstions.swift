@@ -64,14 +64,13 @@ extension UIViewController {
     
     func presentBrandSearchViewController() {
         let brandSearchVC = BrandSearchViewController()
-        brandSearchVC.hidesBottomBarWhenPushed = true
         brandSearchVC.reactor = BrandSearchReactor()
         self.navigationController?.pushViewController(brandSearchVC, animated: true)
     }
     
-    func presentBrandDetailViewController(_ brandId: Int) {
+    func presentBrandDetailViewController(_ brandId: Int, _ title: String) {
         let brandDetailVC = BrandDetailViewController()
-        brandDetailVC.hidesBottomBarWhenPushed = true
+        brandDetailVC.reactor = BrandDetailReactor(brandId, title)
         self.navigationController?.pushViewController(brandDetailVC, animated: true)
     }
     
