@@ -64,13 +64,17 @@ extension BrandSearchViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        
         // 뒤로가기 버튼 클릭
         backButton.rx.tap
             .map { Reactor.Action.didTapBackButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 브랜드 Cell 클릭
+        collectionView.rx.modelSelected(BrandCell.self)
+            .map { Reactor.Action.didTapItem($0.item) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: - State
  
@@ -88,6 +92,17 @@ extension BrandSearchViewController {
             .map { _ in }
             .bind(onNext: popViewController)
             .disposed(by: disposeBag)
+        
+        // 브랜드 상세 페이지로 이동
+        reactor.state
+            .map { $0.selectedItem }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: {
+                self.presentBrandDetailViewController($0.brandId)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Configure

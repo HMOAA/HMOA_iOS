@@ -14,11 +14,13 @@ class BrandSearchReactor: Reactor {
     enum Action {
         case viewDidLoad
         case didTapBackButton
+        case didTapItem(Brand)
     }
     
     enum Mutation {
         case setIsPopVC(Bool)
         case setBrandList([BrandList])
+        case setSelectedItem(Brand?)
     }
     
     struct State {
@@ -39,6 +41,7 @@ class BrandSearchReactor: Reactor {
         var fiveSection = BrandSectionModel(
             model: .five,
             items: [])
+        var selectedItem: Brand? = nil
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -52,6 +55,12 @@ class BrandSearchReactor: Reactor {
             
         case .viewDidLoad:
             return reqeustBrandList()
+            
+        case .didTapItem(let brand):
+            return .concat([
+                .just(.setSelectedItem(brand)),
+                .just(.setSelectedItem(nil))
+            ])
         }
     }
     
@@ -83,6 +92,10 @@ class BrandSearchReactor: Reactor {
             state.fiveSection = BrandSectionModel(
                 model: .five,
                 items: list[4].brands.map(BrandCell.BrandItem))
+            
+        case .setSelectedItem(let brand):
+        
+            state.selectedItem = brand
         }
         
         return state
