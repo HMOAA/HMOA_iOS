@@ -18,18 +18,46 @@ class BrandDetailViewController: UIViewController, View {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     
+    let homeBarButton = UIButton().makeImageButton(UIImage(named: "homeNavi")!)
+    let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
+    let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
 
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        // Do any additional setup after loading the view.
+        configureUI()
+        configureNavigationBar()
     }
 }
 
 extension BrandDetailViewController {
     
+    // MARK: - Bind
     func bind(reactor: BrandDetailReactor) {
         
+        
+        // MARK: - State
+        
+        // NavigationBar title 설정
+        reactor.state
+            .map { $0.title }
+            .distinctUntilChanged()
+            .bind(onNext: self.setNavigationBarTitle)
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: - Configure
+    func configureUI() {
+        
+        view.backgroundColor = .white
+    }
+    
+    func configureNavigationBar() {
+        let backBarButtonItem = self.navigationItem.makeImageButtonItem(backBarButton)
+        let homeBarButtonItem = self.navigationItem.makeImageButtonItem(homeBarButton)
+        let searchBarButtonItem = self.navigationItem.makeImageButtonItem(searchBarButton)
+        
+        self.navigationItem.leftBarButtonItems = [backBarButtonItem, spacerItem(15), homeBarButtonItem]
+        self.navigationItem.rightBarButtonItems = [searchBarButtonItem]
     }
 }
