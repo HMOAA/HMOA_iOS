@@ -18,10 +18,14 @@ class BrandDetailViewController: UIViewController, View {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     
+    // MARK: - UI Component
+    
     let homeBarButton = UIButton().makeImageButton(UIImage(named: "homeNavi")!)
     let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
     let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
 
+    
+    
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
