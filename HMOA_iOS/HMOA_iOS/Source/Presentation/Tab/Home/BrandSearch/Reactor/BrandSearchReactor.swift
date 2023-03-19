@@ -25,7 +25,6 @@ class BrandSearchReactor: Reactor {
     
     struct State {
         var isPopVC: Bool = false
-        var brandList: [BrandList] = []
         var firstSection = BrandSectionModel(
             model: .first,
             items: [])

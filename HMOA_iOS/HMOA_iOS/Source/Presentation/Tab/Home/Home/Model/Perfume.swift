@@ -12,4 +12,5 @@ struct Perfume: Equatable {
     var titleName: String
     var content: String
     var image: UIImage
+    var isLikePerfume: Bool
 }

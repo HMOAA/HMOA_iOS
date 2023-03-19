@@ -10,6 +10,8 @@ import RxSwift
 
 class BrandDetailHeaderReactor: Reactor {
     
+    var initialState: State
+    
     enum Action {
         case didTapBrandLikeButton(Bool)
     }
@@ -19,11 +21,14 @@ class BrandDetailHeaderReactor: Reactor {
     }
     
     struct State {
-        var isLikeBrand: Bool = false
+        var brandInfo: BrandInfo
     }
     
-    var initialState: State = State()
-    
+    init(_ brandId: Int) {
+        
+        // 받아온 brandId로 브랜드 정보 받아오기
+        self.initialState = State(brandInfo: BrandDetailHeaderReactor.requestBrandInfo(brandId))
+    }
     
     func mutate(action: Action) -> Observable<Mutation> {
         
@@ -38,9 +43,23 @@ class BrandDetailHeaderReactor: Reactor {
         
         switch mutation {
         case .setBrandLike(let isLike):
-            state.isLikeBrand = isLike
+            state.brandInfo.isLikeBrand = isLike
         }
         
         return state
+    }
+}
+
+extension BrandDetailHeaderReactor {
+    
+    static func requestBrandInfo(_ brandId: Int) -> BrandInfo {
+     
+        let data = BrandInfo(
+            brandId: brandId,
+            koreanName: "조말론 런던",
+            EnglishName: "JO MALONE LONDON",
+            isLikeBrand: false)
+        
+        return data
     }
 }

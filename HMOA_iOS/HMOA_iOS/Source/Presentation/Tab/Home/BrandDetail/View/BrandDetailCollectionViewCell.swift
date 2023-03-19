@@ -6,8 +6,17 @@
 //
 
 import UIKit
+import SnapKit
+import Then
+import RxSwift
+import RxCocoa
+import ReactorKit
 
-class BrandDetailCollectionViewCell: UICollectionViewCell {
+class BrandDetailCollectionViewCell: UICollectionViewCell, View {
+    typealias Reactor = BrandDetailCellReactor
+
+    var disposeBag = DisposeBag()
+    
     
     static let identifier = "BrandDetailCollectionViewCell"
 
@@ -43,6 +52,31 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
 }
 
 extension BrandDetailCollectionViewCell {
+    
+    // MARK: - Bind
+    
+    func bind(reactor: BrandDetailCellReactor) {
+        
+        // MARK: - State
+        
+        // 향수 브랜드명
+        reactor.state
+            .map { $0.perfume.titleName }
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 향수 품명
+        reactor.state
+            .map { $0.perfume.content }
+            .bind(to: contentLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 향수 좋아요 상태
+        reactor.state
+            .map { $0.perfume.isLikePerfume }
+            .bind(to: likeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+    }
     
     // MARK: - Configure
     func configureUI() {
