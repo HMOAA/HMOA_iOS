@@ -191,15 +191,7 @@ class LikeCardCell: UICollectionViewCell {
         brandNameLabel.text = item.brandName
         korNameLabel.text = item.korPerpumeName
         engNameLabel.text = item.engPerpumeName
-        priceLabel.text = setPriceLabel(value: item.price)
+        priceLabel.text = item.price.numberFormatterToWon()
     }
-    
-    func setPriceLabel(value: Int) -> String{
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            let result = "₩" + numberFormatter.string(from: NSNumber(value: value))! + "~"
-            
-            return result
-        }
     
 }
