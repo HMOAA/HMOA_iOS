@@ -21,15 +21,7 @@ class HomeViewController: UIViewController, View {
     private var dataSource: RxCollectionViewSectionedReloadDataSource<HomeSection>!
     var disposeBag = DisposeBag()
 
-    // MARK: - UI Component
     lazy var homeView = HomeView()
-    
-    lazy var brandSearchButton = UIButton().makeImageButton(UIImage(named: "homeMenu")!)
-    
-    lazy var searchButton = UIButton().makeImageButton(UIImage(named: "search")!)
-    
-    lazy var bellButton = UIButton().makeImageButton(UIImage(named: "bell")!)
-    
         
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -41,6 +33,12 @@ class HomeViewController: UIViewController, View {
     }
     
     // MARK: objc functions
+    
+    @objc func leftButtonClicked() {
+    }
+    
+    @objc func rightButtonClicked() {
+    }
     
     @objc func menuButtonClicked() {
     }
@@ -68,56 +66,18 @@ extension HomeViewController {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        // 브랜드 검색 버튼 클릭
-        brandSearchButton.rx.tap
-            .map { Reactor.Action.didTapBrandSearchButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 종합 검색 버튼 클릭
-        searchButton.rx.tap
-            .map { Reactor.Action.didTapSearchButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 알림 버튼 클릭
-        bellButton.rx.tap
-            .map { Reactor.Action.didTapBellButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         // MARK: - State
         
         // collectionView 바인딩
-        reactor.state
-            .map { $0.sections }
+        reactor.state.map { $0.sections }
             .bind(to: self.homeView.collectionView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
 
         // 향수 디테일 페이지로 이동
-        reactor.state
-            .map { $0.selectedPerfumeId }
+        reactor.state.map { $0.selectedPerfumeId }
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: presentDatailViewController)
-            .disposed(by: disposeBag)
-        
-        // 브랜드 검색 페이지로 이동
-        reactor.state
-            .map { $0.isPresentBrandSearchVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: presentBrandSearchViewController)
-            .disposed(by: disposeBag)
-        
-        // 종합 검색 화면으로 이동
-        reactor.state
-            .map { $0.isPresentSearchVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: presentSearchViewController)
             .disposed(by: disposeBag)
     }
     
@@ -252,16 +212,18 @@ extension HomeViewController {
             $0.font = .customFont(.pretendard_medium, 20)
             $0.textColor = .black
         }
+        
+        let menuButton = navigationItem.makeImageButtonItem(self, action: #selector(menuButtonClicked), imageName: "homeMenu")
                 
-        let bracnSearchButtonItem = UIBarButtonItem(customView: brandSearchButton)
-        let searchButtonItem = UIBarButtonItem(customView: searchButton)
-        let bellButtonItem = UIBarButtonItem(customView: bellButton)
+        let bellButton = navigationItem.makeImageButtonItem(self, action: #selector(bellButtonClicked), imageName: "bell")
+        
+        let searchButton = navigationItem.makeImageButtonItem(self, action: #selector(searchButtonClicked), imageName: "search")
         
         navigationItem.titleView = titleLabel
         
-        navigationItem.leftBarButtonItems = [spacerItem(13), bracnSearchButtonItem]
+        navigationItem.leftBarButtonItems = [spacerItem(13), menuButton]
         
-        navigationItem.rightBarButtonItems = [bellButtonItem, spacerItem(15), searchButtonItem]
+        navigationItem.rightBarButtonItems = [bellButton, spacerItem(15), searchButton]
     }
     
     func configureUI() {
