@@ -12,6 +12,7 @@ import Then
 import RxDataSources
 import RxCocoa
 import ReactorKit
+import TagListView
 
 class LikeCardCell: UICollectionViewCell {
     
@@ -42,10 +43,21 @@ class LikeCardCell: UICollectionViewCell {
         $0.scrollDirection = .horizontal
     }
     
-    lazy var tagCollectionView = UICollectionView(frame: .zero,
-                                        collectionViewLayout: layout).then {
-        $0.isScrollEnabled = false
-        $0.register(TagCell.self, forCellWithReuseIdentifier: TagCell.identifier)
+    lazy var keywordTagListView = TagListView(frame: CGRect(x: 0,
+                                                            y: 0,
+                                                            width: 50,
+                                                            height: 18)).then {
+        $0.addTags(["우드한", "자연의"])
+        $0.borderColor = UIColor.customColor(.gray3)
+        $0.cornerRadius = 10
+        $0.borderWidth = 1
+        $0.tagBackgroundColor = .white
+        $0.textColor = UIColor.customColor(.gray3)
+        $0.alignment = .left
+        $0.textFont = UIFont.customFont(.pretendard, 10)
+        $0.paddingY = 4
+        $0.paddingX = 12
+        
     }
     
     let nameStackView = UIStackView().then {
@@ -126,7 +138,7 @@ class LikeCardCell: UICollectionViewCell {
         
         [topView,
          perpumeImageView,
-         tagCollectionView,
+         keywordTagListView,
          nameStackView,
          priceTextLabel,
          priceLabel].forEach { contentView.addSubview($0) }
@@ -153,7 +165,7 @@ class LikeCardCell: UICollectionViewCell {
             make.height.width.equalTo(120)
         }
         
-        tagCollectionView.snp.makeConstraints { make in
+        keywordTagListView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(24)
             make.trailing.equalToSuperview()
             make.height.equalTo(18)
@@ -162,7 +174,7 @@ class LikeCardCell: UICollectionViewCell {
         
         nameStackView.snp.makeConstraints { make in
             make.trailing.leading.equalToSuperview().inset(24)
-            make.top.equalTo(tagCollectionView.snp.bottom).offset(8)
+            make.top.equalTo(keywordTagListView.snp.bottom).offset(8)
         }
         
         priceTextLabel.snp.makeConstraints { make in
@@ -179,19 +191,16 @@ class LikeCardCell: UICollectionViewCell {
     }
     
     func bind(reactor: TagReactor) {
-        reactor.state
-            .map { $0.sections }
-            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCell.identifier,
-                                            cellType: TagCell.self)) { ( _, element, cell) in
-                cell.tagLabel.text = element
-            }.disposed(by: disposeBag)
+
     }
     
     func configure(item: CardSection.Item) {
+        
         brandNameLabel.text = item.brandName
         korNameLabel.text = item.korPerpumeName
         engNameLabel.text = item.engPerpumeName
         priceLabel.text = item.price.numberFormatterToWon()
     }
+
     
 }
