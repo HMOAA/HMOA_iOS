@@ -61,6 +61,20 @@
 		2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */; };
 		2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */; };
 		2C4A265F29C2F716009F288F /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A265E29C2F716009F288F /* Address.swift */; };
+		2C4CDC3F29C770D900676163 /* BrandDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2929C770D900676163 /* BrandDetailSection.swift */; };
+		2C4CDC4029C770D900676163 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2A29C770D900676163 /* BrandInfo.swift */; };
+		2C4CDC4129C770D900676163 /* BrandDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2C29C770D900676163 /* BrandDetailCollectionViewCell.swift */; };
+		2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2D29C770D900676163 /* BrandDetailHeaderView.swift */; };
+		2C4CDC4329C770D900676163 /* BrandDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2F29C770D900676163 /* BrandDetailViewController.swift */; };
+		2C4CDC4429C770D900676163 /* BrandDetailHeaderReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3129C770D900676163 /* BrandDetailHeaderReactor.swift */; };
+		2C4CDC4529C770D900676163 /* BrandDetailCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3229C770D900676163 /* BrandDetailCellReactor.swift */; };
+		2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3329C770D900676163 /* BrandDetailReactor.swift */; };
+		2C4CDC4729C770D900676163 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3629C770D900676163 /* Brand.swift */; };
+		2C4CDC4829C770D900676163 /* BrandSearchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3729C770D900676163 /* BrandSearchSection.swift */; };
+		2C4CDC4929C770D900676163 /* BrandListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3929C770D900676163 /* BrandListHeaderView.swift */; };
+		2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3A29C770D900676163 /* BrandListCollectionViewCell.swift */; };
+		2C4CDC4B29C770D900676163 /* BrandSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3C29C770D900676163 /* BrandSearchViewController.swift */; };
+		2C4CDC4C29C770D900676163 /* BrandSearchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3E29C770D900676163 /* BrandSearchReactor.swift */; };
 		2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36B29754B3A0027CE40 /* HomeTopCell.swift */; };
 		2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36D29754B410027CE40 /* HomeCell.swift */; };
 		2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */; };
@@ -188,6 +202,20 @@
 		2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListTableViewCell.swift; sourceTree = "<group>"; };
 		2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		2C4A265E29C2F716009F288F /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		2C4CDC2929C770D900676163 /* BrandDetailSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailSection.swift; sourceTree = "<group>"; };
+		2C4CDC2A29C770D900676163 /* BrandInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
+		2C4CDC2C29C770D900676163 /* BrandDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		2C4CDC2D29C770D900676163 /* BrandDetailHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailHeaderView.swift; sourceTree = "<group>"; };
+		2C4CDC2F29C770D900676163 /* BrandDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailViewController.swift; sourceTree = "<group>"; };
+		2C4CDC3129C770D900676163 /* BrandDetailHeaderReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailHeaderReactor.swift; sourceTree = "<group>"; };
+		2C4CDC3229C770D900676163 /* BrandDetailCellReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailCellReactor.swift; sourceTree = "<group>"; };
+		2C4CDC3329C770D900676163 /* BrandDetailReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailReactor.swift; sourceTree = "<group>"; };
+		2C4CDC3629C770D900676163 /* Brand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		2C4CDC3729C770D900676163 /* BrandSearchSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandSearchSection.swift; sourceTree = "<group>"; };
+		2C4CDC3929C770D900676163 /* BrandListHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandListHeaderView.swift; sourceTree = "<group>"; };
+		2C4CDC3A29C770D900676163 /* BrandListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandListCollectionViewCell.swift; sourceTree = "<group>"; };
+		2C4CDC3C29C770D900676163 /* BrandSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandSearchViewController.swift; sourceTree = "<group>"; };
+		2C4CDC3E29C770D900676163 /* BrandSearchReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandSearchReactor.swift; sourceTree = "<group>"; };
 		2C4DD36B29754B3A0027CE40 /* HomeTopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopCell.swift; sourceTree = "<group>"; };
 		2C4DD36D29754B410027CE40 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellHeaderView.swift; sourceTree = "<group>"; };
@@ -525,6 +553,8 @@
 		2C39AA4E29704253000C6F71 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				2C4CDC2729C770D900676163 /* BrandDetail */,
+				2C4CDC3429C770D900676163 /* BrandSearch */,
 				2C700DE629C1988000DDEF77 /* Home */,
 				2C04249729A6565E009CF0FE /* CommentWrite */,
 				2C04248C29A50439009CF0FE /* CommentDetail */,
@@ -646,6 +676,98 @@
 				2C4A265E29C2F716009F288F /* Address.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		2C4CDC2729C770D900676163 /* BrandDetail */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC2829C770D900676163 /* Model */,
+				2C4CDC2B29C770D900676163 /* View */,
+				2C4CDC2E29C770D900676163 /* ViewController */,
+				2C4CDC3029C770D900676163 /* Reactor */,
+			);
+			path = BrandDetail;
+			sourceTree = "<group>";
+		};
+		2C4CDC2829C770D900676163 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC2929C770D900676163 /* BrandDetailSection.swift */,
+				2C4CDC2A29C770D900676163 /* BrandInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2C4CDC2B29C770D900676163 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC2C29C770D900676163 /* BrandDetailCollectionViewCell.swift */,
+				2C4CDC2D29C770D900676163 /* BrandDetailHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2C4CDC2E29C770D900676163 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC2F29C770D900676163 /* BrandDetailViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2C4CDC3029C770D900676163 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC3129C770D900676163 /* BrandDetailHeaderReactor.swift */,
+				2C4CDC3229C770D900676163 /* BrandDetailCellReactor.swift */,
+				2C4CDC3329C770D900676163 /* BrandDetailReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		2C4CDC3429C770D900676163 /* BrandSearch */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC3529C770D900676163 /* Model */,
+				2C4CDC3829C770D900676163 /* View */,
+				2C4CDC3B29C770D900676163 /* VIewController */,
+				2C4CDC3D29C770D900676163 /* Reactor */,
+			);
+			path = BrandSearch;
+			sourceTree = "<group>";
+		};
+		2C4CDC3529C770D900676163 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC3629C770D900676163 /* Brand.swift */,
+				2C4CDC3729C770D900676163 /* BrandSearchSection.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2C4CDC3829C770D900676163 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC3929C770D900676163 /* BrandListHeaderView.swift */,
+				2C4CDC3A29C770D900676163 /* BrandListCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2C4CDC3B29C770D900676163 /* VIewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC3C29C770D900676163 /* BrandSearchViewController.swift */,
+			);
+			path = VIewController;
+			sourceTree = "<group>";
+		};
+		2C4CDC3D29C770D900676163 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				2C4CDC3E29C770D900676163 /* BrandSearchReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		2C4DD366297547620027CE40 /* View */ = {
@@ -1160,6 +1282,7 @@
 				2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */,
 				2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */,
 				2C4A265F29C2F716009F288F /* Address.swift in Sources */,
+				2C4CDC4029C770D900676163 /* BrandInfo.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
@@ -1168,12 +1291,14 @@
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
+				2C4CDC4329C770D900676163 /* BrandDetailViewController.swift in Sources */,
 				CAFA450E29AB7E1300ACF2C1 /* StartViewModel.swift in Sources */,
 				CA6D99E629C492B4000E80CF /* LikeListModel.swift in Sources */,
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
 				CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */,
+				2C4CDC4129C770D900676163 /* BrandDetailCollectionViewCell.swift in Sources */,
 				2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */,
 				2C1BD6BE29978EDD0059A43D /* BrandView.swift in Sources */,
 				2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */,
@@ -1181,6 +1306,8 @@
 				2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */,
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,
 				2C04246629A39C30009CF0FE /* HomeSection.swift in Sources */,
+				2C4CDC4429C770D900676163 /* BrandDetailHeaderReactor.swift in Sources */,
+				2C4CDC4529C770D900676163 /* BrandDetailCellReactor.swift in Sources */,
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
 				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
@@ -1202,8 +1329,10 @@
 				2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */,
 				2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */,
 				2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */,
+				2C4CDC4829C770D900676163 /* BrandSearchSection.swift in Sources */,
 				2C04246429A39C26009CF0FE /* Perfume.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* PerfumeDetail.swift in Sources */,
+				2C4CDC4B29C770D900676163 /* BrandSearchViewController.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
@@ -1214,25 +1343,32 @@
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
 				CA174F6329BB33AF006E7680 /* StartReactor.swift in Sources */,
+				2C4CDC4C29C770D900676163 /* BrandSearchReactor.swift in Sources */,
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
 				2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */,
 				CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageTopView.swift in Sources */,
 				2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */,
+				2C4CDC3F29C770D900676163 /* BrandDetailSection.swift in Sources */,
 				CA54DD8D29C440A600167F05 /* TagCell.swift in Sources */,
 				CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */,
 				2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
+				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
+				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
 				CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */,
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
+				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
+				2C4CDC4729C770D900676163 /* Brand.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
 				2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */,
 				CA54DD9529C44A8C00167F05 /* CardSection.swift in Sources */,
+				2C4CDC4929C770D900676163 /* BrandListHeaderView.swift in Sources */,
 				2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */,
 				2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */,
 				2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */,

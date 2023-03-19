@@ -218,18 +218,18 @@ extension SearchReactor {
         print("검색하는 값:", content)
         
         let data: [Perfume] = [
-            Perfume(perfumeId: 1, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 2, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 3, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 4, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 5, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 6, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 7, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 8, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 9, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 10, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 11, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!),
-            Perfume(perfumeId: 12, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!)]
+            Perfume(perfumeId: 1, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 2, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 3, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 4, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 5, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 6, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 7, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 8, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 9, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 10, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 11, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
+            Perfume(perfumeId: 12, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false)]
         
         return .just(.setResultProduct(data))
     }
