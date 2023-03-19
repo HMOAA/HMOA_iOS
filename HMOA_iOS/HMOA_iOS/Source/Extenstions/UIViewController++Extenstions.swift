@@ -62,18 +62,6 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
-    func presentBrandSearchViewController() {
-        let brandSearchVC = BrandSearchViewController()
-        brandSearchVC.reactor = BrandSearchReactor()
-        self.navigationController?.pushViewController(brandSearchVC, animated: true)
-    }
-    
-    func presentBrandDetailViewController(_ brandId: Int, _ title: String) {
-        let brandDetailVC = BrandDetailViewController()
-        brandDetailVC.reactor = BrandDetailReactor(brandId, title)
-        self.navigationController?.pushViewController(brandDetailVC, animated: true)
-    }
-    
     func setNavigationColor() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
