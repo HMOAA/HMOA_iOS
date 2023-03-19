@@ -28,7 +28,7 @@ class AppTabbarController: UITabBarController {
         return item
     }()
     
-    let drawerTab: UITabBarItem = {
+    let likeTab: UITabBarItem = {
        
         let item = UITabBarItem()
         item.customTabBar(imageName: "drawer")
@@ -62,12 +62,12 @@ extension AppTabbarController {
             rootViewController: HomeViewController()),
         hPediaVC = UINavigationController(
             rootViewController: HPediaViewController()),
-        drawerVC = UINavigationController(
-            rootViewController: DrawerViewController()),
+        likeVC = UINavigationController(
+            rootViewController: LikeViewController()),
         myPageVC = UINavigationController(
             rootViewController: MyPageViewController())
         
-        viewControllers = [homeVC, hPediaVC, drawerVC, myPageVC]
+        viewControllers = [homeVC, hPediaVC, likeVC, myPageVC]
         
         self.selectedIndex = 0
         view.backgroundColor = .white
@@ -80,7 +80,7 @@ extension AppTabbarController {
         
         homeVC.tabBarItem = homeTab
         hPediaVC.tabBarItem = hPediaTab
-        drawerVC.tabBarItem = drawerTab
+        likeVC.tabBarItem = likeTab
         myPageVC.tabBarItem = myPageTab
         
     }
