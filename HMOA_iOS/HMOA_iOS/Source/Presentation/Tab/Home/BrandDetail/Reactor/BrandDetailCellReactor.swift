@@ -10,6 +10,8 @@ import RxSwift
 
 class BrandDetailCellReactor: Reactor {
     
+    var initialState: State
+
     enum Action {
         case didTapPerfumeLikeButton(Bool)
         case didTapCell(Perfume)
@@ -21,12 +23,13 @@ class BrandDetailCellReactor: Reactor {
     }
     
     struct State {
-        var isLikePerfume: Bool = false
+        var perfume: Perfume
         var selectedCell: Perfume? = nil
     }
     
-    var initialState: State = State()
-    
+    init(_ perfume: Perfume) {
+        self.initialState = State(perfume: perfume)
+    }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -46,7 +49,7 @@ class BrandDetailCellReactor: Reactor {
         
         switch mutation {
         case .setPerfumeLike(let isLike):
-            state.isLikePerfume = isLike
+            state.perfume.isLikePerfume = isLike
         case .setSelectedCell(let perfume):
             state.selectedCell = perfume
         }
