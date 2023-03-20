@@ -202,7 +202,6 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isPresentChoiceYearVC }
             .distinctUntilChanged()
-            .compactMap{ $0 }
             .filter { $0 }
             .bind(onNext: { _ in
                 let yearVC = self.presentSelectYear()
@@ -214,7 +213,6 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isCheckedWoman }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .bind(to: self.womanButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -222,7 +220,6 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isCheckedMan }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .bind(to: self.manButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -230,7 +227,6 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isSexCheck }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .bind(onNext: { isSexCheck in
                 self.isSexCheck = isSexCheck
                 self.updateUIStartAndYear(self.index, isSexCheck)
@@ -240,7 +236,6 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isPresentTabBar }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .filter { $0 }
             .bind(onNext: { _ in
                 let tabBar = AppTabbarController()
@@ -256,7 +251,6 @@ class StartViewController: UIViewController {
         vc.reactor.state
             .map { $0.selectedIndex}
             .distinctUntilChanged()
-            .compactMap { $0 }
             .bind(onNext: { index in
                 self.index = index
                 self.updateUIStartAndYear(index, self.isSexCheck)

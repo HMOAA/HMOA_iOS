@@ -122,7 +122,6 @@ class ChoiceYearViewController: UIViewController {
         reactor.state
             .map { $0.isDismiss }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .filter { $0 }
             .bind(onNext: { _ in
                 self.dismiss(animated: true)
