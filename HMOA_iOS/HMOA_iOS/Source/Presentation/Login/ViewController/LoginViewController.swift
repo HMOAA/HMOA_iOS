@@ -207,7 +207,6 @@ class LoginViewController: UIViewController {
         reactor.state
             .map { $0.isPresentTabBar}
             .distinctUntilChanged()
-            .compactMap { $0}
             .filter { $0 }
             .bind(onNext: { _ in
                 let tabBar = AppTabbarController()
@@ -219,7 +218,6 @@ class LoginViewController: UIViewController {
         reactor.state
             .map { $0.isPushStartVC}
             .distinctUntilChanged()
-            .compactMap { $0 }
             .filter { $0 }
             .bind(onNext: { _ in
                 self.navigationController?
@@ -231,7 +229,6 @@ class LoginViewController: UIViewController {
         reactor.state
             .map { $0.isChecked}
             .distinctUntilChanged()
-            .compactMap { $0 }
             .filter { $0 }
             .bind(onNext: { _ in
                 self.loginRetainButton.isSelected.toggle()
