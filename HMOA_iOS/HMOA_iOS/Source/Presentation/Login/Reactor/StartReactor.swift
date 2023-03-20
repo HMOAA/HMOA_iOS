@@ -29,16 +29,16 @@ class StartReactor: Reactor {
     }
     
     struct State {
-        var isPresentChoiceYearVC: Bool
-        var isCheckedWoman: Bool
-        var isCheckedMan: Bool
-        var isPresentTabBar: Bool
-        var isSelectedYear: Bool
-        var isSexCheck: Bool
+        var isPresentChoiceYearVC: Bool = false
+        var isCheckedWoman: Bool = false
+        var isCheckedMan: Bool = false
+        var isPresentTabBar: Bool = false
+        var isSelectedYear: Bool = false
+        var isSexCheck: Bool = false
     }
     
     init() {
-        initialState = State(isPresentChoiceYearVC: false, isCheckedWoman: false, isCheckedMan: false, isPresentTabBar: false, isSelectedYear: false, isSexCheck: false)
+        initialState = State()
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
