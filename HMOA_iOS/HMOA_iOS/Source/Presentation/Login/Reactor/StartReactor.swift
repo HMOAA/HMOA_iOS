@@ -51,15 +51,9 @@ class StartReactor: Reactor {
                 .just(.setPresentChoiceYearVC(false))
             ])
         case .didTapManButton:
-            return .concat([
-                .just(.setCheckMan(true)),
-                .just(.setCheckWoman(false))
-            ])
+            return .just(.setCheckMan(true))
         case .didTapWomanButton:
-            return .concat([
-                .just(.setCheckWoman(true)),
-                .just(.setCheckMan(false))
-            ])
+            return .just(.setCheckWoman(true))
         case .didTapStartButton:
             return .concat([
                 .just(.setPresentTabBar(true)),
@@ -77,21 +71,19 @@ class StartReactor: Reactor {
             state.isPresentChoiceYearVC = isPresent
         case .setCheckMan(let isChecked):
             state.isCheckedMan = isChecked
+            state.isCheckedWoman = !isChecked
+            state.isSexCheck = isChecked
         case .setCheckWoman(let isChecked):
             state.isCheckedWoman = isChecked
+            state.isCheckedMan = !isChecked
+            state.isSexCheck = isChecked
         case .setPresentTabBar(let isPresent):
             state.isPresentTabBar = isPresent
         case .setSelectedYear(let isSelectedYear):
             state.isSelectedYear = isSelectedYear
         }
         
-        state.isSexCheck = isCompleteStart(man: state.isCheckedMan,
-                                           woman: state.isCheckedWoman)
-        
         return state 
     }
-    
-    func isCompleteStart(man: Bool, woman: Bool) -> Bool {
-        return man || woman
-    }
 }
+        
