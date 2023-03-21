@@ -12,7 +12,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class LoginStartVC: UIViewController {
+class LoginStartViewController: UIViewController {
 
     let welcomLabel = UILabel().then {
         $0.setLabelUI("환영합니다", font: .pretendard, size: 30, color: .black)
