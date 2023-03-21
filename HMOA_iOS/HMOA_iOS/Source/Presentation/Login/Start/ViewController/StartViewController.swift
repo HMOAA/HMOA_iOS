@@ -65,7 +65,6 @@ class StartViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     let yearList = Year().year
-    var isSexCheck = false
     var index: Int = 0
 
     //MARK: - LifeCycle
@@ -228,7 +227,6 @@ class StartViewController: UIViewController {
             .map { $0.isSexCheck }
             .distinctUntilChanged()
             .bind(onNext: { isSexCheck in
-                self.isSexCheck = isSexCheck
                 self.updateUIStartAndYear(self.index, isSexCheck)
             }).disposed(by: disposeBag)
         
@@ -253,7 +251,7 @@ class StartViewController: UIViewController {
             .distinctUntilChanged()
             .bind(onNext: { index in
                 self.index = index
-                self.updateUIStartAndYear(index, self.isSexCheck)
+                self.updateUIStartAndYear(index, self.startReactor.currentState.isSexCheck)
                 self.selectLabel.text = self.yearList[index]
             }).disposed(by: disposeBag)
     }
