@@ -32,13 +32,13 @@ class LoginReactor: Reactor {
     
     //현재 뷰 상태
     struct State {
-        var isPushStartVC: Bool
-        var isPresentTabBar: Bool
-        var isChecked: Bool
+        var isPushStartVC: Bool = false
+        var isPresentTabBar: Bool = false
+        var isChecked: Bool = false
     }
     
     init() {
-        initialState = State(isPushStartVC: false, isPresentTabBar: false, isChecked: false)
+        initialState = State()
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

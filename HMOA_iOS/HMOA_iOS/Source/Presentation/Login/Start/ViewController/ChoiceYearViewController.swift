@@ -43,8 +43,9 @@ class ChoiceYearViewController: UIViewController {
         setAddView()
         setConstraints()
         bind(reactor: reactor)
+        
+        
     }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -122,7 +123,6 @@ class ChoiceYearViewController: UIViewController {
         reactor.state
             .map { $0.isDismiss }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .filter { $0 }
             .bind(onNext: { _ in
                 self.dismiss(animated: true)

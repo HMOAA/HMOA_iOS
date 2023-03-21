@@ -65,7 +65,6 @@ class StartViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     let yearList = Year().year
-    var isSexCheck = false
     var index: Int = 0
 
     //MARK: - LifeCycle
@@ -202,7 +201,6 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isPresentChoiceYearVC }
             .distinctUntilChanged()
-            .compactMap{ $0 }
             .filter { $0 }
             .bind(onNext: { _ in
                 let yearVC = self.presentSelectYear()
@@ -214,7 +212,6 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isCheckedWoman }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .bind(to: self.womanButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -222,7 +219,6 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isCheckedMan }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .bind(to: self.manButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -230,9 +226,7 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isSexCheck }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .bind(onNext: { isSexCheck in
-                self.isSexCheck = isSexCheck
                 self.updateUIStartAndYear(self.index, isSexCheck)
             }).disposed(by: disposeBag)
         
@@ -240,7 +234,6 @@ class StartViewController: UIViewController {
         reactor.state
             .map { $0.isPresentTabBar }
             .distinctUntilChanged()
-            .compactMap { $0 }
             .filter { $0 }
             .bind(onNext: { _ in
                 let tabBar = AppTabbarController()
@@ -256,10 +249,9 @@ class StartViewController: UIViewController {
         vc.reactor.state
             .map { $0.selectedIndex}
             .distinctUntilChanged()
-            .compactMap { $0 }
             .bind(onNext: { index in
                 self.index = index
-                self.updateUIStartAndYear(index, self.isSexCheck)
+                self.updateUIStartAndYear(index, self.startReactor.currentState.isSexCheck)
                 self.selectLabel.text = self.yearList[index]
             }).disposed(by: disposeBag)
     }

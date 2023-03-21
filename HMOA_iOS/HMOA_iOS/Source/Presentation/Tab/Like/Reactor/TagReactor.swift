@@ -13,7 +13,7 @@ class TagReactor: Reactor {
     let initialState: State
     
     init() {
-        initialState = State(sections: ["우디한", "자연의"])
+        initialState = State()
     }
     
     enum Action {
@@ -25,7 +25,7 @@ class TagReactor: Reactor {
     }
     
     struct State {
-        var sections: [String]
+        var sections: [String] = ["우디한", "자연의"]
     }
     
 //    func mutate(action: Action) -> Observable<Mutation> {
