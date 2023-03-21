@@ -60,7 +60,6 @@ class StartViewController: UIViewController {
         $0.setTitle("시작하기", for: .normal)
     }
     
-    let viewModel = StartViewModel()
     let startReactor = StartReactor()
     var disposeBag = DisposeBag()
     
