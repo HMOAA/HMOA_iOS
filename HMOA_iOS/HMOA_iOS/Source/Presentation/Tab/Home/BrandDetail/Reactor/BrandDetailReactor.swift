@@ -11,11 +11,11 @@ import RxSwift
 class BrandDetailReactor: Reactor {
     
     enum Action {
-        
+        case didTapBackButton
     }
     
     enum Mutation {
-        
+        case setPopVC(Bool)
     }
     
     struct State {
@@ -24,6 +24,7 @@ class BrandDetailReactor: Reactor {
             items: [])
         var brandId: Int = 0
         var title: String = ""
+        var isPopVC: Bool = false
     }
     
     var initialState: State
@@ -36,10 +37,24 @@ class BrandDetailReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         
+        switch action {
+        case .didTapBackButton:
+            return .concat([
+                .just(.setPopVC(true)),
+                .just(.setPopVC(false))
+            ])
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
+        var state = state
         
+        switch mutation {
+        case .setPopVC(let isPop):
+            state.isPopVC = isPop
+        }
+        
+        return state
     }
 }
 
