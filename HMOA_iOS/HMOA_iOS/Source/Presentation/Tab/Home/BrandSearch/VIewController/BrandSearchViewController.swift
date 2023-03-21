@@ -17,7 +17,7 @@ class BrandSearchViewController: UIViewController, View {
     typealias Reactor = BrandSearchReactor
 
     // MARK: - Properties
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<BrandSectionModel>!
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<BrandListSection>!
     
     var disposeBag = DisposeBag()
     
@@ -59,10 +59,6 @@ extension BrandSearchViewController {
         configureCollectionViewDataSource()
 
         // MARK: - Action
-        rx.viewDidLoad
-            .map { _ in Reactor.Action.viewDidLoad }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
         
         // 뒤로가기 버튼 클릭
         backButton.rx.tap
@@ -72,15 +68,22 @@ extension BrandSearchViewController {
         
         // 브랜드 Cell 클릭
         collectionView.rx.modelSelected(BrandCell.self)
-            .map { Reactor.Action.didTapItem($0.item) }
+            .map { Reactor.Action.didTapItem($0.brand) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 텍스트 입력
+        searchBar.rx.text
+            .orEmpty
+            .map { Reactor.Action.updateSearchResult($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         // MARK: - State
  
+        // CollectionView 바인딩
         reactor.state
-            .map { [$0.firstSection, $0.secondSection, $0.thridSection, $0.fourthSection, $0.fiveSection] }
-            .distinctUntilChanged()
+            .map { $0.sections }
             .bind(to: self.collectionView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
         
@@ -136,7 +139,7 @@ extension BrandSearchViewController {
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource<BrandSectionModel>(configureCell: { _, collectionView, indexPath, item in
+        dataSource = RxCollectionViewSectionedReloadDataSource<BrandListSection>(configureCell: { _, collectionView, indexPath, item in
             switch item {
             case .BrandItem(let brand):
                 
@@ -151,20 +154,7 @@ extension BrandSearchViewController {
           
             guard let header = collectionview.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandListHeaderView.identifier, for: indexPath) as? BrandListHeaderView else { return UICollectionReusableView() }
             
-            switch indexPath.section {
-            case 0:
-                header.updateUI("ㄱ")
-            case 1:
-                header.updateUI("ㄴ")
-            case 2:
-                header.updateUI("ㄷ")
-            case 3:
-                header.updateUI("ㄹ")
-            case 4:
-                header.updateUI("ㅁ")
-            default:
-                break
-            }
+            header.updateUI(self.reactor!.currentState.sections[indexPath.section].consonant)
             
             return header
         })
@@ -192,3 +182,4 @@ extension BrandSearchViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: UIScreen.main.bounds.width, height: 40)
     }
 }
+
