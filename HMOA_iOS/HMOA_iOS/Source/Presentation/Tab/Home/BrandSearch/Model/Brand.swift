@@ -6,11 +6,50 @@
 //
 
 struct BrandList: Equatable {
-    var consonant: String
+    var consonant: Int
     var brands: [Brand]
 }
 
 struct Brand: Equatable {
     var brandId: Int
     var brandName: String
+}
+
+extension BrandList {
+    
+    var section: BrandListSection {
+        switch self.consonant {
+        case 1:
+            return BrandListSection.first(self.brands.map { BrandCell.BrandItem($0) })
+        case 2:
+            return BrandListSection.second(self.brands.map { BrandCell.BrandItem($0) })
+        case 3:
+            return BrandListSection.third(self.brands.map { BrandCell.BrandItem($0) })
+
+        case 4:
+            return BrandListSection.fourth(self.brands.map { BrandCell.BrandItem($0) })
+        case 5:
+            return BrandListSection.fifth(self.brands.map { BrandCell.BrandItem($0) })
+        case 6:
+            return BrandListSection.sixth(self.brands.map { BrandCell.BrandItem($0) })
+        case 7:
+            return BrandListSection.seventh(self.brands.map { BrandCell.BrandItem($0) })
+        case 8:
+            return BrandListSection.eighth(self.brands.map { BrandCell.BrandItem($0) })
+        case 9:
+            return BrandListSection.ninth(self.brands.map { BrandCell.BrandItem($0) })
+        case 10:
+            return BrandListSection.tenth(self.brands.map { BrandCell.BrandItem($0) })
+        case 11:
+            return BrandListSection.eleventh(self.brands.map { BrandCell.BrandItem($0) })
+        case 12:
+            return BrandListSection.twelfth(self.brands.map { BrandCell.BrandItem($0) })
+        case 13:
+            return BrandListSection.thirteenth(self.brands.map { BrandCell.BrandItem($0) })
+        case 14:
+            return BrandListSection.fourtheenth(self.brands.map { BrandCell.BrandItem($0) })
+        default:
+            return BrandListSection.first([])
+        }
+    }
 }
