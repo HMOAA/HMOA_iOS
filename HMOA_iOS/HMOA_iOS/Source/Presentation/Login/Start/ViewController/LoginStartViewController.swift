@@ -15,10 +15,11 @@ import RxCocoa
 class LoginStartViewController: UIViewController {
 
     let welcomLabel = UILabel().then {
-        $0.setLabelUI("환영합니다", font: .pretendard, size: 30, color: .black)
+        $0.setLabelUI("환영합니다", font: .pretendard_medium, size: 30, color: .black)
     }
     
     let explainLabel = UILabel().then {
+        $0.numberOfLines = 2
         $0.setLabelUI(
                         """
                         향모아를 시작하기 위해
@@ -31,7 +32,7 @@ class LoginStartViewController: UIViewController {
     
     let nextButton = UIButton().then {
         $0.titleLabel?.font = .customFont(.pretendard_semibold, 16)
-        $0.setTitle("확인", for: .normal)
+        $0.setTitle("다음", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .black
     }
@@ -64,6 +65,12 @@ class LoginStartViewController: UIViewController {
         explainLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
             make.top.equalTo(welcomLabel.snp.bottom).offset(12)
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.height.equalTo(80)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
 
