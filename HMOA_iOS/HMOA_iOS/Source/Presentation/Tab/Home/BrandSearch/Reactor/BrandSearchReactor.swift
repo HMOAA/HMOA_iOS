@@ -190,7 +190,7 @@ extension BrandSearchReactor {
                 Brand(brandId: 25, brandName: "트와이닝스")
             ]),
             
-            BrandList(consonant: 12, brands: [
+            BrandList(consonant: 13, brands: [
                 Brand(brandId: 21, brandName: "파코라반"),
                 Brand(brandId: 22, brandName: "파리게이츠"),
                 Brand(brandId: 23, brandName: "페라리"),
@@ -198,7 +198,7 @@ extension BrandSearchReactor {
                 Brand(brandId: 25, brandName: "폴로")
             ]),
             
-            BrandList(consonant: 12, brands: [
+            BrandList(consonant: 14, brands: [
                 Brand(brandId: 21, brandName: "한스킨"),
                 Brand(brandId: 22, brandName: "해피바스"),
                 Brand(brandId: 23, brandName: "허밍어바이하니"),
