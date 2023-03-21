@@ -221,8 +221,9 @@ class LoginViewController: UIViewController {
             .filter { $0 }
             .bind(onNext: { _ in
                 let vc = LoginStartViewController()
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
+                let nvController = UINavigationController(rootViewController: vc)
+                nvController.modalPresentationStyle = .fullScreen
+                self.present(nvController, animated: true, completion: nil)
             }).disposed(by: disposeBag)
         
         //로그인 상태 유지 체크버튼 toggle
