@@ -34,7 +34,6 @@ class ChoiceYearViewController: UIViewController {
     
     let reactor = ChoiceYearReactor()
     let disposeBag = DisposeBag()
-    let viewModel = ChoiceYearViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
