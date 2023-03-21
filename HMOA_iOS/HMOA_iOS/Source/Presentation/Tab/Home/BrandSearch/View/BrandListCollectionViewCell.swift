@@ -18,6 +18,7 @@ class BrandListCollectionViewCell: UICollectionViewCell {
     }
     
     lazy var brandLabel = UILabel().then {
+        $0.numberOfLines = 2
         $0.font = .customFont(.pretendard, 14)
     }
     
