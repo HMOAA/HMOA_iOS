@@ -43,8 +43,9 @@ class ChoiceYearViewController: UIViewController {
         setAddView()
         setConstraints()
         bind(reactor: reactor)
+        
+        
     }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
