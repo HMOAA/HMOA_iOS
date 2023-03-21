@@ -37,12 +37,14 @@ class LoginStartViewController: UIViewController {
         $0.backgroundColor = .black
     }
     
+    let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpUI()
         setAddView()
         setConstraints()
+        bind()
     }
     
     //MARK: - SetUp
@@ -73,5 +75,13 @@ class LoginStartViewController: UIViewController {
             make.bottom.equalToSuperview()
         }
     }
+    
+    private func bind() {
+        nextButton.rx.tap
+            .bind(onNext: {
+                self.navigationController?.pushViewController(NicknameViewController(), animated: true)
 
+            }).disposed(by: disposeBag)
+    }
+    
 }
