@@ -50,6 +50,14 @@ extension BrandDetailViewController {
         
         configureCollectionViewDataSource()
 
+        // MARK: - Action
+        
+        // 뒤로가기 버튼 클릭
+        backBarButton.rx.tap
+            .map { Reactor.Action.didTapBackButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // CollectionView 바인딩
@@ -63,6 +71,15 @@ extension BrandDetailViewController {
             .map { $0.title }
             .distinctUntilChanged()
             .bind(onNext: self.setNavigationBarTitle)
+            .disposed(by: disposeBag)
+        
+        // pop VC
+        reactor.state
+            .map { $0.isPopVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in } 
+            .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
     }
     
