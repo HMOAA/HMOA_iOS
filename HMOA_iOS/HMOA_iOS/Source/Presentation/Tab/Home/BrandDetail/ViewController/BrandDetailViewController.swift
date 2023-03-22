@@ -58,6 +58,7 @@ extension BrandDetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        
         // MARK: - State
         
         // CollectionView 바인딩
@@ -81,6 +82,7 @@ extension BrandDetailViewController {
             .map { _ in } 
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Configure
@@ -160,7 +162,7 @@ extension BrandDetailViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 242)
+        return CGSize(width: UIScreen.main.bounds.width, height: 256)
     }
 }
 
