@@ -57,6 +57,12 @@ extension BrandDetailCollectionViewCell {
     
     func bind(reactor: BrandDetailCellReactor) {
         
+        // MARK: - Action
+        likeButton.rx.tap
+            .map { Reactor.Action.didTapPerfumeLikeButton(self.likeButton.isSelected) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // 향수 브랜드명

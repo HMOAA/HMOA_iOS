@@ -44,7 +44,13 @@ class BrandDetailHeaderView: UICollectionReusableView, View {
     }
     
     lazy var likeButton = UIButton().then {
-        $0.setImage(UIImage(named: "bottomHeart"), for: .normal)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 14)
+        let normalImage = UIImage(named: "bottomHeart", in: .none, with: imageConfig)
+        let selectedImage = UIImage(named: "bottomHeart", in: .none, with: imageConfig)?.withTintColor(.red)
+        
+        $0.setImage(normalImage, for: .normal)
+        $0.setImage(selectedImage, for: .selected)
+        
     }
     
     
@@ -89,6 +95,12 @@ extension BrandDetailHeaderView {
                 reactor.action.onNext(.didTapSortDropDown(index, string))
             }
 
+        // 브랜드 좋아요 버튼 클릭
+        likeButton.rx.tap
+            .map { Reactor.Action.didTapBrandLikeButton(self.likeButton.isSelected) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // 한글 브랜드명
@@ -128,6 +140,13 @@ extension BrandDetailHeaderView {
             .bind(onNext: {
                 self.sortButton.setTitle($0, for: .normal)
             })
+            .disposed(by: disposeBag)
+        
+        // 브랜드 좋아요 상태
+        reactor.state
+            .map { $0.brandInfo.isLikeBrand }
+            .distinctUntilChanged()
+            .bind(to: likeButton.rx.isSelected)
             .disposed(by: disposeBag)
     }
     
@@ -184,6 +203,7 @@ extension BrandDetailHeaderView {
         sortDropDown.anchorView = self.sortButton
         sortDropDown.bottomOffset = CGPoint(x: -13, y: 30)
         
+        sortDropDown.backgroundColor = .white
         sortDropDown.textFont = .customFont(.pretendard_light, 12)
         sortDropDown.selectedTextColor = .black
         sortDropDown.textColor = .customColor(.gray3)
