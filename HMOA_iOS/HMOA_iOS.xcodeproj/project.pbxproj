@@ -102,6 +102,7 @@
 		CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* StartViewController.swift */; };
 		CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */; };
 		CA174F6329BB33AF006E7680 /* StartReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA174F6229BB33AF006E7680 /* StartReactor.swift */; };
+		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA54DD8D29C440A600167F05 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8C29C440A600167F05 /* TagCell.swift */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
 		CA54DD9329C447AB00167F05 /* LikeCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD9229C447AB00167F05 /* LikeCardModel.swift */; };
@@ -248,6 +249,7 @@
 		CA051CAF297FDA0F001865F5 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearReactor.swift; sourceTree = "<group>"; };
 		CA174F6229BB33AF006E7680 /* StartReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartReactor.swift; sourceTree = "<group>"; };
+		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8C29C440A600167F05 /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
 		CA54DD9229C447AB00167F05 /* LikeCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCardModel.swift; sourceTree = "<group>"; };
@@ -1016,6 +1018,7 @@
 				CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */,
 				CA174F6229BB33AF006E7680 /* StartReactor.swift */,
 				CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */,
+				CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1268,6 +1271,7 @@
 			files = (
 				CA54DD9729C4716A00167F05 /* TagReactor.swift in Sources */,
 				2C04249629A533DF009CF0FE /* CommentBottomView.swift in Sources */,
+				CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */,
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
