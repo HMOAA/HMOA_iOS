@@ -19,9 +19,7 @@ class BrandDetailReactor: Reactor {
     }
     
     struct State {
-        var section = BrandDetailModel(
-            model: .first,
-            items: [])
+        var section: [BrandDetailSection] = []
         var brandId: Int = 0
         var title: String = ""
         var isPopVC: Bool = false
@@ -30,7 +28,8 @@ class BrandDetailReactor: Reactor {
     var initialState: State
     
     init(_ brandId: Int, _ title: String) {
-        initialState = State(section: BrandDetailReactor.requestBrandInfo(brandId),
+        let perfumeList = BrandDetailReactor.requestBrandInfo(brandId)
+        initialState = State(section: perfumeList,
                              brandId: brandId,
                              title: title)
     }
@@ -61,7 +60,7 @@ class BrandDetailReactor: Reactor {
 
 extension BrandDetailReactor {
     
-    static func requestBrandInfo(_ brandId: Int) -> BrandDetailModel {
+    static func requestBrandInfo(_ brandId: Int) -> [BrandDetailSection] {
         
         // 해당 브랜드 Id로 서버 통신해서 데이터 받아옴
         let perfumeList: [Perfume] = [
@@ -108,8 +107,6 @@ extension BrandDetailReactor {
                 image: UIImage(named: "jomalon")!,
                 isLikePerfume: false)]
         
-        return BrandDetailModel(
-            model: .first,
-            items: perfumeList.map(BrandDetailSectionItem.perfumeList))
+        return [BrandDetailSection.first(perfumeList.map { BrandDetailSectionItem.perfumeList($0) })]
     }
 }

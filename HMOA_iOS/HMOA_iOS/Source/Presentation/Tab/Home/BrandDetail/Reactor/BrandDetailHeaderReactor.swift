@@ -50,6 +50,7 @@ class BrandDetailHeaderReactor: Reactor {
             
         case .didTapSortDropDown(let index, let string):
             return .just(.setSelectedDropDown(index, string))
+            
         }
     }
     
@@ -58,7 +59,7 @@ class BrandDetailHeaderReactor: Reactor {
         
         switch mutation {
         case .setBrandLike(let isLike):
-            state.brandInfo.isLikeBrand = isLike
+            state.brandInfo.isLikeBrand = !isLike
             
         case .setPresentDropDown(let isPresent):
             state.isPresentDropDown = isPresent
