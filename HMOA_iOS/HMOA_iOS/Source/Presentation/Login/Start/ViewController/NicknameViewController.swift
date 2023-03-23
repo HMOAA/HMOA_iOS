@@ -7,10 +7,14 @@
 
 import UIKit
 
+import Then
+import SnapKit
+import RxCocoa
+import RxSwift
+
 class NicknameViewController: UIViewController {
     
-    //MAKR: - Property
-    
+    //MARK: - Property
     let nicknameLabel = UILabel().then {
         $0.setLabelUI("닉네임", font: .pretendard_medium, size: 14, color: .gray4)
     }
@@ -41,12 +45,18 @@ class NicknameViewController: UIViewController {
         $0.setTitle("시작하기", for: .normal)
     }
     
+    let disposeBag = DisposeBag()
+    let reactor = NicknameReactor()
+    
+    
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpUI()
         setAddView()
         setConstraints()
+        bind(reactor: reactor)
     }
     
     override func viewDidLayoutSubviews() {
@@ -99,6 +109,72 @@ class NicknameViewController: UIViewController {
         nextButton.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(80)
+        }
+    }
+    
+    //MARK: - Bind
+    private func bind(reactor: NicknameReactor) {
+        //Input
+        
+        //중복확인 터치 이벤트
+        duplicateCheckButton.rx.tap
+            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameTextField.text?.isEmpty)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //다음 버튼 터치 이벤트
+        nextButton.rx.tap
+            .map { NicknameReactor.Action.didTapStartButton}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //닉네임 캡션 라벨 변경
+        reactor.state
+            .map { $0.isDuplicate}
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: { isDuplicate in
+                self.changeCaptionLabelColor(isDuplicate)
+            }).disposed(by: disposeBag)
+        
+        //버튼 enable 상태 변경
+        reactor.state
+            .map { $0.isEnable }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: { isEnable in
+                self.changeNextButtonEnable(isEnable)
+            }).disposed(by: disposeBag)
+        
+        //StartVC로 이동
+        reactor.state
+            .map { $0.isPush }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(onNext: { _ in
+                self.navigationController?.pushViewController(StartViewController(),
+                                                              animated: true)
+            }).disposed(by: disposeBag)
+    }
+    
+    //MARK: - UpdateUI
+    private func changeCaptionLabelColor(_ isDuplicate: Bool) {
+        if isDuplicate {
+            nicknameCaptionLabel.text = "사용할 수 없는 닉네임 입니다."
+            nicknameCaptionLabel.textColor = .customColor(.red)
+        } else {
+            nicknameCaptionLabel.text = "사용할 수 있는 닉네임 입니다."
+            nicknameCaptionLabel.textColor = .customColor(.blue)
+        }
+    }
+    
+    private func changeNextButtonEnable(_ isEnable: Bool) {
+        if isEnable  {
+            self.nextButton.isEnabled = true
+            self.nextButton.backgroundColor = .black
+        } else {
+            self.nextButton.isEnabled = false
+            self.nextButton.backgroundColor = .customColor(.gray2)
         }
     }
 }
