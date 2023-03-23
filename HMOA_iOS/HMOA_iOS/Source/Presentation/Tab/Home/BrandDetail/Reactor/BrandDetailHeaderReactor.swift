@@ -14,14 +14,20 @@ class BrandDetailHeaderReactor: Reactor {
     
     enum Action {
         case didTapBrandLikeButton(Bool)
+        case didTapSortButton
+        case didTapSortDropDown(Int, String)
     }
     
     enum Mutation {
         case setBrandLike(Bool)
+        case setPresentDropDown(Bool)
+        case setSelectedDropDown(Int, String)
     }
     
     struct State {
         var brandInfo: BrandInfo
+        var isPresentDropDown: Bool = false
+        var nowSortType: String = "추천순"
     }
     
     init(_ brandId: Int) {
@@ -35,6 +41,16 @@ class BrandDetailHeaderReactor: Reactor {
         switch action {
         case .didTapBrandLikeButton(let isLike):
             return .just(.setBrandLike(isLike))
+
+        case .didTapSortButton:
+            return .concat([
+                .just(.setPresentDropDown(true)),
+                .just(.setPresentDropDown(false))
+            ])
+            
+        case .didTapSortDropDown(let index, let string):
+            return .just(.setSelectedDropDown(index, string))
+            
         }
     }
     
@@ -43,7 +59,13 @@ class BrandDetailHeaderReactor: Reactor {
         
         switch mutation {
         case .setBrandLike(let isLike):
-            state.brandInfo.isLikeBrand = isLike
+            state.brandInfo.isLikeBrand = !isLike
+            
+        case .setPresentDropDown(let isPresent):
+            state.isPresentDropDown = isPresent
+            
+        case .setSelectedDropDown(_, let string):
+            state.nowSortType = string
         }
         
         return state
