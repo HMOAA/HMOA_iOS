@@ -102,6 +102,7 @@
 		CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* StartViewController.swift */; };
 		CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */; };
 		CA174F6329BB33AF006E7680 /* StartReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA174F6229BB33AF006E7680 /* StartReactor.swift */; };
+		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA54DD8D29C440A600167F05 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8C29C440A600167F05 /* TagCell.swift */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
 		CA54DD9329C447AB00167F05 /* LikeCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD9229C447AB00167F05 /* LikeCardModel.swift */; };
@@ -116,6 +117,8 @@
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
 		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
 		CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */; };
+		CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */; };
+		CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */; };
 		CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */; };
 		CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1C29C2FFF6005BC997 /* LikeListCell.swift */; };
 		CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450729AB7DC300ACF2C1 /* YearModel.swift */; };
@@ -246,6 +249,7 @@
 		CA051CAF297FDA0F001865F5 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearReactor.swift; sourceTree = "<group>"; };
 		CA174F6229BB33AF006E7680 /* StartReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartReactor.swift; sourceTree = "<group>"; };
+		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8C29C440A600167F05 /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
 		CA54DD9229C447AB00167F05 /* LikeCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCardModel.swift; sourceTree = "<group>"; };
@@ -260,6 +264,8 @@
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
 		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
+		CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
+		CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCardCell.swift; sourceTree = "<group>"; };
 		CAD18E1C29C2FFF6005BC997 /* LikeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListCell.swift; sourceTree = "<group>"; };
 		CAFA450729AB7DC300ACF2C1 /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
@@ -927,6 +933,8 @@
 			children = (
 				CA051CAF297FDA0F001865F5 /* StartViewController.swift */,
 				CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */,
+				CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */,
+				CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1010,6 +1018,7 @@
 				CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */,
 				CA174F6229BB33AF006E7680 /* StartReactor.swift */,
 				CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */,
+				CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1262,6 +1271,7 @@
 			files = (
 				CA54DD9729C4716A00167F05 /* TagReactor.swift in Sources */,
 				2C04249629A533DF009CF0FE /* CommentBottomView.swift in Sources */,
+				CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */,
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
@@ -1331,6 +1341,8 @@
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
 				2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */,
 				CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */,
+				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
+				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageTopView.swift in Sources */,
 				2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */,
