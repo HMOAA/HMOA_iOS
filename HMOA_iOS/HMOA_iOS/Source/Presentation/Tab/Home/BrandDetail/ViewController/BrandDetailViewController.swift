@@ -20,7 +20,7 @@ class BrandDetailViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     // MARK: - UI Component
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<BrandDetailModel>!
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<BrandDetailSection>!
 
     let homeBarButton = UIButton().makeImageButton(UIImage(named: "homeNavi")!)
     let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
@@ -58,11 +58,12 @@ extension BrandDetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        
         // MARK: - State
         
         // CollectionView 바인딩
         reactor.state
-            .map { [$0.section] }
+            .map { $0.section }
             .bind(to: self.collectionView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
         
@@ -81,6 +82,7 @@ extension BrandDetailViewController {
             .map { _ in } 
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Configure
@@ -109,7 +111,7 @@ extension BrandDetailViewController {
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource<BrandDetailModel>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
+        dataSource = RxCollectionViewSectionedReloadDataSource<BrandDetailSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
             
             switch item {
             case .perfumeList(let perfume):
@@ -131,12 +133,12 @@ extension BrandDetailViewController {
                 
                 headerView.reactor = BrandDetailHeaderReactor(self.reactor!.currentState.brandId)
                 header = headerView
-                
+                return header
+
             default: return header
                 
             }
             
-            return header
         })
     }
 }
@@ -160,7 +162,7 @@ extension BrandDetailViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 242)
+        return CGSize(width: UIScreen.main.bounds.width, height: 256)
     }
 }
 

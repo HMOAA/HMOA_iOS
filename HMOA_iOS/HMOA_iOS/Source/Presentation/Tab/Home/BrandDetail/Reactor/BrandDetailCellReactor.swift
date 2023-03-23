@@ -49,7 +49,7 @@ class BrandDetailCellReactor: Reactor {
         
         switch mutation {
         case .setPerfumeLike(let isLike):
-            state.perfume.isLikePerfume = isLike
+            state.perfume.isLikePerfume = !isLike
         case .setSelectedCell(let perfume):
             state.selectedCell = perfume
         }

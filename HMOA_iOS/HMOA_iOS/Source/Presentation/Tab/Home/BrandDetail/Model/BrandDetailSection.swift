@@ -8,12 +8,31 @@
 import UIKit
 import RxDataSources
 
-typealias BrandDetailModel = SectionModel<BrandDetailSection, BrandDetailSectionItem>
 
 enum BrandDetailSection {
-    case first
+    case first([BrandDetailSectionItem])
 }
 
 enum BrandDetailSectionItem {
     case perfumeList(Perfume)
+}
+
+extension BrandDetailSection: SectionModelType {
+
+    
+    typealias Item = BrandDetailSectionItem
+    
+    var items: [Item] {
+        switch self {
+        case .first(let items):
+            return items
+        }
+    }
+    
+    init(original: BrandDetailSection, items: [BrandDetailSectionItem]) {
+        switch original {
+        case .first:
+            self = .first(items)
+        }
+    }
 }
