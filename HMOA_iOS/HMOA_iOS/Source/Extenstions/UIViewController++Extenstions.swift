@@ -74,6 +74,31 @@ extension UIViewController {
         self.navigationController?.pushViewController(brandDetailVC, animated: true)
     }
     
+    func presentMyLogViewController() {
+        let myLogVC = MyLogViewController()
+        self.navigationController?.pushViewController(myLogVC, animated: true)
+    }
+    
+    func presentMyProfileViewController() {
+        let myProfileVC = MyProfileViewController()
+        self.navigationController?.pushViewController(myProfileVC, animated: true)
+    }
+    
+    func presentOpenSourceViewController() {
+        let openSourceVC = OpenSourceViewController()
+        self.navigationController?.pushViewController(openSourceVC, animated: true)
+    }
+    
+    func presentPolicyViewController() {
+        let policyVC = PolicyViewController()
+        self.navigationController?.pushViewController(policyVC, animated: true)
+    }
+    
+    func presentVersionViewController() {
+        let versionVC = VersionViewController()
+        self.navigationController?.pushViewController(versionVC, animated: true)
+    }
+    
     func setNavigationColor() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
