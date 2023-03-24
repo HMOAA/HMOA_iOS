@@ -63,6 +63,11 @@
 		2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E4B29CDB1B300A07658 /* MyPageSection.swift */; };
 		2C464E4E29CDB1C300A07658 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E4D29CDB1C300A07658 /* UserInfo.swift */; };
 		2C464E5029CDB26400A07658 /* MyPageSeparatorLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E4F29CDB26400A07658 /* MyPageSeparatorLineView.swift */; };
+		2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E5829CDDC8500A07658 /* MyLogViewController.swift */; };
+		2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E5B29CDDCB600A07658 /* MyProfileViewController.swift */; };
+		2C464E5F29CDDCDF00A07658 /* OpenSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E5E29CDDCDF00A07658 /* OpenSourceViewController.swift */; };
+		2C464E6229CDDCF900A07658 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E6129CDDCF900A07658 /* PolicyViewController.swift */; };
+		2C464E6529CDDD1500A07658 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E6429CDDD1500A07658 /* VersionViewController.swift */; };
 		2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */; };
 		2C4A265F29C2F716009F288F /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A265E29C2F716009F288F /* Address.swift */; };
 		2C4CDC3F29C770D900676163 /* BrandDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2929C770D900676163 /* BrandDetailSection.swift */; };
@@ -209,6 +214,11 @@
 		2C464E4B29CDB1B300A07658 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
 		2C464E4D29CDB1C300A07658 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		2C464E4F29CDB26400A07658 /* MyPageSeparatorLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSeparatorLineView.swift; sourceTree = "<group>"; };
+		2C464E5829CDDC8500A07658 /* MyLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogViewController.swift; sourceTree = "<group>"; };
+		2C464E5B29CDDCB600A07658 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		2C464E5E29CDDCDF00A07658 /* OpenSourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSourceViewController.swift; sourceTree = "<group>"; };
+		2C464E6129CDDCF900A07658 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
+		2C464E6429CDDD1500A07658 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
 		2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		2C4A265E29C2F716009F288F /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		2C4CDC2929C770D900676163 /* BrandDetailSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailSection.swift; sourceTree = "<group>"; };
@@ -586,6 +596,11 @@
 		2C39AA512970426E000C6F71 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				2C464E5629CDDC6700A07658 /* Version */,
+				2C464E5529CDDC4800A07658 /* Policy */,
+				2C464E5429CDDC3400A07658 /* OpenSource */,
+				2C464E5329CDDC2600A07658 /* MyProfile */,
+				2C464E5129CDDBFC00A07658 /* MyLog */,
 				2C464E4A29CDB1A800A07658 /* Model */,
 				2C464E4729CDB15C00A07658 /* Reactor */,
 				2C710EFD297C1810006BE23B /* ViewModel */,
@@ -696,6 +711,86 @@
 				2C464E4D29CDB1C300A07658 /* UserInfo.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		2C464E5129CDDBFC00A07658 /* MyLog */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5729CDDC7000A07658 /* ViewController */,
+			);
+			path = MyLog;
+			sourceTree = "<group>";
+		};
+		2C464E5329CDDC2600A07658 /* MyProfile */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5A29CDDCA200A07658 /* Viewcontroller */,
+			);
+			path = MyProfile;
+			sourceTree = "<group>";
+		};
+		2C464E5429CDDC3400A07658 /* OpenSource */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5D29CDDCC600A07658 /* ViewController */,
+			);
+			path = OpenSource;
+			sourceTree = "<group>";
+		};
+		2C464E5529CDDC4800A07658 /* Policy */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E6029CDDCED00A07658 /* ViewController */,
+			);
+			path = Policy;
+			sourceTree = "<group>";
+		};
+		2C464E5629CDDC6700A07658 /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E6329CDDD0700A07658 /* ViewController */,
+			);
+			path = Version;
+			sourceTree = "<group>";
+		};
+		2C464E5729CDDC7000A07658 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5829CDDC8500A07658 /* MyLogViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2C464E5A29CDDCA200A07658 /* Viewcontroller */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5B29CDDCB600A07658 /* MyProfileViewController.swift */,
+			);
+			path = Viewcontroller;
+			sourceTree = "<group>";
+		};
+		2C464E5D29CDDCC600A07658 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5E29CDDCDF00A07658 /* OpenSourceViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2C464E6029CDDCED00A07658 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E6129CDDCF900A07658 /* PolicyViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2C464E6329CDDD0700A07658 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E6429CDDD1500A07658 /* VersionViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		2C4A265B29C2F6E1009F288F /* Network */ = {
@@ -1305,11 +1400,14 @@
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
 				2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */,
 				2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */,
+				2C464E6229CDDCF900A07658 /* PolicyViewController.swift in Sources */,
 				2C4A265F29C2F716009F288F /* Address.swift in Sources */,
 				2C4CDC4029C770D900676163 /* BrandInfo.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
+				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
+				2C464E6529CDDD1500A07658 /* VersionViewController.swift in Sources */,
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
 				CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
@@ -1391,6 +1489,8 @@
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
 				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
+				2C464E5F29CDDCDF00A07658 /* OpenSourceViewController.swift in Sources */,
+				2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */,
 				2C4CDC4729C770D900676163 /* Brand.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
