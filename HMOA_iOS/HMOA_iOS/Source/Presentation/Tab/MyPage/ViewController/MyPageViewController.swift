@@ -13,7 +13,8 @@ import RxCocoa
 import RxDataSources
 
 class MyPageViewController: UIViewController, View {
-    typealias Reactor = MyPageReactor
+
+    let myPageReactor = MyPageReactor()
     
     var disposeBag = DisposeBag()
 
@@ -26,7 +27,7 @@ class MyPageViewController: UIViewController, View {
         super.viewDidLoad()
         configureUI()
         setNavigationBarTitle(title: "마이페이지", color: UIColor.white, isHidden: true)
-        bind(reactor: MyPageReactor())
+        bind(reactor: myPageReactor)
     }
 }
 
@@ -36,10 +37,30 @@ extension MyPageViewController {
     
     func bind(reactor: MyPageReactor) {
         configureDataSource()
+    
+        // tableView 아이템 클릭
+        myPageView.tableView.rx.itemSelected
+            .do(onNext: { print("클릭 \($0)") })
+            .map { Reactor.Action.didTapCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    
+        // MARK: - state
         
+        // tableView 바인딩
         reactor.state
             .map { $0.sections }
             .bind(to: myPageView.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.presentVC }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: {
+                print($0)
+                self.navigationController?.pushViewController($0, animated: true)
+            })
             .disposed(by: disposeBag)
     }
     
