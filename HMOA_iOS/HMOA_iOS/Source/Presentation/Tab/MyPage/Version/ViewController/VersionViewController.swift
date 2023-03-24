@@ -12,6 +12,7 @@ class VersionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setBackItemNaviBar("버전 정보")
+        view.backgroundColor = .white
         // Do any additional setup after loading the view.
     }
     

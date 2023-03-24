@@ -12,6 +12,8 @@ class MyProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setBackItemNaviBar("내 정보")
+        view.backgroundColor = .white
+
         // Do any additional setup after loading the view.
     }
     

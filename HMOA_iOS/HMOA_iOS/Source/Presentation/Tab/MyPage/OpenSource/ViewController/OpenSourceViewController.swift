@@ -12,6 +12,8 @@ class OpenSourceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setBackItemNaviBar("오픈소스 라이브러리")
+        view.backgroundColor = .white
+
         // Do any additional setup after loading the view.
     }
     

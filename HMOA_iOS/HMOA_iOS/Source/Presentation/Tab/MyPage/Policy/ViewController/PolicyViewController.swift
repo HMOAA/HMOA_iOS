@@ -12,6 +12,7 @@ class PolicyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setBackItemNaviBar("개인정보 처리방침")
+        view.backgroundColor = .white
         // Do any additional setup after loading the view.
     }
     
