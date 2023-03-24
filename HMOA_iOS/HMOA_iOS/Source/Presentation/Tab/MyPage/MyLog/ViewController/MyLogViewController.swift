@@ -12,6 +12,8 @@ class MyLogViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setBackItemNaviBar("내 활동")
+        view.backgroundColor = .white
+
         // Do any additional setup after loading the view.
     }
     
