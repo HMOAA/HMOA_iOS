@@ -6,63 +6,110 @@
 //
 
 import UIKit
+import SnapKit
+import ReactorKit
+import RxSwift
+import RxCocoa
+import RxDataSources
 
-class MyPageViewController: UIViewController {
+class MyPageViewController: UIViewController, View {
+    typealias Reactor = MyPageReactor
     
-    // MARK: - ViewModel
-    let viewModel = MyPageViewModel()
-    
-    // MARK: - Properties
+    var disposeBag = DisposeBag()
+
+    // MARK: - UI Component
     let myPageView = MyPageView()
-    
+
+    var dataSource: RxTableViewSectionedReloadDataSource<MyPageSection>!
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setNavigationBarTitle(title: "마이페이지", color: UIColor.customColor(.searchBarColor), isHidden: true)
+        setNavigationBarTitle(title: "마이페이지", color: UIColor.white, isHidden: true)
+        bind(reactor: MyPageReactor())
     }
 }
 
 // MARK: - Functions
 
 extension MyPageViewController {
+    
+    func bind(reactor: MyPageReactor) {
+        configureDataSource()
+        
+        reactor.state
+            .map { $0.sections }
+            .bind(to: myPageView.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+    }
+    
     func configureUI() {
+            
+        view.addSubview(myPageView)
         
-        myPageView.tableView.delegate = self
-        myPageView.tableView.dataSource = self
-        
-        [myPageView] .forEach { view.addSubview($0) }
+        myPageView.tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
         
         myPageView.snp.makeConstraints {
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
         }
     }
+    
+    func configureDataSource() {
+        dataSource = RxTableViewSectionedReloadDataSource<MyPageSection>(configureCell: { _, tableView, indexPath, item in
+            
+            switch item {
+            case .userInfo(let userInfo):
+                
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageUserCell.identifier, for: indexPath) as? MyPageUserCell else { return UITableViewCell() }
+                
+                cell.updateCell(userInfo)
+                cell.selectionStyle = .none
+                
+                return cell
+            case .etc(let title):
+                
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
+                
+                cell.updateCell(title)
+                cell.selectionStyle = .none
+
+                return cell
+            }
+        })
+    }
 }
 
 // MARK: - UITableViewDelegate
 extension MyPageViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        
+        if indexPath.section == 0 {
+            return 90
+        } else {
+            return 52
+        }
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        if section == 0 { return UIView() }
+        
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyPageSeparatorLineView.ientfifier)
+
+        return header
+    }
+
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
     }
 }
 
-// MARK: - UITableViewDataSource
 
-extension MyPageViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numOfCell(section)
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
-        
-        cell.updateCell(viewModel.titleOfCell(indexPath))
-        
-        return cell
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.numOfSection
-    }
-}
