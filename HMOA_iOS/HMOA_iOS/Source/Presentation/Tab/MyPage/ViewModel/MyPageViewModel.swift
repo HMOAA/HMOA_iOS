@@ -22,6 +22,17 @@ enum myPageType: CaseIterable {
             return ["로그아웃", "계정삭제"]
         }
     }
+    
+    var viewController: [UIViewController] {
+        switch self {
+        case .setting:
+            return [MyLogViewController(), MyProfileViewController()]
+        case .infomation:
+            return [OpenSourceViewController(), PolicyViewController(), VersionViewController()]
+        case .user:
+            return [UIViewController(), UIViewController()]
+        }
+    }
 }
 
 
