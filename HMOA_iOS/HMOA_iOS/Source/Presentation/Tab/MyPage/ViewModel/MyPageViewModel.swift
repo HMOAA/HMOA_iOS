@@ -15,11 +15,22 @@ enum myPageType: CaseIterable {
     var title: [String] {
         switch self {
         case .setting:
-            return ["개인 정보 관리", "차단 사용자 관리"]
+            return ["내 활동", "내 정보관리"]
         case .infomation:
-            return ["오픈소스 라이센스", "개인정보 처리방침"]
+            return ["오픈소스 라이센스", "개인정보 처리방침", "버전정보 1.0.0"]
         case .user:
-            return ["로그아웃", "계정 삭제"]
+            return ["로그아웃", "계정삭제"]
+        }
+    }
+    
+    var viewController: [UIViewController] {
+        switch self {
+        case .setting:
+            return [MyLogViewController(), MyProfileViewController()]
+        case .infomation:
+            return [OpenSourceViewController(), PolicyViewController(), VersionViewController()]
+        case .user:
+            return [UIViewController(), UIViewController()]
         }
     }
 }

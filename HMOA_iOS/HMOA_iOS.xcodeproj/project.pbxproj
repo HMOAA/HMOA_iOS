@@ -59,6 +59,15 @@
 		2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D129ACDC58009247E7 /* SearchListViewController.swift */; };
 		2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */; };
 		2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */; };
+		2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E4829CDB16A00A07658 /* MyPageReactor.swift */; };
+		2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E4B29CDB1B300A07658 /* MyPageSection.swift */; };
+		2C464E4E29CDB1C300A07658 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E4D29CDB1C300A07658 /* UserInfo.swift */; };
+		2C464E5029CDB26400A07658 /* MyPageSeparatorLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E4F29CDB26400A07658 /* MyPageSeparatorLineView.swift */; };
+		2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E5829CDDC8500A07658 /* MyLogViewController.swift */; };
+		2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E5B29CDDCB600A07658 /* MyProfileViewController.swift */; };
+		2C464E5F29CDDCDF00A07658 /* OpenSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E5E29CDDCDF00A07658 /* OpenSourceViewController.swift */; };
+		2C464E6229CDDCF900A07658 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E6129CDDCF900A07658 /* PolicyViewController.swift */; };
+		2C464E6529CDDD1500A07658 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E6429CDDD1500A07658 /* VersionViewController.swift */; };
 		2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */; };
 		2C4A265F29C2F716009F288F /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A265E29C2F716009F288F /* Address.swift */; };
 		2C4CDC3F29C770D900676163 /* BrandDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2929C770D900676163 /* BrandDetailSection.swift */; };
@@ -87,7 +96,7 @@
 		2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEC29798172006BE23B /* HomeFirstCell.swift */; };
 		2C710EEF29798330006BE23B /* HomeFirstCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEE29798330006BE23B /* HomeFirstCellHeaderView.swift */; };
 		2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */; };
-		2C710EF5297C0C8C006BE23B /* MyPageTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF4297C0C8C006BE23B /* MyPageTopView.swift */; };
+		2C710EF5297C0C8C006BE23B /* MyPageUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF4297C0C8C006BE23B /* MyPageUserCell.swift */; };
 		2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF7297C0F5E006BE23B /* MyPageView.swift */; };
 		2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFB297C15DF006BE23B /* MyPageCell.swift */; };
 		2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFE297C183F006BE23B /* MyPageViewModel.swift */; };
@@ -201,6 +210,15 @@
 		2C4041D129ACDC58009247E7 /* SearchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
 		2C4041D329ACDC67009247E7 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListTableViewCell.swift; sourceTree = "<group>"; };
+		2C464E4829CDB16A00A07658 /* MyPageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageReactor.swift; sourceTree = "<group>"; };
+		2C464E4B29CDB1B300A07658 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
+		2C464E4D29CDB1C300A07658 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		2C464E4F29CDB26400A07658 /* MyPageSeparatorLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSeparatorLineView.swift; sourceTree = "<group>"; };
+		2C464E5829CDDC8500A07658 /* MyLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogViewController.swift; sourceTree = "<group>"; };
+		2C464E5B29CDDCB600A07658 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		2C464E5E29CDDCDF00A07658 /* OpenSourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSourceViewController.swift; sourceTree = "<group>"; };
+		2C464E6129CDDCF900A07658 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
+		2C464E6429CDDD1500A07658 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
 		2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		2C4A265E29C2F716009F288F /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		2C4CDC2929C770D900676163 /* BrandDetailSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailSection.swift; sourceTree = "<group>"; };
@@ -229,7 +247,7 @@
 		2C710EEC29798172006BE23B /* HomeFirstCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFirstCell.swift; sourceTree = "<group>"; };
 		2C710EEE29798330006BE23B /* HomeFirstCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFirstCellHeaderView.swift; sourceTree = "<group>"; };
 		2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extenstions.swift"; sourceTree = "<group>"; };
-		2C710EF4297C0C8C006BE23B /* MyPageTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTopView.swift; sourceTree = "<group>"; };
+		2C710EF4297C0C8C006BE23B /* MyPageUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageUserCell.swift; sourceTree = "<group>"; };
 		2C710EF7297C0F5E006BE23B /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		2C710EFB297C15DF006BE23B /* MyPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
 		2C710EFE297C183F006BE23B /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
@@ -578,6 +596,13 @@
 		2C39AA512970426E000C6F71 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				2C464E5629CDDC6700A07658 /* Version */,
+				2C464E5529CDDC4800A07658 /* Policy */,
+				2C464E5429CDDC3400A07658 /* OpenSource */,
+				2C464E5329CDDC2600A07658 /* MyProfile */,
+				2C464E5129CDDBFC00A07658 /* MyLog */,
+				2C464E4A29CDB1A800A07658 /* Model */,
+				2C464E4729CDB15C00A07658 /* Reactor */,
 				2C710EFD297C1810006BE23B /* ViewModel */,
 				2C710EF6297C0E75006BE23B /* View */,
 				2C39AA6B2970484E000C6F71 /* ViewController */,
@@ -669,6 +694,103 @@
 				2CAB7A9C29B08E4100E74809 /* Product.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		2C464E4729CDB15C00A07658 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E4829CDB16A00A07658 /* MyPageReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		2C464E4A29CDB1A800A07658 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E4B29CDB1B300A07658 /* MyPageSection.swift */,
+				2C464E4D29CDB1C300A07658 /* UserInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2C464E5129CDDBFC00A07658 /* MyLog */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5729CDDC7000A07658 /* ViewController */,
+			);
+			path = MyLog;
+			sourceTree = "<group>";
+		};
+		2C464E5329CDDC2600A07658 /* MyProfile */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5A29CDDCA200A07658 /* Viewcontroller */,
+			);
+			path = MyProfile;
+			sourceTree = "<group>";
+		};
+		2C464E5429CDDC3400A07658 /* OpenSource */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5D29CDDCC600A07658 /* ViewController */,
+			);
+			path = OpenSource;
+			sourceTree = "<group>";
+		};
+		2C464E5529CDDC4800A07658 /* Policy */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E6029CDDCED00A07658 /* ViewController */,
+			);
+			path = Policy;
+			sourceTree = "<group>";
+		};
+		2C464E5629CDDC6700A07658 /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E6329CDDD0700A07658 /* ViewController */,
+			);
+			path = Version;
+			sourceTree = "<group>";
+		};
+		2C464E5729CDDC7000A07658 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5829CDDC8500A07658 /* MyLogViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2C464E5A29CDDCA200A07658 /* Viewcontroller */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5B29CDDCB600A07658 /* MyProfileViewController.swift */,
+			);
+			path = Viewcontroller;
+			sourceTree = "<group>";
+		};
+		2C464E5D29CDDCC600A07658 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E5E29CDDCDF00A07658 /* OpenSourceViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2C464E6029CDDCED00A07658 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E6129CDDCF900A07658 /* PolicyViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2C464E6329CDDD0700A07658 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C464E6429CDDD1500A07658 /* VersionViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		2C4A265B29C2F6E1009F288F /* Network */ = {
@@ -833,9 +955,10 @@
 		2C710EF6297C0E75006BE23B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2C710EF4297C0C8C006BE23B /* MyPageTopView.swift */,
+				2C710EF4297C0C8C006BE23B /* MyPageUserCell.swift */,
 				2C710EF7297C0F5E006BE23B /* MyPageView.swift */,
 				2C710EFB297C15DF006BE23B /* MyPageCell.swift */,
+				2C464E4F29CDB26400A07658 /* MyPageSeparatorLineView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1277,11 +1400,14 @@
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
 				2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */,
 				2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */,
+				2C464E6229CDDCF900A07658 /* PolicyViewController.swift in Sources */,
 				2C4A265F29C2F716009F288F /* Address.swift in Sources */,
 				2C4CDC4029C770D900676163 /* BrandInfo.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
+				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
+				2C464E6529CDDD1500A07658 /* VersionViewController.swift in Sources */,
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
 				CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
@@ -1300,6 +1426,8 @@
 				2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */,
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,
 				2C04246629A39C30009CF0FE /* HomeSection.swift in Sources */,
+				2C464E5029CDB26400A07658 /* MyPageSeparatorLineView.swift in Sources */,
+				2C464E4E29CDB1C300A07658 /* UserInfo.swift in Sources */,
 				2C4CDC4429C770D900676163 /* BrandDetailHeaderReactor.swift in Sources */,
 				2C4CDC4529C770D900676163 /* BrandDetailCellReactor.swift in Sources */,
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
@@ -1317,6 +1445,7 @@
 				2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */,
 				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
 				CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */,
+				2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
@@ -1344,7 +1473,7 @@
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
 				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
-				2C710EF5297C0C8C006BE23B /* MyPageTopView.swift in Sources */,
+				2C710EF5297C0C8C006BE23B /* MyPageUserCell.swift in Sources */,
 				2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */,
 				2C4CDC3F29C770D900676163 /* BrandDetailSection.swift in Sources */,
 				CA54DD8D29C440A600167F05 /* TagCell.swift in Sources */,
@@ -1354,11 +1483,14 @@
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
+				2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
 				CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */,
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
 				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
+				2C464E5F29CDDCDF00A07658 /* OpenSourceViewController.swift in Sources */,
+				2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */,
 				2C4CDC4729C770D900676163 /* Brand.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
