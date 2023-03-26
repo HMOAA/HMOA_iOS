@@ -11,13 +11,13 @@ import SnapKit
 class MyPageView: UIView {
     
     // MARK: Properies
-    let myPageTopView = MyPageTopView()
     
-    let scrollView = UIScrollView()
-    
-    lazy var tableView = UITableView().then {
+    lazy var tableView = UITableView(frame: .zero, style: .plain).then {
+        $0.register(MyPageSeparatorLineView.self, forHeaderFooterViewReuseIdentifier: MyPageSeparatorLineView.ientfifier)
+        $0.register(MyPageUserCell.self, forCellReuseIdentifier: MyPageUserCell.identifier)
         $0.register(MyPageCell.self, forCellReuseIdentifier: MyPageCell.identifier)
-        $0.isScrollEnabled = false
+        $0.separatorStyle = .none
+        $0.sectionHeaderTopPadding = 0
     }
     
     // MARK: - init
@@ -37,25 +37,10 @@ extension MyPageView {
     
     func configureUI() {
         
-        [scrollView] .forEach { addSubview($0) }
-        
-        [myPageTopView, tableView] .forEach { scrollView.addSubview($0) }
-        
-        scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        myPageTopView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(205)
-        }
+        addSubview(tableView)
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(myPageTopView.snp.bottom)
-            $0.leading.trailing.bottom.equalTo(scrollView.contentLayoutGuide)
-            $0.width.equalTo(scrollView)
-            $0.height.equalTo(500)
+            $0.edges.equalToSuperview()
         }
     }
 }

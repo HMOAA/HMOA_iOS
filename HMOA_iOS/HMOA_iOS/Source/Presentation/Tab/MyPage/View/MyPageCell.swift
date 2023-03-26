@@ -17,14 +17,23 @@ class MyPageCell: UITableViewCell {
     // MARK: - Properies
     
     let titleLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 15, weight: .bold)
+        $0.font = .customFont(.pretendard, 16)
         $0.textAlignment = .left
+    }
+    
+    lazy var rightArrowImageView = UIImageView().then {
+        $0.image = UIImage(named: "rightArrow")
     }
     
     // MARK: - Lifecycle
     
-    override func layoutSubviews() {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -33,11 +42,18 @@ class MyPageCell: UITableViewCell {
 extension MyPageCell {
     
     func configureUI() {
-        [titleLabel] .forEach { addSubview($0) }
+        [   titleLabel,
+            rightArrowImageView
+        ]   .forEach { addSubview($0) }
         
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(20)
+        }
+        
+        rightArrowImageView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(20)
         }
     }
     
