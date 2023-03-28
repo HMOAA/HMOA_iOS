@@ -76,7 +76,7 @@ extension UIViewController {
     
     func presentTotalPerfumeViewController(_ listType: Int) {
         let totalPerfumeVC = TotalPerfumeViewController()
-        
+        totalPerfumeVC.reactor = TotalPerfumeReactor(listType)
         self.navigationController?.pushViewController(totalPerfumeVC, animated: true)
     }
     
