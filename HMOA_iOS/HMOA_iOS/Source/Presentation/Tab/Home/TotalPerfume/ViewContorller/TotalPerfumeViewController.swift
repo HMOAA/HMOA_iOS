@@ -41,12 +41,30 @@ extension TotalPerfumeViewController {
         
         // MARK: - Action
         
+        // collectionView - item 클릭
+        collectionView.rx.modelSelected(TotalPerfumeSectionItem.self)
+            .map { Reactor.Action.didTapItem($0.perfume)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: - State
+        
+        // collectionView 바인딩
         reactor.state
             .map { $0.section }
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        // item 클릭 시 향수 상세 화면으로 이동
+        reactor.state
+            .map { $0.selectedItem }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: {
+                self.presentDatailViewController($0.perfumeId)
+            })
+            .disposed(by: disposeBag)
+                
     }
     
     // MARK: - Configure
