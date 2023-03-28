@@ -25,8 +25,8 @@ class HomeHeaderReactor: Reactor {
         var isPersentMoreVC: Bool = false
     }
     
-    init(_ title: String) {
-        self.initialState = State(headerTitle: title)
+    init(_ title: String, _ listType: Int) {
+        self.initialState = State(headerTitle: title, listType: listType)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

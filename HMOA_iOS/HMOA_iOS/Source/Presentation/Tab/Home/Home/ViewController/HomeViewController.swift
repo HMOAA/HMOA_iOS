@@ -198,7 +198,7 @@ extension HomeViewController {
                     return UICollectionReusableView()
                 }
                 
-                homeFirstCellHeader.reactor = HomeHeaderReactor("향모아 사용자들이 좋아한")
+                homeFirstCellHeader.reactor = HomeHeaderReactor("향모아 사용자들이 좋아한", 1)
                 
                 header = homeFirstCellHeader
                 
@@ -209,7 +209,7 @@ extension HomeViewController {
                     for: indexPath) as? HomeCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                homeCellheader.reactor = HomeHeaderReactor("이 제품 어떠세요? 향모아가 추천하는")
+                homeCellheader.reactor = HomeHeaderReactor("이 제품 어떠세요? 향모아가 추천하는", 2)
                 
                 header = homeCellheader
                 
@@ -220,7 +220,7 @@ extension HomeViewController {
                     for: indexPath) as? HomeCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                homeCellheader.reactor = HomeHeaderReactor("변함없이 사랑받는, 스테디 셀러")
+                homeCellheader.reactor = HomeHeaderReactor("변함없이 사랑받는, 스테디 셀러", 3)
                 header = homeCellheader
 
 
@@ -232,7 +232,7 @@ extension HomeViewController {
                     return UICollectionReusableView()
                 }
                 
-                homeCellheader.reactor = HomeHeaderReactor("최근 발매된")
+                homeCellheader.reactor = HomeHeaderReactor("최근 발매된", 4)
                 header = homeCellheader
 
             default: return header
