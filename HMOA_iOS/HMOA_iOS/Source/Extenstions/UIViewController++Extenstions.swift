@@ -74,6 +74,12 @@ extension UIViewController {
         self.navigationController?.pushViewController(brandDetailVC, animated: true)
     }
     
+    func presentTotalPerfumeViewController(_ listType: Int) {
+        let totalPerfumeVC = TotalPerfumeViewController()
+        
+        self.navigationController?.pushViewController(totalPerfumeVC, animated: true)
+    }
+    
     func setNavigationColor() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white

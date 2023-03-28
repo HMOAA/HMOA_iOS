@@ -16,13 +16,13 @@ class HomeHeaderReactor: Reactor {
     }
     
     enum Mutation {
-        case setPresentMoreVC(Bool)
+        case setPresentMoreVC(Int?)
     }
     
     struct State {
         var headerTitle: String
         var listType: Int? = nil
-        var isPersentMoreVC: Bool = false
+        var isPersentMoreVC: Int? = nil
     }
     
     init(_ title: String, _ listType: Int) {
@@ -33,8 +33,8 @@ class HomeHeaderReactor: Reactor {
         switch action {
         case .didTapMoreButton:
             return .concat([
-                .just(.setPresentMoreVC(true)),
-                .just(.setPresentMoreVC(false))
+                .just(.setPresentMoreVC(currentState.listType!)),
+                .just(.setPresentMoreVC(nil))
             ])
         }
     }
