@@ -65,4 +65,14 @@ final class API {
             data: nil,
             model: Object.self)
     }
+    
+    static func postPerfumeLike(perfumeId: Int) -> Observable<String> {
+        
+        return networking(
+            urlStr: Address.perfumeOne(perfumeId).url,
+            method: .post,
+            data: nil,
+            model: String.self)
+        
+    }
 }

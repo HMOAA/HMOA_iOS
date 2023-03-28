@@ -16,6 +16,16 @@ enum TotalPerfumeSectionItem {
     case perfumeList(Perfume)
 }
 
+extension TotalPerfumeSectionItem {
+    
+    var perfume: Perfume {
+        switch self {
+        case .perfumeList(let perfume):
+            return perfume
+        }
+    }
+}
+
 extension TotalPerfumeSection: SectionModelType {
     typealias Item = TotalPerfumeSectionItem
     

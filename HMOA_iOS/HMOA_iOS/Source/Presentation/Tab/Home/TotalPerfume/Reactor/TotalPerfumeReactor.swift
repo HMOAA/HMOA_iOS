@@ -11,15 +11,16 @@ import ReactorKit
 class TotalPerfumeReactor: Reactor {
     
     enum Action {
-        
+        case didTapItem(Perfume)
     }
     
     enum Mutation {
-        
+        case setSelectedItem(Perfume?)
     }
     
     struct State {
         var section: [TotalPerfumeSection]
+        var selectedItem: Perfume? = nil
     }
     
     var initialState: State
@@ -29,11 +30,21 @@ class TotalPerfumeReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        
+        switch action {
+        case .didTapItem(let perfume):
+            return .just(.setSelectedItem(perfume))
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
+        var state = state
         
+        switch mutation {
+        case .setSelectedItem(let perfume):
+            state.selectedItem = perfume
+        }
+        
+        return state
     }
 }
 
