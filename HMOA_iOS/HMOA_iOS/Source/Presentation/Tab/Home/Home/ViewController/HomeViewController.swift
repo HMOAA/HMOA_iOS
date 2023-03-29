@@ -30,7 +30,7 @@ class HomeViewController: UIViewController, View {
     
     lazy var bellButton = UIButton().makeImageButton(UIImage(named: "bell")!)
     
-        
+    var headerViewReactor: HomeHeaderReactor!
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,12 +121,18 @@ extension HomeViewController {
             .disposed(by: disposeBag)
     }
     
-    func bindHeader() {
+    func bindHeader(reactor: HomeHeaderReactor) {
         
         // MARK: - Action
         
         // MARK: - State
         
+        reactor.state
+            .map { $0.isPersentMoreVC }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentTotalPerfumeViewController)
+            .disposed(by: disposeBag)
     }
     
     func configureCollectionViewDataSource() {
@@ -198,8 +204,8 @@ extension HomeViewController {
                     return UICollectionReusableView()
                 }
                 
-                homeFirstCellHeader.reactor = HomeHeaderReactor("향모아 사용자들이 좋아한")
-                
+                homeFirstCellHeader.reactor = HomeHeaderReactor("향모아 사용자들이 좋아한", 1)
+                self.bindHeader(reactor: homeFirstCellHeader.reactor!)
                 header = homeFirstCellHeader
                 
             case 2:
@@ -209,8 +215,9 @@ extension HomeViewController {
                     for: indexPath) as? HomeCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                homeCellheader.reactor = HomeHeaderReactor("이 제품 어떠세요? 향모아가 추천하는")
                 
+                homeCellheader.reactor = HomeHeaderReactor("이 제품 어떠세요? 향모아가 추천하는", 2)
+                self.bindHeader(reactor: homeCellheader.reactor!)
                 header = homeCellheader
                 
             case 3:
@@ -220,7 +227,9 @@ extension HomeViewController {
                     for: indexPath) as? HomeCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                homeCellheader.reactor = HomeHeaderReactor("변함없이 사랑받는, 스테디 셀러")
+                
+                homeCellheader.reactor = HomeHeaderReactor("변함없이 사랑받는, 스테디 셀러", 3)
+                self.bindHeader(reactor: homeCellheader.reactor!)
                 header = homeCellheader
 
 
@@ -232,13 +241,13 @@ extension HomeViewController {
                     return UICollectionReusableView()
                 }
                 
-                homeCellheader.reactor = HomeHeaderReactor("최근 발매된")
+                homeCellheader.reactor = HomeHeaderReactor("최근 발매된", 4)
+                self.bindHeader(reactor: homeCellheader.reactor!)
                 header = homeCellheader
 
             default: return header
                 
             }
-            
             return header
         })
     }

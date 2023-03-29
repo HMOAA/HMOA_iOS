@@ -57,3 +57,20 @@ class BrandDetailCellReactor: Reactor {
         return state
     }
 }
+
+extension BrandDetailCellReactor {
+    
+    func postPerfumeLike(_ perfumeId: Int) -> Observable<Mutation> {
+        
+        // TODO: perfumeId로 해당 향수 좋아요 설정
+        
+        return .empty()
+    }
+    
+    func deletePerfumeLike(_ perfumeId: Int) -> Observable<Mutation> {
+        
+        // TODO: perfumeId로 해당 향수 좋아요 삭제
+        
+        return .empty()
+    }
+}
