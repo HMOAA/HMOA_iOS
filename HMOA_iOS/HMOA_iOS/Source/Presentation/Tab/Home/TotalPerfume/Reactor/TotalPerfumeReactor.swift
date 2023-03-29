@@ -32,7 +32,10 @@ class TotalPerfumeReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapItem(let perfume):
-            return .just(.setSelectedItem(perfume))
+            return .concat([
+                .just(.setSelectedItem(perfume)),
+                .just(.setSelectedItem(nil))
+            ])
         }
     }
     
@@ -96,6 +99,6 @@ extension TotalPerfumeReactor {
                 image: UIImage(named: "jomalon")!,
                 isLikePerfume: false)]
         
-        return [TotalPerfumeSection.first(perfumeList.map { TotalPerfumeSectionItem.perfumeList($0) })]
+        return [TotalPerfumeSection.first(perfumeList.map { TotalPerfumeSectionItem.perfumeList(BrandDetailCellReactor($0)) })]
     }
 }

@@ -85,10 +85,10 @@ extension TotalPerfumeViewController {
     func configureDataSource() {
         dataSource = RxCollectionViewSectionedReloadDataSource<TotalPerfumeSection>(configureCell: { _, collectionView, indexPath, item in
             switch item {
-            case .perfumeList(let perfume):
+            case .perfumeList(let reactor):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BrandDetailCollectionViewCell.identifier, for: indexPath) as? BrandDetailCollectionViewCell else { return UICollectionViewCell() }
                 
-                cell.reactor = BrandDetailCellReactor(perfume)
+                cell.reactor = reactor
                 
                 return cell
             }
