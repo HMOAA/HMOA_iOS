@@ -16,25 +16,25 @@ class HomeHeaderReactor: Reactor {
     }
     
     enum Mutation {
-        case setPresentMoreVC(Bool)
+        case setPresentMoreVC(Int?)
     }
     
     struct State {
         var headerTitle: String
         var listType: Int? = nil
-        var isPersentMoreVC: Bool = false
+        var isPersentMoreVC: Int? = nil
     }
     
-    init(_ title: String) {
-        self.initialState = State(headerTitle: title)
+    init(_ title: String, _ listType: Int) {
+        self.initialState = State(headerTitle: title, listType: listType)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapMoreButton:
             return .concat([
-                .just(.setPresentMoreVC(true)),
-                .just(.setPresentMoreVC(false))
+                .just(.setPresentMoreVC(currentState.listType!)),
+                .just(.setPresentMoreVC(nil))
             ])
         }
     }
