@@ -81,17 +81,16 @@ class ChoiceYearViewController: UIViewController {
         }
         
         birthYearLabel.snp.makeConstraints { make in
-            make.top.equalTo(xButton.snp.bottom).offset(17)
+            make.top.equalTo(xButton.snp.bottom).offset(2)
             make.leading.equalToSuperview().inset(38)
         }
         
         yearPicker.snp.makeConstraints { make in
-            make.top.equalTo(birthYearLabel.snp.bottom).offset(10)
+            make.centerY.equalToSuperview()
             make.leading.trailing.equalToSuperview()
         }
         
         okButton.snp.makeConstraints { make in
-            make.top.equalTo(yearPicker.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(24)
             make.width.equalTo(200)
