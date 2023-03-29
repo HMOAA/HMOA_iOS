@@ -13,15 +13,15 @@ enum TotalPerfumeSection {
 }
 
 enum TotalPerfumeSectionItem {
-    case perfumeList(Perfume)
+    case perfumeList(BrandDetailCellReactor)
 }
 
 extension TotalPerfumeSectionItem {
-    
+
     var perfume: Perfume {
         switch self {
-        case .perfumeList(let perfume):
-            return perfume
+        case .perfumeList(let reactor):
+            return reactor.currentState.perfume
         }
     }
 }
