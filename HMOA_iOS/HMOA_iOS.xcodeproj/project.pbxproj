@@ -111,9 +111,10 @@
 		2CAD9637298E483800974500 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9636298E483800974500 /* DetailView.swift */; };
 		2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */; };
 		2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */; };
-		CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* StartViewController.swift */; };
+		CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */; };
+		CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */; };
 		CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */; };
-		CA174F6329BB33AF006E7680 /* StartReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA174F6229BB33AF006E7680 /* StartReactor.swift */; };
+		CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */; };
 		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA54DD8D29C440A600167F05 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8C29C440A600167F05 /* TagCell.swift */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
@@ -270,9 +271,10 @@
 		A266DA0D7E24CB1ED544B374 /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7A0E2C9C257B262DBFD4DCA /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B8B8B44657C226494B4D2190 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA051CAF297FDA0F001865F5 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationViewController.swift; sourceTree = "<group>"; };
+		CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeYearViewConroller.swift; sourceTree = "<group>"; };
 		CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearReactor.swift; sourceTree = "<group>"; };
-		CA174F6229BB33AF006E7680 /* StartReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartReactor.swift; sourceTree = "<group>"; };
+		CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationReactor.swift; sourceTree = "<group>"; };
 		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8C29C440A600167F05 /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
@@ -1086,7 +1088,7 @@
 		CA051CAC297FD9BD001865F5 /* Start */ = {
 			isa = PBXGroup;
 			children = (
-				CAFA450629AB7D9B00ACF2C1 /* Model */,
+				CA1067D529D6C6AC009A7245 /* Reactor */,
 				CA051CAE297FDA04001865F5 /* ViewController */,
 			);
 			path = Start;
@@ -1095,12 +1097,47 @@
 		CA051CAE297FDA04001865F5 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				CA051CAF297FDA0F001865F5 /* StartViewController.swift */,
-				CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */,
-				CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */,
 				CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CA1067D229D6C534009A7245 /* UserInformation */ = {
+			isa = PBXGroup;
+			children = (
+				CAFA450629AB7D9B00ACF2C1 /* Model */,
+				CA1067D429D6C5D5009A7245 /* Reactor */,
+				CA1067D329D6C579009A7245 /* ViewController */,
+			);
+			path = UserInformation;
+			sourceTree = "<group>";
+		};
+		CA1067D329D6C579009A7245 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */,
+				CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */,
+				CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */,
+				CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CA1067D429D6C5D5009A7245 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */,
+				CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		CA1067D529D6C6AC009A7245 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		CA54DD8E29C445DD00167F05 /* Reactor */ = {
@@ -1127,6 +1164,7 @@
 			isa = PBXGroup;
 			children = (
 				CAFB9F3E29B5C6710009654C /* Reactor */,
+				CA1067D229D6C534009A7245 /* UserInformation */,
 				CA051CAC297FD9BD001865F5 /* Start */,
 				CA91448B297E75B100762BC0 /* ViewController */,
 			);
@@ -1180,9 +1218,6 @@
 			isa = PBXGroup;
 			children = (
 				CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */,
-				CA174F6229BB33AF006E7680 /* StartReactor.swift */,
-				CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */,
-				CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1455,9 +1490,10 @@
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				2C4CDC4329C770D900676163 /* BrandDetailViewController.swift in Sources */,
+				CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */,
 				CA6D99E629C492B4000E80CF /* LikeListModel.swift in Sources */,
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
-				CA051CB0297FDA0F001865F5 /* StartViewController.swift in Sources */,
+				CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
 				CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */,
 				2C4CDC4129C770D900676163 /* BrandDetailCollectionViewCell.swift in Sources */,
@@ -1509,7 +1545,7 @@
 				2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
-				CA174F6329BB33AF006E7680 /* StartReactor.swift in Sources */,
+				CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */,
 				2C4CDC4C29C770D900676163 /* BrandSearchReactor.swift in Sources */,
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
 				2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */,
