@@ -10,7 +10,7 @@ import UIKit
 import ReactorKit
 import RxCocoa
 
-class StartReactor: Reactor {
+class UserInformationReactor: Reactor {
     let initialState: State
     
     enum Action {
