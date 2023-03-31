@@ -27,11 +27,10 @@ class ChoiceYearReactor: Reactor {
     struct State {
         var isDismiss: Bool
         var selectedIndex: Int
-        var sections: [String]
     }
     
     init() {
-        initialState = State(isDismiss: false, selectedIndex: 0, sections: Year().year)
+        initialState = State(isDismiss: false, selectedIndex: 0)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
