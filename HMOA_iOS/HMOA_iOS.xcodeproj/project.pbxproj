@@ -114,6 +114,8 @@
 		CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */; };
 		CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */; };
 		CA1067D929D6C9A7009A7245 /* ChangeYearReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */; };
+		CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067DA29D6CFC2009A7245 /* ChangeSexViewController.swift */; };
+		CA1067DD29D6D39A009A7245 /* ChangeSexReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067DC29D6D399009A7245 /* ChangeSexReactor.swift */; };
 		CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */; };
 		CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */; };
 		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
@@ -275,6 +277,8 @@
 		CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationViewController.swift; sourceTree = "<group>"; };
 		CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeYearViewConroller.swift; sourceTree = "<group>"; };
 		CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeYearReactor.swift; sourceTree = "<group>"; };
+		CA1067DA29D6CFC2009A7245 /* ChangeSexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSexViewController.swift; sourceTree = "<group>"; };
+		CA1067DC29D6D399009A7245 /* ChangeSexReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSexReactor.swift; sourceTree = "<group>"; };
 		CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearReactor.swift; sourceTree = "<group>"; };
 		CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationReactor.swift; sourceTree = "<group>"; };
 		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
@@ -1121,6 +1125,7 @@
 				CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */,
 				CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */,
 				CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */,
+				CA1067DA29D6CFC2009A7245 /* ChangeSexViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1131,6 +1136,7 @@
 				CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */,
 				CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */,
 				CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */,
+				CA1067DC29D6D399009A7245 /* ChangeSexReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1542,6 +1548,7 @@
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */,
+				CA1067DD29D6D39A009A7245 /* ChangeSexReactor.swift in Sources */,
 				CA1067D929D6C9A7009A7245 /* ChangeYearReactor.swift in Sources */,
 				CA54DD9329C447AB00167F05 /* LikeCardModel.swift in Sources */,
 				2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */,
@@ -1572,6 +1579,7 @@
 				CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */,
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
 				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
+				CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				2C464E5F29CDDCDF00A07658 /* OpenSourceViewController.swift in Sources */,
 				2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */,
