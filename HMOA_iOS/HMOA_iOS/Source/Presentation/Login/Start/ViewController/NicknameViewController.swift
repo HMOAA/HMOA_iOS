@@ -152,7 +152,7 @@ class NicknameViewController: UIViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(onNext: { _ in
-                self.navigationController?.pushViewController(UserInformationViewController(), animated: true)
+                self.navigationController?.pushViewController(ChangeYearViewConroller(), animated: true)
             }).disposed(by: disposeBag)
     }
     
