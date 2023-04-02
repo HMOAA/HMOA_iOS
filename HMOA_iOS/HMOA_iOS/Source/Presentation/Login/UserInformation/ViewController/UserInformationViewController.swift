@@ -12,7 +12,7 @@ import Then
 import RxCocoa
 import RxSwift
 
-class StartViewController: UIViewController {
+class UserInformationViewController: UIViewController {
     
     //MARK: - Property
     let titleLabel = UILabel().then {
@@ -60,7 +60,7 @@ class StartViewController: UIViewController {
         $0.setTitle("시작하기", for: .normal)
     }
     
-    let startReactor = StartReactor()
+    let reactor = UserInformationReactor()
     var disposeBag = DisposeBag()
     
     let yearList = Year().year
@@ -75,7 +75,7 @@ class StartViewController: UIViewController {
         setAddView()
         setUpConstraints()
         
-        bind(reactor: startReactor)
+        bind(reactor: reactor)
     }
     
     override func viewDidLayoutSubviews() {
@@ -168,29 +168,29 @@ class StartViewController: UIViewController {
     }
     
     //MARK: - Bind
-    private func bind(reactor: StartReactor) {
+    private func bind(reactor: UserInformationReactor) {
         //Input
         
         //연도 선택 터치 이벤트
         selectYearButton.rx.tap
-            .map { StartReactor.Action.didTapChoiceYearButton }
+            .map { UserInformationReactor.Action.didTapChoiceYearButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //여성 버튼 터치 이벤트
         womanButton.rx.tap
-            .map { StartReactor.Action.didTapWomanButton }
+            .map { UserInformationReactor.Action.didTapWomanButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //남성 버튼 터치 이벤트
         manButton.rx.tap
-            .map { StartReactor.Action.didTapManButton }
+            .map { UserInformationReactor.Action.didTapManButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         //시작 버튼 터치 이베느
         startButton.rx.tap
-            .map { StartReactor.Action.didTapStartButton }
+            .map { UserInformationReactor.Action.didTapStartButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -250,7 +250,7 @@ class StartViewController: UIViewController {
             .distinctUntilChanged()
             .bind(onNext: { index in
                 self.index = index
-                self.updateUIStartAndYear(index, self.startReactor.currentState.isSexCheck)
+                self.updateUIStartAndYear(index, self.reactor.currentState.isSexCheck)
                 self.selectLabel.text = self.yearList[index]
             }).disposed(by: disposeBag)
     }
