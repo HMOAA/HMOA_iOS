@@ -40,7 +40,6 @@ class ChangeYearViewConroller: UIViewController {
     var disposeBag = DisposeBag()
     
     let yearList = Year().year
-    var index: Int = 0
 
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -163,7 +162,6 @@ extension ChangeYearViewConroller {
             .map { $0.selectedIndex}
             .distinctUntilChanged()
             .bind(onNext: { index in
-                self.index = index
                 self.updateUIStartAndYear(index)
                 self.selectLabel.text = self.yearList[index]
             }).disposed(by: disposeBag)
