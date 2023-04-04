@@ -17,11 +17,14 @@ class LikeReactor: Reactor {
     }
     
     enum Action {
+        case didTapListItem(IndexPath)
+        case didTapCardItem(IndexPath)
         case didTapCardButton
         case didTapListButton
     }
     
     enum Mutation {
+        case setSelectedIndexPath(IndexPath?)
         case setShowCardCollectionView(Bool)
         case setShowListCollectionView(Bool)
     }
@@ -31,6 +34,7 @@ class LikeReactor: Reactor {
         var listSections: [ListSection] = [ListSection(items: ListData.items)]
         var isSelectedCard: Bool = true
         var isSelectedList: Bool = false
+        var selectedPerpumeId: Int? = nil
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -39,9 +43,15 @@ class LikeReactor: Reactor {
             return .just(.setShowCardCollectionView(true))
         case .didTapListButton:
             return .just(.setShowListCollectionView(true))
+        case .didTapListItem(let indexPath),
+                .didTapCardItem(let indexPath):
+            return .concat ([
+                .just(.setSelectedIndexPath(indexPath)),
+                .just(.setSelectedIndexPath(nil))
+            ])
         }
     }
-
+    
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         
@@ -52,6 +62,13 @@ class LikeReactor: Reactor {
         case .setShowCardCollectionView(let isSelected):
             state.isSelectedCard = isSelected
             state.isSelectedList = !isSelected
+        case .setSelectedIndexPath(let indexPath):
+            guard let indexPath = indexPath
+            else {
+                state.selectedPerpumeId = nil
+                return state
+            }
+            state.selectedPerpumeId = state.listSections[indexPath.section].items[indexPath.item].id
         }
         
         return state

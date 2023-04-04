@@ -97,7 +97,7 @@ class LikeCardCell: UICollectionViewCell {
         
         $0.backgroundColor = .white
         $0.layer.borderWidth = 1
-        $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
         $0.layer.shadowOpacity = 0.2
         $0.layer.shadowOffset = CGSize(width: 4, height: 4)
@@ -125,7 +125,7 @@ class LikeCardCell: UICollectionViewCell {
     override func layoutSubviews() {
         
         contentView.layer.borderWidth = 1
-        contentView.layer.cornerRadius = 10
+        contentView.layer.cornerRadius = 5
         contentView.layer.masksToBounds = true
         
     }
