@@ -144,7 +144,7 @@ extension UIViewController {
             self.navigationItem.leftBarButtonItems = [backButton]
         }
         
-        self.navigationItem.title = title
+        self.setNavigationBarTitle(title)
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = color
