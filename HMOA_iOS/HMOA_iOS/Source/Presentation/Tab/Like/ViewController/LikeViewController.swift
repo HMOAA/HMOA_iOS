@@ -67,10 +67,8 @@ class LikeViewController: UIViewController {
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = UIColor.white
-        setNavigationBarTitle(title: "저장",
-                              color: .white,
-                              isHidden: true,
-                              isScroll: false)
+        setNavigationColor()
+        setNavigationBarTitle("저장")
     }
     
     private func setAddView() {
@@ -83,24 +81,25 @@ class LikeViewController: UIViewController {
     private func setConstraints() {
         cardButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(17.5)
-            make.bottom.equalTo(cardCollectionView.snp.top).offset(-23)
-            make.height.equalTo(20)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(19)
+            make.height.equalTo(18)
         }
         
         listButton.snp.makeConstraints { make in
             make.trailing.equalTo(cardButton.snp.leading).offset(-13)
-            make.bottom.equalTo(cardCollectionView.snp.top).offset(-23)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(19)
             make.height.equalTo(18)
         }
         
         cardCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(357)
-            make.centerY.equalToSuperview()
+            make.height.equalTo(354).priority(751)
+            make.top.equalTo(listButton.snp.bottom).offset(23)
+            make.bottom.equalToSuperview()
         }
         
         listCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(listButton.snp.bottom).offset(19)
+            make.top.equalTo(listButton.snp.bottom).offset(23)
             make.leading.trailing.equalToSuperview().inset(8)
             make.bottom.equalToSuperview()
         }
@@ -163,6 +162,15 @@ class LikeViewController: UIViewController {
     private func bind(reactor: LikeReactor) {
         
         //Input
+        cardCollectionView.rx.itemSelected
+            .map { LikeReactor.Action.didTapCardItem($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        listCollectionView.rx.itemSelected
+            .map { LikeReactor.Action.didTapListItem($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         //카드버튼 터치 이벤트
         cardButton.rx.tap
@@ -174,6 +182,8 @@ class LikeViewController: UIViewController {
             .map { LikeReactor.Action.didTapListButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        //Output
         
         //cardCollectionView Binding
         reactor.state
@@ -213,6 +223,13 @@ class LikeViewController: UIViewController {
                 
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.selectedPerpumeId }
+            .distinctUntilChanged()
+            .bind(onNext: {
+                self.presentDatailViewController($0)
+            }).disposed(by: disposeBag)
       
     }
 }
