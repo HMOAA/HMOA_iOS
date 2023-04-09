@@ -34,6 +34,7 @@ class LikeCardCell: UICollectionViewCell {
     }
     
     let perpumeImageView = UIImageView().then {
+        $0.clipsToBounds = true
         $0.image = UIImage(named: "jomalon")
     }
     
@@ -61,6 +62,7 @@ class LikeCardCell: UICollectionViewCell {
     }
     
     let nameStackView = UIStackView().then {
+        $0.distribution = .fillProportionally
         $0.setStackViewUI(spacing: 8)
     }
     let korNameLabel = UILabel().then {
@@ -69,6 +71,8 @@ class LikeCardCell: UICollectionViewCell {
     }
     
     let engNameLabel = UILabel().then {
+        $0.sizeToFit()
+        
         $0.setLabelUI("",
                       font: .pretendard,
                       size: 12,
@@ -89,46 +93,53 @@ class LikeCardCell: UICollectionViewCell {
                       color: .black)
     }
     
-    let reacotr = TagReactor()
+    let shadowView = UIView().then {
+        
+        $0.backgroundColor = .white
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+        $0.layer.shadowOpacity = 0.2
+        $0.layer.shadowOffset = CGSize(width: 4, height: 4)
+        $0.layer.shadowRadius = 1
+        $0.layer.masksToBounds = false
+    }
+    
     let disposeBag = DisposeBag()
     
     //MARK: - LifeCycle
-    override func layoutSubviews() {
-        super .layoutSubviews()
-        setUpUI()
-    }
+
     override init(frame: CGRect) {
         super .init(frame: frame)
         
+        setUpUI()
         setAddView()
         setConstraints()
         
-        bind(reactor: reacotr)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        
+        contentView.layer.borderWidth = 1
+        contentView.layer.cornerRadius = 5
+        contentView.layer.masksToBounds = true
+        
+    }
     
     
     //MARK: - SetUp
     private func setUpUI() {
-        backgroundColor = .white
         
-        contentView.layer.cornerRadius = 10
-        contentView.layer.borderWidth = 1
-        
-        layer.masksToBounds = false
-        layer.shadowPath = UIBezierPath(roundedRect: bounds,
-                                        cornerRadius: layer.cornerRadius).cgPath
-        layer.shadowRadius = 1
-        layer.shadowOpacity = 0.2
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 3, height: 3)
     }
     
     private func setAddView() {
+        
+        addSubview(shadowView)
+        
         [xButton,
          brandNameLabel].forEach { topView.addSubview($0) }
         
@@ -145,6 +156,11 @@ class LikeCardCell: UICollectionViewCell {
     }
     
     private func setConstraints() {
+        
+        shadowView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         topView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(40)
@@ -179,19 +195,15 @@ class LikeCardCell: UICollectionViewCell {
         
         priceTextLabel.snp.makeConstraints { make in
             make.top.equalTo(nameStackView.snp.bottom).offset(28)
-            make.bottom.equalToSuperview().inset(40)
+            make.bottom.equalToSuperview().inset(30)
             make.leading.equalToSuperview().inset(24)
         }
         
         priceLabel.snp.makeConstraints { make in
             make.top.equalTo(nameStackView.snp.bottom).offset(28)
-            make.bottom.equalToSuperview().inset(40)
+            make.bottom.equalToSuperview().inset(30)
             make.trailing.equalToSuperview().inset(24)
         }
-    }
-    
-    func bind(reactor: TagReactor) {
-
     }
     
     func configure(item: CardSection.Item) {

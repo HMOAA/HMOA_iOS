@@ -1,39 +1,33 @@
 //
-//  StartReactor.swift
+//  ChangeSexReactor.swift
 //  HMOA_iOS
 //
-//  Created by 정지훈 on 2023/03/10.
-//
+//  Created by 정지훈 on 2023/03/31.
 
 import UIKit
 
 import ReactorKit
 import RxCocoa
 
-class StartReactor: Reactor {
+class ChangeSexReactor: Reactor {
     let initialState: State
     
     enum Action {
-        case didTapChoiceYearButton
         case didTapWomanButton
         case didTapManButton
-        case didTapStartButton
+        case didTapChangeButton
     }
     
     enum Mutation {
-        case setPresentChoiceYearVC(Bool)
         case setCheckWoman(Bool)
         case setCheckMan(Bool)
-        case setPresentTabBar(Bool)
-        case setSelectedYear(Bool)
+        case setPopMyPage(Bool)
     }
     
     struct State {
-        var isPresentChoiceYearVC: Bool = false
         var isCheckedWoman: Bool = false
         var isCheckedMan: Bool = false
-        var isPresentTabBar: Bool = false
-        var isSelectedYear: Bool = false
+        var isPopMyPage: Bool = false
         var isSexCheck: Bool = false
     }
     
@@ -44,20 +38,14 @@ class StartReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         
         switch action {
-        case .didTapChoiceYearButton:
-            return .concat([
-                .just(.setPresentChoiceYearVC(true)),
-                .just(.setSelectedYear(true)),
-                .just(.setPresentChoiceYearVC(false))
-            ])
         case .didTapManButton:
             return .just(.setCheckMan(true))
         case .didTapWomanButton:
             return .just(.setCheckWoman(true))
-        case .didTapStartButton:
+        case .didTapChangeButton:
             return .concat([
-                .just(.setPresentTabBar(true)),
-                .just(.setPresentTabBar(false))
+                .just(.setPopMyPage(true)),
+                .just(.setPopMyPage(false))
             ])
         }
     }
@@ -67,8 +55,6 @@ class StartReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setPresentChoiceYearVC(let isPresent):
-            state.isPresentChoiceYearVC = isPresent
         case .setCheckMan(let isChecked):
             state.isCheckedMan = isChecked
             state.isCheckedWoman = !isChecked
@@ -77,13 +63,11 @@ class StartReactor: Reactor {
             state.isCheckedWoman = isChecked
             state.isCheckedMan = !isChecked
             state.isSexCheck = isChecked
-        case .setPresentTabBar(let isPresent):
-            state.isPresentTabBar = isPresent
-        case .setSelectedYear(let isSelectedYear):
-            state.isSelectedYear = isSelectedYear
+        case .setPopMyPage(let isPop):
+            state.isPopMyPage = isPop
         }
         
-        return state 
+        return state
     }
 }
         
