@@ -1,7 +1,21 @@
 PODS:
   - Alamofire (5.6.4)
+  - AppAuth (1.6.0):
+    - AppAuth/Core (= 1.6.0)
+    - AppAuth/ExternalUserAgent (= 1.6.0)
+  - AppAuth/Core (1.6.0)
+  - AppAuth/ExternalUserAgent (1.6.0):
+    - AppAuth/Core
   - Differentiator (5.0.0)
   - DropDown (2.3.13)
+  - GoogleSignIn (7.0.0):
+    - AppAuth (~> 1.5)
+    - GTMAppAuth (< 3.0, >= 1.3)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.1)
+  - GTMAppAuth (2.0.0):
+    - AppAuth/Core (~> 1.6)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.5)
+  - GTMSessionFetcher/Core (3.1.0)
   - Kingfisher (7.5.0)
   - ReactorKit (3.2.0):
     - RxSwift (~> 6.0)
@@ -27,6 +41,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - DropDown
+  - GoogleSignIn
   - Kingfisher
   - ReactorKit
   - RxAppState
@@ -40,8 +55,12 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AppAuth
     - Differentiator
     - DropDown
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
     - Kingfisher
     - ReactorKit
     - RxAppState
@@ -56,8 +75,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
+  AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
+  GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
+  GTMSessionFetcher: c9e714f7eec91a55641e2bab9f45fd83a219b882
   Kingfisher: b9c2a4a4af2990a768445c277359b27bde287d71
   ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
   RxAppState: 9c34f951d4ff8b9034f84016fe766202365bceb2
@@ -70,6 +93,6 @@ SPEC CHECKSUMS:
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 34309820ff9dcee36f000fc7d8c44db28a012eef
+PODFILE CHECKSUM: ac2b9fe7874a61e61009dd1c7fc099dc42351653
 
 COCOAPODS: 1.11.3
