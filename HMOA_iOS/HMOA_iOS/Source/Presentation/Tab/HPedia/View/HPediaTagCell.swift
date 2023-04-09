@@ -7,15 +7,26 @@
 
 import UIKit
 
-class TagCell: UITableViewCell {
+import ReactorKit
 
+class HPediaTagCell: UICollectionViewCell, View {
+    
+    
+    typealias Reactor = HPediaTagCellReactor
+    
+    var disposeBag = DisposeBag()
+    
+    
+
+    static let identifier = "HPediaTagCell"
+    
+    //MAKR: - Properties
     let nameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
     }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super .init(style: style, reuseIdentifier: reuseIdentifier)
-        
+
+    override init(frame: CGRect) {
+        super .init(frame: frame)
         setUpUI()
         setAddView()
         setConstraints()
@@ -30,7 +41,11 @@ class TagCell: UITableViewCell {
     private func setUpUI() {
         contentView.backgroundColor = .white
     }
-    
+
+    override func layoutSubviews() {
+        self.layer.addBorder([.top], color: .customColor(.HPediaCellColor), width: 1)
+    }
+   
     private func setAddView() {
         contentView.addSubview(nameLabel)
     }
@@ -38,8 +53,12 @@ class TagCell: UITableViewCell {
     private func setConstraints() {
         nameLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
         }
     }
-
+    
+    func bind(reactor: Reactor) {
+        nameLabel.text = reactor.currentState.name
+    }
 }

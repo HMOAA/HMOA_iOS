@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct HPediaGuideData {
+struct HPediaGuideData: Equatable {
+    var id: Int
     var title: String
     var content: String
 }
@@ -15,20 +16,34 @@ struct HPediaGuideData {
 extension HPediaGuideData {
     static let list =
     [
-        GuideData(title: "용어",
-                  content:
+        HPediaGuideData(
+            id: 1,
+            title: "용어",
+            content:
                   """
                   Top notes
                   탑노트란?
                   """),
-        GuideData(title: "브랜드",
-                  content:
+        HPediaGuideData(
+            id: 2,
+            title: "브랜드",
+            content:
                   """
                   Chanel
                   샤넬
                   """),
-        GuideData(title: "노트",
-                  content:
+        HPediaGuideData(
+            id: 3,
+            title: "노트",
+            content:
+                  """
+                  woody
+                  우디
+                  """),
+        HPediaGuideData(
+            id: 4,
+            title: "노트",
+            content:
                   """
                   woody
                   우디
