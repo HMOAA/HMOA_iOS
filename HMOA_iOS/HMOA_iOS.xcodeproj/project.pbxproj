@@ -1187,7 +1187,6 @@
 			);
 			path = Reactor;
 			sourceTree = "<group>";
-		};
 		CA360F2E29DD61EA00A93873 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1849,7 +1848,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = WBG9V97XP4;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HMOA_iOS/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1881,7 +1880,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = WBG9V97XP4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HMOA_iOS/Resource/Info.plist;
