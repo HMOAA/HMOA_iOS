@@ -12,6 +12,7 @@ import Then
 import RxCocoa
 import RxSwift
 import ReactorKit
+import RxDataSources
 
 class ChoiceYearViewController: UIViewController {
     //MARK: - Property
@@ -34,6 +35,7 @@ class ChoiceYearViewController: UIViewController {
     
     let reactor = ChoiceYearReactor()
     let disposeBag = DisposeBag()
+    let yearList = Year().year
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,13 +57,14 @@ class ChoiceYearViewController: UIViewController {
                 
         upLine.backgroundColor = .customColor(.gray2)
         underLine.backgroundColor = .customColor(.gray2)
-                
+    
         yearPicker.subviews[1].addSubview(upLine)
         yearPicker.subviews[1].addSubview(underLine)
         
     }
     
     private func setUpUI() {
+        yearPicker.dataSource = self
         view.backgroundColor = .white
     }
     
@@ -78,17 +81,16 @@ class ChoiceYearViewController: UIViewController {
         }
         
         birthYearLabel.snp.makeConstraints { make in
-            make.top.equalTo(xButton.snp.bottom).offset(17)
+            make.top.equalTo(xButton.snp.bottom).offset(2)
             make.leading.equalToSuperview().inset(38)
         }
         
         yearPicker.snp.makeConstraints { make in
-            make.top.equalTo(birthYearLabel.snp.bottom).offset(10)
+            make.centerY.equalToSuperview()
             make.leading.trailing.equalToSuperview()
         }
         
         okButton.snp.makeConstraints { make in
-            make.top.equalTo(yearPicker.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(24)
             make.width.equalTo(200)
@@ -113,11 +115,8 @@ class ChoiceYearViewController: UIViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        reactor.state
-            .map { $0.sections }
-            .bind(to: yearPicker.rx.itemTitles) { _, item in
-                return "\(item)"
-            }.disposed(by: disposeBag)
+        yearPicker.rx.setDelegate(self)
+            .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.isDismiss }
@@ -127,6 +126,27 @@ class ChoiceYearViewController: UIViewController {
                 self.dismiss(animated: true)
             }).disposed(by: disposeBag)
         
+    }
+}
+
+
+
+extension ChoiceYearViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return yearList.count
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 40
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return yearList[row]
     }
 }
 
