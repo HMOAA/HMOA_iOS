@@ -24,7 +24,7 @@ class HPediaTagCell: UICollectionViewCell, View {
     let nameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
     }
-
+    
     override init(frame: CGRect) {
         super .init(frame: frame)
         setUpUI()
@@ -41,11 +41,11 @@ class HPediaTagCell: UICollectionViewCell, View {
     private func setUpUI() {
         contentView.backgroundColor = .white
     }
-
+    
     override func layoutSubviews() {
         self.layer.addBorder([.top], color: .customColor(.HPediaCellColor), width: 1)
     }
-   
+    
     private func setAddView() {
         contentView.addSubview(nameLabel)
     }

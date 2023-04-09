@@ -1187,6 +1187,7 @@
 			);
 			path = Reactor;
 			sourceTree = "<group>";
+		};
 		CA360F2E29DD61EA00A93873 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
