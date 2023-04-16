@@ -79,8 +79,8 @@ class LoginStartViewController: UIViewController {
     private func bind() {
         nextButton.rx.tap
             .bind(onNext: {
+                print("asdf")
                 self.navigationController?.pushViewController(NicknameViewController(), animated: true)
-
             }).disposed(by: disposeBag)
     }
     
