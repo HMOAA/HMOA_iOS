@@ -92,3 +92,6 @@ class LoginReactor: Reactor {
     }
     
 }
+
+extension LoginReactor {
+}
