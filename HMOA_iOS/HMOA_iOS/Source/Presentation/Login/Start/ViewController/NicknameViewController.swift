@@ -184,9 +184,6 @@ extension NicknameViewController {
         } else if !isDuplicate {
             nicknameCaptionLabel.text = "사용할 수 있는 닉네임 입니다."
             nicknameCaptionLabel.textColor = .customColor(.blue)
-        } else if isDuplicate == nil {
-            nicknameCaptionLabel.text = "닉네임 제한 캡션입니다."
-            nicknameCaptionLabel.textColor = .customColor(.gray4)
         }
     }
     
