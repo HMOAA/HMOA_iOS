@@ -1145,6 +1145,9 @@
 		CA051CAE297FDA04001865F5 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */,
+				CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */,
+				CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */,
 				CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */,
 			);
 			path = ViewController;
@@ -1174,9 +1177,6 @@
 		CA1067D329D6C579009A7245 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */,
-				CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */,
-				CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */,
 				CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */,
 				CA1067DA29D6CFC2009A7245 /* ChangeSexViewController.swift */,
 			);
