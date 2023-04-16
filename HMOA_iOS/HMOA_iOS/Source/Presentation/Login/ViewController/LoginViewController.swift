@@ -243,7 +243,7 @@ class LoginViewController: UIViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(onNext: { _ in
-                self.login()
+                self.googleLogin()
             }).disposed(by: disposeBag)
         
         
@@ -251,7 +251,7 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController {
-    func login() {
+    func googleLogin() {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
             guard error == nil, let result = result else { return }
 
@@ -260,11 +260,12 @@ extension LoginViewController {
 
             API.postAccessToken(params: params)
                 .bind(onNext: {
-                    print($0)
                     self.loginManager.googleToken = $0
+                    
                     let vc = LoginStartViewController()
-                    vc.modalPresentationStyle = .fullScreen
-                    self.present(vc, animated: true)
+                    let nvController = UINavigationController(rootViewController: vc)
+                    nvController.modalPresentationStyle = .fullScreen
+                    self.present(nvController, animated: true)
                 }).disposed(by: self.disposeBag)
         }
     }
