@@ -260,8 +260,11 @@ extension LoginViewController {
 
             API.postAccessToken(params: params)
                 .bind(onNext: {
+                    print($0)
                     self.loginManager.googleToken = $0
-                    self.present(LoginStartViewController(), animated: true)
+                    let vc = LoginStartViewController()
+                    vc.modalPresentationStyle = .fullScreen
+                    self.present(vc, animated: true)
                 }).disposed(by: self.disposeBag)
         }
     }

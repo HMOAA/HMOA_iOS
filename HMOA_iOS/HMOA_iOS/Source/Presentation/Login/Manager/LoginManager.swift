@@ -11,14 +11,7 @@ final class LoginManager {
     
     static let shared = LoginManager()
     
-    var googleToken: GoogleToken? {
-        get {
-            return self.googleToken
-        }
-        set (token) {
-            self.googleToken = token
-        }
-    }
+    var googleToken: GoogleToken? = nil
     
     private init () { }
     
