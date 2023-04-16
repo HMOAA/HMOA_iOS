@@ -15,17 +15,20 @@ class NicknameReactor: Reactor {
     enum Action {
         case didTapDuplicateButton(Bool?)
         case didTapStartButton
+        case didTapTextFieldReturn
     }
     
     enum Mutation {
         case setIsDuplicate(Bool?)
         case setIsPushStartVC(Bool)
+        case setIsTapReturn(Bool)
     }
     
     struct State {
         var isDuplicate: Bool? = nil
         var isEnable: Bool = false
         var isPush: Bool = false
+        var isTapReturn: Bool = false
     }
     
     init() {
@@ -41,6 +44,11 @@ class NicknameReactor: Reactor {
                 .just(.setIsPushStartVC(true)),
                 .just(.setIsPushStartVC(false))
             ])
+        case .didTapTextFieldReturn:
+            return .concat([
+                .just(.setIsTapReturn(true)),
+                .just(.setIsTapReturn(false))
+            ])
         }
     }
     
@@ -53,6 +61,8 @@ class NicknameReactor: Reactor {
             state.isEnable = isEmpty == false
         case .setIsPushStartVC(let isPush):
             state.isPush = isPush
+        case .setIsTapReturn(let isTapReturn):
+            state.isTapReturn = isTapReturn
         }
         
         return state
