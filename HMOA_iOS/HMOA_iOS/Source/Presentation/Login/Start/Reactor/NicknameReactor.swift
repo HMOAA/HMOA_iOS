@@ -13,13 +13,13 @@ class NicknameReactor: Reactor {
     var initialState: State
     
     enum Action {
-        case didTapDuplicateButton(Bool?)
+        case didTapDuplicateButton(String?)
         case didTapStartButton
         case didTapTextFieldReturn
     }
     
     enum Mutation {
-        case setIsDuplicate(Bool?)
+        case setIsDuplicate(Bool)
         case setIsPushStartVC(Bool)
         case setIsTapReturn(Bool)
     }
@@ -37,8 +37,12 @@ class NicknameReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .didTapDuplicateButton(let isEmpty):
-            return .just(.setIsDuplicate(isEmpty))
+        case .didTapDuplicateButton(let nickname):
+            guard let nickname = nickname
+            else { return .just(.setIsDuplicate(true))}
+            if nickname.isEmpty { return .just(.setIsDuplicate(true))}
+            return API.checkDuplicateNickname(params: ["nickname": nickname])
+                .map { .setIsDuplicate($0) }
         case .didTapStartButton:
             return .concat([
                 .just(.setIsPushStartVC(true)),
@@ -56,9 +60,9 @@ class NicknameReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setIsDuplicate(let isEmpty):
-            state.isDuplicate = isEmpty
-            state.isEnable = isEmpty == false
+        case .setIsDuplicate(let isDuplicate):
+            state.isDuplicate = isDuplicate
+            state.isEnable = isDuplicate == false
         case .setIsPushStartVC(let isPush):
             state.isPush = isPush
         case .setIsTapReturn(let isTapReturn):

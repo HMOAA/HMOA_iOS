@@ -118,7 +118,7 @@ class NicknameViewController: UIViewController {
         
         //중복확인 터치 이벤트
         duplicateCheckButton.rx.tap
-            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameTextField.text?.isEmpty)}
+            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameTextField.text)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -135,7 +135,7 @@ class NicknameViewController: UIViewController {
         
         //닉네임 캡션 라벨 변경
         reactor.state
-            .map { $0.isDuplicate}
+            .map { $0.isDuplicate }
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: { isDuplicate in
@@ -148,7 +148,6 @@ class NicknameViewController: UIViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: { isEnable in
-                
                 self.changeNextButtonEnable(isEnable)
             }).disposed(by: disposeBag)
         
@@ -182,9 +181,12 @@ extension NicknameViewController {
         if isDuplicate {
             nicknameCaptionLabel.text = "사용할 수 없는 닉네임 입니다."
             nicknameCaptionLabel.textColor = .customColor(.red)
-        } else {
+        } else if !isDuplicate {
             nicknameCaptionLabel.text = "사용할 수 있는 닉네임 입니다."
             nicknameCaptionLabel.textColor = .customColor(.blue)
+        } else if isDuplicate == nil {
+            nicknameCaptionLabel.text = "닉네임 제한 캡션입니다."
+            nicknameCaptionLabel.textColor = .customColor(.gray4)
         }
     }
     
