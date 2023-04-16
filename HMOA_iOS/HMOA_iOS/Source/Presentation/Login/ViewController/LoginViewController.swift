@@ -45,6 +45,7 @@ class LoginViewController: UIViewController {
     
     let loginReactor = LoginReactor()
     let disposeBag = DisposeBag()
+    let loginManager = LoginManager.shared
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -242,18 +243,26 @@ class LoginViewController: UIViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(onNext: { _ in
-                self.signInGoogle()
+                self.login()
             }).disposed(by: disposeBag)
+        
+        
     }
 }
 
 extension LoginViewController {
-    func signInGoogle() {
+    func login() {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
             guard error == nil, let result = result else { return }
-            
-            let user = result.user
-            let token = user.accessToken
+
+            let token = result.user.accessToken.tokenString
+            let params = ["token": token]
+
+            API.postAccessToken(params: params)
+                .bind(onNext: {
+                    self.loginManager.googleToken = $0
+                    self.present(LoginStartViewController(), animated: true)
+                }).disposed(by: self.disposeBag)
         }
     }
 }

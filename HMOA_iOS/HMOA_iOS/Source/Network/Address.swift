@@ -7,6 +7,7 @@
 
 enum Address {
     case perfumeOne(Int) // 향수 1개 데이터 받아오기
+    case postToken
 }
 
 extension Address {
@@ -14,6 +15,8 @@ extension Address {
         switch self {
         case .perfumeOne(let perfumeId):
             return "perfumeId/\(perfumeId)"
+        case .postToken:
+            return "login/oauth2/GOOGLE"
         }
     }
 }

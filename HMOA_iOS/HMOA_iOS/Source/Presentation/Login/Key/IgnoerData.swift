@@ -13,5 +13,5 @@ struct Key {
 }
 
 struct baseURL {
-    static let url = "hmoa.inuappcenter.kr/"
+    static let url = "https://hmoa.inuappcenter.kr/"
 }

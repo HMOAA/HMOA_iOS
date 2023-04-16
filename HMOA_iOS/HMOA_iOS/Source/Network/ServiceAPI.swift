@@ -6,9 +6,11 @@
 //
 
 import Alamofire
+import GoogleSignIn
 import RxSwift
 
 enum NetworkError: Error {
+    case invalidParameters
     case invalidURL
     case invalidResponse
     case decodingError
@@ -24,7 +26,7 @@ fileprivate func networking<T: Decodable>(
     return Observable<T>.create { observer in
 
         // TODO: 도메인 생성되면 baseURL로 따로 빼서 정의
-        guard let url = URL(string: "아직없음" + urlStr) else {
+        guard let url = URL(string: baseURL.url + urlStr) else {
             observer.onError(NetworkError.invalidURL)
             return Disposables.create()
         }
@@ -46,6 +48,7 @@ fileprivate func networking<T: Decodable>(
                     observer.onNext(data)
                     observer.onCompleted()
                 case .failure(let error):
+                    print("asdf")
                     observer.onError(error)
                 }
             }
@@ -55,7 +58,7 @@ fileprivate func networking<T: Decodable>(
 }
 
 final class API {
-
+    
     /// 향수 한 개 받아오기
     static func getPerfumeOne(perfumeId: Int) -> Observable<Object> {
         
@@ -73,6 +76,22 @@ final class API {
             method: .post,
             data: nil,
             model: String.self)
+        
+    }
+    
+    static func postAccessToken(params: [String: String]) -> Observable<GoogleToken> {
+        
+        guard let data = try? JSONSerialization.data(
+                    withJSONObject: params,
+                    options: .prettyPrinted)
+                
+        else { return Observable.error(NetworkError.invalidParameters)}
+        
+        return networking(
+            urlStr: Address.postToken.url,
+            method: .post,
+            data: data,
+            model: GoogleToken.self)
         
     }
 }
