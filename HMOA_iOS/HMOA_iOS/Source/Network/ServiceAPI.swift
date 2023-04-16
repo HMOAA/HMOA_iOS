@@ -94,4 +94,16 @@ final class API {
             model: GoogleToken.self)
         
     }
+    
+    static func checkDuplicateNickname(params: [String: String]) -> Observable<Bool> {
+        
+        guard let data = try? JSONSerialization.data(withJSONObject: params)
+        else { return Observable.error(NetworkError.invalidParameters) }
+
+        return networking(
+            urlStr: Address.checkNickname.url,
+            method: .post,
+            data: data,
+            model: Bool.self)
+    }
 }

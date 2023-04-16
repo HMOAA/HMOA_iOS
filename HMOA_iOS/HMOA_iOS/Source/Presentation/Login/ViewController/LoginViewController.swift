@@ -262,6 +262,7 @@ extension LoginViewController {
                 .bind(onNext: {
                     self.loginManager.googleToken = $0
                     
+                    print($0)
                     let vc = LoginStartViewController()
                     let nvController = UINavigationController(rootViewController: vc)
                     nvController.modalPresentationStyle = .fullScreen
