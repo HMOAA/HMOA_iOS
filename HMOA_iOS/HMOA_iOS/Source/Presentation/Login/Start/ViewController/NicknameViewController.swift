@@ -160,13 +160,15 @@ class NicknameViewController: UIViewController {
                 self.nicknameTextField.resignFirstResponder()
             }).disposed(by: disposeBag)
         
+        //연도 VC로 화면 전환
         reactor.state
             .map { $0.nicknameResponse }
             .distinctUntilChanged()
             .filter { $0 != nil }
             .bind(onNext: {
                 print($0)
-                self.navigationController?.pushViewController(UserInformationViewController(),
+                let vc = UserInformationViewController(reactor.currentState.nickname!)
+                self.navigationController?.pushViewController(vc,
                                                               animated: true)
             }).disposed(by: disposeBag)
             
