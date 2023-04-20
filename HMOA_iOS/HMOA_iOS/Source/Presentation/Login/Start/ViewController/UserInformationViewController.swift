@@ -65,8 +65,19 @@ class UserInformationViewController: UIViewController {
     
     let yearList = Year().year
     var index: Int = 0
-
+    var nickname: String = ""
+    
     //MARK: - LifeCycle
+    init(_ nickname: String) {
+        //닉네임 페이지에서 닉네임 받아오기
+        super.init(nibName: nil, bundle: nil)
+        self.nickname = nickname
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -188,9 +199,11 @@ class UserInformationViewController: UIViewController {
             .map { UserInformationReactor.Action.didTapManButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        //시작 버튼 터치 이베느
+        
+        //시작 버튼 터치 이벤트
         startButton.rx.tap
-            .map { UserInformationReactor.Action.didTapStartButton }
+            .map { UserInformationReactor.Action.didTapStartButton(self.yearList[self.index],
+                                                                   self.nickname) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -231,10 +244,11 @@ class UserInformationViewController: UIViewController {
         
         //메인 탭바로 이동
         reactor.state
-            .map { $0.isPresentTabBar }
+            .map { $0.joinResponse }
             .distinctUntilChanged()
-            .filter { $0 }
-            .bind(onNext: { _ in
+            .filter { $0 != nil }
+            .bind(onNext: {
+                print($0)
                 let tabBar = AppTabbarController()
                 tabBar.modalPresentationStyle = .fullScreen
                 self.present(tabBar, animated: true)

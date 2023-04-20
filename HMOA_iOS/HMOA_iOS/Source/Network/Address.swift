@@ -10,6 +10,9 @@ enum Address {
     case postToken
     case checkNickname
     case patchNickname
+    case patchSex
+    case patchAge
+    case patchJoin
 }
 
 extension Address {
@@ -23,6 +26,12 @@ extension Address {
             return "member/existsnickname"
         case .patchNickname:
             return "member/nickname"
+        case .patchSex:
+            return "member/sex"
+        case .patchAge:
+            return "member/age"
+        case .patchJoin:
+            return "member/join"
         }
     }
 }

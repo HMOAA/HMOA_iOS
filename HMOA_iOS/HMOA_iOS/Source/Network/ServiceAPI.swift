@@ -118,7 +118,7 @@ final class API {
     }
     
     //닉네임 업데이트
-    static func updateNickname(params: [String: String]) -> Observable<NicknameResponse> {
+    static func updateNickname(params: [String: String]) -> Observable<Response> {
         
         guard let data = try? JSONSerialization.data(withJSONObject: params)
         else { return Observable.error(NetworkError.invalidParameters) }
@@ -127,6 +127,39 @@ final class API {
             urlStr: Address.patchNickname.url,
             method: .patch,
             data: data,
-            model: NicknameResponse.self)
+            model: Response.self)
+    }
+    
+    static func updateSex(params: [String: String]) -> Observable<Response> {
+        guard let data = try? JSONSerialization.data(withJSONObject: params)
+        else { return Observable.error(NetworkError.invalidParameters) }
+        
+        return networking(
+            urlStr: Address.patchSex.url,
+            method: .patch,
+            data: data,
+            model: Response.self)
+    }
+    
+    static func updateAge(params: [String: Int]) -> Observable<Response> {
+        guard let data = try? JSONSerialization.data(withJSONObject: params)
+        else { return Observable.error(NetworkError.invalidParameters) }
+        
+        return networking(
+            urlStr: Address.patchAge.url,
+            method: .patch,
+            data: data,
+            model: Response.self)
+    }
+    
+    static func join(params: [String: Any]) -> Observable<JoinResponse> {
+        guard let data = try? JSONSerialization.data(withJSONObject: params)
+        else { return Observable.error(NetworkError.invalidParameters) }
+        
+        return networking(
+            urlStr: Address.patchJoin.url,
+            method: .patch,
+            data: data,
+            model: JoinResponse.self)
     }
 }

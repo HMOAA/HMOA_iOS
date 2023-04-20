@@ -19,7 +19,7 @@ class NicknameReactor: Reactor {
     }
     
     enum Mutation {
-        case setNickNameResponse(NicknameResponse?)
+        case setNickNameResponse(Response?)
         case setNickname(String)
         case setIsDuplicate(Bool)
         case setIsTapReturn(Bool)
@@ -30,7 +30,7 @@ class NicknameReactor: Reactor {
         var isEnable: Bool = false
         var isTapReturn: Bool = false
         var nickname: String? = nil
-        var nicknameResponse: NicknameResponse? = nil
+        var nicknameResponse: Response? = nil
     }
     
     init() {
