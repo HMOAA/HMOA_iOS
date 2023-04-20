@@ -9,6 +9,7 @@ enum Address {
     case perfumeOne(Int) // 향수 1개 데이터 받아오기
     case postToken
     case checkNickname
+    case patchNickname
 }
 
 extension Address {
@@ -20,6 +21,8 @@ extension Address {
             return "login/oauth2/GOOGLE"
         case .checkNickname:
             return "member/existsnickname"
+        case .patchNickname:
+            return "member/nickname"
         }
     }
 }

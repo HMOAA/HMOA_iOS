@@ -19,16 +19,18 @@ class NicknameReactor: Reactor {
     }
     
     enum Mutation {
+        case setNickNameResponse(NicknameResponse?)
+        case setNickname(String)
         case setIsDuplicate(Bool)
-        case setIsPushStartVC(Bool)
         case setIsTapReturn(Bool)
     }
     
     struct State {
         var isDuplicate: Bool? = nil
         var isEnable: Bool = false
-        var isPush: Bool = false
         var isTapReturn: Bool = false
+        var nickname: String? = nil
+        var nicknameResponse: NicknameResponse? = nil
     }
     
     init() {
@@ -43,12 +45,19 @@ class NicknameReactor: Reactor {
             
             if nickname.isEmpty { return .just(.setIsDuplicate(true))}
             
-            return API.checkDuplicateNickname(params: ["nickname": nickname])
-                .map { .setIsDuplicate($0) }
-        case .didTapStartButton:
             return .concat([
-                .just(.setIsPushStartVC(true)),
-                .just(.setIsPushStartVC(false))
+                API.checkDuplicateNickname(params: ["nickname": nickname])
+                .map { .setIsDuplicate($0) },
+                .just(.setNickname(nickname))
+            ])
+        case .didTapStartButton:
+            guard let nickname = currentState.nickname
+            else { return .just(.setNickNameResponse(nil)) }
+            print(nickname)
+            return .concat([
+                API.updateNickname(params: ["nickname": nickname])
+                .map { .setNickNameResponse($0) },
+                .just(.setNickNameResponse(nil))
             ])
         case .didTapTextFieldReturn:
             return .concat([
@@ -65,10 +74,12 @@ class NicknameReactor: Reactor {
         case .setIsDuplicate(let isDuplicate):
             state.isDuplicate = isDuplicate
             state.isEnable = isDuplicate == false
-        case .setIsPushStartVC(let isPush):
-            state.isPush = isPush
         case .setIsTapReturn(let isTapReturn):
             state.isTapReturn = isTapReturn
+        case .setNickname(let nickname):
+            state.nickname = nickname
+        case .setNickNameResponse(let response):
+            state.nicknameResponse = response
         }
         
         return state

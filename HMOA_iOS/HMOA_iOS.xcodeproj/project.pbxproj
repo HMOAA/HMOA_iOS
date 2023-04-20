@@ -152,6 +152,7 @@
 		CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */; };
 		CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */; };
 		CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1C29C2FFF6005BC997 /* LikeListCell.swift */; };
+		CAE5F2A029F1109800BAF313 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE5F29F29F1109800BAF313 /* Response.swift */; };
 		CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450729AB7DC300ACF2C1 /* YearModel.swift */; };
 		CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */; };
 		CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */; };
@@ -330,6 +331,7 @@
 		CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCardCell.swift; sourceTree = "<group>"; };
 		CAD18E1C29C2FFF6005BC997 /* LikeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListCell.swift; sourceTree = "<group>"; };
+		CAE5F29F29F1109800BAF313 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		CAFA450729AB7DC300ACF2C1 /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
 		CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearViewController.swift; sourceTree = "<group>"; };
 		CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -844,6 +846,7 @@
 			children = (
 				2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */,
 				2C4A265E29C2F716009F288F /* Address.swift */,
+				CAE5F29F29F1109800BAF313 /* Response.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1679,6 +1682,7 @@
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
+				CAE5F2A029F1109800BAF313 /* Response.swift in Sources */,
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
 				2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
