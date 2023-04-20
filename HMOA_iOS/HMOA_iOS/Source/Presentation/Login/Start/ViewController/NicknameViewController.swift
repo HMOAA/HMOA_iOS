@@ -128,6 +128,7 @@ class NicknameViewController: UIViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        //textfield return 터치 이벤트
         nicknameTextField.rx.controlEvent(.editingDidEndOnExit)
             .map { NicknameReactor.Action.didTapTextFieldReturn}
             .bind(to: reactor.action)
@@ -150,15 +151,6 @@ class NicknameViewController: UIViewController {
                 self.changeNextButtonEnable(isEnable)
             }).disposed(by: disposeBag)
         
-        //StartVC로 이동
-        reactor.state
-            .map { $0.isPush }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .bind(onNext: { _ in
-                self.navigationController?.pushViewController(UserInformationViewController(), animated: true)
-            }).disposed(by: disposeBag)
-        
         //return 터치 시 키보드 내리기
         reactor.state
             .map { $0.isTapReturn }
@@ -167,6 +159,17 @@ class NicknameViewController: UIViewController {
             .bind(onNext: { _ in
                 self.nicknameTextField.resignFirstResponder()
             }).disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.nicknameResponse }
+            .distinctUntilChanged()
+            .filter { $0 != nil }
+            .bind(onNext: {
+                print($0)
+                self.navigationController?.pushViewController(UserInformationViewController(),
+                                                              animated: true)
+            }).disposed(by: disposeBag)
+            
     }
     
 }

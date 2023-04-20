@@ -18,10 +18,6 @@ enum NetworkError: Error {
     case statusCodeMoreThan400(String, String)
 }
 
-struct ErrorResponse: Codable {
-    let code: String
-    let message: String
-}
 
 fileprivate func networking<T: Decodable>(
     urlStr: String,
@@ -30,18 +26,19 @@ fileprivate func networking<T: Decodable>(
     model: T.Type) -> Observable<T> {
     
     return Observable<T>.create { observer in
+        
+        let loginManager = LoginManager.shared
 
         // TODO: 도메인 생성되면 baseURL로 따로 빼서 정의
         guard let url = URL(string: baseURL.url + urlStr) else {
             observer.onError(NetworkError.invalidURL)
             return Disposables.create()
         }
-        
         var reqeust = URLRequest(url: url)
         reqeust.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // TODO: 로그인하면 JWT토큰 값 저장하고, 불러오기(없으면 ""로 설정)
-        reqeust.setValue("JWT토큰 값", forHTTPHeaderField: "x-auth-token")
+        reqeust.setValue(loginManager.googleToken?.authToken, forHTTPHeaderField: "X-AUTH-TOKEN")
         
         reqeust.httpBody = data
         reqeust.method = method
@@ -89,6 +86,7 @@ final class API {
         
     }
     
+    //googleToken 보내기
     static func postAccessToken(params: [String: String]) -> Observable<GoogleToken> {
         
         guard let data = try? JSONSerialization.data(
@@ -105,6 +103,7 @@ final class API {
         
     }
     
+    //닉네임 중복 검사
     static func checkDuplicateNickname(params: [String: String]) -> Observable<Bool> {
         
         guard let data = try? JSONSerialization.data(withJSONObject: params)
@@ -116,5 +115,18 @@ final class API {
             method: .post,
             data: data,
             model: Bool.self)
+    }
+    
+    //닉네임 업데이트
+    static func updateNickname(params: [String: String]) -> Observable<NicknameResponse> {
+        
+        guard let data = try? JSONSerialization.data(withJSONObject: params)
+        else { return Observable.error(NetworkError.invalidParameters) }
+        
+        return networking(
+            urlStr: Address.patchNickname.url,
+            method: .patch,
+            data: data,
+            model: NicknameResponse.self)
     }
 }
