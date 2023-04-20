@@ -15,6 +15,12 @@ enum NetworkError: Error {
     case invalidResponse
     case decodingError
     case unknownError
+    case statusCodeMoreThan400(String, String)
+}
+
+struct ErrorResponse: Codable {
+    let code: String
+    let message: String
 }
 
 fileprivate func networking<T: Decodable>(
@@ -39,17 +45,21 @@ fileprivate func networking<T: Decodable>(
         
         reqeust.httpBody = data
         reqeust.method = method
-        
+
         AF.request(reqeust)
-            .validate(statusCode: 200..<500)
+            .validate(statusCode: 200..<300)
             .responseDecodable(of: model.self) { response in
                 switch response.result {
                 case .success(let data):
                     observer.onNext(data)
                     observer.onCompleted()
                 case .failure(let error):
-                    print("asdf")
-                    observer.onError(error)
+                    if let statusCode = response.response?.statusCode, statusCode == 409
+                    {
+                        observer.onNext(true as! T)
+                    } else {
+                        observer.onError(error)
+                    }
                 }
             }
         
@@ -100,6 +110,7 @@ final class API {
         guard let data = try? JSONSerialization.data(withJSONObject: params)
         else { return Observable.error(NetworkError.invalidParameters) }
 
+        
         return networking(
             urlStr: Address.checkNickname.url,
             method: .post,

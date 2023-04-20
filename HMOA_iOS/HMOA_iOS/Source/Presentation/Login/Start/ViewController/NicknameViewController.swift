@@ -136,10 +136,9 @@ class NicknameViewController: UIViewController {
         //닉네임 캡션 라벨 변경
         reactor.state
             .map { $0.isDuplicate }
-            .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: { isDuplicate in
-                self.changeCaptionLabelColor(isDuplicate)
+            .bind(onNext: {
+                self.changeCaptionLabelColor($0)
             }).disposed(by: disposeBag)
         
         //버튼 enable 상태 변경
