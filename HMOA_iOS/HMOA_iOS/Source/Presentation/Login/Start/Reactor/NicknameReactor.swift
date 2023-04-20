@@ -40,7 +40,9 @@ class NicknameReactor: Reactor {
         case .didTapDuplicateButton(let nickname):
             guard let nickname = nickname
             else { return .just(.setIsDuplicate(true))}
+            
             if nickname.isEmpty { return .just(.setIsDuplicate(true))}
+            
             return API.checkDuplicateNickname(params: ["nickname": nickname])
                 .map { .setIsDuplicate($0) }
         case .didTapStartButton:
