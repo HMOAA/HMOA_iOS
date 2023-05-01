@@ -42,7 +42,7 @@ class NicknameViewController: UIViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .customColor(.gray2)
         $0.titleLabel?.font = .customFont(.pretendard, 20)
-        $0.setTitle("시작하기", for: .normal)
+        $0.setTitle("다음", for: .normal)
     }
     
     let disposeBag = DisposeBag()
@@ -118,7 +118,7 @@ class NicknameViewController: UIViewController {
         
         //중복확인 터치 이벤트
         duplicateCheckButton.rx.tap
-            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameTextField.text?.isEmpty)}
+            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameTextField.text)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -128,13 +128,18 @@ class NicknameViewController: UIViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        //textfield return 터치 이벤트
+        nicknameTextField.rx.controlEvent(.editingDidEndOnExit)
+            .map { NicknameReactor.Action.didTapTextFieldReturn}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //닉네임 캡션 라벨 변경
         reactor.state
-            .map { $0.isDuplicate}
-            .distinctUntilChanged()
+            .map { $0.isDuplicate }
             .compactMap { $0 }
-            .bind(onNext: { isDuplicate in
-                self.changeCaptionLabelColor(isDuplicate)
+            .bind(onNext: {
+                self.changeCaptionLabelColor($0)
             }).disposed(by: disposeBag)
         
         //버튼 enable 상태 변경
@@ -146,27 +151,47 @@ class NicknameViewController: UIViewController {
                 self.changeNextButtonEnable(isEnable)
             }).disposed(by: disposeBag)
         
-        //StartVC로 이동
+        //return 터치 시 키보드 내리기
         reactor.state
-            .map { $0.isPush }
+            .map { $0.isTapReturn }
             .distinctUntilChanged()
             .filter { $0 }
             .bind(onNext: { _ in
-                self.navigationController?.pushViewController(UserInformationViewController(), animated: true)
+                self.nicknameTextField.resignFirstResponder()
             }).disposed(by: disposeBag)
+        
+        //연도 VC로 화면 전환
+        reactor.state
+            .map { $0.nicknameResponse }
+            .distinctUntilChanged()
+            .filter { $0 != nil }
+            .bind(onNext: {
+                print($0)
+                let vc = UserInformationViewController(reactor.currentState.nickname!)
+                self.navigationController?.pushViewController(vc,
+                                                              animated: true)
+            }).disposed(by: disposeBag)
+            
     }
     
-    //MARK: - UpdateUI
+}
+
+extension NicknameViewController {
+    
+    //MARK: - Functions
+    
+    //caption ui 변경
     private func changeCaptionLabelColor(_ isDuplicate: Bool) {
         if isDuplicate {
             nicknameCaptionLabel.text = "사용할 수 없는 닉네임 입니다."
             nicknameCaptionLabel.textColor = .customColor(.red)
-        } else {
+        } else if !isDuplicate {
             nicknameCaptionLabel.text = "사용할 수 있는 닉네임 입니다."
             nicknameCaptionLabel.textColor = .customColor(.blue)
         }
     }
     
+    //다음 버튼 ui변경
     private func changeNextButtonEnable(_ isEnable: Bool) {
         if isEnable  {
             self.nextButton.isEnabled = true
@@ -175,5 +200,10 @@ class NicknameViewController: UIViewController {
             self.nextButton.isEnabled = false
             self.nextButton.backgroundColor = .customColor(.gray2)
         }
+    }
+    
+    //빈 화면 터치 시 키보드 내리기
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+          self.view.endEditing(true)
     }
 }

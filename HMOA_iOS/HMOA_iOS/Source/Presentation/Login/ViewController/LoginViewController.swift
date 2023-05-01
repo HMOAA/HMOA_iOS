@@ -5,6 +5,8 @@ import SnapKit
 import Then
 import ReactorKit
 import RxCocoa
+import GoogleSignIn
+import AuthenticationServices
 
 class LoginViewController: UIViewController {
 
@@ -43,6 +45,7 @@ class LoginViewController: UIViewController {
     
     let loginReactor = LoginReactor()
     let disposeBag = DisposeBag()
+    let loginManager = LoginManager.shared
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -234,5 +237,37 @@ class LoginViewController: UIViewController {
             .bind(onNext: { _ in
                 self.loginRetainButton.isSelected.toggle()
         }).disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isSignInGoogle }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(onNext: { _ in
+                self.googleLogin()
+            }).disposed(by: disposeBag)
+        
+        
+    }
+}
+
+extension LoginViewController {
+    func googleLogin() {
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
+            guard error == nil, let result = result else { return }
+
+            let token = result.user.accessToken.tokenString
+            let params = ["token": token]
+
+            API.postAccessToken(params: params)
+                .bind(onNext: {
+                    self.loginManager.googleToken = $0
+                    
+                    print($0)
+                    let vc = LoginStartViewController()
+                    let nvController = UINavigationController(rootViewController: vc)
+                    nvController.modalPresentationStyle = .fullScreen
+                    self.present(nvController, animated: true)
+                }).disposed(by: self.disposeBag)
+        }
     }
 }

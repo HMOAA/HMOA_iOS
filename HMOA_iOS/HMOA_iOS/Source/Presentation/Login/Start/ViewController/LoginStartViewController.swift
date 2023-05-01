@@ -80,7 +80,6 @@ class LoginStartViewController: UIViewController {
         nextButton.rx.tap
             .bind(onNext: {
                 self.navigationController?.pushViewController(NicknameViewController(), animated: true)
-
             }).disposed(by: disposeBag)
     }
     

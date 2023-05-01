@@ -14,6 +14,7 @@ target 'HMOA_iOS' do
   pod 'Alamofire'
   pod 'TagListView'
   pod 'DropDown'
+  pod 'GoogleSignIn'
 
   use_frameworks!
 
