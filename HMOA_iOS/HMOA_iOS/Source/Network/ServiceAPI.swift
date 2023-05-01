@@ -51,12 +51,7 @@ fileprivate func networking<T: Decodable>(
                     observer.onNext(data)
                     observer.onCompleted()
                 case .failure(let error):
-                    if let statusCode = response.response?.statusCode, statusCode == 409
-                    {
-                        observer.onNext(true as! T)
-                    } else {
-                        observer.onError(error)
-                    }
+                    observer.onError(error)
                 }
             }
         
@@ -115,6 +110,15 @@ final class API {
             method: .post,
             data: data,
             model: Bool.self)
+        .map { result -> Bool in
+            return result
+        }
+        .catch { error -> Observable<Bool> in
+            if let statusCode = error.asAFError?.responseCode, statusCode == 409 {
+                return Observable.just(true)
+            }
+            return Observable.error(error)
+        }
     }
     
     //닉네임 업데이트
