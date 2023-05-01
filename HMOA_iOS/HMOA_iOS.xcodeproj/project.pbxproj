@@ -111,6 +111,7 @@
 		2CAD9637298E483800974500 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9636298E483800974500 /* DetailView.swift */; };
 		2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9638298E4C1D00974500 /* PerfumeInfoView.swift */; };
 		2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */; };
+		CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */; };
 		CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */; };
 		CA0DB39129DBD67B0091DCB2 /* GuideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0DB39029DBD67B0091DCB2 /* GuideCell.swift */; };
 		CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */; };
@@ -137,6 +138,7 @@
 		CA54DD9729C4716A00167F05 /* TagReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD9629C4716A00167F05 /* TagReactor.swift */; };
 		CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */; };
 		CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */; };
+		CA5DB81929EAA6F500BE0F79 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */; };
 		CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */; };
 		CA6D99E629C492B4000E80CF /* LikeListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D99E529C492B4000E80CF /* LikeListModel.swift */; };
 		CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D99E729C4932A000E80CF /* ListSecton.swift */; };
@@ -145,10 +147,12 @@
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
 		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
 		CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */; };
+		CACA20E429E38BCE009995F3 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACA20E329E38BCE009995F3 /* IgnoerData.swift */; };
 		CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */; };
 		CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */; };
 		CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */; };
 		CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1C29C2FFF6005BC997 /* LikeListCell.swift */; };
+		CAE5F2A029F1109800BAF313 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE5F29F29F1109800BAF313 /* Response.swift */; };
 		CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450729AB7DC300ACF2C1 /* YearModel.swift */; };
 		CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */; };
 		CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */; };
@@ -286,6 +290,7 @@
 		A266DA0D7E24CB1ED544B374 /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7A0E2C9C257B262DBFD4DCA /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B8B8B44657C226494B4D2190 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationViewController.swift; sourceTree = "<group>"; };
 		CA0DB39029DBD67B0091DCB2 /* GuideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideCell.swift; sourceTree = "<group>"; };
 		CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeYearViewConroller.swift; sourceTree = "<group>"; };
@@ -312,6 +317,7 @@
 		CA54DD9629C4716A00167F05 /* TagReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagReactor.swift; sourceTree = "<group>"; };
 		CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView++Extenstions.swift"; sourceTree = "<group>"; };
+		CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer++Extenstions.swift"; sourceTree = "<group>"; };
 		CA6D99E529C492B4000E80CF /* LikeListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListModel.swift; sourceTree = "<group>"; };
 		CA6D99E729C4932A000E80CF /* ListSecton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSecton.swift; sourceTree = "<group>"; };
@@ -320,10 +326,12 @@
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
 		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
+		CACA20E329E38BCE009995F3 /* IgnoerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCardCell.swift; sourceTree = "<group>"; };
 		CAD18E1C29C2FFF6005BC997 /* LikeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListCell.swift; sourceTree = "<group>"; };
+		CAE5F29F29F1109800BAF313 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		CAFA450729AB7DC300ACF2C1 /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
 		CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearViewController.swift; sourceTree = "<group>"; };
 		CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -838,6 +846,7 @@
 			children = (
 				2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */,
 				2C4A265E29C2F716009F288F /* Address.swift */,
+				CAE5F29F29F1109800BAF313 /* Response.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1119,6 +1128,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CA03C23C29EBED5F00FA0D2C /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		CA051CAC297FD9BD001865F5 /* Start */ = {
 			isa = PBXGroup;
 			children = (
@@ -1131,6 +1148,9 @@
 		CA051CAE297FDA04001865F5 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */,
+				CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */,
+				CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */,
 				CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */,
 			);
 			path = ViewController;
@@ -1160,9 +1180,6 @@
 		CA1067D329D6C579009A7245 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */,
-				CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */,
-				CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */,
 				CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */,
 				CA1067DA29D6CFC2009A7245 /* ChangeSexViewController.swift */,
 			);
@@ -1229,9 +1246,20 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CA5DB81729EAA6DC00BE0F79 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				CA03C23C29EBED5F00FA0D2C /* Manager */,
+				CA5DB81729EAA6DC00BE0F79 /* Model */,
+				CACA20E229E38BC6009995F3 /* Key */,
 				CAFB9F3E29B5C6710009654C /* Reactor */,
 				CA1067D229D6C534009A7245 /* UserInformation */,
 				CA051CAC297FD9BD001865F5 /* Start */,
@@ -1255,6 +1283,14 @@
 				CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		CACA20E229E38BC6009995F3 /* Key */ = {
+			isa = PBXGroup;
+			children = (
+				CACA20E329E38BCE009995F3 /* IgnoerData.swift */,
+			);
+			path = Key;
 			sourceTree = "<group>";
 		};
 		CAD18E1929C2FF75005BC997 /* View */ = {
@@ -1546,9 +1582,11 @@
 				2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */,
 				2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */,
 				2C464E6229CDDCF900A07658 /* PolicyViewController.swift in Sources */,
+				CACA20E429E38BCE009995F3 /* IgnoerData.swift in Sources */,
 				CA360F3A29DD870E00A93873 /* HPediaReactor.swift in Sources */,
 				2C4A265F29C2F716009F288F /* Address.swift in Sources */,
 				2C4CDC4029C770D900676163 /* BrandInfo.swift in Sources */,
+				CA5DB81929EAA6F500BE0F79 /* LoginModel.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				CA34781B29E2DAE300334070 /* HPediaGuideHeaderCell.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
@@ -1640,9 +1678,11 @@
 				CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */,
 				CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */,
 				2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */,
+				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
+				CAE5F2A029F1109800BAF313 /* Response.swift in Sources */,
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
 				2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
@@ -1849,7 +1889,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WBG9V97XP4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HMOA_iOS/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1881,7 +1921,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WBG9V97XP4;
 				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HMOA_iOS/Resource/Info.plist;

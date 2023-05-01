@@ -27,11 +27,13 @@ class LoginReactor: Reactor {
     enum Mutation {
         case setPresentTabBar(Bool)
         case setPushStartVC(Bool)
+        case setSignInGoogle(Bool)
         case toggleRetainButton(Bool)
     }
     
     //현재 뷰 상태
     struct State {
+        var isSignInGoogle: Bool = false
         var isPushStartVC: Bool = false
         var isPresentTabBar: Bool = false
         var isChecked: Bool = false
@@ -50,8 +52,8 @@ class LoginReactor: Reactor {
                       ])
         case .didTapGoogleLoginButton:
             return .concat([
-                .just(.setPushStartVC(true)),
-                .just(.setPushStartVC(false))
+                .just(.setSignInGoogle(true)),
+                .just(.setSignInGoogle(false))
                       ])
         case .didTapAppleLoginButton:
             return .concat([
@@ -76,6 +78,8 @@ class LoginReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setSignInGoogle(let isSignIn):
+            state.isSignInGoogle = isSignIn
         case .setPresentTabBar(let isPresent):
             state.isPresentTabBar = isPresent
         case .setPushStartVC(let isPush):
@@ -87,4 +91,7 @@ class LoginReactor: Reactor {
         return state
     }
     
+}
+
+extension LoginReactor {
 }
