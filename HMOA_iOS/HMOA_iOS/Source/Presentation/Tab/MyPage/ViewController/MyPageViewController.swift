@@ -11,6 +11,7 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import RxAppState
 
 class MyPageViewController: UIViewController, View {
 
@@ -38,13 +39,20 @@ extension MyPageViewController {
     func bind(reactor: MyPageReactor) {
         configureDataSource()
     
+        // MARK: - action
+        
         // tableView 아이템 클릭
         myPageView.tableView.rx.itemSelected
-            .do(onNext: { print("클릭 \($0)") })
             .map { Reactor.Action.didTapCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-    
+        
+        rx.viewDidAppear
+            .map { _ in Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        
         // MARK: - state
         
         // tableView 바인딩
