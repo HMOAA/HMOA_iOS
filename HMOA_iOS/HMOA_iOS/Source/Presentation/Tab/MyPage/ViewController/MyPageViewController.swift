@@ -14,7 +14,7 @@ import RxDataSources
 
 class MyPageViewController: UIViewController, View {
 
-    let myPageReactor = MyPageReactor()
+    lazy var myPageReactor = MyPageReactor()
     
     var disposeBag = DisposeBag()
 

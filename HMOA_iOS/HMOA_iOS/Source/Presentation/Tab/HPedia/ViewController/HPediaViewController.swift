@@ -34,7 +34,7 @@ class HPediaViewController: UIViewController, View {
     
     var datasource: RxCollectionViewSectionedReloadDataSource<HPediaSection>!
     var disposeBag = DisposeBag()
-    let reactor = HPediaReactor()
+    lazy var reactor = HPediaReactor()
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
