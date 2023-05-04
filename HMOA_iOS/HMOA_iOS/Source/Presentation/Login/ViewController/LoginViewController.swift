@@ -258,7 +258,7 @@ extension LoginViewController {
             let token = result.user.accessToken.tokenString
             let params = ["token": token]
 
-            API.postAccessToken(params: params)
+            LoginAPI.postAccessToken(params: params)
                 .bind(onNext: {
                     self.loginManager.googleToken = $0
                     

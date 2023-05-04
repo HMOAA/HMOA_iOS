@@ -46,7 +46,7 @@ class NicknameReactor: Reactor {
             if nickname.isEmpty { return .just(.setIsDuplicate(true))}
             
             return .concat([
-                API.checkDuplicateNickname(params: ["nickname": nickname])
+                MemberAPI.checkDuplicateNickname(params: ["nickname": nickname])
                 .map { .setIsDuplicate($0) },
                 .just(.setNickname(nickname))
             ])
@@ -55,7 +55,7 @@ class NicknameReactor: Reactor {
             else { return .just(.setNickNameResponse(nil)) }
             print(nickname)
             return .concat([
-                API.updateNickname(params: ["nickname": nickname])
+                MemberAPI.updateNickname(params: ["nickname": nickname])
                 .map { .setNickNameResponse($0) },
                 .just(.setNickNameResponse(nil))
             ])
