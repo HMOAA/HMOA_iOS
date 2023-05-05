@@ -6,26 +6,120 @@
 //
 
 import UIKit
+import SnapKit
+import Then
+import RxSwift
+import RxCocoa
+import RxDataSources
+import ReactorKit
 
-class MyProfileViewController: UIViewController {
+class MyProfileViewController: UIViewController, View {
+    
+    lazy var myProfileReactor = MyProfileReactor()
+        
+    var disposeBag = DisposeBag()
+    
+    var dataSource: RxTableViewSectionedReloadDataSource<MyProfileSection>!
 
+    // MARK: - UI Component
+    lazy var tableView = UITableView(frame: .zero, style: .plain).then {
+        $0.register(MyPageSeparatorLineView.self, forHeaderFooterViewReuseIdentifier: MyPageSeparatorLineView.ientfifier)
+        $0.register(MyPageCell.self, forCellReuseIdentifier: MyPageCell.identifier)
+        $0.separatorStyle = .none
+        $0.sectionHeaderTopPadding = 0
+    }
+    
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setBackItemNaviBar("내 정보")
-        view.backgroundColor = .white
+        configureUI()
+        bind(reactor: myProfileReactor)
+    }
+}
 
-        // Do any additional setup after loading the view.
+extension MyProfileViewController {
+    
+    // MARK: - Bind
+
+    func bind(reactor: MyProfileReactor) {
+        configureDataSource()
+        
+        // MARK: - state
+        
+        reactor.state
+            .map { $0.sections }
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: - Configure
+    
+    func configureUI() {
+        
+        view.addSubview(tableView)
+        
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
-    */
-
+    
+    func configureDataSource() {
+        dataSource = RxTableViewSectionedReloadDataSource<MyProfileSection> (configureCell: { _, tableView, indexPath, item in
+            
+            switch item {
+            case .nickname(let nickname):
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
+                    
+                cell.updateCell(nickname)
+                cell.selectionStyle = .none
+                
+                return cell
+            case .year(let year):
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
+                        
+                cell.updateCell(year)
+                cell.selectionStyle = .none
+                
+                return cell
+            case .sex(let sex):
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
+                        
+                cell.updateCell(sex)
+                cell.selectionStyle = .none
+                
+                return cell
+            }
+        })
+    }
 }
+
+
+extension MyProfileViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return 52
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyPageSeparatorLineView.ientfifier)
+        
+        return footer
+    }
+
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 2
+    }
+}
+
