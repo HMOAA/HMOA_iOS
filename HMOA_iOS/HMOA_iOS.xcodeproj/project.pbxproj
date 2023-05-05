@@ -105,6 +105,8 @@
 		2CA155AE2A039A7E00D7B0C0 /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA155AD2A039A7E00D7B0C0 /* LoginAPI.swift */; };
 		2CA155B02A039AD100D7B0C0 /* MemberAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA155AF2A039AD100D7B0C0 /* MemberAddress.swift */; };
 		2CA155B22A039B1B00D7B0C0 /* LoginAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA155B12A039B1B00D7B0C0 /* LoginAddress.swift */; };
+		2CA155B62A0533B100D7B0C0 /* MyProfileSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA155B52A0533B100D7B0C0 /* MyProfileSection.swift */; };
+		2CA155B82A05368000D7B0C0 /* MyProfileReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA155B72A05368000D7B0C0 /* MyProfileReactor.swift */; };
 		2CA7F69529D2E8DB0022E7FD /* TotalPerfumeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7F69429D2E8DB0022E7FD /* TotalPerfumeViewController.swift */; };
 		2CA7F69A29D2FBE70022E7FD /* TotalPerfumeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7F69929D2FBE70022E7FD /* TotalPerfumeReactor.swift */; };
 		2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7F69C29D2FD180022E7FD /* TotalPerfumeSection.swift */; };
@@ -283,6 +285,8 @@
 		2CA155AD2A039A7E00D7B0C0 /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		2CA155AF2A039AD100D7B0C0 /* MemberAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAddress.swift; sourceTree = "<group>"; };
 		2CA155B12A039B1B00D7B0C0 /* LoginAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAddress.swift; sourceTree = "<group>"; };
+		2CA155B52A0533B100D7B0C0 /* MyProfileSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileSection.swift; sourceTree = "<group>"; };
+		2CA155B72A05368000D7B0C0 /* MyProfileReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileReactor.swift; sourceTree = "<group>"; };
 		2CA7F69429D2E8DB0022E7FD /* TotalPerfumeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalPerfumeViewController.swift; sourceTree = "<group>"; };
 		2CA7F69929D2FBE70022E7FD /* TotalPerfumeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalPerfumeReactor.swift; sourceTree = "<group>"; };
 		2CA7F69C29D2FD180022E7FD /* TotalPerfumeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalPerfumeSection.swift; sourceTree = "<group>"; };
@@ -780,6 +784,8 @@
 		2C464E5329CDDC2600A07658 /* MyProfile */ = {
 			isa = PBXGroup;
 			children = (
+				2CA155B42A05339C00D7B0C0 /* Reactor */,
+				2CA155B32A05339700D7B0C0 /* Model */,
 				2C464E5A29CDDCA200A07658 /* Viewcontroller */,
 			);
 			path = MyProfile;
@@ -1090,6 +1096,22 @@
 				CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		2CA155B32A05339700D7B0C0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2CA155B52A0533B100D7B0C0 /* MyProfileSection.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2CA155B42A05339C00D7B0C0 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				2CA155B72A05368000D7B0C0 /* MyProfileReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		2CA7F69229D2E8BC0022E7FD /* TotalPerfume */ = {
@@ -1739,6 +1761,7 @@
 				CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */,
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
 				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
+				2CA155B82A05368000D7B0C0 /* MyProfileReactor.swift in Sources */,
 				CA34781329E1B5C500334070 /* HPediaTagCellReactor.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageUserCell.swift in Sources */,
@@ -1756,6 +1779,7 @@
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
 				2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
+				2CA155B62A0533B100D7B0C0 /* MyProfileSection.swift in Sources */,
 				CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */,
 				CA360F3C29DD8ABE00A93873 /* HPediaTagCell.swift in Sources */,
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,

@@ -80,7 +80,7 @@ extension MyPageReactor {
         return MemberAPI.getMember()
             .catch { _ in .empty() }
             .flatMap { member -> Observable<Mutation> in
-                var sections = [
+                let sections = [
                     MyPageSection.first(MyPageSectionItem.userInfo(
                         UserInfo(
                             imageUrl: "",
