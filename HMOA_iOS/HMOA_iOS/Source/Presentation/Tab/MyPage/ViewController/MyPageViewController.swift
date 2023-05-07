@@ -66,7 +66,7 @@ extension MyPageViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: {
-                print($0)
+                $0.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController($0, animated: true)
             })
             .disposed(by: disposeBag)
