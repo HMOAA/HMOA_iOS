@@ -10,35 +10,48 @@ import ReactorKit
 class MyPageReactor: Reactor {
     
     var initialState: State
+    var service: UserServiceProtocol
     
     enum Action {
         case viewDidLoad
-        case didTapCell(IndexPath)
+        case didTapCell(MyPageType)
     }
     
     enum Mutation {
-        case setPresentVC(UIViewController?)
+        case setPresentVC(MyPageType?)
         case setMemberInfo([MyPageSection])
+        case updateNickname(String)
     }
     
     struct State {
         var sections: [MyPageSection]
-        var presentVC: UIViewController? = nil
+        var presentVC: MyPageType? = nil
     }
     
-    init() {
-        var sections = [
+    init(service: UserServiceProtocol) {
+        let sections = [
             MyPageSection.first(MyPageSectionItem.userInfo(
                 UserInfo(
                     imageUrl: "",
                     nickName: "",
-                    loginType: ""))),
-            MyPageSection.etc(myPageType.setting.title.map { MyPageSectionItem.etc($0) }),
-            MyPageSection.etc(myPageType.infomation.title.map { MyPageSectionItem.etc($0) }),
-            MyPageSection.etc(myPageType.user.title.map { MyPageSectionItem.etc($0) })
-        ]
+                    loginType: "")))] + MyPageReactor.setUpSection()
+
+        self.initialState = State(sections: sections)
+        self.service = service
         
-        initialState = State(sections: sections)
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let event = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .updateNickname(content: let nickname):
+                return .just(.updateNickname(nickname))
+            case .updateImage(content: _):
+                return .empty()
+            }
+        }
+
+        return Observable.merge(mutation, event)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -46,16 +59,11 @@ class MyPageReactor: Reactor {
             
         case .viewDidLoad:
             return MyPageReactor.reqeustUserInfo()
-        case .didTapCell(let indexPath):
-            
-            if (1...2).contains(indexPath.section) {
-                return .concat([
-                    matchingViewController(indexPath),
-                    .just(.setPresentVC(nil))
-                ])
-            } else {
-                return .empty()
-            }
+        case .didTapCell(let type):
+            return .concat([
+                .just(.setPresentVC(type)),
+                .just(.setPresentVC(nil))
+            ])
         }
     }
     
@@ -67,6 +75,14 @@ class MyPageReactor: Reactor {
             state.presentVC = VC
         case .setMemberInfo(let sections):
             state.sections = sections
+        case .updateNickname(let nickname):
+            state.sections = [
+                MyPageSection.first(MyPageSectionItem.userInfo(
+                    UserInfo(
+                        imageUrl: "",
+                        nickName: nickname,
+                        loginType: "")))
+            ] + MyPageReactor.setUpSection()
         }
         
         return state
@@ -74,6 +90,27 @@ class MyPageReactor: Reactor {
 }
 
 extension MyPageReactor {
+    
+    static func setUpSection() -> [MyPageSection] {
+        let second = [
+            MyPageType.myLog.title,
+            MyPageType.myProfile.title
+            ]   .map { MyPageSectionItem.etc($0) }
+
+        let thrid = [
+            MyPageType.openSource.title,
+            MyPageType.policy.title,
+            MyPageType.version.title
+            ]   .map { MyPageSectionItem.etc($0)}
+        
+        let fourth = [
+            MyPageType.logout.title,
+            MyPageType.deleteAccount.title
+            ]   .map { MyPageSectionItem.etc($0)}
+        
+        
+        return [MyPageSection.etc(second), MyPageSection.etc(thrid), MyPageSection.etc(fourth)]
+    }
     
     static func reqeustUserInfo() -> Observable<Mutation> {
         
@@ -86,18 +123,14 @@ extension MyPageReactor {
                             imageUrl: "",
                             nickName: member.nickname,
                             loginType: member.email))),
-                    MyPageSection.etc(myPageType.setting.title.map { MyPageSectionItem.etc($0) }),
-                    MyPageSection.etc(myPageType.infomation.title.map { MyPageSectionItem.etc($0) }),
-                    MyPageSection.etc(myPageType.user.title.map { MyPageSectionItem.etc($0) })]
+                ] + MyPageReactor.setUpSection()
                 
                 return .just(.setMemberInfo(sections))
             }
     }
 
-
-    func matchingViewController(_ indexPath: IndexPath) -> Observable<Mutation> {
-            
-        return .just(.setPresentVC(myPageType.allCases[indexPath.section - 1].viewController[indexPath.row]))
-        
+    
+    func reactorForMyProfile() -> MyProfileReactor {
+        return MyProfileReactor(service: service)
     }
 }

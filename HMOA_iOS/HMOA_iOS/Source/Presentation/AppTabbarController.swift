@@ -58,6 +58,8 @@ extension AppTabbarController {
         
         delegate = self
         
+        let myPageReactor = MyPageReactor(service: UserService())
+        
         let homeVC = UINavigationController(
             rootViewController: HomeViewController()),
         hPediaVC = UINavigationController(
@@ -65,7 +67,7 @@ extension AppTabbarController {
         likeVC = UINavigationController(
             rootViewController: LikeViewController()),
         myPageVC = UINavigationController(
-            rootViewController: MyPageViewController())
+            rootViewController: MyPageViewController(reactor: myPageReactor))
         
         viewControllers = [homeVC, hPediaVC, likeVC, myPageVC]
         

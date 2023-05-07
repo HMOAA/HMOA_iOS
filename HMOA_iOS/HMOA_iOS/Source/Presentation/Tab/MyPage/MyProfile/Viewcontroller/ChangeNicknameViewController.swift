@@ -12,19 +12,28 @@ import RxCocoa
 import ReactorKit
 
 class ChangeNicknameViewController: UIViewController, View {
-    lazy var nicknameReactor = NicknameReactor()
-    
+    var reactor: ChangeNicknameReactor
     var disposeBag = DisposeBag()
     
     // MARK: - UI Component
     lazy var nicknameView = NicknameView("변경")
+    
+    // MARK: - Initialize
+    init(reactor: ChangeNicknameReactor) {
+        self.reactor = reactor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MAKR: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setBackItemNaviBar("닉네임")
         configureUI()
-        bind(reactor: nicknameReactor)
+        bind(reactor: reactor)
     }
     
     override func viewDidLayoutSubviews() {
@@ -39,24 +48,24 @@ extension ChangeNicknameViewController {
     
     // MARK: - bind
     
-    func bind(reactor: NicknameReactor) {
+    func bind(reactor: ChangeNicknameReactor) {
         //Input
         
         //중복확인 터치 이벤트
         nicknameView.duplicateCheckButton.rx.tap
-            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameView.nicknameTextField.text)}
+            .map { ChangeNicknameReactor.Action.didTapDuplicateButton(self.nicknameView.nicknameTextField.text)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //다음 버튼 터치 이벤트
         nicknameView.bottomButton.rx.tap
-            .map { NicknameReactor.Action.didTapStartButton}
+            .map { ChangeNicknameReactor.Action.didTapStartButton}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //textfield return 터치 이벤트
         nicknameView.nicknameTextField.rx.controlEvent(.editingDidEndOnExit)
-            .map { NicknameReactor.Action.didTapTextFieldReturn}
+            .map { ChangeNicknameReactor.Action.didTapTextFieldReturn}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
