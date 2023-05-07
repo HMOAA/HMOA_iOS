@@ -46,11 +46,27 @@ extension MyProfileViewController {
     func bind(reactor: MyProfileReactor) {
         configureDataSource()
         
+        // MARK: - action
+        
+        tableView.rx.itemSelected
+            .map { Reactor.Action.didTapCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - state
         
         reactor.state
             .map { $0.sections }
             .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.presentVC }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: {
+                self.navigationController?.pushViewController($0, animated: true)
+            })
             .disposed(by: disposeBag)
     }
     
