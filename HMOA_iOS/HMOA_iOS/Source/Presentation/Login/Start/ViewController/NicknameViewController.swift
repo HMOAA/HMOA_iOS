@@ -15,35 +15,8 @@ import RxSwift
 class NicknameViewController: UIViewController {
     
     //MARK: - Property
-    let nicknameLabel = UILabel().then {
-        $0.setLabelUI("닉네임", font: .pretendard_medium, size: 14, color: .gray4)
-    }
     
-    let nicknameHorizontalStackView = UIStackView().then {
-        $0.setStackViewUI(spacing: 8, axis: .horizontal)
-    }
-    let nicknameTextField = UITextField().then {
-        $0.setTextFieldUI("닉네임을 입력하세요", leftPadding: 16, font: .pretendard_light, isCapsule: false)
-    }
-    let duplicateCheckButton = UIButton().then {
-        $0.layer.cornerRadius = 5
-        $0.setTitle("중복확인", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .black
-        $0.titleLabel?.font = .customFont(.pretendard_light, 14)
-    }
-    
-    let nicknameCaptionLabel = PaddingLabel().then {
-        $0.setLabelUI("닉네임 제한 캡션입니다.", font: .pretendard_light, size: 12, color: .gray4)
-    }
-    
-    let nextButton = UIButton().then {
-        $0.isEnabled = false
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .customColor(.gray2)
-        $0.titleLabel?.font = .customFont(.pretendard, 20)
-        $0.setTitle("다음", for: .normal)
-    }
+    lazy var nicknameView = NicknameView("다음")
     
     let disposeBag = DisposeBag()
     let reactor = NicknameReactor()
@@ -62,8 +35,8 @@ class NicknameViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
         
-        let frame = nicknameTextField.frame
-        setBottomBorder(nicknameTextField,
+        let frame = nicknameView.nicknameTextField.frame
+        setBottomBorder(nicknameView.nicknameTextField,
                         width: frame.width,
                         height: frame.height)
     }
@@ -73,63 +46,37 @@ class NicknameViewController: UIViewController {
         view.backgroundColor = .white
         setNavigationBarTitle(title: "1/2", color: .white, isHidden: false, isScroll: false)
     }
+    
     private func setAddView() {
-        [nicknameTextField,
-         duplicateCheckButton
-        ].forEach { nicknameHorizontalStackView.addArrangedSubview($0) }
-        
-        [nicknameLabel,
-         nicknameHorizontalStackView,
-         nicknameCaptionLabel,
-         nextButton
-        ].forEach { view.addSubview($0) }
+        view.addSubview(nicknameView)
     }
     
     private func setConstraints() {
-        nicknameLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(36)
-            make.leading.equalToSuperview().inset(16)
-        }
-        
-        duplicateCheckButton.snp.makeConstraints { make in
-            make.width.equalTo(80)
-            make.height.equalTo(46)
-        }
-        
-        nicknameHorizontalStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(nicknameLabel.snp.bottom).offset(6)
-        }
-        
-        nicknameCaptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(nicknameHorizontalStackView.snp.bottom).offset(8)
-            make.leading.equalToSuperview().inset(32)
-        }
-        
-        nextButton.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(80)
+        nicknameView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
+
     
     //MARK: - Bind
     private func bind(reactor: NicknameReactor) {
         //Input
         
         //중복확인 터치 이벤트
-        duplicateCheckButton.rx.tap
-            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameTextField.text)}
+        nicknameView.duplicateCheckButton.rx.tap
+            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameView.nicknameTextField.text)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //다음 버튼 터치 이벤트
-        nextButton.rx.tap
+        nicknameView.bottomButton.rx.tap
             .map { NicknameReactor.Action.didTapStartButton}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //textfield return 터치 이벤트
-        nicknameTextField.rx.controlEvent(.editingDidEndOnExit)
+        nicknameView.nicknameTextField.rx.controlEvent(.editingDidEndOnExit)
             .map { NicknameReactor.Action.didTapTextFieldReturn}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -157,7 +104,7 @@ class NicknameViewController: UIViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(onNext: { _ in
-                self.nicknameTextField.resignFirstResponder()
+                self.nicknameView.nicknameTextField.resignFirstResponder()
             }).disposed(by: disposeBag)
         
         //연도 VC로 화면 전환
@@ -183,22 +130,22 @@ extension NicknameViewController {
     //caption ui 변경
     private func changeCaptionLabelColor(_ isDuplicate: Bool) {
         if isDuplicate {
-            nicknameCaptionLabel.text = "사용할 수 없는 닉네임 입니다."
-            nicknameCaptionLabel.textColor = .customColor(.red)
+            nicknameView.nicknameCaptionLabel.text = "사용할 수 없는 닉네임 입니다."
+            nicknameView.nicknameCaptionLabel.textColor = .customColor(.red)
         } else if !isDuplicate {
-            nicknameCaptionLabel.text = "사용할 수 있는 닉네임 입니다."
-            nicknameCaptionLabel.textColor = .customColor(.blue)
+            nicknameView.nicknameCaptionLabel.text = "사용할 수 있는 닉네임 입니다."
+            nicknameView.nicknameCaptionLabel.textColor = .customColor(.blue)
         }
     }
     
     //다음 버튼 ui변경
     private func changeNextButtonEnable(_ isEnable: Bool) {
         if isEnable  {
-            self.nextButton.isEnabled = true
-            self.nextButton.backgroundColor = .black
+            self.nicknameView.bottomButton.isEnabled = true
+            self.nicknameView.bottomButton.backgroundColor = .black
         } else {
-            self.nextButton.isEnabled = false
-            self.nextButton.backgroundColor = .customColor(.gray2)
+            self.nicknameView.bottomButton.isEnabled = false
+            self.nicknameView.bottomButton.backgroundColor = .customColor(.gray2)
         }
     }
     
