@@ -9,41 +9,37 @@ import Foundation
 import ReactorKit
 
 class MyProfileReactor: Reactor {
-    
+    var service: UserServiceProtocol
     var initialState: State
     
     enum Action {
-        case didTapCell(IndexPath)
+        case didTapCell(MyProfileType)
     }
     
     enum Mutation {
-        case setPresentVC(UIViewController?)
+        case setPresentVC(MyProfileType?)
     }
     
     struct State {
         var sections: [MyProfileSection]
-        var presentVC: UIViewController? = nil
+        var presentVC: MyProfileType? = nil
     }
     
-    init() {
+    init(service: UserServiceProtocol) {
         self.initialState = State(
             sections: MyProfileReactor.setUpSection()
         )
+        
+        self.service = service
     }
-    
+
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .didTapCell(let indexPath):
-            
-            switch indexPath.section {
-            case 0:
-                return .concat([
-                    .just(.setPresentVC(ChangeNicknameViewController())),
-                    .just(.setPresentVC(nil))
-                ])
-            default:
-                return .empty()
-            }
+        case .didTapCell(let type):
+            return .concat([
+                .just(.setPresentVC(type)),
+                .just(.setPresentVC(nil))
+            ])
         }
     }
     
@@ -51,8 +47,8 @@ class MyProfileReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setPresentVC(let vc):
-            state.presentVC = vc
+        case .setPresentVC(let type):
+            state.presentVC = type
         }
         
         return state
@@ -62,14 +58,21 @@ class MyProfileReactor: Reactor {
 extension MyProfileReactor {
     
     static func setUpSection() -> [MyProfileSection] {
-        let nickname = MyProfileSection.nickname([MyProfileItem.nickname("닉네임")])
+        let nickname = MyProfileSection.nickname(
+            [MyProfileType.nickname.title].map { MyProfileItem.nickname($0) })
         
-        let year = MyProfileSection.year([MyProfileItem.year("출생연도")])
+        let year = MyProfileSection.year(
+            [MyProfileType.year.title].map { MyProfileItem.year($0) })
 
-        let sex = MyProfileSection.sex([MyProfileItem.sex("성별")])
+        let sex = MyProfileSection.sex(
+            [MyProfileType.sex.title].map { MyProfileItem.sex($0) })
         
         let section = [nickname, year, sex]
         
         return section
+    }
+    
+    func reactorForChangeNickname() -> ChangeNicknameReactor {
+        return ChangeNicknameReactor(service: service)
     }
 }

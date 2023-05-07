@@ -15,8 +15,7 @@ import ReactorKit
 
 class MyProfileViewController: UIViewController, View {
     
-    lazy var myProfileReactor = MyProfileReactor()
-        
+    var reactor: MyProfileReactor
     var disposeBag = DisposeBag()
     
     var dataSource: RxTableViewSectionedReloadDataSource<MyProfileSection>!
@@ -29,13 +28,21 @@ class MyProfileViewController: UIViewController, View {
         $0.sectionHeaderTopPadding = 0
     }
     
+    init(reactor: MyProfileReactor) {
+        self.reactor = reactor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setBackItemNaviBar("내 정보")
         configureUI()
-        bind(reactor: myProfileReactor)
+        bind(reactor: reactor)
     }
 }
 
@@ -48,24 +55,31 @@ extension MyProfileViewController {
         
         // MARK: - action
         
+        // cell 선택
         tableView.rx.itemSelected
+            .compactMap {
+                MyProfileType(rawValue: $0.section)
+            }
             .map { Reactor.Action.didTapCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        
         // MARK: - state
         
+        // tableView 바인딩
         reactor.state
             .map { $0.sections }
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        // cell 클릭 시 화면 전환
         reactor.state
             .map { $0.presentVC }
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: {
-                self.navigationController?.pushViewController($0, animated: true)
+                self.presentNextVC($0)
             })
             .disposed(by: disposeBag)
     }
@@ -111,6 +125,21 @@ extension MyProfileViewController {
                 return cell
             }
         })
+    }
+    
+    func presentNextVC(_ type: MyProfileType) {
+        switch type {
+        case .nickname:
+            let changeNickNameReactor = reactor.reactorForChangeNickname()
+
+            let changeNicknameVC = ChangeNicknameViewController(reactor: changeNickNameReactor)
+            
+            self.navigationController?.pushViewController(changeNicknameVC, animated: true)
+        case .year:
+            break
+        case .sex:
+            break
+        }
     }
 }
 

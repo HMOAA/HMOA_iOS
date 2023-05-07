@@ -15,20 +15,29 @@ import RxAppState
 
 class MyPageViewController: UIViewController, View {
 
-    lazy var myPageReactor = MyPageReactor()
-    
+    var reactor: MyPageReactor
     var disposeBag = DisposeBag()
 
     // MARK: - UI Component
     let myPageView = MyPageView()
 
     var dataSource: RxTableViewSectionedReloadDataSource<MyPageSection>!
+    
+    init(reactor: MyPageReactor) {
+        self.reactor = reactor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         setNavigationBarTitle(title: "마이페이지", color: UIColor.white, isHidden: true)
-        bind(reactor: myPageReactor)
+        bind(reactor: reactor)
     }
 }
 
@@ -43,15 +52,17 @@ extension MyPageViewController {
         
         // tableView 아이템 클릭
         myPageView.tableView.rx.itemSelected
+            .compactMap {
+                MyPageType(rawValue: "\($0.section)" + "\($0.row)")
+            }
             .map { Reactor.Action.didTapCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        rx.viewDidAppear
-            .map { _ in Reactor.Action.viewDidLoad }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
+
+        Observable.just(())
+          .map { Reactor.Action.viewDidLoad }
+          .bind(to: reactor.action)
+          .disposed(by: self.disposeBag)
         
         // MARK: - state
         
@@ -61,13 +72,13 @@ extension MyPageViewController {
             .bind(to: myPageView.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        // cell 클릭 시 화면 전환
         reactor.state
             .map { $0.presentVC }
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: {
-                $0.hidesBottomBarWhenPushed = true
-                self.navigationController?.pushViewController($0, animated: true)
+                self.presentNextVC($0)
             })
             .disposed(by: disposeBag)
     }
@@ -107,6 +118,30 @@ extension MyPageViewController {
                 return cell
             }
         })
+    }
+    
+    func presentNextVC(_ type: MyPageType) {
+        
+        switch type {
+        case .myLog:
+            break
+        case .myProfile:
+            let myProfileReactor = reactor.reactorForMyProfile()
+            let myProfileVC = MyProfileViewController(reactor: myProfileReactor)
+            
+            myProfileVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(myProfileVC, animated: true)
+        case .openSource:
+            break
+        case .policy:
+            break
+        case .version:
+            break
+        case .logout:
+            break
+        case .deleteAccount:
+            break
+        }
     }
 }
 
