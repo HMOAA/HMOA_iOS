@@ -60,8 +60,11 @@ class ChangeYearReactor: Reactor {
                 .just(.setPresentChoiceYearVC(false))
             ])
         case .didTapChangeButton:
+            
+            guard let year = currentState.selectedYear else { return .empty() }
+            
             return .concat([
-                .just(.setPopMyPage(true)),
+                ChangeYearReactor.patchUserYear(year),
                 .just(.setPopMyPage(false))
             ])
             
@@ -97,6 +100,15 @@ extension ChangeYearReactor {
     
     func reactorForChoiceYear() -> ChoiceYearReactor {
         return ChoiceYearReactor(service: service)
+    }
+    
+    static func patchUserYear(_ year: String) -> Observable<Mutation> {
+        
+        return MemberAPI.updateAge(params: ["age": 2024 - Int(year)!])
+            .catch { _ in .empty() }
+            .flatMap { response -> Observable<Mutation> in
+                return .just(.setPopMyPage(true))
+            }
     }
 }
         
