@@ -58,8 +58,7 @@ class ChangeYearViewConroller: UIViewController, View {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setNavigationBarTitle(title: "닉네임 변경", color: .white, isHidden: false)
+        setBackItemNaviBar("출생연도")
         setUpUI()
         setAddView()
         setUpConstraints()
