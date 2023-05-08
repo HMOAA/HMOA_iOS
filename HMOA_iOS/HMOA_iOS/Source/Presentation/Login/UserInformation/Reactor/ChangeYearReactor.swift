@@ -11,27 +11,43 @@ import ReactorKit
 import RxCocoa
 
 class ChangeYearReactor: Reactor {
-    let initialState: State
-    
+    var initialState: State
+    var service: UserYearServiceProtocol
+
     enum Action {
         case didTapChoiceYearButton
         case didTapChangeButton
+        case didChangeSelectedYear(String)
     }
     
     enum Mutation {
         case setPresentChoiceYearVC(Bool)
         case setPopMyPage(Bool)
-        case setSelectedYear(Bool)
+        case setIsSelectedYear(Bool)
+        case setSelectedYear(String?)
     }
     
     struct State {
         var isPresentChoiceYearVC: Bool = false
         var isPopMyPage: Bool = false
         var isSelectedYear: Bool = false
+        var selectedYear: String? = nil
     }
     
-    init() {
-        initialState = State()
+    init(service: UserYearServiceProtocol) {
+        self.initialState = State()
+        self.service = service
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let event = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .selectedYear(content: let year):
+                return .just(.setSelectedYear(year))
+            }
+        }
+        
+        return Observable.merge(mutation, event)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -40,13 +56,19 @@ class ChangeYearReactor: Reactor {
         case .didTapChoiceYearButton:
             return .concat([
                 .just(.setPresentChoiceYearVC(true)),
-                .just(.setSelectedYear(true)),
+                .just(.setIsSelectedYear(true)),
                 .just(.setPresentChoiceYearVC(false))
             ])
         case .didTapChangeButton:
             return .concat([
                 .just(.setPopMyPage(true)),
                 .just(.setPopMyPage(false))
+            ])
+            
+        case .didChangeSelectedYear(let year):
+            return .concat([
+                .just(.setSelectedYear(year)),
+                .just(.setSelectedYear(nil))
             ])
         }
     }
@@ -60,11 +82,21 @@ class ChangeYearReactor: Reactor {
             state.isPresentChoiceYearVC = isPresent
         case .setPopMyPage(let isPop):
             state.isPopMyPage = isPop
-        case .setSelectedYear(let isSelectedYear):
+        case .setIsSelectedYear(let isSelectedYear):
             state.isSelectedYear = isSelectedYear
+        case .setSelectedYear(let year):
+            state.selectedYear = year
         }
         
         return state
+    }
+}
+
+
+extension ChangeYearReactor {
+    
+    func reactorForChoiceYear() -> ChoiceYearReactor {
+        return ChoiceYearReactor(service: service)
     }
 }
         

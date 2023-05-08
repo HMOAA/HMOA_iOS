@@ -287,7 +287,7 @@ class UserInformationViewController: UIViewController {
     }
     
     func presentSelectYear() -> ChoiceYearViewController {
-        let vc = ChoiceYearViewController()
+        let vc = ChoiceYearViewController(reactor: ChoiceYearReactor(service: UserYearService()))
         vc.modalPresentationStyle = .pageSheet
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.medium()]

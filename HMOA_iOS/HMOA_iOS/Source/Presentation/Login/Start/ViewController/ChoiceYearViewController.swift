@@ -14,8 +14,16 @@ import RxSwift
 import ReactorKit
 import RxDataSources
 
-class ChoiceYearViewController: UIViewController {
-    //MARK: - Property
+class ChoiceYearViewController: UIViewController, View {
+    
+    // MARK: - Property
+
+    var reactor: ChoiceYearReactor
+    var disposeBag = DisposeBag()
+    let yearList = Year().year
+
+    // MARK: - UI Component
+    
     let xButton = UIButton().then {
         $0.setImage(UIImage(named: "x"), for: .normal)
     }
@@ -32,10 +40,17 @@ class ChoiceYearViewController: UIViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .black
     }
+
+    // MARK: - init
     
-    let reactor = ChoiceYearReactor()
-    let disposeBag = DisposeBag()
-    let yearList = Year().year
+    init(reactor: ChoiceYearReactor) {
+        self.reactor = reactor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +62,7 @@ class ChoiceYearViewController: UIViewController {
         
         
     }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -98,7 +114,7 @@ class ChoiceYearViewController: UIViewController {
         }
     }
     
-    private func bind(reactor: ChoiceYearReactor) {
+    func bind(reactor: ChoiceYearReactor) {
         
         xButton.rx.tap
             .map { ChoiceYearReactor.Action.didTapXButton }

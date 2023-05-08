@@ -136,9 +136,14 @@ extension MyProfileViewController {
             
             self.navigationController?.pushViewController(changeNicknameVC, animated: true)
         case .year:
-            break
+            let changeYearVC = ChangeYearViewConroller(reactor: ChangeYearReactor(service: UserYearService()))
+            
+            self.navigationController?.pushViewController(changeYearVC, animated: true)
         case .sex:
-            break
+            
+            let changeSexVC = ChangeSexViewController()
+            
+            self.navigationController?.pushViewController(changeSexVC, animated: true)
         }
     }
 }
