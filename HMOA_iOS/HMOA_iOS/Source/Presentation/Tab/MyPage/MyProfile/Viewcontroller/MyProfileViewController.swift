@@ -142,6 +142,7 @@ extension MyProfileViewController {
         case .sex:
             
             let changeSexVC = ChangeSexViewController()
+            changeSexVC.reactor = ChangeSexReactor()
             
             self.navigationController?.pushViewController(changeSexVC, animated: true)
         }

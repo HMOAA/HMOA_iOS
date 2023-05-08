@@ -29,6 +29,7 @@ class ChangeSexReactor: Reactor {
         var isCheckedMan: Bool = false
         var isPopMyPage: Bool = false
         var isSexCheck: Bool = false
+        var sexType: Bool? = false
     }
     
     init() {
@@ -43,8 +44,11 @@ class ChangeSexReactor: Reactor {
         case .didTapWomanButton:
             return .just(.setCheckWoman(true))
         case .didTapChangeButton:
+            
+            guard let sex = currentState.sexType else { return .empty() }
+            
             return .concat([
-                .just(.setPopMyPage(true)),
+                ChangeSexReactor.patchUserSex(sex),
                 .just(.setPopMyPage(false))
             ])
         }
@@ -59,15 +63,31 @@ class ChangeSexReactor: Reactor {
             state.isCheckedMan = isChecked
             state.isCheckedWoman = !isChecked
             state.isSexCheck = isChecked
+            state.sexType = true // 남성은 true
         case .setCheckWoman(let isChecked):
             state.isCheckedWoman = isChecked
             state.isCheckedMan = !isChecked
             state.isSexCheck = isChecked
+            state.sexType = false // 여성은 false
         case .setPopMyPage(let isPop):
             state.isPopMyPage = isPop
         }
         
         return state
+    }
+}
+
+extension ChangeSexReactor {
+    
+    static func patchUserSex(_ type: Bool) -> Observable<Mutation> {
+        
+        let sex = type ? "남성" : "여성"
+        
+        return MemberAPI.updateSex(params: ["sex": sex])
+            .catch { _ in .empty() }
+            .flatMap { response -> Observable<Mutation> in
+                return .just(.setPopMyPage(true))
+            }
     }
 }
         
