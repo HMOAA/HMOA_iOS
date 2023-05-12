@@ -1307,7 +1307,6 @@
 			isa = PBXGroup;
 			children = (
 				CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */,
-				CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */,
 				CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */,
 				CA1067DC29D6D399009A7245 /* ChangeSexReactor.swift */,
 			);
@@ -1317,6 +1316,7 @@
 		CA1067D529D6C6AC009A7245 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */,
 				CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */,
 			);
 			path = Reactor;

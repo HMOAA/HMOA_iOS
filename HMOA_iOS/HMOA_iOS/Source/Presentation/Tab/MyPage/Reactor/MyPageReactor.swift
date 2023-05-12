@@ -122,7 +122,7 @@ extension MyPageReactor {
                         UserInfo(
                             imageUrl: "",
                             nickName: member.nickname,
-                            loginType: member.email))),
+                            loginType: member.provider))),
                 ] + MyPageReactor.setUpSection()
                 
                 return .just(.setMemberInfo(sections))

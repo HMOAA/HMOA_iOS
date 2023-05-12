@@ -11,16 +11,25 @@ import Then
 import SnapKit
 import RxCocoa
 import RxSwift
+import ReactorKit
 
-class NicknameViewController: UIViewController {
-    
+class NicknameViewController: UIViewController, View {
     //MARK: - Property
     
     lazy var nicknameView = NicknameView("다음")
     
-    let disposeBag = DisposeBag()
-    let reactor = NicknameReactor()
+    var disposeBag = DisposeBag()
+    typealias Reactor = NicknameReactor
     
+    //MARK: - Init
+    init(reactor: NicknameReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -29,7 +38,6 @@ class NicknameViewController: UIViewController {
         setUpUI()
         setAddView()
         setConstraints()
-        bind(reactor: reactor)
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,7 +68,7 @@ class NicknameViewController: UIViewController {
 
     
     //MARK: - Bind
-    private func bind(reactor: NicknameReactor) {
+    func bind(reactor: Reactor) {
         //Input
         
         //중복확인 터치 이벤트
@@ -112,11 +120,9 @@ class NicknameViewController: UIViewController {
             .map { $0.nicknameResponse }
             .distinctUntilChanged()
             .filter { $0 != nil }
-            .bind(onNext: {
-                print($0)
-                let vc = UserInformationViewController(reactor.currentState.nickname!)
-                self.navigationController?.pushViewController(vc,
-                                                              animated: true)
+            .bind(onNext: { _ in
+                let vc = UserInformationViewController(nickname: reactor.currentState.nickname!, reactor: UserInformationReactor(service: UserYearService()))
+                self.navigationController?.pushViewController(vc,animated: true)
             }).disposed(by: disposeBag)
             
     }

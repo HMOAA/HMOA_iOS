@@ -11,20 +11,22 @@ import ReactorKit
 import RxCocoa
 
 class UserInformationReactor: Reactor {
-    let initialState: State
+    var initialState: State
+    var service: UserYearServiceProtocol
     
     enum Action {
         case didTapChoiceYearButton
         case didTapWomanButton
         case didTapManButton
-        case didTapStartButton(String, String)
+        case didTapStartButton(String)
+        case didChangeSelectedYear(String)
     }
     
     enum Mutation {
         case setPresentChoiceYearVC(Bool)
         case setCheckWoman(Bool)
         case setCheckMan(Bool)
-        case setSelectedYear(Bool)
+        case setSelectedYear(String?)
         case setJoinResponse(JoinResponse?)
     }
     
@@ -32,13 +34,27 @@ class UserInformationReactor: Reactor {
         var isPresentChoiceYearVC: Bool = false
         var isCheckedWoman: Bool = false
         var isCheckedMan: Bool = false
-        var isSelectedYear: Bool = false
         var isSexCheck: Bool = false
+        var selectedYear: String? = nil
         var joinResponse: JoinResponse? = nil
+        var isStartEnable: Bool = false
+        var nickname: String = ""
     }
     
-    init() {
-        initialState = State()
+    init(service: UserYearServiceProtocol) {
+        self.initialState = State()
+        self.service = service
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let event = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .selectedYear(content: let year):
+                return .just(.setSelectedYear(year))
+            }
+        }
+        
+        return .merge(mutation, event)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -47,17 +63,20 @@ class UserInformationReactor: Reactor {
         case .didTapChoiceYearButton:
             return .concat([
                 .just(.setPresentChoiceYearVC(true)),
-                .just(.setSelectedYear(true)),
                 .just(.setPresentChoiceYearVC(false))
             ])
         case .didTapManButton:
             return .just(.setCheckMan(true))
         case .didTapWomanButton:
             return .just(.setCheckWoman(true))
-        case .didTapStartButton(let year, let nickname):
-            let age = convertYearToAge(year)
-            let sexString = checkedSexString()
-            return combineAPIObseverble(age, nickname, sexString)
+        case .didChangeSelectedYear(let year):
+            return .concat([
+                .just(.setSelectedYear(year)),
+                .just(.setSelectedYear(nil))
+            ])
+        case .didTapStartButton(let nickname):
+            guard let year = currentState.selectedYear else {return .empty()}
+            return combineAPIObseverble(year, nickname)
                 .map { .setJoinResponse($0) }
         }
     }
@@ -72,15 +91,18 @@ class UserInformationReactor: Reactor {
         case .setCheckMan(let isChecked):
             state.isCheckedMan = isChecked
             state.isCheckedWoman = !isChecked
-            state.isSexCheck = isChecked
+            state.isSexCheck = true
+            state.isStartEnable = setStartButtonEnable()
         case .setCheckWoman(let isChecked):
             state.isCheckedWoman = isChecked
             state.isCheckedMan = !isChecked
-            state.isSexCheck = isChecked
-        case .setSelectedYear(let isSelectedYear):
-            state.isSelectedYear = isSelectedYear
+            state.isSexCheck = true
+            state.isStartEnable = setStartButtonEnable()
         case .setJoinResponse(let joinResponse):
             state.joinResponse = joinResponse
+        case .setSelectedYear(let year):
+            state.selectedYear = year
+            state.isStartEnable = year != nil && year != "선택" && currentState.isSexCheck
         }
         
         return state 
@@ -89,44 +111,32 @@ class UserInformationReactor: Reactor {
         
 extension UserInformationReactor {
     
-    //연도 기준으로 나이 구하기
-    func convertYearToAge(_ year: String) -> Int {
-        return 2024 - Int(year)!
+    func reactorForChoiceYear() -> ChoiceYearReactor {
+        return ChoiceYearReactor(service: service)
     }
     
-    // 버튼 체크에 따른 남성, 여성 반환
-    func checkedSexString() -> String {
-        
-        if currentState.isCheckedMan { return "남성" }
-        else if currentState.isCheckedWoman { return "여성" }
-        return ""
+    func setStartButtonEnable() -> Bool {
+        return currentState.selectedYear != nil && currentState.selectedYear != "선택"
     }
     
     //회원가입 parameter 설정
-    func setJoinParams(_ age: Int, _ nickname: String , _ sex: String) -> [String: Any] {
+    func setJoinParams(_ age: Int, _ nickname: String) -> [String: Any] {
         return [
             "age": age,
             "nickname": nickname,
-            "sex": sex
+            "sex": true
         ]
     }
     
     //나이, 성별 회원가입 api 묶기
-    func combineAPIObseverble(_ age: Int, _ nickname: String , _ sex: String) -> Observable<JoinResponse?> {
-        let ageOb = MemberAPI.updateAge(params: ["age": age])
-        let sexOb = MemberAPI.updateSex(params: ["sex": sex])
-        let joinOb = MemberAPI.join(params: setJoinParams(age, nickname, sex))
+    func combineAPIObseverble(_ year: String, _ nickname: String) -> Observable<JoinResponse> {
+        let age = 2024 - Int(year)!
         
-        return Observable.combineLatest(ageOb, sexOb, joinOb,
-                                 resultSelector: { ageResponse, sexResponse, joinResponse in
-            //api통신 실패 시 ErrorResponse로 decoding되는데 성공하면 각자의 모델로 디코딩 되니 그 해당 값이 있으면 api통신 성공
-            if  !ageResponse.message.isEmpty &&
-                !sexResponse.message.isEmpty &&
-                !joinResponse.nickname.isEmpty {
-                    return joinResponse
-            }
-            return nil
-        })
+        let ageOb = MemberAPI.updateAge(params: ["age": age])
+        let sexOb = MemberAPI.updateSex(params: ["sex": true])
+        let joinOb = MemberAPI.join(params: setJoinParams(age, nickname))
+        
+        return joinOb
         
     }
 }
