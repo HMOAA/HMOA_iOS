@@ -15,7 +15,7 @@ class HomeViewController: UIViewController, View {
     
     // MARK: ViewModel
     
-    let homeReactor = HomeViewReactor()
+    lazy var homeReactor = HomeViewReactor()
     
     // MARK: Properties
     private var dataSource: RxCollectionViewSectionedReloadDataSource<HomeSection>!

@@ -1,83 +1,71 @@
 //
-//  NicknameViewController.swift
+//  ChangeNicknameViewController.swift
 //  HMOA_iOS
 //
-//  Created by 정지훈 on 2023/03/21.
+//  Created by 임현규 on 2023/05/07.
 //
 
 import UIKit
-
-import Then
 import SnapKit
-import RxCocoa
 import RxSwift
+import RxCocoa
+import ReactorKit
 
-class NicknameViewController: UIViewController {
+class ChangeNicknameViewController: UIViewController, View {
+    var reactor: ChangeNicknameReactor
+    var disposeBag = DisposeBag()
     
-    //MARK: - Property
+    // MARK: - UI Component
+    lazy var nicknameView = NicknameView("변경")
     
-    lazy var nicknameView = NicknameView("다음")
+    // MARK: - Initialize
+    init(reactor: ChangeNicknameReactor) {
+        self.reactor = reactor
+        super.init(nibName: nil, bundle: nil)
+    }
     
-    let disposeBag = DisposeBag()
-    let reactor = NicknameReactor()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    
-    //MARK: - LifeCycle
+    // MAKR: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUpUI()
-        setAddView()
-        setConstraints()
+        setBackItemNaviBar("닉네임")
+        configureUI()
         bind(reactor: reactor)
     }
     
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
-        
-        let frame = nicknameView.nicknameTextField.frame
         setBottomBorder(nicknameView.nicknameTextField,
-                        width: frame.width,
-                        height: frame.height)
+                        width: nicknameView.nicknameTextField.frame.width,
+                        height: nicknameView.nicknameTextField.frame.height)
     }
-    
-    //MARK: - SetUp
-    private func setUpUI() {
-        view.backgroundColor = .white
-        setNavigationBarTitle(title: "1/2", color: .white, isHidden: false, isScroll: false)
-    }
-    
-    private func setAddView() {
-        view.addSubview(nicknameView)
-    }
-    
-    private func setConstraints() {
-        nicknameView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-    }
+}
 
+extension ChangeNicknameViewController {
     
-    //MARK: - Bind
-    private func bind(reactor: NicknameReactor) {
+    // MARK: - bind
+    
+    func bind(reactor: ChangeNicknameReactor) {
         //Input
         
         //중복확인 터치 이벤트
         nicknameView.duplicateCheckButton.rx.tap
-            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameView.nicknameTextField.text)}
+            .map { ChangeNicknameReactor.Action.didTapDuplicateButton(self.nicknameView.nicknameTextField.text)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //다음 버튼 터치 이벤트
         nicknameView.bottomButton.rx.tap
-            .map { NicknameReactor.Action.didTapStartButton}
+            .map { ChangeNicknameReactor.Action.didTapStartButton}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //textfield return 터치 이벤트
         nicknameView.nicknameTextField.rx.controlEvent(.editingDidEndOnExit)
-            .map { NicknameReactor.Action.didTapTextFieldReturn}
+            .map { ChangeNicknameReactor.Action.didTapTextFieldReturn}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -112,20 +100,24 @@ class NicknameViewController: UIViewController {
             .map { $0.nicknameResponse }
             .distinctUntilChanged()
             .filter { $0 != nil }
-            .bind(onNext: {
-                print($0)
-                let vc = UserInformationViewController(reactor.currentState.nickname!)
-                self.navigationController?.pushViewController(vc,
-                                                              animated: true)
-            }).disposed(by: disposeBag)
+            .map { _ in }
+            .bind(onNext: popViewController)
+            .disposed(by: disposeBag)
             
     }
     
-}
+    // MARK: - configure
+    func configureUI() {
+        view.backgroundColor = .white
+        view.addSubview(nicknameView)
+        
 
-extension NicknameViewController {
-    
-    //MARK: - Functions
+        
+        nicknameView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
     
     //caption ui 변경
     private func changeCaptionLabelColor(_ isDuplicate: Bool) {

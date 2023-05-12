@@ -11,7 +11,8 @@ import ReactorKit
 import RxCocoa
 
 class ChoiceYearReactor: Reactor {
-    let initialState: State
+    var initialState: State
+    var service: UserYearServiceProtocol
     
     enum Action {
         case didTapOkButton
@@ -29,8 +30,9 @@ class ChoiceYearReactor: Reactor {
         var selectedIndex: Int
     }
     
-    init() {
-        initialState = State(isDismiss: false, selectedIndex: 0)
+    init(service: UserYearServiceProtocol) {
+        self.initialState = State(isDismiss: false, selectedIndex: 0)
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -47,7 +49,11 @@ class ChoiceYearReactor: Reactor {
                 .just(.setDismissStartVC(false))
             ])
         case .didSelecteYear(let index):
-            return .just(.setYearSelected(index))
+        
+            let selectedYear = Year().year[index]
+            return .concat([
+                service.selectedYear(to: selectedYear).map { _ in .setYearSelected(index)}
+            ])
         }
     }
     
