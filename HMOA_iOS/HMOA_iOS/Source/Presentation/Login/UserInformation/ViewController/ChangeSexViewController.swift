@@ -11,53 +11,52 @@ import RxCocoa
 import RxSwift
 import SnapKit
 import Then
+import ReactorKit
 
-class ChangeSexViewController: UIViewController {
+class ChangeSexViewController: UIViewController, View {
     
     //MARK: - Property
+    
+    typealias Reactor = ChangeSexReactor
+    var disposeBag = DisposeBag()
+    
+    // MARK: - UI Component
+    
     let sexStackView = UIStackView().then {
         $0.setStackViewUI(spacing: 16, axis: .horizontal)
     }
-    var womanButton: UIButton!
-    var manButton: UIButton!
     
-    let changeButton = UIButton().then {
+    lazy var womanButton = UIButton(configuration: configureButton("여성")).then {
+        $0.setImage(UIImage(named: "circle"), for: .normal)
+        $0.setImage(UIImage(named: "selectCircle"), for: .selected)
+    }
+    
+    lazy var manButton = UIButton(configuration: configureButton("남성")).then {
+        $0.setImage(UIImage(named: "circle"), for: .normal)
+        $0.setImage(UIImage(named: "selectCircle"), for: .selected)
+    }
+    
+    lazy var changeButton = UIButton().then {
         $0.isEnabled = false
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .customColor(.gray2)
         $0.titleLabel?.font = .customFont(.pretendard, 20)
         $0.setTitle("변경", for: .normal)
     }
-    
-    let reactor = ChangeSexReactor()
-    var disposeBag = DisposeBag()
-    
-    let yearList = Year().year
-    var index: Int = 0
-    
+        
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationBarTitle(title: "성별", color: .white, isHidden: false)
+        setBackItemNaviBar("성별")
         setUpUI()
         setAddView()
         setUpConstraints()
-        
-        bind(reactor: reactor)
     }
     
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = .white
-        
-        womanButton = UIButton(configuration: configureButton("여성"))
-        manButton = UIButton(configuration: configureButton("남성"))
-        womanButton.setImage(UIImage(named: "circle"), for: .normal)
-        womanButton.setImage(UIImage(named: "selectCircle"), for: .selected)
-        manButton.setImage(UIImage(named: "selectCircle"), for: .selected)
-        manButton.setImage(UIImage(named: "circle"), for: .normal)
-        
     }
     
     private func configureButton(_ title: String) -> UIButton.Configuration {
@@ -102,23 +101,24 @@ class ChangeSexViewController: UIViewController {
     }
     
     //MARK: - Bind
-    private func bind(reactor: ChangeSexReactor) {
+    func bind(reactor: Reactor) {
         //Input
         
         //여성 버튼 터치 이벤트
         womanButton.rx.tap
-            .map { ChangeSexReactor.Action.didTapWomanButton }
+            .map { Reactor.Action.didTapWomanButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //남성 버튼 터치 이벤트
         manButton.rx.tap
-            .map { ChangeSexReactor.Action.didTapManButton }
+            .map { Reactor.Action.didTapManButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        //시작 버튼 터치 이베느
+        
+        //변경 버튼 터치 이벤트
         changeButton.rx.tap
-            .map { ChangeSexReactor.Action.didTapChangeButton }
+            .map { Reactor.Action.didTapChangeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -156,9 +156,6 @@ class ChangeSexViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }).disposed(by: disposeBag)
     }
-    
-    
-    
 }
 
 extension ChangeSexViewController {

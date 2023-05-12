@@ -33,7 +33,7 @@ class LikeViewController: UIViewController {
                     for: .selected)
     }
     
-    let reactor = LikeReactor()
+    lazy var reactor = LikeReactor()
     let disposeBag = DisposeBag()
     private var cardDatasource: RxCollectionViewSectionedReloadDataSource<CardSection>!
     private var listDatasource: RxCollectionViewSectionedReloadDataSource<ListSection>!

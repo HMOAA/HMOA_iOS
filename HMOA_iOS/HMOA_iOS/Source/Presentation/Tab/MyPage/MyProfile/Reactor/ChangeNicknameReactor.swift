@@ -1,17 +1,16 @@
 //
-//  NicknameReactor.swift
+//  ChangeNicknameReactor.swift
 //  HMOA_iOS
 //
-//  Created by 정지훈 on 2023/03/22.
+//  Created by 임현규 on 2023/05/07.
 //
 
 import ReactorKit
-import RxCocoa
 
-class NicknameReactor: Reactor {
+class ChangeNicknameReactor: Reactor {
     
     var initialState: State
-    
+    var service: UserServiceProtocol
     enum Action {
         case didTapDuplicateButton(String?)
         case didTapStartButton
@@ -23,6 +22,7 @@ class NicknameReactor: Reactor {
         case setNickname(String)
         case setIsDuplicate(Bool)
         case setIsTapReturn(Bool)
+        case dismiss
     }
     
     struct State {
@@ -31,10 +31,12 @@ class NicknameReactor: Reactor {
         var isTapReturn: Bool = false
         var nickname: String? = nil
         var nicknameResponse: Response? = nil
+        var shouldDismissed: Bool = false
     }
     
-    init() {
-        initialState = State()
+    init(service: UserServiceProtocol) {
+        self.initialState = State()
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -53,10 +55,10 @@ class NicknameReactor: Reactor {
         case .didTapStartButton:
             guard let nickname = currentState.nickname
             else { return .just(.setNickNameResponse(nil)) }
-            print(nickname)
             return .concat([
                 MemberAPI.updateNickname(params: ["nickname": nickname])
                 .map { .setNickNameResponse($0) },
+                service.updateUserNickname(to: nickname).map { _ in .dismiss },
                 .just(.setNickNameResponse(nil))
             ])
         case .didTapTextFieldReturn:
@@ -80,6 +82,8 @@ class NicknameReactor: Reactor {
             state.nickname = nickname
         case .setNickNameResponse(let response):
             state.nicknameResponse = response
+        case .dismiss:
+            state.shouldDismissed = true
         }
         
         return state

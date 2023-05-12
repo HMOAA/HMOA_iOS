@@ -11,10 +11,17 @@ import RxCocoa
 import RxSwift
 import SnapKit
 import Then
+import ReactorKit
 
-class ChangeYearViewConroller: UIViewController {
+class ChangeYearViewConroller: UIViewController, View {
 
-    //MARK: - Property
+    // MARK: - Properties
+    
+    var reactor: ChangeYearReactor
+    var disposeBag = DisposeBag()
+    let yearList = Year().year
+
+    // MARK: - UI Component
     
     let birthYearLabel = UILabel().then {
         $0.setLabelUI("출생연도", font: .pretendard_medium, size: 16, color: .black)
@@ -36,16 +43,22 @@ class ChangeYearViewConroller: UIViewController {
         $0.setTitle("변경", for: .normal)
     }
     
-    let reactor = ChangeYearReactor()
-    var disposeBag = DisposeBag()
-    
-    let yearList = Year().year
 
+    // MARK: - init
+    
+    init(reactor: ChangeYearReactor) {
+        self.reactor = reactor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setNavigationBarTitle(title: "닉네임 변경", color: .white, isHidden: false)
+        setBackItemNaviBar("출생연도")
         setUpUI()
         setAddView()
         setUpConstraints()
@@ -112,7 +125,7 @@ class ChangeYearViewConroller: UIViewController {
     }
     
     //MARK: - Bind
-    private func bind(reactor: ChangeYearReactor) {
+    func bind(reactor: ChangeYearReactor) {
         //Input
         
         //연도 선택 터치 이벤트
@@ -121,12 +134,12 @@ class ChangeYearViewConroller: UIViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        //시작 버튼 터치 이베느
+        //변경 버튼 터치 이벤트
         changeButton.rx.tap
             .map { ChangeYearReactor.Action.didTapChangeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         //OutPut
         
         //ChoiceYearVC로 이동 및 년도 값 받아와 UI 업데이트
@@ -137,7 +150,6 @@ class ChangeYearViewConroller: UIViewController {
             .bind(onNext: { _ in
                 let yearVC = self.presentSelectYear()
                 self.present(yearVC, animated: true)
-                self.updateYearLabel(yearVC)
             }).disposed(by: disposeBag)
         
         //Mypage로 pop
@@ -148,28 +160,26 @@ class ChangeYearViewConroller: UIViewController {
             .bind(onNext: { _ in
                 self.navigationController?.popViewController(animated: true)
             }).disposed(by: disposeBag)
-        
+     
+        // 선택년도 label로 바인딩 및 UI처리
+        reactor.state
+            .map { $0.selectedYear }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: {
+                self.updateUIStartAndYear($0)
+                self.selectLabel.text = $0
+            })
+            .disposed(by: disposeBag)
     }
-    
 }
 
 extension ChangeYearViewConroller {
     //MARK: - Functions
-    
-    //selectLabel text 변경
-    func updateYearLabel(_ vc: ChoiceYearViewController) {
-        vc.reactor.state
-            .map { $0.selectedIndex}
-            .distinctUntilChanged()
-            .bind(onNext: { index in
-                self.updateUIStartAndYear(index)
-                self.selectLabel.text = self.yearList[index]
-            }).disposed(by: disposeBag)
-    }
-    
+
     //selectLabel, changeButton UI 변경
-    func updateUIStartAndYear(_ index: Int) {
-        if index != 0{
+    func updateUIStartAndYear(_ year: String) {
+        if year != "선택" {
             selectLabel.textColor = .black
             changeButton.backgroundColor = .black
             changeButton.isEnabled = true
@@ -183,7 +193,10 @@ extension ChangeYearViewConroller {
     }
     
     func presentSelectYear() -> ChoiceYearViewController {
-        let vc = ChoiceYearViewController()
+        let choiceYearReactor = self.reactor.reactorForChoiceYear()
+        
+        let vc = ChoiceYearViewController(reactor: choiceYearReactor)
+        
         vc.modalPresentationStyle = .pageSheet
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.medium()]

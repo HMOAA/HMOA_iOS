@@ -113,9 +113,9 @@ extension UserInformationReactor {
     
     //나이, 성별 회원가입 api 묶기
     func combineAPIObseverble(_ age: Int, _ nickname: String , _ sex: String) -> Observable<JoinResponse?> {
-        let ageOb = API.updateAge(params: ["age": age])
-        let sexOb = API.updateSex(params: ["sex": sex])
-        let joinOb = API.join(params: setJoinParams(age, nickname, sex))
+        let ageOb = MemberAPI.updateAge(params: ["age": age])
+        let sexOb = MemberAPI.updateSex(params: ["sex": sex])
+        let joinOb = MemberAPI.join(params: setJoinParams(age, nickname, sex))
         
         return Observable.combineLatest(ageOb, sexOb, joinOb,
                                  resultSelector: { ageResponse, sexResponse, joinResponse in
