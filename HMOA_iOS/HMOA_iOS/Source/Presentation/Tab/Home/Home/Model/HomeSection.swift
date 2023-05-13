@@ -9,34 +9,23 @@ import UIKit
 import RxDataSources
 
 enum HomeSection {
-    case homeTop([HomeSectionItem])
-    case homeFirst(header: String, items: [HomeSectionItem])
-    case homeSecond(header: String, items: [HomeSectionItem])
-    case homeThrid(header: String, items: [HomeSectionItem])
-    case homeFourth(header: String, items: [HomeSectionItem])
+    case topSection([HomeSectionItem])
+    case recommendSection(header: String, items: [HomeSectionItem])
+
 }
 
 enum HomeSectionItem {
-    case homeTopCell(String, Int)
-    case homeFirstCell(HomeCellReactor, Int)
-    case homeSecondCell(HomeCellReactor, Int)
-    case homeThridCell(HomeCellReactor, Int)
-    case homeFourthCell(HomeCellReactor, Int)
+    case topCell(String, Int)
+    case recommendCell(HomeCellReactor, Int)
 }
 
 extension HomeSectionItem {
     
     var perfumeId: Int {
         switch self {
-        case .homeTopCell(_, let perfumeId):
+        case .topCell(_, let perfumeId):
             return perfumeId
-        case .homeFirstCell(_, let perfumeId):
-            return perfumeId
-        case .homeSecondCell(_, let perfumeId):
-            return perfumeId
-        case .homeThridCell(_, let perfumeId):
-            return perfumeId
-        case .homeFourthCell(_, let perfumeId):
+        case .recommendCell(_, let perfumeId):
             return perfumeId
         }
     }
@@ -47,31 +36,18 @@ extension HomeSection: SectionModelType {
     
     var items: [Item] {
         switch self {
-        case .homeTop(let items):
+        case .topSection(let items):
             return items
-        case .homeFirst(_, let items):
+        case .recommendSection(_, let items):
             return items
-        case .homeSecond(_, let items):
-            return items
-        case .homeThrid(_, let items):
-            return items
-        case .homeFourth(_, let items):
-            return items
-
         }
     }
     
     var headerTitle: String {
         switch self {
-        case .homeTop(_):
+        case .topSection(_):
             return ""
-        case .homeFirst(let header, _):
-            return header
-        case .homeSecond(let header, _):
-            return header
-        case .homeThrid(let header, _):
-            return header
-        case .homeFourth(let header, _):
+        case .recommendSection(let header, _):
             return header
         }
     }
