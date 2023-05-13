@@ -9,9 +9,9 @@ import Foundation
 
 struct Member: Codable {
     let age: Int
-    let email: String
     let imgUrl: String?
     let memberId: Int
     let nickname: String
-    let sex: String
+    let provider: String
+    let sex: Bool
 }

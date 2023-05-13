@@ -51,6 +51,7 @@ public func networking<T: Decodable>(
                     observer.onNext(data)
                     observer.onCompleted()
                 case .failure(let error):
+                    print(error)
                     observer.onError(error)
                 }
             }

@@ -11,8 +11,9 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
+import ReactorKit
 
-class UserInformationViewController: UIViewController {
+class UserInformationViewController: UIViewController, View {
     
     //MARK: - Property
     let titleLabel = UILabel().then {
@@ -60,24 +61,26 @@ class UserInformationViewController: UIViewController {
         $0.setTitle("시작하기", for: .normal)
     }
     
-    let reactor = UserInformationReactor()
+    var reactor: UserInformationReactor
     var disposeBag = DisposeBag()
     
     let yearList = Year().year
     var index: Int = 0
     var nickname: String = ""
     
-    //MARK: - LifeCycle
-    init(_ nickname: String) {
+    //MARK: - Init
+    init(nickname: String, reactor: UserInformationReactor) {
         //닉네임 페이지에서 닉네임 받아오기
-        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
         self.nickname = nickname
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -87,6 +90,7 @@ class UserInformationViewController: UIViewController {
         setUpConstraints()
         
         bind(reactor: reactor)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -179,7 +183,7 @@ class UserInformationViewController: UIViewController {
     }
     
     //MARK: - Bind
-    private func bind(reactor: UserInformationReactor) {
+    func bind(reactor: UserInformationReactor) {
         //Input
         
         //연도 선택 터치 이벤트
@@ -202,8 +206,7 @@ class UserInformationViewController: UIViewController {
         
         //시작 버튼 터치 이벤트
         startButton.rx.tap
-            .map { UserInformationReactor.Action.didTapStartButton(self.yearList[self.index],
-                                                                   self.nickname) }
+            .map { UserInformationReactor.Action.didTapStartButton(self.nickname) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -217,7 +220,6 @@ class UserInformationViewController: UIViewController {
             .bind(onNext: { _ in
                 let yearVC = self.presentSelectYear()
                 self.present(yearVC, animated: true)
-                self.updateYearLabel(yearVC)
             }).disposed(by: disposeBag)
         
         //woman 버튼 활성화
@@ -236,10 +238,27 @@ class UserInformationViewController: UIViewController {
         
         //성별 버튼 활성화 체크 및 UI 업데이트
         reactor.state
-            .map { $0.isSexCheck }
+            .map { $0.selectedYear }
             .distinctUntilChanged()
-            .bind(onNext: { isSexCheck in
-                self.updateUIStartAndYear(self.index, isSexCheck)
+            .compactMap { $0 }
+            .bind(onNext: {
+                self.selectLabel.text = $0
+            }).disposed(by: disposeBag)
+        
+        //StartButton Enable 설정
+        reactor.state
+            .map { $0.isStartEnable }
+            .distinctUntilChanged()
+            .bind(onNext: {
+                self.setEnableStartButton($0)
+            }).disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedYear }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: {
+                self.updateUIYearLabel($0)
             }).disposed(by: disposeBag)
         
         //메인 탭바로 이동
@@ -247,8 +266,7 @@ class UserInformationViewController: UIViewController {
             .map { $0.joinResponse }
             .distinctUntilChanged()
             .filter { $0 != nil }
-            .bind(onNext: {
-                print($0)
+            .bind(onNext: { _ in
                 let tabBar = AppTabbarController()
                 tabBar.modalPresentationStyle = .fullScreen
                 self.present(tabBar, animated: true)
@@ -257,37 +275,35 @@ class UserInformationViewController: UIViewController {
     
     //MARK: - UpdateUI
     
-    //selectLabel text 변경
-    func updateYearLabel(_ vc: ChoiceYearViewController) {
-        vc.reactor.state
-            .map { $0.selectedIndex}
-            .distinctUntilChanged()
-            .bind(onNext: { index in
-                self.index = index
-                self.updateUIStartAndYear(index, self.reactor.currentState.isSexCheck)
-                self.selectLabel.text = self.yearList[index]
-            }).disposed(by: disposeBag)
-    }
-    
-    //selectLabel, StartButton UI 변경
-    func updateUIStartAndYear(_ index: Int, _ isSexCheck: Bool) {
-        if index != 0{
-            if isSexCheck {
-                startButton.backgroundColor = .black
-                startButton.isEnabled = true
-            }
-            selectLabel.textColor = .black
+    //selectLabel, startButton UI 변경
+    func updateUIYearLabel(_ year: String) {
+        if year == "선택" {
+            selectLabel.textColor = .customColor(.gray3)
+            setEnableStartButton(false)
         }
         
         else {
-            selectLabel.textColor = .customColor(.gray3)
+            selectLabel.textColor = .black
+        }
+    }
+    
+    func setEnableStartButton(_ isEnable: Bool) {
+        if isEnable {
+            startButton.backgroundColor = .black
+            startButton.isEnabled = true
+        }
+        
+        else {
             startButton.backgroundColor = .customColor(.gray2)
             startButton.isEnabled = false
         }
     }
     
     func presentSelectYear() -> ChoiceYearViewController {
-        let vc = ChoiceYearViewController(reactor: ChoiceYearReactor(service: UserYearService()))
+        
+        let choiceYearReactor = self.reactor.reactorForChoiceYear()
+        let vc = ChoiceYearViewController(reactor: choiceYearReactor)
+        
         vc.modalPresentationStyle = .pageSheet
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.medium()]

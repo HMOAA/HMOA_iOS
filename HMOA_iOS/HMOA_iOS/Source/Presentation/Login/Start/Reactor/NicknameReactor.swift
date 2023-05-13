@@ -53,7 +53,6 @@ class NicknameReactor: Reactor {
         case .didTapStartButton:
             guard let nickname = currentState.nickname
             else { return .just(.setNickNameResponse(nil)) }
-            print(nickname)
             return .concat([
                 MemberAPI.updateNickname(params: ["nickname": nickname])
                 .map { .setNickNameResponse($0) },

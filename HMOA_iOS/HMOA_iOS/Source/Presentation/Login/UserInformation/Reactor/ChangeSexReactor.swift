@@ -83,7 +83,8 @@ extension ChangeSexReactor {
         
         let sex = type ? "남성" : "여성"
         
-        return MemberAPI.updateSex(params: ["sex": sex])
+        //api request형식이 바껴서 임시로 true로 설정해 놨습니다.
+        return MemberAPI.updateSex(params: ["sex": true])
             .catch { _ in .empty() }
             .flatMap { response -> Observable<Mutation> in
                 return .just(.setPopMyPage(true))

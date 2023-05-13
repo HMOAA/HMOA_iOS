@@ -49,7 +49,6 @@ final class MemberAPI {
         
         guard let data = try? JSONSerialization.data(withJSONObject: params)
         else { return Observable.error(NetworkError.invalidParameters) }
-        
         return networking(
             urlStr: MemberAddress.patchNickname.url,
             method: .patch,
@@ -58,7 +57,7 @@ final class MemberAPI {
     }
     
     /// 성별 업데이트
-    static func updateSex(params: [String: String]) -> Observable<Response> {
+    static func updateSex(params: [String: Bool]) -> Observable<Response> {
         guard let data = try? JSONSerialization.data(withJSONObject: params)
         else { return Observable.error(NetworkError.invalidParameters) }
         
