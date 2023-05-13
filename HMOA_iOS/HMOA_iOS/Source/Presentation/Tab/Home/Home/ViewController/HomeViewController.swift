@@ -145,7 +145,7 @@ extension HomeViewController {
         dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
             
             switch item {
-            case .homeTopCell(let imageUrl, _):
+            case .topCell(let imageUrl, _):
                 guard let homeTopCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeTopCell.identifier,
                     for: indexPath) as? HomeTopCell else {
@@ -155,46 +155,16 @@ extension HomeViewController {
                 homeTopCell.setImage(imageUrl)
                 
                 return homeTopCell
-            case .homeFirstCell(let reactor, _):
-                guard let homeFirstCell = collectionView.dequeueReusableCell(
+            case .recommendCell(let reactor, _):
+                guard let recommendCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeFirstCell.identifier,
                     for: indexPath) as? HomeFirstCell else {
                     return UICollectionViewCell()
                 }
             
-                homeFirstCell.reactor = reactor
+                recommendCell.reactor = reactor
                 
-                return homeFirstCell
-            case .homeSecondCell(let reactor, _):
-                guard let homeCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeCell.identifier,
-                    for: indexPath) as? HomeCell else {
-                    return UICollectionViewCell()
-                }
-                
-                homeCell.reactor = reactor
-                
-                return homeCell
-            case .homeThridCell(let reactor, _):
-                guard let homeCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeCell.identifier,
-                    for: indexPath) as? HomeCell else {
-                    return UICollectionViewCell()
-                }
-                
-                homeCell.reactor = reactor
-                
-                return homeCell
-            case .homeFourthCell(let reactor, _):
-                guard let homeCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeCell.identifier,
-                    for: indexPath) as? HomeCell else {
-                    return UICollectionViewCell()
-                }
-                
-                homeCell.reactor = reactor
-                
-                return homeCell
+                return recommendCell
             }
         }, configureSupplementaryView: { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
 
@@ -202,10 +172,10 @@ extension HomeViewController {
             
             
             switch dataSource[indexPath.section] {
-            case .homeTop(_):
+            case .topSection(_):
                 return header
-            
-            case .homeFirst(header: let title, items: _):
+                
+            case .recommendSection(header: let title, items: _):
                 guard let homeFirstCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeFirstCellHeaderView.identifier,
@@ -216,45 +186,8 @@ extension HomeViewController {
                 homeFirstCellHeader.reactor = HomeHeaderReactor(title, 1)
                 self.bindHeader(reactor: homeFirstCellHeader.reactor!)
                 header = homeFirstCellHeader
-                
-            case .homeSecond(header: let title, items: _):
-                guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: HomeCellHeaderView.identifier,
-                    for: indexPath) as? HomeCellHeaderView else {
-                    return UICollectionReusableView()
-                }
-                
-                
-                homeCellheader.reactor = HomeHeaderReactor(title, 2)
-                self.bindHeader(reactor: homeCellheader.reactor!)
-                header = homeCellheader
-                
-            case .homeThrid(header: let title, items: _):
-                guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: HomeCellHeaderView.identifier,
-                    for: indexPath) as? HomeCellHeaderView else {
-                    return UICollectionReusableView()
-                }
-                
-                homeCellheader.reactor = HomeHeaderReactor(title, 3)
-                self.bindHeader(reactor: homeCellheader.reactor!)
-                header = homeCellheader
-                
-            case .homeFourth(header: let title, items: _):
-                guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: HomeCellHeaderView.identifier,
-                    for: indexPath) as? HomeCellHeaderView else {
-                    return UICollectionReusableView()
-                }
-                
-                homeCellheader.reactor = HomeHeaderReactor(title, 4)
-                self.bindHeader(reactor: homeCellheader.reactor!)
-                header = homeCellheader
             }
-        
+    
             return header
         })
     }

@@ -109,28 +109,21 @@ extension HomeViewReactor {
         return HomeAPI.getHomeData()
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                let homeTopItem = HomeSectionItem.homeTopCell(data.mainImage, 1)
+                var sections = [HomeSection]()
                 
-                let homeTopSection = HomeSection.homeTop([homeTopItem])
+                let homeTopItem = HomeSectionItem.topCell(data.mainImage, 1)
+                let homeTopSection = HomeSection.topSection([homeTopItem])
                 
-                let homeFirstItem = data.recommend[0].perfumeList.map { HomeSectionItem.homeFirstCell(HomeCellReactor(perfume: $0), $0.id) }
-                
-                let homeFirstSection = HomeSection.homeFirst(header: data.recommend[0].title, items: homeFirstItem)
-                
-                let homeSecondItem = data.recommend[1].perfumeList.map { HomeSectionItem.homeSecondCell(HomeCellReactor(perfume: $0), $0.id) }
-                
-                let homeSecondSection = HomeSection.homeSecond(header: data.recommend[1].title, items: homeSecondItem)
-                
-                let homeThridItem = data.recommend[2].perfumeList.map { HomeSectionItem.homeThridCell(HomeCellReactor(perfume: $0), $0.id) }
-                
-                let homeThridSection = HomeSection.homeThrid(header: data.recommend[2].title, items: homeThridItem)
+                sections.append(homeTopSection)
                 
                 
-                let homeFourthItem = data.recommend[3].perfumeList.map { HomeSectionItem.homeFourthCell(HomeCellReactor(perfume: $0), $0.id) }
+                data.recommend.forEach {
+                    
+                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell(HomeCellReactor(perfume: $0), $0.id)}
+                    
+                    sections.append(HomeSection.recommendSection(header: $0.title, items: item))
+                }
                 
-                let homeFourthSection = HomeSection.homeFourth(header: data.recommend[3].title, items: homeFourthItem)
-                
-                let sections = [homeTopSection, homeFirstSection, homeSecondSection, homeThridSection, homeFourthSection]
                 
                 return .just(.setSections(sections))
             }
