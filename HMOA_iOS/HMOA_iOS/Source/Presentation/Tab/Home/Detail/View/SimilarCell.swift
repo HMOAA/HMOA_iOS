@@ -54,7 +54,7 @@ class SimilarCell: UICollectionViewCell, View {
 extension SimilarCell {
     
     func bind(reactor: HomeCellReactor) {
-        perfumeImageView.image = reactor.currentState.image
+//        perfumeImageView.image = reactor.currentState.image
         perfumetitleLabel.text = reactor.currentState.title
         perfumeContentLabel.text = reactor.currentState.content
     }

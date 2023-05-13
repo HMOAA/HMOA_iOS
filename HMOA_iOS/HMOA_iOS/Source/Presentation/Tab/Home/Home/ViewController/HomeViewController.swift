@@ -62,6 +62,12 @@ extension HomeViewController {
 
         // MARK: - Action
         
+        // viewDidLoad
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // collectionView item 클릭
         self.homeView.collectionView.rx.itemSelected
             .map { Reactor.Action.itemSelected($0) }
@@ -139,14 +145,14 @@ extension HomeViewController {
         dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
             
             switch item {
-            case .homeTopCell(let image, _):
+            case .homeTopCell(let imageUrl, _):
                 guard let homeTopCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeTopCell.identifier,
                     for: indexPath) as? HomeTopCell else {
                     return UICollectionViewCell()
                 }
                 
-                homeTopCell.setImage(image!)
+                homeTopCell.setImage(imageUrl)
                 
                 return homeTopCell
             case .homeFirstCell(let reactor, _):
@@ -195,8 +201,11 @@ extension HomeViewController {
             var header = UICollectionReusableView()
             
             
-            switch indexPath.section {
-            case 1:
+            switch dataSource[indexPath.section] {
+            case .homeTop(_):
+                return header
+            
+            case .homeFirst(header: let title, items: _):
                 guard let homeFirstCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeFirstCellHeaderView.identifier,
@@ -204,11 +213,11 @@ extension HomeViewController {
                     return UICollectionReusableView()
                 }
                 
-                homeFirstCellHeader.reactor = HomeHeaderReactor("향모아 사용자들이 좋아한", 1)
+                homeFirstCellHeader.reactor = HomeHeaderReactor(title, 1)
                 self.bindHeader(reactor: homeFirstCellHeader.reactor!)
                 header = homeFirstCellHeader
                 
-            case 2:
+            case .homeSecond(header: let title, items: _):
                 guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeCellHeaderView.identifier,
@@ -216,11 +225,12 @@ extension HomeViewController {
                     return UICollectionReusableView()
                 }
                 
-                homeCellheader.reactor = HomeHeaderReactor("이 제품 어떠세요? 향모아가 추천하는", 2)
+                
+                homeCellheader.reactor = HomeHeaderReactor(title, 2)
                 self.bindHeader(reactor: homeCellheader.reactor!)
                 header = homeCellheader
                 
-            case 3:
+            case .homeThrid(header: let title, items: _):
                 guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeCellHeaderView.identifier,
@@ -228,12 +238,11 @@ extension HomeViewController {
                     return UICollectionReusableView()
                 }
                 
-                homeCellheader.reactor = HomeHeaderReactor("변함없이 사랑받는, 스테디 셀러", 3)
+                homeCellheader.reactor = HomeHeaderReactor(title, 3)
                 self.bindHeader(reactor: homeCellheader.reactor!)
                 header = homeCellheader
-
-
-            case 4:
+                
+            case .homeFourth(header: let title, items: _):
                 guard let homeCellheader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeCellHeaderView.identifier,
@@ -241,13 +250,11 @@ extension HomeViewController {
                     return UICollectionReusableView()
                 }
                 
-                homeCellheader.reactor = HomeHeaderReactor("최근 발매된", 4)
+                homeCellheader.reactor = HomeHeaderReactor(title, 4)
                 self.bindHeader(reactor: homeCellheader.reactor!)
                 header = homeCellheader
-
-            default: return header
-                
             }
+        
             return header
         })
     }

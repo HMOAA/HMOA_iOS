@@ -13,6 +13,7 @@ final class HomeViewReactor: Reactor {
     var initialState: State
     
     enum Action {
+        case viewDidLoad
         case itemSelected(IndexPath)
         case didTapBrandSearchButton
         case didTapSearchButton
@@ -24,10 +25,11 @@ final class HomeViewReactor: Reactor {
         case setIsPresentBrandSearchVC(Bool)
         case setIsPresentSearchVC(Bool)
         case setIsPresentBellVC(Bool)
+        case setSections([HomeSection])
     }
     
     struct State {
-        var sections: [HomeSection]
+        var sections: [HomeSection] = []
         var selectedPerfumeId: Int?
         var isPresentBrandSearchVC: Bool = false
         var isPresentSearchVC: Bool = false
@@ -35,14 +37,14 @@ final class HomeViewReactor: Reactor {
     }
     
     init() {
-        self.initialState = State(
-            sections: HomeViewReactor.setUpSections()
-        )
+        self.initialState = State()
     }
     
 
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return HomeViewReactor.reqeustHomeData()
         case .itemSelected(let indexPath):
             return .concat([
                 Observable<Mutation>.just(.setSelectedPerfumeId(indexPath)),
@@ -91,6 +93,9 @@ final class HomeViewReactor: Reactor {
             
         case .setIsPresentBellVC(let isPresent):
             state.isPresentBellVC = isPresent
+        
+        case .setSections(let sections):
+            state.sections = sections
         }
         return state
 
@@ -99,39 +104,36 @@ final class HomeViewReactor: Reactor {
 
 extension HomeViewReactor {
     
-    static func setUpSections() -> [HomeSection] {
+    static func reqeustHomeData() -> Observable<Mutation> {
+
+        return HomeAPI.getHomeData()
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                let homeTopItem = HomeSectionItem.homeTopCell(data.mainImage, 1)
+                
+                let homeTopSection = HomeSection.homeTop([homeTopItem])
+                
+                let homeFirstItem = data.recommend[0].perfumeList.map { HomeSectionItem.homeFirstCell(HomeCellReactor(perfume: $0), $0.id) }
+                
+                let homeFirstSection = HomeSection.homeFirst(header: data.recommend[0].title, items: homeFirstItem)
+                
+                let homeSecondItem = data.recommend[1].perfumeList.map { HomeSectionItem.homeSecondCell(HomeCellReactor(perfume: $0), $0.id) }
+                
+                let homeSecondSection = HomeSection.homeSecond(header: data.recommend[1].title, items: homeSecondItem)
+                
+                let homeThridItem = data.recommend[2].perfumeList.map { HomeSectionItem.homeThridCell(HomeCellReactor(perfume: $0), $0.id) }
+                
+                let homeThridSection = HomeSection.homeThrid(header: data.recommend[2].title, items: homeThridItem)
+                
+                
+                let homeFourthItem = data.recommend[3].perfumeList.map { HomeSectionItem.homeFourthCell(HomeCellReactor(perfume: $0), $0.id) }
+                
+                let homeFourthSection = HomeSection.homeFourth(header: data.recommend[3].title, items: homeFourthItem)
+                
+                let sections = [homeTopSection, homeFirstSection, homeSecondSection, homeThridSection, homeFourthSection]
+                
+                return .just(.setSections(sections))
+            }
         
-        // TODO: 더미 데이터 -> 실제 데이터 서버에서 받아오면 수정
-        let perfumes = [
-            Perfume(perfumeId: 1, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: true),
-            Perfume(perfumeId: 2, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: true),
-            Perfume(perfumeId: 3, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: true),
-            Perfume(perfumeId: 4, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: true),
-            Perfume(perfumeId: 5, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: true)
-        ]
-        
-        let homeTopItem = HomeSectionItem.homeTopCell(UIImage(named: "jomalon"), 1)
-        
-        let homeTopSection = HomeSection.homeTop([homeTopItem])
-        
-        let homeFirstItem = perfumes.map { HomeSectionItem.homeFirstCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
-        
-        let homeFirstSection = HomeSection.homeFirst(homeFirstItem)
-        
-        let homeSecondItem = perfumes.map { HomeSectionItem.homeSecondCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
-        
-        let homeSecondSection = HomeSection.homeTop(homeSecondItem)
-        
-        let homeThridItem = perfumes.map { HomeSectionItem.homeThridCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
-        
-        let homeThridSection = HomeSection.homeSecond(homeThridItem)
-        
-        
-        let homeFourthItem = perfumes.map { HomeSectionItem.homeFourthCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
-        
-        let homeFourthSection = HomeSection.homeSecond(homeFourthItem)
-        
-        
-        return [homeTopSection, homeFirstSection, homeSecondSection, homeThridSection, homeFourthSection]
     }
 }
