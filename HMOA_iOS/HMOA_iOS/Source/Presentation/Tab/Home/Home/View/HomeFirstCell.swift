@@ -59,12 +59,6 @@ extension HomeFirstCell {
             .bind(to: perfumeNameLabel.rx.text)
             .disposed(by: disposeBag)
         
-        // 향수 제품명 label 바인딩
-        reactor.state
-            .map { $0.content }
-            .bind(to: perfumeInfoLabel.rx.text)
-            .disposed(by: disposeBag)
-        
         // 향수 imageView 바인딩
         reactor.state
             .map { $0.image }
@@ -82,21 +76,9 @@ extension HomeFirstCell {
             $0.edges.equalToSuperview()
         }
         
-        perfumeInfoLabel.snp.makeConstraints {
+        perfumeNameLabel.snp.makeConstraints {
             $0.bottom.equalTo(perfumeImageView).inset(4)
             $0.leading.equalTo(perfumeImageView).inset(4)
-            $0.width.equalTo(75)
         }
-        
-        perfumeNameLabel.snp.makeConstraints {
-            $0.bottom.equalTo(perfumeInfoLabel.snp.top)
-            $0.leading.equalTo(perfumeInfoLabel)
-        }
-    }
-    
-    func setUI(item: Perfume) {
-        perfumeInfoLabel.text = item.content
-        perfumeNameLabel.text = item.titleName
-        perfumeImageView.image = item.image
     }
 }

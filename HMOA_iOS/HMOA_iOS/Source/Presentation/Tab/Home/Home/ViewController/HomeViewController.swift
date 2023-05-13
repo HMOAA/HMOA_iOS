@@ -156,15 +156,25 @@ extension HomeViewController {
                 
                 return homeTopCell
             case .recommendCell(let reactor, _):
-                guard let recommendCell = collectionView.dequeueReusableCell(
+                guard let firstCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeFirstCell.identifier,
                     for: indexPath) as? HomeFirstCell else {
                     return UICollectionViewCell()
                 }
-            
-                recommendCell.reactor = reactor
                 
-                return recommendCell
+                guard let otherCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HomeCell.identifier,
+                    for: indexPath) as? HomeCell else {
+                    return UICollectionViewCell()
+                }
+                                
+                if indexPath.section == 1 {
+                    firstCell.reactor = reactor
+                    return firstCell
+                } else {
+                    otherCell.reactor = reactor
+                    return otherCell
+                }
             }
         }, configureSupplementaryView: { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
 

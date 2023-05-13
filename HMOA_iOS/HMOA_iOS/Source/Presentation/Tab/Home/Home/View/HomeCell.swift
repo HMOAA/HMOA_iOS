@@ -23,6 +23,7 @@ class HomeCell: UICollectionViewCell, View {
     // MARK: - Properties
     let perfumeImageView = UIImageView().then {
         $0.layer.borderWidth = 0.5
+        $0.contentMode = .scaleAspectFit
     }
     
     let perfumeTitleLabel = UILabel().then {

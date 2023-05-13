@@ -63,11 +63,11 @@ extension HomeView {
     }
     
     func homeCellCompositionalLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .absolute(160))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .absolute(126))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 1.5)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .absolute(160))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .absolute(126))
 
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
@@ -79,7 +79,7 @@ extension HomeView {
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 8
         sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 0)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 0, bottom: 40, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 0, bottom: 70, trailing: 0)
         return section
     }
     
