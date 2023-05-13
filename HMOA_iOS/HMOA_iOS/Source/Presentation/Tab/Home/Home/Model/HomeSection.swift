@@ -10,14 +10,14 @@ import RxDataSources
 
 enum HomeSection {
     case homeTop([HomeSectionItem])
-    case homeFirst([HomeSectionItem])
-    case homeSecond([HomeSectionItem])
-    case homeThrid([HomeSectionItem])
-    case homeFourth([HomeSectionItem])
+    case homeFirst(header: String, items: [HomeSectionItem])
+    case homeSecond(header: String, items: [HomeSectionItem])
+    case homeThrid(header: String, items: [HomeSectionItem])
+    case homeFourth(header: String, items: [HomeSectionItem])
 }
 
 enum HomeSectionItem {
-    case homeTopCell(UIImage?, Int)
+    case homeTopCell(String, Int)
     case homeFirstCell(HomeCellReactor, Int)
     case homeSecondCell(HomeCellReactor, Int)
     case homeThridCell(HomeCellReactor, Int)
@@ -49,31 +49,34 @@ extension HomeSection: SectionModelType {
         switch self {
         case .homeTop(let items):
             return items
-        case .homeFirst(let items):
+        case .homeFirst(_, let items):
             return items
-        case .homeSecond(let items):
+        case .homeSecond(_, let items):
             return items
-        case .homeThrid(let items):
+        case .homeThrid(_, let items):
             return items
-        case .homeFourth(let items):
+        case .homeFourth(_, let items):
             return items
 
         }
     }
     
-    init(original: HomeSection, items: [HomeSectionItem]) {
-        switch original {
-        case .homeTop:
-            self = .homeTop(items)
-        case .homeFirst:
-            self = .homeFirst(items)
-        case .homeSecond:
-            self = .homeSecond(items)
-        case .homeThrid:
-            self = .homeThrid(items)
-        case .homeFourth:
-            self = .homeFourth(items)
+    var headerTitle: String {
+        switch self {
+        case .homeTop(_):
+            return ""
+        case .homeFirst(let header, _):
+            return header
+        case .homeSecond(let header, _):
+            return header
+        case .homeThrid(let header, _):
+            return header
+        case .homeFourth(let header, _):
+            return header
         }
     }
+    
+    init(original: HomeSection, items: [HomeSectionItem]) {
+        self = original
+    }
 }
-

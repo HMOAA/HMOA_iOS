@@ -158,13 +158,15 @@ extension DetailViewReactor {
         ]
         
         let recommendItems = [
-            Perfume(perfumeId: 1, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 2, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 3, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 4, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 5, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 6, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 7, titleName: "조 말론 런던", content: "우드 세이지 엔 씨 쏠트 코롱 100ml", image: UIImage(named: "jomalon")!, isLikePerfume: false)
+            RecommendPerfume(id: 1, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
+            RecommendPerfume(id: 2, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
+            RecommendPerfume(id: 3, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
+            RecommendPerfume(id: 4, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
+            RecommendPerfume(id: 5, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
+            RecommendPerfume(id: 6, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
+            RecommendPerfume(id: 7, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
+            RecommendPerfume(id: 8, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
+            RecommendPerfume(id: 9, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: "")
         ]
         
         let topItem = DetailSectionItem.topCell(PerfumeInfoViewReactor(detail: perfumeDetail))
@@ -174,7 +176,7 @@ extension DetailViewReactor {
         
         let commentSections = DetailSection.comment(commentItem)
         
-        let recommed = recommendItems.map { DetailSectionItem.recommendCell(HomeCellReactor(perfume: $0), $0.perfumeId) }
+        let recommed = recommendItems.map { DetailSectionItem.recommendCell(HomeCellReactor(perfume: $0), $0.id) }
         let recommendSections = DetailSection.recommend(recommed)
         
         return [topSection, commentSections, recommendSections]

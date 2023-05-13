@@ -100,6 +100,9 @@
 		2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFB297C15DF006BE23B /* MyPageCell.swift */; };
 		2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EFE297C183F006BE23B /* MyPageViewModel.swift */; };
 		2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */; };
+		2C8318C72A0FC6D0004A3ACD /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8318C62A0FC6D0004A3ACD /* HomeAPI.swift */; };
+		2C8318CC2A0FC6FD004A3ACD /* HomeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8318CB2A0FC6FD004A3ACD /* HomeData.swift */; };
+		2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8318CD2A0FC779004A3ACD /* HomeAddress.swift */; };
 		2CA155A42A03921000D7B0C0 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA155A32A03921000D7B0C0 /* MemberAPI.swift */; };
 		2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA155A82A0399CD00D7B0C0 /* Member.swift */; };
 		2CA155AE2A039A7E00D7B0C0 /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA155AD2A039A7E00D7B0C0 /* LoginAPI.swift */; };
@@ -286,6 +289,9 @@
 		2C710EFB297C15DF006BE23B /* MyPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
 		2C710EFE297C183F006BE23B /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		2C724E2E29AB1A120057D9B4 /* CommentListTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListTopView.swift; sourceTree = "<group>"; };
+		2C8318C62A0FC6D0004A3ACD /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
+		2C8318CB2A0FC6FD004A3ACD /* HomeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeData.swift; sourceTree = "<group>"; };
+		2C8318CD2A0FC779004A3ACD /* HomeAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddress.swift; sourceTree = "<group>"; };
 		2CA155A32A03921000D7B0C0 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
 		2CA155A82A0399CD00D7B0C0 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		2CA155AD2A039A7E00D7B0C0 /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
@@ -872,8 +878,6 @@
 		2C4A265B29C2F6E1009F288F /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				2CA155A12A0391CF00D7B0C0 /* Model */,
-				2CA155A02A0391C900D7B0C0 /* Address */,
 				2CA1559F2A0391C100D7B0C0 /* API */,
 				2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */,
 				CAE5F29F29F1109800BAF313 /* Response.swift */,
@@ -1053,27 +1057,32 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		2C8318C52A0FC6BD004A3ACD /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				2C8318C82A0FC6E6004A3ACD /* Model */,
+				2C8318C62A0FC6D0004A3ACD /* HomeAPI.swift */,
+				2C8318CD2A0FC779004A3ACD /* HomeAddress.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		2C8318C82A0FC6E6004A3ACD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C8318CB2A0FC6FD004A3ACD /* HomeData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				2C8318C52A0FC6BD004A3ACD /* Home */,
 				2CA155AA2A039A1E00D7B0C0 /* Login */,
 				2CA155A22A0391D800D7B0C0 /* Member */,
 			);
 			path = API;
-			sourceTree = "<group>";
-		};
-		2CA155A02A0391C900D7B0C0 /* Address */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Address;
-			sourceTree = "<group>";
-		};
-		2CA155A12A0391CF00D7B0C0 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		2CA155A22A0391D800D7B0C0 /* Member */ = {
@@ -1721,6 +1730,7 @@
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
+				2C8318CC2A0FC6FD004A3ACD /* HomeData.swift in Sources */,
 				CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */,
 				2C4CDC4129C770D900676163 /* BrandDetailCollectionViewCell.swift in Sources */,
 				2CA7F69529D2E8DB0022E7FD /* TotalPerfumeViewController.swift in Sources */,
@@ -1799,6 +1809,7 @@
 				CA54DD8D29C440A600167F05 /* TagCell.swift in Sources */,
 				CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */,
 				CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */,
+				2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */,
 				2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */,
 				2CD023552A07B5A500459801 /* ChangeNicknameViewController.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
@@ -1828,6 +1839,7 @@
 				CA54DD9529C44A8C00167F05 /* CardSection.swift in Sources */,
 				2CD023512A07AEBC00459801 /* NicknameView.swift in Sources */,
 				2C4CDC4929C770D900676163 /* BrandListHeaderView.swift in Sources */,
+				2C8318C72A0FC6D0004A3ACD /* HomeAPI.swift in Sources */,
 				2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */,
 				2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */,
 				2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */,
