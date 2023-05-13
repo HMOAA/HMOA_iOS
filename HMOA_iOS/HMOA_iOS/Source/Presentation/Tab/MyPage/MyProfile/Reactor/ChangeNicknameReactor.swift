@@ -89,3 +89,9 @@ class ChangeNicknameReactor: Reactor {
         return state
     }
 }
+
+extension ChangeNicknameReactor {
+//    func reactorForUserInformation() -> UserInformationReactor {
+//        return UserInformationReactor(service: service)
+//    }
+}
