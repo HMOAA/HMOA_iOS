@@ -230,7 +230,7 @@ extension HomeViewController {
 
         homeView.snp.makeConstraints {
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
         }
     }
