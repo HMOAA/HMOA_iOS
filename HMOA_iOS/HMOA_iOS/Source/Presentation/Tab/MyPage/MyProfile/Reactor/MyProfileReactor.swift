@@ -81,4 +81,8 @@ extension MyProfileReactor {
     func reactorForChangeYear() -> ChangeYearReactor {
         return ChangeYearReactor(service: UserYearService(), selectedYear: currentState.member.age.ageToYear())
     }
+    
+    func reactorForChangeSex() -> ChangeSexReactor {
+        return ChangeSexReactor(currentState.member.sex)
+    }
 }
