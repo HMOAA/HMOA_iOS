@@ -22,6 +22,8 @@ class MyPageReactor: Reactor {
         case setSections([MyPageSection])
         case setMember(Member)
         case updateNickname(String)
+        case updateAge(Int)
+        case updateSex(Bool)
     }
     
     struct State {
@@ -39,7 +41,6 @@ class MyPageReactor: Reactor {
     init(service: UserServiceProtocol) {
         self.initialState = State()
         self.service = service
-        
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
@@ -49,6 +50,10 @@ class MyPageReactor: Reactor {
                 return .just(.updateNickname(nickname))
             case .updateImage(content: _):
                 return .empty()
+            case .updateUserAge(content: let age):
+                return .just(.updateAge(age))
+            case .updateUserSex(content: let sex):
+                return .just(.updateSex(sex))
             }
         }
 
@@ -90,6 +95,12 @@ class MyPageReactor: Reactor {
                 MyPageSection.memberSection(
                     MyPageSectionItem.memberCell(MemberCellReactor(member: state.member)))
             ] + MyPageReactor.setUpOtherSection()
+            
+        case .updateAge(let age):
+            state.member.age = age
+            
+        case .updateSex(let sex):
+            state.member.sex = sex
         }
         
         return state

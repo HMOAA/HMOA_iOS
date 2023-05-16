@@ -132,7 +132,6 @@ extension MyPageViewController {
             myProfileVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(myProfileVC, animated: true)
             
-            print(reactor.currentState.member)
         case .openSource:
             break
         case .policy:
