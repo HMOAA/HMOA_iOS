@@ -13,7 +13,7 @@ enum MyPageSection {
 }
 
 enum MyPageSectionItem {
-    case memberCell(Member)
+    case memberCell(MemberCellReactor)
     case otherCell(String)
 }
 

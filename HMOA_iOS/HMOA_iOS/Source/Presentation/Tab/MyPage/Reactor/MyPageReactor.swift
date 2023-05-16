@@ -88,7 +88,7 @@ class MyPageReactor: Reactor {
             
             state.sections = [
                 MyPageSection.memberSection(
-                    MyPageSectionItem.memberCell(state.member))
+                    MyPageSectionItem.memberCell(MemberCellReactor(member: state.member)))
             ] + MyPageReactor.setUpOtherSection()
         }
         
@@ -135,7 +135,7 @@ extension MyPageReactor {
                     sex: member.sex)
                 
                 sections.append(MyPageSection.memberSection(
-                    MyPageSectionItem.memberCell(member)))
+                    MyPageSectionItem.memberCell(MemberCellReactor(member: member))))
                 
                 sections += setUpOtherSection()
                 
