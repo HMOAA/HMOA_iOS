@@ -11,6 +11,7 @@ import RxCocoa
 
 class ChangeSexReactor: Reactor {
     let initialState: State
+    var service: UserServiceProtocol
     
     enum Action {
         case didTapWomanButton
@@ -32,8 +33,9 @@ class ChangeSexReactor: Reactor {
         var sexType: Bool? = false
     }
     
-    init(_ currentType: Bool = false) {
-        initialState = currentType ? State(isCheckedMan: true) : State(isCheckedWoman: true)
+    init(_ currentType: Bool = false, service: UserServiceProtocol) {
+        self.initialState = currentType ? State(isCheckedMan: true) : State(isCheckedWoman: true)
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -49,7 +51,7 @@ class ChangeSexReactor: Reactor {
             
             return .concat([
                 ChangeSexReactor.patchUserSex(sex),
-                .just(.setPopMyPage(false))
+                service.updateUserSex(to: sex).map { _ in .setPopMyPage(false)}
             ])
         }
     }

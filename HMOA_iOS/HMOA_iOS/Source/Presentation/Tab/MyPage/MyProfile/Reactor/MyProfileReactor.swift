@@ -18,6 +18,9 @@ class MyProfileReactor: Reactor {
     
     enum Mutation {
         case setPresentVC(MyProfileType?)
+        case updateNickname(String)
+        case updateAge(Int)
+        case updateSex(Bool)
     }
     
     struct State {
@@ -33,6 +36,23 @@ class MyProfileReactor: Reactor {
         )
         
         self.service = service
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let event = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .updateNickname(content: let nickname):
+                return .just(.updateNickname(nickname))
+            case .updateImage(content: _):
+                return .empty()
+            case .updateUserAge(content: let age):
+                return .just(.updateAge(age))
+            case .updateUserSex(content: let sex):
+                return .just(.updateSex(sex))
+            }
+        }
+        
+        return Observable.merge(mutation, event)
     }
 
     func mutate(action: Action) -> Observable<Mutation> {
@@ -51,6 +71,12 @@ class MyProfileReactor: Reactor {
         switch mutation {
         case .setPresentVC(let type):
             state.presentVC = type
+        case .updateNickname(let nickname):
+            state.member.nickname = nickname
+        case .updateAge(let age):
+            state.member.age = age
+        case .updateSex(let sex):
+            state.member.sex = sex
         }
         
         return state
@@ -79,10 +105,10 @@ extension MyProfileReactor {
     }
     
     func reactorForChangeYear() -> ChangeYearReactor {
-        return ChangeYearReactor(service: UserYearService(), selectedYear: currentState.member.age.ageToYear())
+        return ChangeYearReactor(service: UserYearService(), selectedYear: currentState.member.age.ageToYear(), userService: service)
     }
     
     func reactorForChangeSex() -> ChangeSexReactor {
-        return ChangeSexReactor(currentState.member.sex)
+        return ChangeSexReactor(currentState.member.sex, service: service)
     }
 }
