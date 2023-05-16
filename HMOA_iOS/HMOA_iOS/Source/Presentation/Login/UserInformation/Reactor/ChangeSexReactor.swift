@@ -32,8 +32,8 @@ class ChangeSexReactor: Reactor {
         var sexType: Bool? = false
     }
     
-    init() {
-        initialState = State()
+    init(_ currentType: Bool = false) {
+        initialState = currentType ? State(isCheckedMan: true) : State(isCheckedWoman: true)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -80,11 +80,8 @@ class ChangeSexReactor: Reactor {
 extension ChangeSexReactor {
     
     static func patchUserSex(_ type: Bool) -> Observable<Mutation> {
-        
-        let sex = type ? "남성" : "여성"
-        
-        //api request형식이 바껴서 임시로 true로 설정해 놨습니다.
-        return MemberAPI.updateSex(params: ["sex": true])
+
+        return MemberAPI.updateSex(params: ["sex": type])
             .catch { _ in .empty() }
             .flatMap { response -> Observable<Mutation> in
                 return .just(.setPopMyPage(true))
