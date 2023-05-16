@@ -77,4 +77,8 @@ extension MyProfileReactor {
     func reactorForChangeNickname() -> ChangeNicknameReactor {
         return ChangeNicknameReactor(service: service, currentNickname: currentState.member.nickname)
     }
+    
+    func reactorForChangeYear() -> ChangeYearReactor {
+        return ChangeYearReactor(service: UserYearService(), selectedYear: currentState.member.age.ageToYear())
+    }
 }

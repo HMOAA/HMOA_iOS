@@ -34,8 +34,8 @@ class ChangeYearReactor: Reactor {
         var selectedYear: String? = nil
     }
     
-    init(service: UserYearServiceProtocol) {
-        self.initialState = State()
+    init(service: UserYearServiceProtocol, selectedYear: String? = nil) {
+        self.initialState = State(selectedYear: selectedYear)
         self.service = service
     }
     
