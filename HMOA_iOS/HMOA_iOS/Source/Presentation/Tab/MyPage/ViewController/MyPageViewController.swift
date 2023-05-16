@@ -100,15 +100,15 @@ extension MyPageViewController {
         dataSource = RxTableViewSectionedReloadDataSource<MyPageSection>(configureCell: { _, tableView, indexPath, item in
             
             switch item {
-            case .userInfo(let userInfo):
+            case .memberCell(let member):
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageUserCell.identifier, for: indexPath) as? MyPageUserCell else { return UITableViewCell() }
                 
-                cell.updateCell(userInfo)
+                cell.updateCell(member)
                 cell.selectionStyle = .none
                 
                 return cell
-            case .etc(let title):
+            case .otherCell(let title):
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
                 
@@ -131,6 +131,8 @@ extension MyPageViewController {
             
             myProfileVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(myProfileVC, animated: true)
+            
+            print(reactor.currentState.member)
         case .openSource:
             break
         case .policy:
