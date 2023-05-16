@@ -22,12 +22,14 @@ class MyProfileReactor: Reactor {
     
     struct State {
         var sections: [MyProfileSection]
+        var member: Member
         var presentVC: MyProfileType? = nil
     }
     
-    init(service: UserServiceProtocol) {
+    init(service: UserServiceProtocol, member: Member) {
         self.initialState = State(
-            sections: MyProfileReactor.setUpSection()
+            sections: MyProfileReactor.setUpSection(),
+            member: member
         )
         
         self.service = service
@@ -73,6 +75,6 @@ extension MyProfileReactor {
     }
     
     func reactorForChangeNickname() -> ChangeNicknameReactor {
-        return ChangeNicknameReactor(service: service)
+        return ChangeNicknameReactor(service: service, currentNickname: currentState.member.nickname)
     }
 }

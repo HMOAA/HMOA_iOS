@@ -147,6 +147,6 @@ extension MyPageReactor {
     }
     
     func reactorForMyProfile() -> MyProfileReactor {
-        return MyProfileReactor(service: service)
+        return MyProfileReactor(service: service, member: currentState.member)
     }
 }

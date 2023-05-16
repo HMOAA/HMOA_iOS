@@ -95,7 +95,7 @@ extension ChangeNicknameViewController {
                 self.nicknameView.nicknameTextField.resignFirstResponder()
             }).disposed(by: disposeBag)
         
-        //연도 VC로 화면 전환
+        // 이전 화면으로 pop
         reactor.state
             .map { $0.nicknameResponse }
             .distinctUntilChanged()
@@ -104,6 +104,12 @@ extension ChangeNicknameViewController {
             .bind(onNext: popViewController)
             .disposed(by: disposeBag)
             
+        // 기존 닉네임 바인딩
+        reactor.state
+            .map { $0.currentNickname }
+            .distinctUntilChanged()
+            .bind(to: nicknameView.nicknameTextField.rx.text)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - configure
