@@ -70,9 +70,9 @@ extension MyPageUserCell {
         }
     }
     
-    func updateCell(_ userInfo: UserInfo) {
+    func updateCell(_ member: Member) {
         
-        nickNameLabel.text = userInfo.nickName
-        loginTypeLabel.text = userInfo.loginType
+        nickNameLabel.text = member.nickname
+        loginTypeLabel.text = member.provider
     }
 }

@@ -19,24 +19,25 @@ class MyPageReactor: Reactor {
     
     enum Mutation {
         case setPresentVC(MyPageType?)
-        case setMemberInfo([MyPageSection])
+        case setSections([MyPageSection])
+        case setMember(Member)
         case updateNickname(String)
     }
     
     struct State {
-        var sections: [MyPageSection]
+        var sections: [MyPageSection] = []
+        var member = Member(
+            age: 0,
+            imgUrl: "",
+            memberId: 0,
+            nickname: "",
+            provider: "",
+            sex: false)
         var presentVC: MyPageType? = nil
     }
     
     init(service: UserServiceProtocol) {
-        let sections = [
-            MyPageSection.first(MyPageSectionItem.userInfo(
-                UserInfo(
-                    imageUrl: "",
-                    nickName: "",
-                    loginType: "")))] + MyPageReactor.setUpSection()
-
-        self.initialState = State(sections: sections)
+        self.initialState = State()
         self.service = service
         
     }
@@ -59,6 +60,7 @@ class MyPageReactor: Reactor {
             
         case .viewDidLoad:
             return MyPageReactor.reqeustUserInfo()
+            
         case .didTapCell(let type):
             return .concat([
                 .just(.setPresentVC(type)),
@@ -73,16 +75,21 @@ class MyPageReactor: Reactor {
         switch mutation {
         case .setPresentVC(let VC):
             state.presentVC = VC
-        case .setMemberInfo(let sections):
+            
+        case .setSections(let sections):
             state.sections = sections
+            
+        case .setMember(let memeber):
+            state.member = memeber
+            
         case .updateNickname(let nickname):
+            
+            state.member.nickname = nickname
+            
             state.sections = [
-                MyPageSection.first(MyPageSectionItem.userInfo(
-                    UserInfo(
-                        imageUrl: "",
-                        nickName: nickname,
-                        loginType: "")))
-            ] + MyPageReactor.setUpSection()
+                MyPageSection.memberSection(
+                    MyPageSectionItem.memberCell(state.member))
+            ] + MyPageReactor.setUpOtherSection()
         }
         
         return state
@@ -91,25 +98,25 @@ class MyPageReactor: Reactor {
 
 extension MyPageReactor {
     
-    static func setUpSection() -> [MyPageSection] {
+    static func setUpOtherSection() -> [MyPageSection] {
         let second = [
             MyPageType.myLog.title,
             MyPageType.myProfile.title
-            ]   .map { MyPageSectionItem.etc($0) }
+            ]   .map { MyPageSectionItem.otherCell($0) }
 
         let thrid = [
             MyPageType.openSource.title,
             MyPageType.policy.title,
             MyPageType.version.title
-            ]   .map { MyPageSectionItem.etc($0)}
+            ]   .map { MyPageSectionItem.otherCell($0)}
         
         let fourth = [
             MyPageType.logout.title,
             MyPageType.deleteAccount.title
-            ]   .map { MyPageSectionItem.etc($0)}
+            ]   .map { MyPageSectionItem.otherCell($0)}
         
         
-        return [MyPageSection.etc(second), MyPageSection.etc(thrid), MyPageSection.etc(fourth)]
+        return [MyPageSection.otherSection(second), MyPageSection.otherSection(thrid), MyPageSection.otherSection(fourth)]
     }
     
     static func reqeustUserInfo() -> Observable<Mutation> {
@@ -117,18 +124,27 @@ extension MyPageReactor {
         return MemberAPI.getMember()
             .catch { _ in .empty() }
             .flatMap { member -> Observable<Mutation> in
-                let sections = [
-                    MyPageSection.first(MyPageSectionItem.userInfo(
-                        UserInfo(
-                            imageUrl: "",
-                            nickName: member.nickname,
-                            loginType: member.provider))),
-                ] + MyPageReactor.setUpSection()
+                var sections = [MyPageSection]()
                 
-                return .just(.setMemberInfo(sections))
+                let member = Member(
+                    age: member.age,
+                    imgUrl: member.imgUrl,
+                    memberId: member.memberId,
+                    nickname: member.nickname,
+                    provider: member.provider,
+                    sex: member.sex)
+                
+                sections.append(MyPageSection.memberSection(
+                    MyPageSectionItem.memberCell(member)))
+                
+                sections += setUpOtherSection()
+                
+                return .concat([
+                    .just(.setMember(member)),
+                    .just(.setSections(sections))
+                ])
             }
     }
-
     
     func reactorForMyProfile() -> MyProfileReactor {
         return MyProfileReactor(service: service)
