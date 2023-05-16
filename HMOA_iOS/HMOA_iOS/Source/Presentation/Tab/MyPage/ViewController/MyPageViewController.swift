@@ -100,11 +100,11 @@ extension MyPageViewController {
         dataSource = RxTableViewSectionedReloadDataSource<MyPageSection>(configureCell: { _, tableView, indexPath, item in
             
             switch item {
-            case .memberCell(let member):
+            case .memberCell(let reactor):
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageUserCell.identifier, for: indexPath) as? MyPageUserCell else { return UITableViewCell() }
                 
-                cell.updateCell(member)
+                cell.reactor = reactor
                 cell.selectionStyle = .none
                 
                 return cell
