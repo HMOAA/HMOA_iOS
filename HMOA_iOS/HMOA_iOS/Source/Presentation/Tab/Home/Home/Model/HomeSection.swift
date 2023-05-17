@@ -9,34 +9,23 @@ import UIKit
 import RxDataSources
 
 enum HomeSection {
-    case homeTop([HomeSectionItem])
-    case homeFirst([HomeSectionItem])
-    case homeSecond([HomeSectionItem])
-    case homeThrid([HomeSectionItem])
-    case homeFourth([HomeSectionItem])
+    case topSection([HomeSectionItem])
+    case recommendSection(header: String, items: [HomeSectionItem])
+
 }
 
 enum HomeSectionItem {
-    case homeTopCell(UIImage?, Int)
-    case homeFirstCell(HomeCellReactor, Int)
-    case homeSecondCell(HomeCellReactor, Int)
-    case homeThridCell(HomeCellReactor, Int)
-    case homeFourthCell(HomeCellReactor, Int)
+    case topCell(String, Int)
+    case recommendCell(HomeCellReactor, Int)
 }
 
 extension HomeSectionItem {
     
     var perfumeId: Int {
         switch self {
-        case .homeTopCell(_, let perfumeId):
+        case .topCell(_, let perfumeId):
             return perfumeId
-        case .homeFirstCell(_, let perfumeId):
-            return perfumeId
-        case .homeSecondCell(_, let perfumeId):
-            return perfumeId
-        case .homeThridCell(_, let perfumeId):
-            return perfumeId
-        case .homeFourthCell(_, let perfumeId):
+        case .recommendCell(_, let perfumeId):
             return perfumeId
         }
     }
@@ -47,33 +36,23 @@ extension HomeSection: SectionModelType {
     
     var items: [Item] {
         switch self {
-        case .homeTop(let items):
+        case .topSection(let items):
             return items
-        case .homeFirst(let items):
+        case .recommendSection(_, let items):
             return items
-        case .homeSecond(let items):
-            return items
-        case .homeThrid(let items):
-            return items
-        case .homeFourth(let items):
-            return items
-
+        }
+    }
+    
+    var headerTitle: String {
+        switch self {
+        case .topSection(_):
+            return ""
+        case .recommendSection(let header, _):
+            return header
         }
     }
     
     init(original: HomeSection, items: [HomeSectionItem]) {
-        switch original {
-        case .homeTop:
-            self = .homeTop(items)
-        case .homeFirst:
-            self = .homeFirst(items)
-        case .homeSecond:
-            self = .homeSecond(items)
-        case .homeThrid:
-            self = .homeThrid(items)
-        case .homeFourth:
-            self = .homeFourth(items)
-        }
+        self = original
     }
 }
-

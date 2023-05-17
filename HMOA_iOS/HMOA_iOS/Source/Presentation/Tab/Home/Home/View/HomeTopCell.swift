@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 class HomeTopCell: UICollectionViewCell {
     
@@ -37,7 +38,9 @@ extension HomeTopCell {
         }
     }
     
-    func setImage(_ image: UIImage) {
-        newsImageView.image = image
+    func setImage(_ imageUrl: String) {
+        let url = URL(string: imageUrl)
+        
+        newsImageView.kf.setImage(with: url)
     }
 }

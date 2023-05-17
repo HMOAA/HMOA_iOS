@@ -52,9 +52,21 @@ class HomeFirstCell: UICollectionViewCell, View {
 extension HomeFirstCell {
     
     func bind(reactor: HomeCellReactor) {
-        perfumeInfoLabel.text = reactor.currentState.content
-        perfumeNameLabel.text = reactor.currentState.title
-        perfumeImageView.image = reactor.currentState.image
+        
+        // 향수 브랜드 label 바인딩
+        reactor.state
+            .map { $0.title }
+            .bind(to: perfumeNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 향수 imageView 바인딩
+        reactor.state
+            .map { $0.image }
+            .map { URL(string: $0) }
+            .bind(onNext: {
+                self.perfumeImageView.kf.setImage(with: $0)
+            })
+            .disposed(by: disposeBag)
     }
     
     func configureUI() {
@@ -64,21 +76,9 @@ extension HomeFirstCell {
             $0.edges.equalToSuperview()
         }
         
-        perfumeInfoLabel.snp.makeConstraints {
+        perfumeNameLabel.snp.makeConstraints {
             $0.bottom.equalTo(perfumeImageView).inset(4)
             $0.leading.equalTo(perfumeImageView).inset(4)
-            $0.width.equalTo(75)
         }
-        
-        perfumeNameLabel.snp.makeConstraints {
-            $0.bottom.equalTo(perfumeInfoLabel.snp.top)
-            $0.leading.equalTo(perfumeInfoLabel)
-        }
-    }
-    
-    func setUI(item: Perfume) {
-        perfumeInfoLabel.text = item.content
-        perfumeNameLabel.text = item.titleName
-        perfumeImageView.image = item.image
     }
 }
