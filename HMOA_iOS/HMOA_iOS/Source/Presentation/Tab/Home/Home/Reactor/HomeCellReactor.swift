@@ -7,6 +7,7 @@
 
 import ReactorKit
 
+/// 홈 화면 추천 향수 Cell Reactor
 class HomeCellReactor: Reactor {
     
     let initialState: State
@@ -20,10 +21,10 @@ class HomeCellReactor: Reactor {
     struct State {
         var title: String
         var content: String
-        var image: UIImage
+        var image: String
     }
     
-    init(perfume: Perfume) {
-        self.initialState = State(title: perfume.titleName, content: perfume.content, image: perfume.image)
+    init(perfume: RecommendPerfume) {
+        self.initialState = State(title: perfume.brandName, content: perfume.perfumeName, image: perfume.imageUrl)
     }
 }
