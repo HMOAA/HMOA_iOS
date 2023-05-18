@@ -266,7 +266,9 @@ extension LoginViewController {
                     let vc = LoginStartViewController()
                     let nvController = UINavigationController(rootViewController: vc)
                     nvController.modalPresentationStyle = .fullScreen
+                    self.view.window?.rootViewController = nvController
                     self.present(nvController, animated: true)
+                    self.view.window?.rootViewController?.dismiss(animated: false)
                 }).disposed(by: self.disposeBag)
         }
     }
