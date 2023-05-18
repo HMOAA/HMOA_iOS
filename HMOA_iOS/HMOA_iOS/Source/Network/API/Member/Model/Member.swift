@@ -11,7 +11,7 @@ struct Member: Codable {
     let age: Int
     let imgUrl: String?
     let memberId: Int
-    let nickname: String
-    let provider: String
+    let nickname: String?
+    let provider: String?
     let sex: Bool
 }
