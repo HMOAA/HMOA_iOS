@@ -121,8 +121,8 @@ extension MyPageReactor {
                     MyPageSection.first(MyPageSectionItem.userInfo(
                         UserInfo(
                             imageUrl: "",
-                            nickName: member.nickname,
-                            loginType: member.provider))),
+                            nickName: member.nickname!,
+                            loginType: member.provider!))),
                 ] + MyPageReactor.setUpSection()
                 
                 return .just(.setMemberInfo(sections))

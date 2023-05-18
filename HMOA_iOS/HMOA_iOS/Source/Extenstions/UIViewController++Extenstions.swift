@@ -80,6 +80,14 @@ extension UIViewController {
         self.navigationController?.pushViewController(totalPerfumeVC, animated: true)
     }
     
+    func presentAppTabBarController() {
+        let tabBar = AppTabbarController()
+        tabBar.modalPresentationStyle = .fullScreen
+        self.view.window?.rootViewController = tabBar
+        self.present(tabBar, animated: true)
+        self.view.window?.rootViewController?.dismiss(animated: false)
+    }
+    
     func setNavigationColor() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white

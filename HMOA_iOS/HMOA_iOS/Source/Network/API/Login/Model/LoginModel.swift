@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct GoogleToken: Codable {
+struct GoogleToken: Codable, Equatable {
     let authToken: String
     let existedMember: Bool
     let rememberedToken: String
