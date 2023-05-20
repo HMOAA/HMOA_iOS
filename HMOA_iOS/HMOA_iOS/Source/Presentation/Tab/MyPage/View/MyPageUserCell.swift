@@ -8,8 +8,13 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import Kingfisher
 
-class MyPageUserCell: UITableViewCell {
+class MyPageUserCell: UITableViewCell, View {
+    
+    typealias Reactor = MemberCellReactor
+    var disposeBag = DisposeBag()
     
     // MARK: - identifier
     static let identifier = "MyPageUserCell"
@@ -18,7 +23,7 @@ class MyPageUserCell: UITableViewCell {
 
     lazy var profileImage = UIImageView().then {
         $0.layer.cornerRadius = 16
-        $0.backgroundColor = .customColor(.gray3)
+        $0.contentMode = .scaleAspectFit
     }
     
     lazy var nickNameLabel = UILabel().then {
@@ -45,6 +50,31 @@ class MyPageUserCell: UITableViewCell {
 
 extension MyPageUserCell {
     
+    func bind(reactor: MemberCellReactor) {
+        
+        // MARK: - state
+        
+        reactor.state
+            .map { $0.member.nickname }
+            .distinctUntilChanged()
+            .bind(to: nickNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.member.imgUrl }
+            .map { URL(string: $0) }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] in
+                self?.profileImage.kf.setImage(with: $0)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.member.provider }
+            .bind(to: loginTypeLabel.rx.text)
+            .disposed(by: disposeBag)
+    }
+    
     // MARK: - Configure
     func configureUI() {
       
@@ -70,9 +100,9 @@ extension MyPageUserCell {
         }
     }
     
-    func updateCell(_ userInfo: UserInfo) {
+    func updateCell(_ member: Member) {
         
-        nickNameLabel.text = userInfo.nickName
-        loginTypeLabel.text = userInfo.loginType
+        nickNameLabel.text = member.nickname
+        loginTypeLabel.text = member.provider
     }
 }
