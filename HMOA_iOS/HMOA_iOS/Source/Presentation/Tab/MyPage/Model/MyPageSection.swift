@@ -8,13 +8,13 @@
 import RxDataSources
 
 enum MyPageSection {
-    case first(MyPageSectionItem)
-    case etc([MyPageSectionItem])
+    case memberSection(MyPageSectionItem)
+    case otherSection([MyPageSectionItem])
 }
 
 enum MyPageSectionItem {
-    case userInfo(UserInfo)
-    case etc(String)
+    case memberCell(MemberCellReactor)
+    case otherCell(String)
 }
 
 extension MyPageSection: SectionModelType {
@@ -23,19 +23,14 @@ extension MyPageSection: SectionModelType {
     
     var items: [MyPageSectionItem] {
         switch self {
-        case .first(let item):
+        case .memberSection(let item):
             return [item]
-        case .etc(let items):
+        case .otherSection(let items):
             return items
         }
     }
     
     init(original: MyPageSection, items: [MyPageSectionItem]) {
-        switch original {
-        case .first:
-            self = .first(items.first!)
-        case .etc:
-            self = .etc(items)
-        }
+        self = original
     }
 }
