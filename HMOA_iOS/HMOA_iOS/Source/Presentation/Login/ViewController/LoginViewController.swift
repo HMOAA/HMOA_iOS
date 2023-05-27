@@ -260,23 +260,16 @@ extension LoginViewController {
             
             LoginAPI.postAccessToken(params: params)
                 .bind(onNext: {
+                    KeychainManager.create(token: $0)
                     self.loginManager.googleToken = $0
-                    self.getMember()
+                    self.checkPreviousSignIn($0.existedMember)
                     print($0)
                 }).disposed(by: self.disposeBag)
         }
     }
-        
-    func getMember() {
-        MemberAPI.getMember()
-            .map { $0.nickname == nil }
-            .bind(onNext: {
-                self.checkPreviousSignIn($0)
-            }).disposed(by: self.disposeBag)
-    }
     
-    func checkPreviousSignIn(_ isEmpty: Bool) {
-        if isEmpty {
+    func checkPreviousSignIn(_ isExisted: Bool) {
+        if !isExisted {
             let vc = LoginStartViewController()
             let nvController = UINavigationController(rootViewController: vc)
             nvController.modalPresentationStyle = .fullScreen
