@@ -11,7 +11,7 @@ import RxSwift
 final class LoginAPI {
     
     //googleToken 보내기
-    static func postAccessToken(params: [String: String]) -> Observable<GoogleToken> {
+    static func postAccessToken(params: [String: String]) -> Observable<Token> {
         
         guard let data = try? JSONSerialization.data(
                     withJSONObject: params,
@@ -23,6 +23,6 @@ final class LoginAPI {
             urlStr: LoginAddress.postToken.url,
             method: .post,
             data: data,
-            model: GoogleToken.self)
+            model: Token.self)
     }
 }
