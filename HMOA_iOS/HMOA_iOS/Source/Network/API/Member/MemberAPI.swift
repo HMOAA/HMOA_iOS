@@ -12,13 +12,17 @@ import RxSwift
 final class MemberAPI {
 
     /// 멤버 단일 정보 가져오기
-    static func getMember() -> Observable<Member> {
+    static func getMember() -> Observable<Member?> {
 
         return networking(
             urlStr: MemberAddress.member.url,
             method: .get,
             data: nil,
             model: Member.self)
+        .map { result in
+            print(result)
+            return result
+        }
     }
     
     ///닉네임 중복 검사
