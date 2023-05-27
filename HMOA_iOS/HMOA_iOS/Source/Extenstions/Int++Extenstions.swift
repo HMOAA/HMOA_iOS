@@ -15,4 +15,15 @@ extension Int {
 
         return "₩" + numberFormatter.string(from: NSNumber(value: self))! + "~"
     }
+    
+    /// 나이로 태어난 년도 구하는 함수
+    func ageToYear() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+        dateFormatter.locale = Locale(identifier: "ko")
+        
+        let year = dateFormatter.string(from: Date())
+        
+        return String(Int(year)! - self + 1)
+    }
 }

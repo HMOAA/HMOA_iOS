@@ -29,13 +29,14 @@ class ChangeNicknameReactor: Reactor {
         var isDuplicate: Bool? = nil
         var isEnable: Bool = false
         var isTapReturn: Bool = false
+        var currentNickname: String
         var nickname: String? = nil
         var nicknameResponse: Response? = nil
         var shouldDismissed: Bool = false
     }
     
-    init(service: UserServiceProtocol) {
-        self.initialState = State()
+    init(service: UserServiceProtocol, currentNickname: String) {
+        self.initialState = State(currentNickname: currentNickname)
         self.service = service
     }
     
@@ -90,8 +91,3 @@ class ChangeNicknameReactor: Reactor {
     }
 }
 
-extension ChangeNicknameReactor {
-//    func reactorForUserInformation() -> UserInformationReactor {
-//        return UserInformationReactor(service: service)
-//    }
-}

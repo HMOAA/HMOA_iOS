@@ -19,26 +19,28 @@ class MyPageReactor: Reactor {
     
     enum Mutation {
         case setPresentVC(MyPageType?)
-        case setMemberInfo([MyPageSection])
+        case setSections([MyPageSection])
+        case setMember(Member)
         case updateNickname(String)
+        case updateAge(Int)
+        case updateSex(Bool)
     }
     
     struct State {
-        var sections: [MyPageSection]
+        var sections: [MyPageSection] = []
+        var member = Member(
+            age: 0,
+            imgUrl: "",
+            memberId: 0,
+            nickname: "",
+            provider: "",
+            sex: false)
         var presentVC: MyPageType? = nil
     }
     
     init(service: UserServiceProtocol) {
-        let sections = [
-            MyPageSection.first(MyPageSectionItem.userInfo(
-                UserInfo(
-                    imageUrl: "",
-                    nickName: "",
-                    loginType: "")))] + MyPageReactor.setUpSection()
-
-        self.initialState = State(sections: sections)
+        self.initialState = State()
         self.service = service
-        
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
@@ -48,6 +50,10 @@ class MyPageReactor: Reactor {
                 return .just(.updateNickname(nickname))
             case .updateImage(content: _):
                 return .empty()
+            case .updateUserAge(content: let age):
+                return .just(.updateAge(age))
+            case .updateUserSex(content: let sex):
+                return .just(.updateSex(sex))
             }
         }
 
@@ -59,6 +65,7 @@ class MyPageReactor: Reactor {
             
         case .viewDidLoad:
             return MyPageReactor.reqeustUserInfo()
+            
         case .didTapCell(let type):
             return .concat([
                 .just(.setPresentVC(type)),
@@ -73,16 +80,27 @@ class MyPageReactor: Reactor {
         switch mutation {
         case .setPresentVC(let VC):
             state.presentVC = VC
-        case .setMemberInfo(let sections):
+            
+        case .setSections(let sections):
             state.sections = sections
+            
+        case .setMember(let memeber):
+            state.member = memeber
+            
         case .updateNickname(let nickname):
+            
+            state.member.nickname = nickname
+            
             state.sections = [
-                MyPageSection.first(MyPageSectionItem.userInfo(
-                    UserInfo(
-                        imageUrl: "",
-                        nickName: nickname,
-                        loginType: "")))
-            ] + MyPageReactor.setUpSection()
+                MyPageSection.memberSection(
+                    MyPageSectionItem.memberCell(MemberCellReactor(member: state.member)))
+            ] + MyPageReactor.setUpOtherSection()
+            
+        case .updateAge(let age):
+            state.member.age = age
+            
+        case .updateSex(let sex):
+            state.member.sex = sex
         }
         
         return state
@@ -91,25 +109,25 @@ class MyPageReactor: Reactor {
 
 extension MyPageReactor {
     
-    static func setUpSection() -> [MyPageSection] {
+    static func setUpOtherSection() -> [MyPageSection] {
         let second = [
             MyPageType.myLog.title,
             MyPageType.myProfile.title
-            ]   .map { MyPageSectionItem.etc($0) }
+            ]   .map { MyPageSectionItem.otherCell($0) }
 
         let thrid = [
             MyPageType.openSource.title,
             MyPageType.policy.title,
             MyPageType.version.title
-            ]   .map { MyPageSectionItem.etc($0)}
+            ]   .map { MyPageSectionItem.otherCell($0)}
         
         let fourth = [
             MyPageType.logout.title,
             MyPageType.deleteAccount.title
-            ]   .map { MyPageSectionItem.etc($0)}
+            ]   .map { MyPageSectionItem.otherCell($0)}
         
         
-        return [MyPageSection.etc(second), MyPageSection.etc(thrid), MyPageSection.etc(fourth)]
+        return [MyPageSection.otherSection(second), MyPageSection.otherSection(thrid), MyPageSection.otherSection(fourth)]
     }
     
     static func reqeustUserInfo() -> Observable<Mutation> {
@@ -117,20 +135,43 @@ extension MyPageReactor {
         return MemberAPI.getMember()
             .catch { _ in .empty() }
             .flatMap { member -> Observable<Mutation> in
-                let sections = [
-                    MyPageSection.first(MyPageSectionItem.userInfo(
-                        UserInfo(
-                            imageUrl: "",
-                            nickName: member!.nickname!,
-                            loginType: member!.provider!))),
-                ] + MyPageReactor.setUpSection()
+
+                var sections = [MyPageSection]()
                 
-                return .just(.setMemberInfo(sections))
+                let member = Member(
+                    age: member.age,
+                    imgUrl: member.imgUrl,
+                    memberId: member.memberId,
+                    nickname: member.nickname,
+                    provider: MyPageReactor.providerToKorean(member.provider),
+                    sex: member.sex)
+                
+                sections.append(MyPageSection.memberSection(
+                    MyPageSectionItem.memberCell(MemberCellReactor(member: member))))
+                
+                sections += setUpOtherSection()
+                
+                return .concat([
+                    .just(.setMember(member)),
+                    .just(.setSections(sections))
+                ])
             }
     }
-
+    
+    static func providerToKorean(_ type: String) -> String {
+        switch type {
+        case "GOOGLE":
+            return "구글 로그인"
+        case "KAKAO":
+            return "카카오 로그인"
+        case "APPLE":
+            return "애플 로그인"
+        default:
+            return ""
+        }
+    }
     
     func reactorForMyProfile() -> MyProfileReactor {
-        return MyProfileReactor(service: service)
+        return MyProfileReactor(service: service, member: currentState.member)
     }
 }
