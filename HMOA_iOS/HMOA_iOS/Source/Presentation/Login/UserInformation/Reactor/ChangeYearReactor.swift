@@ -13,7 +13,8 @@ import RxCocoa
 class ChangeYearReactor: Reactor {
     var initialState: State
     var service: UserYearServiceProtocol
-
+    var userService: UserServiceProtocol
+    
     enum Action {
         case didTapChoiceYearButton
         case didTapChangeButton
@@ -34,9 +35,10 @@ class ChangeYearReactor: Reactor {
         var selectedYear: String? = nil
     }
     
-    init(service: UserYearServiceProtocol) {
-        self.initialState = State()
+    init(service: UserYearServiceProtocol, selectedYear: String? = nil, userService: UserServiceProtocol? = nil) {
+        self.initialState = State(selectedYear: selectedYear)
         self.service = service
+        self.userService = userService!
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
@@ -65,7 +67,8 @@ class ChangeYearReactor: Reactor {
             
             return .concat([
                 ChangeYearReactor.patchUserYear(year),
-                .just(.setPopMyPage(false))
+                userService.updateUserAge(to: year).map { _ in .setPopMyPage(false)},
+                
             ])
             
         case .didChangeSelectedYear(let year):

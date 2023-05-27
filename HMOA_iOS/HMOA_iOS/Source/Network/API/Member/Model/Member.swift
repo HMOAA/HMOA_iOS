@@ -8,10 +8,10 @@
 import Foundation
 
 struct Member: Codable {
-    let age: Int
-    let imgUrl: String?
-    let memberId: Int
-    let nickname: String?
-    let provider: String?
-    let sex: Bool
+    var age: Int
+    var imgUrl: String
+    var memberId: Int
+    var nickname: String
+    var provider: String
+    var sex: Bool
 }
