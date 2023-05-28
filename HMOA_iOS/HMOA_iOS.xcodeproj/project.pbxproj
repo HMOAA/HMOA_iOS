@@ -130,6 +130,7 @@
 		CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */; };
 		CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */; };
 		CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */; };
+		CA0CBBB82A239D4C00CBA58F /* LoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0CBBB72A239D4C00CBA58F /* LoginType.swift */; };
 		CA0DB39129DBD67B0091DCB2 /* GuideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0DB39029DBD67B0091DCB2 /* GuideCell.swift */; };
 		CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */; };
 		CA1067D929D6C9A7009A7245 /* ChangeYearReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */; };
@@ -326,6 +327,7 @@
 		CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationViewController.swift; sourceTree = "<group>"; };
 		CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		CA0CBBB72A239D4C00CBA58F /* LoginType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
 		CA0DB39029DBD67B0091DCB2 /* GuideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideCell.swift; sourceTree = "<group>"; };
 		CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeYearViewConroller.swift; sourceTree = "<group>"; };
 		CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeYearReactor.swift; sourceTree = "<group>"; };
@@ -1288,6 +1290,15 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		CA0CBBB62A239D4C00CBA58F /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				CA0CBBB72A239D4C00CBA58F /* LoginType.swift */,
+			);
+			name = Button;
+			path = ../../../../../../../Documents/HMOA_iOS/HMOA_iOS/Source/Presentation/Login/Button;
+			sourceTree = "<group>";
+		};
 		CA0DB38F29DBD6650091DCB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1388,6 +1399,7 @@
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				CA0CBBB62A239D4C00CBA58F /* Button */,
 				CA03C23C29EBED5F00FA0D2C /* Manager */,
 				CA5DB81729EAA6DC00BE0F79 /* Model */,
 				CACA20E229E38BC6009995F3 /* Key */,
@@ -1781,6 +1793,7 @@
 				CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */,
 				2CA7F69A29D2FBE70022E7FD /* TotalPerfumeReactor.swift in Sources */,
 				2C04246429A39C26009CF0FE /* Perfume.swift in Sources */,
+				CA0CBBB82A239D4C00CBA58F /* LoginType.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* PerfumeDetail.swift in Sources */,
 				2C4CDC4B29C770D900676163 /* BrandSearchViewController.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,

@@ -7,6 +7,8 @@
 
 import UIKit
 
+import ReactorKit
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -17,7 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(windowScene: windowScene)
 
-        window?.rootViewController = LoginViewController()
+        let loginVC = LoginViewController()
+        loginVC.reactor = LoginReactor()
+        window?.rootViewController = loginVC
         window?.makeKeyAndVisible()
     }
 
