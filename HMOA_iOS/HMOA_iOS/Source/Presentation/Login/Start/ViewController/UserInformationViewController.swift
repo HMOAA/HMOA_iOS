@@ -267,9 +267,7 @@ class UserInformationViewController: UIViewController, View {
             .distinctUntilChanged()
             .filter { $0 != nil }
             .bind(onNext: { _ in
-                let tabBar = AppTabbarController()
-                tabBar.modalPresentationStyle = .fullScreen
-                self.present(tabBar, animated: true)
+                self.presentAppTabBarController()
             }).disposed(by: disposeBag)
     }
     

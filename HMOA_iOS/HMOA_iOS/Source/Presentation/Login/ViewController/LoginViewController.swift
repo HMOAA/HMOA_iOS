@@ -254,20 +254,30 @@ extension LoginViewController {
     func googleLogin() {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
             guard error == nil, let result = result else { return }
-
+            
             let token = result.user.accessToken.tokenString
             let params = ["token": token]
-
+            
             LoginAPI.postAccessToken(params: params)
                 .bind(onNext: {
+                    KeychainManager.create(token: $0)
                     self.loginManager.googleToken = $0
-                    
+                    self.checkPreviousSignIn($0.existedMember)
                     print($0)
-                    let vc = LoginStartViewController()
-                    let nvController = UINavigationController(rootViewController: vc)
-                    nvController.modalPresentationStyle = .fullScreen
-                    self.present(nvController, animated: true)
                 }).disposed(by: self.disposeBag)
+        }
+    }
+    
+    func checkPreviousSignIn(_ isExisted: Bool) {
+        if !isExisted {
+            let vc = LoginStartViewController()
+            let nvController = UINavigationController(rootViewController: vc)
+            nvController.modalPresentationStyle = .fullScreen
+            self.view.window?.rootViewController = nvController
+            self.present(nvController, animated: true)
+            self.view.window?.rootViewController?.dismiss(animated: false)
+        } else {
+            self.presentAppTabBarController()
         }
     }
 }

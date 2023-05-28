@@ -130,7 +130,7 @@ extension UserInformationReactor {
     
     //나이, 성별 회원가입 api 묶기
     func combineAPIObseverble(_ year: String, _ nickname: String) -> Observable<JoinResponse> {
-        let age = 2024 - Int(year)!
+        let age = getAge(year)
         
         let ageOb = MemberAPI.updateAge(params: ["age": age])
         let sexOb = MemberAPI.updateSex(params: ["sex": true])
@@ -138,5 +138,11 @@ extension UserInformationReactor {
         
         return joinOb
         
+    }
+    
+    func getAge(_ year: String) -> Int {
+        var formatter_year = DateFormatter()
+        formatter_year.dateFormat = "yyyy"
+        return Int(formatter_year.string(from: Date()))! - Int(year)!
     }
 }
