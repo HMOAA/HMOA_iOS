@@ -37,9 +37,12 @@ public func networking<T: Decodable>(
         var reqeust = URLRequest(url: url)
         reqeust.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // TODO: 로그인하면 JWT토큰 값 저장하고, 불러오기(없으면 ""로 설정)
-        reqeust.setValue(loginManager.googleToken?.authToken, forHTTPHeaderField: "X-AUTH-TOKEN")
+        // TODO: - 자동로그인 구현할 때 앱 실행 초기에만 keyChain 불러오기
+        let authToken = KeychainManager.read()?.authToken ?? ""
         
+        // TODO: 로그인하면 JWT토큰 값 저장하고, 불러오기(없으면 ""로 설정)
+        reqeust.setValue(authToken, forHTTPHeaderField: "X-AUTH-TOKEN")
+         
         reqeust.httpBody = data
         reqeust.method = method
 
