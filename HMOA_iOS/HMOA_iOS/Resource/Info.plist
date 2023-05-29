@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>GIDClientID</key>
-    <string>788055646907-v9chjefcdm4vs2p5c6utgvmutbp0lrv4.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -14,6 +12,21 @@
 				<string>com.googleusercontent.apps.788055646907-v9chjefcdm4vs2p5c6utgvmutbp0lrv4</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao4af51404e2d5676f99bf8a1e7c16fad7</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>788055646907-v9chjefcdm4vs2p5c6utgvmutbp0lrv4.apps.googleusercontent.com</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaokompassauth</string>
+		<string>kakaolink</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>
