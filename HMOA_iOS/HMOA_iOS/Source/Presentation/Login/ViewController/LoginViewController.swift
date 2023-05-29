@@ -202,6 +202,15 @@ class LoginViewController: UIViewController, View {
                 self.googleLogin()
             }).disposed(by: disposeBag)
         
+        reactor.state
+            .compactMap { $0.kakaoToken }
+            .distinctUntilChanged()
+            .bind(onNext: {
+                print($0)
+                KeychainManager.create(token: $0)
+                self.checkPreviousSignIn($0.existedMember)
+            }).disposed(by: disposeBag)
+        
         
     }
 }
@@ -214,7 +223,7 @@ extension LoginViewController {
             let token = result.user.accessToken.tokenString
             let params = ["token": token]
             
-            LoginAPI.postAccessToken(params: params)
+            LoginAPI.postAccessToken(params: params, .google)
                 .bind(onNext: {
                     KeychainManager.create(token: $0)
                     self.loginManager.googleToken = $0
