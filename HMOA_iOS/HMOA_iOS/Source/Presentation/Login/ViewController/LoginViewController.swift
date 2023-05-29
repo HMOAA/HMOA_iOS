@@ -56,6 +56,7 @@ class LoginViewController: UIViewController, View {
         setAddView()
         setUpConstraints()
         
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -206,7 +207,7 @@ class LoginViewController: UIViewController, View {
             .compactMap { $0.kakaoToken }
             .distinctUntilChanged()
             .bind(onNext: {
-                print($0)
+                self.loginManager.token = $0
                 KeychainManager.create(token: $0)
                 self.checkPreviousSignIn($0.existedMember)
             }).disposed(by: disposeBag)
@@ -226,7 +227,7 @@ extension LoginViewController {
             LoginAPI.postAccessToken(params: params, .google)
                 .bind(onNext: {
                     KeychainManager.create(token: $0)
-                    self.loginManager.googleToken = $0
+                    self.loginManager.token = $0
                     self.checkPreviousSignIn($0.existedMember)
                     print($0)
                 }).disposed(by: self.disposeBag)
