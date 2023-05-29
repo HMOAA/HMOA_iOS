@@ -7,7 +7,12 @@
 
 import UIKit
 import CoreData
+
 import GoogleSignIn
+import RxKakaoSDKAuth
+import RxKakaoSDKCommon
+import KakaoSDKAuth
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         configureNavigationBar()
         
+        RxKakaoSDK.initSDK(appKey: Key.KAKAO_NATIVE_APP_KEY)
         return true
     }
     
@@ -87,10 +93,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         var handled: Bool
 
-          handled = GIDSignIn.sharedInstance.handle(url)
-          if handled {
+        //Google Login
+        handled = GIDSignIn.sharedInstance.handle(url)
+        if handled {
             return true
-          }
+        }
+        
+        //Kakao Login
+        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+            return AuthController.rx.handleOpenUrl(url: url)
+        }
+        
         
         return false
     }
