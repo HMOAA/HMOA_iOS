@@ -15,6 +15,7 @@ target 'HMOA_iOS' do
   pod 'TagListView'
   pod 'DropDown'
   pod 'GoogleSignIn'
+  pod 'RxKakaoSDK'
 
   use_frameworks!
 
