@@ -20,10 +20,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
-
-        let loginVC = LoginViewController()
-        loginVC.reactor = LoginReactor()
-        window?.rootViewController = loginVC
+        if let token = KeychainManager.read() {
+            let vc = AppTabbarController()
+            window?.rootViewController = vc
+            LoginManager.shared.token = token
+        } else {
+            let vc = LoginViewController()
+            vc.reactor = LoginReactor()
+            window?.rootViewController = vc
+        }
         window?.makeKeyAndVisible()
     }
     
