@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct HomeData: Codable {
+struct HomeFirstData: Codable {
     let mainImage: String
-    let recommend: [RecommendPerfumeList]
+    let recommend: RecommendPerfumeList
 }
 
 struct RecommendPerfumeList: Codable {
@@ -23,3 +23,15 @@ struct RecommendPerfume: Codable {
     let perfumeName: String
     let imageUrl: String
 }
+
+
+struct HomeSecondData: Codable {
+    let recommend: [RecommendPerfumeList]
+    
+    enum CodingKeys: String, CodingKey {
+        case recommend = "data"
+    }
+    
+}
+
+

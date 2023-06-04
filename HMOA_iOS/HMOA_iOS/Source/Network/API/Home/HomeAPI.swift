@@ -9,12 +9,22 @@ import RxSwift
 
 class HomeAPI {
     
-    static func getHomeData() -> Observable<HomeData> {
+    /// 홈 화면 2개 데이터 값 받아오는 API
+    static func getFirstHomeData() -> Observable<HomeFirstData> {
         return networking(
-            urlStr: HomeAddress.getHomeData.url,
+            urlStr: HomeAddress.getFirstHomeData.url,
             method: .get,
             data: nil,
-            model: HomeData.self)
+            model: HomeFirstData.self)
+    }
+    
+    /// 홈 화면 나머지 데이터 값 받아오는 API
+    static func getSecondHomeData() -> Observable<HomeSecondData> {
+        return networking(
+            urlStr: HomeAddress.getsecondHomeData.url,
+            method: .get,
+            data: nil,
+            model: HomeSecondData.self)
     }
 }
 
