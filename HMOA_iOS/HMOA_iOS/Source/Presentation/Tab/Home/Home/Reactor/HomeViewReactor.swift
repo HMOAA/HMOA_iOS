@@ -106,25 +106,22 @@ extension HomeViewReactor {
     
     static func reqeustHomeData() -> Observable<Mutation> {
 
-        return HomeAPI.getHomeData()
+        return HomeAPI.getFirstHomeData()
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 var sections = [HomeSection]()
                 
                 let homeTopItem = HomeSectionItem.topCell(data.mainImage, 1)
                 let homeTopSection = HomeSection.topSection([homeTopItem])
-                
+                let recommend = data.recommend
+
                 sections.append(homeTopSection)
-                
-                
-                data.recommend.forEach {
+        
+                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell(HomeCellReactor(perfume: $0), $0.id)}
                     
-                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell(HomeCellReactor(perfume: $0), $0.id)}
-                    
-                    sections.append(HomeSection.recommendSection(header: $0.title, items: item))
-                }
-                
-                
+                sections.append(HomeSection.recommendSection(header: recommend.title, items: item))
+        
+
                 return .just(.setSections(sections))
             }
         

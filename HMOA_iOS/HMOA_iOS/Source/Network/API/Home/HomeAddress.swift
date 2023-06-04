@@ -8,14 +8,18 @@
 import Foundation
 
 enum HomeAddress {
-    case getHomeData
+    case getFirstHomeData
+    case getsecondHomeData
 }
 
 extension HomeAddress {
     var url: String {
         switch self {
-        case .getHomeData:
+        case .getFirstHomeData:
             return "perfume/findtest"
+        
+        case .getsecondHomeData:
+            return "perfume/findtest2"
         }
     }
 }
