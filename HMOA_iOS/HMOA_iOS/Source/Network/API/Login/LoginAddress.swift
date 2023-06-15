@@ -11,7 +11,7 @@ enum LoginAddress {
     case google
     case apple
     case kakao
-
+    case remebered
 }
 
 extension LoginAddress {
@@ -23,6 +23,8 @@ extension LoginAddress {
             return "login/oauth2/APPLE"
         case .kakao:
             return "login/oauth2/KAKAO"
+        case .remebered:
+            return "login/remembered"
         }
     }
 }

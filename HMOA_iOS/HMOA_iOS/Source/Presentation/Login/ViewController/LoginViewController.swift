@@ -55,8 +55,6 @@ class LoginViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setUpConstraints()
-        
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -195,6 +193,7 @@ class LoginViewController: UIViewController, View {
                 self.loginRetainButton.isSelected.toggle()
         }).disposed(by: disposeBag)
         
+        //구글 로그인 호출
         reactor.state
             .map { $0.isSignInGoogle }
             .distinctUntilChanged()
@@ -203,16 +202,15 @@ class LoginViewController: UIViewController, View {
                 self.googleLogin()
             }).disposed(by: disposeBag)
         
+        //카카오로그인 토큰
         reactor.state
             .compactMap { $0.kakaoToken }
             .distinctUntilChanged()
             .bind(onNext: {
-                self.loginManager.token = $0
                 KeychainManager.create(token: $0)
-                self.checkPreviousSignIn($0.existedMember)
+                self.loginManager.tokenSubject.onNext($0)
+                self.checkPreviousSignIn($0.existedMember!)
             }).disposed(by: disposeBag)
-        
-        
     }
 }
 
@@ -227,9 +225,8 @@ extension LoginViewController {
             LoginAPI.postAccessToken(params: params, .google)
                 .bind(onNext: {
                     KeychainManager.create(token: $0)
-                    self.loginManager.token = $0
-                    self.checkPreviousSignIn($0.existedMember)
-                    print($0)
+                    self.loginManager.tokenSubject.onNext($0)
+                    self.checkPreviousSignIn($0.existedMember!)
                 }).disposed(by: self.disposeBag)
         }
     }

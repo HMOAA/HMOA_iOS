@@ -156,6 +156,7 @@
 		CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */; };
 		CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */; };
 		CA5DB81929EAA6F500BE0F79 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */; };
+		CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */; };
 		CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */; };
 		CA6D99E629C492B4000E80CF /* LikeListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D99E529C492B4000E80CF /* LikeListModel.swift */; };
 		CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D99E729C4932A000E80CF /* ListSecton.swift */; };
@@ -353,6 +354,7 @@
 		CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRequestInterCeptor.swift; sourceTree = "<group>"; };
 		CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer++Extenstions.swift"; sourceTree = "<group>"; };
 		CA6D99E529C492B4000E80CF /* LikeListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListModel.swift; sourceTree = "<group>"; };
 		CA6D99E729C4932A000E80CF /* ListSecton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSecton.swift; sourceTree = "<group>"; };
@@ -1116,6 +1118,7 @@
 				2CA155AC2A039A7400D7B0C0 /* Model */,
 				2CA155AD2A039A7E00D7B0C0 /* LoginAPI.swift */,
 				2CA155B12A039B1B00D7B0C0 /* LoginAddress.swift */,
+				CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1819,6 +1822,7 @@
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
 				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
 				2CA155B82A05368000D7B0C0 /* MyProfileReactor.swift in Sources */,
+				CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */,
 				CA34781329E1B5C500334070 /* HPediaTagCellReactor.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageUserCell.swift in Sources */,
