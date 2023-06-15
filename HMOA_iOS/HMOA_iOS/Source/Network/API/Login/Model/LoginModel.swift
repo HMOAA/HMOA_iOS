@@ -10,7 +10,7 @@ import Foundation
 
 struct Token: Codable, Equatable {
     let authToken: String
-    let existedMember: Bool
+    let existedMember: Bool?
     let rememberedToken: String
 }
 

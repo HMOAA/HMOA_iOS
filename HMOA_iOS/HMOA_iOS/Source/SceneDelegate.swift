@@ -14,21 +14,13 @@ import ReactorKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
+        
         window = UIWindow(windowScene: windowScene)
-        if let token = KeychainManager.read() {
-            let vc = AppTabbarController()
-            window?.rootViewController = vc
-            LoginManager.shared.token = token
-        } else {
-            let vc = LoginViewController()
-            vc.reactor = LoginReactor()
-            window?.rootViewController = vc
-        }
+        setFirstViewController()
         window?.makeKeyAndVisible()
     }
     
@@ -72,5 +64,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
+}
+
+extension SceneDelegate {
+    //로그인 기록에 따른 첫 뷰컨트롤러 설정
+    func setFirstViewController() {
+        let loginManager: LoginManager = LoginManager.shared
+        if let token = KeychainManager.read() {
+            print("start \(token)")
+            let vc = AppTabbarController()
+            window?.rootViewController = vc
+            loginManager.tokenSubject.onNext(token)
+            
+        } else {
+            let vc = LoginViewController()
+            vc.reactor = LoginReactor()
+            window?.rootViewController = vc
+        }
+    }
 }
 
