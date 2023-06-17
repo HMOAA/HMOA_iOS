@@ -7,18 +7,29 @@
 
 import UIKit
 
+import RxKakaoSDKAuth
+import KakaoSDKAuth
+import ReactorKit
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
+        
         window = UIWindow(windowScene: windowScene)
-
-        window?.rootViewController = LoginViewController()
+        setFirstViewController()
         window?.makeKeyAndVisible()
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                _ = AuthController.rx.handleOpenUrl(url: url)
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -53,5 +64,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
+}
+
+extension SceneDelegate {
+    //로그인 기록에 따른 첫 뷰컨트롤러 설정
+    func setFirstViewController() {
+        let loginManager: LoginManager = LoginManager.shared
+        if let token = KeychainManager.read() {
+            print("start \(token)")
+            let vc = AppTabbarController()
+            window?.rootViewController = vc
+            loginManager.tokenSubject.onNext(token)
+            
+        } else {
+            let vc = LoginViewController()
+            vc.reactor = LoginReactor()
+            window?.rootViewController = vc
+        }
+    }
 }
 

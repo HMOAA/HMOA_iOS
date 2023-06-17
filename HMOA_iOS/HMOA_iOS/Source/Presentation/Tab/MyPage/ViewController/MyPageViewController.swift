@@ -139,6 +139,12 @@ extension MyPageViewController {
         case .version:
             break
         case .logout:
+            KeychainManager.delete()
+            let loginVC = LoginViewController()
+            loginVC.reactor = LoginReactor()
+            loginVC.modalPresentationStyle = .fullScreen
+            LoginManager.shared.tokenSubject.onNext(nil)
+            present(loginVC, animated: true)
             break
         case .deleteAccount:
             break

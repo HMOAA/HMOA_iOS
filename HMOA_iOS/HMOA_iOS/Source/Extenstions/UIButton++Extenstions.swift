@@ -68,4 +68,21 @@ extension UIButton {
         
         self.layer.cornerRadius = 10
     }
+    
+    func setConfigButton(_ type: LoginType){
+        
+        var config = UIButton.Configuration.plain()
+        
+        var titleAttr = AttributedString.init(type.title)
+        titleAttr.font = .customFont(.pretendard, 14)
+        titleAttr.foregroundColor = type.color
+        
+        config.attributedTitle = titleAttr
+        config.background.backgroundColor = type.backgroundColor
+        config.image = type.image
+        config.imagePadding = type.padding
+        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: type.rightPadding)
+        
+        self.configuration = config
+    }
 }

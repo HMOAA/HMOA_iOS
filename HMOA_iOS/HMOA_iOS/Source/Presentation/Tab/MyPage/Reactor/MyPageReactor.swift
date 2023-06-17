@@ -134,6 +134,7 @@ extension MyPageReactor {
         
         return MemberAPI.getMember()
             .catch { _ in .empty() }
+            .compactMap { $0 }
             .flatMap { member -> Observable<Mutation> in
 
                 var sections = [MyPageSection]()
