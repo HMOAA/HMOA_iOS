@@ -8,7 +8,9 @@ import RxCocoa
 import GoogleSignIn
 import AuthenticationServices
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, View {
+    
+    typealias Reactor = LoginReactor
 
     //MARK: - Property
     let titleImageView = UIImageView().then {
@@ -32,9 +34,9 @@ class LoginViewController: UIViewController {
         $0.distribution = .fillEqually
         $0.setStackViewUI(spacing: 12)
     }
-    var googleLoginButton: UIButton!
-    var appleLoginButton: UIButton!
-    var kakaoLoginButton: UIButton!
+    lazy var googleLoginButton = UIButton()
+    lazy var appleLoginButton = UIButton()
+    lazy var kakaoLoginButton = UIButton()
     
     let noLoginButton = UIButton().then {
         $0.titleLabel?.font = .customFont(.pretendard, 12)
@@ -43,8 +45,7 @@ class LoginViewController: UIViewController {
         $0.setTitleColor(.customColor(.gray4), for: .normal)
     }
     
-    let loginReactor = LoginReactor()
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     let loginManager = LoginManager.shared
     
     //MARK: - LifeCycle
@@ -54,8 +55,6 @@ class LoginViewController: UIViewController {
         setUpUI()
         setAddView()
         setUpConstraints()
-        
-        bind(reactor: loginReactor)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -68,59 +67,15 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
         
-        //Button SetUp
-        googleLoginButton = UIButton(
-            configuration: setConfigButton(
-                "구글로 시작하기",
-                color: .black,
-                imageName: "google",
-                backgroundColor: .white,
-                padding: 80))
-        //button shadown
+        googleLoginButton.setConfigButton(.google)
+        appleLoginButton.setConfigButton(.apple)
+        kakaoLoginButton.setConfigButton(.kakao)
+        
+        //button shadow
         googleLoginButton.layer.shadowColor = UIColor.black.cgColor
         googleLoginButton.layer.shadowOpacity = 0.25
         googleLoginButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         googleLoginButton.layer.shadowRadius = 2
-        
-        appleLoginButton = UIButton(
-            configuration: setConfigButton(
-                "애플로 시작하기",
-                color: .white,
-                imageName: "apple",
-                backgroundColor: .black,
-                padding: 80))
-        
-        kakaoLoginButton = UIButton(
-            configuration: setConfigButton(
-                "카카오톡으로 시작하기",
-                color: .black,
-                imageName: "kakaotalk",
-                backgroundColor: #colorLiteral(red: 0.9983025193, green: 0.9065476656, blue: 0, alpha: 1),
-                padding: 60,
-                rightPadding: 102))
-        
-        
-        
-    }
-    
-    private func setConfigButton(_ title: String,
-                                 color: UIColor,
-                                 imageName: String,
-                                 backgroundColor: UIColor,
-                                 padding: CGFloat,
-                                 rightPadding: CGFloat = 120) -> UIButton.Configuration {
-        var config = UIButton.Configuration.plain()
-        
-        var titleAttr = AttributedString.init(title)
-        titleAttr.font = .customFont(.pretendard, 14)
-        titleAttr.foregroundColor = color
-        
-        config.attributedTitle = titleAttr
-        config.background.backgroundColor = backgroundColor
-        config.image = UIImage(named: imageName)
-        config.imagePadding = padding
-        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: rightPadding)
-        return config
         
     }
 
@@ -172,34 +127,34 @@ class LoginViewController: UIViewController {
     }
     
     //MARK: - Bind
-    private func bind(reactor: LoginReactor) {
+    func bind(reactor: Reactor) {
         
         //MARK: - Actiong
         //Input
         
         //구글 로그인 버튼 터치
         googleLoginButton.rx.tap
-            .map { LoginReactor.Action.didTapGoogleLoginButton }
+            .map { Reactor.Action.didTapGoogleLoginButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         //애플 로그인 버튼 터치
         appleLoginButton.rx.tap
-            .map { LoginReactor.Action.didTapAppleLoginButton }
+            .map { Reactor.Action.didTapAppleLoginButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         //카카오톡 로그인 버튼 터치
         kakaoLoginButton.rx.tap
-            .map { LoginReactor.Action.didTapKakaoLoginButton }
+            .map { Reactor.Action.didTapKakaoLoginButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         //로그인 없이 이용하기 버튼 터치
         noLoginButton.rx.tap
-            .map { LoginReactor.Action.didTapNoLoginButton }
+            .map { Reactor.Action.didTapNoLoginButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         //로그인 상태 유지 버튼 터치
         loginRetainButton.rx.tap
-            .map { LoginReactor.Action.didTapLoginRetainButton }
+            .map { Reactor.Action.didTapLoginRetainButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -238,6 +193,7 @@ class LoginViewController: UIViewController {
                 self.loginRetainButton.isSelected.toggle()
         }).disposed(by: disposeBag)
         
+        //구글 로그인 호출
         reactor.state
             .map { $0.isSignInGoogle }
             .distinctUntilChanged()
@@ -246,7 +202,15 @@ class LoginViewController: UIViewController {
                 self.googleLogin()
             }).disposed(by: disposeBag)
         
-        
+        //카카오로그인 토큰
+        reactor.state
+            .compactMap { $0.kakaoToken }
+            .distinctUntilChanged()
+            .bind(onNext: {
+                KeychainManager.create(token: $0)
+                self.loginManager.tokenSubject.onNext($0)
+                self.checkPreviousSignIn($0.existedMember!)
+            }).disposed(by: disposeBag)
     }
 }
 
@@ -258,12 +222,11 @@ extension LoginViewController {
             let token = result.user.accessToken.tokenString
             let params = ["token": token]
             
-            LoginAPI.postAccessToken(params: params)
+            LoginAPI.postAccessToken(params: params, .google)
                 .bind(onNext: {
                     KeychainManager.create(token: $0)
-                    self.loginManager.googleToken = $0
-                    self.checkPreviousSignIn($0.existedMember)
-                    print($0)
+                    self.loginManager.tokenSubject.onNext($0)
+                    self.checkPreviousSignIn($0.existedMember!)
                 }).disposed(by: self.disposeBag)
         }
     }

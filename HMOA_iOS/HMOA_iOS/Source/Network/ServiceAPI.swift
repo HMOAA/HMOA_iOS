@@ -15,7 +15,6 @@ enum NetworkError: Error {
     case invalidResponse
     case decodingError
     case unknownError
-    case statusCodeMoreThan400(String, String)
 }
 
 
@@ -26,8 +25,6 @@ public func networking<T: Decodable>(
     model: T.Type) -> Observable<T> {
     
     return Observable<T>.create { observer in
-        
-        let loginManager = LoginManager.shared
 
         // TODO: 도메인 생성되면 baseURL로 따로 빼서 정의
         guard let url = URL(string: baseURL.url + urlStr) else {
@@ -36,21 +33,16 @@ public func networking<T: Decodable>(
         }
         var reqeust = URLRequest(url: url)
         reqeust.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // TODO: - 자동로그인 구현할 때 앱 실행 초기에만 keyChain 불러오기
-        let authToken = KeychainManager.read()?.authToken ?? ""
-        
-        // TODO: 로그인하면 JWT토큰 값 저장하고, 불러오기(없으면 ""로 설정)
-        reqeust.setValue(authToken, forHTTPHeaderField: "X-AUTH-TOKEN")
          
         reqeust.httpBody = data
         reqeust.method = method
 
-        AF.request(reqeust)
+        AF.request(reqeust, interceptor: AppRequestInterceptor())
             .validate(statusCode: 200..<300)
             .responseDecodable(of: model.self) { response in
                 switch response.result {
                 case .success(let data):
+                    print(data)
                     observer.onNext(data)
                     observer.onCompleted()
                 case .failure(let error):

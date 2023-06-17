@@ -29,6 +29,7 @@ class LoginReactor: Reactor {
         case setPushStartVC(Bool)
         case setSignInGoogle(Bool)
         case toggleRetainButton(Bool)
+        case setKakaoToken(Token?)
     }
     
     //현재 뷰 상태
@@ -37,6 +38,7 @@ class LoginReactor: Reactor {
         var isPushStartVC: Bool = false
         var isPresentTabBar: Bool = false
         var isChecked: Bool = false
+        var kakaoToken: Token? = nil
     }
     
     init() {
@@ -62,8 +64,12 @@ class LoginReactor: Reactor {
                       ])
         case .didTapKakaoLoginButton:
             return .concat([
-                .just(.setPushStartVC(true)),
-                .just(.setPushStartVC(false))
+                LoginAPI.kakaoLogin()
+                    .flatMap {
+                        LoginAPI.postAccessToken(params: ["token": $0.accessToken], .kakao)
+                            .map { .setKakaoToken($0) }
+                    },
+                .just(.setKakaoToken(nil))
                       ])
         case .didTapLoginRetainButton:
             return .concat([
@@ -86,6 +92,8 @@ class LoginReactor: Reactor {
             state.isPushStartVC = isPush
         case .toggleRetainButton(let isCheck):
             state.isChecked = isCheck
+        case .setKakaoToken(let token):
+            state.kakaoToken = token
         }
         
         return state

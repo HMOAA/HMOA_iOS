@@ -8,15 +8,23 @@
 import Foundation
 
 enum LoginAddress {
-    case postToken
-
+    case google
+    case apple
+    case kakao
+    case remebered
 }
 
 extension LoginAddress {
     var url: String {
         switch self {
-        case .postToken:
+        case .google:
             return "login/oauth2/GOOGLE"
+        case .apple:
+            return "login/oauth2/APPLE"
+        case .kakao:
+            return "login/oauth2/KAKAO"
+        case .remebered:
+            return "login/remembered"
         }
     }
 }

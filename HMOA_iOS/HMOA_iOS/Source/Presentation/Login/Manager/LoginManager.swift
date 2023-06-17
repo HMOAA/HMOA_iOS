@@ -7,12 +7,13 @@
 
 import UIKit
 
+import RxSwift
+
 final class LoginManager {
     
     static let shared = LoginManager()
     
-    var googleToken: Token? = nil
-    
+    let tokenSubject:BehaviorSubject<Token?> = BehaviorSubject<Token?>(value: nil)
     private init () { }
     
 }
