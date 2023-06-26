@@ -61,7 +61,7 @@ extension MyPageUserCell {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.member.imgUrl }
+            .map { $0.member.memberImageUrl }
             .map { URL(string: $0) }
             .distinctUntilChanged()
             .bind(onNext: { [weak self] in

@@ -30,7 +30,7 @@ class MyPageReactor: Reactor {
         var sections: [MyPageSection] = []
         var member = Member(
             age: 0,
-            imgUrl: "",
+            memberImageUrl: "",
             memberId: 0,
             nickname: "",
             provider: "",
