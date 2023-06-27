@@ -202,11 +202,11 @@ class LikeViewController: UIViewController {
             .map { $0.isSelectedCard }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { result in
-                self.listCollectionView.isHidden = result
-                self.cardCollectionView.isHidden = !result
-                self.cardButton.isSelected = result
-                self.listButton.isSelected = !result
+            .bind(with: self, onNext: { owner, result in
+                owner.listCollectionView.isHidden = result
+                owner.cardCollectionView.isHidden = !result
+                owner.cardButton.isSelected = result
+                owner.listButton.isSelected = !result
             })
             .disposed(by: disposeBag)
         
@@ -215,11 +215,11 @@ class LikeViewController: UIViewController {
             .map { $0.isSelectedList }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { result in
-                self.listCollectionView.isHidden = !result
-                self.cardCollectionView.isHidden = result
-                self.cardButton.isSelected = !result
-                self.listButton.isSelected = result
+            .bind(with: self, onNext: { owner, result in
+                owner.listCollectionView.isHidden = !result
+                owner.cardCollectionView.isHidden = result
+                owner.cardButton.isSelected = !result
+                owner.listButton.isSelected = result
                 
             })
             .disposed(by: disposeBag)
@@ -227,8 +227,8 @@ class LikeViewController: UIViewController {
         reactor.state
             .compactMap { $0.selectedPerpumeId }
             .distinctUntilChanged()
-            .bind(onNext: {
-                self.presentDatailViewController($0)
+            .bind(with: self, onNext: { owner, perpumeId in
+                owner.presentDatailViewController(perpumeId)
             }).disposed(by: disposeBag)
       
     }
