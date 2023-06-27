@@ -166,10 +166,10 @@ class LoginViewController: UIViewController, View {
             .map { $0.isPresentTabBar}
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
+            .bind(with: self, onNext: { owner, _ in
                 let tabBar = AppTabbarController()
                 tabBar.modalPresentationStyle = .fullScreen
-                self.present(tabBar, animated: true)
+                owner.present(tabBar, animated: true)
             }).disposed(by: disposeBag)
         
         //StartVC로 이동
@@ -177,11 +177,11 @@ class LoginViewController: UIViewController, View {
             .map { $0.isPushStartVC}
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
+            .bind(with: self, onNext: { owner, _ in
                 let vc = LoginStartViewController()
                 let nvController = UINavigationController(rootViewController: vc)
                 nvController.modalPresentationStyle = .fullScreen
-                self.present(nvController, animated: true, completion: nil)
+                owner.present(nvController, animated: true, completion: nil)
             }).disposed(by: disposeBag)
         
         //로그인 상태 유지 체크버튼 toggle
@@ -189,8 +189,8 @@ class LoginViewController: UIViewController, View {
             .map { $0.isChecked}
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
-                self.loginRetainButton.isSelected.toggle()
+            .bind(with: self, onNext: { owner, _ in
+                owner.loginRetainButton.isSelected.toggle()
         }).disposed(by: disposeBag)
         
         //구글 로그인 호출
@@ -198,18 +198,18 @@ class LoginViewController: UIViewController, View {
             .map { $0.isSignInGoogle }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
-                self.googleLogin()
+            .bind(with: self, onNext: { owner, _ in
+                owner.googleLogin()
             }).disposed(by: disposeBag)
         
         //카카오로그인 토큰
         reactor.state
             .compactMap { $0.kakaoToken }
             .distinctUntilChanged()
-            .bind(onNext: {
-                KeychainManager.create(token: $0)
-                self.loginManager.tokenSubject.onNext($0)
-                self.checkPreviousSignIn($0.existedMember!)
+            .bind(with: self, onNext: { owner, token in
+                KeychainManager.create(token: token)
+                owner.loginManager.tokenSubject.onNext(token)
+                owner.checkPreviousSignIn(token.existedMember!)
             }).disposed(by: disposeBag)
     }
 }
@@ -223,11 +223,11 @@ extension LoginViewController {
             let params = ["token": token]
             
             LoginAPI.postAccessToken(params: params, .google)
-                .bind(onNext: {
-                    KeychainManager.create(token: $0)
-                    self.loginManager.tokenSubject.onNext($0)
-                    self.checkPreviousSignIn($0.existedMember!)
-                }).disposed(by: self.disposeBag)
+                .bind(with: self, onNext: { owner, toekn
+                    KeychainManager.create(token: token)
+                    owner.loginManager.tokenSubject.onNext(token)
+                    owner.checkPreviousSignIn(token.existedMember!)
+                }).disposed(by: owner.disposeBag)
         }
     }
     
