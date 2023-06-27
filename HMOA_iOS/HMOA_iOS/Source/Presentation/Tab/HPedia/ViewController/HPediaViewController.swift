@@ -34,7 +34,7 @@ class HPediaViewController: UIViewController, View {
     
     var datasource: RxCollectionViewSectionedReloadDataSource<HPediaSection>!
     var disposeBag = DisposeBag()
-    lazy var reactor = HPediaReactor()
+    typealias Reactor = HPediaReactor
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -44,7 +44,6 @@ class HPediaViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDatasource()
-        bind(reactor: reactor)
         
     }
     
@@ -64,7 +63,7 @@ class HPediaViewController: UIViewController, View {
         }
     }
     
-    func bind(reactor: HPediaReactor) {
+    func bind(reactor: Reactor) {
         reactor.state
             .map { $0.sections }
             .bind(to: hPediaCollectionView.rx.items(dataSource: datasource))
