@@ -226,12 +226,29 @@ extension HomeViewController {
     func configureUI() {
         view.backgroundColor = UIColor.white
         
+        homeView.collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         [homeView] .forEach { view.addSubview($0) }
 
         homeView.snp.makeConstraints {
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
+        }
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension HomeViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+                
+        if indexPath.section == 1 && indexPath.row == 1 {
+            if !homeReactor.currentState.isPaging {
+                homeReactor.action.onNext(.scrollCollectionView)
+            }
         }
     }
 }

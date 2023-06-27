@@ -18,6 +18,7 @@ final class HomeViewReactor: Reactor {
         case didTapBrandSearchButton
         case didTapSearchButton
         case didTapBellButton
+        case scrollCollectionView
     }
     
     enum Mutation {
@@ -26,6 +27,7 @@ final class HomeViewReactor: Reactor {
         case setIsPresentSearchVC(Bool)
         case setIsPresentBellVC(Bool)
         case setSections([HomeSection])
+        case setPagination(Bool)
     }
     
     struct State {
@@ -34,6 +36,7 @@ final class HomeViewReactor: Reactor {
         var isPresentBrandSearchVC: Bool = false
         var isPresentSearchVC: Bool = false
         var isPresentBellVC: Bool = false
+        var isPaging: Bool = false
     }
     
     init() {
@@ -44,7 +47,7 @@ final class HomeViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return HomeViewReactor.reqeustHomeData()
+            return HomeViewReactor.reqeustHomeFirstData()
         case .itemSelected(let indexPath):
             return .concat([
                 Observable<Mutation>.just(.setSelectedPerfumeId(indexPath)),
@@ -66,6 +69,12 @@ final class HomeViewReactor: Reactor {
             return .concat([
                 .just(.setIsPresentBellVC(true)),
                 .just(.setIsPresentBellVC(false))
+            ])
+            
+        case .scrollCollectionView:
+            return .concat([
+                HomeViewReactor.requstHomeSecondData(),
+                .just(.setPagination(true))
             ])
         }
     }
@@ -95,7 +104,10 @@ final class HomeViewReactor: Reactor {
             state.isPresentBellVC = isPresent
         
         case .setSections(let sections):
-            state.sections = sections
+            state.sections += sections
+            
+        case .setPagination(let isPaging):
+            state.isPaging = isPaging
         }
         return state
 
@@ -104,29 +116,44 @@ final class HomeViewReactor: Reactor {
 
 extension HomeViewReactor {
     
-    static func reqeustHomeData() -> Observable<Mutation> {
+    static func reqeustHomeFirstData() -> Observable<Mutation> {
 
-        return HomeAPI.getHomeData()
+        return HomeAPI.getFirstHomeData()
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 var sections = [HomeSection]()
                 
                 let homeTopItem = HomeSectionItem.topCell(data.mainImage, 1)
                 let homeTopSection = HomeSection.topSection([homeTopItem])
-                
+                let recommend = data.recommend
+
                 sections.append(homeTopSection)
-                
+        
+                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell(HomeCellReactor(perfume: $0), $0.id)}
+                    
+                sections.append(HomeSection.recommendSection(header: recommend.title, items: item))
+        
+
+                return .just(.setSections(sections))
+            }
+    }
+    
+    static func requstHomeSecondData() -> Observable<Mutation> {
+        
+        return HomeAPI.getSecondHomeData()
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+               
+                var sections = [HomeSection]()
                 
                 data.recommend.forEach {
                     
-                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell(HomeCellReactor(perfume: $0), $0.id)}
+                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell(HomeCellReactor(perfume: $0), $0.id) }
                     
                     sections.append(HomeSection.recommendSection(header: $0.title, items: item))
                 }
                 
-                
                 return .just(.setSections(sections))
             }
-        
     }
 }

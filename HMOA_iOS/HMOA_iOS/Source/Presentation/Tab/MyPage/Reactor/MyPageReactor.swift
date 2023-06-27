@@ -30,7 +30,7 @@ class MyPageReactor: Reactor {
         var sections: [MyPageSection] = []
         var member = Member(
             age: 0,
-            imgUrl: "",
+            memberImageUrl: "",
             memberId: 0,
             nickname: "",
             provider: "",
@@ -139,13 +139,9 @@ extension MyPageReactor {
 
                 var sections = [MyPageSection]()
                 
-                let member = Member(
-                    age: member.age,
-                    imgUrl: member.imgUrl,
-                    memberId: member.memberId,
-                    nickname: member.nickname,
-                    provider: MyPageReactor.providerToKorean(member.provider),
-                    sex: member.sex)
+                guard var member = member else { return .empty() }
+
+                member.provider.changeProvider()
                 
                 sections.append(MyPageSection.memberSection(
                     MyPageSectionItem.memberCell(MemberCellReactor(member: member))))
@@ -157,19 +153,6 @@ extension MyPageReactor {
                     .just(.setSections(sections))
                 ])
             }
-    }
-    
-    static func providerToKorean(_ type: String) -> String {
-        switch type {
-        case "GOOGLE":
-            return "구글 로그인"
-        case "KAKAO":
-            return "카카오 로그인"
-        case "APPLE":
-            return "애플 로그인"
-        default:
-            return ""
-        }
     }
     
     func reactorForMyProfile() -> MyProfileReactor {
