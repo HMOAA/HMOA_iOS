@@ -9,7 +9,7 @@ import Foundation
 
 struct Member: Codable {
     var age: Int
-    var imgUrl: String
+    var memberImageUrl: String
     var memberId: Int
     var nickname: String
     var provider: String
