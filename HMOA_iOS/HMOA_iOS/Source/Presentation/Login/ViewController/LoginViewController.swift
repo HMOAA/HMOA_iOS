@@ -10,7 +10,6 @@ import AuthenticationServices
 
 class LoginViewController: UIViewController, View {
     
-    typealias Reactor = LoginReactor
 
     //MARK: - Property
     let titleImageView = UIImageView().then {
@@ -46,6 +45,7 @@ class LoginViewController: UIViewController, View {
     }
     
     var disposeBag = DisposeBag()
+    let reactor = LoginReactor()
     let loginManager = LoginManager.shared
     
     //MARK: - LifeCycle
@@ -55,6 +55,8 @@ class LoginViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setUpConstraints()
+        
+        bind(reactor: reactor)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -127,7 +129,7 @@ class LoginViewController: UIViewController, View {
     }
     
     //MARK: - Bind
-    func bind(reactor: Reactor) {
+    func bind(reactor: LoginReactor) {
         
         //MARK: - Actiong
         //Input
@@ -223,11 +225,11 @@ extension LoginViewController {
             let params = ["token": token]
             
             LoginAPI.postAccessToken(params: params, .google)
-                .bind(with: self, onNext: { owner, toekn
+                .bind(with: self, onNext: { owner, token in
                     KeychainManager.create(token: token)
                     owner.loginManager.tokenSubject.onNext(token)
                     owner.checkPreviousSignIn(token.existedMember!)
-                }).disposed(by: owner.disposeBag)
+                }).disposed(by: self.disposeBag)
         }
     }
     
