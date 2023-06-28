@@ -11,9 +11,8 @@ import SnapKit
 import Then
 import RxCocoa
 import ReactorKit
-import RxDataSources
 
-class LikeViewController: UIViewController {
+class LikeViewController: UIViewController, View {
     
     //MARK: - Property
 
@@ -33,10 +32,12 @@ class LikeViewController: UIViewController {
                     for: .selected)
     }
     
-    lazy var reactor = LikeReactor()
-    let disposeBag = DisposeBag()
-    private var cardDatasource: RxCollectionViewSectionedReloadDataSource<CardSection>!
-    private var listDatasource: RxCollectionViewSectionedReloadDataSource<ListSection>!
+    let reactor = LikeReactor()
+    var disposeBag = DisposeBag()
+    
+    private var cardDatasource: UICollectionViewDiffableDataSource<CardSection, CardSectionItem>?
+    private var listDatasource: UICollectionViewDiffableDataSource<ListSection, ListSectionItem>?
+
     
     lazy var cardCollectionView = UICollectionView(frame: .zero,
                                                    collectionViewLayout: configureCardLayout()).then {
@@ -61,6 +62,7 @@ class LikeViewController: UIViewController {
         
         configureCardDataSource()
         configureListDataSource()
+        
         bind(reactor: reactor)
     }
     
@@ -104,20 +106,103 @@ class LikeViewController: UIViewController {
             make.bottom.equalToSuperview()
         }
     }
+    //MARK: - Bind
+    func bind(reactor: LikeReactor) {
+        
+        //Input
+        
+        //카드버튼 터치 이벤트
+        cardButton.rx.tap
+            .map { LikeReactor.Action.didTapCardButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        //리스트 버튼 터치 이벤트
+        listButton.rx.tap
+            .map { LikeReactor.Action.didTapListButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //Output
+        
+        //cardCollectionView Binding
+        reactor.state
+            .map { $0.cardSectionItem }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, cards in
+                guard let datasource = owner.cardDatasource else { return }
+                
+                var snapshot = NSDiffableDataSourceSnapshot<CardSection, CardSectionItem>()
+                snapshot.appendSections([.main])
+                snapshot.appendItems(cards, toSection: .main)
+                
+                DispatchQueue.main.async {
+                    datasource.apply(snapshot)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        //listCollectionView Binding
+        reactor.state
+            .map { $0.listSectionItem }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, lists in
+                guard let datasource = owner.listDatasource else { return }
+                
+                var snapshot = NSDiffableDataSourceSnapshot<ListSection, ListSectionItem>()
+                snapshot.appendSections([.main])
+                snapshot.appendItems(lists, toSection: .main)
+                
+                DispatchQueue.main.async {
+                    datasource.apply(snapshot)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        //cardCollectionView 보여주기
+        reactor.state
+            .map { $0.isSelectedCard }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, result in
+                owner.listCollectionView.isHidden = result
+                owner.cardCollectionView.isHidden = !result
+                owner.cardButton.isSelected = result
+                owner.listButton.isSelected = !result
+            })
+            .disposed(by: disposeBag)
+        
+        //listCollectionView 보여주기
+        reactor.state
+            .map { $0.isSelectedList }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, result in
+                owner.listCollectionView.isHidden = !result
+                owner.cardCollectionView.isHidden = result
+                owner.cardButton.isSelected = !result
+                owner.listButton.isSelected = result
+                
+            })
+            .disposed(by: disposeBag)
+      
+    }
+    
+}
+
+extension LikeViewController {
     
     func configureCardDataSource() {
-        cardDatasource = RxCollectionViewSectionedReloadDataSource(configureCell: { _, collectionView, indexPath, item in
+        cardDatasource = UICollectionViewDiffableDataSource<CardSection, CardSectionItem>(collectionView: cardCollectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCardCell.identifier, for: indexPath) as? LikeCardCell
             else { return UICollectionViewCell() }
             
             cell.configure(item: item)
             return cell
         })
-        
     }
     
     func configureListDataSource() {
-        listDatasource = RxCollectionViewSectionedReloadDataSource(configureCell: { _, collectionView, indexPath, item in
+        listDatasource = UICollectionViewDiffableDataSource<ListSection, ListSectionItem> (collectionView: listCollectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeListCell.identifier, for: indexPath) as? LikeListCell
             else { return UICollectionViewCell() }
             
@@ -158,79 +243,5 @@ class LikeViewController: UIViewController {
         return layout
     }
     
-    //MARK: - Bind
-    private func bind(reactor: LikeReactor) {
-        
-        //Input
-        cardCollectionView.rx.itemSelected
-            .map { LikeReactor.Action.didTapCardItem($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        listCollectionView.rx.itemSelected
-            .map { LikeReactor.Action.didTapListItem($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        //카드버튼 터치 이벤트
-        cardButton.rx.tap
-            .map { LikeReactor.Action.didTapCardButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        //리스트 버튼 터치 이벤트
-        listButton.rx.tap
-            .map { LikeReactor.Action.didTapListButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        //Output
-        
-        //cardCollectionView Binding
-        reactor.state
-            .map { $0.cardSections }
-            .bind(to: cardCollectionView.rx.items(dataSource: cardDatasource))
-            .disposed(by: disposeBag)
-        
-        //listCollectionView Binding
-        reactor.state
-            .map { $0.listSections }
-            .bind(to: listCollectionView.rx.items(dataSource: listDatasource))
-            .disposed(by: disposeBag)
-        
-        //cardCollectionView 보여주기
-        reactor.state
-            .map { $0.isSelectedCard }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .bind(with: self, onNext: { owner, result in
-                owner.listCollectionView.isHidden = result
-                owner.cardCollectionView.isHidden = !result
-                owner.cardButton.isSelected = result
-                owner.listButton.isSelected = !result
-            })
-            .disposed(by: disposeBag)
-        
-        //listCollectionView 보여주기
-        reactor.state
-            .map { $0.isSelectedList }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .bind(with: self, onNext: { owner, result in
-                owner.listCollectionView.isHidden = !result
-                owner.cardCollectionView.isHidden = result
-                owner.cardButton.isSelected = !result
-                owner.listButton.isSelected = result
-                
-            })
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .compactMap { $0.selectedPerpumeId }
-            .distinctUntilChanged()
-            .bind(with: self, onNext: { owner, perpumeId in
-                owner.presentDatailViewController(perpumeId)
-            }).disposed(by: disposeBag)
-      
-    }
 }
 
