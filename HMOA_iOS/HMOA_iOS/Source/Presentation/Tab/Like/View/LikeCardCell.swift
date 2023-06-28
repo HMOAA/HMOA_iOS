@@ -206,7 +206,7 @@ class LikeCardCell: UICollectionViewCell {
         }
     }
     
-    func configure(item: CardSection.Item) {
+    func configure(item: CardSectionItem) {
         
         brandNameLabel.text = item.brandName
         korNameLabel.text = item.korPerpumeName
