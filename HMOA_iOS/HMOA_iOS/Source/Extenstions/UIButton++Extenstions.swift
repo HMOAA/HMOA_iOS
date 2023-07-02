@@ -85,4 +85,12 @@ extension UIButton {
         
         self.configuration = config
     }
+    
+    func setProfileChangeBottomView() {
+        self.isEnabled = false
+        self.setTitleColor(.white, for: .normal)
+        self.backgroundColor = .customColor(.gray2)
+        self.titleLabel?.font = .customFont(.pretendard, 20)
+        self.setTitle("변경", for: .normal)
+    }
 }

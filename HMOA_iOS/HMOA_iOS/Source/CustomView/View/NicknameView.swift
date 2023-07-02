@@ -36,10 +36,7 @@ class NicknameView: UIView {
     }
     
     lazy var bottomButton = UIButton().then {
-        $0.isEnabled = false
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .customColor(.gray2)
-        $0.titleLabel?.font = .customFont(.pretendard, 20)
+        $0.setProfileChangeBottomView()
     }
     
     init(_ bottomButtonTitle: String) {

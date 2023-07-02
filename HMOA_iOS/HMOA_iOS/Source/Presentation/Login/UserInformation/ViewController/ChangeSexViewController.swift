@@ -37,11 +37,7 @@ class ChangeSexViewController: UIViewController, View {
     }
     
     lazy var changeButton = UIButton().then {
-        $0.isEnabled = false
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .customColor(.gray2)
-        $0.titleLabel?.font = .customFont(.pretendard, 20)
-        $0.setTitle("변경", for: .normal)
+        $0.setProfileChangeBottomView()
     }
         
     //MARK: - LifeCycle
