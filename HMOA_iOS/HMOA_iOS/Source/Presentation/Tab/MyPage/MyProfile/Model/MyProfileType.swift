@@ -8,12 +8,15 @@
 import Foundation
 
 enum MyProfileType: Int, CaseIterable {
+    case profileImage
     case nickname
     case year
     case sex
     
     var title: String {
         switch self {
+        case .profileImage:
+            return "프로필 이미지"
         case .nickname:
             return "닉네임"
         case .year:

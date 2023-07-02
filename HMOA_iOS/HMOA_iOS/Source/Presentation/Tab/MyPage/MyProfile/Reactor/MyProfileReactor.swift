@@ -86,18 +86,14 @@ class MyProfileReactor: Reactor {
 extension MyProfileReactor {
     
     static func setUpSection() -> [MyProfileSection] {
-        let nickname = MyProfileSection.nickname(
-            [MyProfileType.nickname.title].map { MyProfileItem.nickname($0) })
+        var sections = [MyProfileSection]()
         
-        let year = MyProfileSection.year(
-            [MyProfileType.year.title].map { MyProfileItem.year($0) })
-
-        let sex = MyProfileSection.sex(
-            [MyProfileType.sex.title].map { MyProfileItem.sex($0) })
+        MyProfileType.allCases.forEach {
+            sections.append(MyProfileSection.section([MyProfileItem.item($0.title)]))
+        }
         
-        let section = [nickname, year, sex]
         
-        return section
+        return sections
     }
     
     func reactorForChangeNickname() -> ChangeNicknameReactor {

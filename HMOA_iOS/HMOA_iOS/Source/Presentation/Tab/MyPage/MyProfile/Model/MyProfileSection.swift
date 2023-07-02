@@ -9,37 +9,22 @@ import Foundation
 import RxDataSources
 
 enum MyProfileSection {
-    case nickname([MyProfileItem])
-    case year([MyProfileItem])
-    case sex([MyProfileItem])
+    case section([MyProfileItem])
 }
 
 enum MyProfileItem {
-    case nickname(String)
-    case year(String)
-    case sex(String)
+    case item(String)
 }
 
 extension MyProfileSection: SectionModelType {
     
     init(original: MyProfileSection, items: [MyProfileItem]) {
-        switch original {
-        case .nickname:
-            self = .nickname(items)
-        case .year:
-            self = .year(items)
-        case .sex:
-            self = .sex(items)
-        }
+        self = original
     }
     
     var items: [MyProfileItem] {
         switch self {
-        case .nickname(let items):
-            return items
-        case .year(let items):
-            return items
-        case .sex(let items):
+        case .section(let items):
             return items
         }
     }
