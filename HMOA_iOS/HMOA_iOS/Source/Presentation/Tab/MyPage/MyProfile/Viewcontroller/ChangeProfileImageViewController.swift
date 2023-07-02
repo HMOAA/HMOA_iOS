@@ -12,9 +12,10 @@ import RxSwift
 import RxCocoa
 import ReactorKit
 
-class ChangeProfileImageViewController: UIViewController {
+class ChangeProfileImageViewController: UIViewController, View {
 
     // MARK: - UI Component
+    typealias Reactor = ChangeProfileImageReactor
     
     lazy var profileImageView: UIImageView = UIImageView().then {
         $0.backgroundColor = .customColor(.gray3)
@@ -47,6 +48,14 @@ class ChangeProfileImageViewController: UIViewController {
 
 extension ChangeProfileImageViewController {
     
+    
+    // MARK: - bind
+    
+    func bind(reactor: ChangeProfileImageReactor) {
+
+    }
+    
+    // MARK: - Configure
     func configureUI() {
         
         view.backgroundColor = .white

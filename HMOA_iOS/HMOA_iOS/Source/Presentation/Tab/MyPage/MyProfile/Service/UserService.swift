@@ -9,7 +9,7 @@ import RxSwift
 
 enum UserEvent {
     case updateNickname(content: String)
-    case updateImage(content: UIImage)
+    case updateImage(content: String)
     case updateUserAge(content: Int)
     case updateUserSex(content: Bool)
 }
@@ -19,7 +19,7 @@ protocol UserServiceProtocol {
     
     func updateUserNickname(to nickname: String) -> Observable<String>
     
-    func updateUserImage(to image: UIImage) -> Observable<UIImage>
+    func updateUserImage(to image: String) -> Observable<String>
     
     func updateUserAge(to year: String) -> Observable<Int>
     
@@ -36,7 +36,7 @@ class UserService: UserServiceProtocol {
         return .just(nickname)
     }
     
-    func updateUserImage(to image: UIImage) -> Observable<UIImage> {
+    func updateUserImage(to image: String) -> Observable<UIImage> {
         event.onNext(.updateImage(content: image))
         return .just(image)
     }
