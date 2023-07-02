@@ -14,6 +14,7 @@ enum MemberAddress {
     case patchAge
     case patchJoin
     case member
+    case uploadImage
 }
 
 extension MemberAddress {
@@ -31,6 +32,8 @@ extension MemberAddress {
                 return "member/join"
             case .member:
                 return "member"
+            case .uploadImage:
+                return "member/profile-photo"
         }
     }
 }

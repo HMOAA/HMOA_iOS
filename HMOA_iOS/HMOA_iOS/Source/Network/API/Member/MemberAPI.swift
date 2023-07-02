@@ -84,6 +84,17 @@ final class MemberAPI {
             model: Response.self)
     }
     
+    /// 이미지 업로드
+    static func uploadImage(image: UIImage) -> Observable<Bool> {
+        
+        guard let data = image.jpegData(compressionQuality: 1) else {
+            return Observable.error(NetworkError.invalidParameters)}
+        
+        return uploadNetworking(
+            urlStr: MemberAddress.uploadImage.url, method: .post, data: data, model: Bool.self)
+        
+    }
+    
     static func join(params: [String: Any]) -> Observable<JoinResponse> {
         guard let data = try? JSONSerialization.data(withJSONObject: params)
         else { return Observable.error(NetworkError.invalidParameters) }
