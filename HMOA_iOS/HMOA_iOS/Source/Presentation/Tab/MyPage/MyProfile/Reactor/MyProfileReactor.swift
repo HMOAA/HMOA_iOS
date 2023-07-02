@@ -21,6 +21,7 @@ class MyProfileReactor: Reactor {
         case updateNickname(String)
         case updateAge(Int)
         case updateSex(Bool)
+        case updateProfileImage(String)
     }
     
     struct State {
@@ -43,10 +44,13 @@ class MyProfileReactor: Reactor {
             switch event {
             case .updateNickname(content: let nickname):
                 return .just(.updateNickname(nickname))
-            case .updateImage(content: _):
-                return .empty()
+                
+            case .updateImage(content: let imageUrl):
+                return .just(.updateProfileImage(imageUrl))
+                
             case .updateUserAge(content: let age):
                 return .just(.updateAge(age))
+                
             case .updateUserSex(content: let sex):
                 return .just(.updateSex(sex))
             }
@@ -71,10 +75,16 @@ class MyProfileReactor: Reactor {
         switch mutation {
         case .setPresentVC(let type):
             state.presentVC = type
+            
         case .updateNickname(let nickname):
             state.member.nickname = nickname
+            
+        case .updateProfileImage(let imageUrl):
+            state.member.memberImageUrl = imageUrl
+            
         case .updateAge(let age):
             state.member.age = age
+            
         case .updateSex(let sex):
             state.member.sex = sex
         }
@@ -106,5 +116,9 @@ extension MyProfileReactor {
     
     func reactorForChangeSex() -> ChangeSexReactor {
         return ChangeSexReactor(currentState.member.sex, service: service)
+    }
+    
+    func reactorForChangeProfileImage() -> ChangeProfileImageReactor {
+        return ChangeProfileImageReactor(service: service, currentImageUrl: currentState.member.memberImageUrl)
     }
 }

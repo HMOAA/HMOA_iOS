@@ -129,6 +129,7 @@
 		2CD023632A092A5200459801 /* UserYearService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023622A092A5200459801 /* UserYearService.swift */; };
 		2CE32FB12A13CBAA00BEF7A8 /* MemberCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE32FB02A13CBAA00BEF7A8 /* MemberCellReactor.swift */; };
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
+		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
 		CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */; };
 		CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */; };
 		CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */; };
@@ -324,6 +325,7 @@
 		2CD023622A092A5200459801 /* UserYearService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserYearService.swift; sourceTree = "<group>"; };
 		2CE32FB02A13CBAA00BEF7A8 /* MemberCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCellReactor.swift; sourceTree = "<group>"; };
 		2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageViewController.swift; sourceTree = "<group>"; };
+		2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageReactor.swift; sourceTree = "<group>"; };
 		4E20A0B5EE1007CE84ADB6F6 /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		59F6053BF5AC3DBACFB3FCD8 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A266DA0D7E24CB1ED544B374 /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1151,6 +1153,7 @@
 			children = (
 				2CA155B72A05368000D7B0C0 /* MyProfileReactor.swift */,
 				2CD0235B2A07D68F00459801 /* ChangeNicknameReactor.swift */,
+				2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1822,6 +1825,7 @@
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
 				CA360F3129DD620600A93873 /* HPediaGuideSection.swift in Sources */,
 				CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */,
+				2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */,
 				CA360F3629DD643600A93873 /* HPediaGuideData.swift in Sources */,
 				2C4CDC4C29C770D900676163 /* BrandSearchReactor.swift in Sources */,
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
