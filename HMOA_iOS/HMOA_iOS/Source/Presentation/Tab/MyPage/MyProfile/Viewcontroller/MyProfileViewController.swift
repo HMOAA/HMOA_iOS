@@ -119,7 +119,7 @@ extension MyProfileViewController {
             let changeProfileIamgeVC = ChangeProfileImageViewController()
             changeProfileIamgeVC.reactor = reactor.reactorForChangeProfileImage()
             
-            self.navigationController?.pushViewController(changeProfileImageVC, animated: true)
+            self.navigationController?.pushViewController(changeProfileIamgeVC, animated: true)
         case .nickname:
             let changeNickNameReactor = reactor.reactorForChangeNickname()
 

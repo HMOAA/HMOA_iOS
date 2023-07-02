@@ -36,7 +36,7 @@ class UserService: UserServiceProtocol {
         return .just(nickname)
     }
     
-    func updateUserImage(to image: String) -> Observable<UIImage> {
+    func updateUserImage(to image: String) -> Observable<String> {
         event.onNext(.updateImage(content: image))
         return .just(image)
     }

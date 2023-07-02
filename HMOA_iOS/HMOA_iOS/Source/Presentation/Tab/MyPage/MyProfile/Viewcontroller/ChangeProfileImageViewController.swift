@@ -11,11 +11,13 @@ import Then
 import RxSwift
 import RxCocoa
 import ReactorKit
+import Kingfisher
 
 class ChangeProfileImageViewController: UIViewController, View {
 
     // MARK: - UI Component
     typealias Reactor = ChangeProfileImageReactor
+    var disposeBag = DisposeBag()
     
     lazy var profileImageView: UIImageView = UIImageView().then {
         $0.backgroundColor = .customColor(.gray3)
@@ -52,7 +54,15 @@ extension ChangeProfileImageViewController {
     // MARK: - bind
     
     func bind(reactor: ChangeProfileImageReactor) {
-
+        
+        reactor.state
+            .map { $0.profileImageUrl }
+            .compactMap { $0 }
+            .map { URL(string: $0) }
+            .bind(onNext: { url in
+                self.profileImageView.kf.setImage(with: url)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
