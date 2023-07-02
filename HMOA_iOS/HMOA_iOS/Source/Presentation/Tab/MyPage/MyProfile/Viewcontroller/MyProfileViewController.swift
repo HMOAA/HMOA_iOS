@@ -116,7 +116,9 @@ extension MyProfileViewController {
     func presentNextVC(_ type: MyProfileType) {
         switch type {
         case .profileImage:
-            break
+            let changeProfileImageVC = ChangeProfileImageViewController()
+            
+            self.navigationController?.pushViewController(changeProfileImageVC, animated: true)
         case .nickname:
             let changeNickNameReactor = reactor.reactorForChangeNickname()
 
