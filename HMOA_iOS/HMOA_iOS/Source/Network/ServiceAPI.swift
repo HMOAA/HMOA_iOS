@@ -55,4 +55,33 @@ public func networking<T: Decodable>(
     }
 }
 
+public func uploadNetworking<T: Decodable>(
+    urlStr: String,
+    method: HTTPMethod,
+    data: Data,
+    model: T.Type) -> Observable<T> {
+        
+    return Observable.create { observer in
+        guard let url = URL(string: baseURL.url + urlStr) else {
+            observer.onError(NetworkError.invalidURL)
+            return Disposables.create()
+        }
+        
+        AF.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(data, withName: "file")
+        },to: url, interceptor: AppRequestInterceptor())
+        .responseDecodable(of: model.self) { response in
+            switch response.result {
+            case .success(let result):
+                observer.onNext(result)
+                observer.onCompleted()
+            case .failure(let error):
+                    observer.onError(error)
+            }
+        }
+        
+        return Disposables.create()
+    }
+}
+
 
