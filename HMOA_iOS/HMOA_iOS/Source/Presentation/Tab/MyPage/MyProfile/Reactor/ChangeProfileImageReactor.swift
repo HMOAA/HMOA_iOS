@@ -13,20 +13,22 @@ class ChangeProfileImageReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case didTapShowAlbumButton
+        case didSelectedImage(UIImage)
     }
     
     enum Mutation {
-        case setProfileImageForUrl(String)
         case setProfileImageForUIImage(UIImage)
+        case showAlbum(Bool)
     }
     
-    init(service: UserServiceProtocol, currentImageUrl: String?) {
-        self.initialState = State(profileImageUrl: currentImageUrl)
+    init(service: UserServiceProtocol, currentImage: UIImage?) {
+        self.initialState = State(profileImage: currentImage)
     }
     
     struct State {
-        var profileImageUrl: String? = nil
         var profileImage: UIImage? = nil
+        var isShowAlbum: Bool = false
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -34,6 +36,15 @@ class ChangeProfileImageReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return .empty()
+            
+        case .didTapShowAlbumButton:
+            return .concat([
+                .just(.showAlbum(true)),
+                .just(.showAlbum(false))
+            ])
+            
+        case .didSelectedImage(let image):
+            return .just(.setProfileImageForUIImage(image))
         }
     }
     
@@ -41,11 +52,12 @@ class ChangeProfileImageReactor: Reactor {
         var newState = state
         
         switch mutation {
-        case .setProfileImageForUrl(let url):
-            newState.profileImageUrl = url
             
         case .setProfileImageForUIImage(let image):
             newState.profileImage = image
+            
+        case .showAlbum(let isShow):
+            newState.isShowAlbum = isShow
         }
         
         return newState
