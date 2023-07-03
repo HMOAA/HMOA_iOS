@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import ReactorKit
 import Kingfisher
+import PhotosUI
 
 class ChangeProfileImageViewController: UIViewController, View {
 
@@ -40,6 +41,26 @@ class ChangeProfileImageViewController: UIViewController, View {
         $0.setProfileChangeBottomView()
     }
     
+
+    var pickerViewConfig: PHPickerConfiguration = {
+       var config = PHPickerConfiguration()
+        config.filter = .images
+        
+        return config
+    }()
+    
+    lazy var pickerView: PHPickerViewController = {
+       
+        let pickerView = PHPickerViewController(configuration: pickerViewConfig)
+        
+        return pickerView
+    }()
+    
+    var tqwe: UILabel = {
+       var label = UILabel()
+        
+        return label
+    }()
     // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,20 +76,42 @@ extension ChangeProfileImageViewController {
     
     func bind(reactor: ChangeProfileImageReactor) {
         
+        // action
+        
+        // 사진 선택 버튼 클릭
+        showAlbumButton.rx.tap
+            .map { Reactor.Action.didTapShowAlbumButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // state
+        
+        // 프로필 이미지 바인딩
         reactor.state
-            .map { $0.profileImageUrl }
-            .compactMap { $0 }
-            .map { URL(string: $0) }
-            .bind(onNext: { url in
-                self.profileImageView.kf.setImage(with: url)
+            .map { $0.profileImage }
+            .distinctUntilChanged()
+            .bind(to: profileImageView.rx.image)
+            .disposed(by: disposeBag)
+        
+        // 앨범 화면 띄우기
+        reactor.state
+            .map { $0.isShowAlbum }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: {
+                self.present(self.pickerView, animated: true)
             })
             .disposed(by: disposeBag)
+            
+        
     }
     
     // MARK: - Configure
     func configureUI() {
         
         view.backgroundColor = .white
+        pickerView.delegate = self
         
         [
             profileImageView,
@@ -91,6 +134,26 @@ extension ChangeProfileImageViewController {
         changeButton.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(80)
+        }
+    }
+}
+
+// MARK: - PHPickerViewControllerDelegate
+extension ChangeProfileImageViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
+        
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                self.reactor?.action.onNext(.didSelectedImage((image as? UIImage)!))
+            }
+            
+            DispatchQueue.main.async {
+                picker.dismiss(animated: true)
+            }
         }
     }
 }

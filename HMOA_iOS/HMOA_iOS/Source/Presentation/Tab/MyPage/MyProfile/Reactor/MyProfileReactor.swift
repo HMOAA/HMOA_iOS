@@ -21,19 +21,21 @@ class MyProfileReactor: Reactor {
         case updateNickname(String)
         case updateAge(Int)
         case updateSex(Bool)
-        case updateProfileImage(String)
+        case updateProfileImage(UIImage?)
     }
     
     struct State {
         var sections: [MyProfileSection]
         var member: Member
+        var profileImage: UIImage? = nil
         var presentVC: MyProfileType? = nil
     }
     
-    init(service: UserServiceProtocol, member: Member) {
+    init(service: UserServiceProtocol, member: Member, profileImage: UIImage?) {
         self.initialState = State(
             sections: MyProfileReactor.setUpSection(),
-            member: member
+            member: member,
+            profileImage: profileImage
         )
         
         self.service = service
@@ -79,8 +81,8 @@ class MyProfileReactor: Reactor {
         case .updateNickname(let nickname):
             state.member.nickname = nickname
             
-        case .updateProfileImage(let imageUrl):
-            state.member.memberImageUrl = imageUrl
+        case .updateProfileImage(let image):
+            state.profileImage = image
             
         case .updateAge(let age):
             state.member.age = age
@@ -119,6 +121,6 @@ extension MyProfileReactor {
     }
     
     func reactorForChangeProfileImage() -> ChangeProfileImageReactor {
-        return ChangeProfileImageReactor(service: service, currentImageUrl: currentState.member.memberImageUrl)
+        return ChangeProfileImageReactor(service: service, currentImage: currentState.profileImage)
     }
 }
