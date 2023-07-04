@@ -11,10 +11,7 @@ import Then
 import SnapKit
 import ReactorKit
 
-class GuideCell: UICollectionViewCell, View {
-    
-    typealias Reactor = HPediaGuideCellReactor
-    
+class GuideCell: UICollectionViewCell {
     
     //MAKR: - Property
     static let identifier = "GuideCell"
@@ -27,8 +24,6 @@ class GuideCell: UICollectionViewCell, View {
         $0.numberOfLines = 0
         $0.setLabelUI("", font: .pretendard, size: 16, color: .white)
     }
-    
-    var disposeBag = DisposeBag()
     
     
     override init(frame: CGRect) {
@@ -66,8 +61,8 @@ class GuideCell: UICollectionViewCell, View {
         }
     }
     
-    func bind(reactor: Reactor) {
-        titleLabel.text = reactor.currentState.title
-        contentLabel.text = reactor.currentState.content
+    func configure(_ data: HPediaGuideData) {
+        titleLabel.text = data.title
+        contentLabel.text = data.content
     }
 }
