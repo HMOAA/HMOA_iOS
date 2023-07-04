@@ -61,12 +61,9 @@ extension MyPageUserCell {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.member.memberImageUrl }
-            .map { URL(string: $0) }
+            .map { $0.profileImage }
             .distinctUntilChanged()
-            .bind(onNext: { [weak self] in
-                self?.profileImage.kf.setImage(with: $0)
-            })
+            .bind(to: profileImage.rx.image)
             .disposed(by: disposeBag)
         
         reactor.state
