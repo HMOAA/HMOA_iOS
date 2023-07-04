@@ -22,7 +22,7 @@ class MyPageReactor: Reactor {
         case setPresentVC(MyPageType?)
         case setSections([MyPageSection])
         case setMember(Member)
-        case setProfileImage(UIImage)
+        case setProfileImage(UIImage?)
         case updateNickname(String)
         case updateAge(Int)
         case updateSex(Bool)
@@ -51,8 +51,8 @@ class MyPageReactor: Reactor {
             switch event {
             case .updateNickname(content: let nickname):
                 return .just(.updateNickname(nickname))
-            case .updateImage(content: _):
-                return .empty()
+            case .updateImage(content: let image):
+                return .just(.setProfileImage(image))
             case .updateUserAge(content: let age):
                 return .just(.updateAge(age))
             case .updateUserSex(content: let sex):
@@ -93,6 +93,10 @@ class MyPageReactor: Reactor {
         case .setProfileImage(let image):
             state.profileImage = image
             
+            state.sections = [
+                MyPageSection.memberSection(
+                    MyPageSectionItem.memberCell(MemberCellReactor(member: state.member, profileImage: image)))
+            ] + MyPageReactor.setUpOtherSection()
             
         case .updateNickname(let nickname):
             

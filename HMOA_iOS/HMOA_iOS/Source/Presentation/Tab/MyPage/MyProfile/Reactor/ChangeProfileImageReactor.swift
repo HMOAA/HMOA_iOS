@@ -52,7 +52,6 @@ class ChangeProfileImageReactor: Reactor {
             return .just(.setProfileImageForUIImage(image))
             
         case .didTapChangeButton(let image):
-            print("변경 버튼 클릭")
             return .concat([
                 ChangeProfileImageReactor.uploadProfileImage(image),
                 service.updateUserImage(to: image).map { _ in .dismiss(false)}
@@ -72,7 +71,6 @@ class ChangeProfileImageReactor: Reactor {
             newState.isShowAlbum = isShow
             
         case .dismiss(let isDismiss):
-            print(isDismiss)
             newState.isDismiss = isDismiss
         }
         

@@ -21,9 +21,10 @@ class MemberCellReactor: Reactor {
     
     struct State {
         var member: Member
+        var profileImage: UIImage? = nil
     }
     
-    init(member: Member) {
-        initialState = State(member: member)
+    init(member: Member, profileImage: UIImage? = nil) {
+        initialState = State(member: member, profileImage: profileImage)
     }
 }
