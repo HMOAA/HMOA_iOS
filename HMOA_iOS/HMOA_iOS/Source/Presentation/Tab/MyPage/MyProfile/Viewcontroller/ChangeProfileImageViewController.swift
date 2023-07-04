@@ -84,6 +84,13 @@ extension ChangeProfileImageViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 변경 버튼 클릭
+        
+        changeButton.rx.tap
+            .map { Reactor.Action.didTapChangeButton(reactor.currentState.profileImage!)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // state
         
         // 프로필 이미지 바인딩
@@ -104,7 +111,15 @@ extension ChangeProfileImageViewController {
             })
             .disposed(by: disposeBag)
             
-        
+        // 변경버튼 클릭시 뒤로가기
+        reactor.state
+            .map { $0.isDismiss }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(onNext: { _ in
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
@@ -153,7 +168,16 @@ extension ChangeProfileImageViewController: PHPickerViewControllerDelegate {
             
             DispatchQueue.main.async {
                 picker.dismiss(animated: true)
+                self.setEnableChangeButton()
             }
         }
+    }
+}
+
+extension ChangeProfileImageViewController {
+    
+    func setEnableChangeButton() {
+        changeButton.backgroundColor = .black
+        changeButton.isEnabled = true
     }
 }

@@ -10,25 +10,30 @@ import ReactorKit
 class ChangeProfileImageReactor: Reactor {
     
     var initialState: State
+    var service: UserServiceProtocol
     
     enum Action {
         case viewDidLoad
         case didTapShowAlbumButton
         case didSelectedImage(UIImage)
+        case didTapChangeButton(UIImage)
     }
     
     enum Mutation {
         case setProfileImageForUIImage(UIImage)
         case showAlbum(Bool)
+        case dismiss(Bool)
     }
     
     init(service: UserServiceProtocol, currentImage: UIImage?) {
         self.initialState = State(profileImage: currentImage)
+        self.service = service
     }
     
     struct State {
         var profileImage: UIImage? = nil
         var isShowAlbum: Bool = false
+        var isDismiss: Bool = false
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -45,6 +50,13 @@ class ChangeProfileImageReactor: Reactor {
             
         case .didSelectedImage(let image):
             return .just(.setProfileImageForUIImage(image))
+            
+        case .didTapChangeButton(let image):
+            print("변경 버튼 클릭")
+            return .concat([
+                ChangeProfileImageReactor.uploadProfileImage(image),
+                service.updateUserImage(to: image).map { _ in .dismiss(false)}
+            ])
         }
     }
     
@@ -58,8 +70,23 @@ class ChangeProfileImageReactor: Reactor {
             
         case .showAlbum(let isShow):
             newState.isShowAlbum = isShow
+            
+        case .dismiss(let isDismiss):
+            print(isDismiss)
+            newState.isDismiss = isDismiss
         }
         
         return newState
+    }
+}
+
+extension ChangeProfileImageReactor {
+ 
+    static func uploadProfileImage(_ image: UIImage) -> Observable<Mutation> {
+        return MemberAPI.uploadImage(image: image)
+            .catch { _ in .empty() }
+            .flatMap { response -> Observable<Mutation> in
+                return .just(.dismiss(true))
+            }
     }
 }
