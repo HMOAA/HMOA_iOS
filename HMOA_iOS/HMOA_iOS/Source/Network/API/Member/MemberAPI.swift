@@ -85,13 +85,13 @@ final class MemberAPI {
     }
     
     /// 이미지 업로드
-    static func uploadImage(image: UIImage) -> Observable<Bool> {
+    static func uploadImage(image: UIImage) -> Observable<Response> {
         
-        guard let data = image.jpegData(compressionQuality: 1) else {
+        guard let data = image.jpegData(compressionQuality: 0.1) else {
             return Observable.error(NetworkError.invalidParameters)}
         
         return uploadNetworking(
-            urlStr: MemberAddress.uploadImage.url, method: .post, data: data, model: Bool.self)
+            urlStr: MemberAddress.uploadImage.url, method: .post, data: data, model: Response.self)
         
     }
     

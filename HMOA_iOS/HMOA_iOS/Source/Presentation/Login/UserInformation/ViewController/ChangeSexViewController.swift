@@ -160,8 +160,6 @@ extension ChangeSexViewController {
     
     //ChangeButton UI 변경
     func setEnableChangeButton() {
-        changeButton.backgroundColor = .black
-        changeButton.isEnabled = true
     }
 
 }

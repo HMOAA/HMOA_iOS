@@ -68,18 +68,20 @@ public func uploadNetworking<T: Decodable>(
         }
         
         AF.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(data, withName: "file")
+            multipartFormData.append(data, withName: "image", fileName: "profileImage.jpeg", mimeType: "image/jpeg")
         },to: url, interceptor: AppRequestInterceptor())
+        .validate(statusCode: 200..<300)
         .responseDecodable(of: model.self) { response in
             switch response.result {
             case .success(let result):
                 observer.onNext(result)
                 observer.onCompleted()
             case .failure(let error):
-                    observer.onError(error)
+                print("Error: \(error)")
+                observer.onError(error)
             }
         }
-        
+                
         return Disposables.create()
     }
 }
