@@ -18,7 +18,8 @@ class HPediaReactor: Reactor {
     }
     
     struct State {
-        var sections: [HPediaSection]
+        var guideSectionItems: [HPediaGuideData] = HPediaGuideData.list
+        var tagSectionItems: [HPediaTagData] = HPediaTagData.list
     }
     
     enum Mutation {
@@ -26,7 +27,7 @@ class HPediaReactor: Reactor {
     }
     
     init() {
-        initialState = State(sections: HPediaReactor.setUpSections())
+        initialState = State()
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -35,30 +36,5 @@ class HPediaReactor: Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         
-    }
-}
-
-extension HPediaReactor {
-    
-    static func setUpSections() -> [HPediaSection] {
-        let guides = HPediaGuideData.list
-        let tags = HPediaTagData.list
-        
-        let guideItem = guides.map {
-            HPediaSectionItem
-                .guideCell(HPediaGuideCellReactor(guide: $0), $0.id)
-        }
-        
-        let guideSection = HPediaSection.guide(guideItem)
-        
-        let tagItem = tags.map {
-            HPediaSectionItem.tagCell(HPediaTagCellReactor(tag: $0), $0.id)
-        }
-        
-        let tagSection = HPediaSection.tag(tagItem)
-        
-        
-        
-        return [guideSection, tagSection]
     }
 }
