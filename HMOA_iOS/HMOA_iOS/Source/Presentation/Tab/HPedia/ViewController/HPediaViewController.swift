@@ -13,7 +13,6 @@ import SnapKit
 import ReactorKit
 import RxCocoa
 import RxSwift
-import RxDataSources
 
 class HPediaViewController: UIViewController, View {
     
@@ -32,14 +31,13 @@ class HPediaViewController: UIViewController, View {
                     forCellWithReuseIdentifier: GuideCell.identifier)
     }
     
-    var datasource: RxCollectionViewSectionedReloadDataSource<HPediaSection>!
+    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>?
     var disposeBag = DisposeBag()
-    lazy var reactor = HPediaReactor()
+    let reactor = HPediaReactor()
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         setUpUI()
         setAddView()
         setConstraints()
@@ -65,9 +63,24 @@ class HPediaViewController: UIViewController, View {
     }
     
     func bind(reactor: HPediaReactor) {
+        
         reactor.state
-            .map { $0.sections }
-            .bind(to: hPediaCollectionView.rx.items(dataSource: datasource))
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, state in
+                guard let datasource = owner.datasource else { return }
+                
+                var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
+                snapshot.appendSections([.guide, .tag])
+                
+                state.guideSectionItems
+                    .forEach { snapshot.appendItems([.guideCell($0)], toSection: .guide) }
+                state.tagSectionItems
+                    .forEach { snapshot.appendItems([.tagCell($0)], toSection: .tag) }
+                
+                DispatchQueue.main.async {
+                    datasource.apply(snapshot)
+                }
+            })
             .disposed(by: disposeBag)
     }
 }
@@ -76,30 +89,30 @@ class HPediaViewController: UIViewController, View {
 extension HPediaViewController {
     
     func configureDatasource () {
-        datasource = RxCollectionViewSectionedReloadDataSource<HPediaSection>(configureCell: { _, collectionView, indexPath, item in
+        datasource = UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>(collectionView: hPediaCollectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
-            case .tagCell(let reactor, _):
+            case .tagCell(let data):
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HPediaTagCell.identifier,
                     for: indexPath) as? HPediaTagCell
                 else { return UICollectionViewCell() }
                 
-                cell.reactor = reactor
+                cell.configure(data)
                 
                 return cell
                 
-            case .guideCell(let reactor, _):
+            case .guideCell(let data):
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: GuideCell.identifier,
                     for: indexPath) as? GuideCell
                 else { return UICollectionViewCell() }
                 
-                cell.reactor = reactor
+                cell.configure(data)
                 
                 return cell
             }
-        }, configureSupplementaryView: { _, collectionView, kind, indexPath -> UICollectionReusableView in 
-            
+        })
+        datasource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
             switch indexPath.section {
             case 0:
                 guard let header = collectionView.dequeueReusableSupplementaryView(
@@ -111,7 +124,7 @@ extension HPediaViewController {
                 return header
             case 1:
                 guard let header = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionHeader, 
+                    ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HPediaTagHeaderCell.identifier,
                     for: indexPath) as? HPediaTagHeaderCell
                 else { return UICollectionReusableView() }
@@ -119,7 +132,7 @@ extension HPediaViewController {
                 return header
             default: return UICollectionReusableView()
             }
-        })
+        }
     }
     
     private func HPediaGuideCellLayout() -> NSCollectionLayoutSection {

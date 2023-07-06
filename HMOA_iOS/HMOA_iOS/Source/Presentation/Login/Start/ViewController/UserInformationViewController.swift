@@ -88,9 +88,6 @@ class UserInformationViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setUpConstraints()
-        
-        bind(reactor: reactor)
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -217,9 +214,9 @@ class UserInformationViewController: UIViewController, View {
             .map { $0.isPresentChoiceYearVC }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
-                let yearVC = self.presentSelectYear()
-                self.present(yearVC, animated: true)
+            .bind(with: self, onNext: { owner, _ in
+                let yearVC = owner.presentSelectYear()
+                owner.present(yearVC, animated: true)
             }).disposed(by: disposeBag)
         
         //woman 버튼 활성화
@@ -241,33 +238,26 @@ class UserInformationViewController: UIViewController, View {
             .map { $0.selectedYear }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: {
-                self.selectLabel.text = $0
+            .bind(with: self, onNext: { owner, year in
+                owner.selectLabel.text = year
+                owner.updateUIYearLabel(year)
             }).disposed(by: disposeBag)
         
         //StartButton Enable 설정
         reactor.state
             .map { $0.isStartEnable }
             .distinctUntilChanged()
-            .bind(onNext: {
-                self.setEnableStartButton($0)
+            .bind(with: self, onNext: { owner, isStart in
+                owner.setEnableStartButton(isStart)
             }).disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.selectedYear }
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .bind(onNext: {
-                self.updateUIYearLabel($0)
-            }).disposed(by: disposeBag)
-        
+
         //메인 탭바로 이동
         reactor.state
             .map { $0.joinResponse }
             .distinctUntilChanged()
             .filter { $0 != nil }
-            .bind(onNext: { _ in
-                self.presentAppTabBarController()
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentAppTabBarController()
             }).disposed(by: disposeBag)
     }
     
@@ -299,7 +289,7 @@ class UserInformationViewController: UIViewController, View {
     
     func presentSelectYear() -> ChoiceYearViewController {
         
-        let choiceYearReactor = self.reactor.reactorForChoiceYear()
+        let choiceYearReactor = reactor.reactorForChoiceYear()
         let vc = ChoiceYearViewController(reactor: choiceYearReactor)
         
         vc.modalPresentationStyle = .pageSheet

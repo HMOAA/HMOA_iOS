@@ -138,8 +138,8 @@ class ChoiceYearViewController: UIViewController, View {
             .map { $0.isDismiss }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
-                self.dismiss(animated: true)
+            .bind(with: self, onNext: { owner, _ in
+                owner.dismiss(animated: true)
             }).disposed(by: disposeBag)
         
     }
