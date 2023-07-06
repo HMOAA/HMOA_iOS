@@ -9,15 +9,8 @@ import UIKit
 
 import ReactorKit
 
-class HPediaTagCell: UICollectionViewCell, View {
+class HPediaTagCell: UICollectionViewCell{
     
-    
-    typealias Reactor = HPediaTagCellReactor
-    
-    var disposeBag = DisposeBag()
-    
-    
-
     static let identifier = "HPediaTagCell"
     
     //MAKR: - Properties
@@ -58,7 +51,7 @@ class HPediaTagCell: UICollectionViewCell, View {
         }
     }
     
-    func bind(reactor: Reactor) {
-        nameLabel.text = reactor.currentState.name
+    func configure(_ data: HPediaTagData) {
+        nameLabel.text = data.name
     }
 }

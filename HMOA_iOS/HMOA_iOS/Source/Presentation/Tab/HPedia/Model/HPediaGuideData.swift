@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HPediaGuideData: Equatable {
+struct HPediaGuideData: Hashable{
     var id: Int
     var title: String
     var content: String

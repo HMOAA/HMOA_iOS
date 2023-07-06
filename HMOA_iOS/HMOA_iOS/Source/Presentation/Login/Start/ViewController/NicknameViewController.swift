@@ -38,6 +38,7 @@ class NicknameViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setConstraints()
+        
     }
     
     override func viewDidLayoutSubviews() {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HPediaTagData: Equatable{
+struct HPediaTagData: Hashable {
     var id: Int
     var name: String
 }

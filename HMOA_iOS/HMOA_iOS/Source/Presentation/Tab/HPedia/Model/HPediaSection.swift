@@ -7,37 +7,36 @@
 
 import Foundation
 
-import RxDataSources
-
-enum HPediaSection {
-    case guide([HPediaSectionItem])
-    case tag([HPediaSectionItem])
+enum HPediaSection: Hashable {
+    case guide
+    case tag
 }
 
 enum HPediaSectionItem {
-    case guideCell(HPediaGuideCellReactor, Int)
-    case tagCell(HPediaTagCellReactor, Int)
+    case guideCell(HPediaGuideData)
+    case tagCell(HPediaTagData)
 }
 
-extension HPediaSection: SectionModelType {
-    typealias Item = HPediaSectionItem
+
+extension HPediaSectionItem: Hashable {
     
-    var items: [Item] {
+    func hash(into hasher: inout Hasher) {
         switch self {
-        case.tag(let items):
-            return items
-        case .guide(let items):
-            return items
+        case .guideCell(let guideData):
+            hasher.combine(guideData)
+        case .tagCell(let tagData):
+            hasher.combine(tagData)
         }
     }
     
-    init(original: HPediaSection, items: [HPediaSectionItem]) {
-        switch original {
-        case .guide(let items):
-            self = .guide(items)
-        case .tag(let items):
-            self = .tag(items)
+    static func ==(lhs: HPediaSectionItem, rhs: HPediaSectionItem) -> Bool {
+        switch (lhs, rhs) {
+        case (.guideCell(let lhsGuideData), .guideCell(let rhsGuideData)):
+            return lhsGuideData == rhsGuideData
+        case (.tagCell(let lhsTagData), .tagCell(let rhsTagData)):
+            return lhsTagData == rhsTagData
+        default:
+            return false
         }
-        
     }
 }
