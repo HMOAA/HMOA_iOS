@@ -29,6 +29,7 @@
 		2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249A29A656BB009CF0FE /* CommentWriteViewController.swift */; };
 		2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249C29A65C32009CF0FE /* CommentWriteReactor.swift */; };
 		2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04249E29A67F07009CF0FE /* UIButton++Extenstions.swift */; };
+		2C15DF912A57DFE000EAB112 /* CoreGraphicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C15DF902A57DFE000EAB112 /* CoreGraphicManager.swift */; };
 		2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6A8298FAA370059A43D /* CommentCell.swift */; };
 		2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */; };
 		2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */; };
@@ -222,6 +223,7 @@
 		2C04249A29A656BB009CF0FE /* CommentWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWriteViewController.swift; sourceTree = "<group>"; };
 		2C04249C29A65C32009CF0FE /* CommentWriteReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWriteReactor.swift; sourceTree = "<group>"; };
 		2C04249E29A67F07009CF0FE /* UIButton++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton++Extenstions.swift"; sourceTree = "<group>"; };
+		2C15DF902A57DFE000EAB112 /* CoreGraphicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphicManager.swift; sourceTree = "<group>"; };
 		2C1BD6A8298FAA370059A43D /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		2C1BD6AE298FDB3A0059A43D /* PerfumeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoCell.swift; sourceTree = "<group>"; };
 		2C1BD6B0298FE5A40059A43D /* SimilarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarCell.swift; sourceTree = "<group>"; };
@@ -578,6 +580,14 @@
 			path = Reactor;
 			sourceTree = "<group>";
 		};
+		2C15DF8F2A57DFC600EAB112 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				2C15DF902A57DFE000EAB112 /* CoreGraphicManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		2C39AA09296DB4DE000C6F71 = {
 			isa = PBXGroup;
 			children = (
@@ -747,6 +757,7 @@
 		2C39AA78297054CD000C6F71 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				2C15DF8F2A57DFC600EAB112 /* Manager */,
 				2C4A265B29C2F6E1009F288F /* Network */,
 				2CAD963C298E693D00974500 /* CustomView */,
 				2C39AA4A2970417D000C6F71 /* Presentation */,
@@ -1792,6 +1803,7 @@
 				2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */,
 				2CD0235A2A07D3CB00459801 /* UserService.swift in Sources */,
 				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
+				2C15DF912A57DFE000EAB112 /* CoreGraphicManager.swift in Sources */,
 				CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */,
 				2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,

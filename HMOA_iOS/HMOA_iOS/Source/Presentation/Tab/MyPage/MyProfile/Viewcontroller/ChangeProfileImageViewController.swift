@@ -158,17 +158,28 @@ extension ChangeProfileImageViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
+        let cg = CoreGraphicManager()
         
         let itemProvider = results.first?.itemProvider
         
+        
         if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                self.reactor?.action.onNext(.didSelectedImage((image as? UIImage)!))
-            }
-            
-            DispatchQueue.main.async {
-                picker.dismiss(animated: true)
-                self.setEnableChangeButton()
+            itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
+                if let url {
+                    let targetSize = CGSize(width: 80, height: 80)
+                    
+                    guard let downsampledImageData = cg.downsample(
+                        imageAt: url,
+                        to: targetSize,
+                        scale: UIScreen.main.scale) else { return }
+                                        
+                    self.reactor?.action.onNext(.didSelectedImage(downsampledImageData))
+                }
+                
+                DispatchQueue.main.async {
+                    picker.dismiss(animated: true)
+                    self.setEnableChangeButton()
+                }
             }
         }
     }
