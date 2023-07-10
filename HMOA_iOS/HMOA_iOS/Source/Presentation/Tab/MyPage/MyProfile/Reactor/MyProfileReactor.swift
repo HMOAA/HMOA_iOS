@@ -21,18 +21,21 @@ class MyProfileReactor: Reactor {
         case updateNickname(String)
         case updateAge(Int)
         case updateSex(Bool)
+        case updateProfileImage(UIImage?)
     }
     
     struct State {
         var sections: [MyProfileSection]
         var member: Member
+        var profileImage: UIImage? = nil
         var presentVC: MyProfileType? = nil
     }
     
-    init(service: UserServiceProtocol, member: Member) {
+    init(service: UserServiceProtocol, member: Member, profileImage: UIImage?) {
         self.initialState = State(
             sections: MyProfileReactor.setUpSection(),
-            member: member
+            member: member,
+            profileImage: profileImage
         )
         
         self.service = service
@@ -43,10 +46,13 @@ class MyProfileReactor: Reactor {
             switch event {
             case .updateNickname(content: let nickname):
                 return .just(.updateNickname(nickname))
-            case .updateImage(content: _):
-                return .empty()
+                
+            case .updateImage(content: let imageUrl):
+                return .just(.updateProfileImage(imageUrl))
+                
             case .updateUserAge(content: let age):
                 return .just(.updateAge(age))
+                
             case .updateUserSex(content: let sex):
                 return .just(.updateSex(sex))
             }
@@ -71,10 +77,16 @@ class MyProfileReactor: Reactor {
         switch mutation {
         case .setPresentVC(let type):
             state.presentVC = type
+            
         case .updateNickname(let nickname):
             state.member.nickname = nickname
+            
+        case .updateProfileImage(let image):
+            state.profileImage = image
+            
         case .updateAge(let age):
             state.member.age = age
+            
         case .updateSex(let sex):
             state.member.sex = sex
         }
@@ -86,18 +98,14 @@ class MyProfileReactor: Reactor {
 extension MyProfileReactor {
     
     static func setUpSection() -> [MyProfileSection] {
-        let nickname = MyProfileSection.nickname(
-            [MyProfileType.nickname.title].map { MyProfileItem.nickname($0) })
+        var sections = [MyProfileSection]()
         
-        let year = MyProfileSection.year(
-            [MyProfileType.year.title].map { MyProfileItem.year($0) })
-
-        let sex = MyProfileSection.sex(
-            [MyProfileType.sex.title].map { MyProfileItem.sex($0) })
+        MyProfileType.allCases.forEach {
+            sections.append(MyProfileSection.section([MyProfileItem.item($0.title)]))
+        }
         
-        let section = [nickname, year, sex]
         
-        return section
+        return sections
     }
     
     func reactorForChangeNickname() -> ChangeNicknameReactor {
@@ -110,5 +118,9 @@ extension MyProfileReactor {
     
     func reactorForChangeSex() -> ChangeSexReactor {
         return ChangeSexReactor(currentState.member.sex, service: service)
+    }
+    
+    func reactorForChangeProfileImage() -> ChangeProfileImageReactor {
+        return ChangeProfileImageReactor(service: service, currentImage: currentState.profileImage)
     }
 }
