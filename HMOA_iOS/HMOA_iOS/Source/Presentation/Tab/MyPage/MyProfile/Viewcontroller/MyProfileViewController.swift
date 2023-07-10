@@ -82,6 +82,8 @@ extension MyProfileViewController {
                 self.presentNextVC($0)
             })
             .disposed(by: disposeBag)
+        
+        
     }
     
     // MARK: - Configure
@@ -102,24 +104,10 @@ extension MyProfileViewController {
         dataSource = RxTableViewSectionedReloadDataSource<MyProfileSection> (configureCell: { _, tableView, indexPath, item in
             
             switch item {
-            case .nickname(let nickname):
+            case .item(let title):
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
                     
-                cell.updateCell(nickname)
-                cell.selectionStyle = .none
-                
-                return cell
-            case .year(let year):
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
-                        
-                cell.updateCell(year)
-                cell.selectionStyle = .none
-                
-                return cell
-            case .sex(let sex):
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
-                        
-                cell.updateCell(sex)
+                cell.updateCell(title)
                 cell.selectionStyle = .none
                 
                 return cell
@@ -129,6 +117,11 @@ extension MyProfileViewController {
     
     func presentNextVC(_ type: MyProfileType) {
         switch type {
+        case .profileImage:
+            let changeProfileIamgeVC = ChangeProfileImageViewController()
+            changeProfileIamgeVC.reactor = reactor.reactorForChangeProfileImage()
+            
+            self.navigationController?.pushViewController(changeProfileIamgeVC, animated: true)
         case .nickname:
             let changeNickNameReactor = reactor.reactorForChangeNickname()
 

@@ -6,6 +6,7 @@
 //
 
 import ReactorKit
+import Kingfisher
 
 class MyPageReactor: Reactor {
     
@@ -21,6 +22,7 @@ class MyPageReactor: Reactor {
         case setPresentVC(MyPageType?)
         case setSections([MyPageSection])
         case setMember(Member)
+        case setProfileImage(UIImage?)
         case updateNickname(String)
         case updateAge(Int)
         case updateSex(Bool)
@@ -36,6 +38,7 @@ class MyPageReactor: Reactor {
             provider: "",
             sex: false)
         var presentVC: MyPageType? = nil
+        var profileImage: UIImage? = nil
     }
     
     init(service: UserServiceProtocol) {
@@ -48,8 +51,8 @@ class MyPageReactor: Reactor {
             switch event {
             case .updateNickname(content: let nickname):
                 return .just(.updateNickname(nickname))
-            case .updateImage(content: _):
-                return .empty()
+            case .updateImage(content: let image):
+                return .just(.setProfileImage(image))
             case .updateUserAge(content: let age):
                 return .just(.updateAge(age))
             case .updateUserSex(content: let sex):
@@ -86,6 +89,14 @@ class MyPageReactor: Reactor {
             
         case .setMember(let memeber):
             state.member = memeber
+            
+        case .setProfileImage(let image):
+            state.profileImage = image
+            
+            state.sections = [
+                MyPageSection.memberSection(
+                    MyPageSectionItem.memberCell(MemberCellReactor(member: state.member, profileImage: image)))
+            ] + MyPageReactor.setUpOtherSection()
             
         case .updateNickname(let nickname):
             
@@ -149,12 +160,39 @@ extension MyPageReactor {
                 
                 return .concat([
                     .just(.setMember(member)),
-                    .just(.setSections(sections))
+                    .just(.setSections(sections)),
+                    downloadImage(url: member.memberImageUrl)
                 ])
             }
     }
     
     func reactorForMyProfile() -> MyProfileReactor {
-        return MyProfileReactor(service: service, member: currentState.member)
+        return MyProfileReactor(service: service, member: currentState.member, profileImage: currentState.profileImage)
     }
+    
+    static func downloadImage(url: String) -> Observable<Mutation> {
+        return Observable.create { observer in
+            guard let imageURL = URL(string: url) else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            
+            let resource = ImageResource(downloadURL: imageURL)
+            
+            KingfisherManager.shared.retrieveImage(with: resource) { result in
+                switch result {
+                case .success(let value):
+                    let image = value.image
+                    observer.onNext(.setProfileImage(image))
+                    observer.onCompleted()
+                case .failure(let error):
+                    print("Error downloading image: \(error)")
+                    observer.onError(error)
+                }
+            }
+            
+            return Disposables.create()
+        }
+    }
+
 }
