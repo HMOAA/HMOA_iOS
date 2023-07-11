@@ -80,4 +80,8 @@ extension HomeFirstCellHeaderView {
             .distinctUntilChanged()
             .compactMap { $0 }
     }
+    
+    func bindUI(title: String) {
+        titleLabel.text = title
+    }
 }

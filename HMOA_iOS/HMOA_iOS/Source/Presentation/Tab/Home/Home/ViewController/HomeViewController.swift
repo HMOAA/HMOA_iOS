@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import ReactorKit
-import RxDataSources
+
 
 class HomeViewController: UIViewController, View {
     
@@ -18,7 +18,7 @@ class HomeViewController: UIViewController, View {
     lazy var homeReactor = HomeViewReactor()
     
     // MARK: Properties
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<HomeSection>!
+    private var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>?
     var disposeBag = DisposeBag()
 
     // MARK: - UI Component
@@ -94,11 +94,30 @@ extension HomeViewController {
         
         // MARK: - State
         
-        // collectionView 바인딩
+        //snapshot 설정
         reactor.state
             .map { $0.sections }
-            .bind(to: self.homeView.collectionView.rx.items(dataSource: self.dataSource))
-            .disposed(by: disposeBag)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, sections in
+                guard let dataSource = owner.dataSource else { return }
+                
+                var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
+                snapshot.appendSections(sections)
+                        
+                sections.forEach { section in
+                    switch section {
+                    case .topSection(let topSectionItem):
+                        snapshot.appendItems(topSectionItem, toSection: section)
+                        
+                    case .recommendSection(_, let items):                        snapshot.appendItems(items, toSection: section)
+                    }
+                }
+    
+                DispatchQueue.main.async {
+                    dataSource.apply(snapshot)
+                }
+                
+            }).disposed(by: disposeBag)
 
         // 향수 디테일 페이지로 이동
         reactor.state
@@ -142,7 +161,7 @@ extension HomeViewController {
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
+        dataSource = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem> (collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {
             case .topCell(let imageUrl, _):
@@ -155,7 +174,8 @@ extension HomeViewController {
                 homeTopCell.setImage(imageUrl)
                 
                 return homeTopCell
-            case .recommendCell(let reactor, _):
+                
+            case .recommendCell(let data, _, _):
                 guard let firstCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeFirstCell.identifier,
                     for: indexPath) as? HomeFirstCell else {
@@ -169,37 +189,39 @@ extension HomeViewController {
                 }
                                 
                 if indexPath.section == 1 {
-                    firstCell.reactor = reactor
+                    firstCell.bindUI(data)
                     return firstCell
                 } else {
-                    otherCell.reactor = reactor
+                    otherCell.bindUI(data)
                     return otherCell
                 }
             }
-        }, configureSupplementaryView: { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
-
+        })
+        
+        dataSource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+            
             var header = UICollectionReusableView()
             
+            guard let section = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
+            else { return header }
             
-            switch dataSource[indexPath.section] {
+            switch section {
             case .topSection(_):
                 return header
                 
-            case .recommendSection(header: let title, items: _):
+            case .recommendSection(let title, _):
                 guard let homeFirstCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeFirstCellHeaderView.identifier,
                     for: indexPath) as? HomeFirstCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                
-                homeFirstCellHeader.reactor = HomeHeaderReactor(title, 1)
-                self.bindHeader(reactor: homeFirstCellHeader.reactor!)
+                homeFirstCellHeader.bindUI(title: title)
                 header = homeFirstCellHeader
+                
+                return header
             }
-    
-            return header
-        })
+        }
     }
     
     func configureNavigationBar() {
