@@ -6,53 +6,40 @@
 //
 
 import UIKit
-import RxDataSources
 
-enum HomeSection {
+enum HomeSection: Hashable {
     case topSection([HomeSectionItem])
     case recommendSection(header: String, items: [HomeSectionItem])
-
 }
 
-enum HomeSectionItem {
+enum HomeSectionItem: Hashable {
     case topCell(String, Int)
-    case recommendCell(HomeCellReactor, Int)
+    case recommendCell(RecommendPerfume ,Int, UUID)
 }
 
 extension HomeSectionItem {
-    
-    var perfumeId: Int {
+    func hash(into hasher: inout Hasher) {
         switch self {
-        case .topCell(_, let perfumeId):
-            return perfumeId
-        case .recommendCell(_, let perfumeId):
-            return perfumeId
-        }
-    }
-}
-
-extension HomeSection: SectionModelType {
-    typealias Item = HomeSectionItem
-    
-    var items: [Item] {
-        switch self {
-        case .topSection(let items):
-            return items
-        case .recommendSection(_, let items):
-            return items
+        case .topCell(let string, let int):
+            hasher.combine(string)
+            hasher.combine(int)
+        case .recommendCell(let perfume, let int, let uid):
+            hasher.combine(perfume)
+            hasher.combine(int)
+            hasher.combine(uid)
         }
     }
     
-    var headerTitle: String {
-        switch self {
-        case .topSection(_):
-            return ""
-        case .recommendSection(let header, _):
-            return header
+    static func ==(lhs: HomeSectionItem, rhs: HomeSectionItem) -> Bool {
+        switch (lhs, rhs) {
+        case (.topCell(let lhsString, let lhsInt),
+              .topCell(let rhsString, let rhsInt)):
+            return lhsString == rhsString && lhsInt == rhsInt
+        case (.recommendCell(let lhsPerfume, let lhsInt, let lhsUuid),
+              .recommendCell(let rhsPerfume, let rhsInt, let rhsUuid)):
+            return lhsPerfume == rhsPerfume && lhsInt == rhsInt && lhsUuid == rhsUuid
+        default:
+            return false
         }
-    }
-    
-    init(original: HomeSection, items: [HomeSectionItem]) {
-        self = original
     }
 }
