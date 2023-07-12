@@ -11,14 +11,13 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
-import RxDataSources
 
 class TotalPerfumeViewController: UIViewController, View {
     typealias Reactor = TotalPerfumeReactor
     
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    var dataSource: RxCollectionViewSectionedReloadDataSource<TotalPerfumeSection>!
+    var dataSource: UICollectionViewDiffableDataSource<TotalPerfumeSection, TotalPerfumeSectionItem>!
     // MARK: - UI Component
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(BrandDetailCollectionViewCell.self, forCellWithReuseIdentifier: BrandDetailCollectionViewCell.identifier)
@@ -41,7 +40,7 @@ extension TotalPerfumeViewController {
         
         // MARK: - Action
         
-        // collectionView - item 클릭
+        //collectionView - item 클릭
         collectionView.rx.modelSelected(TotalPerfumeSectionItem.self)
             .map { Reactor.Action.didTapItem($0.perfume)}
             .bind(to: reactor.action)
@@ -52,8 +51,22 @@ extension TotalPerfumeViewController {
         // collectionView 바인딩
         reactor.state
             .map { $0.section }
-            .bind(to: collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, sections in
+                var snapshot = NSDiffableDataSourceSnapshot<TotalPerfumeSection, TotalPerfumeSectionItem>()
+                
+                snapshot.appendSections(sections)
+                sections.forEach { section in
+                    switch section {
+                    case .first(let perfumeSectionItem):
+                        snapshot.appendItems(perfumeSectionItem, toSection: section)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    owner.dataSource.apply(snapshot)
+                }
+            }).disposed(by: disposeBag)
         
         // item 클릭 시 향수 상세 화면으로 이동
         reactor.state
@@ -61,10 +74,11 @@ extension TotalPerfumeViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: {
+                print($0)
                 self.presentDatailViewController($0.perfumeId)
             })
             .disposed(by: disposeBag)
-                
+        
     }
     
     // MARK: - Configure
@@ -83,17 +97,17 @@ extension TotalPerfumeViewController {
     }
     
     func configureDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource<TotalPerfumeSection>(configureCell: { _, collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<TotalPerfumeSection, TotalPerfumeSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
-            case .perfumeList(let reactor):
+            case .perfumeList(let perfume):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BrandDetailCollectionViewCell.identifier, for: indexPath) as? BrandDetailCollectionViewCell else { return UICollectionViewCell() }
                 
-                cell.reactor = reactor
+                cell.bindUI(perfume)
                 
                 return cell
             }
-        })
-    }
+        }
+        )}
 }
 
 extension TotalPerfumeViewController: UICollectionViewDelegateFlowLayout {

@@ -53,7 +53,7 @@ class TotalPerfumeReactor: Reactor {
 
 extension TotalPerfumeReactor {
     
-    static func reqeustPerfumeList(_ listType: Int) -> [TotalPerfumeSection]{
+    static func reqeustPerfumeList(_ listType: Int) -> [TotalPerfumeSection] {
         
         let perfumeList: [Perfume] = [
             Perfume(
@@ -99,6 +99,6 @@ extension TotalPerfumeReactor {
                 image: UIImage(named: "jomalon")!,
                 isLikePerfume: false)]
         
-        return [TotalPerfumeSection.first(perfumeList.map { TotalPerfumeSectionItem.perfumeList(BrandDetailCellReactor($0)) })]
+        return [TotalPerfumeSection.first(perfumeList.map { TotalPerfumeSectionItem.perfumeList($0) })]
     }
 }
