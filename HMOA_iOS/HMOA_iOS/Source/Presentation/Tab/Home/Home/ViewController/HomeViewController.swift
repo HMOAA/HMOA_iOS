@@ -216,7 +216,10 @@ extension HomeViewController {
                     for: indexPath) as? HomeFirstCellHeaderView else {
                     return UICollectionReusableView()
                 }
+                
                 homeFirstCellHeader.bindUI(title: title)
+                homeFirstCellHeader.reactor = HomeHeaderReactor(title, 1)
+                self.bindHeader(reactor: homeFirstCellHeader.reactor!)
                 header = homeFirstCellHeader
                 
                 return header
