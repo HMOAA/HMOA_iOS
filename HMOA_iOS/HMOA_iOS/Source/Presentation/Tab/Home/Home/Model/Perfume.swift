@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Perfume: Equatable {
+struct Perfume: Equatable, Hashable {
     var perfumeId: Int
     var titleName: String
     var content: String
