@@ -29,7 +29,7 @@ enum BrandCell {
     case BrandItem(Brand)
 }
 
-extension BrandCell {
+extension BrandCell: Hashable {
     
     var brand: Brand {
         switch self {
@@ -39,41 +39,41 @@ extension BrandCell {
     }
 }
 
-extension BrandListSection: SectionModelType {
-    typealias Item = BrandCell
+extension BrandListSection: Hashable {
     
-    var items: [Item] {
+    func hash(into hasher: inout Hasher) {
         switch self {
-        case .first(let items):
-            return items
-        case .second(let items):
-            return items
-        case .third(let items):
-            return items
-        case .fourth(let items):
-            return items
-        case .fifth(let items):
-            return items
-        case .sixth(let items):
-            return items
-        case .seventh(let items):
-            return items
-        case .eighth(let items):
-            return items
-        case .ninth(let items):
-            return items
-        case .tenth(let items):
-            return items
-        case .eleventh(let items):
-            return items
-        case .twelfth(let items):
-            return items
-        case .thirteenth(let items):
-            return items
-        case .fourtheenth(let items):
-            return items
+        case .first(let brand):
+            hasher.combine(brand)
+        case .second(let brand):
+            hasher.combine(brand)
+        case .third(let brand):
+            hasher.combine(brand)
+        case .fourth(let brand):
+            hasher.combine(brand)
+        case .fifth(let brand):
+            hasher.combine(brand)
+        case .sixth(let brand):
+            hasher.combine(brand)
+        case .seventh(let brand):
+            hasher.combine(brand)
+        case .eighth(let brand):
+            hasher.combine(brand)
+        case .ninth(let brand):
+            hasher.combine(brand)
+        case .tenth(let brand):
+            hasher.combine(brand)
+        case .eleventh(let brand):
+            hasher.combine(brand)
+        case .twelfth(let brand):
+            hasher.combine(brand)
+        case .thirteenth(let brand):
+            hasher.combine(brand)
+        case .fourtheenth(let brand):
+            hasher.combine(brand)
         }
     }
+    
     
     var consonant: String {
         switch self {
@@ -105,39 +105,6 @@ extension BrandListSection: SectionModelType {
             return "ㅍ"
         case .fourtheenth(_):
             return "ㅎ"
-        }
-    }
-    
-    init(original: BrandListSection, items: [BrandCell]) {
-        switch original {
-        case .first:
-            self = .first(items)
-        case .second:
-            self = .second(items)
-        case .third:
-            self = .third(items)
-        case .fourth:
-            self = .fourth(items)
-        case .fifth:
-            self = .fifth(items)
-        case .sixth(_):
-            self = .fifth(items)
-        case .seventh(_):
-            self = .seventh(items)
-        case .eighth(_):
-            self = .eighth(items)
-        case .ninth(_):
-            self = .ninth(items)
-        case .tenth(_):
-            self = .tenth(items)
-        case .eleventh(_):
-            self = .eleventh(items)
-        case .twelfth(_):
-            self = .twelfth(items)
-        case .thirteenth(_):
-            self = .thirteenth(items)
-        case .fourtheenth(_):
-            self = .fourtheenth(items)
         }
     }
 }
