@@ -15,19 +15,35 @@ enum DetailSection {
 }
 
 enum DetailSectionItem {
-    case topCell(PerfumeInfoViewReactor)
-    case commentCell(CommentCellReactor, Int)
-    case recommendCell(HomeCellReactor, Int)
+    case topCell(PerfumeDetail, Int)
+    case commentCell(Comment, Int)
+    case recommendCell(RecommendPerfume, Int)
 }
 
-extension DetailSectionItem {
+extension DetailSectionItem: Hashable {
+    
+    
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .topCell(let detail, let id):
+            hasher.combine(detail)
+            hasher.combine(id)
+        case .commentCell(let comment, let id):
+            hasher.combine(comment)
+            hasher.combine(id)
+        case .recommendCell(let recommend, let id):
+            hasher.combine(recommend)
+            hasher.combine(id)
+        }
+    }
+    
     var id: Int {
         switch self {
         case .topCell:
             return 0
-        case .commentCell(_ , let commentId):
+        case .commentCell(_, let commentId):
             return commentId
-        case .recommendCell(_ , let perfumeId):
+        case .recommendCell(_, let perfumeId):
             return perfumeId
         }
     }
@@ -44,7 +60,7 @@ extension DetailSectionItem {
     }
 }
 
-extension DetailSection: SectionModelType {
+extension DetailSection: Hashable {
     typealias Item = DetailSectionItem
     
     var items: [Item] {
@@ -55,18 +71,6 @@ extension DetailSection: SectionModelType {
             return items
         case .recommend(let items):
             return items
-        }
-    }
-    
-    init(original: DetailSection, items: [DetailSectionItem]) {
-        switch original {
-        case .top:
-            self = .top(items.first!)
-        case .comment:
-            self = .comment(items)
-        case .recommend:
-            self = .recommend(items)
-       
         }
     }
 }

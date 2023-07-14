@@ -11,7 +11,6 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
-import RxDataSources
 
 class DetailViewController: UIViewController, View {
     
@@ -22,7 +21,7 @@ class DetailViewController: UIViewController, View {
     
     lazy var DetailReactor = DetailViewReactor(perfumeId)
     
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<DetailSection>!
+    private var dataSource: UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>!
 
     let detailView = DetailView()
     
@@ -89,8 +88,18 @@ extension DetailViewController {
         // collectionView 바인딩
         reactor.state
             .map { $0.sections }
-            .bind(to: detailView.collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, sections in
+                var snapshot = NSDiffableDataSourceSnapshot<DetailSection, DetailSectionItem>()
+                snapshot.appendSections(sections)
+                
+                sections.forEach { section in
+                    snapshot.appendItems(section.items, toSection: section)
+                }
+                DispatchQueue.main.async {
+                    owner.dataSource.apply(snapshot)
+                }
+            }).disposed(by: disposeBag)
         
         // 댓글 전체 보기 페이지로 이동
         reactor.state
@@ -158,18 +167,18 @@ extension DetailViewController {
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource<DetailSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
+        dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: { collectionView, indexPath, item in
+            
             switch item {
-            case .topCell(let reactor):
+            case .topCell(let detail, _):
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
-                perfumeInfoCell.reactor = reactor
-                
+                perfumeInfoCell.updateCell(detail)
                 // 하단 뷰 향수 좋아요 버튼 클릭시 액션 전달
-                self.bottomView.likeButton.rx.tap
-                    .map { _ in .didTapPerfumeLikeButton }
-                    .bind(to: perfumeInfoCell.reactor!.action)
-                    .disposed(by: self.disposeBag)
+//                self.bottomView.likeButton.rx.tap
+//                    .map { _ in .didTapPerfumeLikeButton }
+//                    .bind(to: perfumeInfoCell.reactor!.action)
+//                    .disposed(by: self.disposeBag)
                 
                 // perfumeInfoReactor의 향수 좋아요 상태 변화
                 perfumeInfoCell.reactor?.state
@@ -179,21 +188,20 @@ extension DetailViewController {
                     .disposed(by: self.disposeBag)
                 
                 return perfumeInfoCell
-            case .commentCell(let reactor, _):
+            case .commentCell(let comment, _):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
-                commentCell.reactor = reactor
-                
+                commentCell.updateCell(comment)
                 return commentCell
-            case .recommendCell(let reactor, _):
+            case .recommendCell(let recommend, _):
                 guard let similarCell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarCell.identifier, for: indexPath) as? SimilarCell else { return UICollectionViewCell() }
                 
-                similarCell.reactor = reactor
-                
+                similarCell.updateUI(recommend)
                 return similarCell
 
             }
-        }, configureSupplementaryView: { _, collectionView, kind, indexPath -> UICollectionReusableView in
+        })
+        dataSource.supplementaryViewProvider = {collectionView, kind, indexPath -> UICollectionReusableView in
             var header = UICollectionReusableView()
             
             switch indexPath.section {
@@ -216,7 +224,7 @@ extension DetailViewController {
             } else {
                 return header
             }
-        })
+        }
     }
     
     func configureUI() {
