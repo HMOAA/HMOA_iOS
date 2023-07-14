@@ -31,22 +31,3 @@ extension TotalPerfumeSectionItem: Hashable {
         }
     }
 }
-//
-//extension TotalPerfumeSection: SectionModelType {
-//    typealias Item = TotalPerfumeSectionItem
-//
-//
-//    var items: [Item] {
-//        switch self {
-//        case .first(let items):
-//            return items
-//        }
-//    }
-//
-//    init(original: TotalPerfumeSection, items: [Item]) {
-//        switch original {
-//        case .first:
-//            self = .first(items)
-//        }
-//    }
-//}

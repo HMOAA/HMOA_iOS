@@ -5,12 +5,12 @@
 //  Created by 임현규 on 2023/03/17.
 //
 
-struct BrandList: Equatable {
+struct BrandList: Equatable, Hashable {
     var consonant: Int
     var brands: [Brand]
 }
 
-struct Brand: Equatable {
+struct Brand: Equatable, Hashable {
     var brandId: Int
     var brandName: String
 }
