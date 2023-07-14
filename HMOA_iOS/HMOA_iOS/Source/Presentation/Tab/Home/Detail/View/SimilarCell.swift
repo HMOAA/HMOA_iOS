@@ -81,4 +81,9 @@ extension SimilarCell {
             $0.trailing.equalToSuperview()
         }
     }
+    
+    func updateUI(_ item: RecommendPerfume) {
+        perfumetitleLabel.text = item.brandName
+        perfumeContentLabel.text = item.perfumeName
+    }
 }

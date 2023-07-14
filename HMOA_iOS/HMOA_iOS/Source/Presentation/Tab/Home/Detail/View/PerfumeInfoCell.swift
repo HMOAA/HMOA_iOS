@@ -115,4 +115,17 @@ extension PerfumeInfoCell {
         
         return attri
     }
+    
+    func updateCell(_ item: PerfumeDetail) {
+        perfumeInfoView.perfumeImageView.image = item.perfumeImage
+        perfumeInfoView.titleKoreanLabel.text = item.koreanName
+        perfumeInfoView.titleEnglishLabel.text = item.englishName
+        perfumeInfoView.priceLabel.text = "\(item.price)"
+        perfumeInfoView.ageLabel.text = "\(item.age)"
+        perfumeInfoView.gendarLabel.text = item.gender
+        perfumeInfoView.productInfoContentLabel.text = item.productInfo
+        perfumeInfoView.topNote.nameLabel.text = item.topTasting
+        perfumeInfoView.heartNote.nameLabel.text = item.heartTasting
+        perfumeInfoView.baseNote.nameLabel.text = item.baseTasting
+    }
 }

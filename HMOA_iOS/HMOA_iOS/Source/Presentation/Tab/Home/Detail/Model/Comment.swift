@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Comment {
+struct Comment: Hashable {
     var commentId: Int
     var name: String
     var image: UIImage
