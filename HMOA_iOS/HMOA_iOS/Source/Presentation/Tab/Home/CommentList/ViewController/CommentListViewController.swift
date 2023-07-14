@@ -11,7 +11,6 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
-import RxDataSources
 import RxAppState
 
 class CommentListViewController: UIViewController, View {
@@ -19,7 +18,7 @@ class CommentListViewController: UIViewController, View {
     // MARK: - Properties
     var perfumeId: Int = 0
 
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<CommentSection>!
+    private var dataSource: UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>!
     lazy var commendReactor = CommentListReactor(perfumeId)
     var disposeBag = DisposeBag()
 
@@ -77,8 +76,20 @@ extension CommentListViewController {
         // collectionView 바인딩
         reactor.state
             .map { $0.comments }
-            .bind(to: self.collectionView.rx.items(dataSource: self.dataSource))
-            .disposed(by: disposeBag)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, comments in
+    
+                var snapshot = NSDiffableDataSourceSnapshot<CommentSection, CommentSectionItem>()
+                snapshot.appendSections(comments)
+                
+                comments.forEach { comment in
+                    snapshot.appendItems(comment.items, toSection: comment)
+                }
+                
+                DispatchQueue.main.async {
+                    owner.dataSource.apply(snapshot)
+                }
+            }).disposed(by: disposeBag)
         
         // 댓글 개수 반응
 //        reactor.state
@@ -127,16 +138,19 @@ extension CommentListViewController {
     
     func configureCollectionViewDataSource() {
         
-        dataSource = RxCollectionViewSectionedReloadDataSource<CommentSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
+        dataSource = UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
+            
             switch item {
-            case .commentCell(let reactor, _):
+            case .commentCell(let comment, _):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
-                cell.reactor = reactor
+                cell.updateCell(comment)
                 
                 return cell
             }
-        }, configureSupplementaryView: { _, collectionView, kind, indexPath -> UICollectionReusableView in
+        })
+        
+        dataSource.supplementaryViewProvider =  { collectionView, kind, indexPath -> UICollectionReusableView in
             
             switch indexPath.section {
             case 0:
@@ -150,7 +164,7 @@ extension CommentListViewController {
             default:
                 return UICollectionReusableView()
             }
-        })
+        }
     }
     
     func configureUI() {
