@@ -120,7 +120,7 @@ extension CommentListReactor {
         sortType == 1 ? comments.sort { $0.likeCount > $1.likeCount }: comments.sort { $0.commentId < $1.commentId }
         
         
-        let commentItems = comments.map {CommentSectionItem.commentCell(CommentCellReactor(comment: $0), $0.commentId)}
+        let commentItems = comments.map {CommentSectionItem.commentCell($0, $0.commentId)}
         
         let commentSection = CommentSection.comment(commentItems)
         
