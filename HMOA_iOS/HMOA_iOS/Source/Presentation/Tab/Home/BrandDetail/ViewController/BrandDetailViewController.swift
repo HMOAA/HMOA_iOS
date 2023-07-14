@@ -11,7 +11,6 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
-import RxDataSources
 
 class BrandDetailViewController: UIViewController, View {
     typealias Reactor = BrandDetailReactor
@@ -20,7 +19,7 @@ class BrandDetailViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     // MARK: - UI Component
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<BrandDetailSection>!
+    private var dataSource: UICollectionViewDiffableDataSource<BrandDetailSection, BrandDetailSectionItem>!
 
     let homeBarButton = UIButton().makeImageButton(UIImage(named: "homeNavi")!)
     let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
@@ -49,7 +48,7 @@ extension BrandDetailViewController {
     func bind(reactor: BrandDetailReactor) {
         
         configureCollectionViewDataSource()
-
+        
         // MARK: - Action
         
         // 뒤로가기 버튼 클릭
@@ -64,8 +63,21 @@ extension BrandDetailViewController {
         // CollectionView 바인딩
         reactor.state
             .map { $0.section }
-            .bind(to: self.collectionView.rx.items(dataSource: self.dataSource))
-            .disposed(by: disposeBag)
+            .asDriver(onErrorRecover: { _ in return .empty()} )
+            .drive(with: self, onNext: { owner, sections in
+                var snapshot = NSDiffableDataSourceSnapshot<BrandDetailSection, BrandDetailSectionItem>()
+                snapshot.appendSections(sections)
+                sections.forEach { section in
+                    switch section {
+                    case .first(let brand):
+                        snapshot.appendItems(brand, toSection: section)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    owner.dataSource.apply(snapshot)
+                }
+            }).disposed(by: disposeBag)
         
         // NavigationBar title 설정
         reactor.state
@@ -79,7 +91,7 @@ extension BrandDetailViewController {
             .map { $0.isPopVC }
             .distinctUntilChanged()
             .filter { $0 }
-            .map { _ in } 
+            .map { _ in }
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
         
@@ -91,7 +103,7 @@ extension BrandDetailViewController {
         view.backgroundColor = .white
         
         view.addSubview(collectionView)
-     
+        
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
@@ -111,19 +123,20 @@ extension BrandDetailViewController {
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource<BrandDetailSection>(configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
+        dataSource = UICollectionViewDiffableDataSource<BrandDetailSection, BrandDetailSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {
             case .perfumeList(let perfume):
                 
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BrandDetailCollectionViewCell.identifier, for: indexPath) as? BrandDetailCollectionViewCell else { return UICollectionViewCell() }
                 
-                cell.reactor = BrandDetailCellReactor(perfume)
+                cell.bindUI(perfume)
                 return cell
             }
             
-        }, configureSupplementaryView: { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
-
+        })
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView in
+            
             var header = UICollectionReusableView()
             
             
@@ -131,15 +144,15 @@ extension BrandDetailViewController {
             case 0:
                 guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandDetailHeaderView.identifier, for: indexPath) as? BrandDetailHeaderView else { return UICollectionReusableView() }
                 
+                //TODO: - reactor 빼고 해당 brand item으로 HeaderView 구성하기
                 headerView.reactor = BrandDetailHeaderReactor(self.reactor!.currentState.brandId)
                 header = headerView
                 return header
-
+                
             default: return header
                 
             }
-            
-        })
+        }
     }
 }
 
