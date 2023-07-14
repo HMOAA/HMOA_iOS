@@ -90,9 +90,9 @@ final class HomeViewReactor: Reactor {
                 return state
             }
             
-            //            if indexPath.section != 0 {
-            //                state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.item].perfumeId
-            //            }
+            if indexPath.section != 0 {
+                state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.section].perfumeId
+            }
             
         case .setIsPresentBrandSearchVC(let isPresent):
             state.isPresentBrandSearchVC = isPresent

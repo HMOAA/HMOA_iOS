@@ -17,6 +17,18 @@ enum HomeSectionItem: Hashable {
     case recommendCell(RecommendPerfume ,Int, UUID)
 }
 
+extension HomeSection {
+    
+    var items: [HomeSectionItem] {
+            switch self {
+            case .topSection(let items):
+                return items
+            case .recommendSection(_, let items):
+                return items
+            }
+        }
+}
+
 extension HomeSectionItem {
     func hash(into hasher: inout Hasher) {
         switch self {
@@ -42,4 +54,13 @@ extension HomeSectionItem {
             return false
         }
     }
+    
+    var perfumeId: Int {
+            switch self {
+            case .topCell(_, let perfumeId):
+                return perfumeId
+            case .recommendCell(_, let perfumeId, _):
+                return perfumeId
+            }
+        }
 }
