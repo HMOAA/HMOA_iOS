@@ -119,6 +119,12 @@ extension BrandDetailCollectionViewCell {
         self.titleLabel.text = product.titleName
         self.contentLabel.text = product.content
     }
+    
+    func bindUI(_ data: Perfume) {
+        titleLabel.text = data.titleName
+        contentLabel.text = data.content
+        likeButton.isSelected = data.isLikePerfume
+    }
 }
 
 

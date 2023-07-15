@@ -81,4 +81,9 @@ extension HomeFirstCell {
             $0.leading.equalTo(perfumeImageView).inset(4)
         }
     }
+    
+    func bindUI(_ data: RecommendPerfume) {
+        perfumeNameLabel.text = data.perfumeName
+        perfumeImageView.kf.setImage(with: URL(string: data.imageUrl))
+    }
 }

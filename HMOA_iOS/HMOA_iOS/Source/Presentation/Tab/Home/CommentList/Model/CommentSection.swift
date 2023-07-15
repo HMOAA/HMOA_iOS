@@ -8,16 +8,23 @@
 import UIKit
 import RxDataSources
 
-enum CommentSection {
+enum CommentSection: Hashable {
     case comment([CommentSectionItem])
 }
 
 enum CommentSectionItem {
-    case commentCell(CommentCellReactor, Int)
+    case commentCell(Comment, Int)
 }
 
-extension CommentSectionItem {
+extension CommentSectionItem: Hashable {
     
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .commentCell(let comment, let id):
+            hasher.combine(comment)
+            hasher.combine(id)
+        }
+    }
     var commentId: Int {
         switch self {
         case .commentCell(_, let commentId):
@@ -26,20 +33,13 @@ extension CommentSectionItem {
     }
 }
 
-extension CommentSection: SectionModelType {
+extension CommentSection {
     typealias Item = CommentSectionItem
     
     var items: [Item] {
         switch self {
         case .comment(let items):
             return items
-        }
-    }
-    
-    init(original: CommentSection, items: [CommentSectionItem]) {
-        switch original {
-        case .comment:
-            self = .comment(items)
         }
     }
 }

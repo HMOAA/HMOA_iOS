@@ -169,14 +169,14 @@ extension DetailViewReactor {
             RecommendPerfume(id: 9, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: "")
         ]
         
-        let topItem = DetailSectionItem.topCell(PerfumeInfoViewReactor(detail: perfumeDetail))
+        let topItem = DetailSectionItem.topCell(perfumeDetail, 0)
         let topSection = DetailSection.top(topItem)
         
-        let commentItem = commentItems.map { DetailSectionItem.commentCell(CommentCellReactor(comment: $0), $0.commentId) }
+        let commentItem = commentItems.map { DetailSectionItem.commentCell($0, $0.commentId) }
         
         let commentSections = DetailSection.comment(commentItem)
         
-        let recommed = recommendItems.map { DetailSectionItem.recommendCell(HomeCellReactor(perfume: $0), $0.id) }
+        let recommed = recommendItems.map { DetailSectionItem.recommendCell($0, $0.id) }
         let recommendSections = DetailSection.recommend(recommed)
         
         return [topSection, commentSections, recommendSections]

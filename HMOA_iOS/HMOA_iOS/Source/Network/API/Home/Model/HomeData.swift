@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct HomeFirstData: Codable {
+struct HomeFirstData: Codable, Hashable {
     let mainImage: String
     let recommend: RecommendPerfumeList
 }
 
-struct RecommendPerfumeList: Codable {
+struct RecommendPerfumeList: Codable, Hashable {
     let title: String
     let perfumeList: [RecommendPerfume]
 }
 
-struct RecommendPerfume: Codable {
+struct RecommendPerfume: Codable, Hashable{
     let id: Int
     let brandName: String
     let perfumeName: String
@@ -25,7 +25,7 @@ struct RecommendPerfume: Codable {
 }
 
 
-struct HomeSecondData: Codable {
+struct HomeSecondData: Codable, Hashable {
     let recommend: [RecommendPerfumeList]
     
     enum CodingKeys: String, CodingKey {
