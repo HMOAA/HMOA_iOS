@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TotalPerfumeSection: Hashable {
+enum TotalPerfumeSection{
     case first([TotalPerfumeSectionItem])
 }
 
@@ -28,6 +28,15 @@ extension TotalPerfumeSectionItem: Hashable {
         switch self {
         case .perfumeList(let perfume):
             return perfume
+        }
+    }
+}
+
+extension TotalPerfumeSection: Hashable {
+    var items: [TotalPerfumeSectionItem] {
+        switch self {
+        case .first(let item):
+            return item
         }
     }
 }

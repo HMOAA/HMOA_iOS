@@ -18,7 +18,7 @@ class HomeViewController: UIViewController, View {
     lazy var homeReactor = HomeViewReactor()
     
     // MARK: Properties
-    private var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>?
+    private var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>!
     var disposeBag = DisposeBag()
 
     // MARK: - UI Component
@@ -99,22 +99,16 @@ extension HomeViewController {
             .map { $0.sections }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
-                guard let dataSource = owner.dataSource else { return }
                 
                 var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
                 snapshot.appendSections(sections)
                         
                 sections.forEach { section in
-                    switch section {
-                    case .topSection(let topSectionItem):
-                        snapshot.appendItems(topSectionItem, toSection: section)
-                        
-                    case .recommendSection(_, let items):                        snapshot.appendItems(items, toSection: section)
-                    }
+                    snapshot.appendItems(section.items, toSection: section)
                 }
     
                 DispatchQueue.main.async {
-                    dataSource.apply(snapshot)
+                    owner.dataSource.apply(snapshot)
                 }
                 
             }).disposed(by: disposeBag)
@@ -198,7 +192,7 @@ extension HomeViewController {
             }
         })
         
-        dataSource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
             
             var header = UICollectionReusableView()
             

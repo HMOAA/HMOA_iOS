@@ -74,6 +74,38 @@ extension BrandListSection: Hashable {
         }
     }
     
+    var items: [BrandCell] {
+            switch self {
+            case .first(let items):
+                return items
+            case .second(let items):
+                return items
+            case .third(let items):
+                return items
+            case .fourth(let items):
+                return items
+            case .fifth(let items):
+                return items
+            case .sixth(let items):
+                return items
+            case .seventh(let items):
+                return items
+            case .eighth(let items):
+                return items
+            case .ninth(let items):
+                return items
+            case .tenth(let items):
+                return items
+            case .eleventh(let items):
+                return items
+            case .twelfth(let items):
+                return items
+            case .thirteenth(let items):
+                return items
+            case .fourtheenth(let items):
+                return items
+            }
+        }
     
     var consonant: String {
         switch self {

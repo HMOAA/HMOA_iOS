@@ -67,10 +67,7 @@ extension TotalPerfumeViewController {
                 
                 snapshot.appendSections(sections)
                 sections.forEach { section in
-                    switch section {
-                    case .first(let perfumeSectionItem):
-                        snapshot.appendItems(perfumeSectionItem, toSection: section)
-                    }
+                    snapshot.appendItems(section.items, toSection: section)
                 }
                 
                 DispatchQueue.main.async {
