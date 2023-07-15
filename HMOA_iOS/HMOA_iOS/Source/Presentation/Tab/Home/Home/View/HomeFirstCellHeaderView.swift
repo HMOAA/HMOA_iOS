@@ -75,9 +75,9 @@ extension HomeFirstCellHeaderView {
             .bind(to: titleLabel.rx.text)
             .disposed(by: disposeBag)
         
-        reactor.state
-            .map { $0.isPersentMoreVC }
-            .distinctUntilChanged()
-            .compactMap { $0 }
+    }
+    
+    func bindUI(title: String) {
+        titleLabel.text = title
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct PerfumeDetail:  Equatable {
+struct PerfumeDetail: Equatable, Hashable {
     let perfumeId: Int
     let perfumeImage: UIImage
     let likeCount: Int

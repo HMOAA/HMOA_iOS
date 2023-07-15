@@ -11,13 +11,12 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
-import RxDataSources
 
 class BrandSearchViewController: UIViewController, View {
     typealias Reactor = BrandSearchReactor
 
     // MARK: - Properties
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<BrandListSection>!
+    private var dataSource: UICollectionViewDiffableDataSource<BrandListSection, BrandCell>!
     
     var disposeBag = DisposeBag()
     
@@ -67,8 +66,18 @@ extension BrandSearchViewController {
             .disposed(by: disposeBag)
         
         // 브랜드 Cell 클릭
-        collectionView.rx.modelSelected(BrandCell.self)
-            .map { Reactor.Action.didTapItem($0.brand) }
+        collectionView.rx.itemSelected
+            .map {
+                let item = self.dataSource.itemIdentifier(for: $0)
+                switch item {
+                case .BrandItem(let brand):
+                    return brand
+                case .none:
+                    return nil
+                }
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.didTapItem($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -84,7 +93,19 @@ extension BrandSearchViewController {
         // CollectionView 바인딩
         reactor.state
             .map { $0.sections }
-            .bind(to: self.collectionView.rx.items(dataSource: self.dataSource))
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, sections in
+                var snapshot = NSDiffableDataSourceSnapshot<BrandListSection, BrandCell>()
+                snapshot.appendSections(sections)
+                
+                sections.forEach { section in
+                    snapshot.appendItems(section.items, toSection: section)
+                }
+                
+                DispatchQueue.main.async {
+                    owner.dataSource.apply(snapshot)
+                }
+            })
             .disposed(by: disposeBag)
         
         // 이전 화면으로 이동
@@ -139,7 +160,7 @@ extension BrandSearchViewController {
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource<BrandListSection>(configureCell: { _, collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<BrandListSection, BrandCell>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
             case .BrandItem(let brand):
                 
@@ -150,14 +171,16 @@ extension BrandSearchViewController {
                 return brandCell
             }
             
-        }, configureSupplementaryView: { (_, collectionview, kind, indexPath) -> UICollectionReusableView in
-          
+        })
+        
+        dataSource.supplementaryViewProvider = { (collectionview, kind, indexPath) -> UICollectionReusableView in
+            
             guard let header = collectionview.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandListHeaderView.identifier, for: indexPath) as? BrandListHeaderView else { return UICollectionReusableView() }
             
             header.updateUI(self.reactor!.currentState.sections[indexPath.section].consonant)
             
             return header
-        })
+        }
     }
 }
 

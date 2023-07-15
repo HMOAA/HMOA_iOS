@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BrandInfo: Equatable {
+struct BrandInfo: Equatable, Hashable {
     var brandId: Int
     var koreanName: String
     var EnglishName: String

@@ -17,7 +17,7 @@ enum BrandDetailSectionItem {
     case perfumeList(Perfume)
 }
 
-extension BrandDetailSection: SectionModelType {
+extension BrandDetailSection: Hashable {
 
     
     typealias Item = BrandDetailSectionItem
@@ -28,11 +28,13 @@ extension BrandDetailSection: SectionModelType {
             return items
         }
     }
-    
-    init(original: BrandDetailSection, items: [BrandDetailSectionItem]) {
-        switch original {
-        case .first:
-            self = .first(items)
+}
+
+extension BrandDetailSectionItem: Hashable {
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .perfumeList(let perfume):
+            hasher.combine(perfume)
         }
     }
 }

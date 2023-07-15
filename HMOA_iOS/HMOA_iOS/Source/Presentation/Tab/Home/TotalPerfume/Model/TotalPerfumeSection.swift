@@ -6,41 +6,37 @@
 //
 
 import Foundation
-import RxDataSources
 
-enum TotalPerfumeSection {
+enum TotalPerfumeSection{
     case first([TotalPerfumeSectionItem])
 }
 
 enum TotalPerfumeSectionItem {
-    case perfumeList(BrandDetailCellReactor)
+    case perfumeList(Perfume)
 }
 
-extension TotalPerfumeSectionItem {
-
+extension TotalPerfumeSectionItem: Hashable {
+    
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .perfumeList(let perpume):
+            hasher.combine(perpume)
+        }
+    }
+    
     var perfume: Perfume {
         switch self {
-        case .perfumeList(let reactor):
-            return reactor.currentState.perfume
+        case .perfumeList(let perfume):
+            return perfume
         }
     }
 }
 
-extension TotalPerfumeSection: SectionModelType {
-    typealias Item = TotalPerfumeSectionItem
-    
-    
-    var items: [Item] {
+extension TotalPerfumeSection: Hashable {
+    var items: [TotalPerfumeSectionItem] {
         switch self {
-        case .first(let items):
-            return items
-        }
-    }
-    
-    init(original: TotalPerfumeSection, items: [Item]) {
-        switch original {
-        case .first:
-            self = .first(items)
+        case .first(let item):
+            return item
         }
     }
 }
