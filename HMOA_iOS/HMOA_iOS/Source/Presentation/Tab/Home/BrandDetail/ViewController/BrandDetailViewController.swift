@@ -68,10 +68,7 @@ extension BrandDetailViewController {
                 var snapshot = NSDiffableDataSourceSnapshot<BrandDetailSection, BrandDetailSectionItem>()
                 snapshot.appendSections(sections)
                 sections.forEach { section in
-                    switch section {
-                    case .first(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    }
+                    snapshot.appendItems(section.items, toSection: section)
                 }
                 
                 DispatchQueue.main.async {

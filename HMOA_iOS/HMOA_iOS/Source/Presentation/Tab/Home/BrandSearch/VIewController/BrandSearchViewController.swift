@@ -99,40 +99,11 @@ extension BrandSearchViewController {
                 snapshot.appendSections(sections)
                 
                 sections.forEach { section in
-                    switch section {
-                    case .first(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .second(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .third(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .fourth(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .fifth(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .sixth(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .seventh(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .eighth(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .ninth(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .tenth(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .eleventh(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .twelfth(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .thirteenth(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    case .fourtheenth(let brand):
-                        snapshot.appendItems(brand, toSection: section)
-                    }
-                    
-                    DispatchQueue.main.async {
-                        owner.dataSource.apply(snapshot)
-                    }
+                    snapshot.appendItems(section.items, toSection: section)
+                }
+                
+                DispatchQueue.main.async {
+                    owner.dataSource.apply(snapshot)
                 }
             })
             .disposed(by: disposeBag)
