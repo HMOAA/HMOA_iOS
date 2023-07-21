@@ -22,18 +22,33 @@ public func networking<T: Decodable>(
     urlStr: String,
     method: HTTPMethod,
     data: Data?,
-    model: T.Type) -> Observable<T> {
+    model: T.Type,
+    query: [String: Any]? = nil) -> Observable<T> {
     
     return Observable<T>.create { observer in
 
-        // TODO: 도메인 생성되면 baseURL로 따로 빼서 정의
-        guard let url = URL(string: baseURL.url + urlStr) else {
+        //get Parameter를 위한 url Component
+        guard var urlComponents = URLComponents(string: baseURL.url + urlStr) else {
             observer.onError(NetworkError.invalidURL)
             return Disposables.create()
         }
+        
+        //parameter 추가
+        if let parameters = query {
+            urlComponents.queryItems = parameters.map { key, value in
+                URLQueryItem(name: key, value: "\(value)")
+            }
+        }
+               
+        // URL 생성 실패 처리
+        guard let url = urlComponents.url else {
+            observer.onError(NetworkError.invalidURL)
+            return Disposables.create()
+        }
+        
         var reqeust = URLRequest(url: url)
         reqeust.setValue("application/json", forHTTPHeaderField: "Content-Type")
-         
+        
         reqeust.httpBody = data
         reqeust.method = method
 
@@ -42,7 +57,6 @@ public func networking<T: Decodable>(
             .responseDecodable(of: model.self) { response in
                 switch response.result {
                 case .success(let data):
-                    print(data)
                     observer.onNext(data)
                     observer.onCompleted()
                 case .failure(let error):
