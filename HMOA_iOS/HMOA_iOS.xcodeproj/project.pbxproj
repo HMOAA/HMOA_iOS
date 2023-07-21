@@ -176,6 +176,9 @@
 		CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */; };
 		CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1C29C2FFF6005BC997 /* LikeListCell.swift */; };
 		CAE5F2A029F1109800BAF313 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE5F29F29F1109800BAF313 /* Response.swift */; };
+		CAF19B9C2A625D1300374038 /* SearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19B9B2A625D1300374038 /* SearchAPI.swift */; };
+		CAF19B9E2A625D2100374038 /* SearchAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19B9D2A625D2100374038 /* SearchAddress.swift */; };
+		CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19BA22A625F7600374038 /* SearchPerfume.swift */; };
 		CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450729AB7DC300ACF2C1 /* YearModel.swift */; };
 		CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */; };
 		CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */; };
@@ -378,6 +381,9 @@
 		CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCardCell.swift; sourceTree = "<group>"; };
 		CAD18E1C29C2FFF6005BC997 /* LikeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListCell.swift; sourceTree = "<group>"; };
 		CAE5F29F29F1109800BAF313 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		CAF19B9B2A625D1300374038 /* SearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPI.swift; sourceTree = "<group>"; };
+		CAF19B9D2A625D2100374038 /* SearchAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddress.swift; sourceTree = "<group>"; };
+		CAF19BA22A625F7600374038 /* SearchPerfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPerfume.swift; sourceTree = "<group>"; };
 		CAFA450729AB7DC300ACF2C1 /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
 		CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearViewController.swift; sourceTree = "<group>"; };
 		CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -1106,6 +1112,7 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				CAF19B9A2A625CEF00374038 /* Search */,
 				2C8318C52A0FC6BD004A3ACD /* Home */,
 				2CA155AA2A039A1E00D7B0C0 /* Login */,
 				2CA155A22A0391D800D7B0C0 /* Member */,
@@ -1468,6 +1475,24 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		CAF19B9A2A625CEF00374038 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				CAF19B9F2A625E6D00374038 /* Model */,
+				CAF19B9B2A625D1300374038 /* SearchAPI.swift */,
+				CAF19B9D2A625D2100374038 /* SearchAddress.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		CAF19B9F2A625E6D00374038 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CAF19BA22A625F7600374038 /* SearchPerfume.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CAFA450629AB7D9B00ACF2C1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1753,6 +1778,7 @@
 				2CC12C7D2A2CCC09003B3A60 /* String++Extension.swift in Sources */,
 				CA5DB81929EAA6F500BE0F79 /* LoginModel.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
+				CAF19B9E2A625D2100374038 /* SearchAddress.swift in Sources */,
 				CA34781B29E2DAE300334070 /* HPediaGuideHeaderCell.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
@@ -1768,6 +1794,7 @@
 				CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */,
 				CA6D99E629C492B4000E80CF /* LikeListModel.swift in Sources */,
 				2CA155A42A03921000D7B0C0 /* MemberAPI.swift in Sources */,
+				CAF19B9C2A625D1300374038 /* SearchAPI.swift in Sources */,
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
@@ -1856,6 +1883,7 @@
 				CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */,
 				CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */,
 				2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */,
+				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
 				2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */,
 				2CD023552A07B5A500459801 /* ChangeNicknameViewController.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SearchResultCollectionViewCell: UICollectionViewCell {
     
@@ -15,9 +16,7 @@ class SearchResultCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UI Component
     
-    lazy var productImageView = UIImageView().then {
-        $0.backgroundColor = .customColor(.gray3)
-    }
+    lazy var productImageView = UIImageView()
     
     var titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 14)
@@ -74,9 +73,9 @@ extension SearchResultCollectionViewCell {
         }
     }
     
-    func updateCell(_ product: Perfume) {
-//        self.productImageView.image = product.image
-        self.titleLabel.text = product.titleName
-        self.contentLabel.text = product.content
+    func updateCell(_ product: SearchPerfume) {
+        self.productImageView.kf.setImage(with: URL(string: product.perfumeImageUrl))
+        self.titleLabel.text = product.perfumeName
+        self.contentLabel.text = product.brandName
     }
 }
