@@ -24,7 +24,7 @@ class SearchViewController: UIViewController, View {
     private lazy var listVC = SearchListViewController()
     private lazy var ResultVC = SearchResultViewController()
     private lazy var containerView = UIView()
-    
+    private var previousSection: Int = -1
     lazy var backButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
     
     lazy var searchBar = UISearchBar().then {
@@ -235,6 +235,8 @@ extension SearchViewController {
         
         view.backgroundColor = .white
         
+        
+        
         listVC.tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
@@ -296,11 +298,20 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 34
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.item == tableView.numberOfRows(inSection: tableView.numberOfSections - 1) - 1 {
+            reactor?.action.onNext(.scrollTableView(indexPath))
+            print(indexPath.item + 1)
+        }
+    }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension SearchViewController: UICollectionViewDelegateFlowLayout {
+extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -312,4 +323,12 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if indexPath.item == collectionView.numberOfItems(inSection: collectionView.numberOfSections - 1) - 1 {
+            reactor?.action.onNext(.scrollCollectionView(indexPath))
+        }
+    }
+    
 }

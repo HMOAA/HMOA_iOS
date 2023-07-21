@@ -21,6 +21,8 @@ class SearchReactor: Reactor {
         case didTapSearchListCell(IndexPath)
         case didTapSearchResultCell(IndexPath)
         case didClearTextField
+        case scrollCollectionView(IndexPath)
+        case scrollTableView(IndexPath)
     }
     
     enum Mutation {
@@ -32,12 +34,14 @@ class SearchReactor: Reactor {
         case setKeyword([String])
         case setList([String])
         case setContent(String)
-        case setResultProduct([Perfume])
+        case setResultProduct([SearchPerfume])
         case setProductButtonState(Bool)
         case setBrandButtonState(Bool)
         case setPostButtonState(Bool)
         case setHpediaButtonState(Bool)
         case setSelectedPerfumeId(Int?)
+        case setRecentResultPage(Int)
+        case setRecentListPage(Int)
     }
     
     struct State {
@@ -48,7 +52,7 @@ class SearchReactor: Reactor {
         var isEndTextField: Bool = false
         var keywords: [String] = []
         var lists: [String] = [] // 연관 검색어 리스트
-        var resultProduct: [Perfume] = []
+        var resultProduct: [SearchPerfume] = []
         var nowPage: Int = 1 // 현재 보여지고 있는 페이지
         var prePage: Int = 0 // 이전 페이지
         var isSelectedProductButton: Bool = true
@@ -56,6 +60,8 @@ class SearchReactor: Reactor {
         var isSelectedPostButton: Bool = false
         var isSelectedHpediaButton: Bool = false
         var selectedPerfumeId: Int? = nil
+        var recentResultPage: Int = -1
+        var recentListPage: Int = -1
     }
     
     var initialState = State()
@@ -110,7 +116,14 @@ class SearchReactor: Reactor {
                 .just(.setSelectedPerfumeId(currentState.resultProduct[indexPath.item].perfumeId)),
                 .just(.setSelectedPerfumeId(nil))
             ])
+            
+        case .scrollCollectionView(let indexPath):
+            return self.requestResultPaging((indexPath.item + 1) / 6, currentState.listContent)
+        //TODO: - 향수 이름 list api 개수 바꿔주기
+        case .scrollTableView(let indexPath):
+            return self.requestListPaging((indexPath.item + 1) / 10, currentState.content)
         }
+        
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
@@ -182,6 +195,12 @@ class SearchReactor: Reactor {
             
         case .setSelectedPerfumeId(let perfumeId):
             state.selectedPerfumeId = perfumeId
+            
+        case .setRecentResultPage(let page):
+            state.recentResultPage = page
+            
+        case .setRecentListPage(let page):
+            state.recentListPage = page
         }
         
         return state
@@ -192,45 +211,91 @@ extension SearchReactor {
     
     func reqeustList(_ content: String) -> Observable<Mutation> {
         
-        // TODO: - content값으로 서버 통신해서 검색어 받아오기
         print("입력한 값:", content)
-
-        let data =  ["랑방 모던 프린세스",
-                     "랑방 블루 오키드",
-                     "랑방 워터 릴리",
-                     "랑방 잔느",
-                     "랑방 블루 오키드",
-                     "랑방 워터 릴리",
-                     "랑방 잔느",
-                     "랑방 블루 오키드",
-                     "랑방 워터 릴리",
-                     "랑방 잔느"]
+        let params: [String: Any] = [
+            "page": 0,
+            "searchWord": content
+        ]
         
-        return .concat([
-            .just(.setList(data)),
-            .just(.setContent(content))
-        ])
+        return SearchAPI.getPerfumeName(params: params)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                var perfumeNames = [String]()
+                data.forEach {
+                    let name = $0.perfumeName
+                    perfumeNames.append(name)
+                }
+                return .concat([
+                    .just(.setList(perfumeNames)),
+                    .just(.setContent(content))
+                ])
+            }
+    }
+    
+    func requestListPaging(_ page: Int, _ content: String) -> Observable<Mutation> {
+        
+        if page == currentState.recentListPage {
+            return .empty()
+        }
+        
+        let params: [String: Any] = [
+            "page": page,
+            "searchWord": content
+        ]
+
+        return SearchAPI.getPerfumeName(params: params)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                var perfumeNames = self.currentState.lists
+                data.forEach {
+                    let name = $0.perfumeName
+                    perfumeNames.append(name)
+                }
+                return .concat([
+                    .just(.setList(perfumeNames)),
+                    .just(.setContent(content)),
+                    .just(.setRecentListPage(page))
+                ])
+            }
     }
     
     func requestResult(_ content: String) -> Observable<Mutation> {
+        let params: [String: Any] = [
+            "page": 0,
+            "searchWord": content
+        ]
+        return SearchAPI.getPerfumeInfo(params: params)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                var perfumes = [SearchPerfume]()
+                data.forEach {
+                    perfumes.append($0)
+                }
+                return .just(.setResultProduct(perfumes))
+            }
+    }
+    
+    func requestResultPaging(_ page: Int, _ content: String) -> Observable<Mutation> {
         
-        // TODO: - 입력받은 content값으로 서버 통신해서 결과값 받아오기
-        print("검색하는 값:", content)
+        if page == currentState.recentResultPage {
+            return .empty()
+        }
         
-        let data: [Perfume] = [
-            Perfume(perfumeId: 1, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 2, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 3, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 4, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 5, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 6, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 7, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 8, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 9, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 10, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 11, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false),
-            Perfume(perfumeId: 12, titleName: "랑방", content: "랑방 모던프린세스 블루밍 오 드 뚜왈렛", image: UIImage(named: "jomalon")!, isLikePerfume: false)]
-        
-        return .just(.setResultProduct(data))
+        let params: [String: Any] = [
+            "page": page,
+            "searchWord": content
+        ]
+        return SearchAPI.getPerfumeInfo(params: params)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                var perfumes = self.currentState.resultProduct
+                data.forEach {
+                    perfumes.append($0)
+                }
+                return .concat([
+                    .just(.setResultProduct(perfumes)),
+                    .just(.setRecentResultPage(page))
+                ])
+            }
     }
 }
