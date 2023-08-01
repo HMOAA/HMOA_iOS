@@ -58,6 +58,10 @@ extension BrandSearchViewController {
         configureCollectionViewDataSource()
 
         // MARK: - Action
+        rx.viewDidLoad
+            .map { Reactor.Action.scrollCollectionView(1) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // 뒤로가기 버튼 클릭
         backButton.rx.tap
@@ -203,6 +207,13 @@ extension BrandSearchViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 40)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if indexPath.section + 1 != 1 {
+            reactor?.action.onNext(.scrollCollectionView(indexPath.section + 1))
+        }
     }
 }
 

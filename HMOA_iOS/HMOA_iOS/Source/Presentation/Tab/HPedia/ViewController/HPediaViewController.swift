@@ -112,6 +112,7 @@ extension HPediaViewController {
                 return cell
             }
         })
+        
         datasource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
             switch indexPath.section {
             case 0:

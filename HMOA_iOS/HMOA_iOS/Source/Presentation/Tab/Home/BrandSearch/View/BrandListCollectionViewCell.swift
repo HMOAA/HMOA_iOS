@@ -55,6 +55,7 @@ extension BrandListCollectionViewCell {
     }
     
     func updateCell(_ item: Brand)  {
-        self.brandLabel.text = item.brandName
+        brandLabel.text = item.brandName
+        brandImageView.kf.setImage(with: URL(string: item.brandImageUrl))
     }
 }

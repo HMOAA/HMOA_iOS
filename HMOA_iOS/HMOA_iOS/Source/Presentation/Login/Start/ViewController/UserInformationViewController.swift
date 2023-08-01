@@ -88,6 +88,7 @@ class UserInformationViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setUpConstraints()
+        bind(reactor: self.reactor)
     }
     
     override func viewDidLayoutSubviews() {

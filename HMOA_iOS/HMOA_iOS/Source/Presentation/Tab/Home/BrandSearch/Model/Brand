@@ -10,11 +10,9 @@ struct BrandList: Equatable, Hashable {
     var brands: [Brand]
 }
 
-struct Brand: Equatable, Hashable, Codable {
-    let brandId: Int
-    let brandImageUrl: String
-    let brandName: String
-    let englishName: String
+struct Brand: Equatable, Hashable {
+    var brandId: Int
+    var brandName: String
 }
 
 extension BrandList {
