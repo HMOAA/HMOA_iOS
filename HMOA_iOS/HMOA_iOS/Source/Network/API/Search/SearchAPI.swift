@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 
 final class SearchAPI {
+    
     static func getPerfumeName(params: [String: Any]) -> Observable<[SearchPerfumeName]> {
         return networking(
             urlStr: SearchAddress.getPerfumeName.url,
@@ -18,6 +19,7 @@ final class SearchAPI {
             query: params
         )
     }
+    
     static func getPerfumeInfo(params: [String: Any]) -> Observable<[SearchPerfume]> {
         return networking(
             urlStr: SearchAddress.getPerfumeInfo.url,
@@ -27,4 +29,15 @@ final class SearchAPI {
             query: params
         )
     }
+    
+    static func getBrandPaging(query: [String: Int]) -> Observable<[Brand]> {
+        return networking(
+            urlStr: SearchAddress.fetchBrandAll.url,
+            method: .get,
+            data: nil,
+            model: [Brand].self,
+            query: query
+        )
+    }
+    
 }
