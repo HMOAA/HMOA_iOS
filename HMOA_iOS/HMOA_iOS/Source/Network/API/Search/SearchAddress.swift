@@ -10,6 +10,7 @@ import Foundation
 enum SearchAddress {
     case getPerfumeName
     case getPerfumeInfo
+    case fetchBrandAll
 }
 
 extension SearchAddress {
@@ -19,6 +20,8 @@ extension SearchAddress {
             return "search/perfumeName"
         case .getPerfumeInfo:
             return "search/perfume"
+        case .fetchBrandAll:
+            return "search/brandAll"
         }
     }
 }
