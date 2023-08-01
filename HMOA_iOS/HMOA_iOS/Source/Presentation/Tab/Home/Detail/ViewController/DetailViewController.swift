@@ -188,11 +188,13 @@ extension DetailViewController {
                     .disposed(by: self.disposeBag)
                 
                 return perfumeInfoCell
+                
             case .commentCell(let comment, _):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 commentCell.updateCell(comment)
                 return commentCell
+                
             case .recommendCell(let recommend, _):
                 guard let similarCell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarCell.identifier, for: indexPath) as? SimilarCell else { return UICollectionViewCell() }
                 
@@ -201,6 +203,7 @@ extension DetailViewController {
 
             }
         })
+        
         dataSource.supplementaryViewProvider = {collectionView, kind, indexPath -> UICollectionReusableView in
             var header = UICollectionReusableView()
             
