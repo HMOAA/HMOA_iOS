@@ -122,6 +122,11 @@ class LikeViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        cardCollectionView.rx.itemSelected
+            .map { LikeReactor.Action.didTapCardItem($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //Output
         
         //cardCollectionView Binding
@@ -183,6 +188,14 @@ class LikeViewController: UIViewController, View {
                 owner.listButton.isSelected = result
                 
             })
+            .disposed(by: disposeBag)
+        
+        //card 향수 디테일 페이지로 이동
+        reactor.state
+            .map { $0.selectedPerfumeId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
       
     }
