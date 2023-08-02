@@ -58,7 +58,7 @@ final class DetailViewReactor: Reactor {
             ])
         case .didTapCell(let item):
             
-            if item.section == 1 {
+            if item.section == 2 {
                 return .concat([
                     .just(.setSelectedComment(item.id)),
                     .just(.setSelectedComment(nil))
@@ -172,6 +172,8 @@ extension DetailViewReactor {
         let topItem = DetailSectionItem.topCell(perfumeDetail, 0)
         let topSection = DetailSection.top(topItem)
         
+        let evaluationSection = DetailSection.evaluation(DetailSectionItem.evaluationCell(1))
+        
         let commentItem = commentItems.map { DetailSectionItem.commentCell($0, $0.commentId) }
         
         let commentSections = DetailSection.comment(commentItem)
@@ -179,6 +181,6 @@ extension DetailViewReactor {
         let recommed = recommendItems.map { DetailSectionItem.recommendCell($0, $0.id) }
         let recommendSections = DetailSection.recommend(recommed)
         
-        return [topSection, commentSections, recommendSections]
+        return [topSection, evaluationSection, commentSections, recommendSections]
     }
 }
