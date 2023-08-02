@@ -20,6 +20,7 @@ class DetailView: UIView {
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
         $0.register(PerfumeInfoCell.self, forCellWithReuseIdentifier: PerfumeInfoCell.identifier)
         $0.register(SimilarCell.self, forCellWithReuseIdentifier: SimilarCell.identifier)
+        $0.register(EvaluationCell.self, forCellWithReuseIdentifier: EvaluationCell.identifier)
     }
     
     // MARK: - Lifecycle
@@ -52,6 +53,16 @@ extension DetailView {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(1200)))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(1200)), subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        return section
+    }
+    
+    func perfumeEvaluationCellCompositionalLayout() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(488)))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(488)), subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         
@@ -103,6 +114,8 @@ extension DetailView {
             case 0:
                 return self.perfumeInfoCellCompositionalLayout()
             case 1:
+                return self.perfumeEvaluationCellCompositionalLayout()
+            case 2:
                 return self.commentCellCompositionalLayout()
             default:
                 return self.similarCellCompositionalLayout()
