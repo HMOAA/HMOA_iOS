@@ -96,6 +96,7 @@ extension DetailViewController {
                 sections.forEach { section in
                     snapshot.appendItems(section.items, toSection: section)
                 }
+                
                 DispatchQueue.main.async {
                     owner.dataSource.apply(snapshot)
                 }
@@ -186,8 +187,10 @@ extension DetailViewController {
                     .distinctUntilChanged()
                     .bind(to: self.bottomView.likeButton.rx.isSelected)
                     .disposed(by: self.disposeBag)
-                
                 return perfumeInfoCell
+            case .evaluationCell(_):
+                guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
+                return evaluationCell
                 
             case .commentCell(let comment, _):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
@@ -206,9 +209,9 @@ extension DetailViewController {
         
         dataSource.supplementaryViewProvider = {collectionView, kind, indexPath -> UICollectionReusableView in
             var header = UICollectionReusableView()
-            
+        
             switch indexPath.section {
-            case 1:
+            case 2:
                 guard let commentHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentHeaderView.identifier, for: indexPath) as? CommentHeaderView else { return UICollectionReusableView() }
                 
                 header = commentHeader
