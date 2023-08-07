@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Member: Codable {
+struct Member: Codable, Hashable {
     var age: Int
     var memberImageUrl: String
     var memberId: Int

@@ -97,9 +97,10 @@ extension MyPageUserCell {
         }
     }
     
-    func updateCell(_ member: Member) {
+    func updateCell(_ member: Member, _ image: UIImage?) {
         
         nickNameLabel.text = member.nickname
         loginTypeLabel.text = member.provider
+        profileImage.image = image
     }
 }

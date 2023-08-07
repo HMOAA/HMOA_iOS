@@ -10,7 +10,6 @@ import SnapKit
 import ReactorKit
 import RxSwift
 import RxCocoa
-import RxDataSources
 import RxAppState
 
 class MyPageViewController: UIViewController, View {
@@ -21,7 +20,7 @@ class MyPageViewController: UIViewController, View {
     // MARK: - UI Component
     let myPageView = MyPageView()
 
-    var dataSource: RxTableViewSectionedReloadDataSource<MyPageSection>!
+    var dataSource: UITableViewDiffableDataSource<MyPageSection, MyPageSectionItem>!
     
     init(reactor: MyPageReactor) {
         self.reactor = reactor
@@ -69,8 +68,19 @@ extension MyPageViewController {
         // tableView 바인딩
         reactor.state
             .map { $0.sections }
-            .bind(to: myPageView.tableView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, sections in
+                var snapshot = NSDiffableDataSourceSnapshot<MyPageSection, MyPageSectionItem>()
+                
+                snapshot.appendSections(sections)
+                sections.forEach { section in
+                    snapshot.appendItems(section.items, toSection: section)
+                }
+                
+                DispatchQueue.main.async {
+                    owner.dataSource.apply(snapshot)
+                }
+            }).disposed(by: disposeBag)
         
         // cell 클릭 시 화면 전환
         reactor.state
@@ -97,17 +107,18 @@ extension MyPageViewController {
     }
     
     func configureDataSource() {
-        dataSource = RxTableViewSectionedReloadDataSource<MyPageSection>(configureCell: { _, tableView, indexPath, item in
+        dataSource = UITableViewDiffableDataSource(tableView: myPageView.tableView, cellProvider: { tableView, indexPath, item in
             
             switch item {
-            case .memberCell(let reactor):
+            case .memberCell(let member, let profileImage):
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageUserCell.identifier, for: indexPath) as? MyPageUserCell else { return UITableViewCell() }
                 
-                cell.reactor = reactor
+                cell.updateCell(member, profileImage)
                 cell.selectionStyle = .none
                 
                 return cell
+                
             case .otherCell(let title):
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
