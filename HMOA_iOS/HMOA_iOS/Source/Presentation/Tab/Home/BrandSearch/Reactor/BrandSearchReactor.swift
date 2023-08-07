@@ -24,6 +24,7 @@ class BrandSearchReactor: Reactor {
         case setRequestData([BrandList])
         case setSearchResult(String)
         case setSection([BrandListSection])
+        case setLoadedPage(Int)
         
     }
     
@@ -43,6 +44,7 @@ class BrandSearchReactor: Reactor {
         var brandList: [BrandListSection] = []
         var searchResult: [BrandListSection] = []
         var isFiltering: Bool = false
+        var loadedPage: Set<Int> = []
     }
     
     init() {
@@ -97,6 +99,9 @@ class BrandSearchReactor: Reactor {
         
         case .setRequestData(let brandList):
             state.reqeustData = brandList
+            
+        case .setLoadedPage(let page):
+            state.loadedPage.insert(page)
         }
         
         
@@ -107,11 +112,17 @@ class BrandSearchReactor: Reactor {
 extension BrandSearchReactor {
     
     func reqeustBrandList(consonant: Int) -> Observable<Mutation> {
+        if currentState.loadedPage.contains(consonant) { return .empty() }
         
         return SearchAPI.getBrandPaging(query: ["consonant": consonant])
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                let brand = BrandList(consonant: consonant, brands: data)
+                var brand: BrandList!
+                if data.isEmpty {
+                    brand = BrandList(consonant: consonant, brands: [Brand(brandId: 0, brandImageUrl: "", brandName: "", englishName: "")])
+                } else {
+                    brand = BrandList(consonant: consonant, brands: data)
+                }
                 var newBrandList = self.currentState.reqeustData
                 newBrandList.append(brand)
                 var newSections = self.currentState.sections
@@ -119,7 +130,8 @@ extension BrandSearchReactor {
                 
                 return .concat([
                     .just(.setRequestData(newBrandList)),
-                    .just(.setSection(newSections))
+                    .just(.setSection(newSections)),
+                    .just(.setLoadedPage(consonant))
                 ])
             }
     }
