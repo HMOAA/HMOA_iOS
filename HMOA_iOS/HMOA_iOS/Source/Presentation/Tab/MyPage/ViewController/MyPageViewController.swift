@@ -16,9 +16,11 @@ class MyPageViewController: UIViewController, View {
 
     var reactor: MyPageReactor
     var disposeBag = DisposeBag()
-
+    let loginManger = LoginManager.shared
+    
     // MARK: - UI Component
     let myPageView = MyPageView()
+    let noLoginView = NoLoginView()
 
     var dataSource: UITableViewDiffableDataSource<MyPageSection, MyPageSectionItem>!
     
@@ -57,13 +59,14 @@ extension MyPageViewController {
             .map { Reactor.Action.didTapCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
-        Observable.just(())
-          .map { Reactor.Action.viewDidLoad }
-          .bind(to: reactor.action)
-          .disposed(by: self.disposeBag)
         
         // MARK: - state
+        
+        loginManger.isLogin
+            .bind(with: self, onNext: { owner, isLogin in
+                owner.setFirstView(isLogin)
+            })
+            .disposed(by: disposeBag)
         
         // tableView 바인딩
         reactor.state
@@ -94,8 +97,11 @@ extension MyPageViewController {
     }
     
     func configureUI() {
-            
-        view.addSubview(myPageView)
+        noLoginView.isHidden = true
+        [
+            myPageView,
+            noLoginView
+        ] .forEach { view.addSubview($0) }
         
         myPageView.tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -103,6 +109,10 @@ extension MyPageViewController {
         myPageView.snp.makeConstraints {
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
+        }
+        
+        noLoginView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -174,14 +184,24 @@ extension MyPageViewController {
             break
         case .logout:
             KeychainManager.delete()
-            let loginVC = LoginViewController()
-            loginVC.reactor = LoginReactor()
-            loginVC.modalPresentationStyle = .fullScreen
             LoginManager.shared.tokenSubject.onNext(nil)
-            present(loginVC, animated: true)
             break
         case .deleteAccount:
             break
+        }
+    }
+    
+    func setFirstView(_ isLogin: Bool) {
+        if !isLogin {
+            noLoginView.isHidden = false
+            myPageView.isHidden = true
+        } else {
+            Observable.just(())
+              .map { Reactor.Action.viewDidLoad }
+              .bind(to: reactor.action)
+              .disposed(by: self.disposeBag)
+            noLoginView.isHidden = true
+            myPageView.isHidden = false
         }
     }
 }
