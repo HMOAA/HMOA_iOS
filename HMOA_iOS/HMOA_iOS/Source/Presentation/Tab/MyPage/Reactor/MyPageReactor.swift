@@ -15,6 +15,7 @@ class MyPageReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case didTapGoLoginButton
         case didTapCell(MyPageType)
     }
     
@@ -26,6 +27,7 @@ class MyPageReactor: Reactor {
         case updateNickname(String)
         case updateAge(Int)
         case updateSex(Bool)
+        case setIsTapGoLoginButton(Bool)
     }
     
     struct State {
@@ -40,6 +42,7 @@ class MyPageReactor: Reactor {
         var presentVC: MyPageType? = nil
         var profileImage: UIImage? = nil
         var isTapEditButton: Bool = false
+        var isTapGoLoginButton: Bool = false
     }
     
     init(service: UserServiceProtocol) {
@@ -74,6 +77,11 @@ class MyPageReactor: Reactor {
             return .concat([
                 .just(.setPresentVC(type)),
                 .just(.setPresentVC(nil))
+            ])
+        case .didTapGoLoginButton:
+            return .concat([
+                .just(.setIsTapGoLoginButton(true)),
+                .just(.setIsTapGoLoginButton(false))
             ])
         }
     }
@@ -113,6 +121,8 @@ class MyPageReactor: Reactor {
             
         case .updateSex(let sex):
             state.member.sex = sex
+        case .setIsTapGoLoginButton(let isTap):
+            state.isTapGoLoginButton = isTap
         }
         
         

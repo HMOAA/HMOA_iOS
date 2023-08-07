@@ -60,11 +60,27 @@ extension MyPageViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        //로그인 바로가기 버튼 터치
+        noLoginView.goLoginButton.rx.tap
+            .map { Reactor.Action.didTapGoLoginButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - state
         
+        //로그인 상태에 따른 뷰 보여주기
         loginManger.isLogin
             .bind(with: self, onNext: { owner, isLogin in
                 owner.setFirstView(isLogin)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isTapGoLoginButton }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, _ in
+                owner.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
         
