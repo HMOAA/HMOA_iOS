@@ -49,7 +49,7 @@ extension MyPageViewController {
     
         // MARK: - action
         
-        // tableView 아이템 클릭
+        //tableView 아이템 클릭
         myPageView.tableView.rx.itemSelected
             .compactMap {
                 MyPageType(rawValue: "\($0.section)" + "\($0.row)")
@@ -116,6 +116,20 @@ extension MyPageViewController {
                 
                 cell.updateCell(member, profileImage)
                 cell.selectionStyle = .none
+                let reactor = MemberCellReactor(member: member, profileImage: profileImage)
+                cell.reactor = reactor
+                cell.setupButtonTapHandling()
+                //프로필 수정 버튼 터치 이벤트
+                cell.reactor!.state
+                    .map { $0.isTapEditButton }
+                    .distinctUntilChanged()
+                    .filter { $0 }
+                    .bind(with: self) { owner, _ in
+                        let changeProfileReactor = self.reactor.reactorForMyProfile()
+                        let changeProfileVC = ChangeProfileImageViewController()
+                        changeProfileVC.reactor = changeProfileReactor
+                        owner.navigationController?.pushViewController(changeProfileVC, animated: true)
+                    }.disposed(by: self.disposeBag)
                 
                 return cell
                 
@@ -134,14 +148,23 @@ extension MyPageViewController {
     func presentNextVC(_ type: MyPageType) {
         
         switch type {
+        case .myProfile:
+            let changeProfileReactor = self.reactor.reactorForMyProfile()
+            let changeProfileVC = ChangeProfileImageViewController()
+            changeProfileVC.reactor = changeProfileReactor
+            changeProfileVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(changeProfileVC, animated: true)
+            
         case .myLog:
             break
-        case .myProfile:
-            let myProfileReactor = reactor.reactorForMyProfile()
-            let myProfileVC = MyProfileViewController(reactor: myProfileReactor)
             
-            myProfileVC.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(myProfileVC, animated: true)
+        case .myInformation:
+            let myInformationReactor = self.reactor.reactorForMyInformation()
+            let myInformationVC = MyProfileViewController(reactor: myInformationReactor)
+
+            myInformationVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(myInformationVC, animated: true)
+            break
             
         case .openSource:
             break

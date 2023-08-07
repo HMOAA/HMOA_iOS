@@ -117,17 +117,6 @@ extension MyProfileViewController {
     
     func presentNextVC(_ type: MyProfileType) {
         switch type {
-        case .profileImage:
-            let changeProfileIamgeVC = ChangeProfileImageViewController()
-            changeProfileIamgeVC.reactor = reactor.reactorForChangeProfileImage()
-            
-            self.navigationController?.pushViewController(changeProfileIamgeVC, animated: true)
-        case .nickname:
-            let changeNickNameReactor = reactor.reactorForChangeNickname()
-
-            let changeNicknameVC = ChangeNicknameViewController(reactor: changeNickNameReactor)
-            
-            self.navigationController?.pushViewController(changeNicknameVC, animated: true)
         case .year:
             let changeYearReactor = reactor.reactorForChangeYear()
             
@@ -137,8 +126,10 @@ extension MyProfileViewController {
             
             let changeSexVC = ChangeSexViewController()
             changeSexVC.reactor = reactor.reactorForChangeSex()
-            
             self.navigationController?.pushViewController(changeSexVC, animated: true)
+            
+        default:
+            break
         }
     }
 }

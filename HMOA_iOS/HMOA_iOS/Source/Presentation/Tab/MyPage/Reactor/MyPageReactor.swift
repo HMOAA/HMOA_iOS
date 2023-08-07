@@ -39,6 +39,7 @@ class MyPageReactor: Reactor {
             sex: false)
         var presentVC: MyPageType? = nil
         var profileImage: UIImage? = nil
+        var isTapEditButton: Bool = false
     }
     
     init(service: UserServiceProtocol) {
@@ -114,6 +115,7 @@ class MyPageReactor: Reactor {
             state.member.sex = sex
         }
         
+        
         return state
     }
 }
@@ -123,7 +125,7 @@ extension MyPageReactor {
     static func setUpOtherSection() -> [MyPageSection] {
         let second = [
             MyPageType.myLog.title,
-            MyPageType.myProfile.title
+            MyPageType.myInformation.title
             ]   .map { MyPageSectionItem.otherCell($0) }
 
         let thrid = [
@@ -166,8 +168,12 @@ extension MyPageReactor {
             }
     }
     
-    func reactorForMyProfile() -> MyProfileReactor {
-        return MyProfileReactor(service: service, member: currentState.member, profileImage: currentState.profileImage)
+    func reactorForMyProfile() -> ChangeProfileImageReactor {
+        return ChangeProfileImageReactor(service: service, currentImage: currentState.profileImage)
+    }
+    
+    func reactorForMyInformation() -> MyProfileReactor {
+        return MyProfileReactor(service: service, member: currentState.member)
     }
     
     static func downloadImage(url: String) -> Observable<Mutation> {
