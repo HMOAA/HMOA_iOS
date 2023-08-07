@@ -14,19 +14,25 @@ class ChangeProfileImageReactor: Reactor {
     
     enum Action {
         case viewDidLoad
-        case didTapShowAlbumButton
+        case didTapChangeProfileImageButton
         case didSelectedImage(UIImage)
         case didTapChangeButton(UIImage)
+        case didTapDuplicateButton(String?)
+        case didTapTextFieldReturn
     }
     
     enum Mutation {
         case setProfileImageForUIImage(UIImage)
         case showAlbum(Bool)
         case dismiss(Bool)
+        case setNickNameResponse(Response?)
+        case setNickname(String)
+        case setIsDuplicate(Bool)
+        case setIsTapReturn(Bool)
     }
     
     init(service: UserServiceProtocol, currentImage: UIImage?) {
-        self.initialState = State(profileImage: currentImage)
+        self.initialState = State(profileImage: currentImage, currentNickname: "")
         self.service = service
     }
     
@@ -34,6 +40,12 @@ class ChangeProfileImageReactor: Reactor {
         var profileImage: UIImage? = nil
         var isShowAlbum: Bool = false
         var isDismiss: Bool = false
+        var isDuplicate: Bool? = nil
+        var isEnable: Bool = false
+        var isTapReturn: Bool = false
+        var currentNickname: String
+        var nickname: String? = nil
+        var nicknameResponse: Response? = nil
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -42,7 +54,7 @@ class ChangeProfileImageReactor: Reactor {
         case .viewDidLoad:
             return .empty()
             
-        case .didTapShowAlbumButton:
+        case .didTapChangeProfileImageButton:
             return .concat([
                 .just(.showAlbum(true)),
                 .just(.showAlbum(false))
@@ -52,9 +64,33 @@ class ChangeProfileImageReactor: Reactor {
             return .just(.setProfileImageForUIImage(image))
             
         case .didTapChangeButton(let image):
+            guard let nickname = currentState.nickname
+            else { return .just(.setNickNameResponse(nil)) }
             return .concat([
                 ChangeProfileImageReactor.uploadProfileImage(image),
-                service.updateUserImage(to: image).map { _ in .dismiss(false)}
+                service.updateUserImage(to: image).map { _ in .dismiss(false) },
+                MemberAPI.updateNickname(params: ["nickname": nickname])
+                .map { .setNickNameResponse($0) },
+                service.updateUserNickname(to: nickname).map { _ in .dismiss(true) },
+                .just(.setNickNameResponse(nil))
+            ])
+            
+        case .didTapDuplicateButton(let nickname):
+            guard let nickname = nickname
+            else { return .just(.setIsDuplicate(true))}
+            
+            if nickname.isEmpty { return .just(.setIsDuplicate(true))}
+            
+            return .concat([
+                MemberAPI.checkDuplicateNickname(params: ["nickname": nickname])
+                .map { .setIsDuplicate($0) },
+                .just(.setNickname(nickname))
+            ])
+
+        case .didTapTextFieldReturn:
+            return .concat([
+                .just(.setIsTapReturn(true)),
+                .just(.setIsTapReturn(false))
             ])
         }
     }
@@ -66,12 +102,26 @@ class ChangeProfileImageReactor: Reactor {
             
         case .setProfileImageForUIImage(let image):
             newState.profileImage = image
+            newState.isEnable = true
             
         case .showAlbum(let isShow):
             newState.isShowAlbum = isShow
             
         case .dismiss(let isDismiss):
             newState.isDismiss = isDismiss
+            
+        case .setIsDuplicate(let isDuplicate):
+            newState.isDuplicate = isDuplicate
+            newState.isEnable = isDuplicate == false
+            
+        case .setIsTapReturn(let isTapReturn):
+            newState.isTapReturn = isTapReturn
+            
+        case .setNickname(let nickname):
+            newState.nickname = nickname
+            
+        case .setNickNameResponse(let response):
+            newState.nicknameResponse = response
         }
         
         return newState
