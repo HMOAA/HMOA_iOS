@@ -10,7 +10,6 @@ import SnapKit
 import Then
 import RxSwift
 import RxCocoa
-import RxDataSources
 import ReactorKit
 
 class MyProfileViewController: UIViewController, View {
@@ -18,7 +17,7 @@ class MyProfileViewController: UIViewController, View {
     var reactor: MyProfileReactor
     var disposeBag = DisposeBag()
     
-    var dataSource: RxTableViewSectionedReloadDataSource<MyProfileSection>!
+    var dataSource: UITableViewDiffableDataSource<MyProfileSection, MyProfileItem>!
 
     // MARK: - UI Component
     lazy var tableView = UITableView(frame: .zero, style: .plain).then {
@@ -70,7 +69,19 @@ extension MyProfileViewController {
         // tableView 바인딩
         reactor.state
             .map { $0.sections }
-            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, sections in
+                var snapshot = NSDiffableDataSourceSnapshot<MyProfileSection, MyProfileItem>()
+                
+                snapshot.appendSections(sections)
+                sections.forEach { section in
+                    snapshot.appendItems(section.items, toSection: section)
+                }
+                
+                DispatchQueue.main.async {
+                    owner.dataSource.apply(snapshot)
+                }
+            })
             .disposed(by: disposeBag)
         
         // cell 클릭 시 화면 전환
@@ -101,7 +112,7 @@ extension MyProfileViewController {
     }
     
     func configureDataSource() {
-        dataSource = RxTableViewSectionedReloadDataSource<MyProfileSection> (configureCell: { _, tableView, indexPath, item in
+        dataSource = UITableViewDiffableDataSource<MyProfileSection, MyProfileItem>(tableView: tableView, cellProvider: { tableView, indexPath, item in
             
             switch item {
             case .item(let title):
@@ -122,8 +133,8 @@ extension MyProfileViewController {
             
             let changeYearVC = ChangeYearViewConroller(reactor: changeYearReactor)
             self.navigationController?.pushViewController(changeYearVC, animated: true)
-        case .sex:
             
+        case .sex:
             let changeSexVC = ChangeSexViewController()
             changeSexVC.reactor = reactor.reactorForChangeSex()
             self.navigationController?.pushViewController(changeSexVC, animated: true)
