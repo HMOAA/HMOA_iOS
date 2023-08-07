@@ -95,7 +95,7 @@ class MyPageReactor: Reactor {
             
             state.sections = [
                 MyPageSection.memberSection(
-                    MyPageSectionItem.memberCell(MemberCellReactor(member: state.member, profileImage: image)))
+                    MyPageSectionItem.memberCell(state.member, image))
             ] + MyPageReactor.setUpOtherSection()
             
         case .updateNickname(let nickname):
@@ -104,7 +104,7 @@ class MyPageReactor: Reactor {
             
             state.sections = [
                 MyPageSection.memberSection(
-                    MyPageSectionItem.memberCell(MemberCellReactor(member: state.member)))
+                    MyPageSectionItem.memberCell(state.member, state.profileImage))
             ] + MyPageReactor.setUpOtherSection()
             
         case .updateAge(let age):
@@ -154,7 +154,7 @@ extension MyPageReactor {
                 member.provider.changeProvider()
                 
                 sections.append(MyPageSection.memberSection(
-                    MyPageSectionItem.memberCell(MemberCellReactor(member: member))))
+                    MyPageSectionItem.memberCell(member, nil)))
                 
                 sections += setUpOtherSection()
                 
