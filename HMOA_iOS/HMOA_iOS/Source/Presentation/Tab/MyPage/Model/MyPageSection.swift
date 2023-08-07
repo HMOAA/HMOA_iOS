@@ -4,23 +4,20 @@
 //
 //  Created by 임현규 on 2023/03/24.
 //
-
-import RxDataSources
+import UIKit
 
 enum MyPageSection {
     case memberSection(MyPageSectionItem)
     case otherSection([MyPageSectionItem])
 }
 
-enum MyPageSectionItem {
-    case memberCell(MemberCellReactor)
+enum MyPageSectionItem: Hashable{
+    case memberCell(Member, UIImage?)
     case otherCell(String)
 }
 
-extension MyPageSection: SectionModelType {
+extension MyPageSection: Hashable {
 
-    typealias Item = MyPageSectionItem
-    
     var items: [MyPageSectionItem] {
         switch self {
         case .memberSection(let item):
@@ -30,7 +27,4 @@ extension MyPageSection: SectionModelType {
         }
     }
     
-    init(original: MyPageSection, items: [MyPageSectionItem]) {
-        self = original
-    }
 }

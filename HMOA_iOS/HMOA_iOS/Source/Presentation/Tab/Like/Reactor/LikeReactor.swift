@@ -19,11 +19,13 @@ class LikeReactor: Reactor {
     enum Action {
         case didTapCardButton
         case didTapListButton
+        case didTapCardItem(IndexPath)
     }
     
     enum Mutation {
         case setShowCardCollectionView(Bool)
         case setShowListCollectionView(Bool)
+        case setSelectedPerfumeId(IndexPath?)
     }
     
     struct State {
@@ -31,6 +33,8 @@ class LikeReactor: Reactor {
         var listSectionItem: [ListSectionItem] = ListSectionItem.items
         var isSelectedCard: Bool = true
         var isSelectedList: Bool = false
+        var selectedCardIndexPath: IndexPath? = nil
+        var selectedPerfumeId: Int? = nil
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -39,6 +43,11 @@ class LikeReactor: Reactor {
             return .just(.setShowCardCollectionView(true))
         case .didTapListButton:
             return .just(.setShowListCollectionView(true))
+        case .didTapCardItem(let indexPath):
+            return .concat([
+                .just(.setSelectedPerfumeId(indexPath)),
+                .just(.setSelectedPerfumeId(nil))
+            ])
         }
     }
     
@@ -52,6 +61,13 @@ class LikeReactor: Reactor {
         case .setShowCardCollectionView(let isSelected):
             state.isSelectedCard = isSelected
             state.isSelectedList = !isSelected
+        case .setSelectedPerfumeId(let indexPath):
+            guard let indexPath = indexPath else {
+                state.selectedPerfumeId = nil
+                return state
+            }
+            
+            state.selectedPerfumeId = state.cardSectionItem[indexPath.item].id
         }
         return state
     }

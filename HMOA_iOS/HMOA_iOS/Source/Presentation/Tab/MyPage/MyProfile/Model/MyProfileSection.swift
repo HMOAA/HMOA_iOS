@@ -6,21 +6,17 @@
 //
 
 import Foundation
-import RxDataSources
 
 enum MyProfileSection {
     case section([MyProfileItem])
 }
 
-enum MyProfileItem {
+enum MyProfileItem: Hashable {
     case item(String)
 }
 
-extension MyProfileSection: SectionModelType {
+extension MyProfileSection: Hashable {
     
-    init(original: MyProfileSection, items: [MyProfileItem]) {
-        self = original
-    }
     
     var items: [MyProfileItem] {
         switch self {

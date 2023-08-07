@@ -8,8 +8,10 @@
 import UIKit
 
 enum MyPageType: String, CaseIterable {
+    case myProfile = "00"
+    
     case myLog = "10"
-    case myProfile = "11"
+    case myInformation = "11"
      
     case openSource = "20"
     case policy = "21"
@@ -20,9 +22,11 @@ enum MyPageType: String, CaseIterable {
 
     var title: String {
         switch self {
+        case .myProfile:
+            return ""
         case .myLog:
             return "내 활동"
-        case .myProfile:
+        case .myInformation:
             return "내 정보관리"
         case .openSource:
             return "오픈소스 라이브러리"

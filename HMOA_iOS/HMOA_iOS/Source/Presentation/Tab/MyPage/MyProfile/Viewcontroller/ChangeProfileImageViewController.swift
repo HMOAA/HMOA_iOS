@@ -25,20 +25,9 @@ class ChangeProfileImageViewController: UIViewController, View {
         $0.layer.cornerRadius = 25
     }
     
-    lazy var showAlbumButton: UIButton = UIButton().then {
-        var configure = UIButton.Configuration.plain()
-        var attributedString = AttributedString.init("사진 선택")
-        attributedString.font = .customFont(.pretendard_light, 14)
-        
-        configure.baseForegroundColor = .white
-        configure.attributedTitle = attributedString
-        
-        $0.configuration = configure
-        $0.backgroundColor = .black
-    }
-    
-    lazy var changeButton: UIButton = UIButton().then {
-        $0.setProfileChangeBottomView()
+    lazy var changeProfileImageButton: UIButton = UIButton().then {
+        $0.layer.masksToBounds = true
+        $0.layer.cornerRadius = 36
     }
     
 
@@ -56,6 +45,8 @@ class ChangeProfileImageViewController: UIViewController, View {
         return pickerView
     }()
     
+    lazy var nicknameView = NicknameView("변경")
+    
     var tqwe: UILabel = {
        var label = UILabel()
         
@@ -64,8 +55,16 @@ class ChangeProfileImageViewController: UIViewController, View {
     // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setBackItemNaviBar("프로필 이미지")
+        setBackItemNaviBar("프로필 수정")
         configureUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let frame = nicknameView.nicknameTextField.frame
+        setBottomBorder(nicknameView.nicknameTextField,
+                        width: frame.width,
+                        height: frame.height)
     }
 }
 
@@ -79,25 +78,79 @@ extension ChangeProfileImageViewController {
         // action
         
         // 사진 선택 버튼 클릭
-        showAlbumButton.rx.tap
-            .map { Reactor.Action.didTapShowAlbumButton }
+        changeProfileImageButton.rx.tap
+            .map { Reactor.Action.didTapChangeProfileImageButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         // 변경 버튼 클릭
-        
-        changeButton.rx.tap
+        nicknameView.bottomButton.rx.tap
             .map { Reactor.Action.didTapChangeButton(reactor.currentState.profileImage!)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        nicknameView.duplicateCheckButton.rx.tap
+            .map { Reactor.Action.didTapDuplicateButton(self.nicknameView.nicknameTextField.text)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        //textfield return 터치 이벤트
+        nicknameView.nicknameTextField.rx.controlEvent(.editingDidEndOnExit)
+            .map { ChangeProfileImageReactor.Action.didTapTextFieldReturn}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //닉네임 캡션 라벨 변경
+        reactor.state
+            .map { $0.isDuplicate }
+            .compactMap { $0 }
+            .bind(onNext: {
+                self.changeCaptionLabelColor($0)
+            }).disposed(by: disposeBag)
+        
+        //버튼 enable 상태 변경
+        reactor.state
+            .map { $0.isEnable }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: { isEnable in
+                DispatchQueue.main.async {
+                    self.changeNextButtonEnable(isEnable)
+                }
+            }).disposed(by: disposeBag)
+        
+        //return 터치 시 키보드 내리기
+        reactor.state
+            .map { $0.isTapReturn }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(onNext: { _ in
+                self.nicknameView.nicknameTextField.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        // 이전 화면으로 pop
+        reactor.state
+            .map { $0.nicknameResponse }
+            .distinctUntilChanged()
+            .filter { $0 != nil }
+            .map { _ in }
+            .bind(onNext: popViewController)
+            .disposed(by: disposeBag)
+            
+        // 기존 닉네임 바인딩
+        reactor.state
+            .map { $0.currentNickname }
+            .distinctUntilChanged()
+            .bind(to: nicknameView.nicknameTextField.rx.text)
+            .disposed(by: disposeBag)
+
         // state
         
         // 프로필 이미지 바인딩
         reactor.state
             .map { $0.profileImage }
             .distinctUntilChanged()
-            .bind(to: profileImageView.rx.image)
+            .bind(to: changeProfileImageButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
         // 앨범 화면 띄우기
@@ -130,25 +183,19 @@ extension ChangeProfileImageViewController {
         
         [
             profileImageView,
-            showAlbumButton,
-            changeButton
+            changeProfileImageButton,
+            nicknameView
         ]   .forEach { view.addSubview($0) }
         
-        profileImageView.snp.makeConstraints {
+        changeProfileImageButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.width.height.equalTo(50)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(38)
+            $0.width.height.equalTo(72)
         }
         
-        showAlbumButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(profileImageView.snp.bottom).offset(10)
-            $0.width.equalTo(100)
-        }
-        
-        changeButton.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(80)
+        nicknameView.snp.makeConstraints { make in
+            make.bottom.leading.trailing.equalToSuperview()
+            make.top.equalTo(changeProfileImageButton.snp.bottom).offset(72)
         }
     }
 }
@@ -188,7 +235,34 @@ extension ChangeProfileImageViewController: PHPickerViewControllerDelegate {
 extension ChangeProfileImageViewController {
     
     func setEnableChangeButton() {
-        changeButton.backgroundColor = .black
-        changeButton.isEnabled = true
+        nicknameView.bottomButton.backgroundColor = .black
+        nicknameView.bottomButton.isEnabled = true
+    }
+    
+    //caption ui 변경
+    private func changeCaptionLabelColor(_ isDuplicate: Bool) {
+        if isDuplicate {
+            nicknameView.nicknameCaptionLabel.text = "사용할 수 없는 닉네임 입니다."
+            nicknameView.nicknameCaptionLabel.textColor = .customColor(.red)
+        } else if !isDuplicate {
+            nicknameView.nicknameCaptionLabel.text = "사용할 수 있는 닉네임 입니다."
+            nicknameView.nicknameCaptionLabel.textColor = .customColor(.blue)
+        }
+    }
+    
+    //다음 버튼 ui변경
+    private func changeNextButtonEnable(_ isEnable: Bool) {
+        if isEnable  {
+            self.nicknameView.bottomButton.isEnabled = true
+            self.nicknameView.bottomButton.backgroundColor = .black
+        } else {
+            self.nicknameView.bottomButton.isEnabled = false
+            self.nicknameView.bottomButton.backgroundColor = .customColor(.gray2)
+        }
+    }
+    
+    //빈 화면 터치 시 키보드 내리기
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+          self.view.endEditing(true)
     }
 }

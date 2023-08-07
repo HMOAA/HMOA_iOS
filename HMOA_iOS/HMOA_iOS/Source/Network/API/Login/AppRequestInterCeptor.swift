@@ -23,6 +23,11 @@ final class AppRequestInterceptor: RequestInterceptor {
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         
+        if let statusCode = error.asAFError?.responseCode, statusCode == 409 {
+            completion(.doNotRetry)
+            return
+        }
+        
         guard let response = request.task?.response as? HTTPURLResponse,
               response.statusCode == 401 else {
             completion(.doNotRetryWithError(error))
