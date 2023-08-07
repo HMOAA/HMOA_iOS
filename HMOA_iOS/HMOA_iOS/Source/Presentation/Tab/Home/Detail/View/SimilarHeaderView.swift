@@ -18,8 +18,8 @@ class SimilarHeaderView: UICollectionReusableView {
     // MARK: - Properies
     
     let titleLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard_medium, 16)
-        $0.text = "이 제품도 좋아하실 것 같아요"
+        $0.font = UIFont.customFont(.pretendard_medium, 20)
+        $0.text = "같은 브랜드의 제품"
     }
     
     let seperatorLine = UIView().then {

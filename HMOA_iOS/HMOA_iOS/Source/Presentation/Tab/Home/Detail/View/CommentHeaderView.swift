@@ -18,12 +18,12 @@ class CommentHeaderView: UICollectionReusableView {
     // MARK: - Properies
     
     let titleLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard_medium, 16)
+        $0.font = UIFont.customFont(.pretendard_medium, 20)
         $0.text = "댓글"
     }
     
     let countLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard_light, 12)
+        $0.font = UIFont.customFont(.pretendard_light, 14)
         $0.text = "+565"
     }
     
@@ -53,7 +53,7 @@ extension CommentHeaderView {
         }
         
         countLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.bottom.equalTo(titleLabel.snp.bottom)
             $0.leading.equalTo(titleLabel.snp.trailing).offset(4)
         }
     }

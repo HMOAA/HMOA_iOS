@@ -10,12 +10,14 @@ import RxDataSources
 
 enum DetailSection {
     case top(DetailSectionItem)
+    case evaluation(DetailSectionItem)
     case comment([DetailSectionItem])
     case recommend([DetailSectionItem])
 }
 
 enum DetailSectionItem {
     case topCell(PerfumeDetail, Int)
+    case evaluationCell(Int)
     case commentCell(Comment, Int)
     case recommendCell(RecommendPerfume, Int)
 }
@@ -34,6 +36,8 @@ extension DetailSectionItem: Hashable {
         case .recommendCell(let recommend, let id):
             hasher.combine(recommend)
             hasher.combine(id)
+        case .evaluationCell(let id):
+            hasher.combine(id)
         }
     }
     
@@ -41,6 +45,8 @@ extension DetailSectionItem: Hashable {
         switch self {
         case .topCell:
             return 0
+        case .evaluationCell:
+            return 1
         case .commentCell(_, let commentId):
             return commentId
         case .recommendCell(_, let perfumeId):
@@ -52,10 +58,12 @@ extension DetailSectionItem: Hashable {
         switch self {
         case .topCell:
             return 0
-        case .commentCell:
+        case .evaluationCell:
             return 1
-        case .recommendCell:
+        case .commentCell:
             return 2
+        case .recommendCell:
+            return 3
         }
     }
 }
@@ -66,6 +74,8 @@ extension DetailSection: Hashable {
     var items: [Item] {
         switch self {
         case .top(let items):
+            return [items]
+        case .evaluation(let items):
             return [items]
         case .comment(let items):
             return items

@@ -102,7 +102,7 @@ extension CommentCell {
         userNameLabel.text = item.name
         contentLabel.text = item.content
         commentLikeButton.isSelected = item.isLike
-        commentLikeButton.setTitle("\(item.likeCount)", for: .normal)
+        commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.likeCount))
     }
     
     func configureUI() {

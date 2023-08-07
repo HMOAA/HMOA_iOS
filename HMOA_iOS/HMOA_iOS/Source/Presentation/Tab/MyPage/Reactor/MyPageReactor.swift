@@ -15,6 +15,7 @@ class MyPageReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case didTapGoLoginButton
         case didTapCell(MyPageType)
     }
     
@@ -26,6 +27,7 @@ class MyPageReactor: Reactor {
         case updateNickname(String)
         case updateAge(Int)
         case updateSex(Bool)
+        case setIsTapGoLoginButton(Bool)
     }
     
     struct State {
@@ -39,6 +41,8 @@ class MyPageReactor: Reactor {
             sex: false)
         var presentVC: MyPageType? = nil
         var profileImage: UIImage? = nil
+        var isTapEditButton: Bool = false
+        var isTapGoLoginButton: Bool = false
     }
     
     init(service: UserServiceProtocol) {
@@ -74,6 +78,11 @@ class MyPageReactor: Reactor {
                 .just(.setPresentVC(type)),
                 .just(.setPresentVC(nil))
             ])
+        case .didTapGoLoginButton:
+            return .concat([
+                .just(.setIsTapGoLoginButton(true)),
+                .just(.setIsTapGoLoginButton(false))
+            ])
         }
     }
     
@@ -95,7 +104,7 @@ class MyPageReactor: Reactor {
             
             state.sections = [
                 MyPageSection.memberSection(
-                    MyPageSectionItem.memberCell(MemberCellReactor(member: state.member, profileImage: image)))
+                    MyPageSectionItem.memberCell(state.member, image))
             ] + MyPageReactor.setUpOtherSection()
             
         case .updateNickname(let nickname):
@@ -104,7 +113,7 @@ class MyPageReactor: Reactor {
             
             state.sections = [
                 MyPageSection.memberSection(
-                    MyPageSectionItem.memberCell(MemberCellReactor(member: state.member)))
+                    MyPageSectionItem.memberCell(state.member, state.profileImage))
             ] + MyPageReactor.setUpOtherSection()
             
         case .updateAge(let age):
@@ -112,7 +121,10 @@ class MyPageReactor: Reactor {
             
         case .updateSex(let sex):
             state.member.sex = sex
+        case .setIsTapGoLoginButton(let isTap):
+            state.isTapGoLoginButton = isTap
         }
+        
         
         return state
     }
@@ -123,7 +135,7 @@ extension MyPageReactor {
     static func setUpOtherSection() -> [MyPageSection] {
         let second = [
             MyPageType.myLog.title,
-            MyPageType.myProfile.title
+            MyPageType.myInformation.title
             ]   .map { MyPageSectionItem.otherCell($0) }
 
         let thrid = [
@@ -154,7 +166,7 @@ extension MyPageReactor {
                 member.provider.changeProvider()
                 
                 sections.append(MyPageSection.memberSection(
-                    MyPageSectionItem.memberCell(MemberCellReactor(member: member))))
+                    MyPageSectionItem.memberCell(member, nil)))
                 
                 sections += setUpOtherSection()
                 
@@ -166,8 +178,12 @@ extension MyPageReactor {
             }
     }
     
-    func reactorForMyProfile() -> MyProfileReactor {
-        return MyProfileReactor(service: service, member: currentState.member, profileImage: currentState.profileImage)
+    func reactorForMyProfile() -> ChangeProfileImageReactor {
+        return ChangeProfileImageReactor(service: service, currentImage: currentState.profileImage)
+    }
+    
+    func reactorForMyInformation() -> MyProfileReactor {
+        return MyProfileReactor(service: service, member: currentState.member)
     }
     
     static func downloadImage(url: String) -> Observable<Mutation> {
