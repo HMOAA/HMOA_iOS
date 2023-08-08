@@ -11,6 +11,7 @@ enum SearchAddress {
     case getPerfumeName
     case getPerfumeInfo
     case fetchBrandAll
+    case fetchSearchBrand
 }
 
 extension SearchAddress {
@@ -22,6 +23,8 @@ extension SearchAddress {
             return "search/perfume"
         case .fetchBrandAll:
             return "search/brandAll"
+        case .fetchSearchBrand:
+            return "search/brand"
         }
     }
 }
