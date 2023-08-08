@@ -40,4 +40,14 @@ final class SearchAPI {
         )
     }
     
+    static func fetchSearchBrand(query: [String: String]) -> Observable<[BrandList]> {
+        return networking(
+            urlStr: SearchAddress.fetchSearchBrand.url,
+            method: .get,
+            data: nil,
+            model: [BrandList].self,
+            query: query
+        )
+    }
+    
 }

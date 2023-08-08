@@ -22,9 +22,10 @@ class BrandSearchReactor: Reactor {
         case setIsPopVC(Bool)
         case setSelectedItem(Brand?)
         case setRequestData([BrandList])
-        case setSearchResult(String)
         case setSection([BrandListSection])
+        case setSearchResult([BrandListSection])
         case setLoadedPage(Int)
+        case setSearchWord(String)
         
     }
     
@@ -68,8 +69,11 @@ class BrandSearchReactor: Reactor {
                 .just(.setSelectedItem(nil))
             ])
             
-        case .updateSearchResult(let result):
-            return .just(.setSearchResult(result))
+        case .updateSearchResult(let word):
+            return .concat([
+                .just(.setSearchWord(word)),
+                findSearhList(word)
+                ])
             
         case .scrollCollectionView(let consonant):
             return .concat([
@@ -87,12 +91,10 @@ class BrandSearchReactor: Reactor {
                     
             state.brandList = []
         case .setSelectedItem(let brand):
-        
             state.selectedItem = brand
     
         case .setSearchResult(let result):
-            state.isFiltering = result == "" ? false : true
-            state.searchResult = findSearhList(result)
+            state.searchResult = result
             
         case .setSection(let section):
             state.brandList = section
@@ -102,8 +104,10 @@ class BrandSearchReactor: Reactor {
             
         case .setLoadedPage(let page):
             state.loadedPage.insert(page)
+            
+        case .setSearchWord(let word):
+            state.isFiltering = word == "" ? false : true
         }
-        
         
         return state
     }
@@ -125,7 +129,7 @@ extension BrandSearchReactor {
                 }
                 var newBrandList = self.currentState.reqeustData
                 newBrandList.append(brand)
-                var newSections = self.currentState.sections
+                var newSections = self.currentState.brandList
                 newSections.append(brand.section)
                 
                 return .concat([
@@ -136,25 +140,20 @@ extension BrandSearchReactor {
             }
     }
     
-    func findSearhList(_ searchResult: String) -> [BrandListSection] {
-        var filteringResult = [BrandList]()
+    func findSearhList(_ searchResult: String) -> Observable<Mutation> {
+        if searchResult == "" { return .empty() }
+        
         var filteringSection: [BrandListSection] = []
 
-        for list in currentState.reqeustData {
-            
-            let brandList = list.brands.filter { $0.brandName.lowercased().contains(searchResult) }
-            
-            if !brandList.isEmpty {
-                filteringResult.append(BrandList(consonant: list.consonant, brands: brandList))
+       return SearchAPI.fetchSearchBrand(query: ["searchWord": searchResult])
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                data.forEach { list in
+                    filteringSection.append(list.section)
+                }
+                
+                return .just(.setSearchResult(filteringSection))
             }
-        }
-        
-        
-        for list in filteringResult {
-            filteringSection.append(list.section)
-        }
-        
-        return filteringSection
+
     }
 }
-

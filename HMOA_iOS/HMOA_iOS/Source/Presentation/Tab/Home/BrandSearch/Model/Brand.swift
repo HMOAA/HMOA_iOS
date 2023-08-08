@@ -5,9 +5,14 @@
 //  Created by 임현규 on 2023/03/17.
 //
 
-struct BrandList: Equatable, Hashable {
+struct BrandList: Equatable, Hashable, Codable {
     var consonant: Int
     var brands: [Brand]
+    
+    enum CodingKeys: String, CodingKey {
+        case consonant
+        case brands = "brandList"
+    }
 }
 
 struct Brand: Equatable, Hashable, Codable {
