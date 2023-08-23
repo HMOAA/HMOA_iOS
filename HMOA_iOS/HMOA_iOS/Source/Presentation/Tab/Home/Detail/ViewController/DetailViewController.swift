@@ -17,9 +17,8 @@ class DetailViewController: UIViewController, View {
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
-    var perfumeId: Int = 0
     
-    lazy var DetailReactor = DetailViewReactor(perfumeId)
+    var DetailReactor: DetailViewReactor
     
     private var dataSource: UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>!
 
@@ -31,8 +30,17 @@ class DetailViewController: UIViewController, View {
     let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
     let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
     
-    // MARK: - Lifecycle
+    //MARK: - Init
+    init(reactor: DetailViewReactor) {
+        DetailReactor = reactor
+        super.init(nibName: nil, bundle: nil)
+    }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -50,6 +58,10 @@ extension DetailViewController {
     func bind(reactor: DetailViewReactor) {
         
         // MARK: - Action
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // collectionView 아이템 클릭
         detailView.collectionView.rx.itemSelected
@@ -119,12 +131,12 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         // 향수 디테일 페이지로 이동
-        reactor.state
-            .map { $0.presentPerfumeId }
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .bind(onNext: presentDatailViewController)
-            .disposed(by: disposeBag)
+//        reactor.state
+//            .map { $0.presentPerfumeId }
+//            .distinctUntilChanged()
+//            .compactMap { $0 }
+//            .bind(onNext: presentDatailViewController)
+//            .disposed(by: disposeBag)
         
         // 댓글 작성 페이지로 이동
         
@@ -168,13 +180,14 @@ extension DetailViewController {
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: { collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: { [self] collectionView, indexPath, item in
             
             switch item {
             case .topCell(let detail, _):
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
-                perfumeInfoCell.updateCell(detail)
+                
+                perfumeInfoCell.updateCell(detail.perfumeDetail, self.DetailReactor.currentState.perfumeImage)
                 // 하단 뷰 향수 좋아요 버튼 클릭시 액션 전달
 //                self.bottomView.likeButton.rx.tap
 //                    .map { _ in .didTapPerfumeLikeButton }
@@ -182,11 +195,11 @@ extension DetailViewController {
 //                    .disposed(by: self.disposeBag)
                 
                 // perfumeInfoReactor의 향수 좋아요 상태 변화
-                perfumeInfoCell.reactor?.state
-                    .map { $0.isLikePerfume }
-                    .distinctUntilChanged()
-                    .bind(to: self.bottomView.likeButton.rx.isSelected)
-                    .disposed(by: self.disposeBag)
+//                perfumeInfoCell.reactor?.state
+//                    .map { $0.isLikePerfume }
+//                    .distinctUntilChanged()
+//                    .bind(to: self.bottomView.likeButton.rx.isSelected)
+//                    .disposed(by: self.disposeBag)
                 return perfumeInfoCell
             case .evaluationCell(_):
                 guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
