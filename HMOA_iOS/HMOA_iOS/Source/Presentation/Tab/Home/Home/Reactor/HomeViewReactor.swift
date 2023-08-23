@@ -33,15 +33,14 @@ final class HomeViewReactor: Reactor {
     struct State {
         var sections: [HomeSection] = []
         var selectedPerfumeId: Int?
+        var selectedPerfumeImage: String? = nil
         var isPresentBrandSearchVC: Bool = false
         var isPresentSearchVC: Bool = false
         var isPresentBellVC: Bool = false
         var isPaging: Bool = false
     }
     
-    init() {
-        self.initialState = State()
-    }
+    init() { self.initialState = State() }
     
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -87,11 +86,14 @@ final class HomeViewReactor: Reactor {
             
             guard let indexPath = indexPath else {
                 state.selectedPerfumeId = nil
+                state.selectedPerfumeImage = nil
                 return state
             }
             
             if indexPath.section != 0 {
-                state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.section].perfumeId
+                state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.item].perfumeId
+                state.selectedPerfumeImage =
+                state.sections[indexPath.section].items[indexPath.item].perfumeImage
             }
             
         case .setIsPresentBrandSearchVC(let isPresent):
