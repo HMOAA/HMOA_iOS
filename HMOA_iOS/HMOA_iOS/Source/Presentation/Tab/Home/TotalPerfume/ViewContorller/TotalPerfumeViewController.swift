@@ -76,15 +76,14 @@ extension TotalPerfumeViewController {
             }).disposed(by: disposeBag)
         
         // item 클릭 시 향수 상세 화면으로 이동
-        reactor.state
-            .map { $0.selectedItem }
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .bind(onNext: {
-                print($0)
-                self.presentDatailViewController($0.perfumeId)
-            })
-            .disposed(by: disposeBag)
+//        reactor.state
+//            .map { $0.selectedItem }
+//            .distinctUntilChanged()
+//            .compactMap { $0 }
+//            .bind(with: self, onNext: { owner, perfume in
+//                self.presentDatailViewController($0.perfumeId)
+//            })
+//            .disposed(by: disposeBag)
         
     }
     
