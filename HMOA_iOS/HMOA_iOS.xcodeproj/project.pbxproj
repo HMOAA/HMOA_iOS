@@ -140,6 +140,8 @@
 		CA1067DD29D6D39A009A7245 /* ChangeSexReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067DC29D6D399009A7245 /* ChangeSexReactor.swift */; };
 		CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */; };
 		CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */; };
+		CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA19D15F2A8F5F8000B04C6F /* DetailAPI.swift */; };
+		CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA19D1612A8F5F8D00B04C6F /* DetailAddress.swift */; };
 		CA34781B29E2DAE300334070 /* HPediaGuideHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA34781A29E2DAE300334070 /* HPediaGuideHeaderCell.swift */; };
 		CA34781D29E2DD8100334070 /* HPediaTagHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA34781C29E2DD8100334070 /* HPediaTagHeaderCell.swift */; };
 		CA360F3129DD620600A93873 /* HPediaGuideSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3029DD620600A93873 /* HPediaGuideSection.swift */; };
@@ -346,6 +348,8 @@
 		CA1067DC29D6D399009A7245 /* ChangeSexReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSexReactor.swift; sourceTree = "<group>"; };
 		CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearReactor.swift; sourceTree = "<group>"; };
 		CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationReactor.swift; sourceTree = "<group>"; };
+		CA19D15F2A8F5F8000B04C6F /* DetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAPI.swift; sourceTree = "<group>"; };
+		CA19D1612A8F5F8D00B04C6F /* DetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAddress.swift; sourceTree = "<group>"; };
 		CA34781A29E2DAE300334070 /* HPediaGuideHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaGuideHeaderCell.swift; sourceTree = "<group>"; };
 		CA34781C29E2DD8100334070 /* HPediaTagHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaTagHeaderCell.swift; sourceTree = "<group>"; };
 		CA360F3029DD620600A93873 /* HPediaGuideSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaGuideSection.swift; sourceTree = "<group>"; };
@@ -479,7 +483,6 @@
 		2C04246F29A3E3BE009CF0FE /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2C04247029A3E3D4009CF0FE /* PerfumeDetail.swift */,
 				2C04247229A3F7A6009CF0FE /* DetailSection.swift */,
 				2C04247429A3F899009CF0FE /* Comment.swift */,
 			);
@@ -1115,6 +1118,7 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				CA19D15D2A8F5F6300B04C6F /* Detail */,
 				CAF19B9A2A625CEF00374038 /* Search */,
 				2C8318C52A0FC6BD004A3ACD /* Home */,
 				2CA155AA2A039A1E00D7B0C0 /* Login */,
@@ -1372,6 +1376,24 @@
 				CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */,
 			);
 			path = Reactor;
+			sourceTree = "<group>";
+		};
+		CA19D15D2A8F5F6300B04C6F /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				CA19D15E2A8F5F6F00B04C6F /* Model */,
+				CA19D15F2A8F5F8000B04C6F /* DetailAPI.swift */,
+				CA19D1612A8F5F8D00B04C6F /* DetailAddress.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		CA19D15E2A8F5F6F00B04C6F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C04247029A3E3D4009CF0FE /* PerfumeDetail.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		CA360F2E29DD61EA00A93873 /* Reactor */ = {
@@ -1925,11 +1947,13 @@
 				2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */,
 				2C710EEF29798330006BE23B /* HomeFirstCellHeaderView.swift in Sources */,
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,
+				CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */,
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
 				2C04247929A3FD03009CF0FE /* CommentCellReactor.swift in Sources */,
 				2C04247529A3F899009CF0FE /* Comment.swift in Sources */,
+				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
 				2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */,
