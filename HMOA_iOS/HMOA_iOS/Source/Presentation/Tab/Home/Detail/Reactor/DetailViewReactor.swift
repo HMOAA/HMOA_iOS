@@ -11,9 +11,9 @@ import RxDataSources
 
 final class DetailViewReactor: Reactor {
     var initialState: State
-    var currentPerfumeId: Int
 
     enum Action {
+        case viewDidLoad
         case didTapMoreButton
         case didTapCell(DetailSectionItem)
         case didTapWriteButton
@@ -23,6 +23,7 @@ final class DetailViewReactor: Reactor {
     }
     
     enum Mutation {
+        case setSections([DetailSection])
         case setPresentCommentVC(Int?)
         case setSelectedComment(Int?)
         case setSelecctedPerfume(Int?)
@@ -33,7 +34,7 @@ final class DetailViewReactor: Reactor {
     }
     
     struct State {
-        var sections: [DetailSection]
+        var sections: [DetailSection] = []
         var persentCommentPerfumeId: Int? = nil
         var presentCommentId: Int? = nil
         var presentPerfumeId: Int? = nil
@@ -41,19 +42,24 @@ final class DetailViewReactor: Reactor {
         var isPopVC: Bool = false
         var isPopRootVC: Bool = false
         var isPresentSearchVC: Bool = false
+        var perfumeId: Int
+        var perfumeImage: String
     }
     
-    init(_ id: Int) {
-        self.currentPerfumeId = id
+    init(perfumeImage: String, perfumeId: Int) {
         self.initialState = State(
-            sections: DetailViewReactor.setUpSections(currentPerfumeId))
+            perfumeId: perfumeId,
+            perfumeImage: perfumeImage
+        )
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return setUpSections(currentState.perfumeId)
         case .didTapMoreButton:
             return .concat([
-                .just(.setPresentCommentVC(currentPerfumeId)),
+                .just(.setPresentCommentVC(currentState.perfumeId)),
                 .just(.setPresentCommentVC(nil))
             ])
         case .didTapCell(let item):
@@ -71,7 +77,7 @@ final class DetailViewReactor: Reactor {
             }
         case .didTapWriteButton:
             return .concat([
-                .just(.setIsPresentCommentWrite(currentPerfumeId)),
+                .just(.setIsPresentCommentWrite(currentState.perfumeId)),
                 .just(.setIsPresentCommentWrite(nil))
             ])
             
@@ -119,6 +125,8 @@ final class DetailViewReactor: Reactor {
             
         case .setIsPresentSearchVC(let isPresent):
             state.isPresentSearchVC = isPresent
+        case .setSections(let sections):
+            state.sections = sections
         }
         
         return state
@@ -126,31 +134,10 @@ final class DetailViewReactor: Reactor {
 }
 
 extension DetailViewReactor {
-    static func setUpSections(_ perfumeId: Int) -> [DetailSection] {
+    
+    
+    func setUpSections(_ id: Int) -> Observable<Mutation> {
 
-        // TODO: perfumeId로 서버와 통신
-        print(perfumeId)
-        
-        let perfumeDetail = PerfumeDetail(
-            perfumeId: 5,
-            perfumeImage: UIImage(named: "jomalon")!,
-            likeCount: 5,
-            koreanName: "test",
-            englishName: "test",
-            category: ["test"],
-            price: 1000,
-            volume: [10, 20],
-            age: 20,
-            gender: "여성",
-            BrandImage: UIImage(named: "jomalon")!,
-            productInfo: "test",
-            topTasting: "test",
-            heartTasting: "test",
-            baseTasting: "test",
-            isLikePerfume: true,
-            isLikeBrand: false
-        )
-        
         let commentItems = [
             Comment(commentId: 1, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false, isWrite: false),
             Comment(commentId: 2, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false, isWrite: false),
@@ -169,9 +156,6 @@ extension DetailViewReactor {
             RecommendPerfume(id: 9, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: "")
         ]
         
-        let topItem = DetailSectionItem.topCell(perfumeDetail, 0)
-        let topSection = DetailSection.top(topItem)
-        
         let evaluationSection = DetailSection.evaluation(DetailSectionItem.evaluationCell(1))
         
         let commentItem = commentItems.map { DetailSectionItem.commentCell($0, $0.commentId) }
@@ -181,6 +165,19 @@ extension DetailViewReactor {
         let recommed = recommendItems.map { DetailSectionItem.recommendCell($0, $0.id) }
         let recommendSections = DetailSection.recommend(recommed)
         
-        return [topSection, evaluationSection, commentSections, recommendSections]
+        return DetailAPI.fetchPerfumeDetail(id)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                print(data)
+                let topItem = DetailSectionItem.topCell(data, 0)
+                let topSection = DetailSection.top(topItem)
+                
+                let sections = [topSection, evaluationSection, commentSections, recommendSections]
+                
+                return .just(.setSections(sections))
+            }
+        
+        
+        
     }
 }
