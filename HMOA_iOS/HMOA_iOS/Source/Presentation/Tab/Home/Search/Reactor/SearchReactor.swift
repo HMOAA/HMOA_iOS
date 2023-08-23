@@ -216,7 +216,7 @@ class SearchReactor: Reactor {
 extension SearchReactor {
     
     func reqeustList(_ content: String) -> Observable<Mutation> {
-        
+        if content.isEmpty { return .empty() }
         print("입력한 값:", content)
         let params: [String: Any] = [
             "page": 0,
@@ -240,7 +240,7 @@ extension SearchReactor {
     
     func requestListPaging(_ page: Int, _ content: String) -> Observable<Mutation> {
         
-        if page == currentState.recentListPage {
+        if page == currentState.recentListPage || page == 0 {
             return .empty()
         }
         
@@ -273,6 +273,8 @@ extension SearchReactor {
         return SearchAPI.getPerfumeInfo(params: params)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
+                print(content)
+                print(data)
                 var perfumes = [SearchPerfume]()
                 data.forEach {
                     perfumes.append($0)
@@ -283,9 +285,13 @@ extension SearchReactor {
     
     func requestResultPaging(_ page: Int, _ content: String) -> Observable<Mutation> {
         
+        if content.isEmpty { return .empty() }
+        
         if page == currentState.recentResultPage {
             return .empty()
         }
+        
+        print(page)
         
         let params: [String: Any] = [
             "page": page,
