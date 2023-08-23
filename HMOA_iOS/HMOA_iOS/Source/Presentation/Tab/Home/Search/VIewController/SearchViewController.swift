@@ -302,7 +302,7 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.item == tableView.numberOfRows(inSection: tableView.numberOfSections - 1) - 1 {
             reactor?.action.onNext(.scrollTableView(indexPath))
-            print(indexPath.item + 1)
+            //print(indexPath.item + 1)
         }
     }
     
