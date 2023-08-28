@@ -86,24 +86,6 @@ extension SearchViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // 브랜드 버튼 클릭
-        ResultVC.topView.brandButton.rx.tap
-            .map { Reactor.Action.didTapBrandButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 포스트 버튼 클릭
-        ResultVC.topView.postButton.rx.tap
-            .map { Reactor.Action.didTapPostButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // Hpedia 버튼 클릭
-        ResultVC.topView.hpediaButton.rx.tap
-            .map { Reactor.Action.didTapHpediaButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         // 연관 검색어 List Cell 클릭
         listVC.tableView.rx.itemSelected
             .map { Reactor.Action.didTapSearchListCell($0) }
@@ -189,27 +171,6 @@ extension SearchViewController {
             .bind(to: ResultVC.topView.productButton.rx.isSelected)
             .disposed(by: disposeBag)
         
-        // 브랜드 버튼 상태 변화
-        reactor.state
-            .map { $0.isSelectedBrandButton }
-            .distinctUntilChanged()
-            .bind(to: ResultVC.topView.brandButton.rx.isSelected )
-            .disposed(by: disposeBag)
-        
-        // 포스트 버튼 상태 변화
-        reactor.state
-            .map { $0.isSelectedPostButton }
-            .distinctUntilChanged()
-            .bind(to: ResultVC.topView.postButton.rx.isSelected)
-            .disposed(by: disposeBag)
-        
-        // Hepdia 버튼 상태 변화
-        reactor.state
-            .map { $0.isSelectedHpediaButton }
-            .distinctUntilChanged()
-            .bind(to: ResultVC.topView.hpediaButton.rx.isSelected )
-            .disposed(by: disposeBag)
-        
         // 연관 검색어를 클릭하면 해당 값을 searchBar의 text에 바인딩
         reactor.state
             .map { $0.listContent }
@@ -223,10 +184,10 @@ extension SearchViewController {
         
         // 검새 결과를 클릭하면 해당 PerfumeId가지고 향수 상세보기 페이지로 이동
         reactor.state
-            .map { $0.selectedPerfumeId }
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .bind(onNext: presentDatailViewController)
+            .map { ($0.selectedPerfumeId, $0.selectedPerfumeImage) }
+            .bind(with: self, onNext: { owner, selected in
+                owner.presentDatailViewController(selected)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -302,7 +263,7 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.item == tableView.numberOfRows(inSection: tableView.numberOfSections - 1) - 1 {
             reactor?.action.onNext(.scrollTableView(indexPath))
-            print(indexPath.item + 1)
+            //print(indexPath.item + 1)
         }
     }
     

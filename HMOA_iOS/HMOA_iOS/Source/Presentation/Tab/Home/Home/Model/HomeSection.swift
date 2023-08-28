@@ -30,30 +30,6 @@ extension HomeSection {
 }
 
 extension HomeSectionItem {
-    func hash(into hasher: inout Hasher) {
-        switch self {
-        case .topCell(let string, let int):
-            hasher.combine(string)
-            hasher.combine(int)
-        case .recommendCell(let perfume, let int, let uid):
-            hasher.combine(perfume)
-            hasher.combine(int)
-            hasher.combine(uid)
-        }
-    }
-    
-    static func ==(lhs: HomeSectionItem, rhs: HomeSectionItem) -> Bool {
-        switch (lhs, rhs) {
-        case (.topCell(let lhsString, let lhsInt),
-              .topCell(let rhsString, let rhsInt)):
-            return lhsString == rhsString && lhsInt == rhsInt
-        case (.recommendCell(let lhsPerfume, let lhsInt, let lhsUuid),
-              .recommendCell(let rhsPerfume, let rhsInt, let rhsUuid)):
-            return lhsPerfume == rhsPerfume && lhsInt == rhsInt && lhsUuid == rhsUuid
-        default:
-            return false
-        }
-    }
     
     var perfumeId: Int {
             switch self {
@@ -63,4 +39,12 @@ extension HomeSectionItem {
                 return perfumeId
             }
         }
+    
+    var perfumeImage: String {
+        switch self {
+        case .recommendCell(let perfume, _, _):
+            return perfume.imageUrl
+        default: return ""
+        }
+    }
 }

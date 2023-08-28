@@ -11,9 +11,12 @@ import Then
 
 extension UIViewController {
     
-    func presentDatailViewController(_ id: Int) {
-        let detailVC = DetailViewController()
-        detailVC.perfumeId = id
+    func presentDatailViewController(_ selected: (Int?, String?)) {
+        guard let image = selected.1 else { return }
+        guard let id = selected.0 else { return }
+        
+        let reactor = DetailViewReactor(perfumeImage: image, perfumeId: id)
+        let detailVC = DetailViewController(reactor: reactor)
         detailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailVC, animated: true)
     }

@@ -135,7 +135,7 @@ class EvaluationCell: UICollectionViewCell {
     
     let ageSlider = UISlider().then {
         $0.setThumbImage(UIImage(named: "arrowSlider"), for: .normal)
-        $0.setMinimumTrackImage(UIImage(named: "search"), for: .normal)
+        $0.setMinimumTrackImage(UIImage(named: "minSlider"), for: .normal)
         $0.setMaximumTrackImage(UIImage(named: "maxSlider"), for: .normal)
     }
     

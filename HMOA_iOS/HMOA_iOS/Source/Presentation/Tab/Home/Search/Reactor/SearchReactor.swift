@@ -15,9 +15,6 @@ class SearchReactor: Reactor {
         case didChangeTextField(String)
         case didEndTextField
         case didTapProductButton
-        case didTapBrandButton
-        case didTapPostButton
-        case didTapHpediaButton
         case didTapSearchListCell(IndexPath)
         case didTapSearchResultCell(IndexPath)
         case didClearTextField
@@ -36,12 +33,10 @@ class SearchReactor: Reactor {
         case setContent(String)
         case setResultProduct([SearchPerfume])
         case setProductButtonState(Bool)
-        case setBrandButtonState(Bool)
-        case setPostButtonState(Bool)
-        case setHpediaButtonState(Bool)
         case setSelectedPerfumeId(Int?)
         case setRecentResultPage(Int)
         case setRecentListPage(Int)
+        case setSelectedPerfumeImage(String?)
     }
     
     struct State {
@@ -56,12 +51,10 @@ class SearchReactor: Reactor {
         var nowPage: Int = 1 // 현재 보여지고 있는 페이지
         var prePage: Int = 0 // 이전 페이지
         var isSelectedProductButton: Bool = true
-        var isSelectedBrandButton: Bool = false
-        var isSelectedPostButton: Bool = false
-        var isSelectedHpediaButton: Bool = false
         var selectedPerfumeId: Int? = nil
         var recentResultPage: Int = -1
         var recentListPage: Int = -1
+        var selectedPerfumeImage: String? = nil
     }
     
     var initialState = State()
@@ -92,15 +85,6 @@ class SearchReactor: Reactor {
             ])
         case .didTapProductButton:
             return .just(.setProductButtonState(true))
-
-        case .didTapBrandButton:
-            return .just(.setBrandButtonState(true))
-
-        case .didTapPostButton:
-            return .just(.setPostButtonState(true))
-
-        case .didTapHpediaButton:
-            return .just(.setHpediaButtonState(true))
             
         case .didTapSearchListCell(let indexPath):
             return .concat([
@@ -114,6 +98,8 @@ class SearchReactor: Reactor {
         case .didTapSearchResultCell(let indexPath):
             return .concat([
                 .just(.setSelectedPerfumeId(currentState.resultProduct[indexPath.item].perfumeId)),
+                .just(.setSelectedPerfumeImage(currentState.resultProduct[indexPath.item].perfumeImageUrl)),
+                .just(.setSelectedPerfumeImage(nil)),
                 .just(.setSelectedPerfumeId(nil))
             ])
             
@@ -168,27 +154,6 @@ class SearchReactor: Reactor {
             
         case .setProductButtonState(let isSelected):
             state.isSelectedProductButton = isSelected
-            state.isSelectedBrandButton = false
-            state.isSelectedPostButton = false
-            state.isSelectedHpediaButton = false
-            
-        case .setBrandButtonState(let isSelected):
-            state.isSelectedBrandButton = isSelected
-            state.isSelectedProductButton = false
-            state.isSelectedPostButton = false
-            state.isSelectedHpediaButton = false
-            
-        case .setPostButtonState(let isSelected):
-            state.isSelectedPostButton = isSelected
-            state.isSelectedBrandButton = false
-            state.isSelectedProductButton = false
-            state.isSelectedHpediaButton = false
-            
-        case .setHpediaButtonState(let isSelected):
-            state.isSelectedHpediaButton = isSelected
-            state.isSelectedBrandButton = false
-            state.isSelectedPostButton = false
-            state.isSelectedProductButton = false
             
         case .isTapSearchListCell(let content):
             state.listContent = content
@@ -201,6 +166,8 @@ class SearchReactor: Reactor {
             
         case .setRecentListPage(let page):
             state.recentListPage = page
+        case .setSelectedPerfumeImage(let image):
+            state.selectedPerfumeImage = image
         }
         
         return state
@@ -210,7 +177,7 @@ class SearchReactor: Reactor {
 extension SearchReactor {
     
     func reqeustList(_ content: String) -> Observable<Mutation> {
-        
+        if content.isEmpty { return .empty() }
         print("입력한 값:", content)
         let params: [String: Any] = [
             "page": 0,
@@ -234,7 +201,7 @@ extension SearchReactor {
     
     func requestListPaging(_ page: Int, _ content: String) -> Observable<Mutation> {
         
-        if page == currentState.recentListPage {
+        if page == currentState.recentListPage || page == 0 {
             return .empty()
         }
         
@@ -267,6 +234,8 @@ extension SearchReactor {
         return SearchAPI.getPerfumeInfo(params: params)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
+                print(content)
+                print(data)
                 var perfumes = [SearchPerfume]()
                 data.forEach {
                     perfumes.append($0)
@@ -277,9 +246,13 @@ extension SearchReactor {
     
     func requestResultPaging(_ page: Int, _ content: String) -> Observable<Mutation> {
         
+        if content.isEmpty { return .empty() }
+        
         if page == currentState.recentResultPage {
             return .empty()
         }
+        
+        print(page)
         
         let params: [String: Any] = [
             "page": page,
