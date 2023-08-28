@@ -15,7 +15,7 @@ class HomeViewController: UIViewController, View {
     
     // MARK: ViewModel
     
-    lazy var homeReactor = HomeViewReactor()
+    var homeReactor = HomeViewReactor()
     
     // MARK: Properties
     private var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>!
@@ -31,6 +31,9 @@ class HomeViewController: UIViewController, View {
     lazy var bellButton = UIButton().makeImageButton(UIImage(named: "bell")!)
     
     var headerViewReactor: HomeHeaderReactor!
+    
+    //MARK: - Init
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,10 +118,10 @@ extension HomeViewController {
 
         // 향수 디테일 페이지로 이동
         reactor.state
-            .map { $0.selectedPerfumeId }
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .bind(onNext: presentDatailViewController)
+            .map { ($0.selectedPerfumeId, $0.selectedPerfumeImage) }
+            .bind(with: self, onNext: { owner, selected in
+                owner.presentDatailViewController(selected)
+            })
             .disposed(by: disposeBag)
         
         // 브랜드 검색 페이지로 이동

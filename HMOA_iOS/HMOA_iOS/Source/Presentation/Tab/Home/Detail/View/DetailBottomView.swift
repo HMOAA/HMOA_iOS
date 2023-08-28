@@ -31,13 +31,13 @@ class DetailBottomView: UIView {
         var config = UIButton.Configuration.plain()
         let attri = AttributedString.init("댓글작성")
         
-        config.attributedTitle = attri
         config.attributedTitle?.font = .customFont(.pretendard_medium, 16)
-        config.attributedTitle?.foregroundColor = .white
+        //config.attributedTitle?.foregroundColor = .white
         config.titleAlignment = .trailing
         config.image = UIImage(named: "bottomComment")
         config.imagePadding = 10
-        
+        config.baseForegroundColor = .white
+        config.attributedTitle = attri
         let button = UIButton(configuration: config)
         
         return button

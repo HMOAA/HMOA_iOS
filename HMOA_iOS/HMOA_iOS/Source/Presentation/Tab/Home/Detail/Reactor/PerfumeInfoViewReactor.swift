@@ -21,45 +21,13 @@ class PerfumeInfoViewReactor: Reactor {
     }
     
     struct State {
-        var perfumeId: Int
-        var perfumeImage: UIImage
-        var likeCount: Int
-        var koreanName: String
-        var englishName: String
-        var category: [String]
-        var price: Int
-        var volume: [Int]
-        var age: Int
-        var gender: String
-        var BrandImage: UIImage
-        var productInfo: String
-        var topTasting: String
-        var heartTasting: String
-        var baseTasting: String
-        var isLikePerfume: Bool
-        var isLikeBrand: Bool
+        var likeCount: Int = 0
+        var isLikePerfume: Bool = false
+        var isLikeBrand: Bool = false
     }
     
     init(detail: PerfumeDetail) {
-        self.initialState = State(
-            perfumeId: detail.perfumeId,
-            perfumeImage: detail.perfumeImage,
-            likeCount: detail.likeCount,
-            koreanName: detail.koreanName,
-            englishName: detail.englishName,
-            category: detail.category,
-            price: detail.price,
-            volume: detail.volume,
-            age: detail.age,
-            gender: detail.gender,
-            BrandImage: detail.BrandImage,
-            productInfo: detail.productInfo,
-            topTasting: detail.topTasting,
-            heartTasting: detail.heartTasting,
-            baseTasting: detail.baseTasting,
-            isLikePerfume: detail.isLikePerfume,
-            isLikeBrand: detail.isLikeBrand
-            )
+        self.initialState = State()
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

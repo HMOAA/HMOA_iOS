@@ -48,9 +48,8 @@ class TastingNoteView: UIView {
         $0.textColor = UIColor.customColor(.gray3)
     }
     
-    init(name: String, pos: String) {
+    init(pos: String) {
         super.init(frame: .zero)
-        self.nameLabel.text = name
         self.posLabel.text = pos
         configureUI()
     }

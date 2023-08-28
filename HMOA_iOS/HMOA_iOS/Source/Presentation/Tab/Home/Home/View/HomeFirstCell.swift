@@ -30,7 +30,7 @@ class HomeFirstCell: UICollectionViewCell, View {
     }
 
     
-    let perfumeNameLabel = UILabel().then {
+    let perfumeBrandLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 10)
     }
     
@@ -56,7 +56,7 @@ extension HomeFirstCell {
         // 향수 브랜드 label 바인딩
         reactor.state
             .map { $0.title }
-            .bind(to: perfumeNameLabel.rx.text)
+            .bind(to: perfumeBrandLabel.rx.text)
             .disposed(by: disposeBag)
         
         // 향수 imageView 바인딩
@@ -70,20 +70,20 @@ extension HomeFirstCell {
     }
     
     func configureUI() {
-        [perfumeImageView, perfumeNameLabel, perfumeInfoLabel] .forEach { addSubview($0) }
+        [perfumeImageView, perfumeBrandLabel, perfumeInfoLabel] .forEach { addSubview($0) }
         
         perfumeImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        perfumeNameLabel.snp.makeConstraints {
+        perfumeBrandLabel.snp.makeConstraints {
             $0.bottom.equalTo(perfumeImageView).inset(4)
             $0.leading.equalTo(perfumeImageView).inset(4)
         }
     }
     
     func bindUI(_ data: RecommendPerfume) {
-        perfumeNameLabel.text = data.perfumeName
+        perfumeBrandLabel.text = data.brandName
         perfumeImageView.kf.setImage(with: URL(string: data.imageUrl))
     }
 }
