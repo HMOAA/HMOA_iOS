@@ -86,24 +86,6 @@ extension SearchViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // 브랜드 버튼 클릭
-        ResultVC.topView.brandButton.rx.tap
-            .map { Reactor.Action.didTapBrandButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 포스트 버튼 클릭
-        ResultVC.topView.postButton.rx.tap
-            .map { Reactor.Action.didTapPostButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // Hpedia 버튼 클릭
-        ResultVC.topView.hpediaButton.rx.tap
-            .map { Reactor.Action.didTapHpediaButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         // 연관 검색어 List Cell 클릭
         listVC.tableView.rx.itemSelected
             .map { Reactor.Action.didTapSearchListCell($0) }
@@ -187,27 +169,6 @@ extension SearchViewController {
             .map { $0.isSelectedProductButton }
             .distinctUntilChanged()
             .bind(to: ResultVC.topView.productButton.rx.isSelected)
-            .disposed(by: disposeBag)
-        
-        // 브랜드 버튼 상태 변화
-        reactor.state
-            .map { $0.isSelectedBrandButton }
-            .distinctUntilChanged()
-            .bind(to: ResultVC.topView.brandButton.rx.isSelected )
-            .disposed(by: disposeBag)
-        
-        // 포스트 버튼 상태 변화
-        reactor.state
-            .map { $0.isSelectedPostButton }
-            .distinctUntilChanged()
-            .bind(to: ResultVC.topView.postButton.rx.isSelected)
-            .disposed(by: disposeBag)
-        
-        // Hepdia 버튼 상태 변화
-        reactor.state
-            .map { $0.isSelectedHpediaButton }
-            .distinctUntilChanged()
-            .bind(to: ResultVC.topView.hpediaButton.rx.isSelected )
             .disposed(by: disposeBag)
         
         // 연관 검색어를 클릭하면 해당 값을 searchBar의 text에 바인딩

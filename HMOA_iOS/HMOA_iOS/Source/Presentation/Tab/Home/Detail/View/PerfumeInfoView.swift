@@ -8,8 +8,6 @@
 import UIKit
 import SnapKit
 import Then
-import TagListView
-
 class PerfumeInfoView: UIView {
     
     
@@ -29,17 +27,6 @@ class PerfumeInfoView: UIView {
         $0.font = UIFont.customFont(.pretendard, 12)
     }
     
-    lazy var keywordTagListView = TagListView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 0)).then {
-        $0.borderColor = UIColor.customColor(.gray3)
-        $0.cornerRadius = 10
-        $0.borderWidth = 0.2
-        $0.tagBackgroundColor = .white
-        $0.textColor = UIColor.customColor(.gray3)
-        $0.alignment = .left
-        $0.textFont = UIFont.customFont(.pretendard, 10)
-        $0.paddingY = 5
-        $0.paddingX = 12
-    }
     
     let seperatorLine1 = UIView().then {
         $0.backgroundColor = UIColor.customColor(.gray2)
@@ -49,25 +36,8 @@ class PerfumeInfoView: UIView {
         $0.font = UIFont.customFont(.pretendard_medium, 16)
     }
     
-    lazy var perfumeView30 = EmptyPerfumeView("30ml")
+    lazy var perfumeView30 = EmptyPerfumeView()
     
-    lazy var ageLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard_medium, 14)
-    }
-    
-    lazy var ageNearLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard, 14)
-        $0.text = "대"
-    }
-    
-    lazy var gendarLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard_medium, 14)
-    }
-
-    lazy var gendarNearLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard, 14)
-        $0.text = "이 가장 많이 검색한 제품"
-    }
     
     let seperatorLine2 = UIView().then {
         $0.backgroundColor = UIColor.customColor(.gray2)
@@ -75,26 +45,16 @@ class PerfumeInfoView: UIView {
     
     lazy var brandView = BrandView()
     
-    lazy var productInfoTitleLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard_medium, 16)
-        $0.text = "상품설명"
-    }
-    
-    lazy var productInfoContentLabel = UILabel().then {
-        $0.numberOfLines = 0
-        $0.font = UIFont.customFont(.pretendard, 14)
-    }
-    
     lazy var tastingLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard_medium, 16)
+        $0.font = UIFont.customFont(.pretendard_medium, 20)
         $0.text = "테이스팅 노트"
     }
+    //TODO: singleNoteView 만들기
+    lazy var topNote = TastingNoteView(pos: "TOP")
     
-    lazy var topNote = TastingNoteView(name: "암브레트 씨", pos: "TOP")
+    lazy var heartNote = TastingNoteView(pos: "HEART")
     
-    lazy var heartNote = TastingNoteView(name: "씨 쏠트", pos: "HEART")
-    
-    lazy var baseNote = TastingNoteView(name: "세이지", pos: "BASE")
+    lazy var baseNote = TastingNoteView(pos: "BASE")
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -116,18 +76,11 @@ extension PerfumeInfoView {
             perfumeLikeButton,
             titleEnglishLabel,
             titleKoreanLabel,
-            keywordTagListView,
             seperatorLine1,
             priceLabel,
             perfumeView30,
-            ageLabel,
-            ageNearLabel,
-            gendarLabel,
-            gendarNearLabel,
             seperatorLine2,
             brandView,
-            productInfoTitleLabel,
-            productInfoContentLabel,
             tastingLabel,
             topNote,
             heartNote,
@@ -156,13 +109,8 @@ extension PerfumeInfoView {
             $0.leading.equalToSuperview().inset(16)
         }
         
-        keywordTagListView.snp.makeConstraints {
-            $0.top.equalTo(titleEnglishLabel.snp.bottom).offset(12)
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
         seperatorLine1.snp.makeConstraints {
-            $0.top.equalTo(keywordTagListView.snp.bottom).offset(16)
+            $0.top.equalTo(titleEnglishLabel.snp.bottom).offset(46)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.width.equalTo(UIScreen.main.bounds.width - 32)
             $0.height.equalTo(1)
@@ -180,28 +128,8 @@ extension PerfumeInfoView {
             $0.height.equalTo(45)
         }
 
-        ageLabel.snp.makeConstraints {
-            $0.top.equalTo(perfumeView30.snp.bottom).offset(12)
-            $0.leading.equalToSuperview().inset(16)
-        }
-
-        ageNearLabel.snp.makeConstraints {
-            $0.top.equalTo(ageLabel)
-            $0.leading.equalTo(ageLabel.snp.trailing).offset(1)
-        }
-
-        gendarLabel.snp.makeConstraints {
-            $0.top.equalTo(ageLabel)
-            $0.leading.equalTo(ageNearLabel.snp.trailing).offset(4)
-        }
-
-        gendarNearLabel.snp.makeConstraints {
-            $0.top.equalTo(ageLabel)
-            $0.leading.equalTo(gendarLabel.snp.trailing).offset(1)
-        }
-
         seperatorLine2.snp.makeConstraints {
-            $0.top.equalTo(ageLabel.snp.bottom).offset(16)
+            $0.top.equalTo(perfumeView30.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.width.equalTo(UIScreen.main.bounds.width - 32)
             $0.height.equalTo(1)
@@ -213,20 +141,8 @@ extension PerfumeInfoView {
             $0.height.equalTo(68)
         }
         
-        
-        productInfoTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(brandView.snp.bottom).offset(48)
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
-        productInfoContentLabel.snp.makeConstraints {
-            $0.top.equalTo(productInfoTitleLabel.snp.bottom).offset(12)
-
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
-        
         tastingLabel.snp.makeConstraints {
-            $0.top.equalTo(productInfoContentLabel.snp.bottom).offset(48)
+            $0.top.equalTo(brandView.snp.bottom).offset(48)
             $0.leading.equalToSuperview().inset(16)
         }
         

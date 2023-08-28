@@ -15,13 +15,16 @@ struct PerfumeDetail: Hashable, Decodable{
     }
 }
 
-struct Detail: Hashable, Codable {
+struct Detail: Hashable, Decodable {
     let perfumeID: Int
     let brandName, koreanName, englishName: String
     let price: Int
     let volume: [Int]
     let priceVolume: Int
     let topNote, heartNote, baseNote: String
+    let brandEnglishName: String
+    let brandImgUrl: String
+    let singleNote: String?
 
     enum CodingKeys: String, CodingKey {
         case perfumeID = "perfumeId"
@@ -33,6 +36,9 @@ struct Detail: Hashable, Codable {
              priceVolume,
              topNote,
              heartNote,
-             baseNote
+             baseNote,
+             brandEnglishName,
+             brandImgUrl,
+             singleNote
     }
 }

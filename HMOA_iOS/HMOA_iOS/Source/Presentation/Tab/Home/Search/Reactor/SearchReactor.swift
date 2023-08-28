@@ -15,9 +15,6 @@ class SearchReactor: Reactor {
         case didChangeTextField(String)
         case didEndTextField
         case didTapProductButton
-        case didTapBrandButton
-        case didTapPostButton
-        case didTapHpediaButton
         case didTapSearchListCell(IndexPath)
         case didTapSearchResultCell(IndexPath)
         case didClearTextField
@@ -36,9 +33,6 @@ class SearchReactor: Reactor {
         case setContent(String)
         case setResultProduct([SearchPerfume])
         case setProductButtonState(Bool)
-        case setBrandButtonState(Bool)
-        case setPostButtonState(Bool)
-        case setHpediaButtonState(Bool)
         case setSelectedPerfumeId(Int?)
         case setRecentResultPage(Int)
         case setRecentListPage(Int)
@@ -57,9 +51,6 @@ class SearchReactor: Reactor {
         var nowPage: Int = 1 // 현재 보여지고 있는 페이지
         var prePage: Int = 0 // 이전 페이지
         var isSelectedProductButton: Bool = true
-        var isSelectedBrandButton: Bool = false
-        var isSelectedPostButton: Bool = false
-        var isSelectedHpediaButton: Bool = false
         var selectedPerfumeId: Int? = nil
         var recentResultPage: Int = -1
         var recentListPage: Int = -1
@@ -94,15 +85,6 @@ class SearchReactor: Reactor {
             ])
         case .didTapProductButton:
             return .just(.setProductButtonState(true))
-
-        case .didTapBrandButton:
-            return .just(.setBrandButtonState(true))
-
-        case .didTapPostButton:
-            return .just(.setPostButtonState(true))
-
-        case .didTapHpediaButton:
-            return .just(.setHpediaButtonState(true))
             
         case .didTapSearchListCell(let indexPath):
             return .concat([
@@ -172,27 +154,6 @@ class SearchReactor: Reactor {
             
         case .setProductButtonState(let isSelected):
             state.isSelectedProductButton = isSelected
-            state.isSelectedBrandButton = false
-            state.isSelectedPostButton = false
-            state.isSelectedHpediaButton = false
-            
-        case .setBrandButtonState(let isSelected):
-            state.isSelectedBrandButton = isSelected
-            state.isSelectedProductButton = false
-            state.isSelectedPostButton = false
-            state.isSelectedHpediaButton = false
-            
-        case .setPostButtonState(let isSelected):
-            state.isSelectedPostButton = isSelected
-            state.isSelectedBrandButton = false
-            state.isSelectedProductButton = false
-            state.isSelectedHpediaButton = false
-            
-        case .setHpediaButtonState(let isSelected):
-            state.isSelectedHpediaButton = isSelected
-            state.isSelectedBrandButton = false
-            state.isSelectedPostButton = false
-            state.isSelectedProductButton = false
             
         case .isTapSearchListCell(let content):
             state.listContent = content

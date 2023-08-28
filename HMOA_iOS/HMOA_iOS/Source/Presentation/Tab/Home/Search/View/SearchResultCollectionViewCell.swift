@@ -18,11 +18,11 @@ class SearchResultCollectionViewCell: UICollectionViewCell {
     
     lazy var productImageView = UIImageView()
     
-    var titleLabel = UILabel().then {
+    var brandLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 14)
     }
     
-    var contentLabel = UILabel().then {
+    var nameLabel = UILabel().then {
         $0.numberOfLines = 2
         $0.font = .customFont(.pretendard, 12)
     }
@@ -46,8 +46,8 @@ extension SearchResultCollectionViewCell {
     
     func configureUI() {
         [   productImageView,
-            titleLabel,
-            contentLabel,
+            brandLabel,
+            nameLabel,
             likeButton
         ]   .forEach { addSubview($0) }
         
@@ -57,25 +57,25 @@ extension SearchResultCollectionViewCell {
             $0.height.equalTo(productImageView.snp.width)
         }
         
-        titleLabel.snp.makeConstraints {
+        brandLabel.snp.makeConstraints {
             $0.top.equalTo(productImageView.snp.bottom).offset(12)
             $0.leading.equalToSuperview()
         }
         
-        contentLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(6)
+        nameLabel.snp.makeConstraints {
+            $0.top.equalTo(brandLabel.snp.bottom).offset(6)
             $0.leading.trailing.equalToSuperview()
         }
         
         likeButton.snp.makeConstraints {
-            $0.top.equalTo(titleLabel)
+            $0.top.equalTo(brandLabel)
             $0.trailing.equalToSuperview()
         }
     }
     
     func updateCell(_ product: SearchPerfume) {
         self.productImageView.kf.setImage(with: URL(string: product.perfumeImageUrl))
-        self.titleLabel.text = product.perfumeName
-        self.contentLabel.text = product.brandName
+        self.brandLabel.text = product.brandName
+        self.nameLabel.text = product.perfumeName
     }
 }
