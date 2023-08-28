@@ -32,17 +32,6 @@ class BrandView: UIView {
         $0.text = "조말론 런던"
     }
     
-    lazy var likeButton = UIButton().then {
-        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)
-        let normalImage = UIImage(named: "heart", in: .none, with: config)
-        let selectedImage = UIImage(named: "heart_fill", in: .none, with: config)
-
-        $0.setImage(normalImage, for: .normal)
-        $0.setImage(selectedImage, for: .selected)
-        $0.tintColor = .white
-        $0.backgroundColor = .white
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -61,8 +50,8 @@ extension BrandView {
         
         [   brandImageView,
             brandEnglishLabel,
-            brandKoreanLabel,
-            likeButton  ]   .forEach { addSubview($0) }
+            brandKoreanLabel
+        ]   .forEach { addSubview($0) }
         
         brandImageView.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
@@ -78,10 +67,6 @@ extension BrandView {
             $0.top.equalTo(brandEnglishLabel.snp.bottom).offset(6)
             $0.leading.equalTo(brandEnglishLabel)
         }
-        
-        likeButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(16)
-        }
+
     }
 }
