@@ -27,11 +27,11 @@ class LikeReactor: Reactor {
         case setShowCardCollectionView(Bool)
         case setShowListCollectionView(Bool)
         case setSelectedPerfumeId(IndexPath?)
+        case setSectionItem([Like])
     }
     
     struct State {
-        var cardSectionItem: [CardSectionItem] = []
-        var listSectionItem: [ListSectionItem] = []
+        var sectionItem: [Like] = []
         var isSelectedCard: Bool = true
         var isSelectedList: Bool = false
         var selectedCardIndexPath: IndexPath? = nil
@@ -50,7 +50,7 @@ class LikeReactor: Reactor {
                 .just(.setSelectedPerfumeId(nil))
             ])
         case .viewWillAppear:
-            return .empty()
+            return fetchLikePerfumes()
         }
     }
     
@@ -70,7 +70,9 @@ class LikeReactor: Reactor {
                 return state
             }
             
-            state.selectedPerfumeId = state.cardSectionItem[indexPath.item].id
+            //state.selectedPerfumeId = state.cardSectionItem[indexPath.item].id
+        case .setSectionItem(let item):
+            state.sectionItem = item
         }
         return state
     }
@@ -78,11 +80,15 @@ class LikeReactor: Reactor {
 
 extension LikeReactor {
     
-//    func fetchLikePerfumeList() -> Observable<Mutation> {
-//        return LikeAPI.fetchLikeList()
-//            .catch { _ in .empty() }
-//            .flatMap { data -> Observable<Mutation> in
-//
-//            }
-//    }
+    func fetchLikePerfumes() -> Observable<Mutation> {
+        return LikeAPI.fetchLikeList()
+            .catch { _ in .empty() }
+            .flatMap { list -> Observable<Mutation> in
+                let item: [Like] = list.likePerfumes
+                
+                return .concat([
+                    .just(.setSectionItem(item))
+                ])
+            }
+    }
 }

@@ -34,7 +34,6 @@ class LikeCardCell: UICollectionViewCell {
     
     let perpumeImageView = UIImageView().then {
         $0.clipsToBounds = true
-        $0.image = UIImage(named: "jomalon")
     }
     
     let layout = UICollectionViewFlowLayout().then {
@@ -180,12 +179,12 @@ class LikeCardCell: UICollectionViewCell {
         }
     }
     
-    func configure(item: CardSectionItem) {
-        
+    func updateCell(item: Like) {
         brandNameLabel.text = item.brandName
-        korNameLabel.text = item.korPerpumeName
-        engNameLabel.text = item.engPerpumeName
+        korNameLabel.text = item.koreanName
+        engNameLabel.text = item.englishName
         priceLabel.text = item.price.numberFormatterToWon()
+        perpumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl))
     }
 
     
