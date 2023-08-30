@@ -55,3 +55,9 @@ class LikeListCell: UICollectionViewCell {
     }
     
 }
+
+extension LikeListCell {
+    func updateCell(item: Like) {
+        perpumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl))
+    }
+}

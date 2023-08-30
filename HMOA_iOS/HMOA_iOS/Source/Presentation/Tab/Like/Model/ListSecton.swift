@@ -8,11 +8,10 @@
 import Foundation
 
 
-enum ListSection {
+enum LikeSection: Hashable {
     case main
 }
 
-struct ListSectionItem: Hashable {
-    let id: Int
-    let imgName: String
+struct LikeSectionItem: Hashable {
+    var item: [Like]
 }

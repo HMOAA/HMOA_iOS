@@ -27,11 +27,11 @@ final class LikeAPI {
             model: Response.self)
     }
     
-    static func fetchLikeList() -> Observable<Response>{
+    static func fetchLikeList() -> Observable<LikePerfume>{
         return networking(
             urlStr: LikeAddress.fetchLikeList.url,
             method: .get,
             data: nil,
-            model: Response.self)
+            model: LikePerfume.self)
     }
 }

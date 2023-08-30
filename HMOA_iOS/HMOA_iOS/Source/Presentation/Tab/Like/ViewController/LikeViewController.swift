@@ -35,8 +35,8 @@ class LikeViewController: UIViewController, View {
     let reactor = LikeReactor()
     var disposeBag = DisposeBag()
     
-    private var cardDatasource: UICollectionViewDiffableDataSource<CardSection, CardSectionItem>?
-    private var listDatasource: UICollectionViewDiffableDataSource<ListSection, ListSectionItem>?
+    private var cardDatasource: UICollectionViewDiffableDataSource<LikeSection, Like>!
+    private var listDatasource: UICollectionViewDiffableDataSource<LikeSection, Like>!
 
     
     lazy var cardCollectionView = UICollectionView(frame: .zero,
@@ -110,6 +110,10 @@ class LikeViewController: UIViewController, View {
     func bind(reactor: LikeReactor) {
         
         //Input
+        rx.viewWillAppear
+            .map { _ in LikeReactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         //카드버튼 터치 이벤트
         cardButton.rx.tap
@@ -129,36 +133,25 @@ class LikeViewController: UIViewController, View {
         
         //Output
         
-        //cardCollectionView Binding
+        //CollectionView Binding
         reactor.state
-            .map { $0.cardSectionItem }
+            .map { $0.sectionItem }
+            .distinctUntilChanged()
+            .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, cards in
-                guard let datasource = owner.cardDatasource else { return }
+            .drive(with: self, onNext: { owner, item in
+                print(item)
+                var cardSnapshot = NSDiffableDataSourceSnapshot<LikeSection, Like>()
+                cardSnapshot.appendSections([.main])
+                cardSnapshot.appendItems(item, toSection: .main)
                 
-                var snapshot = NSDiffableDataSourceSnapshot<CardSection, CardSectionItem>()
-                snapshot.appendSections([.main])
-                snapshot.appendItems(cards, toSection: .main)
+                var listSnapshot = NSDiffableDataSourceSnapshot<LikeSection, Like>()
+                listSnapshot.appendSections([.main])
+                listSnapshot.appendItems(item, toSection: .main)
                 
                 DispatchQueue.main.async {
-                    datasource.apply(snapshot)
-                }
-            })
-            .disposed(by: disposeBag)
-        
-        //listCollectionView Binding
-        reactor.state
-            .map { $0.listSectionItem }
-            .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, lists in
-                guard let datasource = owner.listDatasource else { return }
-                
-                var snapshot = NSDiffableDataSourceSnapshot<ListSection, ListSectionItem>()
-                snapshot.appendSections([.main])
-                snapshot.appendItems(lists, toSection: .main)
-                
-                DispatchQueue.main.async {
-                    datasource.apply(snapshot)
+                    self.cardDatasource.apply(cardSnapshot)
+                    self.listDatasource.apply(listSnapshot)
                 }
             })
             .disposed(by: disposeBag)
@@ -206,21 +199,21 @@ class LikeViewController: UIViewController, View {
 extension LikeViewController {
     
     func configureCardDataSource() {
-        cardDatasource = UICollectionViewDiffableDataSource<CardSection, CardSectionItem>(collectionView: cardCollectionView, cellProvider: { collectionView, indexPath, item in
+        cardDatasource = UICollectionViewDiffableDataSource<LikeSection, Like>(collectionView: cardCollectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCardCell.identifier, for: indexPath) as? LikeCardCell
             else { return UICollectionViewCell() }
             
-            cell.configure(item: item)
+            cell.updateCell(item: item)
             return cell
         })
     }
     
     func configureListDataSource() {
-        listDatasource = UICollectionViewDiffableDataSource<ListSection, ListSectionItem> (collectionView: listCollectionView, cellProvider: { collectionView, indexPath, item in
+        listDatasource = UICollectionViewDiffableDataSource<LikeSection, Like> (collectionView: listCollectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeListCell.identifier, for: indexPath) as? LikeListCell
             else { return UICollectionViewCell() }
             
-            cell.perpumeImageView.image = UIImage(named: item.imgName)
+            cell.updateCell(item: item)
             return cell
         })
         
