@@ -20,7 +20,7 @@ class LikeReactor: Reactor {
         case viewWillAppear
         case didTapCardButton
         case didTapListButton
-        case didTapCardItem(IndexPath)
+        case didTapCollectionViewItem(IndexPath)
     }
     
     enum Mutation {
@@ -44,7 +44,7 @@ class LikeReactor: Reactor {
             return .just(.setShowCardCollectionView(true))
         case .didTapListButton:
             return .just(.setShowListCollectionView(true))
-        case .didTapCardItem(let indexPath):
+        case .didTapCollectionViewItem(let indexPath):
             return .concat([
                 .just(.setSelectedPerfumeId(indexPath)),
                 .just(.setSelectedPerfumeId(nil))
@@ -70,10 +70,11 @@ class LikeReactor: Reactor {
                 return state
             }
             
-            //state.selectedPerfumeId = state.cardSectionItem[indexPath.item].id
+            state.selectedPerfumeId = state.sectionItem[indexPath.item].perfumeID
         case .setSectionItem(let item):
             state.sectionItem = item
         }
+            
         return state
     }
 }
