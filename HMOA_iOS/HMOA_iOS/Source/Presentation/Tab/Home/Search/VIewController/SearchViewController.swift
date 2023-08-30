@@ -184,10 +184,9 @@ extension SearchViewController {
         
         // 검새 결과를 클릭하면 해당 PerfumeId가지고 향수 상세보기 페이지로 이동
         reactor.state
-            .map { ($0.selectedPerfumeId, $0.selectedPerfumeImage) }
-            .bind(with: self, onNext: { owner, selected in
-                owner.presentDatailViewController(selected)
-            })
+            .map { $0.selectedPerfumeId }
+            .compactMap { $0 }
+            .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
     }
     

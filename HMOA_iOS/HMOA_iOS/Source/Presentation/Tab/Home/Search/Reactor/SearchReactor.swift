@@ -36,7 +36,6 @@ class SearchReactor: Reactor {
         case setSelectedPerfumeId(Int?)
         case setRecentResultPage(Int)
         case setRecentListPage(Int)
-        case setSelectedPerfumeImage(String?)
     }
     
     struct State {
@@ -54,7 +53,6 @@ class SearchReactor: Reactor {
         var selectedPerfumeId: Int? = nil
         var recentResultPage: Int = -1
         var recentListPage: Int = -1
-        var selectedPerfumeImage: String? = nil
     }
     
     var initialState = State()
@@ -98,8 +96,6 @@ class SearchReactor: Reactor {
         case .didTapSearchResultCell(let indexPath):
             return .concat([
                 .just(.setSelectedPerfumeId(currentState.resultProduct[indexPath.item].perfumeId)),
-                .just(.setSelectedPerfumeImage(currentState.resultProduct[indexPath.item].perfumeImageUrl)),
-                .just(.setSelectedPerfumeImage(nil)),
                 .just(.setSelectedPerfumeId(nil))
             ])
             
@@ -166,8 +162,6 @@ class SearchReactor: Reactor {
             
         case .setRecentListPage(let page):
             state.recentListPage = page
-        case .setSelectedPerfumeImage(let image):
-            state.selectedPerfumeImage = image
         }
         
         return state

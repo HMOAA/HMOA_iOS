@@ -92,8 +92,8 @@ extension PerfumeInfoCell {
         return attri
     }
     
-    func updateCell(_ item: Detail, _ image: String) {
-        perfumeInfoView.perfumeImageView.kf.setImage(with: URL(string: image)!)
+    func updateCell(_ item: Detail) {
+        perfumeInfoView.perfumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl)!)
         perfumeInfoView.titleKoreanLabel.text = item.koreanName
         perfumeInfoView.titleEnglishLabel.text = item.englishName
         perfumeInfoView.priceLabel.text = "₩\(numberFormatter(item.price))"
