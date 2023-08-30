@@ -17,18 +17,18 @@ class LikeViewController: UIViewController, View {
     //MARK: - Property
 
     //TODO: - 임시로 이미지 집어넣었으므로 나중에 바꿔주기
-    let listButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "rectangle.split.3x3"),
+    let cardButton = UIButton().then {
+        $0.isSelected = true
+        $0.setImage(UIImage(named: "cardButton"),
                     for: .normal)
-        $0.setImage(UIImage(systemName: "rectangle.split.3x3.fill"),
+        $0.setImage(UIImage(named: "selectedCardButton"),
                     for: .selected)
     }
     
-    let cardButton = UIButton().then {
-        $0.isSelected = true
-        $0.setImage(UIImage(systemName: "lanyardcard")
+    let listButton = UIButton().then {
+        $0.setImage(UIImage(named: "gridButton")
                     , for: .normal)
-        $0.setImage(UIImage(systemName: "lanyardcard.fill"),
+        $0.setImage(UIImage(named: "selectedGridButton"),
                     for: .selected)
     }
     
@@ -84,13 +84,13 @@ class LikeViewController: UIViewController, View {
         cardButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(17.5)
             make.top.equalTo(view.safeAreaLayoutGuide).offset(19)
-            make.height.equalTo(18)
+            make.height.equalTo(24)
         }
         
         listButton.snp.makeConstraints { make in
             make.trailing.equalTo(cardButton.snp.leading).offset(-13)
             make.top.equalTo(view.safeAreaLayoutGuide).offset(19)
-            make.height.equalTo(18)
+            make.height.equalTo(24)
         }
         
         cardCollectionView.snp.makeConstraints { make in
@@ -127,7 +127,12 @@ class LikeViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         cardCollectionView.rx.itemSelected
-            .map { LikeReactor.Action.didTapCardItem($0) }
+            .map { LikeReactor.Action.didTapCollectionViewItem($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        listCollectionView.rx.itemSelected
+            .map { LikeReactor.Action.didTapCollectionViewItem($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -184,13 +189,13 @@ class LikeViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
 
-//        card 향수 디테일 페이지로 이동
-//        reactor.state
-//            .map { $0.selectedPerfumeId }
-//            .distinctUntilChanged()
-//            .compactMap { $0 }
-//            .bind(onNext: presentDatailViewController)
-//            .disposed(by: disposeBag)
+        // 향수 디테일 페이지로 이동
+        reactor.state
+            .map { $0.selectedPerfumeId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
       
     }
     
