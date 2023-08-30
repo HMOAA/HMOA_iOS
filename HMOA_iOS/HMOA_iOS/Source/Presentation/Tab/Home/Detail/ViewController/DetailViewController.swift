@@ -200,7 +200,7 @@ extension DetailViewController {
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
                 
-                perfumeInfoCell.updateCell(detail.perfumeDetail, self.DetailReactor.currentState.perfumeImage)
+                perfumeInfoCell.updateCell(detail.perfumeDetail)
                 // 하단 뷰 향수 좋아요 버튼 클릭시 액션 전달
 //                self.bottomView.likeButton.rx.tap
 //                    .map { _ in .didTapPerfumeLikeButton }

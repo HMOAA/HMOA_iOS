@@ -45,15 +45,11 @@ final class DetailViewReactor: Reactor {
         var isPopRootVC: Bool = false
         var isPresentSearchVC: Bool = false
         var perfumeId: Int
-        var perfumeImage: String
         var isLiked: Bool = false
     }
     
-    init(perfumeImage: String, perfumeId: Int) {
-        self.initialState = State(
-            perfumeId: perfumeId,
-            perfumeImage: perfumeImage
-        )
+    init(perfumeId: Int) {
+        self.initialState = State(perfumeId: perfumeId)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
