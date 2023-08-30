@@ -20,6 +20,7 @@ final class DetailViewReactor: Reactor {
         case didTapBackButton
         case didTapHomeButton
         case didTapSearchButton
+        case didTapLikeButton
     }
     
     enum Mutation {
@@ -31,6 +32,7 @@ final class DetailViewReactor: Reactor {
         case setIsPopVC(Bool)
         case setIsPopRootVC(Bool)
         case setIsPresentSearchVC(Bool)
+        case setIsLiked(Bool)
     }
     
     struct State {
@@ -44,6 +46,7 @@ final class DetailViewReactor: Reactor {
         var isPresentSearchVC: Bool = false
         var perfumeId: Int
         var perfumeImage: String
+        var isLiked: Bool = false
     }
     
     init(perfumeImage: String, perfumeId: Int) {
@@ -98,6 +101,8 @@ final class DetailViewReactor: Reactor {
                 .just(.setIsPresentSearchVC(true)),
                 .just(.setIsPresentSearchVC(false))
             ])
+        case .didTapLikeButton:
+            return setPerfumeLike()
         }
     }
     
@@ -125,8 +130,12 @@ final class DetailViewReactor: Reactor {
             
         case .setIsPresentSearchVC(let isPresent):
             state.isPresentSearchVC = isPresent
+            
         case .setSections(let sections):
             state.sections = sections
+            
+        case .setIsLiked(let isLiked):
+            state.isLiked = isLiked
         }
         
         return state
@@ -179,5 +188,25 @@ extension DetailViewReactor {
         
         
         
+    }
+    
+    func setPerfumeLike() -> Observable<Mutation> {
+        let state = currentState
+        let isCurrentlyLiked = state.isLiked
+        let perfumeId = state.perfumeId
+        
+        if isCurrentlyLiked {
+            return LikeAPI.deleteLike(perfumeId)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    return .just(.setIsLiked(false))
+                }
+        } else {
+            return LikeAPI.putLike(perfumeId)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    return .just(.setIsLiked(true))
+                }
+        }
     }
 }
