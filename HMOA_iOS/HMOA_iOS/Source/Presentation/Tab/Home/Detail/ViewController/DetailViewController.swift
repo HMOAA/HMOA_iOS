@@ -89,9 +89,14 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         // 검색 버튼 클릭
-        
         searchBarButton.rx.tap
             .map { Reactor.Action.didTapSearchButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //좋아요 버튼 클릭
+        bottomView.likeButton.rx.tap
+            .map { Reactor.Action.didTapLikeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -177,6 +182,14 @@ extension DetailViewController {
             .map { _ in }
             .bind(onNext: presentSearchViewController)
             .disposed(by: disposeBag)
+        
+        // 향수 좋아요 여부 바인딩
+        reactor.state
+            .map { $0.isLiked }
+            .distinctUntilChanged()
+            .bind(to: bottomView.likeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
     }
     
     func configureCollectionViewDataSource() {

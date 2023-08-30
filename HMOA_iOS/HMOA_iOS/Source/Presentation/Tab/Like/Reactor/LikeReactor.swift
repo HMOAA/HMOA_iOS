@@ -17,6 +17,7 @@ class LikeReactor: Reactor {
     }
     
     enum Action {
+        case viewWillAppear
         case didTapCardButton
         case didTapListButton
         case didTapCardItem(IndexPath)
@@ -29,8 +30,8 @@ class LikeReactor: Reactor {
     }
     
     struct State {
-        var cardSectionItem: [CardSectionItem] = CardSectionItem.items
-        var listSectionItem: [ListSectionItem] = ListSectionItem.items
+        var cardSectionItem: [CardSectionItem] = []
+        var listSectionItem: [ListSectionItem] = []
         var isSelectedCard: Bool = true
         var isSelectedList: Bool = false
         var selectedCardIndexPath: IndexPath? = nil
@@ -48,6 +49,8 @@ class LikeReactor: Reactor {
                 .just(.setSelectedPerfumeId(indexPath)),
                 .just(.setSelectedPerfumeId(nil))
             ])
+        case .viewWillAppear:
+            return .empty()
         }
     }
     
@@ -71,4 +74,15 @@ class LikeReactor: Reactor {
         }
         return state
     }
+}
+
+extension LikeReactor {
+    
+//    func fetchLikePerfumeList() -> Observable<Mutation> {
+//        return LikeAPI.fetchLikeList()
+//            .catch { _ in .empty() }
+//            .flatMap { data -> Observable<Mutation> in
+//
+//            }
+//    }
 }
