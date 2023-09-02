@@ -21,6 +21,7 @@ enum Colors {
     case red
     case white
     case HPediaCellColor
+    case brandBorderColor
 }
 
 extension UIColor {
@@ -52,6 +53,8 @@ extension UIColor {
             return #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         case .HPediaCellColor:
             return #colorLiteral(red: 0.662745098, green: 0.662745098, blue: 0.662745098, alpha: 1)
+        case .brandBorderColor:
+            return #colorLiteral(red: 0.7810429931, green: 0.7810428739, blue: 0.7810428739, alpha: 1)
         }
     }
 }

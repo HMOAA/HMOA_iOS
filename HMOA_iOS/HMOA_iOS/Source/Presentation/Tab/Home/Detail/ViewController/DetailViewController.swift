@@ -89,9 +89,14 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         // 검색 버튼 클릭
-        
         searchBarButton.rx.tap
             .map { Reactor.Action.didTapSearchButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //좋아요 버튼 클릭
+        bottomView.likeButton.rx.tap
+            .map { Reactor.Action.didTapLikeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -177,17 +182,25 @@ extension DetailViewController {
             .map { _ in }
             .bind(onNext: presentSearchViewController)
             .disposed(by: disposeBag)
+        
+        // 향수 좋아요 여부 바인딩
+        reactor.state
+            .map { $0.isLiked }
+            .distinctUntilChanged()
+            .bind(to: bottomView.likeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: { [self] collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: {  collectionView, indexPath, item in
             
             switch item {
             case .topCell(let detail, _):
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
                 
-                perfumeInfoCell.updateCell(detail.perfumeDetail, self.DetailReactor.currentState.perfumeImage)
+                perfumeInfoCell.updateCell(detail.perfumeDetail)
                 // 하단 뷰 향수 좋아요 버튼 클릭시 액션 전달
 //                self.bottomView.likeButton.rx.tap
 //                    .map { _ in .didTapPerfumeLikeButton }

@@ -118,10 +118,9 @@ extension HomeViewController {
 
         // 향수 디테일 페이지로 이동
         reactor.state
-            .map { ($0.selectedPerfumeId, $0.selectedPerfumeImage) }
-            .bind(with: self, onNext: { owner, selected in
-                owner.presentDatailViewController(selected)
-            })
+            .map { $0.selectedPerfumeId }
+            .compactMap { $0 }
+            .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
         
         // 브랜드 검색 페이지로 이동
