@@ -15,6 +15,8 @@ class BrandView: UIView {
     // MARK: - Properties
     
     lazy var brandImageView = UIImageView().then {
+        $0.layer.borderColor = UIColor.customColor(.brandBorderColor).cgColor
+        $0.layer.borderWidth = 1
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .white
         $0.image = UIImage(named: "brand")

@@ -12,7 +12,6 @@ import Then
 import RxDataSources
 import RxCocoa
 import ReactorKit
-import TagListView
 
 class LikeCardCell: UICollectionViewCell {
     
@@ -35,30 +34,12 @@ class LikeCardCell: UICollectionViewCell {
     
     let perpumeImageView = UIImageView().then {
         $0.clipsToBounds = true
-        $0.image = UIImage(named: "jomalon")
     }
     
     let layout = UICollectionViewFlowLayout().then {
         $0.itemSize = CGSize(width: 50, height: 18)
         $0.minimumLineSpacing = 4
         $0.scrollDirection = .horizontal
-    }
-    
-    lazy var keywordTagListView = TagListView(frame: CGRect(x: 0,
-                                                            y: 0,
-                                                            width: 50,
-                                                            height: 18)).then {
-        $0.addTags(["우드한", "자연의"])
-        $0.borderColor = UIColor.customColor(.gray3)
-        $0.cornerRadius = 10
-        $0.borderWidth = 1
-        $0.tagBackgroundColor = .white
-        $0.textColor = UIColor.customColor(.gray3)
-        $0.alignment = .left
-        $0.textFont = UIFont.customFont(.pretendard, 10)
-        $0.paddingY = 4
-        $0.paddingX = 12
-        
     }
     
     let nameStackView = UIStackView().then {
@@ -149,7 +130,6 @@ class LikeCardCell: UICollectionViewCell {
         
         [topView,
          perpumeImageView,
-         keywordTagListView,
          nameStackView,
          priceTextLabel,
          priceLabel].forEach { contentView.addSubview($0) }
@@ -181,16 +161,9 @@ class LikeCardCell: UICollectionViewCell {
             make.height.width.equalTo(120)
         }
         
-        keywordTagListView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(24)
-            make.trailing.equalToSuperview()
-            make.height.equalTo(18)
-            make.top.equalTo(perpumeImageView.snp.bottom).offset(20)
-        }
-        
         nameStackView.snp.makeConstraints { make in
             make.trailing.leading.equalToSuperview().inset(24)
-            make.top.equalTo(keywordTagListView.snp.bottom).offset(8)
+            make.top.equalTo(perpumeImageView.snp.bottom).offset(8)
         }
         
         priceTextLabel.snp.makeConstraints { make in
@@ -206,12 +179,12 @@ class LikeCardCell: UICollectionViewCell {
         }
     }
     
-    func configure(item: CardSectionItem) {
-        
+    func updateCell(item: Like) {
         brandNameLabel.text = item.brandName
-        korNameLabel.text = item.korPerpumeName
-        engNameLabel.text = item.engPerpumeName
+        korNameLabel.text = item.koreanName
+        engNameLabel.text = item.englishName
         priceLabel.text = item.price.numberFormatterToWon()
+        perpumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl))
     }
 
     

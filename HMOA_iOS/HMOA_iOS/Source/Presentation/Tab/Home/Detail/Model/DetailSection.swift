@@ -24,23 +24,6 @@ enum DetailSectionItem {
 
 extension DetailSectionItem: Hashable {
     
-    
-//    func hash(into hasher: inout Hasher) {
-//        switch self {
-//        case .topCell(let detail, let id):
-//            hasher.combine(detail)
-//            hasher.combine(id)
-//        case .commentCell(let comment, let id):
-//            hasher.combine(comment)
-//            hasher.combine(id)
-//        case .recommendCell(let recommend, let id):
-//            hasher.combine(recommend)
-//            hasher.combine(id)
-//        case .evaluationCell(let id):
-//            hasher.combine(id)
-//        }
-//    }
-    
     var id: Int {
         switch self {
         case .topCell:

@@ -32,7 +32,6 @@ class DetailBottomView: UIView {
         let attri = AttributedString.init("댓글작성")
         
         config.attributedTitle?.font = .customFont(.pretendard_medium, 16)
-        //config.attributedTitle?.foregroundColor = .white
         config.titleAlignment = .trailing
         config.image = UIImage(named: "bottomComment")
         config.imagePadding = 10

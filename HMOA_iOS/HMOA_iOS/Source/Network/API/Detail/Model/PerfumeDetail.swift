@@ -25,6 +25,7 @@ struct Detail: Hashable, Decodable {
     let brandEnglishName: String
     let brandImgUrl: String
     let singleNote: String?
+    let perfumeImageUrl: String
 
     enum CodingKeys: String, CodingKey {
         case perfumeID = "perfumeId"
@@ -39,6 +40,7 @@ struct Detail: Hashable, Decodable {
              baseNote,
              brandEnglishName,
              brandImgUrl,
-             singleNote
+             singleNote,
+             perfumeImageUrl
     }
 }
