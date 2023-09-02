@@ -17,14 +17,6 @@ enum CommentSectionItem {
 }
 
 extension CommentSectionItem: Hashable {
-    
-    func hash(into hasher: inout Hasher) {
-        switch self {
-        case .commentCell(let comment, let id):
-            hasher.combine(comment)
-            hasher.combine(id)
-        }
-    }
     var commentId: Int {
         switch self {
         case .commentCell(_, let commentId):

@@ -17,7 +17,6 @@
 		2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246D29A3E112009CF0FE /* DetailViewReactor.swift */; };
 		2C04247129A3E3D4009CF0FE /* PerfumeDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247029A3E3D4009CF0FE /* PerfumeDetail.swift */; };
 		2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247229A3F7A6009CF0FE /* DetailSection.swift */; };
-		2C04247529A3F899009CF0FE /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247429A3F899009CF0FE /* Comment.swift */; };
 		2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247629A3FCED009CF0FE /* PerfumeInfoViewReactor.swift */; };
 		2C04247929A3FD03009CF0FE /* CommentCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */; };
 		2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247E29A4C329009CF0FE /* CommentListViewController.swift */; };
@@ -146,6 +145,9 @@
 		CA219C442A9C6DAD003FB215 /* LikeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C432A9C6DAD003FB215 /* LikeAPI.swift */; };
 		CA219C462A9F0985003FB215 /* LikePerfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C452A9F0985003FB215 /* LikePerfume.swift */; };
 		CA219C4A2AA1C635003FB215 /* LikeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C492AA1C635003FB215 /* LikeHeaderView.swift */; };
+		CA219C4E2AA2FDE0003FB215 /* CommentAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C4D2AA2FDE0003FB215 /* CommentAddress.swift */; };
+		CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C4F2AA2FF16003FB215 /* CommentAPI.swift */; };
+		CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C512AA2FF5C003FB215 /* Comment.swift */; };
 		CA34781B29E2DAE300334070 /* HPediaGuideHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA34781A29E2DAE300334070 /* HPediaGuideHeaderCell.swift */; };
 		CA34781D29E2DD8100334070 /* HPediaTagHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA34781C29E2DD8100334070 /* HPediaTagHeaderCell.swift */; };
 		CA360F3129DD620600A93873 /* HPediaGuideSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3029DD620600A93873 /* HPediaGuideSection.swift */; };
@@ -216,7 +218,6 @@
 		2C04246D29A3E112009CF0FE /* DetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewReactor.swift; sourceTree = "<group>"; };
 		2C04247029A3E3D4009CF0FE /* PerfumeDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeDetail.swift; sourceTree = "<group>"; };
 		2C04247229A3F7A6009CF0FE /* DetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSection.swift; sourceTree = "<group>"; };
-		2C04247429A3F899009CF0FE /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		2C04247629A3FCED009CF0FE /* PerfumeInfoViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoViewReactor.swift; sourceTree = "<group>"; };
 		2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellReactor.swift; sourceTree = "<group>"; };
 		2C04247E29A4C329009CF0FE /* CommentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListViewController.swift; sourceTree = "<group>"; };
@@ -353,6 +354,9 @@
 		CA219C432A9C6DAD003FB215 /* LikeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeAPI.swift; sourceTree = "<group>"; };
 		CA219C452A9F0985003FB215 /* LikePerfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikePerfume.swift; sourceTree = "<group>"; };
 		CA219C492AA1C635003FB215 /* LikeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeHeaderView.swift; sourceTree = "<group>"; };
+		CA219C4D2AA2FDE0003FB215 /* CommentAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAddress.swift; sourceTree = "<group>"; };
+		CA219C4F2AA2FF16003FB215 /* CommentAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAPI.swift; sourceTree = "<group>"; };
+		CA219C512AA2FF5C003FB215 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		CA34781A29E2DAE300334070 /* HPediaGuideHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaGuideHeaderCell.swift; sourceTree = "<group>"; };
 		CA34781C29E2DD8100334070 /* HPediaTagHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaTagHeaderCell.swift; sourceTree = "<group>"; };
 		CA360F3029DD620600A93873 /* HPediaGuideSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaGuideSection.swift; sourceTree = "<group>"; };
@@ -482,7 +486,6 @@
 			isa = PBXGroup;
 			children = (
 				2C04247229A3F7A6009CF0FE /* DetailSection.swift */,
-				2C04247429A3F899009CF0FE /* Comment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1116,6 +1119,7 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				CA219C4B2AA2FDC3003FB215 /* Comment */,
 				CA219C3F2A9C6B19003FB215 /* Like */,
 				CA19D15D2A8F5F6300B04C6F /* Detail */,
 				CAF19B9A2A625CEF00374038 /* Search */,
@@ -1409,6 +1413,24 @@
 			isa = PBXGroup;
 			children = (
 				CA219C452A9F0985003FB215 /* LikePerfume.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CA219C4B2AA2FDC3003FB215 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				CA219C4C2AA2FDCC003FB215 /* Model */,
+				CA219C4D2AA2FDE0003FB215 /* CommentAddress.swift */,
+				CA219C4F2AA2FF16003FB215 /* CommentAPI.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		CA219C4C2AA2FDCC003FB215 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA219C512AA2FF5C003FB215 /* Comment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1801,6 +1823,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA219C4E2AA2FDE0003FB215 /* CommentAddress.swift in Sources */,
 				2C04249629A533DF009CF0FE /* CommentBottomView.swift in Sources */,
 				CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */,
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
@@ -1816,6 +1839,7 @@
 				CA5DB81929EAA6F500BE0F79 /* LoginModel.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				CAF19B9E2A625D2100374038 /* SearchAddress.swift in Sources */,
+				CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */,
 				CA34781B29E2DAE300334070 /* HPediaGuideHeaderCell.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
@@ -1898,6 +1922,7 @@
 				2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */,
+				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
 				CA360F3429DD623D00A93873 /* HPediaSection.swift in Sources */,
@@ -1964,7 +1989,6 @@
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
 				2C04247929A3FD03009CF0FE /* CommentCellReactor.swift in Sources */,
-				2C04247529A3F899009CF0FE /* Comment.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
