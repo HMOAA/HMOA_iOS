@@ -15,23 +15,6 @@ import ReactorKit
 class LikeViewController: UIViewController, View {
     
     //MARK: - Property
-
-    //TODO: - 임시로 이미지 집어넣었으므로 나중에 바꿔주기
-    let cardButton = UIButton().then {
-        $0.isSelected = true
-        $0.setImage(UIImage(named: "cardButton"),
-                    for: .normal)
-        $0.setImage(UIImage(named: "selectedCardButton"),
-                    for: .selected)
-    }
-    
-    let listButton = UIButton().then {
-        $0.setImage(UIImage(named: "gridButton")
-                    , for: .normal)
-        $0.setImage(UIImage(named: "selectedGridButton"),
-                    for: .selected)
-    }
-    
     let reactor = LikeReactor()
     var disposeBag = DisposeBag()
     
@@ -41,16 +24,21 @@ class LikeViewController: UIViewController, View {
     
     lazy var cardCollectionView = UICollectionView(frame: .zero,
                                                    collectionViewLayout: configureCardLayout()).then {
-        $0.alwaysBounceVertical = false
+
+        $0.isScrollEnabled = false
         $0.showsHorizontalScrollIndicator = false
         $0.register(LikeCardCell.self,
                     forCellWithReuseIdentifier: LikeCardCell.identifier)
+        $0.register(LikeHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LikeHeaderView.identifier)
     }
     
     lazy var listCollectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: configureListLayout()).then {
+        $0.register(LikeHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LikeHeaderView.identifier)
         $0.register(LikeListCell.self, forCellWithReuseIdentifier: LikeListCell.identifier)
     }
+    
+    var listCell: UICollectionViewCell!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -74,37 +62,27 @@ class LikeViewController: UIViewController, View {
     }
     
     private func setAddView() {
-        [cardButton,
-         listButton,
-         cardCollectionView,
-         listCollectionView].forEach { view.addSubview($0) }
+        [
+            cardCollectionView,
+            listCollectionView
+        ]   .forEach { view.addSubview($0) }
     }
     
     private func setConstraints() {
-        cardButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(17.5)
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(19)
-            make.height.equalTo(24)
-        }
-        
-        listButton.snp.makeConstraints { make in
-            make.trailing.equalTo(cardButton.snp.leading).offset(-13)
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(19)
-            make.height.equalTo(24)
-        }
         
         cardCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(354).priority(751)
-            make.top.equalTo(listButton.snp.bottom).offset(23)
-            make.bottom.equalToSuperview()
+            make.height.equalTo(398).priority(751)
+            make.top.equalTo(listCollectionView)
+
         }
         
         listCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(listButton.snp.bottom).offset(23)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
             make.leading.trailing.equalToSuperview().inset(8)
             make.bottom.equalToSuperview()
         }
+        
     }
     //MARK: - Bind
     func bind(reactor: LikeReactor) {
@@ -112,17 +90,6 @@ class LikeViewController: UIViewController, View {
         //Input
         rx.viewWillAppear
             .map { _ in LikeReactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        //카드버튼 터치 이벤트
-        cardButton.rx.tap
-            .map { LikeReactor.Action.didTapCardButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        //리스트 버튼 터치 이벤트
-        listButton.rx.tap
-            .map { LikeReactor.Action.didTapListButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -145,7 +112,7 @@ class LikeViewController: UIViewController, View {
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
-                print(item)
+
                 var cardSnapshot = NSDiffableDataSourceSnapshot<LikeSection, Like>()
                 cardSnapshot.appendSections([.main])
                 cardSnapshot.appendItems(item, toSection: .main)
@@ -160,34 +127,6 @@ class LikeViewController: UIViewController, View {
                 }
             })
             .disposed(by: disposeBag)
-        
-        //cardCollectionView 보여주기
-        reactor.state
-            .map { $0.isSelectedCard }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .bind(with: self, onNext: { owner, result in
-                owner.listCollectionView.isHidden = result
-                owner.cardCollectionView.isHidden = !result
-                owner.cardButton.isSelected = result
-                owner.listButton.isSelected = !result
-            })
-            .disposed(by: disposeBag)
-        
-        //listCollectionView 보여주기
-        reactor.state
-            .map { $0.isSelectedList }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .bind(with: self, onNext: { owner, result in
-                owner.listCollectionView.isHidden = !result
-                owner.cardCollectionView.isHidden = result
-                owner.cardButton.isSelected = !result
-                owner.listButton.isSelected = result
-                
-            })
-            .disposed(by: disposeBag)
-        
 
         // 향수 디테일 페이지로 이동
         reactor.state
@@ -211,6 +150,10 @@ extension LikeViewController {
             cell.updateCell(item: item)
             return cell
         })
+        
+        cardDatasource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            self.configureHeader(collectionView, kind, indexPath)
+        }
     }
     
     func configureListDataSource() {
@@ -222,6 +165,9 @@ extension LikeViewController {
             return cell
         })
         
+        listDatasource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            self.configureHeader(collectionView, kind, indexPath)
+        }
     }
     
     private func configureCardLayout() -> UICollectionViewCompositionalLayout {
@@ -236,7 +182,13 @@ extension LikeViewController {
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.interGroupSpacing = 16
         
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topTrailing)
+        
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
+        section.boundarySupplementaryItems = [sectionHeader]
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
+
         return layout
     }
     
@@ -251,9 +203,45 @@ extension LikeViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topTrailing)
+        
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0)
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
     
+    func configureHeader(_ collectionView: UICollectionView, _ kind: String, _ indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LikeHeaderView.identifier, for: indexPath) as? LikeHeaderView else { return UICollectionReusableView() }
+        
+        //카드버튼 터치 이벤트
+        header.cardButton.rx.tap
+            .map { LikeReactor.Action.didTapCardButton }
+            .bind(to: self.reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        //리스트 버튼 터치 이벤트
+        header.listButton.rx.tap
+            .map { LikeReactor.Action.didTapListButton }
+            .bind(to: self.reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        self.reactor.state
+            .map { $0.isSelectedList }
+            .distinctUntilChanged()
+            .bind(to: header.listButton.rx.isSelected, cardCollectionView.rx.isHidden)
+            .disposed(by: self.disposeBag)
+        
+        //listCollectionView 보여주기
+        self.reactor.state
+            .map { $0.isSelectedCard }
+            .distinctUntilChanged()
+            .bind(to: header.cardButton.rx.isSelected, listCollectionView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        return header
+    }
 }
 

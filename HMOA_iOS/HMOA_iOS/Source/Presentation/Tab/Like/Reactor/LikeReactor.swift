@@ -41,9 +41,15 @@ class LikeReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapCardButton:
-            return .just(.setShowCardCollectionView(true))
+            return .concat([
+                .just(.setShowCardCollectionView(true)),
+                .just(.setShowListCollectionView(false))
+            ])
         case .didTapListButton:
-            return .just(.setShowListCollectionView(true))
+            return .concat([
+                .just(.setShowCardCollectionView(false)),
+                .just(.setShowListCollectionView(true))
+            ])
         case .didTapCollectionViewItem(let indexPath):
             return .concat([
                 .just(.setSelectedPerfumeId(indexPath)),
@@ -59,11 +65,9 @@ class LikeReactor: Reactor {
         
         switch mutation {
         case .setShowListCollectionView(let isSelected):
-            state.isSelectedCard = !isSelected
             state.isSelectedList = isSelected
         case .setShowCardCollectionView(let isSelected):
             state.isSelectedCard = isSelected
-            state.isSelectedList = !isSelected
         case .setSelectedPerfumeId(let indexPath):
             guard let indexPath = indexPath else {
                 state.selectedPerfumeId = nil

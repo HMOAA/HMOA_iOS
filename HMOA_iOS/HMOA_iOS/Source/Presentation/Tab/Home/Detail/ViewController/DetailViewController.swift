@@ -193,7 +193,7 @@ extension DetailViewController {
     }
     
     func configureCollectionViewDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: { [self] collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: {  collectionView, indexPath, item in
             
             switch item {
             case .topCell(let detail, _):
