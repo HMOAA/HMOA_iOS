@@ -90,3 +90,7 @@ class CommentWriteReactor: Reactor {
     
     // TODO: 수정 상태 or 작성 상태에 따라서 서버로 댓글 전달하기
 }
+
+extension CommentWriteReactor {
+    
+}
