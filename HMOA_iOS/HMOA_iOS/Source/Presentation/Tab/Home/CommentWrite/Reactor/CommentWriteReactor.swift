@@ -14,7 +14,7 @@ class CommentWriteReactor: Reactor {
     enum Action {
         case didTapOkButton
         case didTapCancleButton
-        case didBeginTextViewEditing(String)
+        case didChangeTextViewEditing(String)
         case didEndTextViewEditing
     }
     
@@ -28,34 +28,31 @@ class CommentWriteReactor: Reactor {
         var content: String = "해당 제품에 대한 의견을 남겨주세요"
         var isWrite: Bool = false // 수정 or 새로 작성 상태
         var commentId: Int? = nil
-        var perfumeId: Int? = nil
+        var perfumeId: Int
         var isPopVC: Bool = false
         var isBeginEditing: Bool = false
         var isEndEditing: Bool = false
     }
     
-    init(currentPerfumeId: Int = 0, isWrite: Bool, content: String = "", commentId: Int = 0) {        
+    init(perfumeId: Int, isWrite: Bool, content: String = "", commentId: Int = 0) {
         // 수정인 경우
         if isWrite {
-            self.initialState = State(content: content, isWrite: isWrite, commentId: commentId)
+            self.initialState = State(content: content, isWrite: isWrite, commentId: commentId, perfumeId: perfumeId)
         } else { // 새로 댓글을 다는 경우
-            self.initialState = State()
+            self.initialState = State(perfumeId: perfumeId)
         }
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapOkButton:
-            return .concat([
-                .just(.setIsPopVC(true)),
-                .just(.setIsPopVC(false))
-            ])
+            return postCommentAndSetPopVC()
         case .didTapCancleButton:
             return .concat([
                 .just(.setIsPopVC(true)),
                 .just(.setIsPopVC(false))
             ])
-        case .didBeginTextViewEditing(let content):
+        case .didChangeTextViewEditing(let content):
             
             var nowContent = content
             
@@ -92,5 +89,18 @@ class CommentWriteReactor: Reactor {
 }
 
 extension CommentWriteReactor {
-    
+    func postCommentAndSetPopVC() -> Observable<Mutation> {
+        let content = currentState.content
+        return CommentAPI.postComment(
+            ["content": content],
+            currentState.perfumeId
+        )
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .concat([
+                    .just(.setIsPopVC(true)),
+                    .just(.setIsPopVC(false))
+                ])
+            }
+    }
 }
