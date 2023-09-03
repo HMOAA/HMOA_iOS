@@ -91,17 +91,9 @@ extension CommentListViewController {
                 }
             }).disposed(by: disposeBag)
         
-        // 댓글 개수 반응
-//        reactor.state
-//            .map { $0.commentCount }
-//            .distinctUntilChanged()
-//            .map { String($0) }
-//            .bind(to: topView.commentCountLabel.rx.text )
-//            .disposed(by: disposeBag)
-        
         // 댓글 디테일 페이지로 이동
         reactor.state
-            .map { $0.presentCommentId }
+            .map { $0.selectedComment }
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: presentCommentDetailViewController)
@@ -132,6 +124,13 @@ extension CommentListViewController {
             .do(onNext: { print("최신순")})
             .map { Reactor.Action.didTapRecentSortButton }
             .bind(to: commendReactor.action)
+            .disposed(by: disposeBag)
+        
+        commendReactor.state
+            .map { $0.commentCount }
+            .distinctUntilChanged()
+            .map { "+" + String($0) }
+            .bind(to: header.commentCountLabel.rx.text )
             .disposed(by: disposeBag)
         
     }
