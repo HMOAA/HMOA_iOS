@@ -75,8 +75,8 @@ extension CommentWriteViewController {
             .disposed(by: disposeBag)
         
         // textView 사용자가 입력 시작 -> Action으로 전달한 textView.text값에 따라서 Reactor의 Content값 바꿈
-        textView.rx.didBeginEditing
-            .map { Reactor.Action.didBeginTextViewEditing(self.textView.text) }
+        textView.rx.text.orEmpty
+            .map { Reactor.Action.didChangeTextViewEditing($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
