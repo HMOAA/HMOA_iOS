@@ -19,17 +19,18 @@ class CommentListReactor: Reactor {
     }
     
     enum Mutation {
-        case setSelectedCommentId(IndexPath?)
+        case setSelectedComment(IndexPath?)
         case setIsPresentCommentWrite(Int?)
         case setCommentSection([CommentSection])
         case setSortType(String)
+        case setCommentCount(Int)
     }
     
     struct State {
         var commentSections: [CommentSection] = []
         var perfumeId: Int?
         var commentCount: Int = 0
-        var presentCommentId: Int? = nil
+        var selectedComment: Comment? = nil
         var isPresentCommentWriteVC: Int? = nil
         var sortType = ""
     }
@@ -50,8 +51,8 @@ class CommentListReactor: Reactor {
             
         case .didTapCell(let indexPath):
             return .concat([
-                .just(.setSelectedCommentId(indexPath)),
-                .just(.setSelectedCommentId(nil))
+                .just(.setSelectedComment(indexPath)),
+                .just(.setSelectedComment(nil))
             ])
             
         case .didTapWriteButton:
@@ -73,13 +74,13 @@ class CommentListReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setSelectedCommentId(let indexPath):
+        case .setSelectedComment(let indexPath):
             guard let indexPath = indexPath else {
-                state.presentCommentId = nil
+                state.selectedComment = nil
                 return state
             }
             
-            state.presentCommentId = state.commentSections[indexPath.section].items[indexPath.row].commentId
+            state.selectedComment = state.commentSections[indexPath.row].items[indexPath.row].commentCell
             
         case .setIsPresentCommentWrite(let perfumeId):
             state.isPresentCommentWriteVC = perfumeId
@@ -89,6 +90,9 @@ class CommentListReactor: Reactor {
             
         case .setSortType(let type):
             state.sortType = type
+            
+        case .setCommentCount(let count):
+            state.commentCount = count
         }
         
         return state
@@ -110,9 +114,13 @@ extension CommentListReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 let commentItems = data.comments.map { CommentSectionItem.commentCell($0, $0.id) }
+                let commentCount = data.commentCount
                 let commentSection = [CommentSection.comment(commentItems)]
                 
-                return .just(.setCommentSection(commentSection))
+                return .concat([
+                    .just(.setCommentSection(commentSection)),
+                    .just(.setCommentCount(commentCount))
+                ])
             }
     }
 }

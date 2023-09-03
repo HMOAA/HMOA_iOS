@@ -17,10 +17,10 @@ enum CommentSectionItem {
 }
 
 extension CommentSectionItem: Hashable {
-    var commentId: Int {
+    var commentCell: Comment {
         switch self {
-        case .commentCell(_, let commentId):
-            return commentId
+        case .commentCell(let comment, _):
+            return comment
         }
     }
 }
