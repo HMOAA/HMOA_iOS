@@ -12,7 +12,6 @@ import UIKit
 class CommentDetailReactor: Reactor {
     
     var initialState: State
-    var currentCommentId: Int
     
     enum Action {
         case didTapLikeButton
@@ -29,9 +28,8 @@ class CommentDetailReactor: Reactor {
         var isTapChangeButton: Bool = false
     }
     
-    init(_ currentCommentId: Int) {
-        self.currentCommentId = currentCommentId
-        self.initialState = State(comment: CommentDetailReactor.setCommentDetail(currentCommentId))
+    init(_ comment: Comment) {
+        initialState = State(comment: comment)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -57,8 +55,9 @@ class CommentDetailReactor: Reactor {
         
         switch mutation {
         case .setCommentLike(let isLike):
-            state.comment.isLike = isLike
-            state.comment.likeCount += isLike ? 1 : -1
+//            state.comment.isLike = isLike
+//            state.comment.likeCount += isLike ? 1 : -1
+            state.comment.heartCount = 2
             
         case .setIsPresentChangeVC(let isPresent):
             state.isTapChangeButton = isPresent
@@ -75,6 +74,6 @@ extension CommentDetailReactor {
         print(id)
         
         // TODO: currentCommentId로 서버와 통신
-        return Comment(commentId: 1, name: "안녕하세요", image: UIImage(named: "jomalon")!, likeCount: 150, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요", isLike: false, isWrite: true)
+        return Comment(content: "asdf", heartCount: 20, id: 1, nickname: "hihihihi", perfumeId: 2)
     }
 }
