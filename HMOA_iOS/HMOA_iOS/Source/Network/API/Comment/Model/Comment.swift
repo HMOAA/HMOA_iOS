@@ -13,9 +13,9 @@ struct ResponseComment: Codable, Hashable {
 }
 
 struct Comment: Codable, Hashable {
-    let content: String
-    let heartCount: Int
+    let content: String?
+    var heartCount: Int
     let id: Int
-    let nickname: String
+    let nickname: String?
     let perfumeId: Int
 }
