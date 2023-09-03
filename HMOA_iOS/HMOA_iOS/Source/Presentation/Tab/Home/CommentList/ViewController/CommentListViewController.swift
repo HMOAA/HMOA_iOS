@@ -75,15 +75,15 @@ extension CommentListViewController {
         // MARK: - State
         // collectionView 바인딩
         reactor.state
-            .map { $0.comments }
+            .map { $0.commentSections }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, comments in
+            .drive(with: self, onNext: { owner, sections in
     
                 var snapshot = NSDiffableDataSourceSnapshot<CommentSection, CommentSectionItem>()
-                snapshot.appendSections(comments)
+                snapshot.appendSections(sections)
                 
-                comments.forEach { comment in
-                    snapshot.appendItems(comment.items, toSection: comment)
+                sections.forEach { section in
+                    snapshot.appendItems(section.items, toSection: section)
                 }
                 
                 DispatchQueue.main.async {
