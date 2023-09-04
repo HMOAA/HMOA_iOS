@@ -38,4 +38,20 @@ final class CommentAPI {
             model: ResponseComment.self,
             query: params)
     }
+    
+    static func putCommentLike(_ id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: CommentAddress.setCommentLike(id).url,
+            method: .put,
+            data: nil,
+            model: Response.self)
+    }
+    
+    static func deleteCommentLike(_ id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: CommentAddress.setCommentLike(id).url,
+            method: .delete,
+            data: nil,
+            model: Response.self)
+    }
 }
