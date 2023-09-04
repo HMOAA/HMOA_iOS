@@ -128,12 +128,12 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         // 댓글 디테일 페이지로 이동
-        reactor.state
-            .map { $0.presentCommentId }
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .bind(onNext: presentCommentDetailViewController)
-            .disposed(by: disposeBag)
+//        reactor.state
+//            .map { $0.presentCommentId }
+//            .distinctUntilChanged()
+//            .compactMap { $0 }
+//            .bind(onNext: presentCommentDetailViewController)
+//            .disposed(by: disposeBag)
         
         // 향수 디테일 페이지로 이동
 //        reactor.state
@@ -144,7 +144,6 @@ extension DetailViewController {
 //            .disposed(by: disposeBag)
         
         // 댓글 작성 페이지로 이동
-        
         reactor.state
             .map { $0.isPresentCommentWirteVC }
             .distinctUntilChanged()
