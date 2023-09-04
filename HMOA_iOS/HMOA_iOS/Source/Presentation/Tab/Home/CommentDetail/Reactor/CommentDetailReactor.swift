@@ -26,6 +26,7 @@ class CommentDetailReactor: Reactor {
     struct State {
         var comment: Comment
         var isTapChangeButton: Bool = false
+        var isLiked: Bool = false
     }
     
     init(_ comment: Comment) {
@@ -35,12 +36,7 @@ class CommentDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapLikeButton:
-            // TODO: 서버 통신
-            if Int.random(in: 0...10).isMultiple(of: 2) {
-                return .just(.setCommentLike(true))
-            } else {
-                return .just(.setCommentLike(false))
-            }
+            return setCommentLike()
             
         case .didTapChangeButton:
             return .concat([
@@ -55,9 +51,9 @@ class CommentDetailReactor: Reactor {
         
         switch mutation {
         case .setCommentLike(let isLike):
-//            state.comment.isLike = isLike
-//            state.comment.likeCount += isLike ? 1 : -1
-            state.comment.heartCount = 2
+            state.isLiked = isLike
+            let heartCount = state.comment.heartCount
+            state.comment.heartCount = isLike ? heartCount + 1 : heartCount - 1
             
         case .setIsPresentChangeVC(let isPresent):
             state.isTapChangeButton = isPresent
@@ -69,11 +65,20 @@ class CommentDetailReactor: Reactor {
 
 extension CommentDetailReactor {
     
-    static func setCommentDetail(_ id: Int) -> Comment {
+    func setCommentLike() -> Observable<Mutation> {
         
-        print(id)
-        
-        // TODO: currentCommentId로 서버와 통신
-        return Comment(content: "asdf", heartCount: 20, id: 1, nickname: "hihihihi", perfumeId: 2)
+        if !currentState.isLiked {
+            return CommentAPI.putCommentLike(currentState.comment.id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    return .just(.setCommentLike(true))
+                }
+        } else {
+            return CommentAPI.deleteCommentLike(currentState.comment.id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    return .just(.setCommentLike(false))
+                }
+        }
     }
 }

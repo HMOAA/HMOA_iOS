@@ -80,7 +80,7 @@ class CommentListReactor: Reactor {
                 return state
             }
             
-            state.selectedComment = state.commentSections[indexPath.row].items[indexPath.row].commentCell
+            state.selectedComment = state.commentSections[indexPath.section].items[indexPath.row].commentCell
             
         case .setIsPresentCommentWrite(let perfumeId):
             state.isPresentCommentWriteVC = perfumeId
