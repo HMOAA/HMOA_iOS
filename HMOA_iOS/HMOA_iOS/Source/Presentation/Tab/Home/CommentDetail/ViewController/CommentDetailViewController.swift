@@ -118,6 +118,13 @@ extension CommentDetailViewController {
                 self.commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)
             })
             .disposed(by: disposeBag)
+        
+        // 좋아요 여부
+        reactor.state
+            .map { $0.isLiked }
+            .distinctUntilChanged()
+            .bind(to: commentLikeButton.rx.isSelected)
+            .disposed(by: disposeBag)
 
         // 수정 버튼 상태
 //        reactor.state
