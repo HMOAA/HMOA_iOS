@@ -64,10 +64,6 @@ class CommentCell: UICollectionViewCell, View {
 extension CommentCell {
     
     func bind(reactor: CommentCellReactor) {
-        userImageView.image = reactor.currentState.image
-        userNameLabel.text = reactor.currentState.name
-        contentLabel.text = reactor.currentState.content
-        commentLikeButton.isSelected = reactor.currentState.isLike
         // MARK: - Action
 
         // 댓글 좋아요 버튼 클릭
@@ -98,11 +94,10 @@ extension CommentCell {
     }
     
     func updateCell(_ item: Comment) {
-        userImageView.image = item.image
-        userNameLabel.text = item.name
+        userImageView.image = UIImage(named: "google")
+        userNameLabel.text = item.nickname
         contentLabel.text = item.content
-        commentLikeButton.isSelected = item.isLike
-        commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.likeCount))
+        commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
     }
     
     func configureUI() {
