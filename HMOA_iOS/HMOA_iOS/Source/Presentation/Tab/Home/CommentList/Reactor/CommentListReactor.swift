@@ -62,10 +62,10 @@ class CommentListReactor: Reactor {
             ])
         
         case .didTapLikeSortButton:
-            return .just(.setSortType("Like"))
+            return setCommentsList(type: "Like")
             
         case .didTapRecentSortButton:
-            return .just(.setSortType("Latest"))
+            return setCommentsList(type: "Latest")
         }
     }
     
@@ -104,7 +104,7 @@ extension CommentListReactor {
     func setCommentsList(type: String) -> Observable<Mutation> {
         
         guard let perfumeId = currentState.perfumeId else { return .empty() }
-        
+         
         let parameter = [
             "page": 0,
             "perfumeId": perfumeId

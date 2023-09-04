@@ -114,14 +114,12 @@ extension CommentListViewController {
         
         // 좋아요순 버튼 클릭
         header.likeSortButton.rx.tap
-            .do(onNext: { print("좋아요순")})
             .map { Reactor.Action.didTapLikeSortButton }
             .bind(to: commendReactor.action)
             .disposed(by: disposeBag)
         
         // 최신순 버튼 클릭
         header.recentSortButton.rx.tap
-            .do(onNext: { print("최신순")})
             .map { Reactor.Action.didTapRecentSortButton }
             .bind(to: commendReactor.action)
             .disposed(by: disposeBag)

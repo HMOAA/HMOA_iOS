@@ -23,10 +23,10 @@ class CommentListBottomView: UIView {
         
         config.attributedTitle = attri
         config.attributedTitle?.font = .customFont(.pretendard_medium, 20)
-        config.attributedTitle?.foregroundColor = .white
         config.titleAlignment = .trailing
         config.image = UIImage(named: "bottomComment")
         config.imagePadding = 10
+        config.baseForegroundColor = .white
         
         let button = UIButton(configuration: config)
         

@@ -28,11 +28,11 @@ final class CommentAPI {
         //type에 따른 url 변경
         var typeUrl: String
         if type == "Latest" { typeUrl = "" }
-        else if type == "Like" { typeUrl = "/top" }
+        else if type == "Like" { typeUrl = "top" }
         else { return .error(NetworkError.invalidURL) }
         
         return networking(
-            urlStr: CommentAddress.fetchCommentList(id).url + typeUrl,
+            urlStr: CommentAddress.fetchCommentList(id, typeUrl).url,
             method: .get,
             data: nil,
             model: ResponseComment.self,
