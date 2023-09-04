@@ -10,8 +10,7 @@ import Foundation
 enum CommentAddress {
     case postCommnet(Int)
     case fetchCommentList(Int)
-    case putCommentLike(Int)
-    case deleteCommentLike(Int)
+    case setCommentLike(Int)
     case putComment(Int)
 }
 
@@ -22,10 +21,8 @@ extension CommentAddress {
             return "perfume/\(perfumeId)/comments"
         case .fetchCommentList(let perfumeId):
             return "perfume/\(perfumeId)/comments/"
-        case .putCommentLike(let commentId):
-            return "perfume/comments\(commentId)/like"
-        case .deleteCommentLike(let commentId):
-            return "perfume/comments\(commentId)/like"
+        case .setCommentLike(let commentId):
+            return "perfume/comments/\(commentId)/like"
         case .putComment(let commentId):
             return "perfume/comments\(commentId)/modify"
         }
