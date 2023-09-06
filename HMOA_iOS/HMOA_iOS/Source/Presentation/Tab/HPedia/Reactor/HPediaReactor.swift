@@ -18,8 +18,8 @@ class HPediaReactor: Reactor {
     }
     
     struct State {
-        var guideSectionItems: [HPediaGuideData] = HPediaGuideData.list
-        var tagSectionItems: [HPediaTagData] = HPediaTagData.list
+        var DictionarySectionItems: [HPediaDictionaryData] = HPediaDictionaryData.list
+        var qnASectionItems: [HPediaQnAData] = HPediaQnAData.list
     }
     
     enum Mutation {

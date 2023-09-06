@@ -132,7 +132,7 @@
 		CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */; };
 		CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */; };
 		CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */; };
-		CA0DB39129DBD67B0091DCB2 /* GuideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0DB39029DBD67B0091DCB2 /* GuideCell.swift */; };
+		CA0DB39129DBD67B0091DCB2 /* HPediaDictionaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0DB39029DBD67B0091DCB2 /* HPediaDictionaryCell.swift */; };
 		CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */; };
 		CA1067D929D6C9A7009A7245 /* ChangeYearReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */; };
 		CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1067DA29D6CFC2009A7245 /* ChangeSexViewController.swift */; };
@@ -148,14 +148,11 @@
 		CA219C4E2AA2FDE0003FB215 /* CommentAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C4D2AA2FDE0003FB215 /* CommentAddress.swift */; };
 		CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C4F2AA2FF16003FB215 /* CommentAPI.swift */; };
 		CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C512AA2FF5C003FB215 /* Comment.swift */; };
-		CA34781B29E2DAE300334070 /* HPediaGuideHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA34781A29E2DAE300334070 /* HPediaGuideHeaderCell.swift */; };
-		CA34781D29E2DD8100334070 /* HPediaTagHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA34781C29E2DD8100334070 /* HPediaTagHeaderCell.swift */; };
-		CA360F3129DD620600A93873 /* HPediaGuideSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3029DD620600A93873 /* HPediaGuideSection.swift */; };
 		CA360F3429DD623D00A93873 /* HPediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3329DD623D00A93873 /* HPediaSection.swift */; };
 		CA360F3629DD643600A93873 /* HPediaGuideData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3529DD643600A93873 /* HPediaGuideData.swift */; };
 		CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3729DD658600A93873 /* HPediaTagData.swift */; };
 		CA360F3A29DD870E00A93873 /* HPediaReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3929DD870E00A93873 /* HPediaReactor.swift */; };
-		CA360F3C29DD8ABE00A93873 /* HPediaTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3B29DD8ABE00A93873 /* HPediaTagCell.swift */; };
+		CA360F3C29DD8ABE00A93873 /* HPediaQnACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3B29DD8ABE00A93873 /* HPediaQnACell.swift */; };
 		CA36DA842A4AA25700F9C17E /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA36DA832A4AA25700F9C17E /* IgnoerData.swift */; };
 		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
@@ -166,6 +163,7 @@
 		CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */; };
 		CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */; };
 		CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D99E729C4932A000E80CF /* ListSecton.swift */; };
+		CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */; };
 		CA799ED52A249EF3002087BA /* LoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA799ED42A249EF3002087BA /* LoginType.swift */; };
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
 		CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */; };
@@ -341,7 +339,7 @@
 		CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationViewController.swift; sourceTree = "<group>"; };
 		CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
-		CA0DB39029DBD67B0091DCB2 /* GuideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideCell.swift; sourceTree = "<group>"; };
+		CA0DB39029DBD67B0091DCB2 /* HPediaDictionaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaDictionaryCell.swift; sourceTree = "<group>"; };
 		CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeYearViewConroller.swift; sourceTree = "<group>"; };
 		CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeYearReactor.swift; sourceTree = "<group>"; };
 		CA1067DA29D6CFC2009A7245 /* ChangeSexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSexViewController.swift; sourceTree = "<group>"; };
@@ -357,14 +355,11 @@
 		CA219C4D2AA2FDE0003FB215 /* CommentAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAddress.swift; sourceTree = "<group>"; };
 		CA219C4F2AA2FF16003FB215 /* CommentAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAPI.swift; sourceTree = "<group>"; };
 		CA219C512AA2FF5C003FB215 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		CA34781A29E2DAE300334070 /* HPediaGuideHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaGuideHeaderCell.swift; sourceTree = "<group>"; };
-		CA34781C29E2DD8100334070 /* HPediaTagHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaTagHeaderCell.swift; sourceTree = "<group>"; };
-		CA360F3029DD620600A93873 /* HPediaGuideSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaGuideSection.swift; sourceTree = "<group>"; };
 		CA360F3329DD623D00A93873 /* HPediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaSection.swift; sourceTree = "<group>"; };
 		CA360F3529DD643600A93873 /* HPediaGuideData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaGuideData.swift; sourceTree = "<group>"; };
 		CA360F3729DD658600A93873 /* HPediaTagData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaTagData.swift; sourceTree = "<group>"; };
 		CA360F3929DD870E00A93873 /* HPediaReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaReactor.swift; sourceTree = "<group>"; };
-		CA360F3B29DD8ABE00A93873 /* HPediaTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaTagCell.swift; sourceTree = "<group>"; };
+		CA360F3B29DD8ABE00A93873 /* HPediaQnACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaQnACell.swift; sourceTree = "<group>"; };
 		CA36DA832A4AA25700F9C17E /* IgnoerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
@@ -375,6 +370,7 @@
 		CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRequestInterCeptor.swift; sourceTree = "<group>"; };
 		CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer++Extenstions.swift"; sourceTree = "<group>"; };
 		CA6D99E729C4932A000E80CF /* ListSecton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSecton.swift; sourceTree = "<group>"; };
+		CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaQnAHeaderView.swift; sourceTree = "<group>"; };
 		CA799ED42A249EF3002087BA /* LoginType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstions.swift"; sourceTree = "<group>"; };
@@ -1335,10 +1331,9 @@
 		CA0DB38F29DBD6650091DCB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CA0DB39029DBD67B0091DCB2 /* GuideCell.swift */,
-				CA360F3B29DD8ABE00A93873 /* HPediaTagCell.swift */,
-				CA34781A29E2DAE300334070 /* HPediaGuideHeaderCell.swift */,
-				CA34781C29E2DD8100334070 /* HPediaTagHeaderCell.swift */,
+				CA0DB39029DBD67B0091DCB2 /* HPediaDictionaryCell.swift */,
+				CA360F3B29DD8ABE00A93873 /* HPediaQnACell.swift */,
+				CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1446,7 +1441,6 @@
 		CA360F2F29DD61F800A93873 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CA360F3029DD620600A93873 /* HPediaGuideSection.swift */,
 				CA360F3329DD623D00A93873 /* HPediaSection.swift */,
 				CA360F3529DD643600A93873 /* HPediaGuideData.swift */,
 				CA360F3729DD658600A93873 /* HPediaTagData.swift */,
@@ -1840,7 +1834,6 @@
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				CAF19B9E2A625D2100374038 /* SearchAddress.swift in Sources */,
 				CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */,
-				CA34781B29E2DAE300334070 /* HPediaGuideHeaderCell.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
@@ -1886,7 +1879,6 @@
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				2CD0235E2A080D4500459801 /* MyProfileType.swift in Sources */,
 				CA6152BB2A6A8007007B04A7 /* Brand.swift in Sources */,
-				CA34781D29E2DD8100334070 /* HPediaTagHeaderCell.swift in Sources */,
 				2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */,
 				2C39AA60297047F9000C6F71 /* LikeViewController.swift in Sources */,
 				2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */,
@@ -1924,10 +1916,10 @@
 				2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */,
 				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
+				CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */,
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
 				CA360F3429DD623D00A93873 /* HPediaSection.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
-				CA360F3129DD620600A93873 /* HPediaGuideSection.swift in Sources */,
 				CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */,
 				2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */,
 				CA360F3629DD643600A93873 /* HPediaGuideData.swift in Sources */,
@@ -1960,10 +1952,10 @@
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
 				2CA155B62A0533B100D7B0C0 /* MyProfileSection.swift in Sources */,
 				CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */,
-				CA360F3C29DD8ABE00A93873 /* HPediaTagCell.swift in Sources */,
+				CA360F3C29DD8ABE00A93873 /* HPediaQnACell.swift in Sources */,
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
 				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
-				CA0DB39129DBD67B0091DCB2 /* GuideCell.swift in Sources */,
+				CA0DB39129DBD67B0091DCB2 /* HPediaDictionaryCell.swift in Sources */,
 				CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				2C464E5F29CDDCDF00A07658 /* OpenSourceViewController.swift in Sources */,

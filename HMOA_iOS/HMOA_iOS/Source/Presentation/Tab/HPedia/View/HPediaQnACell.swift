@@ -1,5 +1,5 @@
 //
-//  TagCell.swift
+//  HPediaQnACell.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/04/05.
@@ -9,13 +9,17 @@ import UIKit
 
 import ReactorKit
 
-class HPediaTagCell: UICollectionViewCell{
+class HPediaQnACell: UICollectionViewCell{
     
-    static let identifier = "HPediaTagCell"
+    static let identifier = "HPediaQnACell"
     
     //MAKR: - Properties
-    let nameLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
+    let categoryLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_medium, size: 13.73, color: .gray2)
+    }
+    
+    let titleLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 15.69, color: .black)
     }
     
     override init(frame: CGRect) {
@@ -36,22 +40,31 @@ class HPediaTagCell: UICollectionViewCell{
     }
     
     override func layoutSubviews() {
-        self.layer.addBorder([.top], color: .customColor(.HPediaCellColor), width: 1)
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.customColor(.gray2).cgColor
+        contentView.layer.cornerRadius = 10
     }
     
     private func setAddView() {
-        contentView.addSubview(nameLabel)
+        contentView.addSubview(categoryLabel)
+        contentView.addSubview(titleLabel)
     }
     
     private func setConstraints() {
-        nameLabel.snp.makeConstraints { make in
+        categoryLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(15.69)
             make.leading.equalToSuperview().inset(16)
             make.trailing.equalToSuperview()
-            make.centerY.equalToSuperview()
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(16)
+            make.top.equalTo(categoryLabel.snp.bottom).offset(7.84)
         }
     }
     
-    func configure(_ data: HPediaTagData) {
-        nameLabel.text = data.name
+    func configure(_ data: HPediaQnAData) {
+        categoryLabel.text = data.category
+        titleLabel.text = data.title
     }
 }

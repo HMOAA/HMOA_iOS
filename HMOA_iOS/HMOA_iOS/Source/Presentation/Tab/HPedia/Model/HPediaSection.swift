@@ -8,35 +8,12 @@
 import Foundation
 
 enum HPediaSection: Hashable {
-    case guide
-    case tag
+    case dictionary
+    case qna
 }
 
-enum HPediaSectionItem {
-    case guideCell(HPediaGuideData)
-    case tagCell(HPediaTagData)
+enum HPediaSectionItem: Hashable {
+    case dictionary(HPediaDictionaryData)
+    case qna(HPediaQnAData)
 }
 
-
-extension HPediaSectionItem: Hashable {
-    
-    func hash(into hasher: inout Hasher) {
-        switch self {
-        case .guideCell(let guideData):
-            hasher.combine(guideData)
-        case .tagCell(let tagData):
-            hasher.combine(tagData)
-        }
-    }
-    
-    static func ==(lhs: HPediaSectionItem, rhs: HPediaSectionItem) -> Bool {
-        switch (lhs, rhs) {
-        case (.guideCell(let lhsGuideData), .guideCell(let rhsGuideData)):
-            return lhsGuideData == rhsGuideData
-        case (.tagCell(let lhsTagData), .tagCell(let rhsTagData)):
-            return lhsTagData == rhsTagData
-        default:
-            return false
-        }
-    }
-}
