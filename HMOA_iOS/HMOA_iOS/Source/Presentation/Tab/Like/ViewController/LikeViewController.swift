@@ -138,6 +138,33 @@ class LikeViewController: UIViewController, View {
       
     }
     
+    func bindHeaderView(headerView: LikeHeaderView) {
+        
+        //카드버튼 터치 이벤트
+        headerView.cardButton.rx.tap
+            .map { LikeReactor.Action.didTapCardButton }
+            .bind(to: self.reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        headerView.listButton.rx.tap
+            .map { LikeReactor.Action.didTapListButton }
+            .bind(to: self.reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.isSelectedList }
+            .distinctUntilChanged()
+            .bind(to: headerView.listButton.rx.isSelected, cardCollectionView.rx.isHidden)
+            .disposed(by: self.disposeBag)
+        
+        //listCollectionView 보여주기
+        reactor.state
+            .map { $0.isSelectedCard }
+            .distinctUntilChanged()
+            .bind(to: headerView.cardButton.rx.isSelected, listCollectionView.rx.isHidden)
+            .disposed(by: disposeBag)
+    }
+    
 }
 
 extension LikeViewController {
@@ -205,7 +232,7 @@ extension LikeViewController {
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topTrailing)
         
-        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0)
+        
         section.boundarySupplementaryItems = [sectionHeader]
         
         
@@ -216,30 +243,7 @@ extension LikeViewController {
     func configureHeader(_ collectionView: UICollectionView, _ kind: String, _ indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LikeHeaderView.identifier, for: indexPath) as? LikeHeaderView else { return UICollectionReusableView() }
         
-        //카드버튼 터치 이벤트
-        header.cardButton.rx.tap
-            .map { LikeReactor.Action.didTapCardButton }
-            .bind(to: self.reactor.action)
-            .disposed(by: self.disposeBag)
-        
-        //리스트 버튼 터치 이벤트
-        header.listButton.rx.tap
-            .map { LikeReactor.Action.didTapListButton }
-            .bind(to: self.reactor.action)
-            .disposed(by: self.disposeBag)
-        
-        self.reactor.state
-            .map { $0.isSelectedList }
-            .distinctUntilChanged()
-            .bind(to: header.listButton.rx.isSelected, cardCollectionView.rx.isHidden)
-            .disposed(by: self.disposeBag)
-        
-        //listCollectionView 보여주기
-        self.reactor.state
-            .map { $0.isSelectedCard }
-            .distinctUntilChanged()
-            .bind(to: header.cardButton.rx.isSelected, listCollectionView.rx.isHidden)
-            .disposed(by: disposeBag)
+        self.bindHeaderView(headerView: header)
         
         return header
     }
