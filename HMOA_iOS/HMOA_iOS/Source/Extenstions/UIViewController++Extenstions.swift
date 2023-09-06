@@ -11,6 +11,11 @@ import Then
 
 extension UIViewController {
     
+    func presentDetailDictionaryVC(_ title: String) {
+        let detailDictionaryVC = DetailDictionaryViewController()
+        self.navigationController?.pushViewController(detailDictionaryVC, animated: true)
+    }
+    
     func presentDictionaryViewController(_ id: Int) {
         let dictionaryVC = DictionaryViewController()
         let reactor = DictionaryReactor(id: id)

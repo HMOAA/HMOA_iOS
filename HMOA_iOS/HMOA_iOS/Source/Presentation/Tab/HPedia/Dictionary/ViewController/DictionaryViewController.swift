@@ -72,7 +72,10 @@ class DictionaryViewController: UIViewController, View {
     func bind(reactor: DictionaryReactor) {
         
         // Action
-
+        tableView.rx.itemSelected
+            .map { Reactor.Action.didTapItem($0) }
+            .bind(to: reactor.action )
+            .disposed(by: disposeBag)
         
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -93,7 +96,11 @@ class DictionaryViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        
+        reactor.state
+            .map { $0.selectedTitle }
+            .compactMap { $0 }
+            .bind(onNext: presentDetailDictionaryVC)
+            .disposed(by: disposeBag)
     }
 }
 
