@@ -64,7 +64,9 @@ class ChangeSexViewController: UIViewController, View {
         
         config.baseBackgroundColor = .white
         config.imagePadding = 12
-        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        config.baseForegroundColor = .black
+//        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0
+//        )
         config.attributedTitle = titleAttr
         
         return config
