@@ -124,6 +124,7 @@ extension CommentListViewController {
             .bind(to: commendReactor.action)
             .disposed(by: disposeBag)
         
+        //댓글 개수 
         commendReactor.state
             .map { $0.commentCount }
             .distinctUntilChanged()
