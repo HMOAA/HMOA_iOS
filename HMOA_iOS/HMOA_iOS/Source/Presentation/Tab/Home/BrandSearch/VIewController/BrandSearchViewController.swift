@@ -47,7 +47,7 @@ class BrandSearchViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureNavigationBar()
+        configureSearchNavigationBar(backButton, searchBar: searchBar)
     }
 }
 
@@ -148,19 +148,6 @@ extension BrandSearchViewController {
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
         }
-    }
-    
-    func configureNavigationBar() {
-     
-        let backButtonItem = UIBarButtonItem(customView: backButton)
-        
-        let searchBarWrapper = SearchBarContainerView(customSearchBar: searchBar)
-        
-        searchBarWrapper.frame = CGRect(x: 0, y: 0, width: self.navigationController!.view.frame.size.width - 42, height: 30)
-        
-        self.navigationItem.leftBarButtonItems = [backButtonItem]
-        
-        self.navigationItem.titleView = searchBarWrapper
     }
     
     func configureCollectionViewDataSource() {

@@ -201,4 +201,31 @@ extension UIViewController {
         sender.layer.addSublayer(border)
         sender.layer.masksToBounds = true
     }
+    
+    func configureSearchNavigationBar(_ backButton: UIButton?, searchBar: UISearchBar) {
+        var barBackButton: UIButton
+        
+        if let backButton = backButton {
+            barBackButton = backButton
+            let barButtonItem = UIBarButtonItem(customView: barBackButton)
+            self.navigationItem.leftBarButtonItems = [barButtonItem]
+        } else {
+            barBackButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
+            barBackButton.isHidden = true
+        }
+        
+//        let barButtonItem = UIBarButtonItem(customView: barBackButton)
+//        self.navigationItem.leftBarButtonItems = [barButtonItem]
+        
+        let searchBarWrapper = SearchBarContainerView(customSearchBar: searchBar)
+        searchBarWrapper.frame = CGRect(x: 0, y: 0, width: self.navigationController!.view.frame.size.width - 44, height: 30)
+        self.navigationItem.titleView = searchBarWrapper
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
 }

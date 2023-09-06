@@ -42,7 +42,7 @@ class SearchViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureNavigationBar()
+        configureSearchNavigationBar(backButton, searchBar: searchBar)
     }
 }
 
@@ -218,20 +218,6 @@ extension SearchViewController {
         backButton.snp.makeConstraints {
             $0.width.height.equalTo(24)
         }
-    }
-    
-    
-    func configureNavigationBar() {
-     
-        let backButtonItem = UIBarButtonItem(customView: backButton)
-        
-        let searchBarWrapper = SearchBarContainerView(customSearchBar: searchBar)
-        
-        searchBarWrapper.frame = CGRect(x: 0, y: 0, width: self.navigationController!.view.frame.size.width - 42, height: 30)
-        
-        self.navigationItem.leftBarButtonItems = [backButtonItem]
-        
-        self.navigationItem.titleView = searchBarWrapper
     }
     
     // MARK: - functions
