@@ -79,7 +79,7 @@ extension MyProfileViewController {
                 }
                 
                 DispatchQueue.main.async {
-                    owner.dataSource.apply(snapshot)
+                    owner.dataSource.apply(snapshot, animatingDifferences: false)
                 }
             })
             .disposed(by: disposeBag)

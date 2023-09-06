@@ -33,17 +33,17 @@ extension UIViewController {
         self.navigationController?.pushViewController(searchVC, animated: true)
     }
     
-    func presentCommentDetailViewController(_ id: Int) {
+    func presentCommentDetailViewController(_ comment: Comment) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor(id)
+        commentDetailVC.reactor = CommentDetailReactor(comment)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
     func presentCommentWriteViewController(_ perfumeId: Int) {
         let commentWriteVC = CommentWriteViewController()
         commentWriteVC.reactor = CommentWriteReactor(
-            currentPerfumeId: perfumeId,
+            perfumeId: perfumeId,
             isWrite: false)
         
         commentWriteVC.hidesBottomBarWhenPushed = true
@@ -54,6 +54,7 @@ extension UIViewController {
         
         let commentWriteVC = CommentWriteViewController()
         commentWriteVC.reactor = CommentWriteReactor(
+            perfumeId: 0,
             isWrite: true,
             content: comment,
             commentId: commentId
