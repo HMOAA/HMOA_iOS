@@ -1,5 +1,5 @@
 //
-//  GuideCell.swift
+//  HPediaDictionaryCell.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/04/04.
@@ -11,10 +11,10 @@ import Then
 import SnapKit
 import ReactorKit
 
-class GuideCell: UICollectionViewCell {
+class HPediaDictionaryCell: UICollectionViewCell {
     
     //MAKR: - Property
-    static let identifier = "GuideCell"
+    static let identifier = "HPediaDictionaryCell"
     
     let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_semibold, size: 16, color: .white)
@@ -61,7 +61,7 @@ class GuideCell: UICollectionViewCell {
         }
     }
     
-    func configure(_ data: HPediaGuideData) {
+    func configure(_ data: HPediaDictionaryData) {
         titleLabel.text = data.title
         contentLabel.text = data.content
     }
