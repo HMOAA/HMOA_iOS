@@ -9,6 +9,12 @@ import Foundation
 import RxSwift
 
 final class CommentAPI {
+    
+    
+    /// 댓글 작성
+    /// - Parameters:
+    ///   - params: content: 댓글 내용
+    ///   - id: 향수 아이디
     static func postComment(_ params: [String: String], _ id: Int) -> Observable<Response> {
         guard let data = try? JSONSerialization.data(
             withJSONObject: params,
@@ -22,6 +28,11 @@ final class CommentAPI {
         
     }
     
+    
+    /// 댓글 리스트 받아오기
+    /// - Parameters:
+    ///   - params: [page: Int,  perfumeId: Int]
+    ///   - type: String - 최신순, 좋아요 순 여부
     static func fetchCommentList(_ params: [String: Int], type: String) -> Observable<ResponseComment> {
         guard let id = params["perfumeId"] else { return .error(NetworkError.invalidParameters) }
         
@@ -39,6 +50,8 @@ final class CommentAPI {
             query: params)
     }
     
+    /// 댓글 좋아요
+    /// - Parameter id: perfumId
     static func putCommentLike(_ id: Int) -> Observable<Response> {
         return networking(
             urlStr: CommentAddress.setCommentLike(id).url,
@@ -47,6 +60,9 @@ final class CommentAPI {
             model: Response.self)
     }
     
+    
+    /// 댓글 좋아요 삭제
+    /// - Parameter id: perfumeId
     static func deleteCommentLike(_ id: Int) -> Observable<Response> {
         return networking(
             urlStr: CommentAddress.setCommentLike(id).url,
