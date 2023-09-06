@@ -14,14 +14,14 @@ class LikeHeaderView: UICollectionReusableView {
     static let identifier = "LikeHeaderView"
     
     //MARK: Properties
-    lazy var cardButton = UIButton().then {
+    var cardButton = UIButton().then {
         $0.setImage(UIImage(named: "cardButton"),
                     for: .normal)
         $0.setImage(UIImage(named: "selectedCardButton"),
                     for: .selected)
     }
     
-    lazy var listButton = UIButton().then {
+    var listButton = UIButton().then {
         $0.setImage(UIImage(named: "gridButton")
                     , for: .normal)
         $0.setImage(UIImage(named: "selectedGridButton"),

@@ -15,7 +15,6 @@ class BrandListCollectionViewCell: UICollectionViewCell {
     // MARK: - UI Component
     lazy var brandImageView = UIImageView().then {
         $0.layer.borderWidth = 0.2
-        $0.backgroundColor = .customColor(.gray3)
     }
     
     lazy var brandLabel = UILabel().then {

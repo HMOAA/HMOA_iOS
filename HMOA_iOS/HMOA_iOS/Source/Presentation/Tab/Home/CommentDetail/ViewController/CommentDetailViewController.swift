@@ -20,6 +20,7 @@ class CommentDetailViewController: UIViewController, View {
     // MARK: - UI Component
     
     lazy var userImageView = UIImageView().then {
+        $0.image = UIImage(named: "google")
         $0.layer.borderColor = UIColor.white.cgColor
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 27 / 2
@@ -97,45 +98,40 @@ extension CommentDetailViewController {
         
         // MARK: - State
         
-        // 유저 이미지
-        reactor.state
-            .map { $0.comment.image }
-            .bind(to: userImageView.rx.image)
-            .disposed(by: disposeBag)
-        
         // 댓글 내용
         reactor.state
             .map { $0.comment.content }
             .bind(to: contentLabel.rx.text)
             .disposed(by: disposeBag)
-        
-        // 좋아요 상태
-        reactor.state
-            .map { $0.comment.isLike }
-            .bind(to: commentLikeButton.rx.isSelected)
-            .disposed(by: disposeBag)
-        
+
         // 유저 이름
         reactor.state
-            .map { $0.comment.name }
+            .map { $0.comment.nickname}
             .bind(to: userNameLabel.rx.text)
             .disposed(by: disposeBag)
-        
+
         // 좋아요 개수
         reactor.state
-            .map { $0.comment.likeCount }
+            .map { $0.comment.heartCount }
             .map { String($0) }
             .bind(onNext: {
                 self.commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)
             })
             .disposed(by: disposeBag)
         
-        // 수정 버튼 상태
+        // 좋아요 여부
         reactor.state
-            .map { $0.comment.isWrite }
-            .map { !$0 }
-            .bind(to: changeButton.rx.isHidden )
+            .map { $0.isLiked }
+            .distinctUntilChanged()
+            .bind(to: commentLikeButton.rx.isSelected)
             .disposed(by: disposeBag)
+
+        // 수정 버튼 상태
+//        reactor.state
+//            .map { $0.comment.isWrite }
+//            .map { !$0 }
+//            .bind(to: changeButton.rx.isHidden )
+//            .disposed(by: disposeBag)
         
         // 수정 버튼 클릭 상태
         reactor.state
@@ -145,7 +141,7 @@ extension CommentDetailViewController {
             .map { _ in }
             .bind(onNext: {
                 self.presentCommentWirteViewControllerForWriter(
-                    (self.reactor?.currentState.comment.commentId)!,
+                    (self.reactor?.currentState.comment.id)!,
                     (self.reactor?.currentState.comment.content)!)
             })
             .disposed(by: disposeBag)

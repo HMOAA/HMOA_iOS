@@ -20,22 +20,12 @@ class CommentCellReactor: Reactor {
     }
     
     struct State {
-        var commentId: Int
-        var name: String
-        var image: UIImage
-        var likeCount: Int
-        var content: String
-        var isLike: Bool
+        var likeCount: Int = 0
+        var isLike: Bool = false
     }
     
     init(comment: Comment) {
-        self.initialState = State(
-            commentId: comment.commentId,
-            name: comment.name,
-            image: comment.image,
-            likeCount: comment.likeCount,
-            content: comment.content,
-            isLike: comment.isLike)
+        self.initialState = State()
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
