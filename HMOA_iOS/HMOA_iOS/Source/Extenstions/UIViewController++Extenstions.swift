@@ -11,8 +11,14 @@ import Then
 
 extension UIViewController {
     
+    func presentDictionaryViewController(_ id: Int) {
+        let dictionaryVC = DictionaryViewController()
+        let reactor = DictionaryReactor(id: id)
+        dictionaryVC.reactor = reactor
+        self.navigationController?.pushViewController(dictionaryVC, animated: true)
+    }
+    
     func presentDatailViewController(_ id: Int) {
-        
         let reactor = DetailViewReactor(perfumeId: id)
         let detailVC = DetailViewController(reactor: reactor)
         detailVC.hidesBottomBarWhenPushed = true
@@ -209,13 +215,7 @@ extension UIViewController {
             barBackButton = backButton
             let barButtonItem = UIBarButtonItem(customView: barBackButton)
             self.navigationItem.leftBarButtonItems = [barButtonItem]
-        } else {
-            barBackButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
-            barBackButton.isHidden = true
         }
-        
-//        let barButtonItem = UIBarButtonItem(customView: barBackButton)
-//        self.navigationItem.leftBarButtonItems = [barButtonItem]
         
         let searchBarWrapper = SearchBarContainerView(customSearchBar: searchBar)
         searchBarWrapper.frame = CGRect(x: 0, y: 0, width: self.navigationController!.view.frame.size.width - 44, height: 30)
