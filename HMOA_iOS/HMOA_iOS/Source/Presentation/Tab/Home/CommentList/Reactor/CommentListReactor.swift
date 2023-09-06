@@ -7,10 +7,8 @@
 
 import RxSwift
 import ReactorKit
-import RxDataSources
 
 class CommentListReactor: Reactor {
-    var currentPerfumeId: Int
     
     enum Action {
         case viewWillAppear
@@ -21,48 +19,53 @@ class CommentListReactor: Reactor {
     }
     
     enum Mutation {
-        case setSelectedCommentId(IndexPath?)
+        case setSelectedComment(IndexPath?)
         case setIsPresentCommentWrite(Int?)
-        case setCommentData
-        case setSort(Int)
+        case setCommentSection([CommentSection])
+        case setSortType(String)
+        case setCommentCount(Int)
     }
     
     struct State {
-        var comments: [CommentSection] = []
-        var nowPerfumeId: Int? = nil
+        var commentSections: [CommentSection] = []
+        var perfumeId: Int?
         var commentCount: Int = 0
-        var presentCommentId: Int? = nil
+        var selectedComment: Comment? = nil
         var isPresentCommentWriteVC: Int? = nil
+        var sortType = ""
     }
     
-    var initialState: State = State()
+    var initialState: State
 
     init(_ currentPerfumeId: Int) {
-        self.currentPerfumeId = currentPerfumeId
+        initialState = State(
+            perfumeId: currentPerfumeId,
+            sortType: "Latest"
+        )
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return .just(.setCommentData)
+            return setCommentsList(type: currentState.sortType)
             
         case .didTapCell(let indexPath):
             return .concat([
-                .just(.setSelectedCommentId(indexPath)),
-                .just(.setSelectedCommentId(nil))
+                .just(.setSelectedComment(indexPath)),
+                .just(.setSelectedComment(nil))
             ])
             
         case .didTapWriteButton:
             return .concat([
-                .just(.setIsPresentCommentWrite(currentPerfumeId)),
+                .just(.setIsPresentCommentWrite(currentState.perfumeId)),
                 .just(.setIsPresentCommentWrite(nil))
             ])
         
         case .didTapLikeSortButton:
-            return .just(.setSort(1))
+            return setCommentsList(type: "Like")
             
         case .didTapRecentSortButton:
-            return .just(.setSort(2))
+            return setCommentsList(type: "Latest")
         }
     }
     
@@ -71,60 +74,53 @@ class CommentListReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setSelectedCommentId(let indexPath):
+        case .setSelectedComment(let indexPath):
             guard let indexPath = indexPath else {
-                state.presentCommentId = nil
+                state.selectedComment = nil
                 return state
             }
             
-            state.presentCommentId = state.comments[indexPath.section].items[indexPath.row].commentId
+            state.selectedComment = state.commentSections[indexPath.section].items[indexPath.row].commentCell
             
         case .setIsPresentCommentWrite(let perfumeId):
             state.isPresentCommentWriteVC = perfumeId
             
-        case .setCommentData:
-            let data = CommentListReactor.setCommentsList(currentPerfumeId, 1)
-            state.comments = data.0
-            state.commentCount = data.1
+        case .setCommentSection(let section):
+            state.commentSections = section
             
-        case .setSort(let sortType):
-            let data = CommentListReactor.setCommentsList(currentPerfumeId, sortType)
-            state.comments = data.0
-            state.commentCount = data.1
+        case .setSortType(let type):
+            state.sortType = type
+            
+        case .setCommentCount(let count):
+            state.commentCount = count
         }
+        
         return state
     }
 }
 
 extension CommentListReactor {
-    static func setCommentsList(_ id: Int, _ sortType: Int) -> ([CommentSection], Int) {
+    
+    func setCommentsList(type: String) -> Observable<Mutation> {
         
-        print(id)
-        // TODO: currentPerfumeId와 sortType으로 서버 통신해서 댓글 가져오기
-        
-        var comments = [
-            Comment(commentId: 1, name: "test", image: UIImage(named: "jomalon")!, likeCount: 124, content: "1", isLike: false, isWrite: false),
-            Comment(commentId: 2, name: "test", image: UIImage(named: "jomalon")!, likeCount: 5123, content: "2", isLike: false, isWrite: false),
-            Comment(commentId: 3, name: "test", image: UIImage(named: "jomalon")!, likeCount: 10, content: "3", isLike: false, isWrite: false),
-            Comment(commentId: 4, name: "test", image: UIImage(named: "jomalon")!, likeCount: 23, content: "4", isLike: false, isWrite: false),
-            Comment(commentId: 5, name: "test", image: UIImage(named: "jomalon")!, likeCount: 20, content: "5", isLike: false, isWrite: false),
-            Comment(commentId: 6, name: "test", image: UIImage(named: "jomalon")!, likeCount: 2341, content: "6", isLike: false, isWrite: false),
-            Comment(commentId: 7, name: "test", image: UIImage(named: "jomalon")!, likeCount: 122, content: "7", isLike: false, isWrite: false),
-            Comment(commentId: 8, name: "test", image: UIImage(named: "jomalon")!, likeCount: 341, content: "8", isLike: false, isWrite: false),
-            Comment(commentId: 9, name: "test", image: UIImage(named: "jomalon")!, likeCount: 55, content: "9", isLike: false, isWrite: false),
-            Comment(commentId: 10, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "10", isLike: false, isWrite: false),
-            Comment(commentId: 11, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "11", isLike: false, isWrite: false),
-            Comment(commentId: 12, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "12", isLike: false, isWrite: false)
+        guard let perfumeId = currentState.perfumeId else { return .empty() }
+         
+        let parameter = [
+            "page": 0,
+            "perfumeId": perfumeId
         ]
         
-        sortType == 1 ? comments.sort { $0.likeCount > $1.likeCount }: comments.sort { $0.commentId < $1.commentId }
-        
-        
-        let commentItems = comments.map {CommentSectionItem.commentCell($0, $0.commentId)}
-        
-        let commentSection = CommentSection.comment(commentItems)
-        
-        let count = 100
-        return ([commentSection], count)
+        return CommentAPI.fetchCommentList(parameter, type: type)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                let commentItems = data.comments.map { CommentSectionItem.commentCell($0, $0.id) }
+                let commentCount = data.commentCount
+                let commentSection = [CommentSection.comment(commentItems)]
+                
+                return .concat([
+                    .just(.setCommentSection(commentSection)),
+                    .just(.setCommentCount(commentCount))
+                ])
+            }
     }
 }

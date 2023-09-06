@@ -75,15 +75,15 @@ extension CommentListViewController {
         // MARK: - State
         // collectionView 바인딩
         reactor.state
-            .map { $0.comments }
+            .map { $0.commentSections }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, comments in
+            .drive(with: self, onNext: { owner, sections in
     
                 var snapshot = NSDiffableDataSourceSnapshot<CommentSection, CommentSectionItem>()
-                snapshot.appendSections(comments)
+                snapshot.appendSections(sections)
                 
-                comments.forEach { comment in
-                    snapshot.appendItems(comment.items, toSection: comment)
+                sections.forEach { section in
+                    snapshot.appendItems(section.items, toSection: section)
                 }
                 
                 DispatchQueue.main.async {
@@ -91,17 +91,9 @@ extension CommentListViewController {
                 }
             }).disposed(by: disposeBag)
         
-        // 댓글 개수 반응
-//        reactor.state
-//            .map { $0.commentCount }
-//            .distinctUntilChanged()
-//            .map { String($0) }
-//            .bind(to: topView.commentCountLabel.rx.text )
-//            .disposed(by: disposeBag)
-        
         // 댓글 디테일 페이지로 이동
         reactor.state
-            .map { $0.presentCommentId }
+            .map { $0.selectedComment }
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: presentCommentDetailViewController)
@@ -122,16 +114,22 @@ extension CommentListViewController {
         
         // 좋아요순 버튼 클릭
         header.likeSortButton.rx.tap
-            .do(onNext: { print("좋아요순")})
             .map { Reactor.Action.didTapLikeSortButton }
             .bind(to: commendReactor.action)
             .disposed(by: disposeBag)
         
         // 최신순 버튼 클릭
         header.recentSortButton.rx.tap
-            .do(onNext: { print("최신순")})
             .map { Reactor.Action.didTapRecentSortButton }
             .bind(to: commendReactor.action)
+            .disposed(by: disposeBag)
+        
+        //댓글 개수 
+        commendReactor.state
+            .map { $0.commentCount }
+            .distinctUntilChanged()
+            .map { "+" + String($0) }
+            .bind(to: header.commentCountLabel.rx.text )
             .disposed(by: disposeBag)
         
     }

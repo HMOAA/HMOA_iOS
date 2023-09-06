@@ -12,7 +12,6 @@ import UIKit
 class CommentDetailReactor: Reactor {
     
     var initialState: State
-    var currentCommentId: Int
     
     enum Action {
         case didTapLikeButton
@@ -27,22 +26,17 @@ class CommentDetailReactor: Reactor {
     struct State {
         var comment: Comment
         var isTapChangeButton: Bool = false
+        var isLiked: Bool = false
     }
     
-    init(_ currentCommentId: Int) {
-        self.currentCommentId = currentCommentId
-        self.initialState = State(comment: CommentDetailReactor.setCommentDetail(currentCommentId))
+    init(_ comment: Comment) {
+        initialState = State(comment: comment)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapLikeButton:
-            // TODO: 서버 통신
-            if Int.random(in: 0...10).isMultiple(of: 2) {
-                return .just(.setCommentLike(true))
-            } else {
-                return .just(.setCommentLike(false))
-            }
+            return setCommentLike()
             
         case .didTapChangeButton:
             return .concat([
@@ -57,8 +51,9 @@ class CommentDetailReactor: Reactor {
         
         switch mutation {
         case .setCommentLike(let isLike):
-            state.comment.isLike = isLike
-            state.comment.likeCount += isLike ? 1 : -1
+            state.isLiked = isLike
+            let heartCount = state.comment.heartCount
+            state.comment.heartCount = isLike ? heartCount + 1 : heartCount - 1
             
         case .setIsPresentChangeVC(let isPresent):
             state.isTapChangeButton = isPresent
@@ -70,11 +65,20 @@ class CommentDetailReactor: Reactor {
 
 extension CommentDetailReactor {
     
-    static func setCommentDetail(_ id: Int) -> Comment {
+    func setCommentLike() -> Observable<Mutation> {
         
-        print(id)
-        
-        // TODO: currentCommentId로 서버와 통신
-        return Comment(commentId: 1, name: "안녕하세요", image: UIImage(named: "jomalon")!, likeCount: 150, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요", isLike: false, isWrite: true)
+        if !currentState.isLiked {
+            return CommentAPI.putCommentLike(currentState.comment.id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    return .just(.setCommentLike(true))
+                }
+        } else {
+            return CommentAPI.deleteCommentLike(currentState.comment.id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    return .just(.setCommentLike(false))
+                }
+        }
     }
 }

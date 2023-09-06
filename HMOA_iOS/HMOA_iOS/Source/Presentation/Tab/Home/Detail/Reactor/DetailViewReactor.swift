@@ -144,9 +144,9 @@ extension DetailViewReactor {
     func setUpSections(_ id: Int) -> Observable<Mutation> {
 
         let commentItems = [
-            Comment(commentId: 1, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false, isWrite: false),
-            Comment(commentId: 2, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false, isWrite: false),
-            Comment(commentId: 3, name: "test", image: UIImage(named: "jomalon")!, likeCount: 100, content: "test", isLike: false, isWrite: false)
+            Comment(content: "test", heartCount: 100,  id: 1, nickname: "test", perfumeId: currentState.perfumeId),
+            Comment(content: "test", heartCount: 100,  id: 2, nickname: "test", perfumeId: currentState.perfumeId),
+            Comment(content: "test", heartCount: 100,  id: 3, nickname: "test", perfumeId: currentState.perfumeId)
         ]
         
         let recommendItems = [
@@ -163,7 +163,7 @@ extension DetailViewReactor {
         
         let evaluationSection = DetailSection.evaluation(DetailSectionItem.evaluationCell(1))
         
-        let commentItem = commentItems.map { DetailSectionItem.commentCell($0, $0.commentId) }
+        let commentItem = commentItems.map { DetailSectionItem.commentCell($0, $0.id) }
         
         let commentSections = DetailSection.comment(commentItem)
         
