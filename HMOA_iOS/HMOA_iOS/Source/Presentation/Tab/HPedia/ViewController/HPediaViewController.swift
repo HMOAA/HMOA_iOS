@@ -75,6 +75,16 @@ class HPediaViewController: UIViewController, View {
     
     func bind(reactor: HPediaReactor) {
         
+        // Action
+        hPediaCollectionView.rx.itemSelected
+            .map { Reactor.Action.didTapDictionaryItem($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        
+        // State
+        
+        // collectionView binding
         reactor.state
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, state in
@@ -93,6 +103,13 @@ class HPediaViewController: UIViewController, View {
                 }
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedDictionaryId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentDictionaryViewController)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -109,7 +126,7 @@ extension HPediaViewController {
                 else { return UICollectionViewCell() }
                 
                 cell.configure(data)
-                
+    
                 return cell
                 
             case .dictionary(let data):

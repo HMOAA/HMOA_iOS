@@ -164,7 +164,12 @@
 		CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */; };
 		CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D99E729C4932A000E80CF /* ListSecton.swift */; };
 		CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */; };
+		CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640112AA864630053076B /* DictionaryViewController.swift */; };
+		CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640132AA864750053076B /* DictionaryReactor.swift */; };
+		CA7640162AA8674B0053076B /* DictionaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640152AA8674B0053076B /* DictionaryCell.swift */; };
+		CA76401A2AA86C5E0053076B /* DictionaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640192AA86C5E0053076B /* DictionaryData.swift */; };
 		CA799ED52A249EF3002087BA /* LoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA799ED42A249EF3002087BA /* LoginType.swift */; };
+		CA7C9C042AA8834100072AB9 /* DetailDictionaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */; };
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
 		CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */; };
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
@@ -371,7 +376,12 @@
 		CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer++Extenstions.swift"; sourceTree = "<group>"; };
 		CA6D99E729C4932A000E80CF /* ListSecton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSecton.swift; sourceTree = "<group>"; };
 		CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaQnAHeaderView.swift; sourceTree = "<group>"; };
+		CA7640112AA864630053076B /* DictionaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewController.swift; sourceTree = "<group>"; };
+		CA7640132AA864750053076B /* DictionaryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryReactor.swift; sourceTree = "<group>"; };
+		CA7640152AA8674B0053076B /* DictionaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryCell.swift; sourceTree = "<group>"; };
+		CA7640192AA86C5E0053076B /* DictionaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryData.swift; sourceTree = "<group>"; };
 		CA799ED42A249EF3002087BA /* LoginType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
+		CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDictionaryViewController.swift; sourceTree = "<group>"; };
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
@@ -1029,6 +1039,8 @@
 		2C60F22929BA12E300595EF4 /* HPedia */ = {
 			isa = PBXGroup;
 			children = (
+				CA7C9BFE2AA8830500072AB9 /* DetailDictionary */,
+				CA76400C2AA8643A0053076B /* Dictionary */,
 				CA360F2F29DD61F800A93873 /* Model */,
 				CA360F2E29DD61EA00A93873 /* Reactor */,
 				CA0DB38F29DBD6650091DCB2 /* View */,
@@ -1471,12 +1483,95 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CA76400C2AA8643A0053076B /* Dictionary */ = {
+			isa = PBXGroup;
+			children = (
+				CA7640102AA864520053076B /* Model */,
+				CA76400F2AA8644C0053076B /* Reactor */,
+				CA76400E2AA864480053076B /* View */,
+				CA76400D2AA864410053076B /* ViewController */,
+			);
+			path = Dictionary;
+			sourceTree = "<group>";
+		};
+		CA76400D2AA864410053076B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CA7640112AA864630053076B /* DictionaryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CA76400E2AA864480053076B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CA7640152AA8674B0053076B /* DictionaryCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CA76400F2AA8644C0053076B /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				CA7640132AA864750053076B /* DictionaryReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		CA7640102AA864520053076B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA7640192AA86C5E0053076B /* DictionaryData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CA799ED32A249EF3002087BA /* Button */ = {
 			isa = PBXGroup;
 			children = (
 				CA799ED42A249EF3002087BA /* LoginType.swift */,
 			);
 			path = Button;
+			sourceTree = "<group>";
+		};
+		CA7C9BFE2AA8830500072AB9 /* DetailDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C9C022AA8832700072AB9 /* Model */,
+				CA7C9C012AA8832300072AB9 /* Reactor */,
+				CA7C9C002AA8831F00072AB9 /* View */,
+				CA7C9BFF2AA8831700072AB9 /* ViewController */,
+			);
+			path = DetailDictionary;
+			sourceTree = "<group>";
+		};
+		CA7C9BFF2AA8831700072AB9 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CA7C9C002AA8831F00072AB9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CA7C9C012AA8832300072AB9 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		CA7C9C022AA8832700072AB9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		CA914489297E757F00762BC0 /* Login */ = {
@@ -1880,6 +1975,7 @@
 				2CD0235E2A080D4500459801 /* MyProfileType.swift in Sources */,
 				CA6152BB2A6A8007007B04A7 /* Brand.swift in Sources */,
 				2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */,
+				CA7640162AA8674B0053076B /* DictionaryCell.swift in Sources */,
 				2C39AA60297047F9000C6F71 /* LikeViewController.swift in Sources */,
 				2C04249F29A67F07009CF0FE /* UIButton++Extenstions.swift in Sources */,
 				2CD0235A2A07D3CB00459801 /* UserService.swift in Sources */,
@@ -1903,6 +1999,7 @@
 				2C04246429A39C26009CF0FE /* Perfume.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* PerfumeDetail.swift in Sources */,
 				2C4CDC4B29C770D900676163 /* BrandSearchViewController.swift in Sources */,
+				CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				CAD1EC132A812491003B21FD /* NoLoginView.swift in Sources */,
@@ -1938,10 +2035,12 @@
 				CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */,
 				CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */,
 				2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */,
+				CA76401A2AA86C5E0053076B /* DictionaryData.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
 				2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */,
 				2CD023552A07B5A500459801 /* ChangeNicknameViewController.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
+				CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
@@ -1953,6 +2052,7 @@
 				2CA155B62A0533B100D7B0C0 /* MyProfileSection.swift in Sources */,
 				CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */,
 				CA360F3C29DD8ABE00A93873 /* HPediaQnACell.swift in Sources */,
+				CA7C9C042AA8834100072AB9 /* DetailDictionaryViewController.swift in Sources */,
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
 				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
 				CA0DB39129DBD67B0091DCB2 /* HPediaDictionaryCell.swift in Sources */,
