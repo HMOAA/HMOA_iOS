@@ -171,6 +171,7 @@
 		CA799ED52A249EF3002087BA /* LoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA799ED42A249EF3002087BA /* LoginType.swift */; };
 		CA7C9C042AA8834100072AB9 /* DetailDictionaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */; };
 		CA7C9C0B2AAADF8500072AB9 /* QnAListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C0A2AAADF8500072AB9 /* QnAListViewController.swift */; };
+		CA7C9C0D2AAAE06400072AB9 /* UISearchBar++Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C0C2AAAE06400072AB9 /* UISearchBar++Extension.swift */; };
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
 		CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */; };
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
@@ -384,6 +385,7 @@
 		CA799ED42A249EF3002087BA /* LoginType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
 		CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDictionaryViewController.swift; sourceTree = "<group>"; };
 		CA7C9C0A2AAADF8500072AB9 /* QnAListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAListViewController.swift; sourceTree = "<group>"; };
+		CA7C9C0C2AAAE06400072AB9 /* UISearchBar++Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar++Extension.swift"; sourceTree = "<group>"; };
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
@@ -804,6 +806,7 @@
 				2C60F21F29BA0F4000595EF4 /* Int++Extenstions.swift */,
 				CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */,
 				2CC12C7C2A2CCC09003B3A60 /* String++Extension.swift */,
+				CA7C9C0C2AAAE06400072AB9 /* UISearchBar++Extension.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -1995,6 +1998,7 @@
 				2CA7F69529D2E8DB0022E7FD /* TotalPerfumeViewController.swift in Sources */,
 				2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */,
 				2C1BD6BE29978EDD0059A43D /* BrandView.swift in Sources */,
+				CA7C9C0D2AAAE06400072AB9 /* UISearchBar++Extension.swift in Sources */,
 				2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */,
 				2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */,
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,

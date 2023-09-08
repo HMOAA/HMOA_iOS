@@ -23,18 +23,7 @@ class DictionaryViewController: UIViewController, View {
         $0.register(DictionaryCell.self, forCellReuseIdentifier: DictionaryCell.identifier)
     }
     
-    let searchBar = UISearchBar().then {
-        $0.layer.addBorder([.bottom], color: .customColor(.gray3), width: 1)
-        $0.showsBookmarkButton = true
-        $0.setImage(UIImage(named: "clearButton"), for: .clear, state: .normal)
-        $0.setImage(UIImage(), for: .search, state: .normal)
-        $0.setImage(UIImage(named: "search")?.withTintColor(.customColor(.gray3)), for: .bookmark, state: .normal)
-        $0.searchTextField.addLeftPadding(16)
-        $0.searchTextField.backgroundColor = .white
-        $0.searchTextField.textAlignment = .left
-        $0.searchTextField.font = .customFont(.pretendard_light, 16)
-        $0.placeholder = "키워드를 검색하세요"
-    }
+    let searchBar = UISearchBar().configureHpediaSearchBar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
