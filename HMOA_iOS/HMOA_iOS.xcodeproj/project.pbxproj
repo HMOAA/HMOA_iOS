@@ -170,6 +170,7 @@
 		CA76401A2AA86C5E0053076B /* DictionaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640192AA86C5E0053076B /* DictionaryData.swift */; };
 		CA799ED52A249EF3002087BA /* LoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA799ED42A249EF3002087BA /* LoginType.swift */; };
 		CA7C9C042AA8834100072AB9 /* DetailDictionaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */; };
+		CA7C9C0B2AAADF8500072AB9 /* QnAListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C0A2AAADF8500072AB9 /* QnAListViewController.swift */; };
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
 		CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */; };
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
@@ -382,6 +383,7 @@
 		CA7640192AA86C5E0053076B /* DictionaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryData.swift; sourceTree = "<group>"; };
 		CA799ED42A249EF3002087BA /* LoginType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
 		CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDictionaryViewController.swift; sourceTree = "<group>"; };
+		CA7C9C0A2AAADF8500072AB9 /* QnAListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAListViewController.swift; sourceTree = "<group>"; };
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
@@ -1039,6 +1041,7 @@
 		2C60F22929BA12E300595EF4 /* HPedia */ = {
 			isa = PBXGroup;
 			children = (
+				CA7C9C052AAADF3600072AB9 /* QnAList */,
 				CA7C9BFE2AA8830500072AB9 /* DetailDictionary */,
 				CA76400C2AA8643A0053076B /* Dictionary */,
 				CA360F2F29DD61F800A93873 /* Model */,
@@ -1574,6 +1577,46 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CA7C9C052AAADF3600072AB9 /* QnAList */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C9C092AAADF7100072AB9 /* Model */,
+				CA7C9C082AAADF6C00072AB9 /* Reactor */,
+				CA7C9C072AAADF5F00072AB9 /* View */,
+				CA7C9C062AAADF5900072AB9 /* ViewController */,
+			);
+			path = QnAList;
+			sourceTree = "<group>";
+		};
+		CA7C9C062AAADF5900072AB9 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CA7C9C0A2AAADF8500072AB9 /* QnAListViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CA7C9C072AAADF5F00072AB9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CA7C9C082AAADF6C00072AB9 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		CA7C9C092AAADF7100072AB9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -2009,6 +2052,7 @@
 				CA1067DD29D6D39A009A7245 /* ChangeSexReactor.swift in Sources */,
 				CA1067D929D6C9A7009A7245 /* ChangeYearReactor.swift in Sources */,
 				2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */,
+				CA7C9C0B2AAADF8500072AB9 /* QnAListViewController.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */,
 				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
