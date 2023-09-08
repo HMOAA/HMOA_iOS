@@ -46,7 +46,7 @@ class DictionaryCell: UITableViewCell {
         
         koreanLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(englishLabel.snp.bottom)
         }
     }
 }
