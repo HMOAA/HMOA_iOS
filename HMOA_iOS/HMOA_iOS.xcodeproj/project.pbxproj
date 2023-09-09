@@ -172,6 +172,8 @@
 		CA7C9C042AA8834100072AB9 /* DetailDictionaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */; };
 		CA7C9C0B2AAADF8500072AB9 /* QnAListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C0A2AAADF8500072AB9 /* QnAListViewController.swift */; };
 		CA7C9C0D2AAAE06400072AB9 /* UISearchBar++Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C0C2AAAE06400072AB9 /* UISearchBar++Extension.swift */; };
+		CA7C9C112AAAFB9300072AB9 /* QnAListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C102AAAFB9300072AB9 /* QnAListHeaderView.swift */; };
+		CA7C9C132AAC315100072AB9 /* QNAListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C122AAC315100072AB9 /* QNAListReactor.swift */; };
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
 		CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */; };
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
@@ -386,6 +388,8 @@
 		CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDictionaryViewController.swift; sourceTree = "<group>"; };
 		CA7C9C0A2AAADF8500072AB9 /* QnAListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAListViewController.swift; sourceTree = "<group>"; };
 		CA7C9C0C2AAAE06400072AB9 /* UISearchBar++Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar++Extension.swift"; sourceTree = "<group>"; };
+		CA7C9C102AAAFB9300072AB9 /* QnAListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAListHeaderView.swift; sourceTree = "<group>"; };
+		CA7C9C122AAC315100072AB9 /* QNAListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QNAListReactor.swift; sourceTree = "<group>"; };
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
@@ -1602,6 +1606,7 @@
 		CA7C9C072AAADF5F00072AB9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CA7C9C102AAAFB9300072AB9 /* QnAListHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1609,6 +1614,7 @@
 		CA7C9C082AAADF6C00072AB9 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				CA7C9C122AAC315100072AB9 /* QNAListReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -2056,6 +2062,7 @@
 				CA1067DD29D6D39A009A7245 /* ChangeSexReactor.swift in Sources */,
 				CA1067D929D6C9A7009A7245 /* ChangeYearReactor.swift in Sources */,
 				2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */,
+				CA7C9C112AAAFB9300072AB9 /* QnAListHeaderView.swift in Sources */,
 				CA7C9C0B2AAADF8500072AB9 /* QnAListViewController.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */,
@@ -2133,6 +2140,7 @@
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
 				2C1BD6AF298FDB3A0059A43D /* PerfumeInfoCell.swift in Sources */,
+				CA7C9C132AAC315100072AB9 /* QNAListReactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
