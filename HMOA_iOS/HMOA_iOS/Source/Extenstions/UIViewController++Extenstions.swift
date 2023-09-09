@@ -11,6 +11,11 @@ import Then
 
 extension UIViewController {
     
+    func presentQnAListVC() {
+        let qnaListVC = QnAListViewController()
+        self.navigationController?.pushViewController(qnaListVC, animated: true)
+    }
+    
     func presentDetailDictionaryVC(_ title: String) {
         let detailDictionaryVC = DetailDictionaryViewController()
         self.navigationController?.pushViewController(detailDictionaryVC, animated: true)

@@ -125,6 +125,7 @@ extension HPediaViewController {
                     for: indexPath) as? HPediaQnACell
                 else { return UICollectionViewCell() }
                 
+                cell.isListCell = false
                 cell.configure(data)
     
                 return cell
@@ -146,6 +147,9 @@ extension HPediaViewController {
             case 1:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier, for: indexPath) as? HPediaQnAHeaderView else { return UICollectionReusableView() }
                 
+                header.allButton.rx.tap
+                    .bind(onNext: self.presentQnAListVC)
+                    .disposed(by: self.disposeBag)
                 
                 return header
             default:
@@ -178,11 +182,11 @@ extension HPediaViewController {
     
     private func HPediaQnACellLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .absolute(68.64))
+                                              heightDimension: .absolute(70))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .absolute(68.64))
+                                               heightDimension: .absolute(70))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0,
@@ -194,7 +198,7 @@ extension HPediaViewController {
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(32))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15.69, trailing: 16)
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 16)
         section.boundarySupplementaryItems = [sectionHeader]
         section.interGroupSpacing = 8
         

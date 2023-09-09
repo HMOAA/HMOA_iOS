@@ -12,14 +12,24 @@ import ReactorKit
 class HPediaQnACell: UICollectionViewCell{
     
     static let identifier = "HPediaQnACell"
-    
     //MAKR: - Properties
     let categoryLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_medium, size: 13.73, color: .gray2)
+        $0.setLabelUI("", font: .pretendard_medium, size: 14, color: .gray2)
     }
     
     let titleLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 15.69, color: .black)
+        $0.setLabelUI("", font: .pretendard, size: 16, color: .black)
+    }
+    var isListCell: Bool = false {
+        didSet {
+            if !isListCell {
+                layer.borderWidth = 1
+                layer.borderColor = UIColor.customColor(.gray2).cgColor
+                layer.cornerRadius = 10
+            } else {
+                layer.addBorder([.bottom], color: .customColor(.gray2), width: 1)
+            }
+        }
     }
     
     override init(frame: CGRect) {
@@ -33,33 +43,26 @@ class HPediaQnACell: UICollectionViewCell{
         fatalError("init(coder:) has not been implemented")
     }
     
-
     //MARK: - SetUp
     private func setUpUI() {
-        contentView.backgroundColor = .white
-    }
-    
-    override func layoutSubviews() {
-        contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.customColor(.gray2).cgColor
-        contentView.layer.cornerRadius = 10
+        backgroundColor = .white
     }
     
     private func setAddView() {
-        contentView.addSubview(categoryLabel)
-        contentView.addSubview(titleLabel)
+        self.addSubview(categoryLabel)
+        self.addSubview(titleLabel)
     }
     
     private func setConstraints() {
         categoryLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(15.69)
+            make.top.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(16)
             make.trailing.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
-            make.top.equalTo(categoryLabel.snp.bottom).offset(7.84)
+            make.top.equalTo(categoryLabel.snp.bottom).offset(8)
         }
     }
     
