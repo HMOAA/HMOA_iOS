@@ -7,23 +7,87 @@
 
 import UIKit
 
+import Then
+import SnapKit
+import RxCocoa
+import RxSwift
 class QnAWriteViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    
+    //MARK: - Properties
+    
+    let titleLabel = UILabel().then {
+        $0.font = .customFont(.pretendard_medium, 20)
+        $0.textColor = .black
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    let cancleButton = UIButton().then {
+        $0.setTitle("취소", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 16)
+        $0.setTitleColor(.black, for: .normal)
+        $0.tintColor = .black
     }
-    */
-
+    
+    let okButton = UIButton().then {
+        $0.setTitle("확인", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 16)
+        $0.setTitleColor(.black, for: .normal)
+        $0.tintColor = .black
+    }
+    
+    let titleTextField = UITextField().then {
+        $0.addLeftPadding(33)
+        $0.placeholder = "제목"
+        $0.setPlaceholder(color: .customColor(.gray3))
+    }
+    
+    let textView = UITextView()
+    
+    init(title: String) {
+        super .init(nibName: nil, bundle: nil)
+        titleLabel.text = title
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setOkCancleNavigationBar(okButton: okButton, cancleButton: cancleButton, titleLabel: titleLabel)
+        setUpUI()
+        setAddView()
+        setConstraints()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        titleTextField.layer.addBorder([.top, .bottom], color: .black, width: 1)
+        
+    }
+    
+    //MARK: - SetUp
+    private func setUpUI() {
+        view.backgroundColor = .white
+    }
+    private func setAddView() {
+        [
+         titleTextField,
+         textView
+        ].forEach { view.addSubview($0) }
+    }
+    
+    private func setConstraints() {
+        titleTextField.snp.makeConstraints { make in
+            make.trailing.leading.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(60)
+        }
+        
+        textView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(32)
+            make.top.equalTo(titleTextField.snp.bottom).offset(24)
+            make.bottom.equalToSuperview()
+        }
+    }
 }

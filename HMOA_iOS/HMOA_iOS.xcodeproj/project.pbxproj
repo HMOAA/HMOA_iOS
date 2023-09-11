@@ -148,6 +148,7 @@
 		CA219C4E2AA2FDE0003FB215 /* CommentAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C4D2AA2FDE0003FB215 /* CommentAddress.swift */; };
 		CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C4F2AA2FF16003FB215 /* CommentAPI.swift */; };
 		CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA219C512AA2FF5C003FB215 /* Comment.swift */; };
+		CA2238902AAEFCC000452A31 /* QnAWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA22388F2AAEFCC000452A31 /* QnAWriteViewController.swift */; };
 		CA360F3429DD623D00A93873 /* HPediaSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3329DD623D00A93873 /* HPediaSection.swift */; };
 		CA360F3629DD643600A93873 /* HPediaGuideData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3529DD643600A93873 /* HPediaGuideData.swift */; };
 		CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3729DD658600A93873 /* HPediaTagData.swift */; };
@@ -364,6 +365,7 @@
 		CA219C4D2AA2FDE0003FB215 /* CommentAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAddress.swift; sourceTree = "<group>"; };
 		CA219C4F2AA2FF16003FB215 /* CommentAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAPI.swift; sourceTree = "<group>"; };
 		CA219C512AA2FF5C003FB215 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		CA22388F2AAEFCC000452A31 /* QnAWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAWriteViewController.swift; sourceTree = "<group>"; };
 		CA360F3329DD623D00A93873 /* HPediaSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaSection.swift; sourceTree = "<group>"; };
 		CA360F3529DD643600A93873 /* HPediaGuideData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaGuideData.swift; sourceTree = "<group>"; };
 		CA360F3729DD658600A93873 /* HPediaTagData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaTagData.swift; sourceTree = "<group>"; };
@@ -1048,6 +1050,7 @@
 		2C60F22929BA12E300595EF4 /* HPedia */ = {
 			isa = PBXGroup;
 			children = (
+				CA22388A2AAEFC8200452A31 /* QnAWrite */,
 				CA7C9C052AAADF3600072AB9 /* QnAList */,
 				CA7C9BFE2AA8830500072AB9 /* DetailDictionary */,
 				CA76400C2AA8643A0053076B /* Dictionary */,
@@ -1448,6 +1451,46 @@
 			isa = PBXGroup;
 			children = (
 				CA219C512AA2FF5C003FB215 /* Comment.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CA22388A2AAEFC8200452A31 /* QnAWrite */ = {
+			isa = PBXGroup;
+			children = (
+				CA22388E2AAEFC9F00452A31 /* Model */,
+				CA22388D2AAEFC9800452A31 /* Reactor */,
+				CA22388C2AAEFC9400452A31 /* View */,
+				CA22388B2AAEFC8E00452A31 /* ViewController */,
+			);
+			path = QnAWrite;
+			sourceTree = "<group>";
+		};
+		CA22388B2AAEFC8E00452A31 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CA22388F2AAEFCC000452A31 /* QnAWriteViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CA22388C2AAEFC9400452A31 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CA22388D2AAEFC9800452A31 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		CA22388E2AAEFC9F00452A31 /* Model */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2037,6 +2080,7 @@
 				2C15DF912A57DFE000EAB112 /* CoreGraphicManager.swift in Sources */,
 				CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */,
 				2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */,
+				CA2238902AAEFCC000452A31 /* QnAWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
