@@ -27,7 +27,6 @@ class QnAListViewController: UIViewController, View {
     }
     
     let floatingButton = UIButton().then {
-        $0.setImage(UIImage(named: "selectedAddButton"), for: .selected)
         $0.setImage(UIImage(named: "addButton"), for: .normal)
     }
     
@@ -78,6 +77,7 @@ class QnAListViewController: UIViewController, View {
     lazy var floatingButtons = [recommendButton, giftButton, etcButton]
     
     let floatingStackView = UIStackView().then {
+        $0.alpha = 0
         $0.backgroundColor = .black
         $0.isHidden = true
         $0.distribution = .fillEqually
@@ -100,10 +100,11 @@ class QnAListViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        setNavigationBarTitle(title: "QnA", color: .white, isHidden: false, isScroll: false)
         setUpUI()
         setAddView()
         setConstraints()
-        setNavigationBarTitle(title: "QnA", color: .white, isHidden: false, isScroll: false)
         configureDatasource()
         bind(reactor: reactor)
     }
@@ -121,10 +122,13 @@ class QnAListViewController: UIViewController, View {
         [
             searchBar,
             collectionView,
+        ]   .forEach { view.addSubview($0) }
+    
+        [
             floatingView,
             floatingButton,
             floatingStackView
-        ]   .forEach { view.addSubview($0) }
+        ]   .forEach { navigationController?.view.addSubview($0) }
 
     }
 
@@ -147,7 +151,7 @@ class QnAListViewController: UIViewController, View {
         
         floatingButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(12)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-13)
+            make.bottom.equalTo((tabBarController?.tabBar.snp.top)!).offset(-13)
             make.width.height.equalTo(56)
         }
         
@@ -166,6 +170,7 @@ class QnAListViewController: UIViewController, View {
     func bind(reactor: QNAListReactor) {
         
         floatingButton.rx.tap
+            .throttle(RxTimeInterval.milliseconds(350), scheduler: MainScheduler.instance)
             .map { Reactor.Action.didTapFloatingButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -192,32 +197,7 @@ class QnAListViewController: UIViewController, View {
             .skip(1)
             .bind(with: self, onNext: { owner, isTap in
                 owner.floatingButton.isSelected = isTap
-                
-                if !isTap {
-                    UIView.animate(withDuration: 0.3) {
-                        owner.floatingStackView.isHidden = true
-                        owner.view.layoutIfNeeded()
-                    }
-                    
-                    UIView.animate(withDuration: 0.5, animations: {
-                        owner.floatingView.alpha = 0
-                    }) { _ in
-                        owner.floatingView.isHidden = true
-                    }
-                } else {
-                    owner.floatingView.isHidden = false
-                    
-                    UIView.animate(withDuration: 0.5) {
-                        owner.floatingView.alpha = 1
-                    }
-                    
-                    owner.floatingStackView.alpha = 0
-                    UIView.animate(withDuration: 0.3) {
-                        owner.floatingStackView.alpha = 1
-                        owner.floatingStackView.isHidden = false
-                        owner.view.layoutIfNeeded()
-                    }
-                }
+                owner.showAnimation(isTap)
             })
             .disposed(by: disposeBag)
         
@@ -252,6 +232,43 @@ extension QnAListViewController: UICollectionViewDelegateFlowLayout {
                 return header
             default: return UICollectionReusableView()
             }
+        }
+    }
+    
+    func showAnimation(_ isTap: Bool) {
+        //버튼, 뷰 숨기기
+        if !isTap {
+            UIView.animate(withDuration: 0.3) {
+                self.floatingStackView.alpha = 0
+                self.floatingStackView.isHidden = true
+                self.view.layoutIfNeeded()
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.floatingView.alpha = 0
+            }) { _ in
+                self.floatingView.isHidden = true
+            }
+        }
+        // 버튼, 뷰 보이기
+        else {
+            self.floatingView.isHidden = false
+            UIView.animate(withDuration: 0.3, animations: {
+                self.floatingView.alpha = 1
+            })
+            
+            UIView.animate(withDuration: 0.3) {
+                self.floatingStackView.alpha = 1
+                self.floatingStackView.isHidden = false
+                self.view.layoutIfNeeded()
+            }
+        }
+        
+        // 버튼 돌리기
+        let roatation = isTap ? CGAffineTransform(rotationAngle: .pi - (.pi / 4)) : CGAffineTransform.identity
+
+        UIView.animate(withDuration: 0.3) {
+            self.floatingButton.transform = roatation
         }
     }
     
