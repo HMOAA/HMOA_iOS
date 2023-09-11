@@ -11,6 +11,12 @@ import Then
 
 extension UIViewController {
     
+    func presentQnAWriteVC(_ category: String) {
+        let qnaWriteVC = QnAWriteViewController(title: category)
+        qnaWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(qnaWriteVC, animated: true)
+    }
+    
     func presentQnAListVC() {
         let qnaListVC = QnAListViewController()
         self.navigationController?.pushViewController(qnaListVC, animated: true)
@@ -104,6 +110,16 @@ extension UIViewController {
         self.view.window?.rootViewController = tabBar
         self.present(tabBar, animated: true)
         self.view.window?.rootViewController?.dismiss(animated: false)
+    }
+    
+    func setOkCancleNavigationBar(okButton: UIButton, cancleButton: UIButton, titleLabel: UILabel) {
+        okButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        cancleButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        let okButtonItem = UIBarButtonItem(customView: okButton)
+        let cancleButtonItem = UIBarButtonItem(customView: cancleButton)
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [cancleButtonItem]
+        self.navigationItem.rightBarButtonItems = [okButtonItem]
     }
     
     func setNavigationColor() {

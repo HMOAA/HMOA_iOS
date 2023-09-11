@@ -100,13 +100,48 @@ class QnAListViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setNavigationBarTitle(title: "QnA", color: .white, isHidden: false, isScroll: false)
         setUpUI()
         setAddView()
         setConstraints()
         configureDatasource()
         bind(reactor: reactor)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let tabBarController = tabBarController {
+            tabBarController.view.addSubview(floatingView)
+            tabBarController.view.addSubview(floatingButton)
+            tabBarController.view.addSubview(floatingStackView)
+            
+            floatingButton.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().inset(12)
+                make.bottom.equalToSuperview().offset(-95)
+                make.width.height.equalTo(56)
+            }
+            
+            floatingStackView.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().inset(8)
+                make.width.equalTo(135)
+                make.height.equalTo(137)
+                make.bottom.equalTo(floatingButton.snp.top).offset(-8)
+            }
+            
+            floatingView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // 현재 ViewController가 나갈 때 floatingView와 floatingButton을 제거
+        floatingStackView.removeFromSuperview()
+        floatingView.removeFromSuperview()
+        floatingButton.removeFromSuperview()
     }
     
     //MARK: - SetUp
@@ -123,12 +158,6 @@ class QnAListViewController: UIViewController, View {
             searchBar,
             collectionView,
         ]   .forEach { view.addSubview($0) }
-    
-        [
-            floatingView,
-            floatingButton,
-            floatingStackView
-        ]   .forEach { navigationController?.view.addSubview($0) }
 
     }
 
@@ -148,26 +177,15 @@ class QnAListViewController: UIViewController, View {
             make.top.equalTo(searchBar.snp.bottom)
             make.bottom.equalToSuperview()
         }
-        
-        floatingButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(12)
-            make.bottom.equalTo((tabBarController?.tabBar.snp.top)!).offset(-13)
-            make.width.height.equalTo(56)
-        }
-        
-        floatingStackView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(8)
-            make.width.equalTo(135)
-            make.height.equalTo(137)
-            make.bottom.equalTo(floatingButton.snp.top).offset(-8)
-        }
-        
-        floatingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
     }
     
     func bind(reactor: QNAListReactor) {
+        
+        //Action
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         floatingButton.rx.tap
             .throttle(RxTimeInterval.milliseconds(350), scheduler: MainScheduler.instance)
@@ -175,6 +193,22 @@ class QnAListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        recommendButton.rx.tap
+            .map { Reactor.Action.didTapRecommendButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        giftButton.rx.tap
+            .map { Reactor.Action.didTapGiftButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        etcButton.rx.tap
+            .map { Reactor.Action.didTapEtcButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //State
         reactor.state
             .map { $0.items }
             .asDriver(onErrorRecover: { _ in .empty() })
@@ -199,6 +233,12 @@ class QnAListViewController: UIViewController, View {
                 owner.floatingButton.isSelected = isTap
                 owner.showAnimation(isTap)
             })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedCategory }
+            .compactMap { $0 }
+            .bind(onNext: presentQnAWriteVC)
             .disposed(by: disposeBag)
         
     }
