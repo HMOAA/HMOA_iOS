@@ -1077,10 +1077,7 @@
 				CA7C9C052AAADF3600072AB9 /* QnAList */,
 				CA7C9BFE2AA8830500072AB9 /* DetailDictionary */,
 				CA76400C2AA8643A0053076B /* Dictionary */,
-				CA360F2F29DD61F800A93873 /* Model */,
-				CA360F2E29DD61EA00A93873 /* Reactor */,
-				CA0DB38F29DBD6650091DCB2 /* View */,
-				2C60F22A29BA12E900595EF4 /* ViewController */,
+				CA0160942AB0A65300D5839D /* HPedia */,
 			);
 			path = HPedia;
 			sourceTree = "<group>";
@@ -1335,6 +1332,17 @@
 				2CD023622A092A5200459801 /* UserYearService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		CA0160942AB0A65300D5839D /* HPedia */ = {
+			isa = PBXGroup;
+			children = (
+				CA360F2F29DD61F800A93873 /* Model */,
+				CA360F2E29DD61EA00A93873 /* Reactor */,
+				CA0DB38F29DBD6650091DCB2 /* View */,
+				2C60F22A29BA12E900595EF4 /* ViewController */,
+			);
+			path = HPedia;
 			sourceTree = "<group>";
 		};
 		CA03C23C29EBED5F00FA0D2C /* Manager */ = {
