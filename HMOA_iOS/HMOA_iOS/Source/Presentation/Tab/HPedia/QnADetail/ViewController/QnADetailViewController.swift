@@ -19,6 +19,8 @@ class QnADetailViewController: UIViewController, View {
     var dataSource: UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>!
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+        $0.register(QnAPostHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier)
+        $0.register(QnACommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier)
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
         $0.register(QnAPostCell.self, forCellWithReuseIdentifier: QnAPostCell.identifier)
         
@@ -32,6 +34,7 @@ class QnADetailViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setConstraints()
+        setNavigationBarTitle(title: "QnA", color: .white, isHidden: false)
         configureDataSource()
         bind(reactor: reactor)
     }
@@ -46,8 +49,7 @@ class QnADetailViewController: UIViewController, View {
     
     private func setConstraints() {
         collectionView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.bottom.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     
@@ -96,6 +98,19 @@ extension QnADetailViewController {
             }
             
         })
+        
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            switch indexPath.section {
+            case 0:
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier, for: indexPath) as? QnAPostHeaderView else { return UICollectionReusableView() }
+                
+                return header
+            default:
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier, for: indexPath) as? QnACommentHeaderView else { return UICollectionReusableView() }
+                
+                return header
+            }
+        }
     }
     
     func configureQnAPostSection() -> NSCollectionLayoutSection {
@@ -106,8 +121,11 @@ extension QnADetailViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(14)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
-        let section = NSCollectionLayoutSection(group: group)
         
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(top: 46, leading: 16, bottom: 52, trailing: 16)
+        sectionHeader.contentInsets = .init(top: 30, leading: 0, bottom: 0, trailing: 0)
+        section.boundarySupplementaryItems = [sectionHeader]
         return section
     }
     
@@ -119,9 +137,11 @@ extension QnADetailViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(102))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(16)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(20)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        sectionHeader.contentInsets = .init(top: 0, leading: 0, bottom: 12, trailing: 0)
         let section = NSCollectionLayoutSection(group: group)
-        
+        section.interGroupSpacing = 8
+        section.boundarySupplementaryItems = [sectionHeader]
         return section
     }
     
