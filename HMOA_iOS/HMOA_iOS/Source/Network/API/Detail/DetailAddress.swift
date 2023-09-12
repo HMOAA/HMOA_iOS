@@ -8,7 +8,8 @@
 import Foundation
 
 enum DetailAddress {
-    case fetchPerfumeDetail
+    case fetchFirstPerfumeDetail
+    case fetchSecondPErfumeDetail(String)
 }
 
 extension DetailAddress {
@@ -16,6 +17,8 @@ extension DetailAddress {
         switch self {
         case .fetchPerfumeDetail:
             return "perfume/"
+        case .fetchSecondPErfumeDetail(let id):
+            return "perfume/\(id)/2"
         }
     }
 }
