@@ -208,6 +208,11 @@ class QnAListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        collectionView.rx.itemSelected
+            .map { Reactor.Action.didTapQnACell($0)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //State
         reactor.state
             .map { $0.items }
@@ -239,6 +244,12 @@ class QnAListViewController: UIViewController, View {
             .map { $0.selectedCategory }
             .compactMap { $0 }
             .bind(onNext: presentQnAWriteVC)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedPostId }
+            .compactMap { $0 }
+            .bind(onNext: presentQnADetailVC)
             .disposed(by: disposeBag)
         
     }

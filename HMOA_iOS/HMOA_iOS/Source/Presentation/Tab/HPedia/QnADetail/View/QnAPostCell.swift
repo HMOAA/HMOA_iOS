@@ -20,8 +20,7 @@ class QnAPostCell: UICollectionViewCell {
     }
     
     let profileImageView = UIImageView().then {
-        $0.layer.cornerRadius = 25
-        $0.backgroundColor = .black
+        $0.image = UIImage(named: "google")
     }
     
     let nicknameLabel = UILabel().then {
@@ -37,6 +36,8 @@ class QnAPostCell: UICollectionViewCell {
     }
     
     let contentLabel = UILabel().then {
+        $0.lineBreakMode = .byCharWrapping
+        $0.numberOfLines = 0
         $0.setLabelUI("", font: .pretendard_medium, size: 16, color: .black)
     }
     

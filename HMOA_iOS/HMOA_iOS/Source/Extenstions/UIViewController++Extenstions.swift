@@ -11,6 +11,11 @@ import Then
 
 extension UIViewController {
     
+    func presentQnADetailVC(_ id: Int) {
+        let qnaDetailVC = QnADetailViewController()
+        self.navigationController?.pushViewController(qnaDetailVC, animated: true)
+    }
+    
     func presentQnAWriteVC(_ category: String) {
         let qnaWriteVC = QnAWriteViewController(title: category)
         qnaWriteVC.hidesBottomBarWhenPushed = true

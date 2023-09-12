@@ -18,17 +18,20 @@ class QNAListReactor: Reactor {
         case didTapRecommendButton
         case didTapGiftButton
         case didTapEtcButton
+        case didTapQnACell(IndexPath)
     }
     
     enum Mutation {
         case setIsTapFloatingButton(Bool)
         case setSelectedCategory(String?)
+        case setSelectedPostId(IndexPath?)
     }
     
     
     struct State {
         var selectedCategory: String? = nil
         var isFloatingButtonTap: Bool = false
+        var selectedPostId: Int? = nil
         var items: [HPediaQnAData] = HPediaQnAData.list
     }
     
@@ -57,6 +60,11 @@ class QNAListReactor: Reactor {
                 .just(.setSelectedCategory("기타")),
                 .just(.setSelectedCategory(nil))
             ])
+        case .didTapQnACell(let indexPath):
+            return .concat([
+                .just(.setSelectedPostId(indexPath)),
+                .just(.setSelectedPostId(nil))
+            ])
         }
     }
     
@@ -68,6 +76,12 @@ class QNAListReactor: Reactor {
             state.isFloatingButtonTap = isTap
         case .setSelectedCategory(let category):
             state.selectedCategory = category
+        case .setSelectedPostId(let indexPath):
+            guard let indexPath = indexPath else {
+                state.selectedPostId = nil
+                return state
+            }
+            state.selectedPostId = currentState.items[indexPath.row].id
         }
         
         return state
