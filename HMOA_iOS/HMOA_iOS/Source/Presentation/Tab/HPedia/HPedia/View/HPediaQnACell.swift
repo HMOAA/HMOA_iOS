@@ -12,7 +12,7 @@ import ReactorKit
 class HPediaQnACell: UICollectionViewCell{
     
     static let identifier = "HPediaQnACell"
-    //MAKR: - Properties
+    //MARK: - UI Components
     let categoryLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 14, color: .gray2)
     }
@@ -32,6 +32,7 @@ class HPediaQnACell: UICollectionViewCell{
         }
     }
     
+    //MARK: - Init
     override init(frame: CGRect) {
         super .init(frame: frame)
         setUpUI()

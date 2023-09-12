@@ -13,10 +13,12 @@ import SnapKit
 class QnAPostHeaderView: UICollectionReusableView {
     static let identifier = "QnAPostHeaderView"
     
+    //MARK: - UI Component
     let recommendLabel = UILabel().then {
         $0.setLabelUI("추천해주세요", font: .pretendard_medium, size: 14, color: .gray2)
     }
     
+    //MARK: - Init
     override init(frame: CGRect) {
         super .init(frame: frame)
         

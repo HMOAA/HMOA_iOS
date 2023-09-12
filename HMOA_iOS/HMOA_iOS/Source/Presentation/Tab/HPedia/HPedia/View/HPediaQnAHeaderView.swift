@@ -12,7 +12,7 @@ import SnapKit
 
 class HPediaQnAHeaderView: UICollectionReusableView {
     static let identifier = "HPediaQnAHeaderView"
-    //MARK: - Properties
+    //MARK: - UI Components
     let titleLabel = UILabel().then {
         $0.setLabelUI("묻고 답하기", font: .pretendard, size: 16, color: .black)
     }
@@ -23,6 +23,7 @@ class HPediaQnAHeaderView: UICollectionReusableView {
         $0.setTitle("전체보기", for: .normal)
     }
     
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         

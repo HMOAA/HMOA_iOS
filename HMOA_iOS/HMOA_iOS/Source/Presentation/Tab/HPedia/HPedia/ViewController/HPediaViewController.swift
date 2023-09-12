@@ -36,7 +36,7 @@ class HPediaViewController: UIViewController, View {
         $0.placeholder = "향에 대해 궁금한 점을 검색해보세요"
     }
     
-    
+    //MARK: - Properties
     private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>?
     var disposeBag = DisposeBag()
     let reactor = HPediaReactor()
@@ -76,6 +76,8 @@ class HPediaViewController: UIViewController, View {
     func bind(reactor: HPediaReactor) {
         
         // Action
+        
+        //colectionView item 터치
         hPediaCollectionView.rx.itemSelected
             .map { Reactor.Action.didTapDictionaryItem($0) }
             .bind(to: reactor.action)
@@ -104,6 +106,7 @@ class HPediaViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        //DictionaryVC로 선택된 Id push
         reactor.state
             .map { $0.selectedDictionaryId }
             .distinctUntilChanged()
@@ -113,7 +116,7 @@ class HPediaViewController: UIViewController, View {
     }
 }
 
-//MARK: - Functions
+//MARK: - CollectionView Configure
 extension HPediaViewController {
     
     func configureDatasource () {

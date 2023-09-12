@@ -15,9 +15,7 @@ import SnapKit
 
 class DictionaryViewController: UIViewController, View {
     
-    typealias Reactor = DictionaryReactor
-    var disposeBag = DisposeBag()
-    
+    //MARK: - UI Components
     lazy var tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.register(DictionaryCell.self, forCellReuseIdentifier: DictionaryCell.identifier)
@@ -25,6 +23,11 @@ class DictionaryViewController: UIViewController, View {
     
     let searchBar = UISearchBar().configureHpediaSearchBar()
     
+    //MARK: - Properties
+    typealias Reactor = DictionaryReactor
+    var disposeBag = DisposeBag()
+    
+    //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +64,8 @@ class DictionaryViewController: UIViewController, View {
     func bind(reactor: DictionaryReactor) {
         
         // Action
+        
+        //tableView cell 터치
         tableView.rx.itemSelected
             .map { Reactor.Action.didTapItem($0) }
             .bind(to: reactor.action )
@@ -71,6 +76,8 @@ class DictionaryViewController: UIViewController, View {
         
         
         // State
+        
+        //collectionView binding
         reactor.state
             .map { $0.items }
             .bind(to: tableView.rx.items(cellIdentifier: DictionaryCell.identifier, cellType: DictionaryCell.self)) { index, item, cell in
@@ -78,6 +85,7 @@ class DictionaryViewController: UIViewController, View {
                 cell.updateCell(item)
             }.disposed(by: disposeBag)
         
+        //navigationBar title 설정
         reactor.state
             .map { $0.title }
             .bind(with: self, onNext: { owner, title in
@@ -85,6 +93,7 @@ class DictionaryViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        //선택된 타이틀 DetailDictionaryVC로 push
         reactor.state
             .map { $0.selectedTitle }
             .compactMap { $0 }

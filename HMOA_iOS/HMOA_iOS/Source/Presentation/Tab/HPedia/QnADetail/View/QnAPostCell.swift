@@ -14,7 +14,7 @@ class QnAPostCell: UICollectionViewCell {
     
     static let identifier = "QnAPostCell"
     
-    //MARK: - Properties
+    //MARK: - UIComponents
     let QLabel = UILabel().then {
         $0.setLabelUI("Q", font: .pretendard_bold, size: 30, color: .black)
     }
@@ -41,6 +41,7 @@ class QnAPostCell: UICollectionViewCell {
         $0.setLabelUI("", font: .pretendard_medium, size: 16, color: .black)
     }
     
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
