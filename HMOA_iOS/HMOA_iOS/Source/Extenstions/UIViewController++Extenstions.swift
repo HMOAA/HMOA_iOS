@@ -11,8 +11,35 @@ import Then
 
 extension UIViewController {
     
+    func presentQnADetailVC(_ id: Int) {
+        let qnaDetailVC = QnADetailViewController()
+        self.navigationController?.pushViewController(qnaDetailVC, animated: true)
+    }
+    
+    func presentQnAWriteVC(_ category: String) {
+        let qnaWriteVC = QnAWriteViewController(title: category)
+        qnaWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(qnaWriteVC, animated: true)
+    }
+    
+    func presentQnAListVC() {
+        let qnaListVC = QnAListViewController()
+        self.navigationController?.pushViewController(qnaListVC, animated: true)
+    }
+    
+    func presentDetailDictionaryVC(_ title: String) {
+        let detailDictionaryVC = DetailDictionaryViewController()
+        self.navigationController?.pushViewController(detailDictionaryVC, animated: true)
+    }
+    
+    func presentDictionaryViewController(_ id: Int) {
+        let dictionaryVC = DictionaryViewController()
+        let reactor = DictionaryReactor(id: id)
+        dictionaryVC.reactor = reactor
+        self.navigationController?.pushViewController(dictionaryVC, animated: true)
+    }
+    
     func presentDatailViewController(_ id: Int) {
-        
         let reactor = DetailViewReactor(perfumeId: id)
         let detailVC = DetailViewController(reactor: reactor)
         detailVC.hidesBottomBarWhenPushed = true
@@ -88,6 +115,16 @@ extension UIViewController {
         self.view.window?.rootViewController = tabBar
         self.present(tabBar, animated: true)
         self.view.window?.rootViewController?.dismiss(animated: false)
+    }
+    
+    func setOkCancleNavigationBar(okButton: UIButton, cancleButton: UIButton, titleLabel: UILabel) {
+        okButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        cancleButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        let okButtonItem = UIBarButtonItem(customView: okButton)
+        let cancleButtonItem = UIBarButtonItem(customView: cancleButton)
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [cancleButtonItem]
+        self.navigationItem.rightBarButtonItems = [okButtonItem]
     }
     
     func setNavigationColor() {
@@ -200,5 +237,26 @@ extension UIViewController {
         border.borderWidth = 1
         sender.layer.addSublayer(border)
         sender.layer.masksToBounds = true
+    }
+    
+    func configureSearchNavigationBar(_ backButton: UIButton?, searchBar: UISearchBar) {
+        var barBackButton: UIButton
+        
+        if let backButton = backButton {
+            barBackButton = backButton
+            let barButtonItem = UIBarButtonItem(customView: barBackButton)
+            self.navigationItem.leftBarButtonItems = [barButtonItem]
+        }
+        
+        let searchBarWrapper = SearchBarContainerView(customSearchBar: searchBar)
+        searchBarWrapper.frame = CGRect(x: 0, y: 0, width: self.navigationController!.view.frame.size.width - 44, height: 30)
+        self.navigationItem.titleView = searchBarWrapper
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 }
