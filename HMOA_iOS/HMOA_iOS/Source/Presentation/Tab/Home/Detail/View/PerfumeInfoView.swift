@@ -110,7 +110,7 @@ extension PerfumeInfoView {
         }
         
         seperatorLine1.snp.makeConstraints {
-            $0.top.equalTo(titleEnglishLabel.snp.bottom).offset(46)
+            $0.top.equalTo(titleEnglishLabel.snp.bottom).offset(22)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.width.equalTo(UIScreen.main.bounds.width - 32)
             $0.height.equalTo(1)
