@@ -15,6 +15,7 @@ class QnAListHeaderView: UICollectionReusableView {
     
     static let identifier = "QnAListHeaderView"
     
+    //MARK: - UI Components
     let tagListView = TagListView(frame: .zero).then {
         $0.alignment = .leading
         $0.marginX = 8
@@ -28,6 +29,7 @@ class QnAListHeaderView: UICollectionReusableView {
         $0.textFont = .customFont(.pretendard, 14)
     }
     
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -59,6 +61,8 @@ class QnAListHeaderView: UICollectionReusableView {
 }
 
 extension QnAListHeaderView: TagListViewDelegate {
+    
+    //태그 리스트 selected 설정
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         tagView.isSelected.toggle()
         tagListView.tagViews.forEach {

@@ -13,9 +13,9 @@ import ReactorKit
 
 class HPediaDictionaryCell: UICollectionViewCell {
     
-    //MAKR: - Property
     static let identifier = "HPediaDictionaryCell"
     
+    //MARK: - UIComponents
     let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_semibold, size: 16, color: .white)
     }
@@ -25,7 +25,7 @@ class HPediaDictionaryCell: UICollectionViewCell {
         $0.setLabelUI("", font: .pretendard, size: 16, color: .white)
     }
     
-    
+    //MARK: - Init
     override init(frame: CGRect) {
         super .init(frame: frame)
         setUpUI()

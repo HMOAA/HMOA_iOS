@@ -14,7 +14,7 @@ import RxSwift
 class QnAWriteViewController: UIViewController {
 
     
-    //MARK: - Properties
+    //MARK: - UI Components
     
     let titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 20)
@@ -43,6 +43,7 @@ class QnAWriteViewController: UIViewController {
     
     let textView = UITextView()
     
+    //MARK: - Init
     init(title: String) {
         super .init(nibName: nil, bundle: nil)
         titleLabel.text = title
@@ -52,6 +53,7 @@ class QnAWriteViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -28,6 +28,7 @@ class QnADetailViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     let reactor = QnADetailReactor()
     
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,6 +44,7 @@ class QnADetailViewController: UIViewController, View {
     private func setUpUI() {
         view.backgroundColor = .white
     }
+    
     private func setAddView() {
         view.addSubview(collectionView)
     }
@@ -55,11 +57,18 @@ class QnADetailViewController: UIViewController, View {
     
     func bind(reactor: QnADetailReactor) {
         
+        // Action
+        
+        // viewDidLoad
         Observable.just(())
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        
+        // State
+        
+        //colectionView binding
         reactor.state
             .map { $0.sections }
             .asDriver(onErrorRecover: { _ in .empty() })

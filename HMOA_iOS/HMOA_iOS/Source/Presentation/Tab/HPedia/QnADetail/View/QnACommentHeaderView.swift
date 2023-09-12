@@ -12,7 +12,6 @@ class QnACommentHeaderView: UICollectionReusableView {
     static let identifier = "QnACommentHeaderView"
     
     // MARK: - UI Component
-    
     var commentLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 16)
         $0.text = "답변"

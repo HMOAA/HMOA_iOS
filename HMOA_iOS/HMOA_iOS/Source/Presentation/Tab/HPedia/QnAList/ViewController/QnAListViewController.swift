@@ -15,6 +15,7 @@ import ReactorKit
 
 class QnAListViewController: UIViewController, View {
 
+    //MARK: - UI Components
     let searchBar = UISearchBar().configureHpediaSearchBar()
     
     let layout = UICollectionViewFlowLayout().then {
@@ -93,10 +94,12 @@ class QnAListViewController: UIViewController, View {
         
     }
     
+    //MARK: - Properties
     var disposeBag = DisposeBag()
     let reactor = QNAListReactor()
     var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>!
     
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -182,38 +185,47 @@ class QnAListViewController: UIViewController, View {
     func bind(reactor: QNAListReactor) {
         
         //Action
+        
+        //viewWillAppear
         rx.viewWillAppear
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        //floatinButton 터치
         floatingButton.rx.tap
             .throttle(RxTimeInterval.milliseconds(350), scheduler: MainScheduler.instance)
             .map { Reactor.Action.didTapFloatingButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        //추천 버튼 터치
         recommendButton.rx.tap
             .map { Reactor.Action.didTapRecommendButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        //선물 버튼 터치
         giftButton.rx.tap
             .map { Reactor.Action.didTapGiftButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        //기타 버튼 터치
         etcButton.rx.tap
             .map { Reactor.Action.didTapEtcButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        //콜렉션 뷰 아이템 터치
         collectionView.rx.itemSelected
             .map { Reactor.Action.didTapQnACell($0)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //State
+        
+        //collectionView Binding
         reactor.state
             .map { $0.items }
             .asDriver(onErrorRecover: { _ in .empty() })
@@ -231,6 +243,7 @@ class QnAListViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        //플로팅 뷰, 다른 버튼들 애니메이션 보여주기
         reactor.state
             .map { $0.isFloatingButtonTap }
             .skip(1)
@@ -240,21 +253,19 @@ class QnAListViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        //선택된 카테고리 String QnAWriteVC로 push
         reactor.state
             .map { $0.selectedCategory }
             .compactMap { $0 }
             .bind(onNext: presentQnAWriteVC)
             .disposed(by: disposeBag)
         
+        //선택된 셀 id QnADetailVC로 push
         reactor.state
             .map { $0.selectedPostId }
             .compactMap { $0 }
             .bind(onNext: presentQnADetailVC)
             .disposed(by: disposeBag)
-        
-    }
-    
-    func bindHeader() {
         
     }
 }
