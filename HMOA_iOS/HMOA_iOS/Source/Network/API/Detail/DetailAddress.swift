@@ -15,7 +15,7 @@ enum DetailAddress {
 extension DetailAddress {
     var url: String {
         switch self {
-        case .fetchPerfumeDetail:
+        case .fetchFirstPerfumeDetail:
             return "perfume/"
         case .fetchSecondPErfumeDetail(let id):
             return "perfume/\(id)/2"
