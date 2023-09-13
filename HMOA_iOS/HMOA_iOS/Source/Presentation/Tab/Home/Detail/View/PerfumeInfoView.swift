@@ -15,8 +15,15 @@ class PerfumeInfoView: UIView {
     
     lazy var perfumeImageView = UIImageView()
     
-    lazy var perfumeLikeButton = UIButton().then {
-        $0.makeLikeButton()
+    lazy var perfumeLikeView = UIView().then {
+        $0.layer.cornerRadius = 10
+        $0.backgroundColor = .customColor(.gray1)
+    }
+    
+    lazy var perfumeLikeImageView = UIImageView()
+    
+    lazy var perfumeLikeCountLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_light, size: 12, color: .black)
     }
     
     lazy var titleKoreanLabel = UILabel().then {
@@ -49,6 +56,7 @@ class PerfumeInfoView: UIView {
         $0.font = UIFont.customFont(.pretendard_medium, 20)
         $0.text = "테이스팅 노트"
     }
+    
     //TODO: singleNoteView 만들기
     lazy var topNote = TastingNoteView(pos: "TOP")
     
@@ -65,15 +73,28 @@ class PerfumeInfoView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        perfumeLikeView.snp.makeConstraints { make in
+            make.width.equalTo(36 + perfumeLikeCountLabel.frame.width)
+        }
+        print(28 + perfumeLikeCountLabel.frame.width)
+    }
 }
 
 // MARK: - Functions
 extension PerfumeInfoView {
     
     func configureUI() {
+        [
+            perfumeLikeImageView,
+            perfumeLikeCountLabel,
+        ]   .forEach { perfumeLikeView.addSubview($0) }
         
         [   perfumeImageView,
-            perfumeLikeButton,
+            perfumeLikeView,
             titleEnglishLabel,
             titleKoreanLabel,
             seperatorLine1,
@@ -93,14 +114,25 @@ extension PerfumeInfoView {
             $0.height.equalTo(360)
         }
         
-        perfumeLikeButton.snp.makeConstraints {
+        perfumeLikeView.snp.makeConstraints {
             $0.top.equalTo(perfumeImageView.snp.bottom).offset(16)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(20)
         }
         
+        perfumeLikeImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(12)
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().inset(6)
+        }
+        
+        perfumeLikeCountLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(perfumeLikeImageView.snp.trailing).offset(4)
+        }
+        
         titleKoreanLabel.snp.makeConstraints {
-            $0.top.equalTo(perfumeLikeButton.snp.bottom).offset(6)
+            $0.top.equalTo(perfumeLikeView.snp.bottom).offset(6)
             $0.leading.equalToSuperview().inset(16)
         }
         

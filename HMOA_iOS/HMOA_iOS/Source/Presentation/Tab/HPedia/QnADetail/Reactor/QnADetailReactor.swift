@@ -50,10 +50,7 @@ class QnADetailReactor: Reactor {
 extension QnADetailReactor {
     func setUpSection() -> Observable<Mutation> {
         let commentItems = [
-            Comment(content: "test", heartCount: 100,  id: 1, nickname: "test", perfumeId: 1),
-            Comment(content: "test", heartCount: 100,  id: 2, nickname: "test", perfumeId: 2),
-            Comment(content: "test", heartCount: 100,  id: 3, nickname: "test", perfumeId: 3),
-            Comment(content: "test", heartCount: 100,  id: 3, nickname: "test", perfumeId: 4)
+            Comment(content: "1111", createAt: "123", heartCount: 2, id: 2, liked: false, nickname: "sdf", perfumeId: 2, profileImg: "", writed: false)
         ]
         
         let commentItem = commentItems.map { QnADetailSectionItem.commentCell($0) }
