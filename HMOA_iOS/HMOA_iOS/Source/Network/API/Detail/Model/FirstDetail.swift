@@ -21,7 +21,7 @@ struct Detail: Hashable, Decodable {
     let brandId: Int
     let brandName, brandEnglishName: String
     let brandImgUrl: String
-    let koreanName, englishNAme: String
+    let koreanName, englishName: String
     let perfumeImageUrl: String
     let price: Int
     let volume: [Int]

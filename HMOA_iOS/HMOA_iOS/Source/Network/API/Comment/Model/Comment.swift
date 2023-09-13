@@ -11,11 +11,3 @@ struct ResponseComment: Codable, Hashable {
     let commentCount: Int
     let comments: [Comment]
 }
-
-struct Comment: Codable, Hashable {
-    let content: String?
-    var heartCount: Int
-    let id: Int
-    let nickname: String?
-    let perfumeId: Int
-}

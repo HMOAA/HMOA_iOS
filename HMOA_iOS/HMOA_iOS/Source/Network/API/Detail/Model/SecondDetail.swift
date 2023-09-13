@@ -25,15 +25,16 @@ struct Age: Codable, Hashable {
 
 struct CommentInfo: Codable, Hashable {
     let commentCount: Int
-    let comments: [DetailComent]
+    let comments: [Comment]
 }
 
 
-struct DetailComent: Codable, Hashable {
+struct Comment: Codable, Hashable {
     let content, createAt: String
-    let heartCount, id: Int
+    var heartCount: Int
+    let id: Int
     let liked: Bool
-    let nickname: String
+    let nickname: String?
     let perfumeId: Int
     let profileImg: String
     let writed: Bool
@@ -45,7 +46,7 @@ struct Gender: Codable, Hashable {
 }
 
 struct SimilarPerfume: Codable, Hashable {
-    let brandName, perfumeImgURL, perfumeName: String
+    let brandName, perfumeImgUrl, perfumeName: String
 }
 
 struct Weather: Codable, Hashable {
