@@ -11,6 +11,7 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 class SimilarCell: UICollectionViewCell, View {
     
@@ -22,9 +23,7 @@ class SimilarCell: UICollectionViewCell, View {
     
     // MARK: - Properties
     
-    lazy var perfumeImageView = UIImageView().then {
-        $0.image = UIImage(named: "jomalon")
-    }
+    lazy var perfumeImageView = UIImageView()
     
     lazy var perfumetitleLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard, 12)
@@ -68,6 +67,7 @@ extension SimilarCell {
         perfumeImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.centerX.equalToSuperview()
+            $0.width.height.equalTo(88)
         }
         
         perfumetitleLabel.snp.makeConstraints {
@@ -82,8 +82,9 @@ extension SimilarCell {
         }
     }
     
-    func updateUI(_ item: RecommendPerfume) {
+    func updateUI(_ item: SimilarPerfume) {
         perfumetitleLabel.text = item.brandName
         perfumeContentLabel.text = item.perfumeName
+        perfumeImageView.kf.setImage(with: URL(string: item.perfumeImgUrl))
     }
 }

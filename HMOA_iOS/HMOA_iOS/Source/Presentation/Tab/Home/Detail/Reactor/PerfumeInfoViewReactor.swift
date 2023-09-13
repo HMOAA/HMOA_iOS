@@ -26,7 +26,7 @@ class PerfumeInfoViewReactor: Reactor {
         var isLikeBrand: Bool = false
     }
     
-    init(detail: PerfumeDetail) {
+    init(detail: FirstDetail) {
         self.initialState = State()
     }
     

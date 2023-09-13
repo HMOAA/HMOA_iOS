@@ -27,10 +27,8 @@ class CommentCell: UICollectionViewCell, View {
     }
     
     lazy var userImageView = UIImageView().then {
-        $0.layer.borderColor = UIColor.white.cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.cornerRadius = 27 / 2
-        $0.layer.backgroundColor = UIColor.customColor(.tabbarColor).cgColor
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 28 / 2
     }
     
     lazy var userNameLabel = UILabel().then {
@@ -94,7 +92,8 @@ extension CommentCell {
     }
     
     func updateCell(_ item: Comment) {
-        userImageView.image = UIImage(named: "google")
+        commentLikeButton.isSelected = item.liked
+        userImageView.kf.setImage(with: URL(string: item.profileImg))
         userNameLabel.text = item.nickname
         contentLabel.text = item.content
         commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
