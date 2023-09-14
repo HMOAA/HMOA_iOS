@@ -15,7 +15,6 @@ final class DetailViewReactor: Reactor {
     enum Action {
         case viewDidLoad
         case didTapMoreButton
-        case didTapCell(DetailSectionItem)
         case didTapWriteButton
         case didTapBackButton
         case didTapHomeButton
@@ -66,19 +65,7 @@ final class DetailViewReactor: Reactor {
                 .just(.setPresentCommentVC(currentState.perfumeId)),
                 .just(.setPresentCommentVC(nil))
             ])
-        case .didTapCell(let item):
             
-            if item.section == 2 {
-                return .concat([
-                    .just(.setSelectedComment(item.id)),
-                    .just(.setSelectedComment(nil))
-                ])
-            } else {
-                return .concat([
-                    .just(.setSelecctedPerfume(item.id)),
-                    .just(.setSelecctedPerfume(nil))
-                ])
-            }
         case .didTapWriteButton:
             return .concat([
                 .just(.setIsPresentCommentWrite(currentState.perfumeId)),

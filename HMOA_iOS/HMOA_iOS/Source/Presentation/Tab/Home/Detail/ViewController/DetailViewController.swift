@@ -67,12 +67,6 @@ extension DetailViewController {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        // collectionView 아이템 클릭
-        detailView.collectionView.rx.itemSelected
-            .map { reactor.currentState.sections[$0.section].items[$0.item]}
-            .map { Reactor.Action.didTapCell($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
         
         // 댓글 작성 버튼 클릭
         bottomView.wirteButton.rx.tap
@@ -246,18 +240,6 @@ extension DetailViewController: UICollectionViewDelegate {
                 
                 
                 perfumeInfoCell.updateCell(detail.perfumeDetail)
-                // 하단 뷰 향수 좋아요 버튼 클릭시 액션 전달
-                //                self.bottomView.likeButton.rx.tap
-                //                    .map { _ in .didTapPerfumeLikeButton }
-                //                    .bind(to: perfumeInfoCell.reactor!.action)
-                //                    .disposed(by: self.disposeBag)
-                
-                // perfumeInfoReactor의 향수 좋아요 상태 변화
-                //                perfumeInfoCell.reactor?.state
-                //                    .map { $0.isLikePerfume }
-                //                    .distinctUntilChanged()
-                //                    .bind(to: self.bottomView.likeButton.rx.isSelected)
-                //                    .disposed(by: self.disposeBag)
                 return perfumeInfoCell
             case .evaluationCell(_):
                 guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
@@ -300,7 +282,11 @@ extension DetailViewController: UICollectionViewDelegate {
             if kind == UICollectionView.elementKindSectionFooter {
                 guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
                 
-                commentFooter.reactor = self.DetailReactor
+                
+                commentFooter.moreButton.rx.tap
+                    .map { Reactor.Action.didTapMoreButton }
+                    .bind(to: self.DetailReactor.action)
+                    .disposed(by: self.disposeBag)
                 
                 return commentFooter
             } else {

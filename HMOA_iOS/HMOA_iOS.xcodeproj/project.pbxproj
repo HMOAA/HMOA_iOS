@@ -16,8 +16,6 @@
 		2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246D29A3E112009CF0FE /* DetailViewReactor.swift */; };
 		2C04247129A3E3D4009CF0FE /* FirstDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247029A3E3D4009CF0FE /* FirstDetail.swift */; };
 		2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247229A3F7A6009CF0FE /* DetailSection.swift */; };
-		2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247629A3FCED009CF0FE /* PerfumeInfoViewReactor.swift */; };
-		2C04247929A3FD03009CF0FE /* CommentCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */; };
 		2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04247E29A4C329009CF0FE /* CommentListViewController.swift */; };
 		2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248429A4D859009CF0FE /* CommentListReactor.swift */; };
 		2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04248A29A4FABA009CF0FE /* CommentSection.swift */; };
@@ -233,8 +231,6 @@
 		2C04246D29A3E112009CF0FE /* DetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewReactor.swift; sourceTree = "<group>"; };
 		2C04247029A3E3D4009CF0FE /* FirstDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstDetail.swift; sourceTree = "<group>"; };
 		2C04247229A3F7A6009CF0FE /* DetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSection.swift; sourceTree = "<group>"; };
-		2C04247629A3FCED009CF0FE /* PerfumeInfoViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeInfoViewReactor.swift; sourceTree = "<group>"; };
-		2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellReactor.swift; sourceTree = "<group>"; };
 		2C04247E29A4C329009CF0FE /* CommentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListViewController.swift; sourceTree = "<group>"; };
 		2C04248429A4D859009CF0FE /* CommentListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListReactor.swift; sourceTree = "<group>"; };
 		2C04248A29A4FABA009CF0FE /* CommentSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection.swift; sourceTree = "<group>"; };
@@ -516,8 +512,6 @@
 			isa = PBXGroup;
 			children = (
 				2C04246D29A3E112009CF0FE /* DetailViewReactor.swift */,
-				2C04247629A3FCED009CF0FE /* PerfumeInfoViewReactor.swift */,
-				2C04247829A3FD03009CF0FE /* CommentCellReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -2212,7 +2206,6 @@
 				2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */,
 				CA76401A2AA86C5E0053076B /* DictionaryData.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
-				2C04247729A3FCED009CF0FE /* PerfumeInfoViewReactor.swift in Sources */,
 				2CD023552A07B5A500459801 /* ChangeNicknameViewController.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
 				CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */,
@@ -2255,7 +2248,6 @@
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
-				2C04247929A3FD03009CF0FE /* CommentCellReactor.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
