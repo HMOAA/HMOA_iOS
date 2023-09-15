@@ -114,8 +114,8 @@ extension CommentDetailViewController {
         reactor.state
             .map { $0.comment.heartCount }
             .map { String($0) }
-            .bind(onNext: {
-                self.commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)
+            .bind(with: self, onNext: { owner, title in
+                owner.commentLikeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: title, size: 12, font: .pretendard_light)
             })
             .disposed(by: disposeBag)
         
@@ -191,12 +191,5 @@ extension CommentDetailViewController {
         let changeButtonItem = UIBarButtonItem(customView: changeButton)
         
         self.navigationItem.rightBarButtonItem = changeButtonItem
-    }
-    
-    func setLikeButtonText(_ text: String) -> AttributedString {
-        var attri = AttributedString.init(text)
-        attri.font = .customFont(.pretendard_light, 12)
-        
-        return attri
     }
 }
