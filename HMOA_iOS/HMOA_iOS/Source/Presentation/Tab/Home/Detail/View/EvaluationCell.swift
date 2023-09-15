@@ -8,12 +8,15 @@
 import UIKit
 
 import Then
+import ReactorKit
 import SnapKit
 
-class EvaluationCell: UICollectionViewCell {
+class EvaluationCell: UICollectionViewCell, View {
     
     static let identifier = "EvaluationCell"
+    var disposeBag = DisposeBag()
     //MARK: - UI Component
+    
     //계절
     let evaluationLabel = UILabel().then {
         $0.setLabelUI("이 제품에 대해 평가해주세요",
@@ -33,21 +36,30 @@ class EvaluationCell: UICollectionViewCell {
         $0.distribution = .fillEqually
         $0.setStackViewUI(spacing: 16, axis: .horizontal)
     }
-    let springButton = UIButton().then {
-        $0.setImage(UIImage(named: "springButton"), for: .normal)
+    lazy var springButton: UIButton = UIButton().then {
+        $0.configuration = setSeasonButtonConfigure("spring")
+        $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
-    let summerButton = UIButton().then {
-        $0.setImage(UIImage(named: "summerButton"), for: .normal)
+    lazy var summerButton = UIButton().then {
+        $0.configuration = setSeasonButtonConfigure("summer")
+        $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
-    let fallButton = UIButton().then {
-        $0.setImage(UIImage(named: "fallButton"), for: .normal)
+    lazy var fallButton = UIButton().then {
+        $0.configuration = setSeasonButtonConfigure("fall")
+        $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
-    let winterButton = UIButton().then {
-        $0.setImage(UIImage(named: "winterButton"), for: .normal)
+    lazy var winterButton = UIButton().then {
+        $0.configuration = setSeasonButtonConfigure("winter")
+        $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
+    }
+    
+    lazy var buttons = [springButton, summerButton, fallButton, winterButton]
+    lazy var originalImage = buttons.map {
+        $0.configuration?.image
     }
     
     let seasonLabelStackView = UIStackView().then {
@@ -159,6 +171,7 @@ class EvaluationCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super .init(frame: frame)
         
+        setUpUI()
         setAddView()
         setConstraints()
     }
@@ -168,6 +181,17 @@ class EvaluationCell: UICollectionViewCell {
     }
     
     //MARK: - SetUp
+    private func setUpUI() {
+        
+        //계절 버튼 검정색 배경 layer 추가
+        buttons.forEach {
+            let blackLayer = CALayer()
+            blackLayer.frame = CGRect(x: 0, y: 80, width: 52, height: 0)
+            blackLayer.backgroundColor = UIColor.black.cgColor
+            $0.layer.addSublayer(blackLayer)
+        }
+    }
+    
     private func setAddView() {
         [
            springButton,
@@ -283,5 +307,95 @@ class EvaluationCell: UICollectionViewCell {
             make.trailing.equalToSuperview().inset(26)
             make.top.equalTo(ageSlider.snp.bottom).offset(16)
         }
+    }
+    
+    func bind(reactor: EvaluationReactor) {
+        
+        // Action
+        
+        // 계절 버튼 터치
+        Observable.merge(
+            springButton.rx.tap.map { 1 },
+            summerButton.rx.tap.map { 2 },
+            fallButton.rx.tap.map { 3 },
+            winterButton.rx.tap.map { 4 })
+        .map { Reactor.Action.didTapSeasonButton($0) }
+        .bind(to: reactor.action)
+        .disposed(by: disposeBag)
+        
+        
+        // weather 평가 값 계절 버튼에 binding
+        reactor.state
+            .map { $0.weather }
+            .compactMap { $0 }
+            .bind(with: self) { owner, weather in
+                owner.setSeasonButtonBackgroundColor(weather)
+            }
+            .disposed(by: disposeBag)
+        
+        
+    }
+}
+
+extension EvaluationCell {
+    
+    func setSeasonButtonBackgroundColor(_ weather: Weather) {
+        
+        let weatherValues = [weather.spring, weather.summer, weather.autumn, weather.winter]
+        
+        var isChangedTitleColor = [Bool](repeating: false, count: 4)
+        var isChangedImageColor = [Bool](repeating: false, count: 4)
+        
+        for (index, value) in weatherValues.enumerated() {
+            
+            let percent = CGFloat(value) / 100.0
+            
+            //검정색 배경 채우기
+            if percent != 0 {
+                let frame = CGRect(x: 0, y: 80, width: 52, height: 80 * -percent)
+                buttons[index].layer.sublayers?[1].frame = frame
+            } else {
+                if buttons[index].layer.sublayers?[1].frame.size.height != 0 {
+                    let frame = CGRect(x: 0, y: 80, width: 52, height: 0)
+                    buttons[index].layer.sublayers?[1].frame = frame
+                }
+            }
+            
+            //이미지 색상 변경
+            if value > 60 && !isChangedImageColor[index] {
+                buttons[index].configuration?.image = buttons[index].configuration?.image?.withTintColor(.white)
+                isChangedImageColor[index] = true
+            } else {
+                buttons[index].configuration?.image = originalImage[index]
+                isChangedImageColor[index] = false
+            }
+            
+            //타이틀 색상 변경
+            if value > 70 && !isChangedTitleColor[index] {
+                buttons[index].configuration?.baseForegroundColor = .white
+                isChangedTitleColor[index] = true
+            } else {
+                buttons[index].configuration?.baseForegroundColor = .black
+                isChangedTitleColor[index] = false
+            }
+            
+            //버튼 타이틀 설정
+            buttons[index].configuration?.attributedTitle = AttributedString() .setButtonAttirbuteString(text: "\(value)%", size: 10, font: .pretendard_medium)
+        }
+    }
+    
+    func setSeasonButtonConfigure(_ image: String) -> UIButton.Configuration {
+        var config = UIButton.Configuration.plain()
+        var titleAttr = AttributedString(" ")
+        titleAttr.font = .customFont(.pretendard_medium, 10)
+        config.attributedTitle = titleAttr
+        config.titleAlignment = .center
+        config.baseForegroundColor = .black
+        config.image = UIImage(named: image)
+        config.imagePlacement = .bottom
+        config.imagePadding = 15
+        config.contentInsets = .init(top: 0, leading: 0, bottom: 26, trailing: 0)
+        
+        return config
     }
 }

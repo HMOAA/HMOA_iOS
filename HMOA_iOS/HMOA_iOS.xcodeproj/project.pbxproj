@@ -129,6 +129,10 @@
 		AB23E901B87DB21E0AD3EE9E /* Pods_HMOA_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EF530D1388C4C2875F8EE0 /* Pods_HMOA_iOS.framework */; };
 		BD240A63088951625093488F /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0FD9ADF549034177344999 /* Pods_HMOA_iOSTests.framework */; };
 		CA0160962AB0B11100D5839D /* SecondDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0160952AB0B11100D5839D /* SecondDetail.swift */; };
+		CA0160982AB2E15200D5839D /* EvaluationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0160972AB2E15200D5839D /* EvaluationReactor.swift */; };
+		CA01609B2AB2E45700D5839D /* EvaluationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA01609A2AB2E45700D5839D /* EvaluationAPI.swift */; };
+		CA01609D2AB2E46000D5839D /* EvaluationAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA01609C2AB2E46000D5839D /* EvaluationAddress.swift */; };
+		CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0160A42AB2FAE600D5839D /* AttributeString++Extension.swift */; };
 		CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */; };
 		CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */; };
 		CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */; };
@@ -351,6 +355,10 @@
 		A3EB8DD627D12411C89F845C /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		A9236CE65DC97E570FED2954 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		CA0160952AB0B11100D5839D /* SecondDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondDetail.swift; sourceTree = "<group>"; };
+		CA0160972AB2E15200D5839D /* EvaluationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationReactor.swift; sourceTree = "<group>"; };
+		CA01609A2AB2E45700D5839D /* EvaluationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationAPI.swift; sourceTree = "<group>"; };
+		CA01609C2AB2E46000D5839D /* EvaluationAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationAddress.swift; sourceTree = "<group>"; };
+		CA0160A42AB2FAE600D5839D /* AttributeString++Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributeString++Extension.swift"; sourceTree = "<group>"; };
 		CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationViewController.swift; sourceTree = "<group>"; };
 		CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
@@ -512,6 +520,7 @@
 			isa = PBXGroup;
 			children = (
 				2C04246D29A3E112009CF0FE /* DetailViewReactor.swift */,
+				CA0160972AB2E15200D5839D /* EvaluationReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -831,6 +840,7 @@
 				CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */,
 				2CC12C7C2A2CCC09003B3A60 /* String++Extension.swift */,
 				CA7C9C0C2AAAE06400072AB9 /* UISearchBar++Extension.swift */,
+				CA0160A42AB2FAE600D5839D /* AttributeString++Extension.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -1341,6 +1351,15 @@
 			path = HPedia;
 			sourceTree = "<group>";
 		};
+		CA0160992AB2E44900D5839D /* Evaluation */ = {
+			isa = PBXGroup;
+			children = (
+				CA01609A2AB2E45700D5839D /* EvaluationAPI.swift */,
+				CA01609C2AB2E46000D5839D /* EvaluationAddress.swift */,
+			);
+			path = Evaluation;
+			sourceTree = "<group>";
+		};
 		CA03C23C29EBED5F00FA0D2C /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1421,6 +1440,7 @@
 		CA19D15D2A8F5F6300B04C6F /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				CA0160992AB2E44900D5839D /* Evaluation */,
 				CA19D15E2A8F5F6F00B04C6F /* Model */,
 				CA19D15F2A8F5F8000B04C6F /* DetailAPI.swift */,
 				CA19D1612A8F5F8D00B04C6F /* DetailAddress.swift */,
@@ -2128,6 +2148,7 @@
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */,
 				2C04246B29A3B3E3009CF0FE /* HomeCellReactor.swift in Sources */,
+				CA0160982AB2E15200D5839D /* EvaluationReactor.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
 				CA22389B2AAF492D00452A31 /* QnAPostCell.swift in Sources */,
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
@@ -2135,6 +2156,7 @@
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
 				CA2238A12AAF5FFD00452A31 /* QnAPostHeaderView.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
+				CA01609B2AB2E45700D5839D /* EvaluationAPI.swift in Sources */,
 				2CD0235E2A080D4500459801 /* MyProfileType.swift in Sources */,
 				CA6152BB2A6A8007007B04A7 /* Brand.swift in Sources */,
 				2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */,
@@ -2168,6 +2190,7 @@
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				CAD1EC132A812491003B21FD /* NoLoginView.swift in Sources */,
+				CA01609D2AB2E46000D5839D /* EvaluationAddress.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */,
 				2C04247F29A4C329009CF0FE /* CommentListViewController.swift in Sources */,
@@ -2243,6 +2266,7 @@
 				2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */,
 				2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */,
 				2C710EEF29798330006BE23B /* HomeFirstCellHeaderView.swift in Sources */,
+				CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */,
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,
 				CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */,
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
