@@ -30,4 +30,23 @@ final class EvaluationAPI {
             data: data,
             model: Weather.self)
     }
+    
+    
+    /// 성별 값 보내기
+    /// - Parameters:
+    ///   - id: 향수 아이디
+    ///   - gender: [gender: 1~3]
+    ///     1: 남자 2: 여자 3: 중성
+    static func postGender(id: String, gender: [String: Int]) -> Observable<Gender> {
+        guard let data = try? JSONSerialization.data(
+            withJSONObject: gender,
+            options: .prettyPrinted)
+        else { return .error(NetworkError.invalidParameters) }
+        
+        return networking(
+            urlStr: EvaluationAddres.postGender(id).url,
+            method: .post,
+            data: data,
+            model: Gender.self)
+    }
 }
