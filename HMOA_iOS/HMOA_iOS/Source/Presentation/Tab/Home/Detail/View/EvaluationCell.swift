@@ -137,11 +137,6 @@ class EvaluationCell: UICollectionViewCell, View {
         $0.setLabelUI("", font: .pretendard_medium, size: 10, color: .white)
     }
 
-
-    
-    let sexLabelStackView = UIStackView().then {
-        $0.setStackViewUI(spacing: 95, axis: .horizontal)
-    }
     let wommanLabel = UILabel().then {
         $0.setLabelUI("여성",
                       font: .pretendard,
@@ -254,13 +249,6 @@ class EvaluationCell: UICollectionViewCell, View {
             manPercentLabel
         ]   .forEach { evaluatedSexView.addSubview($0) }
         
-        // 성별 라벨 스택 뷰
-        [
-            wommanLabel,
-            uniSexLabel,
-            manLabel
-        ].forEach { sexLabelStackView.addArrangedSubview($0) }
-        
         [
             seasonLabel,
             seasonButtonStackView,
@@ -268,7 +256,9 @@ class EvaluationCell: UICollectionViewCell, View {
             sexLabel,
             sexButtonView,
             evaluatedSexView,
-            sexLabelStackView,
+            wommanLabel,
+            uniSexLabel,
+            manLabel,
             ageLabel,
             ageSlider,
             minAgeLabel,
@@ -351,16 +341,25 @@ class EvaluationCell: UICollectionViewCell, View {
             make.top.equalTo(manImageView.snp.bottom).offset(5)
         }
         
-        sexLabelStackView.snp.makeConstraints { make in
+        wommanLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(42)
+            make.top.equalTo(sexButtonView.snp.bottom).offset(23)
+        }
+        
+        uniSexLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(sexButtonView.snp.bottom).offset(16)
-            
+            make.top.equalTo(wommanLabel)
+        }
+        
+        manLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(42)
+            make.top.equalTo(wommanLabel)
         }
         
         ageLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
             make.trailing.equalToSuperview()
-            make.top.equalTo(sexLabelStackView.snp.bottom).offset(40)
+            make.top.equalTo(wommanLabel.snp.bottom).offset(40)
         }
         
         ageSlider.snp.makeConstraints { make in
