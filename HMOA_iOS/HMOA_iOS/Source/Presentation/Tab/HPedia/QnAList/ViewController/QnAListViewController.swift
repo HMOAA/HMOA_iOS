@@ -12,6 +12,7 @@ import SnapKit
 import RxCocoa
 import RxSwift
 import ReactorKit
+import QuartzCore
 
 class QnAListViewController: UIViewController, View {
 
@@ -248,7 +249,6 @@ class QnAListViewController: UIViewController, View {
             .map { $0.isFloatingButtonTap }
             .skip(1)
             .bind(with: self, onNext: { owner, isTap in
-                owner.floatingButton.isSelected = isTap
                 owner.showAnimation(isTap)
             })
             .disposed(by: disposeBag)
@@ -324,13 +324,6 @@ extension QnAListViewController: UICollectionViewDelegateFlowLayout {
                 self.floatingStackView.isHidden = false
                 self.view.layoutIfNeeded()
             }
-        }
-        
-        // 버튼 돌리기
-        let roatation = isTap ? CGAffineTransform(rotationAngle: .pi - (.pi / 4)) : CGAffineTransform.identity
-
-        UIView.animate(withDuration: 0.3) {
-            self.floatingButton.transform = roatation
         }
     }
     
