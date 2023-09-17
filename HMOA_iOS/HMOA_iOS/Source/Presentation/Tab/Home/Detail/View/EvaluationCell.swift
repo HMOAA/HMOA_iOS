@@ -63,6 +63,7 @@ class EvaluationCell: UICollectionViewCell, View {
     }
     
     let seasonLabelStackView = UIStackView().then {
+        $0.layer.masksToBounds = true
         $0.distribution = .fillEqually
         $0.setStackViewUI(spacing: 40, axis: .horizontal)
     }
@@ -119,8 +120,9 @@ class EvaluationCell: UICollectionViewCell, View {
         $0.setImage(UIImage(named: "man"), for: .normal)
     }
     
-    //평가된 성별View
+    //평가된 성별 View
     lazy var evaluatedSexView = UIView().then {
+        $0.layer.masksToBounds = true
         $0.isHidden = true
         $0.backgroundColor = .customColor(.gray1)
     }
@@ -164,6 +166,8 @@ class EvaluationCell: UICollectionViewCell, View {
     }
     
     let ageSlider = UISlider().then {
+        $0.minimumValue = 0
+        $0.maximumValue = 50
         $0.setThumbImage(UIImage(named: "arrowSlider"), for: .normal)
         $0.setMinimumTrackImage(UIImage(named: "minSlider"), for: .normal)
         $0.setMaximumTrackImage(UIImage(named: "maxSlider"), for: .normal)
@@ -176,12 +180,25 @@ class EvaluationCell: UICollectionViewCell, View {
                       color: .black)
     }
     
+    lazy var averageAgeLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 16, color: .black)
+    }
+    
     let maxAgeLabel = UILabel().then {
         $0.setLabelUI("50대 이상",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
+    
+    lazy var evaluatedAgeView = UIView().then {
+        $0.layer.masksToBounds = true
+        $0.isHidden = true
+        $0.layer.cornerRadius = 5
+        $0.backgroundColor = .customColor(.gray1)
+    }
+    
+    lazy var allCornerRadius: CACornerMask  = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
     
     
     
@@ -201,7 +218,7 @@ class EvaluationCell: UICollectionViewCell, View {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        setGenderBlackLayer()
+        setBlackLayer()
     }
     
     //MARK: - SetUp
@@ -212,6 +229,8 @@ class EvaluationCell: UICollectionViewCell, View {
             let blackLayer = CALayer()
             blackLayer.frame = CGRect(x: 0, y: 80, width: 52, height: 0)
             blackLayer.backgroundColor = UIColor.black.cgColor
+            blackLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+            blackLayer.cornerRadius = 5
             $0.layer.addSublayer(blackLayer)
         }
     }
@@ -262,7 +281,9 @@ class EvaluationCell: UICollectionViewCell, View {
             ageLabel,
             ageSlider,
             minAgeLabel,
-            maxAgeLabel
+            averageAgeLabel,
+            maxAgeLabel,
+            evaluatedAgeView
         ].forEach { addSubview($0) }
         
     }
@@ -373,15 +394,39 @@ class EvaluationCell: UICollectionViewCell, View {
             make.leading.equalToSuperview().inset(43)
         }
         
+        averageAgeLabel.snp.makeConstraints { make in
+            make.top.equalTo(minAgeLabel)
+            make.centerX.equalToSuperview()
+        }
+        
         maxAgeLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(26)
             make.top.equalTo(ageSlider.snp.bottom).offset(16)
+        }
+        
+        evaluatedAgeView.snp.makeConstraints { make in
+            make.top.equalTo(ageLabel.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(32)
+            make.height.equalTo(52)
         }
     }
     
     func bind(reactor: EvaluationReactor) {
         
         // Action
+        
+        // 슬라이더 값 바뀔 때
+        ageSlider.rx.value
+            .map { Reactor.Action.isChangingAgeSlider($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        // 슬라이더에서 손 땠을 때
+        ageSlider.rx.controlEvent(.touchUpInside)
+            .map { reactor.currentState.sliderStep }
+            .map { Reactor.Action.didChangeAgeSlider($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // 계절 버튼 터치
         Observable.merge(
@@ -407,17 +452,39 @@ class EvaluationCell: UICollectionViewCell, View {
         reactor.state
             .map { $0.weather }
             .compactMap { $0 }
-            .bind(with: self) { owner, weather in
-                owner.setSeasonButtonBackgroundColor(weather)
-            }
+            .bind(onNext: setSeasonButtonBackgroundColor)
             .disposed(by: disposeBag)
         
+        // gender 평가 값 binding
         reactor.state
             .map { $0.gender }
             .compactMap { $0 }
-            .bind(with: self) { owner, gender in
-                owner.setGenderViewColor(gender)
-            }
+            .bind(onNext: setGenderViewColor)
+            .disposed(by: disposeBag)
+        
+        // 슬라이더 10 단위로 맞추기
+        reactor.state
+            .map { $0.sliderStep }
+            .skip(1)
+            .bind(to: ageSlider.rx.value)
+            .disposed(by: disposeBag)
+        
+        // 슬라이더 10단위로 진동 주기
+        reactor.state
+            .map { $0.sliderStep }
+            .skip(1)
+            .distinctUntilChanged()
+            .bind(onNext: { _ in
+                let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+                feedbackGenerator.impactOccurred()
+            })
+            .disposed(by: disposeBag)
+        
+        // age 평가 값 binding
+        reactor.state
+            .map { $0.age }
+            .compactMap { $0 }
+            .bind(onNext: setAgeSliderColor)
             .disposed(by: disposeBag)
         
         
@@ -425,6 +492,25 @@ class EvaluationCell: UICollectionViewCell, View {
 }
 
 extension EvaluationCell {
+    
+    // ageSlider 배경색, 텍스트 설정
+    private func setAgeSliderColor(_ age: Age) {
+
+        ageSlider.isHidden = true
+        evaluatedAgeView.isHidden = false
+    
+        let percent = CGFloat(age.age) / 50.0
+        let frame = evaluatedAgeView.frame
+        
+        if age.age == 50 {
+            evaluatedAgeView.layer.sublayers?[0].maskedCorners = allCornerRadius
+        }
+    
+        evaluatedAgeView.layer.sublayers?[0].frame = CGRect(x: 0, y: 0, width: frame.width * percent, height: frame.height)
+        
+        averageAgeLabel.text = "평균 \(age.age)세"
+        
+    }
     
     // genderView 배경색, 텍스트 설정
     // TODO: - 범위에 따른 image, text 색 변경
@@ -435,16 +521,23 @@ extension EvaluationCell {
         let frame = evaluatedSexView.frame
         
         if gender.woman >= 50 {
+            if gender.woman == 100 {
+                evaluatedSexView.layer.sublayers?[0].maskedCorners = allCornerRadius
+            }
             let womanPercent = CGFloat(gender.woman) / 100.0
             evaluatedSexView.layer.sublayers?[0].frame = CGRect(x: 0, y: 0, width: frame.width * womanPercent, height: frame.height)
         } else {
             let manPercent = CGFloat(gender.man) / 100.0
             evaluatedSexView.layer.sublayers?[1].frame = CGRect(x: frame.maxX - 32, y: 0, width: frame.width * -manPercent, height: frame.height)
+            if gender.man == 100 {
+                evaluatedSexView.layer.sublayers?[1].maskedCorners = allCornerRadius
+            }
         }
         womanPercentLabel.text = "\(gender.woman)%"
         manPercentLabel.text = "\(gender.man)%"
     }
     
+    // 계절 버튼 배경색, 텍스트 설정
     private func setSeasonButtonBackgroundColor(_ weather: Weather) {
         
         let weatherValues = [weather.spring, weather.summer, weather.autumn, weather.winter]
@@ -455,9 +548,16 @@ extension EvaluationCell {
         for (index, value) in weatherValues.enumerated() {
             
             let percent = CGFloat(value) / 100.0
-            
             //검정색 배경 채우기
             if percent != 0 {
+                //100%라 모든 면을 둥글게 해야 할 때
+                if percent == 1 {
+                    buttons[index].layer.sublayers?[1].maskedCorners = allCornerRadius
+                }
+                //100%여서 다시 윗 모서리 둥글게를 없애야 할 때
+                else if buttons[index].layer.sublayers?[1].maskedCorners == allCornerRadius {
+                    buttons[index].layer.sublayers?[1].maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+                }
                 let frame = CGRect(x: 0, y: 80, width: 52, height: 80 * -percent)
                 buttons[index].layer.sublayers?[1].frame = frame
             } else {
@@ -505,18 +605,31 @@ extension EvaluationCell {
         return config
     }
     
-    private func setGenderBlackLayer() {
-        let blackWomanLayer = CALayer()
-        let blackManLayer = CALayer()
-        let frame = evaluatedSexView.frame
+    private func setBlackLayer() {
         
-        blackWomanLayer.backgroundColor = UIColor.black.cgColor
-        blackManLayer.backgroundColor = UIColor.black.cgColor
+        lazy var blackWomanLayer = CALayer()
+        lazy var blackManLayer = CALayer()
+        lazy var blackAgeLayer = CALayer()
+        
+        lazy var layers = [blackManLayer, blackWomanLayer, blackAgeLayer]
+        lazy var frame = evaluatedSexView.frame
+        
+        blackManLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMaxYCorner]
+        blackWomanLayer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+        blackAgeLayer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+        
         
         blackWomanLayer.frame = CGRect(x: 0, y: 0, width: 0, height: frame.height)
         blackManLayer.frame = CGRect(x: frame.maxX - 32, y: 0, width: 0, height: frame.height)
-
+        blackAgeLayer.frame = CGRect(x: 0, y: 0, width: 0, height: frame.height)
+        
+        layers.forEach {
+            $0.cornerRadius = 5
+            $0.backgroundColor = UIColor.black.cgColor
+        }
+        
         evaluatedSexView.layer.insertSublayer(blackWomanLayer, at: 0)
         evaluatedSexView.layer.insertSublayer(blackManLayer, at: 1)
+        evaluatedAgeView.layer.insertSublayer(blackAgeLayer, at: 0)
     }
 }

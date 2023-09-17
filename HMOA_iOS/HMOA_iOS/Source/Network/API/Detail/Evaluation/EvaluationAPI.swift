@@ -49,4 +49,17 @@ final class EvaluationAPI {
             data: data,
             model: Gender.self)
     }
+    
+    static func postAge(id: String, age: [String: Int]) -> Observable<Age> {
+        guard let data = try? JSONSerialization.data(
+            withJSONObject: age,
+            options: .prettyPrinted)
+        else { return .error(NetworkError.invalidParameters) }
+        
+        return networking(
+            urlStr: EvaluationAddres.postAge(id).url,
+            method: .post,
+            data: data,
+            model: Age.self)
+    }
 }

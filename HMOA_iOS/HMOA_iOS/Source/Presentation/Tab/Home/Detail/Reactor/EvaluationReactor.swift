@@ -15,19 +15,25 @@ class EvaluationReactor: Reactor {
     let initialState: State
     
     enum Action {
+        case isChangingAgeSlider(Float)
         case didTapSeasonButton(Int)
         case didTapGenderButton(Int)
+        case didChangeAgeSlider(Float)
     }
     
     enum Mutation {
+        case setSliderStep(Float)
         case setWeather(Weather)
         case setGender(Gender)
+        case setAge(Age)
     }
     
     struct State {
         var id: Int
         var weather: Weather? = nil
         var gender: Gender? = nil
+        var age: Age? = nil
+        var sliderStep: Float = 0
     }
     
     init(_ id: Int) {
@@ -42,6 +48,12 @@ class EvaluationReactor: Reactor {
             
         case .didTapGenderButton(let gender):
             return setGenderEvaluation(gender)
+            
+        case .isChangingAgeSlider(let value):
+            return .just(.setSliderStep(value))
+            
+        case .didChangeAgeSlider(let value):
+            return setAgeEvaluation(Int(value / 10))
         }
     }
     
@@ -55,6 +67,13 @@ class EvaluationReactor: Reactor {
             
         case .setGender(let gender):
             state.gender = gender
+            
+        case .setSliderStep(let value):
+            let roundValue = round(value / 10) * 10
+            state.sliderStep = roundValue
+            
+        case .setAge(let age):
+            state.age = age
         }
         
         return state
@@ -81,5 +100,18 @@ extension EvaluationReactor {
         .flatMap { data -> Observable<Mutation> in
             return .just(.setGender(data))
         }
+    }
+    
+    func setAgeEvaluation(_ age: Int) -> Observable<Mutation> {
+        if age != 0 {
+            return EvaluationAPI.postAge(
+                id: "\(currentState.id)",
+                age: ["age": age])
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .just(.setAge(data))
+            }
+        }
+        return .empty()
     }
 }
