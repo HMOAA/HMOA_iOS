@@ -415,6 +415,12 @@ class EvaluationCell: UICollectionViewCell, View {
         
         // Action
         
+        //ViewDidLoad
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // 슬라이더 값 바뀔 때
         ageSlider.rx.value
             .map { Reactor.Action.isChangingAgeSlider($0) }
@@ -474,6 +480,7 @@ class EvaluationCell: UICollectionViewCell, View {
             .map { $0.sliderStep }
             .skip(1)
             .distinctUntilChanged()
+            .filter { $0 != 0 }
             .bind(onNext: { _ in
                 let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
                 feedbackGenerator.impactOccurred()
