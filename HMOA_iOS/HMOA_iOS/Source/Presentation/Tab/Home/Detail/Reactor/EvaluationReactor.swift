@@ -15,6 +15,7 @@ class EvaluationReactor: Reactor {
     let initialState: State
     
     enum Action {
+        case viewDidLoad
         case isChangingAgeSlider(Float)
         case didTapSeasonButton(Int)
         case didTapGenderButton(Int)
@@ -29,6 +30,7 @@ class EvaluationReactor: Reactor {
     }
     
     struct State {
+        var evaluation: Evaluation?
         var id: Int
         var weather: Weather? = nil
         var gender: Gender? = nil
@@ -36,8 +38,8 @@ class EvaluationReactor: Reactor {
         var sliderStep: Float = 0
     }
     
-    init(_ id: Int) {
-        initialState = State(id: id)
+    init(_ evaluationData: Evaluation?, _ id: Int) {
+        initialState = State(evaluation: evaluationData, id: id)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -54,6 +56,9 @@ class EvaluationReactor: Reactor {
             
         case .didChangeAgeSlider(let value):
             return setAgeEvaluation(Int(value / 10))
+            
+        case .viewDidLoad:
+            return setValueInIsWrited()
         }
     }
     
@@ -63,9 +68,11 @@ class EvaluationReactor: Reactor {
         switch mutation {
             
         case .setWeather(let weather):
+            print(weather)
             state.weather = weather
             
         case .setGender(let gender):
+            print(gender)
             state.gender = gender
             
         case .setSliderStep(let value):
@@ -73,6 +80,7 @@ class EvaluationReactor: Reactor {
             state.sliderStep = roundValue
             
         case .setAge(let age):
+            print(age)
             state.age = age
         }
         
@@ -114,4 +122,25 @@ extension EvaluationReactor {
         }
         return .empty()
     }
+    
+    func setValueInIsWrited() -> Observable<Mutation> {
+        guard let data = currentState.evaluation else { return .empty() }
+        
+        var observables: [Observable<Mutation>] = []
+        
+        if data.age.writed {
+            observables.append(Observable.just(.setAge(data.age)))
+        }
+        
+        if data.gender.writed {
+            observables.append(Observable.just(.setGender(data.gender)))
+        }
+        
+        if data.weather.writed {
+            observables.append(Observable.just(.setWeather(data.weather)))
+        }
+        
+        return Observable.merge(observables)
+    }
 }
+

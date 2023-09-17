@@ -16,6 +16,11 @@ struct SecondDetail: Codable, Hashable {
     let weather: Weather
 }
 
+struct Evaluation: Hashable {
+    let age: Age
+    let gender: Gender
+    let weather: Weather
+}
 
 struct Age: Codable, Hashable {
     let age: Int

@@ -146,8 +146,8 @@ extension DetailViewReactor {
             .flatMap { data -> Observable<Mutation> in
                 let topItem = DetailSectionItem.topCell(data, 0)
                 let topSection = DetailSection.top(topItem)
-                
-                let evaluationItem = DetailSectionItem.evaluationCell(1)
+    
+                let evaluationItem = DetailSectionItem.evaluationCell(nil, 1)
                 let evaluationSection = DetailSection.evaluation(evaluationItem)
                 
                 let sections = [topSection, evaluationSection]
@@ -160,11 +160,19 @@ extension DetailViewReactor {
     }
     
     func setUpSecondDetailSections(id: Int) -> Observable<Mutation> {
-        print("23")
         return DetailAPI.fetchPerfumeDetail2(id)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 var sections = self.currentState.sections
+                
+                
+                let evaluation = Evaluation(age: data.age,
+                                            gender: data.gender,
+                                            weather: data.weather)
+                let evaluationItem = DetailSectionItem.evaluationCell(evaluation, 1)
+                let evaluationSection = DetailSection.evaluation(evaluationItem)
+                
+                sections[1] = evaluationSection
 
                 let commentItem = data.commentInfo.comments.map { DetailSectionItem.commentCell($0, 2)}
                 let commentSection = DetailSection.comment(commentItem)

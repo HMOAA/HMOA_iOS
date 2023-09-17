@@ -17,7 +17,7 @@ enum DetailSection {
 
 enum DetailSectionItem {
     case topCell(FirstDetail, Int)
-    case evaluationCell(Int)
+    case evaluationCell(Evaluation?, Int)
     case commentCell(Comment, Int)
     case similarCell(SimilarPerfume, Int)
 }

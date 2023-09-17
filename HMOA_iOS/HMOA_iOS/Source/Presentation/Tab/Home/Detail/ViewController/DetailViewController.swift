@@ -242,10 +242,11 @@ extension DetailViewController: UICollectionViewDelegate {
                 perfumeInfoCell.updateCell(detail.perfumeDetail)
                 return perfumeInfoCell
                 
-            case .evaluationCell(_):
+            case .evaluationCell(let evaluation, _):
                 guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
                 
-                evaluationCell.reactor = EvaluationReactor(self.DetailReactor.currentState.perfumeId)
+                
+                evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId)
             
                 return evaluationCell
                 
