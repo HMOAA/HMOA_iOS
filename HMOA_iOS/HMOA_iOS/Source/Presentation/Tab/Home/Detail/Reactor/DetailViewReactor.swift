@@ -13,7 +13,7 @@ final class DetailViewReactor: Reactor {
     var initialState: State
 
     enum Action {
-        case viewDidLoad
+        case viewDidLoad(Bool)
         case didTapMoreButton
         case didTapWriteButton
         case didTapBackButton
@@ -35,6 +35,8 @@ final class DetailViewReactor: Reactor {
         case setIsLiked(Bool)
         case setCommentCount(Int)
         case setIsPaging(Bool)
+        case setIsLogin(Bool)
+        case setIsTap(Bool)
     }
     
     struct State {
@@ -50,6 +52,8 @@ final class DetailViewReactor: Reactor {
         var isLiked: Bool = false
         var commentCount: Int = 0
         var isPaging: Bool = false
+        var isLogin: Bool = false
+        var isTapWhenNotLogin: Bool = false
     }
     
     init(perfumeId: Int) {
@@ -58,8 +62,11 @@ final class DetailViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
-            return setUpFirstDetailSections(currentState.perfumeId)
+        case .viewDidLoad(let isLogin):
+            return .concat([
+                .just(.setIsLogin(isLogin)),
+                setUpFirstDetailSections(currentState.perfumeId)
+                ])
         case .didTapMoreButton:
             return .concat([
                 .just(.setPresentCommentVC(currentState.perfumeId)),
@@ -67,10 +74,17 @@ final class DetailViewReactor: Reactor {
             ])
             
         case .didTapWriteButton:
-            return .concat([
-                .just(.setIsPresentCommentWrite(currentState.perfumeId)),
-                .just(.setIsPresentCommentWrite(nil))
-            ])
+            if currentState.isLogin {
+                return .concat([
+                    .just(.setIsPresentCommentWrite(currentState.perfumeId)),
+                    .just(.setIsPresentCommentWrite(nil))
+                ])
+            } else {
+                return .concat([
+                    .just(.setIsTap(true)),
+                    .just(.setIsTap(false))
+                ])
+            }
             
         case .didTapBackButton:
             return .concat([
@@ -131,6 +145,10 @@ final class DetailViewReactor: Reactor {
             state.commentCount = count
         case .setIsPaging(let isPaging):
             state.isPaging = isPaging
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
+        case .setIsTap(let isTap):
+            state.isTapWhenNotLogin = isTap
         }
         
         return state
@@ -195,21 +213,30 @@ extension DetailViewReactor {
     
     func setPerfumeLike() -> Observable<Mutation> {
         let state = currentState
-        let isCurrentlyLiked = state.isLiked
-        let perfumeId = state.perfumeId
+        let isLogin = state.isLogin
         
-        if isCurrentlyLiked {
-            return LikeAPI.deleteLike(perfumeId)
-                .catch { _ in .empty() }
-                .flatMap { _ -> Observable<Mutation> in
-                    return .just(.setIsLiked(false))
-                }
+        if isLogin {
+            let isCurrentlyLiked = state.isLiked
+            let perfumeId = state.perfumeId
+            
+            if isCurrentlyLiked {
+                return LikeAPI.deleteLike(perfumeId)
+                    .catch { _ in .empty() }
+                    .flatMap { _ -> Observable<Mutation> in
+                        return .just(.setIsLiked(false))
+                    }
+            } else {
+                return LikeAPI.putLike(perfumeId)
+                    .catch { _ in .empty() }
+                    .flatMap { _ -> Observable<Mutation> in
+                        return .just(.setIsLiked(true))
+                    }
+            }
         } else {
-            return LikeAPI.putLike(perfumeId)
-                .catch { _ in .empty() }
-                .flatMap { _ -> Observable<Mutation> in
-                    return .just(.setIsLiked(true))
-                }
+            return .concat([
+                .just(.setIsTap(true)),
+                .just(.setIsTap(false))
+            ])
         }
     }
 }

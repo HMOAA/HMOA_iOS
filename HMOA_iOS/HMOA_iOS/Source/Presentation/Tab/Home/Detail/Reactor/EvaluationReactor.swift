@@ -27,6 +27,7 @@ class EvaluationReactor: Reactor {
         case setWeather(Weather)
         case setGender(Gender)
         case setAge(Age)
+        case setIsTap(Bool)
     }
     
     struct State {
@@ -36,10 +37,12 @@ class EvaluationReactor: Reactor {
         var gender: Gender? = nil
         var age: Age? = nil
         var sliderStep: Float = 0
+        var isLogin: Bool
+        var isTapWhenNotLogin: Bool = false
     }
     
-    init(_ evaluationData: Evaluation?, _ id: Int) {
-        initialState = State(evaluation: evaluationData, id: id)
+    init(_ evaluationData: Evaluation?, _ id: Int, isLogin: Bool) {
+        initialState = State(evaluation: evaluationData, id: id, isLogin: isLogin)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -68,11 +71,9 @@ class EvaluationReactor: Reactor {
         switch mutation {
             
         case .setWeather(let weather):
-            print(weather)
             state.weather = weather
             
         case .setGender(let gender):
-            print(gender)
             state.gender = gender
             
         case .setSliderStep(let value):
@@ -80,8 +81,10 @@ class EvaluationReactor: Reactor {
             state.sliderStep = roundValue
             
         case .setAge(let age):
-            print(age)
             state.age = age
+            
+        case .setIsTap(let isTap):
+            state.isTapWhenNotLogin = isTap
         }
         
         return state
@@ -91,36 +94,49 @@ class EvaluationReactor: Reactor {
 extension EvaluationReactor {
     
     func setSeasonEvaluation(_ season: Int) -> Observable<Mutation> {
-        return EvaluationAPI.postSeason(id: "\(currentState.id)",
-                                        weather: ["weather": season])
-        .catch { _ in .empty()}
-        .flatMap { data -> Observable<Mutation> in
-            return .just(.setWeather(data))
+        if currentState.isLogin {
+            return EvaluationAPI.postSeason(id: "\(currentState.id)",
+                                            weather: ["weather": season])
+            .catch { _ in .empty()}
+            .flatMap { data -> Observable<Mutation> in
+                return .just(.setWeather(data))
+            }
+        } else {
+            return returnIsTap()
         }
     }
     
     func setGenderEvaluation(_ gender: Int) -> Observable<Mutation> {
-        return EvaluationAPI.postGender(
-            id: "\(currentState.id)",
-            gender: ["gender": gender]
-        )
-        .catch { _ in .empty() }
-        .flatMap { data -> Observable<Mutation> in
-            return .just(.setGender(data))
+        if currentState.isLogin {
+            return EvaluationAPI.postGender(
+                id: "\(currentState.id)",
+                gender: ["gender": gender]
+            )
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .just(.setGender(data))
+            }
+        } else {
+           return returnIsTap()
         }
     }
     
     func setAgeEvaluation(_ age: Int) -> Observable<Mutation> {
-        if age != 0 {
-            return EvaluationAPI.postAge(
-                id: "\(currentState.id)",
-                age: ["age": age])
-            .catch { _ in .empty() }
-            .flatMap { data -> Observable<Mutation> in
-                return .just(.setAge(data))
+        if currentState.isLogin {
+            if age != 0 {
+                return EvaluationAPI.postAge(
+                    id: "\(currentState.id)",
+                    age: ["age": age])
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    return .just(.setAge(data))
+                }
+            } else {
+                return .empty()
             }
+        } else {
+            return returnIsTap()
         }
-        return .empty()
     }
     
     func setValueInIsWrited() -> Observable<Mutation> {
@@ -141,6 +157,13 @@ extension EvaluationReactor {
         }
         
         return Observable.merge(observables)
+    }
+    
+    func returnIsTap() -> Observable<Mutation> {
+        return .concat([
+            .just(.setIsTap(true)),
+            .just(.setIsTap(false))
+        ])
     }
 }
 

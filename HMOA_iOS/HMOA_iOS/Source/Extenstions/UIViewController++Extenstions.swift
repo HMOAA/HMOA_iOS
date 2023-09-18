@@ -11,6 +11,12 @@ import Then
 
 extension UIViewController {
     
+    func presentAlertVC(title: String, content: String, buttonTitle: String) {
+        let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle)
+        alertVC.modalPresentationStyle = .overFullScreen
+        self.present(alertVC, animated: false)
+    }
+    
     func presentQnADetailVC(_ id: Int) {
         let qnaDetailVC = QnADetailViewController()
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
