@@ -13,14 +13,14 @@ final class DetailViewReactor: Reactor {
     var initialState: State
 
     enum Action {
-        case viewDidLoad
+        case viewDidLoad(Bool)
         case didTapMoreButton
-        case didTapCell(DetailSectionItem)
         case didTapWriteButton
         case didTapBackButton
         case didTapHomeButton
         case didTapSearchButton
         case didTapLikeButton
+        case willDisplaySecondSection
     }
     
     enum Mutation {
@@ -33,6 +33,10 @@ final class DetailViewReactor: Reactor {
         case setIsPopRootVC(Bool)
         case setIsPresentSearchVC(Bool)
         case setIsLiked(Bool)
+        case setCommentCount(Int)
+        case setIsPaging(Bool)
+        case setIsLogin(Bool)
+        case setIsTap(Bool)
     }
     
     struct State {
@@ -46,6 +50,10 @@ final class DetailViewReactor: Reactor {
         var isPresentSearchVC: Bool = false
         var perfumeId: Int
         var isLiked: Bool = false
+        var commentCount: Int = 0
+        var isPaging: Bool = false
+        var isLogin: Bool = false
+        var isTapWhenNotLogin: Bool = false
     }
     
     init(perfumeId: Int) {
@@ -54,31 +62,29 @@ final class DetailViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
-            return setUpSections(currentState.perfumeId)
+        case .viewDidLoad(let isLogin):
+            return .concat([
+                .just(.setIsLogin(isLogin)),
+                setUpFirstDetailSections(currentState.perfumeId)
+                ])
         case .didTapMoreButton:
             return .concat([
                 .just(.setPresentCommentVC(currentState.perfumeId)),
                 .just(.setPresentCommentVC(nil))
             ])
-        case .didTapCell(let item):
             
-            if item.section == 2 {
+        case .didTapWriteButton:
+            if currentState.isLogin {
                 return .concat([
-                    .just(.setSelectedComment(item.id)),
-                    .just(.setSelectedComment(nil))
+                    .just(.setIsPresentCommentWrite(currentState.perfumeId)),
+                    .just(.setIsPresentCommentWrite(nil))
                 ])
             } else {
                 return .concat([
-                    .just(.setSelecctedPerfume(item.id)),
-                    .just(.setSelecctedPerfume(nil))
+                    .just(.setIsTap(true)),
+                    .just(.setIsTap(false))
                 ])
             }
-        case .didTapWriteButton:
-            return .concat([
-                .just(.setIsPresentCommentWrite(currentState.perfumeId)),
-                .just(.setIsPresentCommentWrite(nil))
-            ])
             
         case .didTapBackButton:
             return .concat([
@@ -99,6 +105,9 @@ final class DetailViewReactor: Reactor {
             ])
         case .didTapLikeButton:
             return setPerfumeLike()
+            
+        case .willDisplaySecondSection:
+            return setUpSecondDetailSections(id: currentState.perfumeId)
         }
     }
     
@@ -132,6 +141,14 @@ final class DetailViewReactor: Reactor {
             
         case .setIsLiked(let isLiked):
             state.isLiked = isLiked
+        case .setCommentCount(let count):
+            state.commentCount = count
+        case .setIsPaging(let isPaging):
+            state.isPaging = isPaging
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
+        case .setIsTap(let isTap):
+            state.isTapWhenNotLogin = isTap
         }
         
         return state
@@ -141,68 +158,85 @@ final class DetailViewReactor: Reactor {
 extension DetailViewReactor {
     
     
-    func setUpSections(_ id: Int) -> Observable<Mutation> {
-
-        let commentItems = [
-            Comment(content: "test", heartCount: 100,  id: 1, nickname: "test", perfumeId: currentState.perfumeId),
-            Comment(content: "test", heartCount: 100,  id: 2, nickname: "test", perfumeId: currentState.perfumeId),
-            Comment(content: "test", heartCount: 100,  id: 3, nickname: "test", perfumeId: currentState.perfumeId)
-        ]
-        
-        let recommendItems = [
-            RecommendPerfume(id: 1, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
-            RecommendPerfume(id: 2, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
-            RecommendPerfume(id: 3, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
-            RecommendPerfume(id: 4, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
-            RecommendPerfume(id: 5, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
-            RecommendPerfume(id: 6, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
-            RecommendPerfume(id: 7, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
-            RecommendPerfume(id: 8, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: ""),
-            RecommendPerfume(id: 9, brandName: "조 말론 런던", perfumeName: "우드 세이지 엔 씨 쏠트 코롱 100ml", imageUrl: "")
-        ]
-        
-        let evaluationSection = DetailSection.evaluation(DetailSectionItem.evaluationCell(1))
-        
-        let commentItem = commentItems.map { DetailSectionItem.commentCell($0, $0.id) }
-        
-        let commentSections = DetailSection.comment(commentItem)
-        
-        let recommed = recommendItems.map { DetailSectionItem.recommendCell($0, $0.id) }
-        let recommendSections = DetailSection.recommend(recommed)
-        
+    func setUpFirstDetailSections(_ id: Int) -> Observable<Mutation> {
         return DetailAPI.fetchPerfumeDetail(id)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                print(data)
                 let topItem = DetailSectionItem.topCell(data, 0)
                 let topSection = DetailSection.top(topItem)
+    
+                let evaluationItem = DetailSectionItem.evaluationCell(nil, 1)
+                let evaluationSection = DetailSection.evaluation(evaluationItem)
                 
-                let sections = [topSection, evaluationSection, commentSections, recommendSections]
+                let sections = [topSection, evaluationSection]
                 
-                return .just(.setSections(sections))
+                return .concat([
+                    .just(.setSections(sections)),
+                    .just(.setIsLiked(data.perfumeDetail.liked))
+                ])
             }
-        
-        
-        
+    }
+    
+    func setUpSecondDetailSections(id: Int) -> Observable<Mutation> {
+        return DetailAPI.fetchPerfumeDetail2(id)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                var sections = self.currentState.sections
+                
+                
+                let evaluation = Evaluation(age: data.age,
+                                            gender: data.gender,
+                                            weather: data.weather)
+                let evaluationItem = DetailSectionItem.evaluationCell(evaluation, 1)
+                let evaluationSection = DetailSection.evaluation(evaluationItem)
+                
+                sections[1] = evaluationSection
+
+                let commentItem = data.commentInfo.comments.map { DetailSectionItem.commentCell($0, 2)}
+                let commentSection = DetailSection.comment(commentItem)
+                
+                let similarItem = data.similarPerfumes.map {
+                    DetailSectionItem.similarCell($0, 3)
+                }
+                let similarSection = DetailSection.similar(similarItem)
+                
+                sections.append(contentsOf: [commentSection, similarSection])
+                
+                
+                return .concat([
+                    .just(.setSections(sections)),
+                    .just(.setCommentCount(data.commentInfo.commentCount)),
+                    .just(.setIsPaging(true))
+                ])
+            }
     }
     
     func setPerfumeLike() -> Observable<Mutation> {
         let state = currentState
-        let isCurrentlyLiked = state.isLiked
-        let perfumeId = state.perfumeId
+        let isLogin = state.isLogin
         
-        if isCurrentlyLiked {
-            return LikeAPI.deleteLike(perfumeId)
-                .catch { _ in .empty() }
-                .flatMap { _ -> Observable<Mutation> in
-                    return .just(.setIsLiked(false))
-                }
+        if isLogin {
+            let isCurrentlyLiked = state.isLiked
+            let perfumeId = state.perfumeId
+            
+            if isCurrentlyLiked {
+                return LikeAPI.deleteLike(perfumeId)
+                    .catch { _ in .empty() }
+                    .flatMap { _ -> Observable<Mutation> in
+                        return .just(.setIsLiked(false))
+                    }
+            } else {
+                return LikeAPI.putLike(perfumeId)
+                    .catch { _ in .empty() }
+                    .flatMap { _ -> Observable<Mutation> in
+                        return .just(.setIsLiked(true))
+                    }
+            }
         } else {
-            return LikeAPI.putLike(perfumeId)
-                .catch { _ in .empty() }
-                .flatMap { _ -> Observable<Mutation> in
-                    return .just(.setIsLiked(true))
-                }
+            return .concat([
+                .just(.setIsTap(true)),
+                .just(.setIsTap(false))
+            ])
         }
     }
 }

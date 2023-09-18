@@ -30,6 +30,7 @@ class DetailViewController: UIViewController, View {
     let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
     let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
     
+    
     //MARK: - Init
     init(reactor: DetailViewReactor) {
         DetailReactor = reactor
@@ -58,16 +59,13 @@ extension DetailViewController {
     func bind(reactor: DetailViewReactor) {
         
         // MARK: - Action
-        Observable.just(())
-            .map { Reactor.Action.viewDidLoad }
+        LoginManager.shared.isLogin
+            .map { Reactor.Action.viewDidLoad($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // collectionView 아이템 클릭
-        detailView.collectionView.rx.itemSelected
-            .map { reactor.currentState.sections[$0.section].items[$0.item]}
-            .map { Reactor.Action.didTapCell($0) }
-            .bind(to: reactor.action)
+        detailView.collectionView.rx
+            .setDelegate(self)
             .disposed(by: disposeBag)
         
         // 댓글 작성 버튼 클릭
@@ -128,20 +126,20 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         // 댓글 디테일 페이지로 이동
-//        reactor.state
-//            .map { $0.presentCommentId }
-//            .distinctUntilChanged()
-//            .compactMap { $0 }
-//            .bind(onNext: presentCommentDetailViewController)
-//            .disposed(by: disposeBag)
+        //        reactor.state
+        //            .map { $0.presentCommentId }
+        //            .distinctUntilChanged()
+        //            .compactMap { $0 }
+        //            .bind(onNext: presentCommentDetailViewController)
+        //            .disposed(by: disposeBag)
         
         // 향수 디테일 페이지로 이동
-//        reactor.state
-//            .map { $0.presentPerfumeId }
-//            .distinctUntilChanged()
-//            .compactMap { $0 }
-//            .bind(onNext: presentDatailViewController)
-//            .disposed(by: disposeBag)
+        //        reactor.state
+        //            .map { $0.presentPerfumeId }
+        //            .distinctUntilChanged()
+        //            .compactMap { $0 }
+        //            .bind(onNext: presentDatailViewController)
+        //            .disposed(by: disposeBag)
         
         // 댓글 작성 페이지로 이동
         reactor.state
@@ -173,9 +171,6 @@ extension DetailViewController {
         
         reactor.state
             .map { $0.isPresentSearchVC }
-            .do(onNext: {
-                print($0)
-            })
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
@@ -189,84 +184,34 @@ extension DetailViewController {
             .bind(to: bottomView.likeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.isTapWhenNotLogin }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(title: "로그인 후 이용가능한 서비스입니다",
+                                     content: "입력하신 내용을 다시 확인해주세요",
+                                     buttonTitle: "로그인 하러가기 ")
+            })
+            .disposed(by: disposeBag)
+        
     }
     
-    func configureCollectionViewDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: {  collectionView, indexPath, item in
-            
-            switch item {
-            case .topCell(let detail, _):
-                guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
-                
-                
-                perfumeInfoCell.updateCell(detail.perfumeDetail)
-                // 하단 뷰 향수 좋아요 버튼 클릭시 액션 전달
-//                self.bottomView.likeButton.rx.tap
-//                    .map { _ in .didTapPerfumeLikeButton }
-//                    .bind(to: perfumeInfoCell.reactor!.action)
-//                    .disposed(by: self.disposeBag)
-                
-                // perfumeInfoReactor의 향수 좋아요 상태 변화
-//                perfumeInfoCell.reactor?.state
-//                    .map { $0.isLikePerfume }
-//                    .distinctUntilChanged()
-//                    .bind(to: self.bottomView.likeButton.rx.isSelected)
-//                    .disposed(by: self.disposeBag)
-                return perfumeInfoCell
-            case .evaluationCell(_):
-                guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
-                return evaluationCell
-                
-            case .commentCell(let comment, _):
-                guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
-                
-                commentCell.updateCell(comment)
-                return commentCell
-                
-            case .recommendCell(let recommend, _):
-                guard let similarCell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarCell.identifier, for: indexPath) as? SimilarCell else { return UICollectionViewCell() }
-                
-                similarCell.updateUI(recommend)
-                return similarCell
+    func bindHeader(_ header: CommentHeaderView) {
+        DetailReactor.state
+            .map { "+\($0.commentCount)" }
+            .bind(to: header.countLabel.rx.text)
+            .disposed(by: disposeBag)
 
-            }
-        })
-        
-        dataSource.supplementaryViewProvider = {collectionView, kind, indexPath -> UICollectionReusableView in
-            var header = UICollectionReusableView()
-        
-            switch indexPath.section {
-            case 1:
-                guard let evaluationHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: EvaluationHeaderView.identifier, for: indexPath) as? EvaluationHeaderView else { return UICollectionReusableView() }
-                
-                header = evaluationHeader
-                
-            case 2:
-                guard let commentHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentHeaderView.identifier, for: indexPath) as? CommentHeaderView else { return UICollectionReusableView() }
-                
-                header = commentHeader
-            default:
-                guard let similarHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SimilarHeaderView.identifier, for: indexPath) as? SimilarHeaderView else { return UICollectionReusableView() }
-                
-                header = similarHeader
-            }
-            
-            if kind == UICollectionView.elementKindSectionFooter {
-                guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
-                
-                commentFooter.reactor = self.DetailReactor
-                
-                return commentFooter
-            } else {
-                return header
-            }
-        }
     }
+    
+    
     
     func configureUI() {
-                        
+        
         [   detailView,
-            bottomView  ]   .forEach { view.addSubview($0) }
+            bottomView
+        ]   .forEach { view.addSubview($0) }
         
         detailView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -290,5 +235,101 @@ extension DetailViewController {
         
         self.navigationItem.leftBarButtonItems = [backBarButtonItem, spacerItem(15), homeBarButtonItem]
         self.navigationItem.rightBarButtonItems = [searchBarButtonItem]
+    }
+}
+
+extension DetailViewController: UICollectionViewDelegate {
+    
+    func configureCollectionViewDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: {  collectionView, indexPath, item in
+            
+            switch item {
+            case .topCell(let detail, _):
+                guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
+                
+                
+                perfumeInfoCell.updateCell(detail.perfumeDetail)
+                return perfumeInfoCell
+                
+            case .evaluationCell(let evaluation, _):
+                guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
+                
+                var isLogin: Bool = false
+                LoginManager.shared.isLogin
+                    .subscribe(onNext: {
+                        isLogin = $0
+                    })
+                    .disposed(by: self.disposeBag)
+                
+                evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId, isLogin: isLogin)
+                
+                evaluationCell.reactor?.state
+                    .map { $0.isTapWhenNotLogin }
+                    .distinctUntilChanged()
+                    .filter { $0 }
+                    .bind(with: self, onNext: { owner, _ in
+                        owner.presentAlertVC(title: "로그인 후 이용가능한 서비스입니다",
+                                             content: "입력하신 내용을 다시 확인해주세요",
+                                             buttonTitle: "로그인 하러가기 ")
+                    })
+                    .disposed(by: self.disposeBag)
+                
+            
+                return evaluationCell
+                
+            case .commentCell(let comment, _):
+                guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
+                
+                commentCell.updateCell(comment)
+                return commentCell
+                
+            case .similarCell(let similar, _):
+                guard let similarCell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarCell.identifier, for: indexPath) as? SimilarCell else { return UICollectionViewCell() }
+                
+                similarCell.updateUI(similar)
+                return similarCell
+                
+            }
+        })
+        
+        dataSource.supplementaryViewProvider = {collectionView, kind, indexPath -> UICollectionReusableView in
+            var header = UICollectionReusableView()
+            
+            switch indexPath.section {
+            case 1:
+                guard let evaluationHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: EvaluationHeaderView.identifier, for: indexPath) as? EvaluationHeaderView else { return UICollectionReusableView() }
+                
+                header = evaluationHeader
+                
+            case 2:
+                guard let commentHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentHeaderView.identifier, for: indexPath) as? CommentHeaderView else { return UICollectionReusableView() }
+                self.bindHeader(commentHeader)
+                header = commentHeader
+            default:
+                guard let similarHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SimilarHeaderView.identifier, for: indexPath) as? SimilarHeaderView else { return UICollectionReusableView() }
+                
+                header = similarHeader
+            }
+            
+            if kind == UICollectionView.elementKindSectionFooter {
+                guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
+                
+                
+                commentFooter.moreButton.rx.tap
+                    .map { Reactor.Action.didTapMoreButton }
+                    .bind(to: self.DetailReactor.action)
+                    .disposed(by: self.disposeBag)
+                
+                return commentFooter
+            } else {
+                return header
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.section == 1 && !DetailReactor.currentState.isPaging {
+            DetailReactor.action.onNext(.willDisplaySecondSection)
+        }
     }
 }

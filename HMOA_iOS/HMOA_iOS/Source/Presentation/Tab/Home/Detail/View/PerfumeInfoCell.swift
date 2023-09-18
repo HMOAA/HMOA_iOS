@@ -8,19 +8,13 @@
 import UIKit
 import SnapKit
 import Then
-import ReactorKit
-import RxCocoa
 import Kingfisher
-import RxSwift
 
-class PerfumeInfoCell: UICollectionViewCell, View {
-    
-    typealias Reactor = PerfumeInfoViewReactor
+class PerfumeInfoCell: UICollectionViewCell {
     
     // MARK: - identifier
     
     static let identifier = "PerfumeInfoCell"
-    var disposeBag = DisposeBag()
 
     // MARK: - View
     
@@ -44,37 +38,6 @@ extension PerfumeInfoCell {
     
     // MARK: - Bind
     
-    func bind(reactor: PerfumeInfoViewReactor) {
-
-        // MARK: - Ation
-
-        // 향수 좋아요 버튼 클릭
-        perfumeInfoView.perfumeLikeButton.rx.tap
-            .map { Reactor.Action.didTapPerfumeLikeButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        // MARK: - State
-
-        // 향수 좋아요 상태 변경
-        reactor.state
-            .map { $0.isLikePerfume }
-            .distinctUntilChanged()
-            .bind(to:
-                    perfumeInfoView.perfumeLikeButton.rx.isSelected)
-            .disposed(by: disposeBag)
-
-
-        // 향수 좋아요 개수 변경
-        reactor.state
-            .map { $0.likeCount }
-            .distinctUntilChanged()
-            .map { String($0) }
-            .bind(onNext: {
-                self.perfumeInfoView.perfumeLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)
-            })
-            .disposed(by: disposeBag)
-    }
     
     func configureUI() {
         [   perfumeInfoView ] .forEach { addSubview($0) }
@@ -93,6 +56,8 @@ extension PerfumeInfoCell {
     }
     
     func updateCell(_ item: Detail) {
+        perfumeInfoView.perfumeLikeImageView.image = !item.liked ? UIImage(named: "heart") : UIImage(named: "heart_fill")
+        perfumeInfoView.perfumeLikeCountLabel.text = "\(item.heartNum)"
         perfumeInfoView.perfumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl)!)
         perfumeInfoView.titleKoreanLabel.text = item.koreanName
         perfumeInfoView.titleEnglishLabel.text = item.englishName
@@ -119,16 +84,22 @@ extension PerfumeInfoCell {
         switch item.priceVolume {
         case 1:
             perfumeInfoView.perfumeView30.capacityLabel1.text = "\(item.volume[0])ml"
+            perfumeInfoView.perfumeView30.capacityLabel1.textColor = .black
+            perfumeInfoView.perfumeView30.perfumeImageView1.tintColor = .black
         case 2:
             perfumeInfoView.perfumeView30.capacityLabel1.text = "\(item.volume[0])ml"
             perfumeInfoView.perfumeView30.capacityLabel2.text = "\(item.volume[1])ml"
             perfumeInfoView.perfumeView30.perfumeImageView2.isHidden = false
+            perfumeInfoView.perfumeView30.capacityLabel2.textColor = .black
+            perfumeInfoView.perfumeView30.perfumeImageView2.tintColor = .black
         case 3:
             perfumeInfoView.perfumeView30.capacityLabel1.text = "\(item.volume[0])ml"
             perfumeInfoView.perfumeView30.capacityLabel2.text = "\(item.volume[1])ml"
             perfumeInfoView.perfumeView30.capacityLabel3.text = "\(item.volume[2])ml"
             perfumeInfoView.perfumeView30.perfumeImageView2.isHidden = false
             perfumeInfoView.perfumeView30.perfumeImageView3.isHidden = false
+            perfumeInfoView.perfumeView30.capacityLabel3.textColor = .black
+            perfumeInfoView.perfumeView30.perfumeImageView3.tintColor = .black
         default: break
         }
     }

@@ -12,14 +12,14 @@ enum DetailSection {
     case top(DetailSectionItem)
     case evaluation(DetailSectionItem)
     case comment([DetailSectionItem])
-    case recommend([DetailSectionItem])
+    case similar([DetailSectionItem])
 }
 
 enum DetailSectionItem {
-    case topCell(PerfumeDetail, Int)
-    case evaluationCell(Int)
+    case topCell(FirstDetail, Int)
+    case evaluationCell(Evaluation?, Int)
     case commentCell(Comment, Int)
-    case recommendCell(RecommendPerfume, Int)
+    case similarCell(SimilarPerfume, Int)
 }
 
 extension DetailSectionItem: Hashable {
@@ -32,7 +32,7 @@ extension DetailSectionItem: Hashable {
             return 1
         case .commentCell(_, let commentId):
             return commentId
-        case .recommendCell(_, let perfumeId):
+        case .similarCell(_, let perfumeId):
             return perfumeId
         }
     }
@@ -45,7 +45,7 @@ extension DetailSectionItem: Hashable {
             return 1
         case .commentCell:
             return 2
-        case .recommendCell:
+        case .similarCell:
             return 3
         }
     }
@@ -62,7 +62,7 @@ extension DetailSection: Hashable {
             return [items]
         case .comment(let items):
             return items
-        case .recommend(let items):
+        case .similar(let items):
             return items
         }
     }
