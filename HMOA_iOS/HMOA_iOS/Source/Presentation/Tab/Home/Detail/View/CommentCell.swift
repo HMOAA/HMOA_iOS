@@ -12,11 +12,9 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-class CommentCell: UICollectionViewCell, View {
+class CommentCell: UICollectionViewCell {
     
     // MARK: - identifier
-    typealias Reactor = CommentCellReactor
-    var disposeBag = DisposeBag()
     
     static let identifier = "CommentCell"
     
@@ -27,10 +25,8 @@ class CommentCell: UICollectionViewCell, View {
     }
     
     lazy var userImageView = UIImageView().then {
-        $0.layer.borderColor = UIColor.white.cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.cornerRadius = 27 / 2
-        $0.layer.backgroundColor = UIColor.customColor(.tabbarColor).cgColor
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 28 / 2
     }
     
     lazy var userNameLabel = UILabel().then {
@@ -63,38 +59,9 @@ class CommentCell: UICollectionViewCell, View {
 // MARK: - Functions
 extension CommentCell {
     
-    func bind(reactor: CommentCellReactor) {
-        // MARK: - Action
-
-        // 댓글 좋아요 버튼 클릭
-        commentLikeButton.rx.tap
-            .map { Reactor.Action.didTapLikeButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // MARK: - State
-        
-        // 좋아요 상태 반응
-        reactor.state
-            .map { $0.isLike }
-            .distinctUntilChanged()
-            .bind(to: commentLikeButton.rx.isSelected)
-            .disposed(by: disposeBag)
-        
-        // 좋아요 개수 반응
-        reactor.state
-            .map { $0.likeCount }
-            .distinctUntilChanged()
-            .filter { $0 != 0 }
-            .map { String($0)}
-            .bind(onNext: {
-                self.commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText($0)
-            })
-            .disposed(by: disposeBag)
-    }
-    
     func updateCell(_ item: Comment) {
-        userImageView.image = UIImage(named: "google")
+        commentLikeButton.isSelected = item.liked
+        userImageView.kf.setImage(with: URL(string: item.profileImg))
         userNameLabel.text = item.nickname
         contentLabel.text = item.content
         commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
