@@ -493,8 +493,6 @@ class EvaluationCell: UICollectionViewCell, View {
             .compactMap { $0 }
             .bind(onNext: setAgeSliderColor)
             .disposed(by: disposeBag)
-        
-        
     }
 }
 

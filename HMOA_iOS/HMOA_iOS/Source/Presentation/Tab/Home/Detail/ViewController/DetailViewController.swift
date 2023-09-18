@@ -30,6 +30,7 @@ class DetailViewController: UIViewController, View {
     let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
     let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
     
+    
     //MARK: - Init
     init(reactor: DetailViewReactor) {
         DetailReactor = reactor
@@ -58,15 +59,14 @@ extension DetailViewController {
     func bind(reactor: DetailViewReactor) {
         
         // MARK: - Action
-        Observable.just(())
-            .map { Reactor.Action.viewDidLoad }
+        LoginManager.shared.isLogin
+            .map { Reactor.Action.viewDidLoad($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         detailView.collectionView.rx
             .setDelegate(self)
             .disposed(by: disposeBag)
-        
         
         // 댓글 작성 버튼 클릭
         bottomView.wirteButton.rx.tap
@@ -171,9 +171,6 @@ extension DetailViewController {
         
         reactor.state
             .map { $0.isPresentSearchVC }
-            .do(onNext: {
-                print($0)
-            })
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
@@ -185,6 +182,17 @@ extension DetailViewController {
             .map { $0.isLiked }
             .distinctUntilChanged()
             .bind(to: bottomView.likeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isTapWhenNotLogin }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(title: "로그인 후 이용가능한 서비스입니다",
+                                     content: "입력하신 내용을 다시 확인해주세요",
+                                     buttonTitle: "로그인 하러가기 ")
+            })
             .disposed(by: disposeBag)
         
     }
@@ -202,7 +210,8 @@ extension DetailViewController {
     func configureUI() {
         
         [   detailView,
-            bottomView  ]   .forEach { view.addSubview($0) }
+            bottomView
+        ]   .forEach { view.addSubview($0) }
         
         detailView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -245,8 +254,26 @@ extension DetailViewController: UICollectionViewDelegate {
             case .evaluationCell(let evaluation, _):
                 guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
                 
+                var isLogin: Bool = false
+                LoginManager.shared.isLogin
+                    .subscribe(onNext: {
+                        isLogin = $0
+                    })
+                    .disposed(by: self.disposeBag)
                 
-                evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId)
+                evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId, isLogin: isLogin)
+                
+                evaluationCell.reactor?.state
+                    .map { $0.isTapWhenNotLogin }
+                    .distinctUntilChanged()
+                    .filter { $0 }
+                    .bind(with: self, onNext: { owner, _ in
+                        owner.presentAlertVC(title: "로그인 후 이용가능한 서비스입니다",
+                                             content: "입력하신 내용을 다시 확인해주세요",
+                                             buttonTitle: "로그인 하러가기 ")
+                    })
+                    .disposed(by: self.disposeBag)
+                
             
                 return evaluationCell
                 

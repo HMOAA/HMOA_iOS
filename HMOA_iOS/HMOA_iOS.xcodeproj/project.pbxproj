@@ -167,6 +167,7 @@
 		CA36DA842A4AA25700F9C17E /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA36DA832A4AA25700F9C17E /* IgnoerData.swift */; };
 		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
+		CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */; };
 		CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */; };
 		CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */; };
 		CA5DB81929EAA6F500BE0F79 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */; };
@@ -393,6 +394,7 @@
 		CA36DA832A4AA25700F9C17E /* IgnoerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
+		CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
@@ -1327,6 +1329,7 @@
 			children = (
 				2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */,
 				2CD023502A07AEBC00459801 /* NicknameView.swift */,
+				CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2175,6 +2178,7 @@
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
+				CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
 				2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */,
 				2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */,
