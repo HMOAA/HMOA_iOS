@@ -127,7 +127,7 @@ extension BrandSearchViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: {
-                self.presentBrandDetailViewController($0.brandId, $0.brandName)
+                self.presentBrandDetailViewController($0.brandId)
             })
             .disposed(by: disposeBag)
         

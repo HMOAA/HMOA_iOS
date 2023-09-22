@@ -14,6 +14,7 @@ final class DetailViewReactor: Reactor {
 
     enum Action {
         case viewDidLoad(Bool)
+        case didTapBrandView
         case didTapMoreButton
         case didTapWriteButton
         case didTapBackButton
@@ -37,6 +38,7 @@ final class DetailViewReactor: Reactor {
         case setIsPaging(Bool)
         case setIsLogin(Bool)
         case setIsTap(Bool)
+        case setPresentBrandId(Int?)
     }
     
     struct State {
@@ -48,6 +50,7 @@ final class DetailViewReactor: Reactor {
         var isPopVC: Bool = false
         var isPopRootVC: Bool = false
         var isPresentSearchVC: Bool = false
+        var presentBrandId: Int? = nil
         var perfumeId: Int
         var isLiked: Bool = false
         var commentCount: Int = 0
@@ -108,6 +111,12 @@ final class DetailViewReactor: Reactor {
             
         case .willDisplaySecondSection:
             return setUpSecondDetailSections(id: currentState.perfumeId)
+            
+        case .didTapBrandView:
+            return .concat([
+                .just(.setPresentBrandId(currentState.sections[0].items[0].brandId)),
+                .just(.setPresentBrandId(nil))
+            ])
         }
     }
     
@@ -149,6 +158,8 @@ final class DetailViewReactor: Reactor {
             state.isLogin = isLogin
         case .setIsTap(let isTap):
             state.isTapWhenNotLogin = isTap
+        case .setPresentBrandId(let brandId):
+            state.presentBrandId = brandId
         }
         
         return state

@@ -205,6 +205,21 @@ extension DetailViewController {
 
     }
     
+    func bindPerfumeInfoCell(_ cell: PerfumeInfoCell) {
+        cell.perfumeInfoView
+            .brandView.tapGesture.rx.event
+            .map { _ in Reactor.Action.didTapBrandView }
+            .bind(to: self.DetailReactor.action)
+            .disposed(by: self.disposeBag)
+        
+        DetailReactor.state
+            .map { $0.presentBrandId }
+            .compactMap { $0 }
+            .distinctUntilChanged()
+            .bind(onNext: presentBrandDetailViewController)
+            .disposed(by: disposeBag)
+            
+    }
     
     
     func configureUI() {
@@ -247,7 +262,7 @@ extension DetailViewController: UICollectionViewDelegate {
             case .topCell(let detail, _):
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
-                
+                self.bindPerfumeInfoCell(perfumeInfoCell)
                 perfumeInfoCell.updateCell(detail.perfumeDetail)
                 return perfumeInfoCell
                 
@@ -263,16 +278,6 @@ extension DetailViewController: UICollectionViewDelegate {
                 
                 evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId, isLogin: isLogin)
                 
-                evaluationCell.reactor?.state
-                    .map { $0.isTapWhenNotLogin }
-                    .distinctUntilChanged()
-                    .filter { $0 }
-                    .bind(with: self, onNext: { owner, _ in
-                        owner.presentAlertVC(title: "로그인 후 이용가능한 서비스입니다",
-                                             content: "입력하신 내용을 다시 확인해주세요",
-                                             buttonTitle: "로그인 하러가기 ")
-                    })
-                    .disposed(by: self.disposeBag)
                 
             
                 return evaluationCell
