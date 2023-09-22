@@ -49,6 +49,14 @@ extension DetailSectionItem: Hashable {
             return 3
         }
     }
+    
+    var brandId: Int {
+        switch self {
+        case .topCell(let data, _):
+            return data.perfumeDetail.brandId
+        default: return 0
+        }
+    }
 }
 
 extension DetailSection: Hashable {

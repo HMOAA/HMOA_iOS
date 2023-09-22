@@ -27,11 +27,10 @@ class BrandDetailReactor: Reactor {
     
     var initialState: State
     
-    init(_ brandId: Int, _ title: String) {
+    init(_ brandId: Int) {
         let perfumeList = BrandDetailReactor.requestBrandInfo(brandId)
         initialState = State(section: perfumeList,
-                             brandId: brandId,
-                             title: title)
+                             brandId: brandId)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

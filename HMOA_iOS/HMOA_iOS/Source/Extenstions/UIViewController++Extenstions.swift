@@ -103,9 +103,9 @@ extension UIViewController {
         self.navigationController?.pushViewController(brandSearchVC, animated: true)
     }
     
-    func presentBrandDetailViewController(_ brandId: Int, _ title: String) {
+    func presentBrandDetailViewController(_ brandId: Int) {
         let brandDetailVC = BrandDetailViewController()
-        brandDetailVC.reactor = BrandDetailReactor(brandId, title)
+        brandDetailVC.reactor = BrandDetailReactor(brandId)
         self.navigationController?.pushViewController(brandDetailVC, animated: true)
     }
     
