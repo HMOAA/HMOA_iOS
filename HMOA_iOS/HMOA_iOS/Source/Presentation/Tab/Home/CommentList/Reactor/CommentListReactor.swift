@@ -102,7 +102,6 @@ class CommentListReactor: Reactor {
 extension CommentListReactor {
     
     func setCommentsList(type: String) -> Observable<Mutation> {
-        
         guard let perfumeId = currentState.perfumeId else { return .empty() }
          
         let parameter = [
@@ -113,6 +112,7 @@ extension CommentListReactor {
         return CommentAPI.fetchCommentList(parameter, type: type)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
+                print(data.comments)
                 let commentItems = data.comments.map { CommentSectionItem.commentCell($0, $0.id) }
                 let commentCount = data.commentCount
                 let commentSection = [CommentSection.comment(commentItems)]
