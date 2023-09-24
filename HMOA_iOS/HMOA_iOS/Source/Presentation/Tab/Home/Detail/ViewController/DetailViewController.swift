@@ -181,6 +181,7 @@ extension DetailViewController {
         reactor.state
             .map { $0.isLiked }
             .distinctUntilChanged()
+            .compactMap { $0 }
             .bind(to: bottomView.likeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -206,19 +207,42 @@ extension DetailViewController {
     }
     
     func bindPerfumeInfoCell(_ cell: PerfumeInfoCell) {
+        
+        // Action
+        
+        // BrandView 터치 이벤트
         cell.perfumeInfoView
             .brandView.tapGesture.rx.event
             .map { _ in Reactor.Action.didTapBrandView }
             .bind(to: self.DetailReactor.action)
             .disposed(by: self.disposeBag)
         
+        // BrandDetailVC로 present
         DetailReactor.state
             .map { $0.presentBrandId }
             .compactMap { $0 }
             .distinctUntilChanged()
             .bind(onNext: presentBrandDetailViewController)
             .disposed(by: disposeBag)
-            
+        
+        //좋아요 이미지 변경
+        DetailReactor.state
+            .map { $0.isLiked }
+            .skip(1)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: { isLiked in
+                cell.perfumeInfoView.perfumeLikeImageView.image = !isLiked ? UIImage(named: "heart") : UIImage(named: "heart_fill")
+            })
+            .disposed(by: disposeBag)
+        
+        //좋아요 개수 바인딩
+        DetailReactor.state
+            .compactMap { $0.likeCount }
+            .skip(1)
+            .map { "\($0)" }
+            .bind(to: cell.perfumeInfoView.perfumeLikeCountLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     
