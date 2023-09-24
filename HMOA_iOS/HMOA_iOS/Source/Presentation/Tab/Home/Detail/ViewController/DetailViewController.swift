@@ -245,17 +245,6 @@ extension DetailViewController {
             .disposed(by: disposeBag)
     }
     
-    func bindCommentCell(_ cell: CommentCell) {
-//        DetailReactor.state
-//            .map { $0.commentCount }
-//            .filter { $0 == 0 }
-//            .bind(onNext: { _ in
-//                cell.
-//            })
-            
-    }
-    
-    
     func configureUI() {
         
         [   detailView,
@@ -318,8 +307,6 @@ extension DetailViewController: UICollectionViewDelegate {
                 
             case .commentCell(let comment, _):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
-                
-                self.bindCommentCell(commentCell)
                 
                 commentCell.updateCell(comment)
                 return commentCell
