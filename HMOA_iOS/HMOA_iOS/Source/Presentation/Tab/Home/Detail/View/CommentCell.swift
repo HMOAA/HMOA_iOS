@@ -20,6 +20,7 @@ class CommentCell: UICollectionViewCell {
     
     // MARK: - Properties
     lazy var subView = UIView().then {
+        $0.isHidden = true
         $0.layer.borderColor = UIColor.customColor(.labelGrayColor).cgColor
         $0.layer.borderWidth = 1
     }
@@ -31,7 +32,6 @@ class CommentCell: UICollectionViewCell {
     
     lazy var userNameLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard, 14)
-        $0.text = "TEST"
     }
     
     lazy var contentLabel = UILabel().then {
@@ -42,6 +42,13 @@ class CommentCell: UICollectionViewCell {
 //    lazy var likeView = LikeView()
     lazy var commentLikeButton = UIButton().then {
         $0.makeLikeButton()
+    }
+    
+    lazy var noCommentLabel = UILabel().then {
+        $0.setLabelUI("해당 제품의 의견을 남겨주세요",
+                      font: .pretendard_light,
+                      size: 14,
+                      color: .gray3)
     }
     
     // MARK: - init
@@ -59,18 +66,22 @@ class CommentCell: UICollectionViewCell {
 // MARK: - Functions
 extension CommentCell {
     
-    func updateCell(_ item: Comment) {
-        commentLikeButton.isSelected = item.liked
-        userImageView.kf.setImage(with: URL(string: item.profileImg))
-        userNameLabel.text = item.nickname
-        contentLabel.text = item.content
-        commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
+    func updateCell(_ item: Comment?) {
+        if let item = item {
+            commentLikeButton.isSelected = item.liked
+            userImageView.kf.setImage(with: URL(string: item.profileImg))
+            userNameLabel.text = item.nickname
+            contentLabel.text = item.content
+            commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
+            subView.isHidden = false
+            noCommentLabel.isHidden = true
+        }
     }
     
     func configureUI() {
         
         addSubview(subView)
-        
+        addSubview(noCommentLabel)
         
         [   userImageView,
             userNameLabel,
@@ -104,6 +115,11 @@ extension CommentCell {
             $0.trailing.equalToSuperview().inset(16)
 //            $0.width.equalTo(60)
             $0.height.equalTo(20)
+        }
+        
+        noCommentLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
     }
     

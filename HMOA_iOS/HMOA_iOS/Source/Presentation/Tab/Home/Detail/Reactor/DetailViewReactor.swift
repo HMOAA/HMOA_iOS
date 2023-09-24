@@ -213,15 +213,20 @@ extension DetailViewReactor {
                 let evaluationSection = DetailSection.evaluation(evaluationItem)
                 
                 sections[1] = evaluationSection
-
-                let commentItem = data.commentInfo.comments.map { DetailSectionItem.commentCell($0, 2)}
+                
+                var commentItem = data.commentInfo.comments.map { DetailSectionItem.commentCell($0, 2)}
+                
+                if commentItem.isEmpty {
+                    commentItem = [DetailSectionItem.commentCell(nil, 2)]
+                }
+                print(commentItem)
                 let commentSection = DetailSection.comment(commentItem)
                 
                 let similarItem = data.similarPerfumes.map {
                     DetailSectionItem.similarCell($0, 3)
                 }
                 let similarSection = DetailSection.similar(similarItem)
-                
+        
                 sections.append(contentsOf: [commentSection, similarSection])
                 
                 
