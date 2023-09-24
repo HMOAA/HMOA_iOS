@@ -39,6 +39,7 @@ final class DetailViewReactor: Reactor {
         case setIsLogin(Bool)
         case setIsTap(Bool)
         case setPresentBrandId(Int?)
+        case setLikeCount(Int?)
     }
     
     struct State {
@@ -52,11 +53,12 @@ final class DetailViewReactor: Reactor {
         var isPresentSearchVC: Bool = false
         var presentBrandId: Int? = nil
         var perfumeId: Int
-        var isLiked: Bool = false
+        var isLiked: Bool? = nil
         var commentCount: Int = 0
         var isPaging: Bool = false
         var isLogin: Bool = false
         var isTapWhenNotLogin: Bool = false
+        var likeCount: Int? = nil
     }
     
     init(perfumeId: Int) {
@@ -150,16 +152,24 @@ final class DetailViewReactor: Reactor {
             
         case .setIsLiked(let isLiked):
             state.isLiked = isLiked
+            
         case .setCommentCount(let count):
             state.commentCount = count
+            
         case .setIsPaging(let isPaging):
             state.isPaging = isPaging
+            
         case .setIsLogin(let isLogin):
             state.isLogin = isLogin
+            
         case .setIsTap(let isTap):
             state.isTapWhenNotLogin = isTap
+            
         case .setPresentBrandId(let brandId):
             state.presentBrandId = brandId
+            
+        case .setLikeCount(let count):
+            state.likeCount = count
         }
         
         return state
@@ -183,7 +193,8 @@ extension DetailViewReactor {
                 
                 return .concat([
                     .just(.setSections(sections)),
-                    .just(.setIsLiked(data.perfumeDetail.liked))
+                    .just(.setIsLiked(data.perfumeDetail.liked)),
+                    .just(.setLikeCount(data.perfumeDetail.heartNum))
                 ])
             }
     }
@@ -227,20 +238,27 @@ extension DetailViewReactor {
         let isLogin = state.isLogin
         
         if isLogin {
-            let isCurrentlyLiked = state.isLiked
+            guard let isCurrentlyLiked = state.isLiked else { return .empty() }
+            guard let likeCount = state.likeCount else { return .empty() }
             let perfumeId = state.perfumeId
             
             if isCurrentlyLiked {
                 return LikeAPI.deleteLike(perfumeId)
                     .catch { _ in .empty() }
                     .flatMap { _ -> Observable<Mutation> in
-                        return .just(.setIsLiked(false))
+                        return .concat([
+                            .just(.setIsLiked(false)),
+                            .just(.setLikeCount(likeCount - 1))
+                        ])
                     }
             } else {
                 return LikeAPI.putLike(perfumeId)
                     .catch { _ in .empty() }
                     .flatMap { _ -> Observable<Mutation> in
-                        return .just(.setIsLiked(true))
+                        return .concat([
+                            .just(.setIsLiked(true)),
+                            .just(.setLikeCount(likeCount + 1))
+                        ])
                     }
             }
         } else {
