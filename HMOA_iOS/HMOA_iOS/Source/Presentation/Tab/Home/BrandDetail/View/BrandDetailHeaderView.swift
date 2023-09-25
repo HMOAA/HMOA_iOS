@@ -13,8 +13,8 @@ import RxCocoa
 import ReactorKit
 import DropDown
 
-class BrandDetailHeaderView: UICollectionReusableView, View {
-    typealias Reactor = BrandDetailHeaderReactor
+class BrandDetailHeaderView: UICollectionReusableView {
+    
 
     // MARK: - Properties
     var disposeBag = DisposeBag()
@@ -43,17 +43,6 @@ class BrandDetailHeaderView: UICollectionReusableView, View {
         $0.font = .customFont(.pretendard_medium, 14)
     }
     
-    lazy var likeButton = UIButton().then {
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 14)
-        let normalImage = UIImage(named: "bottomHeart", in: .none, with: imageConfig)
-        let selectedImage = UIImage(named: "bottomHeart", in: .none, with: imageConfig)?.withTintColor(.red)
-        
-        $0.setImage(normalImage, for: .normal)
-        $0.setImage(selectedImage, for: .selected)
-        
-    }
-    
-    
     // TODO: - 드롭다운 라이브러리 사용해서 추후에 구현
     lazy var sortButton = UIButton().then {
         $0.titleLabel?.font = .customFont(.pretendard_light, 12)
@@ -79,76 +68,76 @@ class BrandDetailHeaderView: UICollectionReusableView, View {
 extension BrandDetailHeaderView {
     
     // MARK: - bind
-    func bind(reactor: BrandDetailHeaderReactor) {
-        
-        // MARK: - Action
-        
-        // 정렬 버튼 클릭
-        sortButton.rx.tap
-            .map { Reactor.Action.didTapSortButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // DropDown 아이템 클릭
-        sortDropDown.rx.selectionAction
-            .onNext { (index, string) in
-                reactor.action.onNext(.didTapSortDropDown(index, string))
-            }
-
-        // 브랜드 좋아요 버튼 클릭
-        likeButton.rx.tap
-            .map { Reactor.Action.didTapBrandLikeButton(self.likeButton.isSelected) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // MARK: - State
-        
-        // 한글 브랜드명
-        reactor.state
-            .map { $0.brandInfo.koreanName }
-            .distinctUntilChanged()
-            .bind(to: koreanLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        // 영어 브랜드명
-        reactor.state
-            .map { $0.brandInfo.EnglishName }
-            .distinctUntilChanged()
-            .bind(to: englishLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        // 해당 브랜드 좋아요 상태
-        reactor.state
-            .map { $0.brandInfo.isLikeBrand }
-            .distinctUntilChanged()
-            .bind(to: likeButton.rx.isSelected)
-            .disposed(by: disposeBag)
-        
-        // DropDown 보여주기
-        reactor.state
-            .map { $0.isPresentDropDown }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: {self.sortDropDown.show()})
-            .disposed(by: disposeBag)
-        
-        // sortButton title바꾸기
-        reactor.state
-            .map { $0.nowSortType }
-            .distinctUntilChanged()
-            .bind(onNext: {
-                self.sortButton.setTitle($0, for: .normal)
-            })
-            .disposed(by: disposeBag)
-        
-        // 브랜드 좋아요 상태
-        reactor.state
-            .map { $0.brandInfo.isLikeBrand }
-            .distinctUntilChanged()
-            .bind(to: likeButton.rx.isSelected)
-            .disposed(by: disposeBag)
-    }
+//    func bind(reactor: BrandDetailHeaderReactor) {
+//
+//        // MARK: - Action
+//
+//        // 정렬 버튼 클릭
+//        sortButton.rx.tap
+//            .map { Reactor.Action.didTapSortButton }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
+//
+//        // DropDown 아이템 클릭
+//        sortDropDown.rx.selectionAction
+//            .onNext { (index, string) in
+//                reactor.action.onNext(.didTapSortDropDown(index, string))
+//            }
+//
+//        // 브랜드 좋아요 버튼 클릭
+//        likeButton.rx.tap
+//            .map { Reactor.Action.didTapBrandLikeButton(self.likeButton.isSelected) }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
+//
+//        // MARK: - State
+//
+//        // 한글 브랜드명
+//        reactor.state
+//            .map { $0.brandInfo.koreanName }
+//            .distinctUntilChanged()
+//            .bind(to: koreanLabel.rx.text)
+//            .disposed(by: disposeBag)
+//
+//        // 영어 브랜드명
+//        reactor.state
+//            .map { $0.brandInfo.EnglishName }
+//            .distinctUntilChanged()
+//            .bind(to: englishLabel.rx.text)
+//            .disposed(by: disposeBag)
+//
+//        // 해당 브랜드 좋아요 상태
+//        reactor.state
+//            .map { $0.brandInfo.isLikeBrand }
+//            .distinctUntilChanged()
+//            .bind(to: likeButton.rx.isSelected)
+//            .disposed(by: disposeBag)
+//
+//        // DropDown 보여주기
+//        reactor.state
+//            .map { $0.isPresentDropDown }
+//            .distinctUntilChanged()
+//            .filter { $0 }
+//            .map { _ in }
+//            .bind(onNext: {self.sortDropDown.show()})
+//            .disposed(by: disposeBag)
+//
+//        // sortButton title바꾸기
+//        reactor.state
+//            .map { $0.nowSortType }
+//            .distinctUntilChanged()
+//            .bind(onNext: {
+//                self.sortButton.setTitle($0, for: .normal)
+//            })
+//            .disposed(by: disposeBag)
+//
+//        // 브랜드 좋아요 상태
+//        reactor.state
+//            .map { $0.brandInfo.isLikeBrand }
+//            .distinctUntilChanged()
+//            .bind(to: likeButton.rx.isSelected)
+//            .disposed(by: disposeBag)
+//    }
     
     // MARK: - Configure
     
@@ -160,7 +149,6 @@ extension BrandDetailHeaderView {
         
         [   englishLabel,
             koreanLabel,
-            likeButton,
             brandImageView
         ]   .forEach { brandInfoView.addSubview($0) }
         
@@ -179,11 +167,6 @@ extension BrandDetailHeaderView {
             $0.top.equalTo(englishLabel.snp.bottom).offset(6)
             $0.leading.equalTo(englishLabel)
             $0.height.equalTo(14)
-        }
-        
-        likeButton.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview().inset(16)
-            $0.width.height.equalTo(20)
         }
         
         brandImageView.snp.makeConstraints {
