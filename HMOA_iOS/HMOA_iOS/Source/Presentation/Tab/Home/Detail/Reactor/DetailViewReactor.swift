@@ -219,7 +219,6 @@ extension DetailViewReactor {
                 if commentItem.isEmpty {
                     commentItem = [DetailSectionItem.commentCell(nil, 2)]
                 }
-                print(commentItem)
                 let commentSection = DetailSection.comment(commentItem)
                 
                 let similarItem = data.similarPerfumes.map {

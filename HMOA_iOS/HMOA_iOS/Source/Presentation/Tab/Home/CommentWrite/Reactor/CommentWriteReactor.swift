@@ -10,12 +10,14 @@ import RxSwift
 
 class CommentWriteReactor: Reactor {
     var initialState: State
+    var service: UserCommentServiceProtocol? = nil
     
     enum Action {
         case didTapOkButton
         case didTapCancleButton
         case didChangeTextViewEditing(String)
         case didEndTextViewEditing
+        case didBeginEditing
     }
     
     enum Mutation {
@@ -34,10 +36,11 @@ class CommentWriteReactor: Reactor {
         var isEndEditing: Bool = false
     }
     
-    init(perfumeId: Int, isWrite: Bool, content: String = "", commentId: Int = 0) {
+    init(perfumeId: Int, isWrite: Bool, content: String = "", service: UserCommentServiceProtocol? = nil, commentId: Int = 0) {
         // 수정인 경우
         if isWrite {
             self.initialState = State(content: content, isWrite: isWrite, commentId: commentId, perfumeId: perfumeId)
+            self.service = service!
         } else { // 새로 댓글을 다는 경우
             self.initialState = State(perfumeId: perfumeId)
         }
@@ -46,18 +49,21 @@ class CommentWriteReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapOkButton:
-            return postCommentAndSetPopVC()
+            if !currentState.isWrite {
+                return postCommentAndSetPopVC()
+            } else {
+                return modifyCommentAndSetPopVC()
+            }
         case .didTapCancleButton:
             return .concat([
                 .just(.setIsPopVC(true)),
                 .just(.setIsPopVC(false))
             ])
-        case .didChangeTextViewEditing(let content):
-            
-            var nowContent = content
-            
-            if nowContent == "해당 제품에 대한 의견을 남겨주세요" {
-                nowContent = ""
+        case .didBeginEditing:
+            var nowContent = ""
+
+            if currentState.isWrite {
+                nowContent = currentState.content
             }
             
             return .just(.setContent(nowContent))
@@ -67,6 +73,9 @@ class CommentWriteReactor: Reactor {
                 .just(.setIsEndEditing(true)),
                 .just(.setIsEndEditing(false))
             ])
+            
+        case .didChangeTextViewEditing(let content):
+            return .just(.setContent(content))
         }
     }
     
@@ -89,18 +98,37 @@ class CommentWriteReactor: Reactor {
 }
 
 extension CommentWriteReactor {
+    
     func postCommentAndSetPopVC() -> Observable<Mutation> {
         let content = currentState.content
         return CommentAPI.postComment(
             ["content": content],
             currentState.perfumeId
         )
-            .catch { _ in .empty() }
-            .flatMap { data -> Observable<Mutation> in
-                return .concat([
-                    .just(.setIsPopVC(true)),
-                    .just(.setIsPopVC(false))
-                ])
-            }
+        .catch { _ in .empty() }
+        .flatMap { _ -> Observable<Mutation> in
+            return .concat([
+                .just(.setIsPopVC(true)),
+                .just(.setIsPopVC(false))
+            ])
+        }
+    }
+    
+    func modifyCommentAndSetPopVC() -> Observable<Mutation> {
+        let content = currentState.content
+        
+        return CommentAPI.modifyComment(
+            ["content": content],
+            currentState.commentId!)
+        .catch { _ in .empty() }
+        .flatMap { _ -> Observable<Mutation> in
+            return .concat([
+                self.service!.updateContent(to: content)
+                    .map { _ in .setIsPopVC(true) },
+                .just(.setIsPopVC(false))
+                
+            ])
+        }
+        
     }
 }

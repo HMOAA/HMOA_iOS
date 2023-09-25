@@ -112,7 +112,6 @@ extension CommentListReactor {
         return CommentAPI.fetchCommentList(parameter, type: type)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                print(data.comments)
                 let commentItems = data.comments.map { CommentSectionItem.commentCell($0, $0.id) }
                 let commentCount = data.commentCount
                 let commentSection = [CommentSection.comment(commentItems)]

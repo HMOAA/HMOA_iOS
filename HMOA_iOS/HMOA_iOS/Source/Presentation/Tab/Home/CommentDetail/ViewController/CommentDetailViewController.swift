@@ -125,7 +125,7 @@ extension CommentDetailViewController {
         
         // 댓글 내용
         reactor.state
-            .map { $0.comment.content }
+            .map { $0.content }
             .bind(to: contentLabel.rx.text)
             .disposed(by: disposeBag)
 
@@ -156,12 +156,13 @@ extension CommentDetailViewController {
             .map { $0.isTapChangeButton }
             .distinctUntilChanged()
             .filter { $0 }
-            .map { _ in }
-            .bind(onNext: {
-                self.presentCommentWirteViewControllerForWriter(
-                    (self.reactor?.currentState.comment.id)!,
-                    (self.reactor?.currentState.comment.content)!)
-            })
+            .bind(with: self) { owner, _ in
+                owner.presentCommentWirteViewControllerForWriter(
+                    (owner.reactor?.currentState.comment.id)!,
+                    (owner.reactor?.currentState.comment.content)!,
+                    reactor: reactor
+                )
+            }
             .disposed(by: disposeBag)
        
     }
