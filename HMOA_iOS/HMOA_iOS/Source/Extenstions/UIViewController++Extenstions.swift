@@ -69,7 +69,7 @@ extension UIViewController {
     func presentCommentDetailViewController(_ comment: Comment) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor(comment)
+        commentDetailVC.reactor = CommentDetailReactor(comment, service: UserCommentService())
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
@@ -83,15 +83,17 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
-    func presentCommentWirteViewControllerForWriter(_ commentId: Int, _ comment: String) {
+    func presentCommentWirteViewControllerForWriter(_ commentId: Int, _ comment: String, reactor: CommentDetailReactor) {
         
         let commentWriteVC = CommentWriteViewController()
-        commentWriteVC.reactor = CommentWriteReactor(
-            perfumeId: 0,
-            isWrite: true,
-            content: comment,
-            commentId: commentId
-        )
+        let commentWriteReactor = reactor.reactorForSetting()
+        commentWriteVC.reactor = commentWriteReactor
+//        commentWriteVC.reactor = CommentWriteReactor(
+//            perfumeId: 0,
+//            isWrite: true,
+//            content: comment, service: <#UserCommentServiceProtocol#>,
+//            commentId: commentId
+//        )
         
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
@@ -103,9 +105,9 @@ extension UIViewController {
         self.navigationController?.pushViewController(brandSearchVC, animated: true)
     }
     
-    func presentBrandDetailViewController(_ brandId: Int, _ title: String) {
+    func presentBrandDetailViewController(_ brandId: Int) {
         let brandDetailVC = BrandDetailViewController()
-        brandDetailVC.reactor = BrandDetailReactor(brandId, title)
+        brandDetailVC.reactor = BrandDetailReactor(brandId)
         self.navigationController?.pushViewController(brandDetailVC, animated: true)
     }
     

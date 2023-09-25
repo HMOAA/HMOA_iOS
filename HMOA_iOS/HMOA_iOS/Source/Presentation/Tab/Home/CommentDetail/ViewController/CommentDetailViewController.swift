@@ -20,7 +20,7 @@ class CommentDetailViewController: UIViewController, View {
     // MARK: - UI Component
     
     lazy var userImageView = UIImageView().then {
-        $0.image = UIImage(named: "google")
+        $0.layer.masksToBounds = true
         $0.layer.borderColor = UIColor.white.cgColor
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 27 / 2
@@ -37,6 +37,7 @@ class CommentDetailViewController: UIViewController, View {
     }
     
     lazy var dateLabel = UILabel().then {
+        $0.textColor = .customColor(.gray3)
         $0.font = .customFont(.pretendard, 12)
     }
     
@@ -62,6 +63,7 @@ class CommentDetailViewController: UIViewController, View {
     }
     
     lazy var changeButton = UIButton().then {
+        $0.isHidden = true
         $0.titleLabel?.font = .customFont(.pretendard, 16)
         $0.setTitle("수정", for: .normal)
         $0.setTitleColor(.black, for: .normal)
@@ -98,9 +100,32 @@ extension CommentDetailViewController {
         
         // MARK: - State
         
+        // 수정 버튼 보여주기
+        reactor.state
+            .map { $0.comment.writed }
+            .filter { $0 }
+            .map { !$0 }
+            .bind(to: changeButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        // 이미지 바인딩
+        reactor.state
+            .map { $0.comment.profileImg }
+            .map { URL(string: $0) }
+            .bind(with: self) { owner, url in
+                owner.userImageView.kf.setImage(with: url)
+            }
+            .disposed(by: disposeBag)
+        
+        // 날짜 바인딩
+        reactor.state
+            .map { $0.comment.createAt }
+            .bind(to: dateLabel.rx.text)
+            .disposed(by: disposeBag)
+        
         // 댓글 내용
         reactor.state
-            .map { $0.comment.content }
+            .map { $0.content }
             .bind(to: contentLabel.rx.text)
             .disposed(by: disposeBag)
 
@@ -125,26 +150,21 @@ extension CommentDetailViewController {
             .distinctUntilChanged()
             .bind(to: commentLikeButton.rx.isSelected)
             .disposed(by: disposeBag)
-
-        // 수정 버튼 상태
-//        reactor.state
-//            .map { $0.comment.isWrite }
-//            .map { !$0 }
-//            .bind(to: changeButton.rx.isHidden )
-//            .disposed(by: disposeBag)
         
         // 수정 버튼 클릭 상태
         reactor.state
             .map { $0.isTapChangeButton }
             .distinctUntilChanged()
             .filter { $0 }
-            .map { _ in }
-            .bind(onNext: {
-                self.presentCommentWirteViewControllerForWriter(
-                    (self.reactor?.currentState.comment.id)!,
-                    (self.reactor?.currentState.comment.content)!)
-            })
+            .bind(with: self) { owner, _ in
+                owner.presentCommentWirteViewControllerForWriter(
+                    (owner.reactor?.currentState.comment.id)!,
+                    (owner.reactor?.currentState.comment.content)!,
+                    reactor: reactor
+                )
+            }
             .disposed(by: disposeBag)
+       
     }
         
     func configureUI() {

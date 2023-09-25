@@ -77,10 +77,8 @@ class PerfumeInfoView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        perfumeLikeView.snp.makeConstraints { make in
-            make.width.equalTo(36 + perfumeLikeCountLabel.frame.width)
-        }
-        print(28 + perfumeLikeCountLabel.frame.width)
+        perfumeLikeView.frame.size = .init(width: 36 + perfumeLikeCountLabel.frame.size.width,
+                                           height: 20)
     }
 }
 
@@ -200,5 +198,6 @@ extension PerfumeInfoView {
             $0.height.equalTo(60)
 
         }
+        
     }
 }

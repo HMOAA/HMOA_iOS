@@ -74,8 +74,16 @@ extension CommentWriteViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // textView 사용자가 입력 시작 -> Action으로 전달한 textView.text값에 따라서 Reactor의 Content값 바꿈
+        // textView 사용자가 입력 시작
+        textView.rx.didBeginEditing
+            .map { Reactor.Action.didBeginEditing }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //textView text 감지
         textView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .skip(1)
             .map { Reactor.Action.didChangeTextViewEditing($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -121,6 +129,12 @@ extension CommentWriteViewController {
                 
                 self.textView.text = $0
             })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.content }
+            .do(onNext: { print($0) })
+            .bind(to: textView.rx.text)
             .disposed(by: disposeBag)
     }
     
