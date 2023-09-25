@@ -28,9 +28,7 @@ class BrandDetailReactor: Reactor {
     var initialState: State
     
     init(_ brandId: Int) {
-        let perfumeList = BrandDetailReactor.requestBrandInfo(brandId)
-        initialState = State(section: perfumeList,
-                             brandId: brandId)
+        initialState = State(brandId: brandId)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -59,53 +57,7 @@ class BrandDetailReactor: Reactor {
 
 extension BrandDetailReactor {
     
-    static func requestBrandInfo(_ brandId: Int) -> [BrandDetailSection] {
+    func requestBrandInfo(_ brandId: Int) -> Observable<Mutation> {
         
-        // 해당 브랜드 Id로 서버 통신해서 데이터 받아옴
-        let perfumeList: [Perfume] = [
-            Perfume(
-                perfumeId: 1,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 2,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 3,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 4,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 5,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 6,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 7,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false)]
-        
-        return [BrandDetailSection.first(perfumeList.map { BrandDetailSectionItem.perfumeList($0) })]
     }
 }
