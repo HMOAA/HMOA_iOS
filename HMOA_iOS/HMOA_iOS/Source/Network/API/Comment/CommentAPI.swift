@@ -29,6 +29,24 @@ final class CommentAPI {
     }
     
     
+    /// 댓글 수정
+    /// - Parameters:
+    ///   - params: content: 댓글 내용
+    ///   - id: 향수 아이디
+    static func modifyComment(_ params: [String: String], _ id: Int) -> Observable<Response> {
+        guard let data = try? JSONSerialization.data(
+            withJSONObject: params,
+            options: .prettyPrinted
+        ) else { return .error(NetworkError.invalidParameters) }
+        
+        return networking(
+            urlStr: CommentAddress.modifyComment(id).url,
+            method: .put,
+            data: data,
+            model: Response.self)
+    }
+    
+    
     /// 댓글 리스트 받아오기
     /// - Parameters:
     ///   - params: [page: Int,  perfumeId: Int]
