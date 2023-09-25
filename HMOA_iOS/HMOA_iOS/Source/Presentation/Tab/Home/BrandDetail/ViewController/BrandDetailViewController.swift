@@ -11,6 +11,7 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 class BrandDetailViewController: UIViewController, View {
     typealias Reactor = BrandDetailReactor
@@ -50,6 +51,10 @@ extension BrandDetailViewController {
         configureCollectionViewDataSource()
         
         // MARK: - Action
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // 뒤로가기 버튼 클릭
         backBarButton.rx.tap
@@ -78,7 +83,8 @@ extension BrandDetailViewController {
         
         // NavigationBar title 설정
         reactor.state
-            .map { $0.title }
+            .compactMap { $0.brand }
+            .map { $0.brandName }
             .distinctUntilChanged()
             .bind(onNext: self.setNavigationBarTitle)
             .disposed(by: disposeBag)
@@ -92,6 +98,29 @@ extension BrandDetailViewController {
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
         
+    }
+    
+    func bindHeader(_ headerView: BrandDetailHeaderView, reactor: BrandDetailReactor) {
+     
+        reactor.state
+            .compactMap { $0.brand }
+            .map { $0.brandName }
+            .bind(to: headerView.koreanLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.brand }
+            .map { URL(string: $0.brandImageUrl) }
+            .bind(onNext: { url in
+                headerView.brandImageView.kf.setImage(with: url)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.brand }
+            .map { $0.englishName }
+            .bind(to: headerView.englishLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
@@ -142,7 +171,7 @@ extension BrandDetailViewController {
                 guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandDetailHeaderView.identifier, for: indexPath) as? BrandDetailHeaderView else { return UICollectionReusableView() }
                 
                 //TODO: - reactor 빼고 해당 brand item으로 HeaderView 구성하기
-                headerView.reactor = BrandDetailHeaderReactor(self.reactor!.currentState.brandId)
+                self.bindHeader(headerView, reactor: self.reactor!)
                 header = headerView
                 return header
                 

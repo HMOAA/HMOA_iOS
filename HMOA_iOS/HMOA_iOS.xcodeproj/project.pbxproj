@@ -71,7 +71,6 @@
 		2C4CDC4129C770D900676163 /* BrandDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2C29C770D900676163 /* BrandDetailCollectionViewCell.swift */; };
 		2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2D29C770D900676163 /* BrandDetailHeaderView.swift */; };
 		2C4CDC4329C770D900676163 /* BrandDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2F29C770D900676163 /* BrandDetailViewController.swift */; };
-		2C4CDC4429C770D900676163 /* BrandDetailHeaderReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3129C770D900676163 /* BrandDetailHeaderReactor.swift */; };
 		2C4CDC4529C770D900676163 /* BrandDetailCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3229C770D900676163 /* BrandDetailCellReactor.swift */; };
 		2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3329C770D900676163 /* BrandDetailReactor.swift */; };
 		2C4CDC4829C770D900676163 /* BrandSearchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC3729C770D900676163 /* BrandSearchSection.swift */; };
@@ -298,7 +297,6 @@
 		2C4CDC2C29C770D900676163 /* BrandDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		2C4CDC2D29C770D900676163 /* BrandDetailHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailHeaderView.swift; sourceTree = "<group>"; };
 		2C4CDC2F29C770D900676163 /* BrandDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailViewController.swift; sourceTree = "<group>"; };
-		2C4CDC3129C770D900676163 /* BrandDetailHeaderReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailHeaderReactor.swift; sourceTree = "<group>"; };
 		2C4CDC3229C770D900676163 /* BrandDetailCellReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailCellReactor.swift; sourceTree = "<group>"; };
 		2C4CDC3329C770D900676163 /* BrandDetailReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailReactor.swift; sourceTree = "<group>"; };
 		2C4CDC3729C770D900676163 /* BrandSearchSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandSearchSection.swift; sourceTree = "<group>"; };
@@ -1013,7 +1011,6 @@
 		2C4CDC3029C770D900676163 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
-				2C4CDC3129C770D900676163 /* BrandDetailHeaderReactor.swift */,
 				2C4CDC3229C770D900676163 /* BrandDetailCellReactor.swift */,
 				2C4CDC3329C770D900676163 /* BrandDetailReactor.swift */,
 			);
@@ -2172,7 +2169,6 @@
 				CA22389F2AAF515F00452A31 /* QnADetailReactor.swift in Sources */,
 				2C464E4E29CDB1C300A07658 /* UserInfo.swift in Sources */,
 				CA219C462A9F0985003FB215 /* LikePerfume.swift in Sources */,
-				2C4CDC4429C770D900676163 /* BrandDetailHeaderReactor.swift in Sources */,
 				2C4CDC4529C770D900676163 /* BrandDetailCellReactor.swift in Sources */,
 				2CA155AE2A039A7E00D7B0C0 /* LoginAPI.swift in Sources */,
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
