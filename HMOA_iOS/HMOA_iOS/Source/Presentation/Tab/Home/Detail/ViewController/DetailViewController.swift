@@ -181,6 +181,7 @@ extension DetailViewController {
         reactor.state
             .map { $0.isLiked }
             .distinctUntilChanged()
+            .compactMap { $0 }
             .bind(to: bottomView.likeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -205,7 +206,44 @@ extension DetailViewController {
 
     }
     
-    
+    func bindPerfumeInfoCell(_ cell: PerfumeInfoCell) {
+        
+        // Action
+        
+        // BrandView 터치 이벤트
+        cell.perfumeInfoView
+            .brandView.tapGesture.rx.event
+            .map { _ in Reactor.Action.didTapBrandView }
+            .bind(to: self.DetailReactor.action)
+            .disposed(by: self.disposeBag)
+        
+        // BrandDetailVC로 present
+        DetailReactor.state
+            .map { $0.presentBrandId }
+            .compactMap { $0 }
+            .distinctUntilChanged()
+            .bind(onNext: presentBrandDetailViewController)
+            .disposed(by: disposeBag)
+        
+        //좋아요 이미지 변경
+        DetailReactor.state
+            .map { $0.isLiked }
+            .skip(1)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: { isLiked in
+                cell.perfumeInfoView.perfumeLikeImageView.image = !isLiked ? UIImage(named: "heart") : UIImage(named: "heart_fill")
+            })
+            .disposed(by: disposeBag)
+        
+        //좋아요 개수 바인딩
+        DetailReactor.state
+            .compactMap { $0.likeCount }
+            .skip(1)
+            .map { "\($0)" }
+            .bind(to: cell.perfumeInfoView.perfumeLikeCountLabel.rx.text)
+            .disposed(by: disposeBag)
+    }
     
     func configureUI() {
         
@@ -247,7 +285,7 @@ extension DetailViewController: UICollectionViewDelegate {
             case .topCell(let detail, _):
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
-                
+                self.bindPerfumeInfoCell(perfumeInfoCell)
                 perfumeInfoCell.updateCell(detail.perfumeDetail)
                 return perfumeInfoCell
                 
@@ -263,16 +301,6 @@ extension DetailViewController: UICollectionViewDelegate {
                 
                 evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId, isLogin: isLogin)
                 
-                evaluationCell.reactor?.state
-                    .map { $0.isTapWhenNotLogin }
-                    .distinctUntilChanged()
-                    .filter { $0 }
-                    .bind(with: self, onNext: { owner, _ in
-                        owner.presentAlertVC(title: "로그인 후 이용가능한 서비스입니다",
-                                             content: "입력하신 내용을 다시 확인해주세요",
-                                             buttonTitle: "로그인 하러가기 ")
-                    })
-                    .disposed(by: self.disposeBag)
                 
             
                 return evaluationCell

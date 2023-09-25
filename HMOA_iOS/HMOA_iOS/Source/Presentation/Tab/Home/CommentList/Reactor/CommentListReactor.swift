@@ -102,7 +102,6 @@ class CommentListReactor: Reactor {
 extension CommentListReactor {
     
     func setCommentsList(type: String) -> Observable<Mutation> {
-        
         guard let perfumeId = currentState.perfumeId else { return .empty() }
          
         let parameter = [

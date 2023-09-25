@@ -34,6 +34,8 @@ class BrandView: UIView {
         $0.text = "조말론 런던"
     }
     
+    let tapGesture = UITapGestureRecognizer()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -47,7 +49,7 @@ class BrandView: UIView {
 extension BrandView {
     
     func configureUI() {
-        
+        self.addGestureRecognizer(tapGesture)
         backgroundColor = .black
         
         [   brandImageView,

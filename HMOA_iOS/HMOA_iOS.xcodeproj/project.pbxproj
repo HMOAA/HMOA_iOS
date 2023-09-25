@@ -191,6 +191,7 @@
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
 		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
 		CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */; };
+		CAA116042AC15A310063806C /* CommentDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116032AC15A310063806C /* CommentDetailService.swift */; };
 		CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */; };
 		CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */; };
 		CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */; };
@@ -418,6 +419,7 @@
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
 		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
+		CAA116032AC15A310063806C /* CommentDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailService.swift; sourceTree = "<group>"; };
 		CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCardCell.swift; sourceTree = "<group>"; };
@@ -582,7 +584,7 @@
 		2C04248C29A50439009CF0FE /* CommentDetail */ = {
 			isa = PBXGroup;
 			children = (
-				2C04248F29A50458009CF0FE /* View */,
+				CAA116022AC15A1E0063806C /* Service */,
 				2C04248E29A5044E009CF0FE /* Reactor */,
 				2C04248D29A50448009CF0FE /* ViewController */,
 			);
@@ -603,13 +605,6 @@
 				2C04249329A50DB4009CF0FE /* CommentDetailReactor.swift */,
 			);
 			path = Reactor;
-			sourceTree = "<group>";
-		};
-		2C04248F29A50458009CF0FE /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		2C04249729A6565E009CF0FE /* CommentWrite */ = {
@@ -1787,6 +1782,14 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		CAA116022AC15A1E0063806C /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CAA116032AC15A310063806C /* CommentDetailService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		CACA20E229E38BC6009995F3 /* Key */ = {
 			isa = PBXGroup;
 			children = (
@@ -2209,6 +2212,7 @@
 				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */,
+				CAA116042AC15A310063806C /* CommentDetailService.swift in Sources */,
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
 				CA360F3429DD623D00A93873 /* HPediaSection.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,

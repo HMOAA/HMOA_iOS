@@ -14,6 +14,7 @@ final class DetailViewReactor: Reactor {
 
     enum Action {
         case viewDidLoad(Bool)
+        case didTapBrandView
         case didTapMoreButton
         case didTapWriteButton
         case didTapBackButton
@@ -37,6 +38,8 @@ final class DetailViewReactor: Reactor {
         case setIsPaging(Bool)
         case setIsLogin(Bool)
         case setIsTap(Bool)
+        case setPresentBrandId(Int?)
+        case setLikeCount(Int?)
     }
     
     struct State {
@@ -48,12 +51,14 @@ final class DetailViewReactor: Reactor {
         var isPopVC: Bool = false
         var isPopRootVC: Bool = false
         var isPresentSearchVC: Bool = false
+        var presentBrandId: Int? = nil
         var perfumeId: Int
-        var isLiked: Bool = false
+        var isLiked: Bool? = nil
         var commentCount: Int = 0
         var isPaging: Bool = false
         var isLogin: Bool = false
         var isTapWhenNotLogin: Bool = false
+        var likeCount: Int? = nil
     }
     
     init(perfumeId: Int) {
@@ -108,6 +113,12 @@ final class DetailViewReactor: Reactor {
             
         case .willDisplaySecondSection:
             return setUpSecondDetailSections(id: currentState.perfumeId)
+            
+        case .didTapBrandView:
+            return .concat([
+                .just(.setPresentBrandId(currentState.sections[0].items[0].brandId)),
+                .just(.setPresentBrandId(nil))
+            ])
         }
     }
     
@@ -141,14 +152,24 @@ final class DetailViewReactor: Reactor {
             
         case .setIsLiked(let isLiked):
             state.isLiked = isLiked
+            
         case .setCommentCount(let count):
             state.commentCount = count
+            
         case .setIsPaging(let isPaging):
             state.isPaging = isPaging
+            
         case .setIsLogin(let isLogin):
             state.isLogin = isLogin
+            
         case .setIsTap(let isTap):
             state.isTapWhenNotLogin = isTap
+            
+        case .setPresentBrandId(let brandId):
+            state.presentBrandId = brandId
+            
+        case .setLikeCount(let count):
+            state.likeCount = count
         }
         
         return state
@@ -172,7 +193,8 @@ extension DetailViewReactor {
                 
                 return .concat([
                     .just(.setSections(sections)),
-                    .just(.setIsLiked(data.perfumeDetail.liked))
+                    .just(.setIsLiked(data.perfumeDetail.liked)),
+                    .just(.setLikeCount(data.perfumeDetail.heartNum))
                 ])
             }
     }
@@ -191,15 +213,19 @@ extension DetailViewReactor {
                 let evaluationSection = DetailSection.evaluation(evaluationItem)
                 
                 sections[1] = evaluationSection
-
-                let commentItem = data.commentInfo.comments.map { DetailSectionItem.commentCell($0, 2)}
+                
+                var commentItem = data.commentInfo.comments.map { DetailSectionItem.commentCell($0, 2)}
+                
+                if commentItem.isEmpty {
+                    commentItem = [DetailSectionItem.commentCell(nil, 2)]
+                }
                 let commentSection = DetailSection.comment(commentItem)
                 
                 let similarItem = data.similarPerfumes.map {
                     DetailSectionItem.similarCell($0, 3)
                 }
                 let similarSection = DetailSection.similar(similarItem)
-                
+        
                 sections.append(contentsOf: [commentSection, similarSection])
                 
                 
@@ -216,20 +242,27 @@ extension DetailViewReactor {
         let isLogin = state.isLogin
         
         if isLogin {
-            let isCurrentlyLiked = state.isLiked
+            guard let isCurrentlyLiked = state.isLiked else { return .empty() }
+            guard let likeCount = state.likeCount else { return .empty() }
             let perfumeId = state.perfumeId
             
             if isCurrentlyLiked {
                 return LikeAPI.deleteLike(perfumeId)
                     .catch { _ in .empty() }
                     .flatMap { _ -> Observable<Mutation> in
-                        return .just(.setIsLiked(false))
+                        return .concat([
+                            .just(.setIsLiked(false)),
+                            .just(.setLikeCount(likeCount - 1))
+                        ])
                     }
             } else {
                 return LikeAPI.putLike(perfumeId)
                     .catch { _ in .empty() }
                     .flatMap { _ -> Observable<Mutation> in
-                        return .just(.setIsLiked(true))
+                        return .concat([
+                            .just(.setIsLiked(true)),
+                            .just(.setLikeCount(likeCount + 1))
+                        ])
                     }
             }
         } else {

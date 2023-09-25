@@ -8,7 +8,7 @@
 import UIKit
 
 struct FirstDetail: Hashable, Decodable{
-    let perfumeDetail: Detail
+    var perfumeDetail: Detail
     
     enum CodingKeys: String, CodingKey {
         case perfumeDetail = "data"
