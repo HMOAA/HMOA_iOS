@@ -29,3 +29,12 @@ extension BrandDetailSection: Hashable {
         }
     }
 }
+
+extension BrandDetailSectionItem {
+    var perfumeId: Int {
+        switch self {
+        case .perfumeList(let perfume):
+            return perfume.perfumeId
+        }
+    }
+}
