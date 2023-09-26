@@ -26,27 +26,27 @@ extension HPediaDictionaryData {
                   """),
         HPediaDictionaryData(
             id: 2,
-            title: "조향사",
+            title: "노트",
             content:
                   """
-                  Jowanhe
-                  조완희
+                  woody
+                  우디
                   """),
         HPediaDictionaryData(
             id: 3,
-            title: "노트",
+            title: "조향사",
             content:
                   """
-                  woody
-                  우디
+                  JoWanHee
+                  조완희
                   """),
         HPediaDictionaryData(
             id: 4,
-            title: "노트",
+            title: "브랜드",
             content:
                   """
-                  woody
-                  우디
+                  Gucci
+                  구찌
                   """)
     ]
 }
