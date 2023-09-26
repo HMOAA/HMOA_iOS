@@ -30,6 +30,7 @@ class QnAListViewController: UIViewController, View {
     
     let floatingButton = UIButton().then {
         $0.setImage(UIImage(named: "addButton"), for: .normal)
+        $0.setImage(UIImage(named: "selectedAddButton"), for: .selected)
     }
     
     let recommendButton: UIButton = {
@@ -104,7 +105,7 @@ class QnAListViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationBarTitle(title: "QnA", color: .white, isHidden: false, isScroll: false)
+        setNavigationBarTitle(title: "Community", color: .white, isHidden: false, isScroll: false)
         setUpUI()
         setAddView()
         setConstraints()
@@ -173,7 +174,7 @@ class QnAListViewController: UIViewController, View {
         searchBar.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(60)
+            make.height.equalTo(45)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -298,6 +299,7 @@ extension QnAListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func showAnimation(_ isTap: Bool) {
+        floatingButton.isSelected = isTap
         //버튼, 뷰 숨기기
         if !isTap {
             UIView.animate(withDuration: 0.3) {
@@ -332,7 +334,7 @@ extension QnAListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 44)
+        return CGSize(width: collectionView.bounds.width, height: 59)
     }
     
 }
