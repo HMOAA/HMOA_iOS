@@ -12,8 +12,7 @@ import RxSwift
 import RxCocoa
 import ReactorKit
 
-class BrandDetailCollectionViewCell: UICollectionViewCell, View {
-    typealias Reactor = BrandDetailCellReactor
+class BrandDetailCollectionViewCell: UICollectionViewCell {
 
     var disposeBag = DisposeBag()
     
@@ -22,9 +21,7 @@ class BrandDetailCollectionViewCell: UICollectionViewCell, View {
 
     // MARK: - UI Component
     
-    lazy var productImageView = UIImageView().then {
-        $0.backgroundColor = .customColor(.gray3)
-    }
+    lazy var productImageView = UIImageView()
     
     var titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 14)
@@ -52,37 +49,7 @@ class BrandDetailCollectionViewCell: UICollectionViewCell, View {
 }
 
 extension BrandDetailCollectionViewCell {
-    
-    // MARK: - Bind
-    
-    func bind(reactor: BrandDetailCellReactor) {
-        
-        // MARK: - Action
-        likeButton.rx.tap
-            .map { Reactor.Action.didTapPerfumeLikeButton(self.likeButton.isSelected) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // MARK: - State
-        
-        // 향수 브랜드명
-        reactor.state
-            .map { $0.perfume.titleName }
-            .bind(to: titleLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        // 향수 품명
-        reactor.state
-            .map { $0.perfume.content }
-            .bind(to: contentLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        // 향수 좋아요 상태
-        reactor.state
-            .map { $0.perfume.isLikePerfume }
-            .bind(to: likeButton.rx.isSelected)
-            .disposed(by: disposeBag)
-    }
+
     
     // MARK: - Configure
     func configureUI() {
@@ -114,16 +81,12 @@ extension BrandDetailCollectionViewCell {
         }
     }
     
-    func updateCell(_ product: Perfume) {
-//        self.productImageView.image = product.image
-        self.titleLabel.text = product.titleName
-        self.contentLabel.text = product.content
-    }
     
-    func bindUI(_ data: Perfume) {
-        titleLabel.text = data.titleName
-        contentLabel.text = data.content
-        likeButton.isSelected = data.isLikePerfume
+    func bindUI(_ data: BrandPerfume) {
+        titleLabel.text = data.brandName
+        contentLabel.text = data.perfumeName
+        likeButton.isSelected = data.liked
+        productImageView.kf.setImage(with: URL(string: data.perfumeImgUrl))
     }
 }
 

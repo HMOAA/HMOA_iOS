@@ -11,15 +11,16 @@ import RxSwift
 class BrandDetailReactor: Reactor {
     
     enum Action {
+        case didTapLikeSortButton
         case didTapBackButton
         case viewDidLoad
     }
     
     enum Mutation {
-
         case setPopVC(Bool)
         case setSections([BrandDetailSection])
         case setBrand(Brand)
+        case setIsTapLiked(Bool)
     }
     
     struct State {
@@ -27,14 +28,13 @@ class BrandDetailReactor: Reactor {
         var brand: Brand? = nil
         var isPopVC: Bool = false
         var brandId: Int = 0
+        var isTapLiked: Bool = false
     }
     
     var initialState: State
     
     init(_ brandId: Int) {
-        let perfumeList = BrandDetailReactor.setUp()
-                initialState = State(section: perfumeList,
-                                     brandId: brandId)
+        initialState = State(brandId: brandId)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -46,7 +46,18 @@ class BrandDetailReactor: Reactor {
                 .just(.setPopVC(false))
             ])
         case .viewDidLoad:
-            return requestBrandInfo(currentState.brandId)
+            return .concat([
+                requestBrandInfo(),
+                fetchBrandFerfumeList(false)
+            ])
+            
+        case .didTapLikeSortButton:
+            let currentState = currentState
+            let isTapLiked = !currentState.isTapLiked
+            return .concat([
+                fetchBrandFerfumeList(isTapLiked),
+                .just(.setIsTapLiked(isTapLiked))
+            ])
         }
     }
     
@@ -62,6 +73,12 @@ class BrandDetailReactor: Reactor {
             
         case .setBrand(let brand):
             state.brand = brand
+            
+            
+        case .setIsTapLiked(let isTap):
+            if state.isTapLiked != isTap { // 중복을 방지하기 위한 조건
+                state.isTapLiked = isTap
+            }
         }
         
         
@@ -71,61 +88,27 @@ class BrandDetailReactor: Reactor {
 
 
 extension BrandDetailReactor {
-    static func setUp() -> [BrandDetailSection] {
-        
-        // 해당 브랜드 Id로 서버 통신해서 데이터 받아옴
-        let perfumeList: [Perfume] = [
-            Perfume(
-                perfumeId: 1,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 2,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 3,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 4,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 5,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 6,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 7,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false)]
-        
-        return [BrandDetailSection.first(perfumeList.map { BrandDetailSectionItem.perfumeList($0) })]
-    }
-    
-    func requestBrandInfo(_ brandId: Int) -> Observable<Mutation> {
-        BrandAPI.fetchBrandInfo(brandId: brandId)
+
+    func requestBrandInfo() -> Observable<Mutation> {
+        BrandAPI.fetchBrandInfo(brandId: currentState.brandId)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 return .just(.setBrand(data.data))
+            }
+    }
+    
+    func fetchBrandFerfumeList(_ isTapLiked: Bool) -> Observable<Mutation> {
+        
+        // 좋아요 순
+        let type = isTapLiked ? "top" : ""
+        
+        return BrandAPI.fetchBrandList(["pageNum": 0], brandId: currentState.brandId, type: type)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                let item = data.data.map { BrandDetailSectionItem.perfumeList($0) }
+                let firstSection = BrandDetailSection.first(item)
+                
+                return .just(.setSections([firstSection]))
             }
     }
 }
