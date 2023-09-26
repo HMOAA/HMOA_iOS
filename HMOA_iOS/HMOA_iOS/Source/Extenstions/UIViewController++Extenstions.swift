@@ -33,8 +33,10 @@ extension UIViewController {
         self.navigationController?.pushViewController(qnaListVC, animated: true)
     }
     
-    func presentDetailDictionaryVC(_ title: String) {
+    func presentDetailDictionaryVC(_ value: (String, String)) {
         let detailDictionaryVC = DetailDictionaryViewController()
+        let reactor = DetailDictionaryReactor(value.1)
+        detailDictionaryVC.reactor = reactor
         self.navigationController?.pushViewController(detailDictionaryVC, animated: true)
     }
     
