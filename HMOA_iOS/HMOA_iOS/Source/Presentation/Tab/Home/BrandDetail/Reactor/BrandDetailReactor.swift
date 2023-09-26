@@ -11,12 +11,14 @@ import RxSwift
 class BrandDetailReactor: Reactor {
     
     enum Action {
+        case didTapPerfume(Int)
         case didTapLikeSortButton
         case didTapBackButton
         case viewDidLoad
     }
     
     enum Mutation {
+        case setPresentPerfumeId(Int?)
         case setPopVC(Bool)
         case setSections([BrandDetailSection])
         case setBrand(Brand)
@@ -29,6 +31,7 @@ class BrandDetailReactor: Reactor {
         var isPopVC: Bool = false
         var brandId: Int = 0
         var isTapLiked: Bool = false
+        var presentPerfumeId: Int? = nil
     }
     
     var initialState: State
@@ -58,6 +61,11 @@ class BrandDetailReactor: Reactor {
                 fetchBrandFerfumeList(isTapLiked),
                 .just(.setIsTapLiked(isTapLiked))
             ])
+        case .didTapPerfume(let item):
+            return .concat([
+                .just(.setPresentPerfumeId(currentState.section[0].items[item].perfumeId)),
+                .just(.setPresentPerfumeId(nil))
+            ])
         }
     }
     
@@ -79,6 +87,8 @@ class BrandDetailReactor: Reactor {
             if state.isTapLiked != isTap { // 중복을 방지하기 위한 조건
                 state.isTapLiked = isTap
             }
+        case .setPresentPerfumeId(let id):
+            state.presentPerfumeId = id
         }
         
         

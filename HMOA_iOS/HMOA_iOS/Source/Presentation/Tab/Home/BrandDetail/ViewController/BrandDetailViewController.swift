@@ -62,6 +62,13 @@ extension BrandDetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 향수 터치
+        collectionView.rx.itemSelected
+            .map { Reactor.Action.didTapPerfume($0.item) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+            
+        
         
         // MARK: - State
         
@@ -98,21 +105,32 @@ extension BrandDetailViewController {
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
         
+        // 향수 디테일 페이지로 이동
+        reactor.state
+            .compactMap { $0.presentPerfumeId }
+            .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
+        
     }
     
     func bindHeader(_ headerView: BrandDetailHeaderView, reactor: BrandDetailReactor) {
-     
+        // Action
+        
+        // 좋아요순 버튼 터치
         headerView.sortButton.rx.tap
             .map { Reactor.Action.didTapLikeSortButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // State
+        // 브랜드 이름 바인딩
         reactor.state
             .compactMap { $0.brand }
             .map { $0.brandName }
             .bind(to: headerView.koreanLabel.rx.text)
             .disposed(by: disposeBag)
         
+        // 브랜드 이미지 바인딩
         reactor.state
             .compactMap { $0.brand }
             .map { URL(string: $0.brandImageUrl) }
@@ -121,12 +139,14 @@ extension BrandDetailViewController {
             })
             .disposed(by: disposeBag)
         
+        // 브랜드 영어 이름 바인딩
         reactor.state
             .compactMap { $0.brand }
             .map { $0.englishName }
             .bind(to: headerView.englishLabel.rx.text)
             .disposed(by: disposeBag)
         
+        // 향수 좋아요순 색 변경
         reactor.state
             .map { $0.isTapLiked }
             .bind(to: headerView.sortButton.rx.isSelected)
