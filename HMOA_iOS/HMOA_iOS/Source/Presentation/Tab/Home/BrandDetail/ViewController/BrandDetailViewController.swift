@@ -102,6 +102,11 @@ extension BrandDetailViewController {
     
     func bindHeader(_ headerView: BrandDetailHeaderView, reactor: BrandDetailReactor) {
      
+        headerView.sortButton.rx.tap
+            .map { Reactor.Action.didTapLikeSortButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         reactor.state
             .compactMap { $0.brand }
             .map { $0.brandName }
@@ -120,6 +125,11 @@ extension BrandDetailViewController {
             .compactMap { $0.brand }
             .map { $0.englishName }
             .bind(to: headerView.englishLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isTapLiked }
+            .bind(to: headerView.sortButton.rx.isSelected)
             .disposed(by: disposeBag)
     }
     
@@ -170,7 +180,6 @@ extension BrandDetailViewController {
             case 0:
                 guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandDetailHeaderView.identifier, for: indexPath) as? BrandDetailHeaderView else { return UICollectionReusableView() }
                 
-                //TODO: - reactor 빼고 해당 brand item으로 HeaderView 구성하기
                 self.bindHeader(headerView, reactor: self.reactor!)
                 header = headerView
                 return header

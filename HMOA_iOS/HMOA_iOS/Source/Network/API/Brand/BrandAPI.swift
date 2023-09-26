@@ -22,7 +22,15 @@ final class BrandAPI {
             model: BrandResponse.self)
     }
     
-    //static func fetchBrandList(_ query: [String: Int], brandId: Int) -> Observable<
+    static func fetchBrandList(_ query: [String: Int], brandId: Int, type: String) -> Observable<BrandPerfumeResponse> {
+        
+        return networking(
+            urlStr: BrandAdress.fetchPerfumeListByBrand("\(brandId)", type).url,
+            method: .get,
+            data: nil,
+            model: BrandPerfumeResponse.self,
+            query: query)
+    }
     
     
 }
