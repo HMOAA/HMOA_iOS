@@ -27,6 +27,7 @@ class QnAListHeaderView: UICollectionReusableView {
         $0.addTags(["추천", "선물", "자유"])
         $0.textColor = .white
         $0.textFont = .customFont(.pretendard, 14)
+        $0.tagViews.first?.isSelected  = true
     }
     
     //MARK: - Init
@@ -45,7 +46,7 @@ class QnAListHeaderView: UICollectionReusableView {
     
     //MARK: - SetUp
     private func setUpUI() {
-        layer.addBorder([.bottom], color: .customColor(.gray2), width: 1)
+        layer.addBorder([.top, .bottom], color: .customColor(.gray2), width: 1)
     }
     private func setAddView() {
         self.addSubview(tagListView)
