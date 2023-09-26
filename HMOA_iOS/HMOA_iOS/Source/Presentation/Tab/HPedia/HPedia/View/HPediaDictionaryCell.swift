@@ -39,7 +39,7 @@ class HPediaDictionaryCell: UICollectionViewCell {
     
     //MARK: - SetUp
     private func setUpUI() {
-        self.backgroundColor = #colorLiteral(red: 0.3607843137, green: 0.3607843137, blue: 0.3607843137, alpha: 1)
+        backgroundColor = .black
     }
     private func setAddView() {
         [
