@@ -11,16 +11,16 @@ import ReactorKit
 class TotalPerfumeReactor: Reactor {
     
     enum Action {
-        case didTapItem(Perfume)
+        case didTapItem(RecommendPerfume)
     }
     
     enum Mutation {
-        case setSelectedItem(Perfume?)
+        case setSelectedItem(RecommendPerfume?)
     }
     
     struct State {
         var section: [TotalPerfumeSection]
-        var selectedItem: Perfume? = nil
+        var selectedItem: RecommendPerfume? = nil
     }
     
     var initialState: State
@@ -54,51 +54,7 @@ class TotalPerfumeReactor: Reactor {
 extension TotalPerfumeReactor {
     
     static func reqeustPerfumeList(_ listType: Int) -> [TotalPerfumeSection] {
-        
-        let perfumeList: [Perfume] = [
-            Perfume(
-                perfumeId: 1,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 2,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 3,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 4,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 5,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 6,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false),
-            Perfume(
-                perfumeId: 7,
-                titleName: "조말론",
-                content: "우드세이지 앤 씨솔트",
-                image: UIImage(named: "jomalon")!,
-                isLikePerfume: false)]
-        
-        return [TotalPerfumeSection.first(perfumeList.map { TotalPerfumeSectionItem.perfumeList($0) })]
+    
+        return []
     }
 }

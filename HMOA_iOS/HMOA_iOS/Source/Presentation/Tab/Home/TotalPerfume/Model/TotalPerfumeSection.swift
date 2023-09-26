@@ -12,7 +12,7 @@ enum TotalPerfumeSection{
 }
 
 enum TotalPerfumeSectionItem {
-    case perfumeList(Perfume)
+    case perfumeList(BrandPerfume)
 }
 
 extension TotalPerfumeSectionItem: Hashable {
@@ -24,7 +24,7 @@ extension TotalPerfumeSectionItem: Hashable {
         }
     }
     
-    var perfume: Perfume {
+    var perfume: BrandPerfume {
         switch self {
         case .perfumeList(let perfume):
             return perfume

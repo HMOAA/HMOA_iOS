@@ -11,6 +11,7 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 class BrandDetailViewController: UIViewController, View {
     typealias Reactor = BrandDetailReactor
@@ -50,12 +51,23 @@ extension BrandDetailViewController {
         configureCollectionViewDataSource()
         
         // MARK: - Action
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // 뒤로가기 버튼 클릭
         backBarButton.rx.tap
             .map { Reactor.Action.didTapBackButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        // 향수 터치
+        collectionView.rx.itemSelected
+            .map { Reactor.Action.didTapPerfume($0.item) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+            
         
         
         // MARK: - State
@@ -78,7 +90,8 @@ extension BrandDetailViewController {
         
         // NavigationBar title 설정
         reactor.state
-            .map { $0.title }
+            .compactMap { $0.brand }
+            .map { $0.brandName }
             .distinctUntilChanged()
             .bind(onNext: self.setNavigationBarTitle)
             .disposed(by: disposeBag)
@@ -92,6 +105,52 @@ extension BrandDetailViewController {
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
         
+        // 향수 디테일 페이지로 이동
+        reactor.state
+            .compactMap { $0.presentPerfumeId }
+            .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
+        
+    }
+    
+    func bindHeader(_ headerView: BrandDetailHeaderView, reactor: BrandDetailReactor) {
+        // Action
+        
+        // 좋아요순 버튼 터치
+        headerView.sortButton.rx.tap
+            .map { Reactor.Action.didTapLikeSortButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // State
+        // 브랜드 이름 바인딩
+        reactor.state
+            .compactMap { $0.brand }
+            .map { $0.brandName }
+            .bind(to: headerView.koreanLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 브랜드 이미지 바인딩
+        reactor.state
+            .compactMap { $0.brand }
+            .map { URL(string: $0.brandImageUrl) }
+            .bind(onNext: { url in
+                headerView.brandImageView.kf.setImage(with: url)
+            })
+            .disposed(by: disposeBag)
+        
+        // 브랜드 영어 이름 바인딩
+        reactor.state
+            .compactMap { $0.brand }
+            .map { $0.englishName }
+            .bind(to: headerView.englishLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 향수 좋아요순 색 변경
+        reactor.state
+            .map { $0.isTapLiked }
+            .bind(to: headerView.sortButton.rx.isSelected)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
@@ -141,8 +200,7 @@ extension BrandDetailViewController {
             case 0:
                 guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandDetailHeaderView.identifier, for: indexPath) as? BrandDetailHeaderView else { return UICollectionReusableView() }
                 
-                //TODO: - reactor 빼고 해당 brand item으로 HeaderView 구성하기
-                headerView.reactor = BrandDetailHeaderReactor(self.reactor!.currentState.brandId)
+                self.bindHeader(headerView, reactor: self.reactor!)
                 header = headerView
                 return header
                 
