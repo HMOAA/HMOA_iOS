@@ -85,12 +85,6 @@ extension HomeCell {
         }
     }
     
-    func setUI(item: Perfume) {
-        perfumeInfoLabel.text = item.content
-        perfumeTitleLabel.text = item.titleName
-        perfumeImageView.image = item.image
-    }
-    
     func bindUI(_ data: RecommendPerfume) {
         perfumeInfoLabel.text = data.perfumeName
         perfumeTitleLabel.text = data.brandName

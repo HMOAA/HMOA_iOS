@@ -41,20 +41,20 @@ extension TotalPerfumeViewController {
         // MARK: - Action
         
         //collectionView - item 클릭
-        collectionView.rx.itemSelected
-            .map { indexPath in
-                let item = self.dataSource.itemIdentifier(for: indexPath)
-                switch item {
-                case .perfumeList(let perfume):
-                    return perfume
-                case .none:
-                    return nil
-                }
-            }
-            .compactMap { $0 }
-            .map { Reactor.Action.didTapItem($0)}
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+//        collectionView.rx.itemSelected
+//            .map { indexPath in
+//                let item = self.dataSource.itemIdentifier(for: indexPath)
+//                switch item {
+//                case .perfumeList(let perfume):
+//                    return perfume
+//                case .none:
+//                    return nil
+//                }
+//            }
+//            .compactMap { $0 }
+//            .map { Reactor.Action.didTapItem($0)}
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
         
         // MARK: - State
         
