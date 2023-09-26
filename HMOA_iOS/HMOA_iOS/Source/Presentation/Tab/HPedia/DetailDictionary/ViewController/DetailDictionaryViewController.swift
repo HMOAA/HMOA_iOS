@@ -13,8 +13,11 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-class DetailDictionaryViewController: UIViewController {
+class DetailDictionaryViewController: UIViewController, View {
 
+    var disposeBag = DisposeBag()
+    
+    
     //MARK: - UI Components
     let titleEnglishLabel = UILabel().then {
         $0.setLabelUI("TopNote", font: .pretendard_semibold, size: 30, color: .black)
@@ -38,7 +41,6 @@ class DetailDictionaryViewController: UIViewController {
         super.viewDidLoad()
         
         setUpUI()
-        setNavigationBarTitle(title: "dd", color: .white, isHidden: false)
         setAddView()
         setConstraints()
 
@@ -80,6 +82,14 @@ class DetailDictionaryViewController: UIViewController {
         }
     }
     
+    func bind(reactor: DetailDictionaryReactor) {
+        reactor.state
+            .map { $0.naviTitle }
+            .bind(with: self, onNext: { owner, title in
+                owner.setNavigationBarTitle(title: title, color: .black, isHidden: false, isScroll: false)
+            })
+            .disposed(by: disposeBag)
+    }
     
     
 }
