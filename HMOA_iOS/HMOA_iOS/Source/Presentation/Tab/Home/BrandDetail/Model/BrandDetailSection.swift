@@ -13,8 +13,8 @@ enum BrandDetailSection {
     case first([BrandDetailSectionItem])
 }
 
-enum BrandDetailSectionItem {
-    case perfumeList(Perfume)
+enum BrandDetailSectionItem: Hashable {
+    case perfumeList(BrandPerfume)
 }
 
 extension BrandDetailSection: Hashable {
@@ -30,11 +30,11 @@ extension BrandDetailSection: Hashable {
     }
 }
 
-extension BrandDetailSectionItem: Hashable {
-    func hash(into hasher: inout Hasher) {
+extension BrandDetailSectionItem {
+    var perfumeId: Int {
         switch self {
         case .perfumeList(let perfume):
-            hasher.combine(perfume)
+            return perfume.perfumeId
         }
     }
 }

@@ -221,7 +221,6 @@ extension DetailViewController {
         DetailReactor.state
             .map { $0.presentBrandId }
             .compactMap { $0 }
-            .distinctUntilChanged()
             .bind(onNext: presentBrandDetailViewController)
             .disposed(by: disposeBag)
         
