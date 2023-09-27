@@ -41,7 +41,10 @@ class QnAWriteViewController: UIViewController {
         $0.setPlaceholder(color: .customColor(.gray3))
     }
     
-    let textView = UITextView()
+    let textView = UITextView().then {
+        $0.textColor = .customColor(.gray3)
+        $0.text = "내용을 입력해주세요"
+    }
     
     //MARK: - Init
     init(title: String) {
@@ -80,10 +83,11 @@ class QnAWriteViewController: UIViewController {
     }
     
     private func setConstraints() {
+        
         titleTextField.snp.makeConstraints { make in
             make.trailing.leading.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(60)
+            make.height.equalTo(45)
         }
         
         textView.snp.makeConstraints { make in

@@ -19,12 +19,14 @@ class QNAListReactor: Reactor {
         case didTapGiftButton
         case didTapEtcButton
         case didTapQnACell(IndexPath)
+        case didChangedSearchText(String)
     }
     
     enum Mutation {
         case setIsTapFloatingButton(Bool)
         case setSelectedCategory(String?)
         case setSelectedPostId(IndexPath?)
+        case setSearchText(String)
     }
     
     
@@ -33,6 +35,7 @@ class QNAListReactor: Reactor {
         var isFloatingButtonTap: Bool = false
         var selectedPostId: Int? = nil
         var items: [HPediaQnAData] = HPediaQnAData.list
+        var searchText: String? = nil
     }
     
     init() {
@@ -65,6 +68,8 @@ class QNAListReactor: Reactor {
                 .just(.setSelectedPostId(indexPath)),
                 .just(.setSelectedPostId(nil))
             ])
+        case .didChangedSearchText(let text):
+            return .just(.setSearchText(text))
         }
     }
     
@@ -82,6 +87,8 @@ class QNAListReactor: Reactor {
                 return state
             }
             state.selectedPostId = currentState.items[indexPath.row].id
+        case .setSearchText(let text):
+            state.searchText = text
         }
         
         return state
