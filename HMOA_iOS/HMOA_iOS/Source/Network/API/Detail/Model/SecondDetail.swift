@@ -9,23 +9,10 @@ import Foundation
 
 
 struct SecondDetail: Codable, Hashable {
-    let age: Age
     let commentInfo: CommentInfo
-    let gender: Gender
     let similarPerfumes: [SimilarPerfume]
-    let weather: Weather
 }
 
-struct Evaluation: Hashable {
-    let age: Age
-    let gender: Gender
-    let weather: Weather
-}
-
-struct Age: Codable, Hashable {
-    let age: Int
-    let writed: Bool
-}
 
 
 struct CommentInfo: Codable, Hashable {
@@ -45,16 +32,7 @@ struct Comment: Codable, Hashable {
     let writed: Bool
 }
 
-struct Gender: Codable, Hashable {
-    let man, woman: Int
-    let writed: Bool
-}
-
 struct SimilarPerfume: Codable, Hashable {
     let brandName, perfumeImgUrl, perfumeName: String
 }
 
-struct Weather: Codable, Hashable {
-    let autumn, spring, summer, winter: Int
-    let writed: Bool
-}

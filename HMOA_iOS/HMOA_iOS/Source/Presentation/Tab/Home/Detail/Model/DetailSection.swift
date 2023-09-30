@@ -53,7 +53,7 @@ extension DetailSectionItem: Hashable {
     var brandId: Int {
         switch self {
         case .topCell(let data, _):
-            return data.perfumeDetail.brandId
+            return data.brandId
         default: return 0
         }
     }
