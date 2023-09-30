@@ -51,9 +51,9 @@ class QnAListViewController: UIViewController, View {
         button.contentHorizontalAlignment = .leading
         return button
     }()
-    let giftButton: UIButton = {
+    let reviewButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        var titleAttr = AttributedString.init("선물")
+        var titleAttr = AttributedString.init("시향기")
         titleAttr.font = .customFont(.pretendard, 16)
         config.attributedTitle = titleAttr
         config.image = UIImage(named: "floatingCircle")
@@ -68,7 +68,7 @@ class QnAListViewController: UIViewController, View {
     
     let etcButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        var titleAttr = AttributedString.init("기타")
+        var titleAttr = AttributedString.init("자유")
         titleAttr.font = .customFont(.pretendard, 16)
         config.attributedTitle = titleAttr
         config.image = UIImage(named: "floatingCircle")
@@ -80,7 +80,7 @@ class QnAListViewController: UIViewController, View {
         return button
     }()
     
-    lazy var floatingButtons = [recommendButton, giftButton, etcButton]
+    lazy var floatingButtons = [recommendButton, reviewButton, etcButton]
     
     let floatingStackView = UIStackView().then {
         $0.alpha = 0
@@ -210,13 +210,13 @@ class QnAListViewController: UIViewController, View {
         
         //추천 버튼 터치
         recommendButton.rx.tap
-            .map { Reactor.Action.didTapRecommendButton }
+            .map { Reactor.Action.didTapReviewButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         //선물 버튼 터치
-        giftButton.rx.tap
-            .map { Reactor.Action.didTapGiftButton }
+        reviewButton.rx.tap
+            .map { Reactor.Action.didTapReviewButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

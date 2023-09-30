@@ -35,7 +35,7 @@ class QnADetailViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setConstraints()
-        setNavigationBarTitle(title: "QnA", color: .white, isHidden: false)
+        setNavigationBarTitle(title: "Community", color: .white, isHidden: false)
         configureDataSource()
         bind(reactor: reactor)
     }

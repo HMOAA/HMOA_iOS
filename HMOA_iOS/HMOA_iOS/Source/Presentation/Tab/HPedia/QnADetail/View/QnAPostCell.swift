@@ -16,11 +16,13 @@ class QnAPostCell: UICollectionViewCell {
     
     //MARK: - UIComponents
     let QLabel = UILabel().then {
-        $0.setLabelUI("Q", font: .pretendard_bold, size: 30, color: .black)
+        $0.setLabelUI("Q", font: .pretendard_bold, size: 26, color: .black)
     }
     
     let profileImageView = UIImageView().then {
-        $0.image = UIImage(named: "google")
+        $0.layer.masksToBounds = false
+        $0.layer.cornerRadius = 14
+        $0.image = UIImage(named: "addButton")
     }
     
     let nicknameLabel = UILabel().then {
@@ -32,6 +34,7 @@ class QnAPostCell: UICollectionViewCell {
     }
     
     let titleLabel = UILabel().then {
+        $0.numberOfLines = 0
         $0.setLabelUI("", font: .pretendard_medium, size: 20, color: .black)
     }
     
@@ -90,13 +93,13 @@ class QnAPostCell: UICollectionViewCell {
         }
         
         dayLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(32)
+            make.top.equalToSuperview().inset(31)
             make.leading.equalTo(nicknameLabel.snp.trailing).offset(2)
         }
         
         titleLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(QLabel.snp.bottom).offset(8)
+            make.top.equalTo(QLabel.snp.bottom).offset(10)
         }
         
         contentLabel.snp.makeConstraints { make in
