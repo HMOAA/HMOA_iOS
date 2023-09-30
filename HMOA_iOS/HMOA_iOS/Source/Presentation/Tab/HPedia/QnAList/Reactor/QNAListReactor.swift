@@ -15,7 +15,7 @@ class QNAListReactor: Reactor {
     enum Action {
         case viewWillAppear
         case didTapFloatingButton
-        case didTapRecommendButton
+        case didTapReviewButton
         case didTapGiftButton
         case didTapEtcButton
         case didTapQnACell(IndexPath)
@@ -48,7 +48,7 @@ class QNAListReactor: Reactor {
             return .just(.setIsTapFloatingButton(false))
         case .didTapFloatingButton:
             return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
-        case .didTapRecommendButton:
+        case .didTapReviewButton:
             return .concat([
                 .just(.setSelectedCategory("추천")),
                 .just(.setSelectedCategory(nil))

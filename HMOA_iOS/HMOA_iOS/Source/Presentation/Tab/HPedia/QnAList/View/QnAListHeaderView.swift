@@ -24,7 +24,7 @@ class QnAListHeaderView: UICollectionReusableView {
         $0.cornerRadius = 11
         $0.tagBackgroundColor = .customColor(.gray2)
         $0.tagSelectedBackgroundColor = .black
-        $0.addTags(["추천", "선물", "자유"])
+        $0.addTags(["추천", "시향기", "자유"])
         $0.textColor = .white
         $0.textFont = .customFont(.pretendard, 14)
         $0.tagViews.first?.isSelected  = true

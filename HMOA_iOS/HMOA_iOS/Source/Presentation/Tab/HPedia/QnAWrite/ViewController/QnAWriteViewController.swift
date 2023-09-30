@@ -45,6 +45,17 @@ class QnAWriteViewController: UIViewController {
         $0.textColor = .customColor(.gray3)
         $0.text = "내용을 입력해주세요"
     }
+
+    let addImageButton = UIBarButtonItem(
+        image: UIImage(named: "addImageButton")?.withTintColor(.black),
+        style: .plain,
+        target: nil,
+        action: nil)
+    
+    lazy var toolBar = UIToolbar().then {
+        $0.sizeToFit()
+        $0.items = [addImageButton]
+    }
     
     //MARK: - Init
     init(title: String) {
@@ -74,11 +85,14 @@ class QnAWriteViewController: UIViewController {
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = .white
+        textView.inputAccessoryView = toolBar
     }
+    
     private func setAddView() {
         [
          titleTextField,
-         textView
+         textView,
+         toolBar
         ].forEach { view.addSubview($0) }
     }
     
