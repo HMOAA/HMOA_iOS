@@ -74,6 +74,7 @@ class EvaluationReactor: Reactor {
             state.weather = weather
             
         case .setGender(let gender):
+            print(gender)
             state.gender = gender
             
         case .setSliderStep(let value):

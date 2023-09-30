@@ -285,7 +285,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
                 self.bindPerfumeInfoCell(perfumeInfoCell)
-                perfumeInfoCell.updateCell(detail.perfumeDetail)
+                perfumeInfoCell.updateCell(detail)
                 return perfumeInfoCell
                 
             case .evaluationCell(let evaluation, _):
