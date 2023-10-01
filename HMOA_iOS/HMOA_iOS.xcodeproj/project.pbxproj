@@ -165,6 +165,7 @@
 		CA4744692AC7EC0E00003584 /* CommunityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744682AC7EC0E00003584 /* CommunityAPI.swift */; };
 		CA47446B2AC7EC1400003584 /* CommunityAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47446A2AC7EC1400003584 /* CommunityAddress.swift */; };
 		CA47446D2AC7ECED00003584 /* CommunityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47446C2AC7ECED00003584 /* CommunityModel.swift */; };
+		CA47446F2AC97D8A00003584 /* CommunityWriteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47446E2AC97D8A00003584 /* CommunityWriteReactor.swift */; };
 		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
 		CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */; };
@@ -397,6 +398,7 @@
 		CA4744682AC7EC0E00003584 /* CommunityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityAPI.swift; sourceTree = "<group>"; };
 		CA47446A2AC7EC1400003584 /* CommunityAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityAddress.swift; sourceTree = "<group>"; };
 		CA47446C2AC7ECED00003584 /* CommunityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityModel.swift; sourceTree = "<group>"; };
+		CA47446E2AC97D8A00003584 /* CommunityWriteReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityWriteReactor.swift; sourceTree = "<group>"; };
 		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
 		CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -1527,6 +1529,7 @@
 		CA22388D2AAEFC9800452A31 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				CA47446E2AC97D8A00003584 /* CommunityWriteReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -2144,6 +2147,7 @@
 				2C04249629A533DF009CF0FE /* CommentBottomView.swift in Sources */,
 				CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */,
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
+				CA47446F2AC97D8A00003584 /* CommunityWriteReactor.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
 				2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */,

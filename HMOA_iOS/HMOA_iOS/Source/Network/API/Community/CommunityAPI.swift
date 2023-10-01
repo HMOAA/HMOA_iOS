@@ -42,7 +42,7 @@ final class CommunityAPI {
     ///category: String
     ///content: String
     ///title: String]
-    static func postCommunityPost(_ params: [String: Any]) -> Observable<CommunityDetail> {
+    static func postCommunityPost(_ params: [String: String]) -> Observable<CommunityDetail> {
         
         let data = try? JSONSerialization.data(
             withJSONObject: params,

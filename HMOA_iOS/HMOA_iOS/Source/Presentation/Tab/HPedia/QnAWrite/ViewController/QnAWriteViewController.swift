@@ -11,12 +11,15 @@ import Then
 import SnapKit
 import RxCocoa
 import RxSwift
-class QnAWriteViewController: UIViewController {
+import ReactorKit
 
+class QnAWriteViewController: UIViewController, View {
+
+    var disposeBag = DisposeBag()
     
     //MARK: - UI Components
     
-    let titleLabel = UILabel().then {
+    let titleNaviLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 20)
         $0.textColor = .black
     }
@@ -35,51 +38,45 @@ class QnAWriteViewController: UIViewController {
         $0.tintColor = .black
     }
     
+    let titleView = UIView()
+    
+    let titleLabel = UILabel().then {
+        $0.font = .customFont(.pretendard_light, 16)
+        $0.text = "제목:"
+        $0.textColor = .black
+    }
     let titleTextField = UITextField().then {
-        $0.addLeftPadding(33)
-        $0.placeholder = "제목"
+        $0.font = .customFont(.pretendard, 14)
+        $0.placeholder = "제목을 입력해주세요"
         $0.setPlaceholder(color: .customColor(.gray3))
     }
     
-    let textView = UITextView().then {
-        $0.textColor = .customColor(.gray3)
-        $0.text = "내용을 입력해주세요"
-    }
-
+    let textView = UITextView()
+    
     let addImageButton = UIBarButtonItem(
-        image: UIImage(named: "addImageButton")?.withTintColor(.black),
+        image: UIImage(named: "addImageButton"),
         style: .plain,
         target: nil,
         action: nil)
     
-    lazy var toolBar = UIToolbar().then {
+    lazy var toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 34)).then {
+        $0.tintColor = .black
         $0.sizeToFit()
         $0.items = [addImageButton]
-    }
-    
-    //MARK: - Init
-    init(title: String) {
-        super .init(nibName: nil, bundle: nil)
-        titleLabel.text = title
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setOkCancleNavigationBar(okButton: okButton, cancleButton: cancleButton, titleLabel: titleLabel)
+        setOkCancleNavigationBar(okButton: okButton, cancleButton: cancleButton, titleLabel: titleNaviLabel)
         setUpUI()
         setAddView()
         setConstraints()
     }
     
     override func viewDidLayoutSubviews() {
-        titleTextField.layer.addBorder([.top, .bottom], color: .black, width: 1)
-        
+        titleView.layer.addBorder([.top, .bottom], color: .black, width: 1)
     }
     
     //MARK: - SetUp
@@ -89,8 +86,14 @@ class QnAWriteViewController: UIViewController {
     }
     
     private func setAddView() {
+        
         [
-         titleTextField,
+            titleLabel,
+            titleTextField
+        ]   .forEach { titleView.addSubview($0) }
+        
+        [
+         titleView,
          textView,
          toolBar
         ].forEach { view.addSubview($0) }
@@ -98,8 +101,19 @@ class QnAWriteViewController: UIViewController {
     
     private func setConstraints() {
         
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(32)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(32)
+        }
+        
         titleTextField.snp.makeConstraints { make in
-            make.trailing.leading.equalToSuperview()
+            make.leading.equalTo(titleLabel.snp.trailing).offset(6)
+            make.trailing.top.bottom.equalToSuperview()
+        }
+        
+        titleView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(45)
         }
@@ -109,5 +123,60 @@ class QnAWriteViewController: UIViewController {
             make.top.equalTo(titleTextField.snp.bottom).offset(24)
             make.bottom.equalToSuperview()
         }
+    }
+    
+    func bind(reactor: CommunityWriteReactor) {
+        // Action
+        
+        // 확인 버튼 클릭
+        okButton.rx.tap
+            .map { Reactor.Action.didTapOkButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 제목 변경
+        titleTextField.rx.text.orEmpty
+            .filter { !$0.isEmpty }
+            .map { Reactor.Action.didChangeTitle($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // textView 사용자가 입력 시작
+        textView.rx.didBeginEditing
+            .map { Reactor.Action.didBeginEditing }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //textView text 감지
+        textView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .skip(1)
+            .map { Reactor.Action.didChangeTextViewEditing($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // textView 사용자가 입력 종료 (textView가 비활성화)
+        textView.rx.didEndEditing
+            .map { Reactor.Action.didEndTextViewEditing }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        
+        // State
+        
+        // 댓글 내용에 따른 색상 변화
+        reactor.state
+            .map { $0.content }
+            .bind(with: self, onNext: { owner, content in
+                owner.textView.textColor =
+                content == "내용을 입력해주세요" ? .customColor(.gray3) : .black
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.category }
+            .bind(to: titleNaviLabel.rx.text)
+            .disposed(by: disposeBag)
+        
     }
 }
