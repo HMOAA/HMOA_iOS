@@ -12,7 +12,7 @@ enum QnADetailSection: Hashable {
 }
 
 enum QnADetailSectionItem: Hashable {
-    case qnaPostCell(QnAData)
+    case qnaPostCell(CommunityDetail)
     case commentCell(Comment)
 }
 

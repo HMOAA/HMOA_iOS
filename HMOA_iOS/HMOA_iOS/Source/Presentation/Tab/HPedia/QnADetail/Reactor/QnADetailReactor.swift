@@ -15,6 +15,7 @@ class QnADetailReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case viewWillAppear
     }
     
     enum Mutation {
@@ -22,22 +23,27 @@ class QnADetailReactor: Reactor {
     }
     
     struct State {
+        var communityId: Int
         var sections: [QnADetailSection] = []
     }
     
-    init() {
-        initialState = State()
+    init(_ id: Int) {
+        initialState = State(communityId: id)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return setUpSection()
+            return setUpPostSection()
+            
+        case .viewWillAppear:
+            return .empty()
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
+        
         switch mutation {
         case .setSections(let sections):
             state.sections = sections
@@ -48,19 +54,14 @@ class QnADetailReactor: Reactor {
 }
 
 extension QnADetailReactor {
-    func setUpSection() -> Observable<Mutation> {
-        let commentItems = [
-            Comment(content: "1111", createAt: "123", heartCount: 2, id: 2, liked: false, nickname: "sdf", perfumeId: 2, profileImg: "", writed: false)
-        ]
-        
-        let commentItem = commentItems.map { QnADetailSectionItem.commentCell($0) }
-        let commentSection = QnADetailSection.comment(commentItem)
-        
-        let qnaPostItem = QnADetailSectionItem.qnaPostCell(QnAData(id: 0, nickname: "닉네임입니다", day: 10, title: "여자친구한테 선물할 향수 뭐가 좋을까요?", content: "곧 있으면 여자친구 생일이라 향수를 선물해주고 싶은데, 요즘 20대 여성이 사용할 만한 향수 추천해주세요 가격대는 10~20만원정도로 생각하고 있습니다", profileImageUrl: nil))
-        
-        let qnaSection = QnADetailSection.qnaPost([qnaPostItem])
-        
-        return .just(.setSections([qnaSection, commentSection]))
-        
+    func setUpPostSection() -> Observable<Mutation> {
+        return CommunityAPI.fetchCommunityDetail(currentState.communityId)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                let item = QnADetailSectionItem.qnaPostCell(data)
+                let section = QnADetailSection.qnaPost([item])
+                
+                return .just(.setSections([section]))
+            }
     }
 }
