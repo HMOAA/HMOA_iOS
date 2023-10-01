@@ -20,7 +20,7 @@ class HPediaReactor: Reactor {
     
     struct State {
         var DictionarySectionItems: [HPediaDictionaryData] = HPediaDictionaryData.list
-        var qnASectionItems: [HPediaQnAData] = HPediaQnAData.list
+        var qnASectionItems: [CategoryList] = []
         
         var selectedDictionaryId: Int? = nil
         var selectedCommunityId: Int? = nil
@@ -60,7 +60,7 @@ class HPediaReactor: Reactor {
             state.selectedDictionaryId = state.DictionarySectionItems[itemId].id
         case .setSelectedCommunityItemId(let itemId):
             guard let itemId = itemId else { return state }
-            state.selectedCommunityId = state.qnASectionItems[itemId].id
+            state.selectedCommunityId = 1
         }
         
         return state

@@ -14,7 +14,7 @@ enum HPediaSection: Hashable {
 
 enum HPediaSectionItem: Hashable {
     case dictionary(HPediaDictionaryData)
-    case qna(HPediaQnAData)
+    case qna(CategoryList)
 }
 
 extension HPediaSectionItem {
@@ -23,7 +23,7 @@ extension HPediaSectionItem {
         case .dictionary(let data):
             return data.id
         case .qna(let data):
-            return data.id
+            return 1
         }
     }
 }

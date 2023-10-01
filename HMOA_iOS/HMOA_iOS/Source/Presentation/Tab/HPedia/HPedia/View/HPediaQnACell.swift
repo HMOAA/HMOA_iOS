@@ -67,7 +67,7 @@ class HPediaQnACell: UICollectionViewCell{
         }
     }
     
-    func configure(_ data: HPediaQnAData) {
+    func configure(_ data: CategoryList) {
         categoryLabel.text = data.category
         titleLabel.text = data.title
     }
