@@ -22,3 +22,4 @@ struct CategoryList: Hashable, Codable {
     let category: String
     let title: String
 }
+

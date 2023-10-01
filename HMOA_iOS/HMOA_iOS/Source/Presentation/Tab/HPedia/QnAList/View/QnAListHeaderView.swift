@@ -30,6 +30,8 @@ class QnAListHeaderView: UICollectionReusableView {
         $0.tagViews.first?.isSelected  = true
     }
     
+
+    
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)

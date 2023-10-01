@@ -14,12 +14,15 @@ final class CommunityAPI {
     
     
     /// 카테고리별 게시글 받아오기
-    static func fetchPostListsByCaetgory() -> Observable<CategoryList> {
+    static func fetchPostListsByCaetgory(_ query: [String: Any]) -> Observable<[CategoryList]> {
+        
         return networking(
             urlStr: CommunityAddress.fetchPostsByCategory.url,
             method: .get,
             data: nil,
-            model: CategoryList.self)
+            model: [CategoryList].self,
+            query: query
+        )
     }
     
     

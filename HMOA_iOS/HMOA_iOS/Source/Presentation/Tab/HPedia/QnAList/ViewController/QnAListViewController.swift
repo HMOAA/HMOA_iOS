@@ -269,7 +269,7 @@ class QnAListViewController: UIViewController, View {
         
         //선택된 카테고리 String QnAWriteVC로 push
         reactor.state
-            .map { $0.selectedCategory }
+            .map { $0.selectedAddCategory }
             .compactMap { $0 }
             .bind(onNext: presentQnAWriteVC)
             .disposed(by: disposeBag)
@@ -301,6 +301,19 @@ class QnAListViewController: UIViewController, View {
             }
             .disposed(by: disposeBag)
         
+    }
+    
+    func bindHeader(_ header: QnAListHeaderView) {
+        // Action
+        
+        // 카테고리 버튼 터치
+        Observable.merge(
+            header.tagListView.tagViews[0].rx.tap.map { "추천" },
+            header.tagListView.tagViews[1].rx.tap.map { "시향기" },
+            header.tagListView.tagViews[2].rx.tap.map { "자유" })
+        .map { Reactor.Action.didTapCategoryButton($0) }
+        .bind(to: reactor.action)
+        .disposed(by: disposeBag)
     }
 }
 
@@ -355,7 +368,7 @@ extension QnAListViewController {
             switch indexPath.item {
             case 0:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: QnAListHeaderView.identifier, for: indexPath) as? QnAListHeaderView else { return UICollectionReusableView() }
-                
+                self.bindHeader(header)
                 return header
             default: return UICollectionReusableView()
             }

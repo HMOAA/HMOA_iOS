@@ -20,21 +20,23 @@ class QNAListReactor: Reactor {
         case didTapEtcButton
         case didTapQnACell(IndexPath)
         case didChangedSearchText(String)
+        case didTapCategoryButton(String)
     }
     
     enum Mutation {
         case setIsTapFloatingButton(Bool)
-        case setSelectedCategory(String?)
+        case setSelectedAddCategory(String?)
         case setSelectedPostId(IndexPath?)
         case setSearchText(String)
+        case setPostList([CategoryList])
     }
     
     
     struct State {
-        var selectedCategory: String? = nil
+        var selectedAddCategory: String? = nil
         var isFloatingButtonTap: Bool = false
         var selectedPostId: Int? = nil
-        var items: [HPediaQnAData] = HPediaQnAData.list
+        var items: [CategoryList] = []
         var searchText: String? = nil
     }
     
@@ -45,23 +47,26 @@ class QNAListReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return .just(.setIsTapFloatingButton(false))
+            return .concat([
+                .just(.setIsTapFloatingButton(false)),
+                setCommunityListItem()
+            ])
         case .didTapFloatingButton:
             return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
         case .didTapReviewButton:
             return .concat([
-                .just(.setSelectedCategory("추천")),
-                .just(.setSelectedCategory(nil))
+                .just(.setSelectedAddCategory("추천")),
+                .just(.setSelectedAddCategory(nil))
             ])
         case .didTapGiftButton:
             return .concat([
-                .just(.setSelectedCategory("선물")),
-                .just(.setSelectedCategory(nil))
+                .just(.setSelectedAddCategory("선물")),
+                .just(.setSelectedAddCategory(nil))
             ])
         case .didTapEtcButton:
             return .concat([
-                .just(.setSelectedCategory("기타")),
-                .just(.setSelectedCategory(nil))
+                .just(.setSelectedAddCategory("기타")),
+                .just(.setSelectedAddCategory(nil))
             ])
         case .didTapQnACell(let indexPath):
             return .concat([
@@ -70,6 +75,8 @@ class QNAListReactor: Reactor {
             ])
         case .didChangedSearchText(let text):
             return .just(.setSearchText(text))
+        case .didTapCategoryButton(let category):
+            return setCommunityListItem(category)
         }
     }
     
@@ -79,18 +86,38 @@ class QNAListReactor: Reactor {
         switch mutation {
         case .setIsTapFloatingButton(let isTap):
             state.isFloatingButtonTap = isTap
-        case .setSelectedCategory(let category):
-            state.selectedCategory = category
+        case .setSelectedAddCategory(let category):
+            state.selectedAddCategory = category
         case .setSelectedPostId(let indexPath):
             guard let indexPath = indexPath else {
                 state.selectedPostId = nil
                 return state
             }
-            state.selectedPostId = currentState.items[indexPath.row].id
+            state.selectedPostId = 1
         case .setSearchText(let text):
             state.searchText = text
+        case .setPostList(let item):
+            state.items = item
         }
         
         return state
+    }
+}
+
+extension QNAListReactor {
+    func setCommunityListItem(_ category: String = "추천") -> Observable<Mutation> {
+        
+        let query: [String: Any] = [
+            "category": category,
+            "page": 0
+        ]
+        return CommunityAPI.fetchPostListsByCaetgory(query)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                let postList: [CategoryList]
+                postList = data
+                
+                return .just(.setPostList(postList))
+            }
     }
 }
