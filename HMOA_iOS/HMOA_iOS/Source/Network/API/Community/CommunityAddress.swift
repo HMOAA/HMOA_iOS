@@ -10,18 +10,21 @@ import Foundation
 enum CommunityAddress {
     case fetchPostsByCategory
     case postCommnunityPost
-    case fetchPostDetail(String)
+    case fetchCommunityDetail(String)
+    case fetchCommunityComment(String)
 }
 
 extension CommunityAddress {
     var url: String {
         switch self {
-        case .fetchPostDetail(let id):
+        case .fetchCommunityDetail(let id):
             return "community/\(id)"
         case .fetchPostsByCategory:
             return "community/category"
         case .postCommnunityPost:
             return "community/save"
+        case .fetchCommunityComment(let id):
+            return "community/comment/\(id)/findAll"
             
         }
     }

@@ -28,9 +28,9 @@ final class CommunityAPI {
     
     /// 게시글 상세 정보 받아오기
     /// - Parameter id: communityId
-    static func fetchPostDetail(_ id: Int) -> Observable<CommunityDetail> {
+    static func fetchCommunityDetail(_ id: Int) -> Observable<CommunityDetail> {
         return networking(
-            urlStr: CommunityAddress.fetchPostDetail("\(id)").url,
+            urlStr: CommunityAddress.fetchCommunityDetail("\(id)").url,
             method: .get,
             data: nil,
             model: CommunityDetail.self)
@@ -54,6 +54,17 @@ final class CommunityAPI {
             method: .post,
             data: data,
             model: CommunityDetail.self)
+    }
+    
+    
+    /// 커뮤니티 게시글 댓글 받아오기
+    /// - Parameter id: commentId
+    static func fetchCommunityComment(_ id: Int) -> Observable<CommunityCommentResponse> {
+        return networking(
+            urlStr: CommunityAddress.fetchCommunityComment("\(id)").url,
+            method: .get,
+            data: nil,
+            model: CommunityCommentResponse.self)
     }
 }
     
