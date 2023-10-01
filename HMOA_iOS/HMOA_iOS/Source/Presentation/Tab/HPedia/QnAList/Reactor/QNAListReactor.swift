@@ -29,6 +29,7 @@ class QNAListReactor: Reactor {
         case setSelectedPostId(IndexPath?)
         case setSearchText(String)
         case setPostList([CategoryList])
+        case setSelectedCategory(String)
     }
     
     
@@ -38,6 +39,7 @@ class QNAListReactor: Reactor {
         var selectedPostId: Int? = nil
         var items: [CategoryList] = []
         var searchText: String? = nil
+        var selectedCategory: String = "추천"
     }
     
     init() {
@@ -49,7 +51,7 @@ class QNAListReactor: Reactor {
         case .viewWillAppear:
             return .concat([
                 .just(.setIsTapFloatingButton(false)),
-                setCommunityListItem()
+                setCommunityListItem(currentState.selectedCategory)
             ])
         case .didTapFloatingButton:
             return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
@@ -75,8 +77,10 @@ class QNAListReactor: Reactor {
             ])
         case .didChangedSearchText(let text):
             return .just(.setSearchText(text))
+            
         case .didTapCategoryButton(let category):
             return setCommunityListItem(category)
+            
         }
     }
     
@@ -98,6 +102,8 @@ class QNAListReactor: Reactor {
             state.searchText = text
         case .setPostList(let item):
             state.items = item
+        case .setSelectedCategory(let category):
+            state.selectedCategory = category
         }
         
         return state
@@ -105,7 +111,7 @@ class QNAListReactor: Reactor {
 }
 
 extension QNAListReactor {
-    func setCommunityListItem(_ category: String = "추천") -> Observable<Mutation> {
+    func setCommunityListItem(_ category: String) -> Observable<Mutation> {
         
         let query: [String: Any] = [
             "category": category,
@@ -117,7 +123,10 @@ extension QNAListReactor {
                 let postList: [CategoryList]
                 postList = data
                 
-                return .just(.setPostList(postList))
+                return .concat([
+                    .just(.setPostList(postList)),
+                    .just(.setSelectedCategory(category))
+                ])
             }
     }
 }
