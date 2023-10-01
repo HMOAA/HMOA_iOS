@@ -20,9 +20,8 @@ class QnAPostCell: UICollectionViewCell {
     }
     
     let profileImageView = UIImageView().then {
-        $0.layer.masksToBounds = false
+        $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 14
-        $0.image = UIImage(named: "addButton")
     }
     
     let nicknameLabel = UILabel().then {
@@ -110,10 +109,10 @@ class QnAPostCell: UICollectionViewCell {
 }
 
 extension QnAPostCell {
-    func updateCell(_ item: QnAData) {
-        //profileImageView.kf.setImage(with: URL(string: item.profileImageUrl))
-        nicknameLabel.text = item.nickname
-        dayLabel.text = "\(item.day)" + "일 전"
+    func updateCell(_ item: CommunityDetail) {
+        profileImageView.kf.setImage(with: URL(string: item.profileImgUrl))
+        nicknameLabel.text = item.author
+        dayLabel.text = item.time
         titleLabel.text = item.title
         contentLabel.text = item.content
     }

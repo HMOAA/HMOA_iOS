@@ -19,6 +19,8 @@ extension UIViewController {
     
     func presentQnADetailVC(_ id: Int) {
         let qnaDetailVC = QnADetailViewController()
+        let reactor = QnADetailReactor(id)
+        qnaDetailVC.reactor = reactor
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }
     

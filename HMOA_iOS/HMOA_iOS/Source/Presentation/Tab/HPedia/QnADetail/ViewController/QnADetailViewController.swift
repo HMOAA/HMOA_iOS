@@ -26,7 +26,6 @@ class QnADetailViewController: UIViewController, View {
         
     }
     var disposeBag = DisposeBag()
-    let reactor = QnADetailReactor()
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -37,7 +36,6 @@ class QnADetailViewController: UIViewController, View {
         setConstraints()
         setNavigationBarTitle(title: "Community", color: .white, isHidden: false)
         configureDataSource()
-        bind(reactor: reactor)
     }
 
     //MARK: - SetUp
