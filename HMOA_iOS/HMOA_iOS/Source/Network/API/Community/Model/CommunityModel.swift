@@ -23,3 +23,14 @@ struct CategoryList: Hashable, Codable {
     let title: String
 }
 
+struct CommunityCommentResponse: Codable, Hashable {
+    let commentCount: Int
+    let comments: [CommunityComment]
+}
+
+struct CommunityComment: Codable, Hashable {
+    let author: String
+    let commentId: Int
+    let content, profileImg, time: String
+    let writed: Bool
+}
