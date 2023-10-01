@@ -9,13 +9,13 @@ import Foundation
 
 struct CommunityDetail: Hashable, Codable {
     let author: String
-    let catery: String
+    let category: String
     let content: String
     let id: Int
     let profileImgUrl: String
     let time: String
     let title: String
-    let wirted: Bool
+    let writed: Bool
 }
 
 struct CategoryList: Hashable, Codable {

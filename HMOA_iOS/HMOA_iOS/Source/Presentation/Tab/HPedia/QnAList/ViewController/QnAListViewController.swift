@@ -197,6 +197,7 @@ class QnAListViewController: UIViewController, View {
         
         //viewWillAppear
         rx.viewWillAppear
+            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -210,7 +211,7 @@ class QnAListViewController: UIViewController, View {
         
         //추천 버튼 터치
         recommendButton.rx.tap
-            .map { Reactor.Action.didTapReviewButton }
+            .map { Reactor.Action.didTapRecommendButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

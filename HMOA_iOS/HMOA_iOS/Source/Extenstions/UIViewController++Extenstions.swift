@@ -23,7 +23,9 @@ extension UIViewController {
     }
     
     func presentQnAWriteVC(_ category: String) {
-        let qnaWriteVC = QnAWriteViewController(title: category)
+        let qnaWriteVC = QnAWriteViewController()
+        let reactor = CommunityWriteReactor(category: category)
+        qnaWriteVC.reactor = reactor
         qnaWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaWriteVC, animated: true)
     }
