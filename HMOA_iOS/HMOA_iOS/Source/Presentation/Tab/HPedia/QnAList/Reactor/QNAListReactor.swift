@@ -97,7 +97,7 @@ class QNAListReactor: Reactor {
                 state.selectedPostId = nil
                 return state
             }
-            state.selectedPostId = 1
+            state.selectedPostId = currentState.items[indexPath.row].communityId
         case .setSearchText(let text):
             state.searchText = text
         case .setPostList(let item):

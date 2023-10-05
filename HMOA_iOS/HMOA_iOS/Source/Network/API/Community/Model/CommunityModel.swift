@@ -19,6 +19,7 @@ struct CommunityDetail: Hashable, Codable {
 }
 
 struct CategoryList: Hashable, Codable {
+    let communityId: Int
     let category: String
     let title: String
 }
