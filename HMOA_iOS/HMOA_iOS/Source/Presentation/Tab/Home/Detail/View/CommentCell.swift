@@ -78,6 +78,16 @@ extension CommentCell {
         }
     }
     
+    func updateCommunityComment(_ item: CommunityComment?) {
+        if !noCommentLabel.isHidden  { noCommentLabel.isHidden = true }
+        if let item = item {
+            userImageView.kf.setImage(with: URL(string: item.profileImg))
+            userNameLabel.text = item.author
+            contentLabel.text = item.content
+            subView.isHidden = false
+        }
+    }
+    
     func configureUI() {
         
         addSubview(subView)

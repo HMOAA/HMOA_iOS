@@ -16,15 +16,27 @@ class QnADetailReactor: Reactor {
     enum Action {
         case viewDidLoad
         case viewWillAppear
+        case didChangeTextViewEditing(String)
+        case didEndTextViewEditing
+        case didBeginEditing
     }
     
     enum Mutation {
         case setSections([QnADetailSection])
+        case setCommentCount(Int)
+        case setContent(String)
+        case setIsEndEditing(Bool)
+        case setIsBegenEditing(Bool)
+        
     }
     
     struct State {
         var communityId: Int
         var sections: [QnADetailSection] = []
+        var commentCount: Int = 0
+        var isBeginEditing: Bool = false
+        var isEndEditing: Bool = false
+        var content: String = ""
     }
     
     init(_ id: Int) {
@@ -37,7 +49,19 @@ class QnADetailReactor: Reactor {
             return setUpPostSection()
             
         case .viewWillAppear:
-            return .empty()
+            return setUpCommentSection()
+            
+        case .didBeginEditing:
+            return .just(.setIsBegenEditing(true))
+        
+        case .didEndTextViewEditing:
+            return .concat([
+                .just(.setIsEndEditing(true)),
+                .just(.setIsEndEditing(false))
+            ])
+            
+        case .didChangeTextViewEditing(let content):
+            return .just(.setContent(content))
         }
     }
     
@@ -47,6 +71,18 @@ class QnADetailReactor: Reactor {
         switch mutation {
         case .setSections(let sections):
             state.sections = sections
+            
+        case .setCommentCount(let count):
+            state.commentCount = count
+            
+        case .setIsEndEditing(let isEnd):
+            state.isEndEditing = isEnd
+            
+        case .setContent(let content):
+            state.content = content
+            
+        case .setIsBegenEditing(let isBegin):
+            state.isBeginEditing = isBegin
         }
         
         return state
@@ -62,6 +98,27 @@ extension QnADetailReactor {
                 let section = QnADetailSection.qnaPost([item])
                 
                 return .just(.setSections([section]))
+            }
+    }
+    
+    func setUpCommentSection() -> Observable<Mutation> {
+        let query: [String: Int] =
+        [
+            "page": 0
+        ]
+        return CommunityAPI.fetchCommunityComment(currentState.communityId, query)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                var item = data.comments.map { QnADetailSectionItem.commentCell($0) }
+                var section = self.currentState.sections
+                
+                if item.isEmpty { item = [QnADetailSectionItem.commentCell(nil)] }
+                section.append(QnADetailSection.comment(item))
+                
+                return .concat([
+                    .just(.setSections(section)),
+                    .just(.setCommentCount(data.commentCount))
+                ])
             }
     }
 }
