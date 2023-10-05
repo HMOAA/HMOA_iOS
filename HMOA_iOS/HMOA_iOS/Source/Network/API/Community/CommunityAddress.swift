@@ -12,6 +12,8 @@ enum CommunityAddress {
     case postCommnunityPost
     case fetchCommunityDetail(String)
     case fetchCommunityComment(String)
+    case postComment(String)
+    case editOrDeleteComment(String)
 }
 
 extension CommunityAddress {
@@ -25,6 +27,10 @@ extension CommunityAddress {
             return "community/save"
         case .fetchCommunityComment(let id):
             return "community/comment/\(id)/findAll"
+        case .postComment(let id):
+            return "community/comment/\(id)/save"
+        case .editOrDeleteComment(let id):
+            return "community/comment/\(id)"
             
         }
     }
