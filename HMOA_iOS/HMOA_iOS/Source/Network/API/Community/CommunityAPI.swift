@@ -69,5 +69,42 @@ final class CommunityAPI {
             query: query
         )
     }
+    
+    
+    /// 커뮤니티 댓글 작성
+    /// - Parameters:
+    ///   - id: 커뮤니티 아이디
+    ///   - param: [content: "String"]
+    static func postCommunityComment(_ id: Int, _ param: [String: String]) -> Observable<CommunityComment> {
+        let data = try? JSONSerialization.data(withJSONObject: param, options: .prettyPrinted)
+        return networking(
+            urlStr: CommunityAddress.postComment("\(id)").url,
+            method: .post,
+            data: data,
+            model: CommunityComment.self)
+    }
+    
+    /// 커뮤니티 댓글 수정
+    /// - Parameters:
+    ///   - id: 커뮤니티 아이디
+    ///   - param: [content: "String"]
+    static func putCommunityComment(_ id: Int, _ param: [String: String]) -> Observable<CommunityComment> {
+        let data = try? JSONSerialization.data(withJSONObject: param, options: .prettyPrinted)
+        return networking(
+            urlStr: CommunityAddress.editOrDeleteComment("\(id)").url,
+            method: .put,
+            data: data,
+            model: CommunityComment.self)
+    }
+    
+    /// 커뮤니티 댓글 삭제
+    /// - Parameter id: 커뮤니티 아이디]
+    static func deleteCommunityComment(_ id: Int) -> Observable<CommunityComment> {
+        return networking(
+            urlStr: CommunityAddress.editOrDeleteComment("\(id)").url,
+            method: .delete,
+            data: nil,
+            model: CommunityComment.self)
+    }
 }
     
