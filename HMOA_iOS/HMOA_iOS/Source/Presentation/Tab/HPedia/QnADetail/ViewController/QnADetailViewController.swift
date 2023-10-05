@@ -111,6 +111,11 @@ extension QnADetailViewController {
             case 0:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier, for: indexPath) as? QnAPostHeaderView else { return UICollectionReusableView() }
                 
+                self.reactor?.state
+                    .map { $0.sections[0].item[0].category }
+                    .bind(to: header.recommendLabel.rx.text)
+                    .disposed(by: self.disposeBag)
+                
                 return header
             default:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier, for: indexPath) as? QnACommentHeaderView else { return UICollectionReusableView() }
