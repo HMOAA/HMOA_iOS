@@ -59,12 +59,15 @@ final class CommunityAPI {
     
     /// 커뮤니티 게시글 댓글 받아오기
     /// - Parameter id: commentId
-    static func fetchCommunityComment(_ id: Int) -> Observable<CommunityCommentResponse> {
+    static func fetchCommunityComment(_ id: Int, _ query: [String: Int]) -> Observable<CommunityCommentResponse> {
+        
         return networking(
             urlStr: CommunityAddress.fetchCommunityComment("\(id)").url,
-            method: .get,
+            method: .post,
             data: nil,
-            model: CommunityCommentResponse.self)
+            model: CommunityCommentResponse.self,
+            query: query
+        )
     }
 }
     

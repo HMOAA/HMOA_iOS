@@ -21,6 +21,7 @@ extension UIViewController {
         let qnaDetailVC = QnADetailViewController()
         let reactor = QnADetailReactor(id)
         qnaDetailVC.reactor = reactor
+        qnaDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }
     
