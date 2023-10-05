@@ -28,6 +28,7 @@ class QnADetailViewController: UIViewController, View {
     }
     
     lazy var noCommentLabel = UILabel().then {
+        $0.isHidden = true
         $0.setLabelUI("아직 작성한 댓글이 없습니다", font: .pretendard_medium, size: 20, color: .black)
     }
     
@@ -131,12 +132,6 @@ class QnADetailViewController: UIViewController, View {
         
         // Action
         
-        // viewWillAppear
-        rx.viewWillAppear
-            .map { _ in Reactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         // viewDidLoad
         Observable.just(())
             .map { Reactor.Action.viewDidLoad }
@@ -163,6 +158,11 @@ class QnADetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        commentWriteButton.rx.tap
+            .map { Reactor.Action.didTapCommentWriteButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         
         // State
         
@@ -184,6 +184,7 @@ class QnADetailViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        // 텍스트 뷰 터치 시 빈칸으로 만들기
         reactor.state
             .map { $0.isBeginEditing }
             .distinctUntilChanged()
@@ -192,6 +193,7 @@ class QnADetailViewController: UIViewController, View {
                 owner.commentTextView.text = ""
             }.disposed(by: disposeBag)
         
+        // 텍스트 뷰 높이에 따라 commentWrite뷰 높이 변경
         reactor.state
             .map { $0.content }
             .map { _ in
@@ -242,8 +244,16 @@ extension QnADetailViewController {
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier, for: indexPath) as? QnACommentHeaderView else { return UICollectionReusableView() }
                 
                 self.reactor?.state
-                    .map { "+\($0.commentCount)" }
-                    .bind(to: header.commentCountLabel.rx.text)
+                    .map { $0.commentCount }
+                    .bind(with: self, onNext: { owner, count in
+                        if count != 0 {
+                            owner.noCommentLabel.isHidden = true
+                            owner.collectionView.isScrollEnabled = true
+                            header.commentCountLabel.text = "+\(count)"
+                        } else {
+                            owner.noCommentLabel.isHidden = false
+                        }
+                    })
                     .disposed(by: self.disposeBag)
                 
                 return header

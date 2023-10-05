@@ -99,12 +99,12 @@ final class CommunityAPI {
     
     /// 커뮤니티 댓글 삭제
     /// - Parameter id: 커뮤니티 아이디]
-    static func deleteCommunityComment(_ id: Int) -> Observable<CommunityComment> {
+    static func deleteCommunityComment(_ id: Int) -> Observable<Response> {
         return networking(
             urlStr: CommunityAddress.editOrDeleteComment("\(id)").url,
             method: .delete,
             data: nil,
-            model: CommunityComment.self)
+            model: Response.self)
     }
 }
     
