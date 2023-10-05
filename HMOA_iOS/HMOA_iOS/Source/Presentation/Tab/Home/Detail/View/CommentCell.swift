@@ -82,9 +82,14 @@ extension CommentCell {
         if !noCommentLabel.isHidden  { noCommentLabel.isHidden = true }
         if let item = item {
             userImageView.kf.setImage(with: URL(string: item.profileImg))
-            userNameLabel.text = item.author
+            userNameLabel.text = item.nickname
             contentLabel.text = item.content
+            commentLikeButton.isHidden = true
             subView.isHidden = false
+//            userImageView.kf.setImage(with: URL(string: item.profileImg))
+//            userNameLabel.text = item.author
+//            contentLabel.text = item.content
+//            subView.isHidden = false
         }
     }
     

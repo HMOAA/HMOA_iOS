@@ -15,10 +15,10 @@ class QnADetailReactor: Reactor {
     
     enum Action {
         case viewDidLoad
-        case viewWillAppear
         case didChangeTextViewEditing(String)
         case didEndTextViewEditing
         case didBeginEditing
+        case didTapCommentWriteButton
     }
     
     enum Mutation {
@@ -27,6 +27,7 @@ class QnADetailReactor: Reactor {
         case setContent(String)
         case setIsEndEditing(Bool)
         case setIsBegenEditing(Bool)
+        case setComment(CommunityComment)
         
     }
     
@@ -46,14 +47,14 @@ class QnADetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return setUpPostSection()
-            
-        case .viewWillAppear:
-            return setUpCommentSection()
+            return .concat([
+                setUpPostSection(),
+                setUpCommentSection()
+            ])
             
         case .didBeginEditing:
             return .just(.setIsBegenEditing(true))
-        
+            
         case .didEndTextViewEditing:
             return .concat([
                 .just(.setIsEndEditing(true)),
@@ -62,6 +63,11 @@ class QnADetailReactor: Reactor {
             
         case .didChangeTextViewEditing(let content):
             return .just(.setContent(content))
+            
+        case .didTapCommentWriteButton:
+            if !currentState.content.isEmpty || currentState.content != "댓글을 입력하세요" {
+                return setPostComment()
+            } else { return .empty() }
         }
     }
     
@@ -83,6 +89,15 @@ class QnADetailReactor: Reactor {
             
         case .setIsBegenEditing(let isBegin):
             state.isBeginEditing = isBegin
+        case .setComment(let comment):
+            var section = currentState.sections
+            var commentItem = section[1].item
+            commentItem.append(QnADetailSectionItem.commentCell(comment))
+            let commentSection = QnADetailSection.comment(commentItem)
+            section[1] = commentSection
+            
+            state.commentCount = currentState.commentCount + 1
+            state.sections = section
         }
         
         return state
@@ -119,6 +134,15 @@ extension QnADetailReactor {
                     .just(.setSections(section)),
                     .just(.setCommentCount(data.commentCount))
                 ])
+            }
+    }
+    
+    func setPostComment() -> Observable<Mutation> {
+        let param = [ "content": currentState.content ]
+        return CommunityAPI.postCommunityComment(currentState.communityId, param)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .just(.setComment(data))
             }
     }
 }

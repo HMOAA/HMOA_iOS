@@ -291,15 +291,8 @@ extension DetailViewController: UICollectionViewDelegate {
                 
             case .evaluationCell(let evaluation, _):
                 guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
-                
-                var isLogin: Bool = false
-                LoginManager.shared.isLogin
-                    .subscribe(onNext: {
-                        isLogin = $0
-                    })
-                    .disposed(by: self.disposeBag)
-                
-                evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId, isLogin: isLogin)
+        
+                evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId, isLogin: self.DetailReactor.currentState.isLogin)
                 
                 
             
