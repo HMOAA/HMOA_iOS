@@ -30,6 +30,9 @@ class DetailViewController: UIViewController, View {
     let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
     let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
     
+    lazy var optionView = OptionView().then {
+        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
+    }
     
     //MARK: - Init
     init(reactor: DetailViewReactor) {
@@ -247,7 +250,8 @@ extension DetailViewController {
     func configureUI() {
         
         [   detailView,
-            bottomView
+            bottomView,
+            optionView
         ]   .forEach { view.addSubview($0) }
         
         detailView.snp.makeConstraints {
@@ -260,6 +264,10 @@ extension DetailViewController {
             $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(83)
+        }
+        
+        optionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -304,8 +312,12 @@ extension DetailViewController: UICollectionViewDelegate {
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 commentCell.updateCell(comment)
-                commentCell.parentVC = self
-                commentCell.reactor = CommentReactor(["수정", "삭제", "댓글 복사"])
+                commentCell.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton }
+                    .bind(to: self.optionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                    
+                
                 return commentCell
                 
             case .similarCell(let similar, _):
