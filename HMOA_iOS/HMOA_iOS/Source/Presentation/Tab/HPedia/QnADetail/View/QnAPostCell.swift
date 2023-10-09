@@ -43,6 +43,11 @@ class QnAPostCell: UICollectionViewCell {
         $0.setLabelUI("", font: .pretendard_medium, size: 16, color: .black)
     }
     
+    lazy var optionButton = UIButton().then {
+        $0.isHidden = true
+        $0.setImage(UIImage(named: "verticalOption"), for: .normal)
+    }
+    
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,11 +75,17 @@ class QnAPostCell: UICollectionViewCell {
             nicknameLabel,
             dayLabel,
             titleLabel,
-            contentLabel
+            contentLabel,
+            optionButton
         ]   .forEach { addSubview($0) }
     }
     
     private func setConstraints() {
+        
+        optionButton.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview().inset(16.32)
+        }
+        
         QLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
             make.top.equalToSuperview().inset(20)
@@ -110,6 +121,7 @@ class QnAPostCell: UICollectionViewCell {
 
 extension QnAPostCell {
     func updateCell(_ item: CommunityDetail) {
+        if item.writed { optionButton.isHidden = false }
         profileImageView.kf.setImage(with: URL(string: item.profileImgUrl))
         nicknameLabel.text = item.author
         dayLabel.text = item.time

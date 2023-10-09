@@ -12,7 +12,7 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-class CommentCell: UICollectionViewCell {
+class CommentCell: UICollectionViewCell, View {
     
     // MARK: - identifier
     
@@ -51,6 +51,15 @@ class CommentCell: UICollectionViewCell {
                       color: .gray3)
     }
     
+    lazy var optionButton = UIButton().then {
+        $0.isHidden = true
+        $0.setImage(UIImage(named: "commentOption"), for: .normal)
+    }
+    
+    var parentVC: UIViewController?
+    
+    var disposeBag = DisposeBag()
+    
     // MARK: - init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,6 +68,23 @@ class CommentCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bind(reactor: CommentReactor) {
+        
+        optionButton.rx.tap
+            .map { Reactor.Action.didTapOptionButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPresentOptionVC }
+            .filter { $0 }
+            .distinctUntilChanged()
+            .bind(with: self) { onwer, _ in
+                onwer.presentOptionVC(reactor.currentState.options)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -75,6 +101,8 @@ extension CommentCell {
             commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
             subView.isHidden = false
             noCommentLabel.isHidden = true
+            
+            if item.writed { optionButton.isHidden = false }
         }
     }
     
@@ -86,6 +114,9 @@ extension CommentCell {
             contentLabel.text = item.content
             commentLikeButton.isHidden = true
             subView.isHidden = false
+            
+            if item.writed { optionButton.isHidden = false }
+            
 //            userImageView.kf.setImage(with: URL(string: item.profileImg))
 //            userNameLabel.text = item.author
 //            contentLabel.text = item.content
@@ -101,7 +132,9 @@ extension CommentCell {
         [   userImageView,
             userNameLabel,
             contentLabel,
-            commentLikeButton  ] .forEach { subView.addSubview($0) }
+            commentLikeButton,
+            optionButton
+        ] .forEach { subView.addSubview($0) }
 
         subView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
@@ -136,6 +169,10 @@ extension CommentCell {
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
+        
+        optionButton.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview().inset(7.2)
+        }
     }
     
     func setLikeButtonText(_ text: String) -> AttributedString {
@@ -143,5 +180,14 @@ extension CommentCell {
         attri.font = .customFont(.pretendard_light, 12)
         
         return attri
+    }
+    
+    func presentOptionVC(_ options: [String]) {
+        guard let parentVC = parentVC else { return }
+        
+        let optionVC = OptionViewController()
+        optionVC.reactor = OptionReactor(options)
+        optionVC.modalPresentationStyle = .overCurrentContext
+        parentVC.present(optionVC, animated: true)
     }
 }
