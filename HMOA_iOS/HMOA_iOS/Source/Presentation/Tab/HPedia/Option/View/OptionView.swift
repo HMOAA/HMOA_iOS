@@ -72,13 +72,14 @@ class OptionView: UIView, View {
     
     private func setConstraints() {
         cancleButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(60)
         }
         
         tableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(cancleButton.snp.top).offset(-8)
+            make.top.equalToSuperview()
             make.height.equalTo(0)
         }
         
@@ -126,12 +127,12 @@ class OptionView: UIView, View {
                 owner.tableView.snp.updateConstraints { make in
                     make.height.equalTo(count * 60)
                 }
-                
+
                 owner.buttonView.snp.updateConstraints { make in
                     let height = (count + 1) * 60 + 8
                     make.height.equalTo(height)
-                    make.bottom.equalToSuperview().offset(height * 2 - 100)
-                    
+                    make.bottom.equalToSuperview().offset(height - 32)
+
                 }
             }
             .disposed(by: disposeBag)
@@ -154,7 +155,6 @@ extension OptionView: UITableViewDelegate {
     }
     
     func showAnimation(_ isHidden: Bool) {
-        print(buttonView.bounds.origin)
         let buttonViewHeight = buttonView.bounds.height
         
         // 숨기기
@@ -173,7 +173,9 @@ extension OptionView: UITableViewDelegate {
                 self.backgroundColor = UIColor.black.withAlphaComponent(0.3)
 
                 self.buttonView.transform = CGAffineTransform(translationX: 0, y: -buttonViewHeight)
-            })
+            }) { _ in
+                self.backgroundView.isHidden = false
+            }
         }
     }
 }
