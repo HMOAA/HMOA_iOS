@@ -221,7 +221,6 @@ extension DetailViewController {
         DetailReactor.state
             .map { $0.presentBrandId }
             .compactMap { $0 }
-            .distinctUntilChanged()
             .bind(onNext: presentBrandDetailViewController)
             .disposed(by: disposeBag)
         
@@ -291,8 +290,11 @@ extension DetailViewController: UICollectionViewDelegate {
                 
             case .evaluationCell(let evaluation, _):
                 guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
-        
-                evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId, isLogin: self.DetailReactor.currentState.isLogin)
+                
+                evaluationCell.reactor = EvaluationReactor(
+                    evaluation,
+                    self.DetailReactor.currentState.perfumeId,
+                    isLogin: self.DetailReactor.currentState.isLogin)
                 
                 
             
@@ -302,6 +304,8 @@ extension DetailViewController: UICollectionViewDelegate {
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 commentCell.updateCell(comment)
+                commentCell.parentVC = self
+                commentCell.reactor = CommentReactor(["수정", "삭제", "댓글 복사"])
                 return commentCell
                 
             case .similarCell(let similar, _):
