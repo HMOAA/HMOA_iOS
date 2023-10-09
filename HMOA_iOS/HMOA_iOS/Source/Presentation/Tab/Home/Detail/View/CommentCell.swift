@@ -8,11 +8,10 @@
 import UIKit
 import SnapKit
 import Then
-import ReactorKit
 import RxSwift
 import RxCocoa
 
-class CommentCell: UICollectionViewCell, View {
+class CommentCell: UICollectionViewCell {
     
     // MARK: - identifier
     
@@ -68,23 +67,6 @@ class CommentCell: UICollectionViewCell, View {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func bind(reactor: CommentReactor) {
-        
-        optionButton.rx.tap
-            .map { Reactor.Action.didTapOptionButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.isPresentOptionVC }
-            .filter { $0 }
-            .distinctUntilChanged()
-            .bind(with: self) { onwer, _ in
-                onwer.presentOptionVC(reactor.currentState.options)
-            }
-            .disposed(by: disposeBag)
     }
 }
 
@@ -180,14 +162,5 @@ extension CommentCell {
         attri.font = .customFont(.pretendard_light, 12)
         
         return attri
-    }
-    
-    func presentOptionVC(_ options: [String]) {
-        guard let parentVC = parentVC else { return }
-        
-        let optionVC = OptionViewController()
-        optionVC.reactor = OptionReactor(options)
-        optionVC.modalPresentationStyle = .overCurrentContext
-        parentVC.present(optionVC, animated: true)
     }
 }
