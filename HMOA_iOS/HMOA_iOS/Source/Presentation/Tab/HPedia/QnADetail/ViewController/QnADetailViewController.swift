@@ -58,6 +58,14 @@ class QnADetailViewController: UIViewController, View {
         $0.setImage(UIImage(named: "commentWrite"), for: .normal)
     }
     
+    lazy var commentOptionView = OptionView().then {
+        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
+    }
+    
+    lazy var postOptionView = OptionView().then {
+        $0.reactor = OptionReactor(["수정", "삭제", "글 복사"])
+    }
+    
     var disposeBag = DisposeBag()
     
     //MARK: - LifeCycle
@@ -77,17 +85,22 @@ class QnADetailViewController: UIViewController, View {
     }
     
     private func setAddView() {
-        view.addSubview(collectionView)
-        view.addSubview(noCommentLabel)
         
         [
             profileImageView,
             colonLabel,
             commentTextView,
-            commentWriteButton
+            commentWriteButton,
         ]   .forEach { commentWriteView.addSubview($0) }
         
-        view.addSubview(commentWriteView)
+        [
+            collectionView,
+            noCommentLabel,
+            commentWriteView,
+        ]   .forEach { view.addSubview($0) }
+        
+        tabBarController?.view.addSubview(commentOptionView)
+        tabBarController?.view.addSubview(postOptionView)
     }
     
     private func setConstraints() {
@@ -126,6 +139,14 @@ class QnADetailViewController: UIViewController, View {
             make.trailing.equalToSuperview().inset(9)
             make.centerY.equalToSuperview()
         }
+        
+        commentOptionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        postOptionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     func bind(reactor: QnADetailReactor) {
@@ -158,6 +179,7 @@ class QnADetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 댓글 작성 버튼 터치
         commentWriteButton.rx.tap
             .map { Reactor.Action.didTapCommentWriteButton }
             .bind(to: reactor.action)
@@ -197,9 +219,9 @@ class QnADetailViewController: UIViewController, View {
         reactor.state
             .map { $0.content }
             .map { _ in
-                    let contentSize = self.commentTextView.sizeThatFits(CGSize(width: self.commentTextView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
-                    return contentSize.height
-                }
+                let contentSize = self.commentTextView.sizeThatFits(CGSize(width: self.commentTextView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
+                return contentSize.height
+            }
             .bind(with: self) { owner, height in
                 owner.commentWriteView.snp.updateConstraints { make in
                     make.height.equalTo(height)
@@ -218,11 +240,20 @@ extension QnADetailViewController {
             case .qnaPostCell(let qnaPost):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QnAPostCell.identifier, for: indexPath) as? QnAPostCell else { return UICollectionViewCell() }
                 
+                cell.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton }
+                    .bind(to: self.postOptionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
                 cell.updateCell(qnaPost)
                 return cell
             case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
+                cell.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton }
+                    .bind(to: self.commentOptionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
                 cell.updateCommunityComment(comment)
                 return cell
             }
