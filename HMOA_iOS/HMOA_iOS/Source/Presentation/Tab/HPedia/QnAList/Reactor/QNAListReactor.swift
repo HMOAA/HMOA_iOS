@@ -86,7 +86,6 @@ class QNAListReactor: Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-        
         switch mutation {
         case .setIsTapFloatingButton(let isTap):
             state.isFloatingButtonTap = isTap
@@ -105,7 +104,6 @@ class QNAListReactor: Reactor {
         case .setSelectedCategory(let category):
             state.selectedCategory = category
         }
-        
         return state
     }
 }

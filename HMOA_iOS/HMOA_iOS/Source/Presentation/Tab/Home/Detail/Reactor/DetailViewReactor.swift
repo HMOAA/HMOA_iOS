@@ -7,13 +7,13 @@
 
 import RxSwift
 import ReactorKit
-import RxDataSources
 
 final class DetailViewReactor: Reactor {
     var initialState: State
 
     enum Action {
         case viewDidLoad(Bool)
+        case viewWillAppear
         case didTapBrandView
         case didTapMoreButton
         case didTapWriteButton
@@ -119,6 +119,10 @@ final class DetailViewReactor: Reactor {
                 .just(.setPresentBrandId(currentState.sections[0].items[0].brandId)),
                 .just(.setPresentBrandId(nil))
             ])
+        case .viewWillAppear:
+            if currentState.sections.count > 2 {
+                return setUpSecondDetailSections(id: currentState.perfumeId)
+            } else { return .empty() }
         }
     }
     
@@ -220,7 +224,12 @@ extension DetailViewReactor {
                 }
                 let similarSection = DetailSection.similar(similarItem)
         
-                sections.append(contentsOf: [commentSection, similarSection])
+                if sections.count < 3 {
+                    sections.append(contentsOf: [commentSection, similarSection])
+                } else {
+                    sections[2] = commentSection
+                    sections[3] = similarSection
+                }
                 
                 
                 return .concat([
