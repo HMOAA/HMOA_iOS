@@ -160,11 +160,13 @@ class OptionView: UIView, View {
             .bind(with: self) { owner, _ in
                 if reactor.currentState.type == "Comment" {
                     let commentInfo = reactor.currentState.commentInfo!
+                    let isCommunity = owner.parentVC is QnADetailViewController
                     owner.parentVC!.presentCommentWirteViewControllerForWriter(
                         commentId: commentInfo.0,
-                        perfumeId: nil,
                         isWrited: true,
-                        content: commentInfo.1)
+                        content: commentInfo.1,
+                        isCommunity: isCommunity
+                    )
                 }
             }.disposed(by: disposeBag)
     }

@@ -152,18 +152,18 @@ extension CommentDetailViewController {
             .disposed(by: disposeBag)
         
         // 수정 버튼 클릭 상태
-        reactor.state
-            .map { $0.isTapChangeButton }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .bind(with: self) { owner, _ in
-                owner.presentCommentWirteViewControllerForWriter(
-                    (owner.reactor?.currentState.comment.id)!,
-                    (owner.reactor?.currentState.comment.content)!,
-                    reactor: reactor
-                )
-            }
-            .disposed(by: disposeBag)
+//        reactor.state
+//            .map { $0.isTapChangeButton }
+//            .distinctUntilChanged()
+//            .filter { $0 }
+//            .bind(with: self) { owner, _ in
+//                owner.presentCommentWirteViewControllerForWriter(
+//                    (owner.reactor?.currentState.comment.id)!,
+//                    (owner.reactor?.currentState.comment.content)!,
+//                    reactor: reactor
+//                )
+//            }
+//            .disposed(by: disposeBag)
        
     }
         
