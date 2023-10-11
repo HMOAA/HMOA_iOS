@@ -35,6 +35,10 @@ class CommentListViewController: UIViewController, View {
         $0.register(CommentListTopView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentListTopView.identifier)
     }
     
+    lazy var optionView = OptionView().then {
+        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
+        $0.parentVC = self
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -145,6 +149,11 @@ extension CommentListViewController {
                 
                 cell.updateCell(comment)
                 
+                cell.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, "Comment") }
+                    .bind(to: self.optionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
                 return cell
             }
         })
@@ -173,7 +182,8 @@ extension CommentListViewController {
             .disposed(by: disposeBag)
         
         [   collectionView,
-            bottomView
+            bottomView,
+            optionView
         ]   .forEach { view.addSubview($0) }
         
         
@@ -187,6 +197,10 @@ extension CommentListViewController {
             $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(83)
+        }
+        
+        optionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }

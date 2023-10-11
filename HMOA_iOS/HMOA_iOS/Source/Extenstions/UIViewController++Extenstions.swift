@@ -54,7 +54,8 @@ extension UIViewController {
     
     func presentDatailViewController(_ id: Int) {
         let reactor = DetailViewReactor(perfumeId: id)
-        let detailVC = DetailViewController(reactor: reactor)
+        let detailVC = DetailViewController()
+        detailVC.reactor = reactor
         detailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
