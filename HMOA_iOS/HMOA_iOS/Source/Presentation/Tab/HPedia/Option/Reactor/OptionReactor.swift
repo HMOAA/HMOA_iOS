@@ -14,16 +14,27 @@ final class OptionReactor: Reactor {
     
     enum Action {
         case didTapBackgroundView
-        case didTapOptionButton
+        case didTapOptionButton(Int?, String?, String)
+        case didTapOptionCell(Int)
     }
     
     enum Mutation {
         case setisHiddenOptionView(Bool)
+        case setIsTapEdit(Bool)
+        case setIsTapDelete(Bool)
+        case setCommentInfo(Int, String)
+        case setPostInfo(Int, String)
+        case setType(String)
     }
     
     struct State {
         var options: [String]
         var isHiddenOptionView: Bool = true
+        var isTapEdit: Bool = false
+        var isTapDelete: Bool = false
+        var commentInfo: (Int, String)? = nil
+        var postInfo: (Int, String)? = nil
+        var type: String = ""
     }
     
     init(_ options: [String]) {
@@ -35,8 +46,43 @@ final class OptionReactor: Reactor {
         switch action {
         case .didTapBackgroundView:
             return .just(.setisHiddenOptionView(true))
-        case .didTapOptionButton:
-            return .just(.setisHiddenOptionView(false))
+            
+        case .didTapOptionButton(let id, let content, let type):
+            guard let id = id else { return .empty() }
+            
+            if type == "Post" {
+                return .concat([
+                    .just(.setType(type)),
+                    .just(.setPostInfo(id, content!)),
+                    .just(.setisHiddenOptionView(false))
+                ])
+            }
+            else {
+                return .concat([
+                    .just(.setType(type)),
+                    .just(.setCommentInfo(id, content!)),
+                    .just(.setisHiddenOptionView(false))
+                ])
+            }
+            
+        case .didTapOptionCell(let item):
+            let selectedOption = currentState.options[item]
+            switch selectedOption {
+            case "수정":
+                return .concat([
+                    .just(.setisHiddenOptionView(true)),
+                    .just(.setIsTapEdit(true)),
+                    .just(.setIsTapEdit(false))
+                ])
+                
+            case "삭제":
+                return .concat([
+                    .just(.setisHiddenOptionView(true)),
+                    .just(.setIsTapDelete(true)),
+                    .just(.setIsTapDelete(false))
+                ])
+            default: return .empty()
+            }
         }
     }
     
@@ -45,8 +91,24 @@ final class OptionReactor: Reactor {
         var state = state
         
         switch mutation {
+            
         case .setisHiddenOptionView(let isHidden):
             state.isHiddenOptionView = isHidden
+            
+        case .setIsTapEdit(let isTap):
+            state.isTapEdit = isTap
+        
+        case .setIsTapDelete(let isTap):
+            state.isTapDelete = isTap
+            
+        case .setCommentInfo(let id, let content):
+            state.commentInfo = (id, content)
+            
+        case .setPostInfo:
+            break
+            
+        case .setType(let type):
+            state.type = type
         }
         
         return state

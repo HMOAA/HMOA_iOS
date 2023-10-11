@@ -59,6 +59,7 @@ class QnADetailViewController: UIViewController, View {
     }
     
     lazy var commentOptionView = OptionView().then {
+        $0.parentVC = self
         $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
     }
     
@@ -78,6 +79,7 @@ class QnADetailViewController: UIViewController, View {
         setNavigationBarTitle(title: "Community", color: .white, isHidden: false)
         configureDataSource()
     }
+    
 
     //MARK: - SetUp
     private func setUpUI() {
@@ -97,10 +99,9 @@ class QnADetailViewController: UIViewController, View {
             collectionView,
             noCommentLabel,
             commentWriteView,
+            commentOptionView,
+            postOptionView
         ]   .forEach { view.addSubview($0) }
-        
-        tabBarController?.view.addSubview(commentOptionView)
-        tabBarController?.view.addSubview(postOptionView)
     }
     
     private func setConstraints() {
@@ -154,8 +155,8 @@ class QnADetailViewController: UIViewController, View {
         // Action
         
         // viewDidLoad
-        Observable.just(())
-            .map { Reactor.Action.viewDidLoad }
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -191,6 +192,7 @@ class QnADetailViewController: UIViewController, View {
         //colectionView binding
         reactor.state
             .map { $0.sections }
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, sections in
                 
@@ -241,17 +243,18 @@ extension QnADetailViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QnAPostCell.identifier, for: indexPath) as? QnAPostCell else { return UICollectionViewCell() }
                 
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton }
+                    .map { OptionReactor.Action.didTapOptionButton(qnaPost.id, qnaPost.content, "Post") }
                     .bind(to: self.postOptionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
                 cell.updateCell(qnaPost)
                 return cell
+                
             case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton }
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, "Comment") }
                     .bind(to: self.commentOptionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 cell.updateCommunityComment(comment)
