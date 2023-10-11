@@ -133,7 +133,6 @@ extension CommentWriteViewController {
         
         reactor.state
             .map { $0.content }
-            .do(onNext: { print($0) })
             .bind(to: textView.rx.text)
             .disposed(by: disposeBag)
     }

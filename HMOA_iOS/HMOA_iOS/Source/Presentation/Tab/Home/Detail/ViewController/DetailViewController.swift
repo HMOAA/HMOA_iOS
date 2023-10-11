@@ -31,6 +31,7 @@ class DetailViewController: UIViewController, View {
     let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
     
     lazy var optionView = OptionView().then {
+        $0.parentVC = self
         $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
     }
     
@@ -313,7 +314,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 
                 commentCell.updateCell(comment)
                 commentCell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton }
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, "Comment") }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                     
