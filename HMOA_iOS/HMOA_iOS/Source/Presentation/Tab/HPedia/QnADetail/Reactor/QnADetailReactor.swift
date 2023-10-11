@@ -14,7 +14,7 @@ class QnADetailReactor: Reactor {
     let initialState: State
     
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case didChangeTextViewEditing(String)
         case didEndTextViewEditing
         case didBeginEditing
@@ -46,7 +46,7 @@ class QnADetailReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return .concat([
                 setUpPostSection(),
                 setUpCommentSection()

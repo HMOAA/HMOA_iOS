@@ -19,6 +19,7 @@ class OptionCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
         
+        setUpUI()
         setAddView()
         setConstraints()
     }
@@ -29,7 +30,7 @@ class OptionCell: UITableViewCell {
     }
     //MARK: - SetUp
     private func setUpUI() {
-        
+        selectionStyle = .none
     }
     private func setAddView() {
         addSubview(contentLabel)

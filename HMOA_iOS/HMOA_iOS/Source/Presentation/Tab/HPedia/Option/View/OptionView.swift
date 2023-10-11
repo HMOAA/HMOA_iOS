@@ -37,6 +37,8 @@ class OptionView: UIView, View {
     
     lazy var backgroundTapGesture = UITapGestureRecognizer()
     
+    var parentVC: UIViewController? = nil
+    
     var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
@@ -109,6 +111,12 @@ class OptionView: UIView, View {
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
+        // TableView cell 터치
+        tableView.rx.itemSelected
+            .map { Reactor.Action.didTapOptionCell($0.item) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // State
         
         // tableView binding
@@ -144,6 +152,21 @@ class OptionView: UIView, View {
             .distinctUntilChanged()
             .bind(onNext: showAnimation)
             .disposed(by: disposeBag)
+        
+        // 수정 셀 터치
+        reactor.state
+            .map { $0.isTapEdit }
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                if reactor.currentState.type == "Comment" {
+                    let commentInfo = reactor.currentState.commentInfo!
+                    owner.parentVC!.presentCommentWirteViewControllerForWriter(
+                        commentId: commentInfo.0,
+                        perfumeId: nil,
+                        isWrited: true,
+                        content: commentInfo.1)
+                }
+            }.disposed(by: disposeBag)
     }
 
 }
@@ -156,7 +179,6 @@ extension OptionView: UITableViewDelegate {
     
     func showAnimation(_ isHidden: Bool) {
         let buttonViewHeight = buttonView.bounds.height
-        
         // 숨기기
         if isHidden {
             UIView.animate(withDuration: 0.2, animations: {
