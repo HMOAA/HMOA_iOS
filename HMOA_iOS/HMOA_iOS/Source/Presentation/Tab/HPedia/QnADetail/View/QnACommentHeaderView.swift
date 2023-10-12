@@ -19,15 +19,6 @@ class QnACommentHeaderView: UICollectionReusableView {
     
     var commentCountLabel = UILabel().then {
         $0.font = .customFont(.pretendard_light, 12)
-        $0.text = "+565"
-    }
-    
-    var addCommentButton = UIButton().then {
-        $0.setTitleColor(.black, for: .normal)
-        $0.setTitle("답글 달기", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_light, 12)
-        $0.layer.cornerRadius = 10
-        $0.backgroundColor = UIColor.customColor(.gray1)
     }
     
     
@@ -45,8 +36,7 @@ class QnACommentHeaderView: UICollectionReusableView {
     func configureUI() {
         
         [   commentLabel,
-            commentCountLabel,
-            addCommentButton
+            commentCountLabel
         ]   .forEach { addSubview($0) }
         
         commentLabel.snp.makeConstraints {
@@ -58,13 +48,6 @@ class QnACommentHeaderView: UICollectionReusableView {
             $0.leading.equalTo(commentLabel.snp.trailing).offset(4)
             $0.centerY.equalToSuperview()
             
-        }
-        
-        addCommentButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(16)
-            $0.centerY.equalToSuperview()
-            $0.width.equalTo(56)
-            $0.height.equalTo(20)
         }
     }
 }

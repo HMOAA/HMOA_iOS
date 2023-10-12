@@ -12,6 +12,7 @@ import SnapKit
 import RxCocoa
 import RxSwift
 import ReactorKit
+import RxGesture
 
 class QnADetailViewController: UIViewController, View {
 
@@ -19,14 +20,55 @@ class QnADetailViewController: UIViewController, View {
     var dataSource: UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>!
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+        $0.isScrollEnabled = false
         $0.register(QnAPostHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier)
         $0.register(QnACommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier)
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
         $0.register(QnAPostCell.self, forCellWithReuseIdentifier: QnAPostCell.identifier)
         
     }
+    
+    lazy var noCommentLabel = UILabel().then {
+        $0.isHidden = true
+        $0.setLabelUI("아직 작성한 댓글이 없습니다", font: .pretendard_medium, size: 20, color: .black)
+    }
+    
+    let commentWriteView = UIView().then {
+        $0.layer.cornerRadius = 5
+        $0.backgroundColor = #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
+    }
+    
+    let profileImageView = UIImageView().then {
+        $0.backgroundColor = .black
+        $0.layer.cornerRadius = 11
+        $0.layer.masksToBounds = false
+    }
+    
+    let colonLabel = UILabel().then {
+        $0.setLabelUI(":", font: .pretendard, size: 14, color: .black)
+    }
+    
+    let commentTextView = UITextView().then {
+        $0.text = "댓글을 입력하세요"
+        $0.isScrollEnabled = false
+        $0.font = .customFont(.pretendard, 14)
+        $0.backgroundColor = #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
+    }
+    
+    let commentWriteButton = UIButton().then {
+        $0.setImage(UIImage(named: "commentWrite"), for: .normal)
+    }
+    
+    lazy var commentOptionView = OptionView().then {
+        $0.parentVC = self
+        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
+    }
+    
+    lazy var postOptionView = OptionView().then {
+        $0.reactor = OptionReactor(["수정", "삭제", "글 복사"])
+    }
+    
     var disposeBag = DisposeBag()
-    let reactor = QnADetailReactor()
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -35,10 +77,11 @@ class QnADetailViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setConstraints()
-        setNavigationBarTitle(title: "QnA", color: .white, isHidden: false)
+        setNavigationBarTitle(title: "Community", color: .white, isHidden: false)
         configureDataSource()
-        bind(reactor: reactor)
     }
+    
+    
 
     //MARK: - SetUp
     private func setUpUI() {
@@ -46,11 +89,65 @@ class QnADetailViewController: UIViewController, View {
     }
     
     private func setAddView() {
-        view.addSubview(collectionView)
+        
+        [
+            profileImageView,
+            colonLabel,
+            commentTextView,
+            commentWriteButton,
+        ]   .forEach { commentWriteView.addSubview($0) }
+        
+        [
+            collectionView,
+            noCommentLabel,
+            commentWriteView,
+            commentOptionView,
+            postOptionView
+        ]   .forEach { view.addSubview($0) }
     }
     
     private func setConstraints() {
         collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        noCommentLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(462)
+        }
+        
+        commentWriteView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-10)
+        }
+        
+        profileImageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(11)
+            make.width.height.equalTo(22)
+            make.centerY.equalToSuperview()
+        }
+        
+        colonLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(profileImageView.snp.trailing).offset(4)
+        }
+        
+        commentTextView.snp.makeConstraints { make in
+            make.leading.equalTo(colonLabel.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(36)
+            make.top.bottom.equalToSuperview()
+        }
+        
+        commentWriteButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(9)
+            make.centerY.equalToSuperview()
+        }
+        
+        commentOptionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        postOptionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -59,18 +156,66 @@ class QnADetailViewController: UIViewController, View {
         
         // Action
         
+        // 빈 화면 터치 시 키보드 내리기
+        collectionView.rx
+            .tapGesture()
+            .when(.recognized)
+            .bind(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
+        
         // viewDidLoad
-        Observable.just(())
-            .map { Reactor.Action.viewDidLoad }
+        rx.viewWillAppear
+            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
+            .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // textView 사용자가 입력 시작
+        commentTextView.rx.didBeginEditing
+            .map { Reactor.Action.didBeginEditing }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //textView text 감지
+        commentTextView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .skip(1)
+            .map { Reactor.Action.didChangeTextViewEditing($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 댓글 작성 버튼 터치
+        commentWriteButton.rx.tap
+            .map { Reactor.Action.didTapCommentWriteButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 댓글 옵션 뷰 삭제 버튼 터치
+        commentOptionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeleteComment }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 게시글 옵션 뷰 삭제 버튼 터치
+        postOptionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeletePost}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // State
         
         //colectionView binding
         reactor.state
             .map { $0.sections }
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, sections in
                 
@@ -85,6 +230,49 @@ class QnADetailViewController: UIViewController, View {
                 }
             })
             .disposed(by: disposeBag)
+        
+        // 텍스트 뷰 터치 시 빈칸으로 만들기
+        reactor.state
+            .map { $0.isBeginEditing }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                owner.commentTextView.text = ""
+            }.disposed(by: disposeBag)
+        
+        // 텍스트 뷰 높이에 따라 commentWrite뷰 높이 변경
+        reactor.state
+            .map { $0.content }
+            .map { _ in
+                let contentSize = self.commentTextView.sizeThatFits(CGSize(width: self.commentTextView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
+                return contentSize.height
+            }
+            .bind(with: self) { owner, height in
+                owner.commentWriteView.snp.updateConstraints { make in
+                    make.height.equalTo(height)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 댓글 입력 시 키보드 내리기
+        reactor.state
+            .map { $0.isEndEditing }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, _ in
+                owner.commentTextView.text = ""
+                owner.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
+        
+        // 게시글 삭제 시 pop
+        reactor.state
+            .map { $0.isDeleted }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: popViewController)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -97,12 +285,31 @@ extension QnADetailViewController {
             case .qnaPostCell(let qnaPost):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QnAPostCell.identifier, for: indexPath) as? QnAPostCell else { return UICollectionViewCell() }
                 
+                self.postOptionView.parentVC = self
+                cell.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton(qnaPost.id, qnaPost.content, qnaPost.title, "Post", (self.reactor?.currentState.category)!) }
+                    .bind(to: self.postOptionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
                 cell.updateCell(qnaPost)
                 return cell
+                
             case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
-                cell.updateCell(comment)
+                // optionView에 comment 정보 전달
+                cell.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil) }
+                    .bind(to: self.commentOptionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
+                // QnADetailReactor에 indexPathRow 전달
+                cell.optionButton.rx.tap
+                    .map { QnADetailReactor.Action.didTapOptionButton(indexPath.row) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
+                cell.updateCommunityComment(comment)
                 return cell
             }
             
@@ -113,9 +320,29 @@ extension QnADetailViewController {
             case 0:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier, for: indexPath) as? QnAPostHeaderView else { return UICollectionReusableView() }
                 
+                self.reactor?.state
+                    .map { $0.sections[0].item[0].category }
+                    .bind(to: header.recommendLabel.rx.text)
+                    .disposed(by: self.disposeBag)
+                
                 return header
             default:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier, for: indexPath) as? QnACommentHeaderView else { return UICollectionReusableView() }
+                
+                self.reactor?.state
+                    .map { $0.commentCount }
+                    .bind(with: self, onNext: { owner, count in
+                        if let count = count {
+                            if count == 0 {
+                                owner.noCommentLabel.isHidden = false
+                            } else {
+                                owner.noCommentLabel.isHidden = true
+                                owner.collectionView.isScrollEnabled = true
+                            }
+                            header.commentCountLabel.text = "+\(count)"
+                        }
+                    })
+                    .disposed(by: self.disposeBag)
                 
                 return header
             }

@@ -11,7 +11,6 @@ import UIKit
 extension UISearchBar {
     func configureHpediaSearchBar() -> UISearchBar {
         let searchBar = UISearchBar()
-        searchBar.layer.addBorder([.bottom], color: .customColor(.gray2), width: 1)
         searchBar.showsBookmarkButton = true
         searchBar.setImage(UIImage(named: "clearButton"), for: .clear, state: .normal)
         searchBar.setImage(UIImage(), for: .search, state: .normal)

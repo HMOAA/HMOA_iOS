@@ -77,12 +77,19 @@ class HPediaViewController: UIViewController, View {
         
         // Action
         
-        //colectionView item 터치
+        // dictionary item 터치
         hPediaCollectionView.rx.itemSelected
-            .map { Reactor.Action.didTapDictionaryItem($0) }
+            .filter { $0.section == 0 }
+            .map { Reactor.Action.didTapDictionaryItem($0.item) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // ComunityItem 터치
+        hPediaCollectionView.rx.itemSelected
+            .filter { $0.section == 1 }
+            .map { Reactor.Action.didTapCommunityItem($0.item) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // State
         
@@ -112,6 +119,12 @@ class HPediaViewController: UIViewController, View {
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: presentDictionaryViewController)
+            .disposed(by: disposeBag)
+        
+        //Community DetailVC로 id Push
+        reactor.state
+            .compactMap { $0.selectedCommunityId }
+            .bind(onNext: presentQnADetailVC)
             .disposed(by: disposeBag)
     }
 }
@@ -178,7 +191,7 @@ extension HPediaViewController {
         section.interGroupSpacing = 8
         section.contentInsets  = NSDirectionalEdgeInsets(top: 33,
                                                          leading: 0,
-                                                         bottom: 43,
+                                                         bottom: 19,
                                                          trailing: 0)
         return section
     }

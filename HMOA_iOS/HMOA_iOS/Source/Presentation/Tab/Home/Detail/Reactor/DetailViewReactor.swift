@@ -7,13 +7,13 @@
 
 import RxSwift
 import ReactorKit
-import RxDataSources
 
 final class DetailViewReactor: Reactor {
     var initialState: State
 
     enum Action {
         case viewDidLoad(Bool)
+        case viewWillAppear
         case didTapBrandView
         case didTapMoreButton
         case didTapWriteButton
@@ -119,6 +119,10 @@ final class DetailViewReactor: Reactor {
                 .just(.setPresentBrandId(currentState.sections[0].items[0].brandId)),
                 .just(.setPresentBrandId(nil))
             ])
+        case .viewWillAppear:
+            if currentState.sections.count > 2 {
+                return setUpSecondDetailSections(id: currentState.perfumeId)
+            } else { return .empty() }
         }
     }
     
@@ -185,16 +189,19 @@ extension DetailViewReactor {
             .flatMap { data -> Observable<Mutation> in
                 let topItem = DetailSectionItem.topCell(data, 0)
                 let topSection = DetailSection.top(topItem)
-    
-                let evaluationItem = DetailSectionItem.evaluationCell(nil, 1)
+                
+                let evaluation = Evaluation(age: data.evaluation.age,
+                                            gender: data.evaluation.gender,
+                                            weather: data.evaluation.weather)
+                let evaluationItem = DetailSectionItem.evaluationCell(evaluation, 1)
                 let evaluationSection = DetailSection.evaluation(evaluationItem)
                 
                 let sections = [topSection, evaluationSection]
                 
                 return .concat([
                     .just(.setSections(sections)),
-                    .just(.setIsLiked(data.perfumeDetail.liked)),
-                    .just(.setLikeCount(data.perfumeDetail.heartNum))
+                    .just(.setIsLiked(data.liked)),
+                    .just(.setLikeCount(data.heartNum))
                 ])
             }
     }
@@ -204,15 +211,6 @@ extension DetailViewReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 var sections = self.currentState.sections
-                
-                
-                let evaluation = Evaluation(age: data.age,
-                                            gender: data.gender,
-                                            weather: data.weather)
-                let evaluationItem = DetailSectionItem.evaluationCell(evaluation, 1)
-                let evaluationSection = DetailSection.evaluation(evaluationItem)
-                
-                sections[1] = evaluationSection
                 
                 var commentItem = data.commentInfo.comments.map { DetailSectionItem.commentCell($0, 2)}
                 
@@ -226,7 +224,12 @@ extension DetailViewReactor {
                 }
                 let similarSection = DetailSection.similar(similarItem)
         
-                sections.append(contentsOf: [commentSection, similarSection])
+                if sections.count < 3 {
+                    sections.append(contentsOf: [commentSection, similarSection])
+                } else {
+                    sections[2] = commentSection
+                    sections[3] = similarSection
+                }
                 
                 
                 return .concat([

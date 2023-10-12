@@ -7,18 +7,8 @@
 
 import UIKit
 
-struct FirstDetail: Hashable, Decodable{
-    var perfumeDetail: Detail
-    
-    enum CodingKeys: String, CodingKey {
-        case perfumeDetail = "data"
-    }
-}
-
-struct Detail: Hashable, Decodable {
-    let perfumeId: Int
-    var heartNum: Int
-    let brandId: Int
+struct FirstDetail: Hashable, Codable{
+    let perfumeId, heartNum, brandId: Int
     let brandName, brandEnglishName: String
     let brandImgUrl: String
     let koreanName, englishName: String
@@ -29,5 +19,40 @@ struct Detail: Hashable, Decodable {
     let topNote, heartNote, baseNote: String
     let singleNote: String?
     let sortType: Int
-    var liked: Bool
+    let evaluation: Evaluation
+    let liked: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case evaluation = "review"
+        case perfumeId, heartNum, brandId
+        case brandName, brandEnglishName, brandImgUrl
+        case koreanName, englishName, perfumeImageUrl
+        case price, volume, priceVolume
+        case topNote, heartNote, baseNote
+        case singleNote, sortType, liked
+    }
+    
+}
+
+
+struct Evaluation: Codable, Hashable {
+    let age: Age
+    let gender: Gender
+    let weather: Weather
+}
+
+struct Age: Codable, Hashable {
+    let age: Int
+    let writed: Bool
+}
+
+struct Gender: Codable, Hashable {
+    let man, woman: Int
+    let writed: Bool
+}
+
+
+struct Weather: Codable, Hashable {
+    let autumn, spring, summer, winter: Int
+    let writed: Bool
 }

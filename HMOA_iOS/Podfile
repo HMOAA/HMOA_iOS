@@ -18,6 +18,7 @@ target 'HMOA_iOS' do
   pod 'RxKakaoSDKCommon'
   pod 'RxKakaoSDKAuth'
   pod 'RxKakaoSDKUser'
+  pod 'RxGesture'
 
   use_frameworks!
 
