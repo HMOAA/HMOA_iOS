@@ -106,5 +106,15 @@ final class CommunityAPI {
             data: nil,
             model: Response.self)
     }
+    
+    static func putCommunityPost(_ id: Int, _ params: [String: String]) -> Observable<CommunityDetail> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        
+        return networking(
+            urlStr: CommunityAddress.putOrDeleteCommunityPost("\(id)").url,
+            method: .put,
+            data: data,
+            model: CommunityDetail.self)
+    }
 }
     
