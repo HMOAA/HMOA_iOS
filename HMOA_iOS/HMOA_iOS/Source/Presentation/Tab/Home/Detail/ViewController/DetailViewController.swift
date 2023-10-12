@@ -310,7 +310,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 
                 commentCell.updateCell(comment)
                 commentCell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, "Comment") }
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.optionView.disposeBag)
                     
