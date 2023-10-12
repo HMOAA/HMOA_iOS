@@ -167,6 +167,7 @@ class QnADetailViewController: UIViewController, View {
         
         // viewDidLoad
         rx.viewWillAppear
+            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

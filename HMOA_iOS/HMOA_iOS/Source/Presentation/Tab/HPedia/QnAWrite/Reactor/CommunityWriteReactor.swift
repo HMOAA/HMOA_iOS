@@ -47,14 +47,22 @@ class CommunityWriteReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapOkButton:
-            return postCommunityPost()
+            if let id = currentState.id {
+                return editCommunityPost(id)
+            } else {
+                return postCommunityPost()
+            }
             
         case .didChangeTitle(let title):
             return .concat([
                 .just(.setTitle(title))
             ])
         case .didBeginEditing:
-            return .just(.setContent(""))
+            if currentState.content == "내용을 입력하세요" {
+                return .just(.setContent(""))
+            } else {
+                return .empty()
+            }
         
         case .didEndTextViewEditing:
             return .concat([
@@ -106,7 +114,12 @@ extension CommunityWriteReactor {
             }
     }
     
-    func editCommunityPost() -> Observable<Mutation> {
-        return CommunityAPI.put
+    func editCommunityPost(_ id: Int) -> Observable<Mutation> {
+        return CommunityAPI.putCommunityPost(id, ["content": currentState.content])
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                print("success")
+                return .empty()
+            }
     }
 }

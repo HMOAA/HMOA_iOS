@@ -168,6 +168,7 @@ class QnAWriteViewController: UIViewController, View {
         reactor.state
             .map { $0.content }
             .bind(with: self, onNext: { owner, content in
+                owner.textView.text = content
                 owner.textView.textColor =
                 content == "내용을 입력해주세요" ? .customColor(.gray3) : .black
             })
@@ -177,12 +178,6 @@ class QnAWriteViewController: UIViewController, View {
         reactor.state
             .map { $0.category }
             .bind(to: titleNaviLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        // 텍스트뷰 텍스트 바인딩
-        reactor.state
-            .map { $0.content }
-            .bind(to: textView.rx.text)
             .disposed(by: disposeBag)
         
         // 제목 텍스트 바인딩
