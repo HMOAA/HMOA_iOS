@@ -102,6 +102,11 @@ class OptionView: UIView, View {
         
         // Action
         
+        cancleButton.rx.tap
+            .map { Reactor.Action.didTapCancleButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // 빈 화면 터치
         backgroundTapGesture.rx.event
             .map { _ in Reactor.Action.didTapBackgroundView }

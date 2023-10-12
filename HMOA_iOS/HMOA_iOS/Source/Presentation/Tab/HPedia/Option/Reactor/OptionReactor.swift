@@ -16,6 +16,7 @@ final class OptionReactor: Reactor {
         case didTapBackgroundView
         case didTapOptionButton(Int?, String?, String?, String, String?)
         case didTapOptionCell(Int)
+        case didTapCancleButton
     }
     
     enum Mutation {
@@ -82,8 +83,12 @@ final class OptionReactor: Reactor {
                 } else {
                     return deletePost()
                 }
+                
             default: return .empty()
             }
+            
+        case .didTapCancleButton:
+            return .just(.setisHiddenOptionView(true))
         }
     }
     
