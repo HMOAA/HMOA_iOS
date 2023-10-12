@@ -18,8 +18,9 @@ class QnADetailReactor: Reactor {
         case didChangeTextViewEditing(String)
         case didBeginEditing
         case didTapCommentWriteButton
-        case didDeletedComment
+        case didDeleteComment
         case didTapOptionButton(Int)
+        case didDeletePost
     }
     
     enum Mutation {
@@ -31,6 +32,7 @@ class QnADetailReactor: Reactor {
         case setComment(CommunityComment)
         case setSelectedCommentRow(Int?)
         case setIsEndEditing(Bool)
+        case setIsDeleted(Bool)
     }
     
     struct State {
@@ -42,6 +44,7 @@ class QnADetailReactor: Reactor {
         var selectedCommentRow: Int? = nil
         var isEndEditing: Bool = false
         var category: String = ""
+        var isDeleted: Bool = false
     }
     
     init(_ id: Int) {
@@ -67,11 +70,17 @@ class QnADetailReactor: Reactor {
                 return setPostComment()
             } else { return .empty() }
             
-        case .didDeletedComment:
+        case .didDeleteComment:
             return deleteCommentInSection()
             
         case .didTapOptionButton(let row):
             return .just(.setSelectedCommentRow(row))
+            
+        case .didDeletePost:
+            return .concat([
+                .just(.setIsDeleted(true)),
+                .just(.setIsDeleted(false)),
+            ])
         }
     }
     
@@ -109,6 +118,9 @@ class QnADetailReactor: Reactor {
             
         case .setCategory(let category):
             state.category = category
+            
+        case .setIsDeleted(let isDeleted):
+            state.isDeleted = isDeleted
         }
         
         return state
