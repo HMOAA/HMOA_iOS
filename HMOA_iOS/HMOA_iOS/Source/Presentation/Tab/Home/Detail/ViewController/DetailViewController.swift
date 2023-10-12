@@ -18,8 +18,6 @@ class DetailViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
     
-    var DetailReactor: DetailViewReactor
-    
     private var dataSource: UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>!
 
     let detailView = DetailView()
@@ -30,15 +28,9 @@ class DetailViewController: UIViewController, View {
     let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
     let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
     
-    
-    //MARK: - Init
-    init(reactor: DetailViewReactor) {
-        DetailReactor = reactor
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    lazy var optionView = OptionView().then {
+        $0.parentVC = self
+        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
     }
     
     // MARK: - Lifecycle
@@ -47,7 +39,6 @@ class DetailViewController: UIViewController, View {
         configureUI()
         configureCollectionViewDataSource()
         configreNavigationBar()
-        bind(reactor: DetailReactor)
     }
 }
 
@@ -66,6 +57,13 @@ extension DetailViewController {
         
         detailView.collectionView.rx
             .setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        // viewWillAppear
+        rx.viewWillAppear
+            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         // 댓글 작성 버튼 클릭
@@ -103,6 +101,7 @@ extension DetailViewController {
         // collectionView 바인딩
         reactor.state
             .map { $0.sections }
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
                 var snapshot = NSDiffableDataSourceSnapshot<DetailSection, DetailSectionItem>()
@@ -199,7 +198,7 @@ extension DetailViewController {
     }
     
     func bindHeader(_ header: CommentHeaderView) {
-        DetailReactor.state
+        reactor?.state
             .map { "+\($0.commentCount)" }
             .bind(to: header.countLabel.rx.text)
             .disposed(by: disposeBag)
@@ -214,18 +213,19 @@ extension DetailViewController {
         cell.perfumeInfoView
             .brandView.tapGesture.rx.event
             .map { _ in Reactor.Action.didTapBrandView }
-            .bind(to: self.DetailReactor.action)
+            .bind(to: self.reactor!.action)
             .disposed(by: self.disposeBag)
         
         // BrandDetailVC로 present
-        DetailReactor.state
+        reactor?.state
             .map { $0.presentBrandId }
+            .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: presentBrandDetailViewController)
             .disposed(by: disposeBag)
         
         //좋아요 이미지 변경
-        DetailReactor.state
+        reactor?.state
             .map { $0.isLiked }
             .skip(1)
             .distinctUntilChanged()
@@ -236,7 +236,7 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         //좋아요 개수 바인딩
-        DetailReactor.state
+        reactor?.state
             .compactMap { $0.likeCount }
             .skip(1)
             .map { "\($0)" }
@@ -247,7 +247,8 @@ extension DetailViewController {
     func configureUI() {
         
         [   detailView,
-            bottomView
+            bottomView,
+            optionView
         ]   .forEach { view.addSubview($0) }
         
         detailView.snp.makeConstraints {
@@ -260,6 +261,10 @@ extension DetailViewController {
             $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(83)
+        }
+        
+        optionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -285,20 +290,16 @@ extension DetailViewController: UICollectionViewDelegate {
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
                 self.bindPerfumeInfoCell(perfumeInfoCell)
-                perfumeInfoCell.updateCell(detail.perfumeDetail)
+                perfumeInfoCell.updateCell(detail)
                 return perfumeInfoCell
                 
             case .evaluationCell(let evaluation, _):
                 guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
                 
-                var isLogin: Bool = false
-                LoginManager.shared.isLogin
-                    .subscribe(onNext: {
-                        isLogin = $0
-                    })
-                    .disposed(by: self.disposeBag)
-                
-                evaluationCell.reactor = EvaluationReactor(evaluation, self.DetailReactor.currentState.perfumeId, isLogin: isLogin)
+                evaluationCell.reactor = EvaluationReactor(
+                    evaluation,
+                    self.reactor!.currentState.perfumeId,
+                    isLogin: self.reactor!.currentState.isLogin)
                 
                 
             
@@ -308,6 +309,12 @@ extension DetailViewController: UICollectionViewDelegate {
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 commentCell.updateCell(comment)
+                commentCell.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil) }
+                    .bind(to: self.optionView.reactor!.action)
+                    .disposed(by: self.optionView.disposeBag)
+                    
+                
                 return commentCell
                 
             case .similarCell(let similar, _):
@@ -340,11 +347,11 @@ extension DetailViewController: UICollectionViewDelegate {
             
             if kind == UICollectionView.elementKindSectionFooter {
                 guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
-                
+            
                 
                 commentFooter.moreButton.rx.tap
                     .map { Reactor.Action.didTapMoreButton }
-                    .bind(to: self.DetailReactor.action)
+                    .bind(to: self.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
                 return commentFooter
@@ -355,8 +362,8 @@ extension DetailViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 && !DetailReactor.currentState.isPaging {
-            DetailReactor.action.onNext(.willDisplaySecondSection)
+        if indexPath.section == 1 && !reactor!.currentState.isPaging {
+            reactor?.action.onNext(.willDisplaySecondSection)
         }
     }
 }

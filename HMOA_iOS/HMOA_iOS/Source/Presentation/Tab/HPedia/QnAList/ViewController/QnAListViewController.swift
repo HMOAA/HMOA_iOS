@@ -19,17 +19,21 @@ class QnAListViewController: UIViewController, View {
     //MARK: - UI Components
     let searchBar = UISearchBar().configureHpediaSearchBar()
     
-    let layout = UICollectionViewFlowLayout().then {
-        $0.minimumLineSpacing = 0
-    }
-    
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureInitCollectionLayout()).then {
         $0.register(QnAListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAListHeaderView.identifier)
         $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
     }
     
+    lazy var searchCollectionView = UICollectionView(frame: .zero, collectionViewLayout: configureSearchCollectionViewLayout()).then {
+        $0.backgroundColor = .black
+        $0.isHidden = true
+        $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
+    }
+    
+    
     let floatingButton = UIButton().then {
         $0.setImage(UIImage(named: "addButton"), for: .normal)
+        $0.setImage(UIImage(named: "selectedAddButton"), for: .selected)
     }
     
     let recommendButton: UIButton = {
@@ -47,9 +51,9 @@ class QnAListViewController: UIViewController, View {
         button.contentHorizontalAlignment = .leading
         return button
     }()
-    let giftButton: UIButton = {
+    let reviewButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        var titleAttr = AttributedString.init("선물")
+        var titleAttr = AttributedString.init("시향기")
         titleAttr.font = .customFont(.pretendard, 16)
         config.attributedTitle = titleAttr
         config.image = UIImage(named: "floatingCircle")
@@ -64,7 +68,7 @@ class QnAListViewController: UIViewController, View {
     
     let etcButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        var titleAttr = AttributedString.init("기타")
+        var titleAttr = AttributedString.init("자유")
         titleAttr.font = .customFont(.pretendard, 16)
         config.attributedTitle = titleAttr
         config.image = UIImage(named: "floatingCircle")
@@ -76,7 +80,7 @@ class QnAListViewController: UIViewController, View {
         return button
     }()
     
-    lazy var floatingButtons = [recommendButton, giftButton, etcButton]
+    lazy var floatingButtons = [recommendButton, reviewButton, etcButton]
     
     let floatingStackView = UIStackView().then {
         $0.alpha = 0
@@ -104,7 +108,7 @@ class QnAListViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationBarTitle(title: "QnA", color: .white, isHidden: false, isScroll: false)
+        setNavigationBarTitle(title: "Community", color: .white, isHidden: false, isScroll: false)
         setUpUI()
         setAddView()
         setConstraints()
@@ -161,22 +165,26 @@ class QnAListViewController: UIViewController, View {
         [
             searchBar,
             collectionView,
+            searchCollectionView
         ]   .forEach { view.addSubview($0) }
 
     }
 
     private func setConstraints() {
         
-        collectionView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
-        
         searchBar.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(60)
+            make.height.equalTo(45)
         }
         
         collectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(searchBar.snp.bottom)
+            make.bottom.equalToSuperview()
+        }
+        
+        searchCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(searchBar.snp.bottom)
             make.bottom.equalToSuperview()
@@ -189,6 +197,7 @@ class QnAListViewController: UIViewController, View {
         
         //viewWillAppear
         rx.viewWillAppear
+            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -207,8 +216,8 @@ class QnAListViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         //선물 버튼 터치
-        giftButton.rx.tap
-            .map { Reactor.Action.didTapGiftButton }
+        reviewButton.rx.tap
+            .map { Reactor.Action.didTapReviewButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -221,6 +230,12 @@ class QnAListViewController: UIViewController, View {
         //콜렉션 뷰 아이템 터치
         collectionView.rx.itemSelected
             .map { Reactor.Action.didTapQnACell($0)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // searchBar text 변경
+        searchBar.rx.text.orEmpty
+            .map { Reactor.Action.didChangedSearchText($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -255,7 +270,7 @@ class QnAListViewController: UIViewController, View {
         
         //선택된 카테고리 String QnAWriteVC로 push
         reactor.state
-            .map { $0.selectedCategory }
+            .map { $0.selectedAddCategory }
             .compactMap { $0 }
             .bind(onNext: presentQnAWriteVC)
             .disposed(by: disposeBag)
@@ -267,10 +282,74 @@ class QnAListViewController: UIViewController, View {
             .bind(onNext: presentQnADetailVC)
             .disposed(by: disposeBag)
         
+        reactor.state
+            .compactMap { $0.searchText }
+            .bind(with: self) { owner, text in
+                if text.isEmpty {
+                    owner.searchCollectionView.isHidden = true
+                    owner.collectionView.isHidden = false
+                    
+                }
+                else {
+                    if owner.searchCollectionView.isHidden {
+                        owner.searchCollectionView.isHidden = false
+                    }
+                    
+                    if !owner.collectionView.isHidden {
+                        owner.collectionView.isHidden = true
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
+        
+    }
+    
+    func bindHeader(_ header: QnAListHeaderView) {
+        // Action
+        
+        // 카테고리 버튼 터치
+        Observable.merge(
+            header.tagListView.tagViews[0].rx.tap.map { "추천" },
+            header.tagListView.tagViews[1].rx.tap.map { "시향기" },
+            header.tagListView.tagViews[2].rx.tap.map { "자유" })
+        .map { Reactor.Action.didTapCategoryButton($0) }
+        .bind(to: reactor.action)
+        .disposed(by: disposeBag)
     }
 }
 
-extension QnAListViewController: UICollectionViewDelegateFlowLayout {
+extension QnAListViewController {
+    
+    func configureInitCollectionLayout() -> UICollectionViewCompositionalLayout {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(59))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [header]
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
+    func configureSearchCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
     
     func configureDatasource() {
         datasource = UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
@@ -290,14 +369,18 @@ extension QnAListViewController: UICollectionViewDelegateFlowLayout {
             switch indexPath.item {
             case 0:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: QnAListHeaderView.identifier, for: indexPath) as? QnAListHeaderView else { return UICollectionReusableView() }
-                
+                self.bindHeader(header)
                 return header
             default: return UICollectionReusableView()
             }
         }
+        
+        collectionView.dataSource = datasource
+        searchCollectionView.dataSource = datasource
     }
     
     func showAnimation(_ isTap: Bool) {
+        floatingButton.isSelected = isTap
         //버튼, 뷰 숨기기
         if !isTap {
             UIView.animate(withDuration: 0.3) {
@@ -326,13 +409,4 @@ extension QnAListViewController: UICollectionViewDelegateFlowLayout {
             }
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 70)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 44)
-    }
-    
 }

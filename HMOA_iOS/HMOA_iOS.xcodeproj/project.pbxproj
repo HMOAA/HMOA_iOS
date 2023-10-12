@@ -162,6 +162,13 @@
 		CA360F3A29DD870E00A93873 /* HPediaReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3929DD870E00A93873 /* HPediaReactor.swift */; };
 		CA360F3C29DD8ABE00A93873 /* HPediaQnACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3B29DD8ABE00A93873 /* HPediaQnACell.swift */; };
 		CA36DA842A4AA25700F9C17E /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA36DA832A4AA25700F9C17E /* IgnoerData.swift */; };
+		CA4744692AC7EC0E00003584 /* CommunityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744682AC7EC0E00003584 /* CommunityAPI.swift */; };
+		CA47446B2AC7EC1400003584 /* CommunityAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47446A2AC7EC1400003584 /* CommunityAddress.swift */; };
+		CA47446D2AC7ECED00003584 /* CommunityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47446C2AC7ECED00003584 /* CommunityModel.swift */; };
+		CA47446F2AC97D8A00003584 /* CommunityWriteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47446E2AC97D8A00003584 /* CommunityWriteReactor.swift */; };
+		CA4744772AD3C1E800003584 /* OptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744762AD3C1E800003584 /* OptionView.swift */; };
+		CA4744792AD3C28C00003584 /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744782AD3C28C00003584 /* OptionCell.swift */; };
+		CA4744832AD3E2BB00003584 /* OptionReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744822AD3E2BB00003584 /* OptionReactor.swift */; };
 		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
 		CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */; };
@@ -188,10 +195,10 @@
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
 		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
 		CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */; };
-		CAA116042AC15A310063806C /* CommentDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116032AC15A310063806C /* CommentDetailService.swift */; };
 		CAA116082AC16AB40063806C /* BrandAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116072AC16AB40063806C /* BrandAddress.swift */; };
 		CAA1160A2AC16ABD0063806C /* BrandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116092AC16ABD0063806C /* BrandAPI.swift */; };
 		CAA1160C2AC16C0F0063806C /* BrandData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160B2AC16C0F0063806C /* BrandData.swift */; };
+		CAA1160E2AC2DABE0063806C /* DetailDictionaryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160D2AC2DABE0063806C /* DetailDictionaryReactor.swift */; };
 		CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */; };
 		CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */; };
 		CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */; };
@@ -390,6 +397,13 @@
 		CA360F3929DD870E00A93873 /* HPediaReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaReactor.swift; sourceTree = "<group>"; };
 		CA360F3B29DD8ABE00A93873 /* HPediaQnACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaQnACell.swift; sourceTree = "<group>"; };
 		CA36DA832A4AA25700F9C17E /* IgnoerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
+		CA4744682AC7EC0E00003584 /* CommunityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityAPI.swift; sourceTree = "<group>"; };
+		CA47446A2AC7EC1400003584 /* CommunityAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityAddress.swift; sourceTree = "<group>"; };
+		CA47446C2AC7ECED00003584 /* CommunityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityModel.swift; sourceTree = "<group>"; };
+		CA47446E2AC97D8A00003584 /* CommunityWriteReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityWriteReactor.swift; sourceTree = "<group>"; };
+		CA4744762AD3C1E800003584 /* OptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionView.swift; sourceTree = "<group>"; };
+		CA4744782AD3C28C00003584 /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
+		CA4744822AD3E2BB00003584 /* OptionReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionReactor.swift; sourceTree = "<group>"; };
 		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
 		CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -416,10 +430,10 @@
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
 		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
-		CAA116032AC15A310063806C /* CommentDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetailService.swift; sourceTree = "<group>"; };
 		CAA116072AC16AB40063806C /* BrandAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAddress.swift; sourceTree = "<group>"; };
 		CAA116092AC16ABD0063806C /* BrandAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAPI.swift; sourceTree = "<group>"; };
 		CAA1160B2AC16C0F0063806C /* BrandData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandData.swift; sourceTree = "<group>"; };
+		CAA1160D2AC2DABE0063806C /* DetailDictionaryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDictionaryReactor.swift; sourceTree = "<group>"; };
 		CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCardCell.swift; sourceTree = "<group>"; };
@@ -583,7 +597,6 @@
 		2C04248C29A50439009CF0FE /* CommentDetail */ = {
 			isa = PBXGroup;
 			children = (
-				CAA116022AC15A1E0063806C /* Service */,
 				2C04248E29A5044E009CF0FE /* Reactor */,
 				2C04248D29A50448009CF0FE /* ViewController */,
 			);
@@ -1072,6 +1085,7 @@
 		2C60F22929BA12E300595EF4 /* HPedia */ = {
 			isa = PBXGroup;
 			children = (
+				CA4744722AD3C18200003584 /* Option */,
 				CA2238912AAF41DF00452A31 /* QnADetail */,
 				CA22388A2AAEFC8200452A31 /* QnAWrite */,
 				CA7C9C052AAADF3600072AB9 /* QnAList */,
@@ -1160,6 +1174,7 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				CA4744662AC7EBF800003584 /* Community */,
 				CAA116052AC16A220063806C /* Brand */,
 				CA219C4B2AA2FDC3003FB215 /* Comment */,
 				CA219C3F2A9C6B19003FB215 /* Like */,
@@ -1518,6 +1533,7 @@
 		CA22388D2AAEFC9800452A31 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				CA47446E2AC97D8A00003584 /* CommunityWriteReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1590,6 +1606,50 @@
 				CA360F3729DD658600A93873 /* HPediaTagData.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		CA4744662AC7EBF800003584 /* Community */ = {
+			isa = PBXGroup;
+			children = (
+				CA4744672AC7EC0000003584 /* Model */,
+				CA4744682AC7EC0E00003584 /* CommunityAPI.swift */,
+				CA47446A2AC7EC1400003584 /* CommunityAddress.swift */,
+			);
+			path = Community;
+			sourceTree = "<group>";
+		};
+		CA4744672AC7EC0000003584 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA47446C2AC7ECED00003584 /* CommunityModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CA4744722AD3C18200003584 /* Option */ = {
+			isa = PBXGroup;
+			children = (
+				CA4744812AD3E2AD00003584 /* Reactor */,
+				CA4744742AD3C1C200003584 /* View */,
+			);
+			path = Option;
+			sourceTree = "<group>";
+		};
+		CA4744742AD3C1C200003584 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CA4744782AD3C28C00003584 /* OptionCell.swift */,
+				CA4744762AD3C1E800003584 /* OptionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CA4744812AD3E2AD00003584 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				CA4744822AD3E2BB00003584 /* OptionReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		CA54DD8E29C445DD00167F05 /* Reactor */ = {
@@ -1695,6 +1755,7 @@
 		CA7C9C012AA8832300072AB9 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				CAA1160D2AC2DABE0063806C /* DetailDictionaryReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1778,14 +1839,6 @@
 				CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */,
 			);
 			path = Font;
-			sourceTree = "<group>";
-		};
-		CAA116022AC15A1E0063806C /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				CAA116032AC15A310063806C /* CommentDetailService.swift */,
-			);
-			path = Service;
 			sourceTree = "<group>";
 		};
 		CAA116052AC16A220063806C /* Brand */ = {
@@ -2116,11 +2169,14 @@
 				2C04249629A533DF009CF0FE /* CommentBottomView.swift in Sources */,
 				CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */,
 				2C1BD6BC299785360059A43D /* EmptyPerfumeView.swift in Sources */,
+				CA47446F2AC97D8A00003584 /* CommunityWriteReactor.swift in Sources */,
 				2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */,
 				CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */,
 				2C60F22029BA0F4000595EF4 /* Int++Extenstions.swift in Sources */,
 				2C04248B29A4FABA009CF0FE /* CommentSection.swift in Sources */,
 				CA36DA842A4AA25700F9C17E /* IgnoerData.swift in Sources */,
+				CAA1160E2AC2DABE0063806C /* DetailDictionaryReactor.swift in Sources */,
+				CA4744772AD3C1E800003584 /* OptionView.swift in Sources */,
 				2C464E6229CDDCF900A07658 /* PolicyViewController.swift in Sources */,
 				CA360F3A29DD870E00A93873 /* HPediaReactor.swift in Sources */,
 				2C4CDC4029C770D900676163 /* BrandInfo.swift in Sources */,
@@ -2129,6 +2185,7 @@
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				CAA1160A2AC16ABD0063806C /* BrandAPI.swift in Sources */,
 				CAF19B9E2A625D2100374038 /* SearchAddress.swift in Sources */,
+				CA4744692AC7EC0E00003584 /* CommunityAPI.swift in Sources */,
 				CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
@@ -2178,6 +2235,7 @@
 				CA2238A12AAF5FFD00452A31 /* QnAPostHeaderView.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				CA01609B2AB2E45700D5839D /* EvaluationAPI.swift in Sources */,
+				CA47446D2AC7ECED00003584 /* CommunityModel.swift in Sources */,
 				2CD0235E2A080D4500459801 /* MyProfileType.swift in Sources */,
 				CA6152BB2A6A8007007B04A7 /* Brand.swift in Sources */,
 				2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */,
@@ -2228,12 +2286,13 @@
 				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */,
-				CAA116042AC15A310063806C /* CommentDetailService.swift in Sources */,
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
 				CA360F3429DD623D00A93873 /* HPediaSection.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
 				CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */,
 				2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */,
+				CA47446B2AC7EC1400003584 /* CommunityAddress.swift in Sources */,
+				CA4744792AD3C28C00003584 /* OptionCell.swift in Sources */,
 				CA2238A32AAF601000452A31 /* QnACommentHeaderView.swift in Sources */,
 				CA360F3629DD643600A93873 /* HPediaGuideData.swift in Sources */,
 				2C4CDC4C29C770D900676163 /* BrandSearchReactor.swift in Sources */,
@@ -2263,6 +2322,7 @@
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
 				2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */,
 				CA219C442A9C6DAD003FB215 /* LikeAPI.swift in Sources */,
+				CA4744832AD3E2BB00003584 /* OptionReactor.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
 				2CA155B62A0533B100D7B0C0 /* MyProfileSection.swift in Sources */,
 				CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */,

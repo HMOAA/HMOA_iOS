@@ -14,18 +14,21 @@ class HPediaReactor: Reactor {
     var initialState: State
     
     enum Action {
-        case didTapDictionaryItem(IndexPath?)
+        case didTapDictionaryItem(Int?)
+        case didTapCommunityItem(Int?)
     }
     
     struct State {
         var DictionarySectionItems: [HPediaDictionaryData] = HPediaDictionaryData.list
-        var qnASectionItems: [HPediaQnAData] = HPediaQnAData.list
+        var qnASectionItems: [CategoryList] = []
         
         var selectedDictionaryId: Int? = nil
+        var selectedCommunityId: Int? = nil
     }
     
     enum Mutation {
-        case setDictionaryIndexPath(IndexPath?)
+        case setSelectedDictionaryItemId(Int?)
+        case setSelectedCommunityItemId(Int?)
     }
     
     init() {
@@ -34,22 +37,30 @@ class HPediaReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .didTapDictionaryItem(let indexPath):
+        case .didTapDictionaryItem(let itemId):
             return .concat([
-                .just(.setDictionaryIndexPath(indexPath)),
-                .just(.setDictionaryIndexPath(nil))
+                .just(.setSelectedDictionaryItemId(itemId)),
+                .just(.setSelectedDictionaryItemId(nil))
             ])
+        case .didTapCommunityItem(let itemId):
+            return .concat([
+                    .just(.setSelectedCommunityItemId(itemId)),
+                    .just(.setSelectedCommunityItemId(nil))
+                ])
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = initialState
         switch mutation {
-        case .setDictionaryIndexPath(let indexPath):
-            guard let indexPath = indexPath else {
+        case .setSelectedDictionaryItemId(let itemId):
+            guard let itemId = itemId else {
                 return state
             }
-            state.selectedDictionaryId = state.DictionarySectionItems[indexPath.section].id
+            state.selectedDictionaryId = state.DictionarySectionItems[itemId].id
+        case .setSelectedCommunityItemId(let itemId):
+            guard let itemId = itemId else { return state }
+            state.selectedCommunityId = 1
         }
         
         return state

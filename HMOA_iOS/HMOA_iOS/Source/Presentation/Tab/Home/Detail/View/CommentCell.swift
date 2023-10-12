@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 import Then
-import ReactorKit
 import RxSwift
 import RxCocoa
 
@@ -51,6 +50,15 @@ class CommentCell: UICollectionViewCell {
                       color: .gray3)
     }
     
+    lazy var optionButton = UIButton().then {
+        $0.isHidden = true
+        $0.setImage(UIImage(named: "commentOption"), for: .normal)
+    }
+    
+    var parentVC: UIViewController?
+    
+    var disposeBag = DisposeBag()
+    
     // MARK: - init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,6 +83,26 @@ extension CommentCell {
             commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
             subView.isHidden = false
             noCommentLabel.isHidden = true
+            
+            if item.writed { optionButton.isHidden = false }
+        }
+    }
+    
+    func updateCommunityComment(_ item: CommunityComment?) {
+        if !noCommentLabel.isHidden  { noCommentLabel.isHidden = true }
+        if let item = item {
+            userImageView.kf.setImage(with: URL(string: item.profileImg))
+            userNameLabel.text = item.nickname
+            contentLabel.text = item.content
+            commentLikeButton.isHidden = true
+            subView.isHidden = false
+            
+            if item.writed { optionButton.isHidden = false }
+            
+//            userImageView.kf.setImage(with: URL(string: item.profileImg))
+//            userNameLabel.text = item.author
+//            contentLabel.text = item.content
+//            subView.isHidden = false
         }
     }
     
@@ -86,7 +114,9 @@ extension CommentCell {
         [   userImageView,
             userNameLabel,
             contentLabel,
-            commentLikeButton  ] .forEach { subView.addSubview($0) }
+            commentLikeButton,
+            optionButton
+        ] .forEach { subView.addSubview($0) }
 
         subView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
@@ -120,6 +150,10 @@ extension CommentCell {
         noCommentLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
+        }
+        
+        optionButton.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview().inset(7.2)
         }
     }
     

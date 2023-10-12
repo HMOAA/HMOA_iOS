@@ -95,8 +95,8 @@ class DictionaryViewController: UIViewController, View {
         
         //선택된 타이틀 DetailDictionaryVC로 push
         reactor.state
-            .map { $0.selectedTitle }
-            .compactMap { $0 }
+            .filter { $0.selectedTitle != nil }
+            .compactMap { ($0.selectedTitle!, $0.title) }
             .bind(onNext: presentDetailDictionaryVC)
             .disposed(by: disposeBag)
     }

@@ -19,11 +19,29 @@ extension UIViewController {
     
     func presentQnADetailVC(_ id: Int) {
         let qnaDetailVC = QnADetailViewController()
+        let reactor = QnADetailReactor(id)
+        qnaDetailVC.reactor = reactor
+        qnaDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }
     
+    func presentQnAWriteVCForEdit(id: Int, content: String, title: String, category: String) {
+        let qnaWriteVC = QnAWriteViewController()
+        let reactor = CommunityWriteReactor(communityId: id,
+                                            content: content,
+                                            title: title,
+                                            category: category)
+        qnaWriteVC.reactor = reactor
+        qnaWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(qnaWriteVC, animated: true)
+    }
+    
     func presentQnAWriteVC(_ category: String) {
-        let qnaWriteVC = QnAWriteViewController(title: category)
+        let qnaWriteVC = QnAWriteViewController()
+        let reactor = CommunityWriteReactor(communityId: nil,
+                                            title: nil,
+                                            category: category)
+        qnaWriteVC.reactor = reactor
         qnaWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaWriteVC, animated: true)
     }
@@ -33,8 +51,10 @@ extension UIViewController {
         self.navigationController?.pushViewController(qnaListVC, animated: true)
     }
     
-    func presentDetailDictionaryVC(_ title: String) {
+    func presentDetailDictionaryVC(_ value: (String, String)) {
         let detailDictionaryVC = DetailDictionaryViewController()
+        let reactor = DetailDictionaryReactor(value.1)
+        detailDictionaryVC.reactor = reactor
         self.navigationController?.pushViewController(detailDictionaryVC, animated: true)
     }
     
@@ -47,7 +67,8 @@ extension UIViewController {
     
     func presentDatailViewController(_ id: Int) {
         let reactor = DetailViewReactor(perfumeId: id)
-        let detailVC = DetailViewController(reactor: reactor)
+        let detailVC = DetailViewController()
+        detailVC.reactor = reactor
         detailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
@@ -69,7 +90,7 @@ extension UIViewController {
     func presentCommentDetailViewController(_ comment: Comment) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor(comment, service: UserCommentService())
+        commentDetailVC.reactor = CommentDetailReactor(comment)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
@@ -77,24 +98,20 @@ extension UIViewController {
         let commentWriteVC = CommentWriteViewController()
         commentWriteVC.reactor = CommentWriteReactor(
             perfumeId: perfumeId,
-            isWrite: false)
+            isWrite: false,
+            content: "",
+            commentId: nil,
+            isCommunity: true)
         
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
-    func presentCommentWirteViewControllerForWriter(_ commentId: Int, _ comment: String, reactor: CommentDetailReactor) {
+    func presentCommentWirteViewControllerForWriter(commentId: Int?, isWrited: Bool, content: String, isCommunity: Bool) {
         
         let commentWriteVC = CommentWriteViewController()
-        let commentWriteReactor = reactor.reactorForSetting()
+        let commentWriteReactor = CommentWriteReactor(perfumeId: nil, isWrite: isWrited, content: content, commentId: commentId, isCommunity: isCommunity)
         commentWriteVC.reactor = commentWriteReactor
-//        commentWriteVC.reactor = CommentWriteReactor(
-//            perfumeId: 0,
-//            isWrite: true,
-//            content: comment, service: <#UserCommentServiceProtocol#>,
-//            commentId: commentId
-//        )
-        
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }

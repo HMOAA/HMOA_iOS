@@ -10,6 +10,7 @@ import UIKit
 import Then
 import ReactorKit
 import SnapKit
+import RxAppState
 
 class EvaluationCell: UICollectionViewCell, View {
     
@@ -209,16 +210,11 @@ class EvaluationCell: UICollectionViewCell, View {
         setUpUI()
         setAddView()
         setConstraints()
+        setBlackLayer()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        setBlackLayer()
     }
     
     //MARK: - SetUp
@@ -505,13 +501,12 @@ extension EvaluationCell {
         evaluatedAgeView.isHidden = false
     
         let percent = CGFloat(age.age) / 50.0
-        let frame = evaluatedAgeView.frame
         
         if age.age == 50 {
             evaluatedAgeView.layer.sublayers?[0].maskedCorners = allCornerRadius
         }
     
-        evaluatedAgeView.layer.sublayers?[0].frame = CGRect(x: 0, y: 0, width: frame.width * percent, height: frame.height)
+        evaluatedAgeView.layer.sublayers?[0].frame = CGRect(x: 0, y: 0, width: (UIScreen.main.bounds.width - 64) * percent, height: 52)
         
         averageAgeLabel.text = "평균 \(age.age)세"
         
@@ -530,10 +525,13 @@ extension EvaluationCell {
                 evaluatedSexView.layer.sublayers?[0].maskedCorners = allCornerRadius
             }
             let womanPercent = CGFloat(gender.woman) / 100.0
-            evaluatedSexView.layer.sublayers?[0].frame = CGRect(x: 0, y: 0, width: frame.width * womanPercent, height: frame.height)
+            let width = (UIScreen.main.bounds.width - 64) * womanPercent
+            evaluatedSexView.layer.sublayers?[0].frame = CGRect(x: 0, y: 0, width: width, height: 52)
+            
         } else {
             let manPercent = CGFloat(gender.man) / 100.0
-            evaluatedSexView.layer.sublayers?[1].frame = CGRect(x: frame.maxX - 32, y: 0, width: frame.width * -manPercent, height: frame.height)
+            let width = (UIScreen.main.bounds.width - 64) * manPercent
+            evaluatedSexView.layer.sublayers?[1].frame = CGRect(x: frame.maxX - 32, y: 0, width: -width, height: 52)
             if gender.man == 100 {
                 evaluatedSexView.layer.sublayers?[1].maskedCorners = allCornerRadius
             }
@@ -623,10 +621,9 @@ extension EvaluationCell {
         blackWomanLayer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
         blackAgeLayer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
         
-        
-        blackWomanLayer.frame = CGRect(x: 0, y: 0, width: 0, height: frame.height)
-        blackManLayer.frame = CGRect(x: frame.maxX - 32, y: 0, width: 0, height: frame.height)
-        blackAgeLayer.frame = CGRect(x: 0, y: 0, width: 0, height: frame.height)
+        blackWomanLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 52)
+        blackManLayer.frame = CGRect(x: frame.maxX - 32, y: 0, width: 0, height: 52)
+        blackAgeLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 52)
         
         layers.forEach {
             $0.cornerRadius = 5

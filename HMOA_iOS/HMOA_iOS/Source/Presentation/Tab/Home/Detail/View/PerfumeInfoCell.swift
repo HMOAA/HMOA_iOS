@@ -55,7 +55,7 @@ extension PerfumeInfoCell {
         return attri
     }
     
-    func updateCell(_ item: Detail) {
+    func updateCell(_ item: FirstDetail) {
         perfumeInfoView.perfumeLikeImageView.image = !item.liked ? UIImage(named: "heart") : UIImage(named: "heart_fill")
         perfumeInfoView.perfumeLikeCountLabel.text = "\(item.heartNum)"
         perfumeInfoView.perfumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl)!)
@@ -80,7 +80,7 @@ extension PerfumeInfoCell {
         return numberFormatter.string(for: number)!
     }
 
-    func setVolume(_ item: Detail ) {
+    func setVolume(_ item: FirstDetail ) {
         switch item.priceVolume {
         case 1:
             perfumeInfoView.perfumeView30.capacityLabel1.text = "\(item.volume[0])ml"

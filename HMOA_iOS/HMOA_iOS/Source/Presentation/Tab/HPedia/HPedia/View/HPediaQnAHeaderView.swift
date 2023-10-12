@@ -14,7 +14,7 @@ class HPediaQnAHeaderView: UICollectionReusableView {
     static let identifier = "HPediaQnAHeaderView"
     //MARK: - UI Components
     let titleLabel = UILabel().then {
-        $0.setLabelUI("묻고 답하기", font: .pretendard, size: 16, color: .black)
+        $0.setLabelUI("Community", font: .pretendard, size: 20, color: .black)
     }
     
     let allButton = UIButton().then {

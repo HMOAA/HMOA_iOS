@@ -10,7 +10,6 @@ import RxSwift
 
 class CommentWriteReactor: Reactor {
     var initialState: State
-    var service: UserCommentServiceProtocol? = nil
     
     enum Action {
         case didTapOkButton
@@ -30,19 +29,19 @@ class CommentWriteReactor: Reactor {
         var content: String = "해당 제품에 대한 의견을 남겨주세요"
         var isWrite: Bool = false // 수정 or 새로 작성 상태
         var commentId: Int? = nil
-        var perfumeId: Int
+        var perfumeId: Int? = nil
         var isPopVC: Bool = false
         var isBeginEditing: Bool = false
         var isEndEditing: Bool = false
+        var isCommunityComment: Bool
     }
     
-    init(perfumeId: Int, isWrite: Bool, content: String = "", service: UserCommentServiceProtocol? = nil, commentId: Int = 0) {
+    init(perfumeId: Int?, isWrite: Bool, content: String, commentId: Int?, isCommunity: Bool) {
         // 수정인 경우
         if isWrite {
-            self.initialState = State(content: content, isWrite: isWrite, commentId: commentId, perfumeId: perfumeId)
-            self.service = service!
+            self.initialState = State(content: content, isWrite: isWrite, commentId: commentId, isCommunityComment: isCommunity )
         } else { // 새로 댓글을 다는 경우
-            self.initialState = State(perfumeId: perfumeId)
+            self.initialState = State(perfumeId: perfumeId, isCommunityComment: isCommunity)
         }
     }
     
@@ -93,8 +92,6 @@ class CommentWriteReactor: Reactor {
         
         return state
     }
-    
-    // TODO: 수정 상태 or 작성 상태에 따라서 서버로 댓글 전달하기
 }
 
 extension CommentWriteReactor {
@@ -103,7 +100,7 @@ extension CommentWriteReactor {
         let content = currentState.content
         return CommentAPI.postComment(
             ["content": content],
-            currentState.perfumeId
+            currentState.perfumeId!
         )
         .catch { _ in .empty() }
         .flatMap { _ -> Observable<Mutation> in
@@ -116,18 +113,28 @@ extension CommentWriteReactor {
     
     func modifyCommentAndSetPopVC() -> Observable<Mutation> {
         let content = currentState.content
-        
-        return CommentAPI.modifyComment(
-            ["content": content],
-            currentState.commentId!)
-        .catch { _ in .empty() }
-        .flatMap { _ -> Observable<Mutation> in
-            return .concat([
-                self.service!.updateContent(to: content)
-                    .map { _ in .setIsPopVC(true) },
-                .just(.setIsPopVC(false))
-                
-            ])
+        if !currentState.isCommunityComment {
+            return CommentAPI.modifyComment(
+                ["content": content],
+                currentState.commentId!)
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                return .concat([
+                    .just(.setIsPopVC(true)),
+                    .just(.setIsPopVC(false))
+                ])
+            }
+        } else {
+            return CommunityAPI.putCommunityComment(
+                currentState.commentId!,
+                ["content": content])
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                return .concat([
+                    .just(.setIsPopVC(true)),
+                    .just(.setIsPopVC(false))
+                ])
+            }
         }
         
     }

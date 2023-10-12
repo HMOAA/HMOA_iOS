@@ -12,7 +12,6 @@ import UIKit
 class CommentDetailReactor: Reactor {
     
     var initialState: State
-    let service: UserCommentServiceProtocol
     
     enum Action {
         case didTapLikeButton
@@ -32,9 +31,8 @@ class CommentDetailReactor: Reactor {
         var content: String
     }
     
-    init(_ comment: Comment, service: UserCommentServiceProtocol) {
+    init(_ comment: Comment) {
         initialState = State(comment: comment, content: comment.content)
-        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -66,25 +64,6 @@ class CommentDetailReactor: Reactor {
         }
         
         return state
-    }
-    
-    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
-            switch event {
-            case .updateContent(let content):
-                return .just(.setCommentContent(content))
-            }
-        }
-        return .merge(mutation, eventMutation)
-    }
-    
-    func reactorForSetting() -> CommentWriteReactor {
-        let comment = currentState.comment
-        return CommentWriteReactor(perfumeId: comment.perfumeId,
-                                   isWrite: comment.writed,
-                                   content: comment.content,
-                                   service: service,
-                                   commentId: comment.id)
     }
 }
 

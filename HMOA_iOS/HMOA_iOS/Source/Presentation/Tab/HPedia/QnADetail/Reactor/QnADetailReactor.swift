@@ -14,33 +14,113 @@ class QnADetailReactor: Reactor {
     let initialState: State
     
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
+        case didChangeTextViewEditing(String)
+        case didBeginEditing
+        case didTapCommentWriteButton
+        case didDeleteComment
+        case didTapOptionButton(Int)
+        case didDeletePost
     }
     
     enum Mutation {
         case setSections([QnADetailSection])
+        case setCategory(String)
+        case setCommentCount(Int)
+        case setContent(String)
+        case setIsBegenEditing(Bool)
+        case setComment(CommunityComment)
+        case setSelectedCommentRow(Int?)
+        case setIsEndEditing(Bool)
+        case setIsDeleted(Bool)
     }
     
     struct State {
+        var communityId: Int
         var sections: [QnADetailSection] = []
+        var commentCount: Int? = nil
+        var isBeginEditing: Bool = false
+        var content: String = ""
+        var selectedCommentRow: Int? = nil
+        var isEndEditing: Bool = false
+        var category: String = ""
+        var isDeleted: Bool = false
     }
     
-    init() {
-        initialState = State()
+    init(_ id: Int) {
+        initialState = State(communityId: id)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
-            return setUpSection()
+        case .viewWillAppear:
+            return .concat([
+                setUpPostSection(),
+                setUpCommentSection()
+            ])
+            
+        case .didBeginEditing:
+            return .just(.setIsBegenEditing(true))
+            
+        case .didChangeTextViewEditing(let content):
+            return .just(.setContent(content))
+            
+        case .didTapCommentWriteButton:
+            if !currentState.content.isEmpty || currentState.content != "댓글을 입력하세요" {
+                return setPostComment()
+            } else { return .empty() }
+            
+        case .didDeleteComment:
+            return deleteCommentInSection()
+            
+        case .didTapOptionButton(let row):
+            return .just(.setSelectedCommentRow(row))
+            
+        case .didDeletePost:
+            return .concat([
+                .just(.setIsDeleted(true)),
+                .just(.setIsDeleted(false)),
+            ])
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
+        
         switch mutation {
         case .setSections(let sections):
             state.sections = sections
+            
+        case .setCommentCount(let count):
+            state.commentCount = count
+            
+        case .setContent(let content):
+            state.content = content
+            
+        case .setIsBegenEditing(let isBegin):
+            state.isBeginEditing = isBegin
+            
+        case .setComment(let comment):
+            var section = currentState.sections
+            var commentItem = section[1].item
+            commentItem.append(QnADetailSectionItem.commentCell(comment))
+            let commentSection = QnADetailSection.comment(commentItem)
+            section[1] = commentSection
+            
+            state.commentCount = currentState.commentCount! + 1
+            state.sections = section
+            
+        case .setSelectedCommentRow(let row):
+            state.selectedCommentRow = row
+            
+        case .setIsEndEditing(let isEnd):
+            state.isEndEditing = isEnd
+            
+        case .setCategory(let category):
+            state.category = category
+            
+        case .setIsDeleted(let isDeleted):
+            state.isDeleted = isDeleted
         }
         
         return state
@@ -48,19 +128,65 @@ class QnADetailReactor: Reactor {
 }
 
 extension QnADetailReactor {
-    func setUpSection() -> Observable<Mutation> {
-        let commentItems = [
-            Comment(content: "1111", createAt: "123", heartCount: 2, id: 2, liked: false, nickname: "sdf", perfumeId: 2, profileImg: "", writed: false)
+    func setUpPostSection() -> Observable<Mutation> {
+        return CommunityAPI.fetchCommunityDetail(currentState.communityId)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                let item = QnADetailSectionItem.qnaPostCell(data)
+                let section = QnADetailSection.qnaPost([item])
+                
+                return .concat([
+                    .just(.setCategory(data.category)),
+                    .just(.setSections([section]))
+                ])
+            }
+    }
+    
+    func setUpCommentSection() -> Observable<Mutation> {
+        let query: [String: Int] =
+        [
+            "page": 0
         ]
-        
-        let commentItem = commentItems.map { QnADetailSectionItem.commentCell($0) }
+        return CommunityAPI.fetchCommunityComment(currentState.communityId, query)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                var item = data.comments.map { QnADetailSectionItem.commentCell($0) }
+                var section = self.currentState.sections
+                
+                section.append(QnADetailSection.comment(item))
+                
+                return .concat([
+                    .just(.setSections(section)),
+                    .just(.setCommentCount(data.commentCount))
+                ])
+            }
+    }
+    
+    func setPostComment() -> Observable<Mutation> {
+        let param = [ "content": currentState.content ]
+        return CommunityAPI.postCommunityComment(currentState.communityId, param)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .concat([
+                    .just(.setComment(data)),
+                    .just(.setIsEndEditing(true)),
+                    .just(.setIsEndEditing(false))
+                ])
+            }
+    }
+    
+    func deleteCommentInSection() -> Observable<Mutation> {
+        guard let row = currentState.selectedCommentRow else { return .empty() }
+        var section = currentState.sections
+        var commentItem = section[1].item
+        commentItem.remove(at: row)
         let commentSection = QnADetailSection.comment(commentItem)
+        section[1] = commentSection
         
-        let qnaPostItem = QnADetailSectionItem.qnaPostCell(QnAData(id: 0, nickname: "닉네임입니다", day: 10, title: "여자친구한테 선물할 향수 뭐가 좋을까요?", content: "곧 있으면 여자친구 생일이라 향수를 선물해주고 싶은데, 요즘 20대 여성이 사용할 만한 향수 추천해주세요 가격대는 10~20만원정도로 생각하고 있습니다", profileImageUrl: nil))
-        
-        let qnaSection = QnADetailSection.qnaPost([qnaPostItem])
-        
-        return .just(.setSections([qnaSection, commentSection]))
-        
+        return .concat([
+            .just(.setSections(section)),
+            .just(.setSelectedCommentRow(nil)),
+            .just(.setCommentCount(currentState.commentCount! - 1))
+        ])
     }
 }

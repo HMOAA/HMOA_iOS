@@ -12,8 +12,8 @@ enum QnADetailSection: Hashable {
 }
 
 enum QnADetailSectionItem: Hashable {
-    case qnaPostCell(QnAData)
-    case commentCell(Comment)
+    case qnaPostCell(CommunityDetail)
+    case commentCell(CommunityComment?)
 }
 
 extension QnADetailSection {
@@ -28,12 +28,13 @@ extension QnADetailSection {
     }
 }
 
-struct QnAData: Hashable {
-    let id: Int
-    let nickname: String
-    let day: Int
-    let title: String
-    let content: String
-    let profileImageUrl: String?
+extension QnADetailSectionItem {
+    
+    var category: String {
+        switch self {
+        case .qnaPostCell(let detail):
+            return detail.category
+        default: return ""
+        }
+    }
 }
-
