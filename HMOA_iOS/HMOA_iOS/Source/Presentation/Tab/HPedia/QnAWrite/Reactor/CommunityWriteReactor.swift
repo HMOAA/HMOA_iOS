@@ -58,7 +58,7 @@ class CommunityWriteReactor: Reactor {
                 .just(.setTitle(title))
             ])
         case .didBeginEditing:
-            if currentState.content == "내용을 입력하세요" {
+            if currentState.content == "내용을 입력해주세요" {
                 return .just(.setContent(""))
             } else {
                 return .empty()
