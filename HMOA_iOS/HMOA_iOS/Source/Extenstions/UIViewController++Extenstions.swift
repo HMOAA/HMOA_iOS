@@ -25,9 +25,22 @@ extension UIViewController {
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }
     
+    func presentQnAWriteVCForEdit(id: Int, content: String, title: String, category: String) {
+        let qnaWriteVC = QnAWriteViewController()
+        let reactor = CommunityWriteReactor(communityId: id,
+                                            content: content,
+                                            title: title,
+                                            category: category)
+        qnaWriteVC.reactor = reactor
+        qnaWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(qnaWriteVC, animated: true)
+    }
+    
     func presentQnAWriteVC(_ category: String) {
         let qnaWriteVC = QnAWriteViewController()
-        let reactor = CommunityWriteReactor(category: category)
+        let reactor = CommunityWriteReactor(communityId: nil,
+                                            title: nil,
+                                            category: category)
         qnaWriteVC.reactor = reactor
         qnaWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaWriteVC, animated: true)

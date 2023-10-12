@@ -150,7 +150,7 @@ extension CommentListViewController {
                 cell.updateCell(comment)
                 
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, "Comment") }
+                    .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, nil, "Comment", nil) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 

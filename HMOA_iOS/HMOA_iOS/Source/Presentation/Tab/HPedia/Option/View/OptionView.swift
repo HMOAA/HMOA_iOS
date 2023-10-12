@@ -140,7 +140,6 @@ class OptionView: UIView, View {
                     let height = (count + 1) * 60 + 8
                     make.height.equalTo(height)
                     make.bottom.equalToSuperview().offset(height - 32)
-
                 }
             }
             .disposed(by: disposeBag)
@@ -158,6 +157,7 @@ class OptionView: UIView, View {
             .map { $0.isTapEdit }
             .filter { $0 }
             .bind(with: self) { owner, _ in
+                // 댓글 수정
                 if reactor.currentState.type == "Comment" {
                     let commentInfo = reactor.currentState.commentInfo!
                     let isCommunity = owner.parentVC is QnADetailViewController
@@ -167,6 +167,15 @@ class OptionView: UIView, View {
                         content: commentInfo.1,
                         isCommunity: isCommunity
                     )
+                }
+                
+                if reactor.currentState.type == "Post" {
+                    let postInfo = reactor.currentState.postInfo!
+                    owner.parentVC?.presentQnAWriteVCForEdit(
+                        id: postInfo.0,
+                        content: postInfo.1,
+                        title: postInfo.2,
+                        category: postInfo.3)
                 }
             }.disposed(by: disposeBag)
     }

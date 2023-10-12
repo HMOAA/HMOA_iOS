@@ -14,7 +14,7 @@ final class OptionReactor: Reactor {
     
     enum Action {
         case didTapBackgroundView
-        case didTapOptionButton(Int?, String?, String)
+        case didTapOptionButton(Int?, String?, String?, String, String?)
         case didTapOptionCell(Int)
     }
     
@@ -23,7 +23,7 @@ final class OptionReactor: Reactor {
         case setIsTapEdit(Bool)
         case setIsTapDelete(Bool)
         case setCommentInfo(Int, String)
-        case setPostInfo(Int, String)
+        case setPostInfo(Int, String, String, String)
         case setType(String)
     }
     
@@ -33,8 +33,9 @@ final class OptionReactor: Reactor {
         var isTapEdit: Bool = false
         var isTapDelete: Bool = false
         var commentInfo: (Int, String)? = nil
-        var postInfo: (Int, String)? = nil
+        var postInfo: (Int, String, String, String)? = nil
         var type: String = ""
+        var category: String = ""
     }
     
     init(_ options: [String]) {
@@ -47,13 +48,13 @@ final class OptionReactor: Reactor {
         case .didTapBackgroundView:
             return .just(.setisHiddenOptionView(true))
             
-        case .didTapOptionButton(let id, let content, let type):
+        case .didTapOptionButton(let id, let content, let title, let type, let category):
             guard let id = id else { return .empty() }
             
             if type == "Post" {
                 return .concat([
                     .just(.setType(type)),
-                    .just(.setPostInfo(id, content!)),
+                    .just(.setPostInfo(id, content!, title!, category!)),
                     .just(.setisHiddenOptionView(false))
                 ])
             }
@@ -100,8 +101,8 @@ final class OptionReactor: Reactor {
         case .setCommentInfo(let id, let content):
             state.commentInfo = (id, content)
             
-        case .setPostInfo:
-            break
+        case .setPostInfo(let id, let content, let title, let category):
+            state.postInfo = (id, content, title, category)
             
         case .setType(let type):
             state.type = type

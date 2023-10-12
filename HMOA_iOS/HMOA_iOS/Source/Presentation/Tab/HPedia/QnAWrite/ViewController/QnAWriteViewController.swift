@@ -173,9 +173,22 @@ class QnAWriteViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        // 카테고리 바인딩
         reactor.state
             .map { $0.category }
             .bind(to: titleNaviLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 텍스트뷰 텍스트 바인딩
+        reactor.state
+            .map { $0.content }
+            .bind(to: textView.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 제목 텍스트 바인딩
+        reactor.state
+            .map { $0.title }
+            .bind(to: titleTextField.rx.text)
             .disposed(by: disposeBag)
         
     }

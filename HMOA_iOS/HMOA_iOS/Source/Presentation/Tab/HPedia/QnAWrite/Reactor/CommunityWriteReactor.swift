@@ -28,17 +28,20 @@ class CommunityWriteReactor: Reactor {
     }
     
     struct State {
-        var title: String = ""
+        var id: Int? = nil
         var isPopVC: Bool = false
         var isBeginEditing: Bool = false
         var isEndEditing: Bool = false
-        var content: String = "내용을 입력해주세요"
+        var content: String
+        var title: String? = nil
         var category: String
     }
     
-    init(category: String) {
-        initialState = State(category: category)
-        print(category)
+    init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String) {
+        initialState = State(id: communityId,
+                             content: content,
+                             title: title,
+                             category: category)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -86,19 +89,24 @@ extension CommunityWriteReactor {
     func postCommunityPost() -> Observable<Mutation> {
         
         let state = currentState
-        if state.content.isEmpty || state.title.isEmpty {
+        guard let title = state.title else { return .empty() }
+        if state.content.isEmpty || title.isEmpty {
             return .empty()
         }
         
         let params: [String: String] = [
             "category": state.category,
             "content": state.content,
-            "title": state.title
+            "title": title
         ]
         return CommunityAPI.postCommunityPost(params)
             .catch { _ in.empty() }
             .flatMap { _  -> Observable<Mutation> in
                 return .empty()
             }
+    }
+    
+    func editCommunityPost() -> Observable<Mutation> {
+        return CommunityAPI.
     }
 }

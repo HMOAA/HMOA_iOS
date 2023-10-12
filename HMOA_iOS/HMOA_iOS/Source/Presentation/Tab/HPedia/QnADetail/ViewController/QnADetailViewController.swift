@@ -266,8 +266,9 @@ extension QnADetailViewController {
             case .qnaPostCell(let qnaPost):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QnAPostCell.identifier, for: indexPath) as? QnAPostCell else { return UICollectionViewCell() }
                 
+                self.postOptionView.parentVC = self
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(qnaPost.id, qnaPost.content, "Post") }
+                    .map { OptionReactor.Action.didTapOptionButton(qnaPost.id, qnaPost.content, qnaPost.title, "Post", (self.reactor?.currentState.category)!) }
                     .bind(to: self.postOptionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
@@ -279,7 +280,7 @@ extension QnADetailViewController {
                 
                 // optionView에 comment 정보 전달
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, "Comment") }
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil) }
                     .bind(to: self.commentOptionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
@@ -313,11 +314,13 @@ extension QnADetailViewController {
                     .map { $0.commentCount }
                     .bind(with: self, onNext: { owner, count in
                         if let count = count {
-                            owner.noCommentLabel.isHidden = true
-                            owner.collectionView.isScrollEnabled = true
+                            if count == 0 {
+                                owner.noCommentLabel.isHidden = false
+                            } else {
+                                owner.noCommentLabel.isHidden = true
+                                owner.collectionView.isScrollEnabled = true
+                            }
                             header.commentCountLabel.text = "+\(count)"
-                        } else {
-                            owner.noCommentLabel.isHidden = false
                         }
                     })
                     .disposed(by: self.disposeBag)

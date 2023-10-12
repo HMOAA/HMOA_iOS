@@ -24,6 +24,7 @@ class QnADetailReactor: Reactor {
     
     enum Mutation {
         case setSections([QnADetailSection])
+        case setCategory(String)
         case setCommentCount(Int)
         case setContent(String)
         case setIsBegenEditing(Bool)
@@ -40,6 +41,7 @@ class QnADetailReactor: Reactor {
         var content: String = ""
         var selectedCommentRow: Int? = nil
         var isEndEditing: Bool = false
+        var category: String = ""
     }
     
     init(_ id: Int) {
@@ -104,6 +106,9 @@ class QnADetailReactor: Reactor {
             
         case .setIsEndEditing(let isEnd):
             state.isEndEditing = isEnd
+            
+        case .setCategory(let category):
+            state.category = category
         }
         
         return state
@@ -118,7 +123,10 @@ extension QnADetailReactor {
                 let item = QnADetailSectionItem.qnaPostCell(data)
                 let section = QnADetailSection.qnaPost([item])
                 
-                return .just(.setSections([section]))
+                return .concat([
+                    .just(.setCategory(data.category)),
+                    .just(.setSections([section]))
+                ])
             }
     }
     
