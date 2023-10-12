@@ -107,6 +107,11 @@ final class CommunityAPI {
             model: Response.self)
     }
     
+    
+    /// 커뮤니티 글 수정
+    /// - Parameters:
+    ///   - id: 커뮤니티 아이디
+    ///   - params: content: String
     static func putCommunityPost(_ id: Int, _ params: [String: String]) -> Observable<CommunityDetail> {
         let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
         
@@ -115,6 +120,17 @@ final class CommunityAPI {
             method: .put,
             data: data,
             model: CommunityDetail.self)
+    }
+    
+    
+    /// 커뮤니티 글 삭제
+    /// - Parameter id: 커뮤니티 아이디
+    static func deleteCommunityPost(_ id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: CommunityAddress.putOrDeleteCommunityPost("\(id)").url,
+            method: .delete,
+            data: nil,
+            model: Response.self)
     }
 }
     
