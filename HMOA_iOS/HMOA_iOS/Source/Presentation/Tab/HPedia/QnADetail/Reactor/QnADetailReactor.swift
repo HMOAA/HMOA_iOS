@@ -16,7 +16,6 @@ class QnADetailReactor: Reactor {
     enum Action {
         case viewWillAppear
         case didChangeTextViewEditing(String)
-        case didEndTextViewEditing
         case didBeginEditing
         case didTapCommentWriteButton
         case didDeletedComment
@@ -27,10 +26,10 @@ class QnADetailReactor: Reactor {
         case setSections([QnADetailSection])
         case setCommentCount(Int)
         case setContent(String)
-        case setIsEndEditing(Bool)
         case setIsBegenEditing(Bool)
         case setComment(CommunityComment)
         case setSelectedCommentRow(Int?)
+        case setIsEndEditing(Bool)
     }
     
     struct State {
@@ -38,9 +37,9 @@ class QnADetailReactor: Reactor {
         var sections: [QnADetailSection] = []
         var commentCount: Int? = nil
         var isBeginEditing: Bool = false
-        var isEndEditing: Bool = false
         var content: String = ""
         var selectedCommentRow: Int? = nil
+        var isEndEditing: Bool = false
     }
     
     init(_ id: Int) {
@@ -57,12 +56,6 @@ class QnADetailReactor: Reactor {
             
         case .didBeginEditing:
             return .just(.setIsBegenEditing(true))
-            
-        case .didEndTextViewEditing:
-            return .concat([
-                .just(.setIsEndEditing(true)),
-                .just(.setIsEndEditing(false))
-            ])
             
         case .didChangeTextViewEditing(let content):
             return .just(.setContent(content))
@@ -90,9 +83,6 @@ class QnADetailReactor: Reactor {
         case .setCommentCount(let count):
             state.commentCount = count
             
-        case .setIsEndEditing(let isEnd):
-            state.isEndEditing = isEnd
-            
         case .setContent(let content):
             state.content = content
             
@@ -111,6 +101,9 @@ class QnADetailReactor: Reactor {
             
         case .setSelectedCommentRow(let row):
             state.selectedCommentRow = row
+            
+        case .setIsEndEditing(let isEnd):
+            state.isEndEditing = isEnd
         }
         
         return state
@@ -155,7 +148,11 @@ extension QnADetailReactor {
         return CommunityAPI.postCommunityComment(currentState.communityId, param)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                return .just(.setComment(data))
+                return .concat([
+                    .just(.setComment(data)),
+                    .just(.setIsEndEditing(true)),
+                    .just(.setIsEndEditing(false))
+                ])
             }
     }
     

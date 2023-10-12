@@ -12,6 +12,7 @@ import SnapKit
 import RxCocoa
 import RxSwift
 import ReactorKit
+import RxGesture
 
 class QnADetailViewController: UIViewController, View {
 
@@ -79,6 +80,7 @@ class QnADetailViewController: UIViewController, View {
         setNavigationBarTitle(title: "Community", color: .white, isHidden: false)
         configureDataSource()
     }
+    
     
 
     //MARK: - SetUp
@@ -154,6 +156,15 @@ class QnADetailViewController: UIViewController, View {
         
         // Action
         
+        // 빈 화면 터치 시 키보드 내리기
+        collectionView.rx
+            .tapGesture()
+            .when(.recognized)
+            .bind(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
+        
         // viewDidLoad
         rx.viewWillAppear
             .map { _ in Reactor.Action.viewWillAppear }
@@ -171,12 +182,6 @@ class QnADetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .skip(1)
             .map { Reactor.Action.didChangeTextViewEditing($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // textView 사용자가 입력 종료 (textView가 비활성화)
-        commentTextView.rx.didEndEditing
-            .map { Reactor.Action.didEndTextViewEditing }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -237,6 +242,17 @@ class QnADetailViewController: UIViewController, View {
                     make.height.equalTo(height)
                 }
             }
+            .disposed(by: disposeBag)
+        
+        // 댓글 입력 시 키보드 내리기
+        reactor.state
+            .map { $0.isEndEditing }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, _ in
+                owner.commentTextView.text = ""
+                owner.view.endEditing(true)
+            })
             .disposed(by: disposeBag)
     }
 }
