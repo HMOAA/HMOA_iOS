@@ -186,6 +186,14 @@ class QnADetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 옵션 뷰 삭제 버튼 터치
+        commentOptionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeletedComment }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // State
         
@@ -253,10 +261,18 @@ extension QnADetailViewController {
             case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
+                // optionView에 comment 정보 전달
                 cell.optionButton.rx.tap
                     .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, "Comment") }
                     .bind(to: self.commentOptionView.reactor!.action)
                     .disposed(by: self.disposeBag)
+                
+                // QnADetailReactor에 indexPathRow 전달
+                cell.optionButton.rx.tap
+                    .map { QnADetailReactor.Action.didTapOptionButton(indexPath.row) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
                 cell.updateCommunityComment(comment)
                 return cell
             }
@@ -280,7 +296,7 @@ extension QnADetailViewController {
                 self.reactor?.state
                     .map { $0.commentCount }
                     .bind(with: self, onNext: { owner, count in
-                        if count != 0 {
+                        if let count = count {
                             owner.noCommentLabel.isHidden = true
                             owner.collectionView.isScrollEnabled = true
                             header.commentCountLabel.text = "+\(count)"

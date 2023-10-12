@@ -76,11 +76,7 @@ final class OptionReactor: Reactor {
                 ])
                 
             case "삭제":
-                return .concat([
-                    .just(.setisHiddenOptionView(true)),
-                    .just(.setIsTapDelete(true)),
-                    .just(.setIsTapDelete(false))
-                ])
+                return deleteComment()
             default: return .empty()
             }
         }
@@ -115,4 +111,18 @@ final class OptionReactor: Reactor {
     }
     
     
+}
+
+extension OptionReactor {
+    func deleteComment() -> Observable<Mutation> {
+        return CommunityAPI.deleteCommunityComment(currentState.commentInfo!.0)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .concat([
+                    .just(.setisHiddenOptionView(true)),
+                    .just(.setIsTapDelete(true)),
+                    .just(.setIsTapDelete(false))
+                ])
+            }
+    }
 }

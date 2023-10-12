@@ -312,7 +312,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 commentCell.optionButton.rx.tap
                     .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, "Comment") }
                     .bind(to: self.optionView.reactor!.action)
-                    .disposed(by: self.disposeBag)
+                    .disposed(by: self.optionView.disposeBag)
                     
                 
                 return commentCell
@@ -348,6 +348,7 @@ extension DetailViewController: UICollectionViewDelegate {
             if kind == UICollectionView.elementKindSectionFooter {
                 guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
             
+                
                 commentFooter.moreButton.rx.tap
                     .map { Reactor.Action.didTapMoreButton }
                     .bind(to: self.reactor!.action)
