@@ -153,7 +153,6 @@ extension QnADetailReactor {
                 var item = data.comments.map { QnADetailSectionItem.commentCell($0) }
                 var section = self.currentState.sections
                 
-                if item.isEmpty { item = [QnADetailSectionItem.commentCell(nil)] }
                 section.append(QnADetailSection.comment(item))
                 
                 return .concat([
