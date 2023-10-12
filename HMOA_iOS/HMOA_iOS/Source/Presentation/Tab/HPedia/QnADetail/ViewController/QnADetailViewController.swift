@@ -192,12 +192,21 @@ class QnADetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // 옵션 뷰 삭제 버튼 터치
+        // 댓글 옵션 뷰 삭제 버튼 터치
         commentOptionView.reactor?.state
             .map { $0.isTapDelete }
             .distinctUntilChanged()
             .filter { $0 }
-            .map { _ in Reactor.Action.didDeletedComment }
+            .map { _ in Reactor.Action.didDeleteComment }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 게시글 옵션 뷰 삭제 버튼 터치
+        postOptionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeletePost}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -254,6 +263,15 @@ class QnADetailViewController: UIViewController, View {
                 owner.commentTextView.text = ""
                 owner.view.endEditing(true)
             })
+            .disposed(by: disposeBag)
+        
+        // 게시글 삭제 시 pop
+        reactor.state
+            .map { $0.isDeleted }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: popViewController)
             .disposed(by: disposeBag)
     }
 }
