@@ -19,6 +19,8 @@ class QnADetailReactor: Reactor {
         case didEndTextViewEditing
         case didBeginEditing
         case didTapCommentWriteButton
+        case didDeletedComment
+        case didTapOptionButton(Int)
     }
     
     enum Mutation {
@@ -28,16 +30,17 @@ class QnADetailReactor: Reactor {
         case setIsEndEditing(Bool)
         case setIsBegenEditing(Bool)
         case setComment(CommunityComment)
-        
+        case setSelectedCommentRow(Int?)
     }
     
     struct State {
         var communityId: Int
         var sections: [QnADetailSection] = []
-        var commentCount: Int = 0
+        var commentCount: Int? = nil
         var isBeginEditing: Bool = false
         var isEndEditing: Bool = false
         var content: String = ""
+        var selectedCommentRow: Int? = nil
     }
     
     init(_ id: Int) {
@@ -68,6 +71,12 @@ class QnADetailReactor: Reactor {
             if !currentState.content.isEmpty || currentState.content != "댓글을 입력하세요" {
                 return setPostComment()
             } else { return .empty() }
+            
+        case .didDeletedComment:
+            return deleteCommentInSection()
+            
+        case .didTapOptionButton(let row):
+            return .just(.setSelectedCommentRow(row))
         }
     }
     
@@ -89,6 +98,7 @@ class QnADetailReactor: Reactor {
             
         case .setIsBegenEditing(let isBegin):
             state.isBeginEditing = isBegin
+            
         case .setComment(let comment):
             var section = currentState.sections
             var commentItem = section[1].item
@@ -96,8 +106,11 @@ class QnADetailReactor: Reactor {
             let commentSection = QnADetailSection.comment(commentItem)
             section[1] = commentSection
             
-            state.commentCount = currentState.commentCount + 1
+            state.commentCount = currentState.commentCount! + 1
             state.sections = section
+            
+        case .setSelectedCommentRow(let row):
+            state.selectedCommentRow = row
         }
         
         return state
@@ -144,5 +157,20 @@ extension QnADetailReactor {
             .flatMap { data -> Observable<Mutation> in
                 return .just(.setComment(data))
             }
+    }
+    
+    func deleteCommentInSection() -> Observable<Mutation> {
+        guard let row = currentState.selectedCommentRow else { return .empty() }
+        var section = currentState.sections
+        var commentItem = section[1].item
+        commentItem.remove(at: row)
+        let commentSection = QnADetailSection.comment(commentItem)
+        section[1] = commentSection
+        
+        return .concat([
+            .just(.setSections(section)),
+            .just(.setSelectedCommentRow(nil)),
+            .just(.setCommentCount(currentState.commentCount! - 1))
+        ])
     }
 }

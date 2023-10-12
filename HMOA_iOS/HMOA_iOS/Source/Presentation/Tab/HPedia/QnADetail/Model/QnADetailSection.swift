@@ -37,5 +37,4 @@ extension QnADetailSectionItem {
         default: return ""
         }
     }
-
 }

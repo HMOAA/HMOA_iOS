@@ -169,6 +169,14 @@ class OptionView: UIView, View {
                     )
                 }
             }.disposed(by: disposeBag)
+        
+//        reactor.state
+//            .map { $0.isTapDelete }
+//            .distinctUntilChanged()
+//            .filter { $0 }
+//            .bind(with: self) { owner, <#Bool#> in
+//                <#code#>
+//            }
     }
 
 }
