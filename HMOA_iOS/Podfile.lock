@@ -46,6 +46,9 @@ PODS:
     - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
+  - RxGesture (4.0.4):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxKakaoSDKAuth (2.15.0):
     - KakaoSDKAuth (= 2.15.0)
     - RxKakaoSDKCommon (= 2.15.0)
@@ -80,6 +83,7 @@ DEPENDENCIES:
   - RxAppState
   - RxCocoa
   - RxDataSources
+  - RxGesture
   - RxKakaoSDKAuth
   - RxKakaoSDKCommon
   - RxKakaoSDKUser
@@ -106,6 +110,7 @@ SPEC REPOS:
     - RxAppState
     - RxCocoa
     - RxDataSources
+    - RxGesture
     - RxKakaoSDKAuth
     - RxKakaoSDKCommon
     - RxKakaoSDKUser
@@ -133,6 +138,7 @@ SPEC CHECKSUMS:
   RxAppState: 9c34f951d4ff8b9034f84016fe766202365bceb2
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
   RxKakaoSDKAuth: e7d0ac86282b29538a30d63b83793539344d2271
   RxKakaoSDKCommon: 31411d8a4945bb347067fe80159210e9d175d7e6
   RxKakaoSDKUser: 08a495ae92224487a6c19f3b7495ccfcdb1b183e
@@ -143,6 +149,6 @@ SPEC CHECKSUMS:
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: d615764fe2e99b272fe2ff44c58fc4f0448d2442
+PODFILE CHECKSUM: 539af80460d49437abe3af96f2175023b261c8fa
 
 COCOAPODS: 1.12.1
