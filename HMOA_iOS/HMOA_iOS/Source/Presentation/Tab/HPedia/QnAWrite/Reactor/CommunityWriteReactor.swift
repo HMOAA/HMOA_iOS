@@ -107,6 +107,6 @@ extension CommunityWriteReactor {
     }
     
     func editCommunityPost() -> Observable<Mutation> {
-        return CommunityAPI.
+        return CommunityAPI.put
     }
 }
