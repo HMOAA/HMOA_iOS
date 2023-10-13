@@ -127,17 +127,25 @@ class EvaluationCell: UICollectionViewCell, View {
         $0.isHidden = true
         $0.backgroundColor = .customColor(.gray1)
     }
-    lazy var womanImageView = UIImageView().then {
-        $0.image = UIImage(named: "woman")
+    lazy var evaluatedWomanButton: UIButton = UIButton().then {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(named: "woman")
+        config.imagePlacement = .top
+        config.imagePadding = 6
+        config.titleAlignment = .center
+        config.contentInsets = .init(top: 14, leading: 16, bottom: 6, trailing: 20)
+        config.baseForegroundColor = .white
+        $0.configuration = config
     }
-    lazy var manImageView = UIImageView().then {
-        $0.image = UIImage(named: "man")
-    }
-    lazy var womanPercentLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_medium, size: 10, color: .white)
-    }
-    lazy var manPercentLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_medium, size: 10, color: .white)
+    lazy var evaluatedManButton = UIButton().then {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(named: "man")
+        config.imagePlacement = .top
+        config.imagePadding = 6
+        config.titleAlignment = .center
+        config.baseForegroundColor = .white
+        config.contentInsets = .init(top: 14, leading: 20, bottom: 5, trailing: 20)
+        $0.configuration = config
     }
 
     let wommanLabel = UILabel().then {
@@ -164,6 +172,11 @@ class EvaluationCell: UICollectionViewCell, View {
                       font: .pretendard_medium,
                       size: 16,
                       color: .black)
+    }
+    
+    lazy var ageResetButton = UIButton().then {
+        $0.setImage(UIImage(named: "ageReset"), for: .normal)
+        $0.isHidden = true
     }
     
     let ageSlider = UISlider().then {
@@ -258,10 +271,8 @@ class EvaluationCell: UICollectionViewCell, View {
         
         // 평가된 성별 뷰
         [
-            womanImageView,
-            womanPercentLabel,
-            manImageView,
-            manPercentLabel
+            evaluatedWomanButton,
+            evaluatedManButton
         ]   .forEach { evaluatedSexView.addSubview($0) }
         
         [
@@ -275,6 +286,7 @@ class EvaluationCell: UICollectionViewCell, View {
             uniSexLabel,
             manLabel,
             ageLabel,
+            ageResetButton,
             ageSlider,
             minAgeLabel,
             averageAgeLabel,
@@ -336,26 +348,14 @@ class EvaluationCell: UICollectionViewCell, View {
             make.height.equalTo(52)
         }
         
-        womanImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(18)
-            make.top.equalToSuperview().inset(14)
-            make.width.height.equalTo(16)
+        evaluatedWomanButton.snp.makeConstraints { make in
+            make.width.equalTo(65)
+            make.bottom.top.leading.equalToSuperview()
         }
         
-        womanPercentLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(18)
-            make.top.equalTo(womanImageView.snp.bottom).offset(6)
-        }
-        
-        manImageView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(18)
-            make.top.equalToSuperview().inset(14)
-            make.width.height.equalTo(16)
-        }
-        
-        manPercentLabel.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(15)
-            make.top.equalTo(manImageView.snp.bottom).offset(5)
+        evaluatedManButton.snp.makeConstraints { make in
+            make.width.equalTo(65)
+            make.top.bottom.trailing.equalToSuperview()
         }
         
         wommanLabel.snp.makeConstraints { make in
@@ -377,6 +377,11 @@ class EvaluationCell: UICollectionViewCell, View {
             make.leading.equalToSuperview().inset(16)
             make.trailing.equalToSuperview()
             make.top.equalTo(wommanLabel.snp.bottom).offset(40)
+        }
+        
+        ageResetButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(34)
+            make.top.equalTo(ageLabel.snp.top).offset(4)
         }
         
         ageSlider.snp.makeConstraints { make in
@@ -422,7 +427,7 @@ class EvaluationCell: UICollectionViewCell, View {
             .map { Reactor.Action.isChangingAgeSlider($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
+        
         // 슬라이더에서 손 땠을 때
         ageSlider.rx.controlEvent(.touchUpInside)
             .map { reactor.currentState.sliderStep }
@@ -444,10 +449,17 @@ class EvaluationCell: UICollectionViewCell, View {
         Observable.merge(
             manButton.rx.tap.map { 1 },
             wommanButton.rx.tap.map { 2 },
-            uniSexButton.rx.tap.map { 3 })
+            evaluatedManButton.rx.tap.map { 1 },
+            evaluatedWomanButton.rx.tap.map { 2 })
         .map { Reactor.Action.didTapGenderButton($0) }
         .bind(to: reactor.action)
         .disposed(by: disposeBag)
+        
+        // 나이 리셋 버튼 터치
+        ageResetButton.rx.tap
+            .map { Reactor.Action.didTapAgeResetButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         
         // weather 평가 값 계절 버튼에 binding
@@ -489,6 +501,21 @@ class EvaluationCell: UICollectionViewCell, View {
             .compactMap { $0 }
             .bind(onNext: setAgeSliderColor)
             .disposed(by: disposeBag)
+        
+        
+        // TODO: - 리셋 api 연동하기
+        // age reset ui 설정
+        reactor.state
+            .map { $0.isTapAgeReset }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                owner.ageSlider.isHidden = false
+                owner.ageSlider.value = 0
+                owner.evaluatedAgeView.isHidden = true
+                owner.ageResetButton.isHidden = true
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -496,9 +523,9 @@ extension EvaluationCell {
     
     // ageSlider 배경색, 텍스트 설정
     private func setAgeSliderColor(_ age: Age) {
-
         ageSlider.isHidden = true
         evaluatedAgeView.isHidden = false
+        ageResetButton.isHidden = false
     
         let percent = CGFloat(age.age) / 50.0
         
@@ -518,26 +545,51 @@ extension EvaluationCell {
         sexButtonView.isHidden = true
         evaluatedSexView.isHidden = false
         
-        let frame = evaluatedSexView.frame
-        
         if gender.woman >= 50 {
             if gender.woman == 100 {
                 evaluatedSexView.layer.sublayers?[0].maskedCorners = allCornerRadius
             }
             let womanPercent = CGFloat(gender.woman) / 100.0
             let width = (UIScreen.main.bounds.width - 64) * womanPercent
+            evaluatedSexView.layer.sublayers?[1].isHidden = true
+            evaluatedSexView.layer.sublayers?[0].isHidden = false
+            
             evaluatedSexView.layer.sublayers?[0].frame = CGRect(x: 0, y: 0, width: width, height: 52)
+            
+            evaluatedManButton.configuration?.image = UIImage(named: "man")?.withTintColor(.customColor(.gray2))
+            evaluatedManButton.configuration?.baseForegroundColor = .black
+            
+            if gender.woman >= 95 {
+                evaluatedManButton.configuration?.image = UIImage(named: "man")
+                evaluatedManButton.configuration?.baseForegroundColor = .white
+            }
             
         } else {
             let manPercent = CGFloat(gender.man) / 100.0
             let width = (UIScreen.main.bounds.width - 64) * manPercent
-            evaluatedSexView.layer.sublayers?[1].frame = CGRect(x: frame.maxX - 32, y: 0, width: -width, height: 52)
+            evaluatedSexView.layer.sublayers?[0].isHidden = true
+            evaluatedSexView.layer.sublayers?[1].isHidden = false
+            evaluatedSexView.layer.sublayers?[1].frame = CGRect(x: frame.maxX - 64, y: 0, width: -width, height: 52)
+            
             if gender.man == 100 {
                 evaluatedSexView.layer.sublayers?[1].maskedCorners = allCornerRadius
             }
+            
+            evaluatedManButton.configuration?.image = UIImage(named: "man")
+            evaluatedManButton.configuration?.baseForegroundColor = .white
+            
+            evaluatedWomanButton.configuration?.image = UIImage(named: "man")?.withTintColor(.customColor(.gray2))
+            evaluatedWomanButton.configuration?.baseForegroundColor = .black
+            
+            if gender.man >= 95 {
+                evaluatedWomanButton.configuration?.image = UIImage(named: "woman")
+                evaluatedWomanButton.configuration?.baseForegroundColor = .white
+            }
         }
-        womanPercentLabel.text = "\(gender.woman)%"
-        manPercentLabel.text = "\(gender.man)%"
+        
+        
+        evaluatedWomanButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: " \(gender.woman)%", size: 10, font: .pretendard)
+        evaluatedManButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(gender.man)%", size: 10, font: .pretendard)
     }
     
     // 계절 버튼 배경색, 텍스트 설정
