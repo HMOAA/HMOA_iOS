@@ -205,6 +205,10 @@ class EvaluationCell: UICollectionViewCell, View {
                       color: .black)
     }
     
+    lazy var dragLabel = UILabel().then {
+        $0.setLabelUI("드래그 해주세요", font: .pretendard, size: 16, color: .gray2)
+    }
+    
     lazy var evaluatedAgeView = UIView().then {
         $0.layer.masksToBounds = true
         $0.isHidden = true
@@ -291,7 +295,8 @@ class EvaluationCell: UICollectionViewCell, View {
             minAgeLabel,
             averageAgeLabel,
             maxAgeLabel,
-            evaluatedAgeView
+            evaluatedAgeView,
+            dragLabel
         ].forEach { addSubview($0) }
         
     }
@@ -375,7 +380,6 @@ class EvaluationCell: UICollectionViewCell, View {
         
         ageLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
-            make.trailing.equalToSuperview()
             make.top.equalTo(wommanLabel.snp.bottom).offset(40)
         }
         
@@ -409,6 +413,11 @@ class EvaluationCell: UICollectionViewCell, View {
             make.top.equalTo(ageLabel.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(32)
             make.height.equalTo(52)
+        }
+        
+        dragLabel.snp.makeConstraints { make in
+            make.top.equalTo(ageLabel.snp.bottom).offset(34)
+            make.leading.equalTo(ageLabel.snp.trailing).offset(39)
         }
     }
     
@@ -488,11 +497,17 @@ class EvaluationCell: UICollectionViewCell, View {
             .map { $0.sliderStep }
             .skip(1)
             .distinctUntilChanged()
-            .filter { $0 != 0 }
-            .bind(onNext: { _ in
-                let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
-                feedbackGenerator.impactOccurred()
-            })
+            .bind(with: self) { owner, value in
+                if value != 0 {
+                    let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+                    feedbackGenerator.impactOccurred()
+                    owner.dragLabel.isHidden = true
+                }
+                
+                else {
+                    owner.dragLabel.isHidden = false
+                }
+            }
             .disposed(by: disposeBag)
         
         // age 평가 값 binding
