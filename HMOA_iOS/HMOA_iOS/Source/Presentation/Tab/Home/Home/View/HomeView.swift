@@ -48,11 +48,11 @@ extension HomeView {
     }
     
     func homeTopCellCompositionalLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1.2778))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1.3778))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1.2778))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1.3778))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -117,8 +117,8 @@ extension HomeView {
         
         
         let section = NSCollectionLayoutSection(group: finalGroup)
-        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 48, leading: 0, bottom: 0, trailing: -16)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 74, leading: 16, bottom: 40, trailing: 16)
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 26, leading: 0, bottom: -12, trailing: -16)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 38, leading: 16, bottom: 40, trailing: 16)
 
         section.boundarySupplementaryItems = [ sectionHeader ]
 
