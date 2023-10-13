@@ -22,10 +22,6 @@ class DetailBottomView: UIView {
         $0.setImage(selectedImage, for: .selected)
     }
 
-    lazy var shareButton = UIButton().then {
-        $0.setImage(UIImage(named: "bottomShare"), for: .normal)
-    }
-
     lazy var wirteButton: UIButton = {
        
         var config = UIButton.Configuration.plain()
@@ -61,17 +57,11 @@ extension DetailBottomView {
         backgroundColor = .black
         
         [   likeButton,
-            shareButton,
             wirteButton   ]   .forEach { addSubview($0) }
         
         likeButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(17)
             $0.leading.equalToSuperview().inset(32)
-        }
-        
-        shareButton.snp.makeConstraints {
-            $0.top.equalTo(likeButton)
-            $0.leading.equalTo(likeButton.snp.trailing).offset(21)
         }
         
         wirteButton.snp.makeConstraints {
