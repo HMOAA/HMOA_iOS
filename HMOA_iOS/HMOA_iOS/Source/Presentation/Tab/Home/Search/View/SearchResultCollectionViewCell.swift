@@ -6,6 +6,8 @@
 //
 
 import UIKit
+
+import Then
 import Kingfisher
 
 class SearchResultCollectionViewCell: UICollectionViewCell {
@@ -16,7 +18,9 @@ class SearchResultCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UI Component
     
-    lazy var productImageView = UIImageView()
+    lazy var productImageView = UIImageView().then {
+        $0.layer.borderWidth = 0.5
+    }
     
     var brandLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 14)
