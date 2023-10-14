@@ -168,6 +168,7 @@
 		CA4744792AD3C28C00003584 /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744782AD3C28C00003584 /* OptionCell.swift */; };
 		CA4744832AD3E2BB00003584 /* OptionReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744822AD3E2BB00003584 /* OptionReactor.swift */; };
 		CA4744862ADA718500003584 /* MyLogReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744852ADA718500003584 /* MyLogReactor.swift */; };
+		CA47448D2ADA7D3600003584 /* CommentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47448C2ADA7D3600003584 /* CommentType.swift */; };
 		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
 		CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */; };
@@ -402,6 +403,7 @@
 		CA4744782AD3C28C00003584 /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
 		CA4744822AD3E2BB00003584 /* OptionReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionReactor.swift; sourceTree = "<group>"; };
 		CA4744852ADA718500003584 /* MyLogReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogReactor.swift; sourceTree = "<group>"; };
+		CA47448C2ADA7D3600003584 /* CommentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentType.swift; sourceTree = "<group>"; };
 		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
 		CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -883,6 +885,7 @@
 		2C464E5129CDDBFC00A07658 /* MyLog */ = {
 			isa = PBXGroup;
 			children = (
+				CA47448B2ADA7D2A00003584 /* Model */,
 				CA4744842ADA717700003584 /* Reactor */,
 				2C464E5729CDDC7000A07658 /* ViewController */,
 			);
@@ -1641,6 +1644,14 @@
 			path = Reactor;
 			sourceTree = "<group>";
 		};
+		CA47448B2ADA7D2A00003584 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA47448C2ADA7D3600003584 /* CommentType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CA54DD8E29C445DD00167F05 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
@@ -2343,6 +2354,7 @@
 				CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */,
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
+				CA47448D2ADA7D3600003584 /* CommentType.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,

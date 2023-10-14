@@ -33,21 +33,32 @@ class CommentListReactor: Reactor {
         var selectedComment: Comment? = nil
         var isPresentCommentWriteVC: Int? = nil
         var sortType = ""
+        var commentType: CommentType
+        var navigationTitle: String
     }
     
     var initialState: State
 
-    init(_ currentPerfumeId: Int) {
+    init(_ currentPerfumeId: Int?, _ type: CommentType) {
         initialState = State(
             perfumeId: currentPerfumeId,
-            sortType: "Latest"
+            sortType: "Latest",
+            commentType: type,
+            navigationTitle: type.title
         )
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return setCommentsList(type: currentState.sortType)
+            switch currentState.commentType {
+            case .detail:
+                return setCommentsList(type: currentState.sortType)
+            case .liked:
+                return .empty()
+            case .writed:
+                return .empty()
+            }
             
         case .didTapCell(let indexPath):
             return .concat([
