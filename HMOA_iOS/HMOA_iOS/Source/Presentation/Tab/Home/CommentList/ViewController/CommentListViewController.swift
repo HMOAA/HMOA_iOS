@@ -19,7 +19,7 @@ class CommentListViewController: UIViewController, View {
     var perfumeId: Int = 0
 
     private var dataSource: UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>!
-    lazy var commendReactor = CommentListReactor(perfumeId)
+    
     var disposeBag = DisposeBag()
 
     // MARK: - UI Component
@@ -43,10 +43,8 @@ class CommentListViewController: UIViewController, View {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setBackItemNaviBar("댓글")
         configureUI()
         configureCollectionViewDataSource()
-        bind(reactor: commendReactor)
     }
 }
 
@@ -111,6 +109,20 @@ extension CommentListViewController {
             .compactMap { $0 }
             .bind(onNext: presentCommentWriteViewController)
             .disposed(by: disposeBag)
+        
+        // 내비게이션 타이틀 설정
+        reactor.state
+            .map { $0.navigationTitle }
+            .bind(onNext: setBackItemNaviBar)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.commentType }
+            .filter { $0 != .detail }
+            .bind(with: self) { owner, _ in
+                owner.bottomView.isHidden = true
+                //owner.header.isHidden = true
+            }.disposed(by: disposeBag)
     }
     
     func bindHeader() {
@@ -120,17 +132,17 @@ extension CommentListViewController {
         // 좋아요순 버튼 클릭
         header.likeSortButton.rx.tap
             .map { Reactor.Action.didTapLikeSortButton }
-            .bind(to: commendReactor.action)
+            .bind(to: reactor!.action)
             .disposed(by: disposeBag)
         
         // 최신순 버튼 클릭
         header.recentSortButton.rx.tap
             .map { Reactor.Action.didTapRecentSortButton }
-            .bind(to: commendReactor.action)
+            .bind(to: reactor!.action)
             .disposed(by: disposeBag)
         
         //댓글 개수 
-        commendReactor.state
+        reactor?.state
             .map { $0.commentCount }
             .distinctUntilChanged()
             .map { "+" + String($0) }
