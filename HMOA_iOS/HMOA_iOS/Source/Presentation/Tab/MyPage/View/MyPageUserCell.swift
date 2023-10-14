@@ -8,14 +8,9 @@
 import UIKit
 import SnapKit
 import Then
-import ReactorKit
-import RxCocoa
 import Kingfisher
 
-class MyPageUserCell: UITableViewCell, View {
-    
-    typealias Reactor = MemberCellReactor
-    var disposeBag = DisposeBag()
+class MyPageUserCell: UITableViewCell {
     
     // MARK: - identifier
     static let identifier = "MyPageUserCell"
@@ -56,22 +51,6 @@ class MyPageUserCell: UITableViewCell, View {
 // MARK: Functions
 
 extension MyPageUserCell {
-    
-    func bind(reactor: MemberCellReactor) {
-        //MARK: - Action
-        print("34")
-//        editButton.rx.tap
-//            .map { Reactor.Action.didTapEditButton }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-    }
-    
-    func setupButtonTapHandling() {
-        editButton.rx.tap
-            .map { Reactor.Action.didTapEditButton } // 버튼 탭 이벤트를 리액터 액션으로 변환
-            .bind(to: reactor!.action) // 리액터로 액션 전달
-            .disposed(by: disposeBag)
-    }
     
     // MARK: - Configure
     func configureUI() {
