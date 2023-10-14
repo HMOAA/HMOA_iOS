@@ -101,7 +101,7 @@ extension LikeReactor {
             .flatMap { list -> Observable<Mutation> in
                 let item: [Like] = list.likePerfumes
                 let isHidden = !item.isEmpty
-                print("22\(isHidden)")
+        
                 return .concat([
                     .just(.setSectionItem(item)),
                     .just(.setIsHideenNoLikeView(isHidden))

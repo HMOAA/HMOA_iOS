@@ -55,9 +55,9 @@ class CommentListReactor: Reactor {
             case .detail:
                 return setCommentsList(type: currentState.sortType)
             case .liked:
-                return .empty()
+                return setLikedCommentList()
             case .writed:
-                return .empty()
+                return setWritedCommentList()
             }
             
         case .didTapCell(let indexPath):
@@ -131,6 +131,28 @@ extension CommentListReactor {
                     .just(.setCommentSection(commentSection)),
                     .just(.setCommentCount(commentCount))
                 ])
+            }
+    }
+    
+    func setLikedCommentList() -> Observable<Mutation> {
+        return MemberAPI.fetchLikedComments(["page": 0])
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                let commentItems = data.map { CommentSectionItem.commentCell($0, $0.id) }
+                let commentSection = [CommentSection.comment(commentItems)]
+                
+                return .just(.setCommentSection(commentSection))
+            }
+    }
+    
+    func setWritedCommentList() -> Observable<Mutation> {
+        return MemberAPI.fetchWritedComments(["page": 0])
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                let commentItems = data.map { CommentSectionItem.commentCell($0, $0.id) }
+                let commentSection = [CommentSection.comment(commentItems)]
+                
+                return .just(.setCommentSection(commentSection))
             }
     }
 }
