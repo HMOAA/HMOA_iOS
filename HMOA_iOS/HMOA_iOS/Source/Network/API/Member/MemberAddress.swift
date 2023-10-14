@@ -15,25 +15,34 @@ enum MemberAddress {
     case patchJoin
     case member
     case uploadImage
+    case fetchLikedComment
+    case fetchWritedComment
+    case fetchWritedPost
 }
 
 extension MemberAddress {
     var url: String {
         switch self {
-            case .checkNickname:
-                return "member/existsnickname"
-            case .patchNickname:
-                return "member/nickname"
-            case .patchSex:
-                return "member/sex"
-            case .patchAge:
-                return "member/age"
-            case .patchJoin:
-                return "member/join"
-            case .member:
-                return "member"
-            case .uploadImage:
-                return "member/profile-photo"
+        case .checkNickname:
+            return "member/existsnickname"
+        case .patchNickname:
+            return "member/nickname"
+        case .patchSex:
+            return "member/sex"
+        case .patchAge:
+            return "member/age"
+        case .patchJoin:
+            return "member/join"
+        case .member:
+            return "member"
+        case .uploadImage:
+            return "member/profile-photo"
+        case .fetchLikedComment:
+            return "member/hearts"
+        case .fetchWritedComment:
+            return "member/comments"
+        case .fetchWritedPost:
+            return ""
         }
     }
 }
