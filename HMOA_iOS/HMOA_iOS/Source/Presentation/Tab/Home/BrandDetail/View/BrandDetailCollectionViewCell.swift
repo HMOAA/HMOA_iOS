@@ -21,7 +21,9 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
 
     // MARK: - UI Component
     
-    lazy var productImageView = UIImageView()
+    lazy var productImageView = UIImageView().then {
+        $0.layer.borderWidth = 0.5
+    }
     
     var titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 14)
@@ -53,6 +55,7 @@ extension BrandDetailCollectionViewCell {
     
     // MARK: - Configure
     func configureUI() {
+        
         [   productImageView,
             titleLabel,
             contentLabel,
