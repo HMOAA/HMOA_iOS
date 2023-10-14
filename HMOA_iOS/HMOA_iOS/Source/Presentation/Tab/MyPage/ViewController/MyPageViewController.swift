@@ -166,13 +166,14 @@ extension MyPageViewController {
             self.navigationController?.pushViewController(changeProfileVC, animated: true)
             
         case .myLog:
-            break
+            let myLogVC = MyLogViewController()
+            myLogVC.reactor = MyLogReactor()
+            navigationController?.pushViewController(myLogVC, animated: true)
             
         case .myInformation:
             let myInformationReactor = self.reactor.reactorForMyInformation()
             let myInformationVC = MyProfileViewController(reactor: myInformationReactor)
 
-            myInformationVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(myInformationVC, animated: true)
         case .terms:
             break

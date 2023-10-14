@@ -167,6 +167,7 @@
 		CA4744772AD3C1E800003584 /* OptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744762AD3C1E800003584 /* OptionView.swift */; };
 		CA4744792AD3C28C00003584 /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744782AD3C28C00003584 /* OptionCell.swift */; };
 		CA4744832AD3E2BB00003584 /* OptionReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744822AD3E2BB00003584 /* OptionReactor.swift */; };
+		CA4744862ADA718500003584 /* MyLogReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744852ADA718500003584 /* MyLogReactor.swift */; };
 		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
 		CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */; };
@@ -400,6 +401,7 @@
 		CA4744762AD3C1E800003584 /* OptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionView.swift; sourceTree = "<group>"; };
 		CA4744782AD3C28C00003584 /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
 		CA4744822AD3E2BB00003584 /* OptionReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionReactor.swift; sourceTree = "<group>"; };
+		CA4744852ADA718500003584 /* MyLogReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogReactor.swift; sourceTree = "<group>"; };
 		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
 		CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -881,6 +883,7 @@
 		2C464E5129CDDBFC00A07658 /* MyLog */ = {
 			isa = PBXGroup;
 			children = (
+				CA4744842ADA717700003584 /* Reactor */,
 				2C464E5729CDDC7000A07658 /* ViewController */,
 			);
 			path = MyLog;
@@ -1630,6 +1633,14 @@
 			path = Reactor;
 			sourceTree = "<group>";
 		};
+		CA4744842ADA717700003584 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				CA4744852ADA718500003584 /* MyLogReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
 		CA54DD8E29C445DD00167F05 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
@@ -2232,6 +2243,7 @@
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
+				CA4744862ADA718500003584 /* MyLogReactor.swift in Sources */,
 				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
 				CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
