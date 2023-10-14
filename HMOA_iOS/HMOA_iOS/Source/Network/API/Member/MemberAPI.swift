@@ -106,4 +106,28 @@ final class MemberAPI {
             model: JoinResponse.self)
     }
     
+    
+    /// 좋아요한 댓글 불러오기
+    /// - Parameter query: [Page: Int]
+    static func fetchLikedComments(_ query: [String: Int]) -> Observable<[Comment]> {
+        return networking(
+            urlStr: MemberAddress.fetchLikedComment.url,
+            method: .get,
+            data: nil,
+            model: [Comment].self,
+            query: query
+        )
+    }
+    
+    /// 작성한 댓글 불러오기
+    /// - Parameter query: [Page: Int]
+    static func fetchWritedComments(_ query: [String: Int]) -> Observable<[Comment]> {
+        return networking(
+            urlStr: MemberAddress.fetchWritedComment.url,
+            method: .get,
+            data: nil,
+            model: [Comment].self,
+            query: query
+        )
+    }
 }
