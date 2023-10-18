@@ -22,12 +22,14 @@ final class DetailViewReactor: Reactor {
         case didTapSearchButton
         case didTapLikeButton
         case willDisplaySecondSection
+        case didTapCommentCell(Int)
+        case didTapSimillarCell(Int)
     }
     
     enum Mutation {
         case setSections([DetailSection])
         case setPresentCommentVC(Int?)
-        case setSelectedComment(Int?)
+        case setSelectedComment(Comment?)
         case setSelecctedPerfume(Int?)
         case setIsPresentCommentWrite(Int?)
         case setIsPopVC(Bool)
@@ -45,7 +47,7 @@ final class DetailViewReactor: Reactor {
     struct State {
         var sections: [DetailSection] = []
         var persentCommentPerfumeId: Int? = nil
-        var presentCommentId: Int? = nil
+        var presentComment: Comment? = nil
         var presentPerfumeId: Int? = nil
         var isPresentCommentWirteVC: Int? = nil
         var isPopVC: Bool = false
@@ -123,6 +125,18 @@ final class DetailViewReactor: Reactor {
             if currentState.sections.count > 2 {
                 return setUpSecondDetailSections(id: currentState.perfumeId)
             } else { return .empty() }
+            
+        case .didTapCommentCell(let row):
+            return .concat([
+                .just(.setSelectedComment(currentState.sections[2].items[row].comment!)),
+                .just(.setSelectedComment(nil))
+            ])
+            
+        case .didTapSimillarCell(let row):
+            return .concat([
+                .just(.setSelecctedPerfume(currentState.sections[3].items[row].id)),
+                .just(.setSelecctedPerfume(nil))
+            ])
         }
     }
     
@@ -133,8 +147,8 @@ final class DetailViewReactor: Reactor {
         case .setPresentCommentVC(let perfumeId):
             state.persentCommentPerfumeId = perfumeId
             
-        case .setSelectedComment(let commentId):
-            state.presentCommentId = commentId
+        case .setSelectedComment(let comment):
+            state.presentComment = comment
             
         case .setSelecctedPerfume(let perfumeId):
             state.presentPerfumeId = perfumeId

@@ -96,6 +96,20 @@ extension DetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 댓글 셀 터치
+        detailView.collectionView.rx.itemSelected
+            .filter { $0.section == 2 }
+            .map { Reactor.Action.didTapCommentCell($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 같은 브랜드 향수 셀 터치
+        detailView.collectionView.rx.itemSelected
+            .filter { $0.section == 3 }
+            .map { Reactor.Action.didTapSimillarCell($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // collectionView 바인딩
@@ -125,20 +139,21 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         // 댓글 디테일 페이지로 이동
-        //        reactor.state
-        //            .map { $0.presentCommentId }
-        //            .distinctUntilChanged()
-        //            .compactMap { $0 }
-        //            .bind(onNext: presentCommentDetailViewController)
-        //            .disposed(by: disposeBag)
+        reactor.state
+            .map { $0.presentComment }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentCommentDetailViewController)
+            .disposed(by: disposeBag)
         
+        // TODO: - simillar cell 향수 아이디 받아오기
         // 향수 디테일 페이지로 이동
-        //        reactor.state
-        //            .map { $0.presentPerfumeId }
-        //            .distinctUntilChanged()
-        //            .compactMap { $0 }
-        //            .bind(onNext: presentDatailViewController)
-        //            .disposed(by: disposeBag)
+        reactor.state
+            .map { $0.presentPerfumeId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
         
         // 댓글 작성 페이지로 이동
         reactor.state
@@ -309,6 +324,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 commentCell.updateCell(comment)
+                
                 commentCell.optionButton.rx.tap
                     .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil, comment?.writed) }
                     .bind(to: self.optionView.reactor!.action)
