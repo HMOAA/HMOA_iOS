@@ -526,6 +526,7 @@ class EvaluationCell: UICollectionViewCell, View {
             .filter { $0 }
             .bind(with: self) { owner, _ in
                 owner.ageSlider.isHidden = false
+                owner.averageAgeLabel.text = ""
                 owner.ageSlider.value = 0
                 owner.evaluatedAgeView.isHidden = true
                 owner.ageResetButton.isHidden = true
@@ -538,6 +539,7 @@ extension EvaluationCell {
     
     // ageSlider 배경색, 텍스트 설정
     private func setAgeSliderColor(_ age: Age) {
+        dragLabel.isHidden = true
         ageSlider.isHidden = true
         evaluatedAgeView.isHidden = false
         ageResetButton.isHidden = false

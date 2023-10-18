@@ -22,7 +22,9 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
     // MARK: - UI Component
     
     lazy var productImageView = UIImageView().then {
-        $0.layer.borderWidth = 0.5
+        $0.layer.cornerRadius = 3
+        $0.layer.borderWidth = 2
+        $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
     }
     
     var titleLabel = UILabel().then {
@@ -55,7 +57,6 @@ extension BrandDetailCollectionViewCell {
     
     // MARK: - Configure
     func configureUI() {
-        
         [   productImageView,
             titleLabel,
             contentLabel,

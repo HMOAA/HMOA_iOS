@@ -152,7 +152,11 @@ extension CommentListViewController {
             .map { $0.commentType }
             .filter { $0 != .detail }
             .bind(with: self) { owner, _ in
-                header.isHidden = true
+                owner.header.isHidden = true
+                owner.collectionView.snp.remakeConstraints { make in
+                    make.leading.trailing.bottom.equalToSuperview()
+                    make.top.equalTo(owner.view.safeAreaLayoutGuide)
+                }
             }.disposed(by: disposeBag)
         
     }
@@ -208,7 +212,7 @@ extension CommentListViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(bottomView.snp.top)
         }
         
         bottomView.snp.makeConstraints {
