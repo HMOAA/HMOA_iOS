@@ -21,7 +21,8 @@ class BrandDetailHeaderView: UICollectionReusableView {
     }
     
     lazy var brandImageView = UIImageView().then {
-        $0.backgroundColor = .customColor(.gray3)
+        $0.layer.borderWidth = 3
+        $0.layer.borderColor = UIColor.customColor(.gray3).cgColor
     }
     
     lazy var koreanLabel = UILabel().then {

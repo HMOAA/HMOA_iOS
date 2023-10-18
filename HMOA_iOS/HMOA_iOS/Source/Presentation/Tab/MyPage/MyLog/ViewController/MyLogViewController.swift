@@ -89,14 +89,12 @@ extension MyLogViewController: UITableViewDelegate {
             let reactor = CommentListReactor(nil, CommentType.liked)
             commentListVC.reactor = reactor
             
-            commentListVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(commentListVC, animated: true)
         case 1:
             let commentListVC = CommentListViewController()
             let reactor = CommentListReactor(nil, CommentType.writed)
             commentListVC.reactor = reactor
             
-            commentListVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(commentListVC, animated: true)
         default:
             break

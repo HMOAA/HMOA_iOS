@@ -19,8 +19,9 @@ class CommentCell: UICollectionViewCell {
     
     // MARK: - Properties
     lazy var subView = UIView().then {
+        $0.layer.cornerRadius = 10
         $0.isHidden = true
-        $0.layer.borderColor = UIColor.customColor(.labelGrayColor).cgColor
+        $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
         $0.layer.borderWidth = 1
     }
     
@@ -51,7 +52,6 @@ class CommentCell: UICollectionViewCell {
     }
     
     lazy var optionButton = UIButton().then {
-        $0.isHidden = true
         $0.setImage(UIImage(named: "commentOption"), for: .normal)
     }
     
@@ -153,7 +153,7 @@ extension CommentCell {
         }
         
         optionButton.snp.makeConstraints { make in
-            make.trailing.bottom.equalToSuperview().inset(7.2)
+            make.trailing.bottom.equalToSuperview().inset(6.2)
         }
     }
     

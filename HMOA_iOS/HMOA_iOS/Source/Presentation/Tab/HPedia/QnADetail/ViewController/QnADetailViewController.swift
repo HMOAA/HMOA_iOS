@@ -40,7 +40,7 @@ class QnADetailViewController: UIViewController, View {
     
     let profileImageView = UIImageView().then {
         $0.backgroundColor = .black
-        $0.layer.cornerRadius = 11
+        $0.layer.cornerRadius = 14
         $0.layer.masksToBounds = false
     }
     
@@ -108,7 +108,8 @@ class QnADetailViewController: UIViewController, View {
     
     private func setConstraints() {
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().inset(53)
         }
         
         noCommentLabel.snp.makeConstraints { make in
@@ -118,12 +119,13 @@ class QnADetailViewController: UIViewController, View {
         
         commentWriteView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(46)
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-10)
         }
         
         profileImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(11)
-            make.width.height.equalTo(22)
+            make.width.height.equalTo(28)
             make.centerY.equalToSuperview()
         }
         
@@ -135,7 +137,7 @@ class QnADetailViewController: UIViewController, View {
         commentTextView.snp.makeConstraints { make in
             make.leading.equalTo(colonLabel.snp.trailing).offset(10)
             make.trailing.equalToSuperview().inset(36)
-            make.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
         
         commentWriteButton.snp.makeConstraints { make in
@@ -245,7 +247,7 @@ class QnADetailViewController: UIViewController, View {
             .map { $0.content }
             .map { _ in
                 let contentSize = self.commentTextView.sizeThatFits(CGSize(width: self.commentTextView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
-                return contentSize.height
+                return contentSize.height + 13
             }
             .bind(with: self) { owner, height in
                 owner.commentWriteView.snp.updateConstraints { make in

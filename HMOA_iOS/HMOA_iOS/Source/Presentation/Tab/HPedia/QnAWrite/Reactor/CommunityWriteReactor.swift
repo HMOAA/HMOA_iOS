@@ -118,7 +118,6 @@ extension CommunityWriteReactor {
         return CommunityAPI.putCommunityPost(id, ["content": currentState.content])
             .catch { _ in .empty() }
             .flatMap { _ -> Observable<Mutation> in
-                print("success")
                 return .empty()
             }
     }

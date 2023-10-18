@@ -67,7 +67,7 @@ class QNAListReactor: Reactor {
             ])
         case .didTapEtcButton:
             return .concat([
-                .just(.setSelectedAddCategory("기타")),
+                .just(.setSelectedAddCategory("자유")),
                 .just(.setSelectedAddCategory(nil))
             ])
         case .didTapQnACell(let indexPath):
