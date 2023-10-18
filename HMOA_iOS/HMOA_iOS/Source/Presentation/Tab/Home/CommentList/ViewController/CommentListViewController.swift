@@ -36,7 +36,7 @@ class CommentListViewController: UIViewController, View {
     }
     
     lazy var optionView = OptionView().then {
-        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
+        $0.reactor = OptionReactor()
         $0.parentVC = self
     }
     
@@ -172,7 +172,7 @@ extension CommentListViewController {
                 cell.updateCell(comment)
                 
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, nil, "Comment", nil) }
+                    .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, nil, "Comment", nil, comment.writed) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 

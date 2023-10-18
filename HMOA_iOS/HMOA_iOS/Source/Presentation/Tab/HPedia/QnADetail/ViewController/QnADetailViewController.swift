@@ -60,12 +60,12 @@ class QnADetailViewController: UIViewController, View {
     }
     
     lazy var commentOptionView = OptionView().then {
+        $0.reactor = OptionReactor()
         $0.parentVC = self
-        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
     }
     
     lazy var postOptionView = OptionView().then {
-        $0.reactor = OptionReactor(["수정", "삭제", "글 복사"])
+        $0.reactor = OptionReactor()
     }
     
     var disposeBag = DisposeBag()
@@ -109,7 +109,7 @@ class QnADetailViewController: UIViewController, View {
     private func setConstraints() {
         collectionView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().inset(53)
+            make.bottom.equalToSuperview().inset(98)
         }
         
         noCommentLabel.snp.makeConstraints { make in
@@ -300,8 +300,9 @@ extension QnADetailViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 // optionView에 comment 정보 전달
+                
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil) }
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil, comment!.writed) }
                     .bind(to: self.commentOptionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
