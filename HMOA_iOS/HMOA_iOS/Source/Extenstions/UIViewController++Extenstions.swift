@@ -75,7 +75,6 @@ extension UIViewController {
     
     func presentCommentViewContorller(_ id: Int) {
         let commentVC = CommentListViewController()
-        commentVC.perfumeId = id
         commentVC.reactor = CommentListReactor(id, .detail)
         commentVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentVC, animated: true)
