@@ -573,7 +573,10 @@ extension EvaluationCell {
             
             evaluatedSexView.layer.sublayers?[0].frame = CGRect(x: 0, y: 0, width: width, height: 52)
             
+            evaluatedWomanButton.configuration?.image = UIImage(named: "woman")?.withTintColor(.white)
             evaluatedManButton.configuration?.image = UIImage(named: "man")?.withTintColor(.customColor(.gray2))
+            
+            evaluatedWomanButton.configuration?.baseForegroundColor = .white
             evaluatedManButton.configuration?.baseForegroundColor = .black
             
             if gender.woman >= 95 {
@@ -595,7 +598,7 @@ extension EvaluationCell {
             evaluatedManButton.configuration?.image = UIImage(named: "man")
             evaluatedManButton.configuration?.baseForegroundColor = .white
             
-            evaluatedWomanButton.configuration?.image = UIImage(named: "man")?.withTintColor(.customColor(.gray2))
+            evaluatedWomanButton.configuration?.image = UIImage(named: "woman")?.withTintColor(.customColor(.gray2))
             evaluatedWomanButton.configuration?.baseForegroundColor = .black
             
             if gender.man >= 95 {
