@@ -30,7 +30,7 @@ class DetailViewController: UIViewController, View {
     
     lazy var optionView = OptionView().then {
         $0.parentVC = self
-        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
+        $0.reactor = OptionReactor()
     }
     
     // MARK: - Lifecycle
@@ -310,7 +310,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 
                 commentCell.updateCell(comment)
                 commentCell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil) }
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil, comment?.writed) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.optionView.disposeBag)
                     

@@ -14,7 +14,7 @@ final class OptionReactor: Reactor {
     
     enum Action {
         case didTapBackgroundView
-        case didTapOptionButton(Int?, String?, String?, String, String?)
+        case didTapOptionButton(Int?, String?, String?, String, String?, Bool? = true)
         case didTapOptionCell(Int)
         case didTapCancleButton
     }
@@ -26,10 +26,11 @@ final class OptionReactor: Reactor {
         case setCommentInfo(Int, String)
         case setPostInfo(Int, String, String, String)
         case setType(String)
+        case setOptions([String])
     }
     
     struct State {
-        var options: [String]
+        var options: [String] = []
         var isHiddenOptionView: Bool = true
         var isTapEdit: Bool = false
         var isTapDelete: Bool = false
@@ -39,8 +40,8 @@ final class OptionReactor: Reactor {
         var category: String = ""
     }
     
-    init(_ options: [String]) {
-        initialState = State(options: options)
+    init() {
+        initialState = State()
     }
     
     
@@ -49,22 +50,34 @@ final class OptionReactor: Reactor {
         case .didTapBackgroundView:
             return .just(.setisHiddenOptionView(true))
             
-        case .didTapOptionButton(let id, let content, let title, let type, let category):
+        case .didTapOptionButton(let id, let content, let title, let type, let category, let isWrited):
             guard let id = id else { return .empty() }
+            guard let isWrited = isWrited else { return .empty()}
             
             if type == "Post" {
                 return .concat([
+                    .just(.setOptions(["수정", "삭제"])),
                     .just(.setType(type)),
                     .just(.setPostInfo(id, content!, title!, category!)),
                     .just(.setisHiddenOptionView(false))
                 ])
             }
             else {
-                return .concat([
-                    .just(.setType(type)),
-                    .just(.setCommentInfo(id, content!)),
-                    .just(.setisHiddenOptionView(false))
-                ])
+                if isWrited {
+                    return .concat([
+                        .just(.setOptions(["수정", "삭제"])),
+                        .just(.setType(type)),
+                        .just(.setCommentInfo(id, content!)),
+                        .just(.setisHiddenOptionView(false))
+                    ])
+                } else {
+                    return .concat([
+                        .just(.setOptions(["신고"])),
+                        .just(.setType(type)),
+                        .just(.setCommentInfo(id, content!)),
+                        .just(.setisHiddenOptionView(false))
+                    ])
+                }
             }
             
         case .didTapOptionCell(let item):
@@ -115,6 +128,9 @@ final class OptionReactor: Reactor {
             
         case .setType(let type):
             state.type = type
+            
+        case .setOptions(let options):
+            state.options = options
         }
         
         return state

@@ -136,6 +136,8 @@ class OptionView: UIView, View {
         // tableview 개수에 따라 autoLayout 설정
         reactor.state
             .map { $0.options.count }
+            .distinctUntilChanged()
+            .filter { $0 != 0}
             .bind(with: self) { owner, count in
                 owner.tableView.snp.updateConstraints { make in
                     make.height.equalTo(count * 60)
@@ -194,7 +196,14 @@ extension OptionView: UITableViewDelegate {
     }
     
     func showAnimation(_ isHidden: Bool) {
-        let buttonViewHeight = buttonView.bounds.height
+        
+        let count = reactor!.currentState.options.count
+        
+        var buttonViewHeight: CGFloat = 0
+        
+        if count != 0 {
+            buttonViewHeight = CGFloat((count + 1) * 60 + 8)
+        }
         // 숨기기
         if isHidden {
             UIView.animate(withDuration: 0.2, animations: {
