@@ -21,10 +21,12 @@ class QnADetailReactor: Reactor {
         case didDeleteComment
         case didTapOptionButton(Int)
         case didDeletePost
+        case willDisplayCell(Int)
     }
     
     enum Mutation {
-        case setSections([QnADetailSection])
+        case setPostItem([CommunityDetail])
+        case setCommentItem([CommunityComment])
         case setCategory(String)
         case setCommentCount(Int)
         case setContent(String)
@@ -33,11 +35,14 @@ class QnADetailReactor: Reactor {
         case setSelectedCommentRow(Int?)
         case setIsEndEditing(Bool)
         case setIsDeleted(Bool)
+        case setCurrentPage(Int)
+        case setLoadedPage(Int)
     }
     
     struct State {
         var communityId: Int
-        var sections: [QnADetailSection] = []
+        var postItem: [CommunityDetail] = []
+        var commentItem: [CommunityComment] = []
         var commentCount: Int? = nil
         var isBeginEditing: Bool = false
         var content: String = ""
@@ -45,6 +50,9 @@ class QnADetailReactor: Reactor {
         var isEndEditing: Bool = false
         var category: String = ""
         var isDeleted: Bool = false
+        var currentPage: Int = 0
+        var loadedPage: Set<Int> = []
+        var communityItems: CommunityDetailItems = CommunityDetailItems(postItem: [], commentItem: [])
     }
     
     init(_ id: Int) {
@@ -81,6 +89,12 @@ class QnADetailReactor: Reactor {
                 .just(.setIsDeleted(true)),
                 .just(.setIsDeleted(false)),
             ])
+            
+        case .willDisplayCell(let currentPage):
+            return .concat([
+                .just(.setCurrentPage(currentPage)),
+                setUpCommentSection(currentPage)
+            ])
         }
     }
     
@@ -88,9 +102,6 @@ class QnADetailReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setSections(let sections):
-            state.sections = sections
-            
         case .setCommentCount(let count):
             state.commentCount = count
             
@@ -101,14 +112,8 @@ class QnADetailReactor: Reactor {
             state.isBeginEditing = isBegin
             
         case .setComment(let comment):
-            var section = currentState.sections
-            var commentItem = section[1].item
-            commentItem.append(QnADetailSectionItem.commentCell(comment))
-            let commentSection = QnADetailSection.comment(commentItem)
-            section[1] = commentSection
-            
-            state.commentCount = currentState.commentCount! + 1
-            state.sections = section
+            state.communityItems.commentItem.append(comment)
+            state.commentCount! += 1
             
         case .setSelectedCommentRow(let row):
             state.selectedCommentRow = row
@@ -121,6 +126,19 @@ class QnADetailReactor: Reactor {
             
         case .setIsDeleted(let isDeleted):
             state.isDeleted = isDeleted
+            
+        case .setCurrentPage(let page):
+            state.currentPage = page
+        
+        case .setLoadedPage(let page):
+            state.loadedPage.insert(page)
+            
+        case .setPostItem(let item):
+            state.postItem = item
+            state.communityItems.postItem = item
+        case .setCommentItem(let item):
+            state.commentItem = item
+            state.communityItems.commentItem = item
         }
         
         return state
@@ -132,32 +150,30 @@ extension QnADetailReactor {
         return CommunityAPI.fetchCommunityDetail(currentState.communityId)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                let item = QnADetailSectionItem.qnaPostCell(data)
-                let section = QnADetailSection.qnaPost([item])
                 
                 return .concat([
                     .just(.setCategory(data.category)),
-                    .just(.setSections([section]))
+                    .just(.setPostItem([data]))
                 ])
             }
     }
     
-    func setUpCommentSection() -> Observable<Mutation> {
-        let query: [String: Int] =
-        [
-            "page": 0
-        ]
+    func setUpCommentSection(_ currentPage: Int = 0) -> Observable<Mutation> {
+        let currentPage = currentPage
+        let query: [String: Int] = ["page": currentPage]
+        
+        if currentState.loadedPage.contains(currentPage) { return .empty() }
+        
         return CommunityAPI.fetchCommunityComment(currentState.communityId, query)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                var item = data.comments.map { QnADetailSectionItem.commentCell($0) }
-                var section = self.currentState.sections
-                
-                section.append(QnADetailSection.comment(item))
+                var commentItem = self.currentState.commentItem
+                commentItem.append(contentsOf: data.comments)
                 
                 return .concat([
-                    .just(.setSections(section)),
-                    .just(.setCommentCount(data.commentCount))
+                    .just(.setCommentItem(commentItem)),
+                    .just(.setCommentCount(data.commentCount)),
+                    .just(.setLoadedPage(currentPage))
                 ])
             }
     }
@@ -177,14 +193,11 @@ extension QnADetailReactor {
     
     func deleteCommentInSection() -> Observable<Mutation> {
         guard let row = currentState.selectedCommentRow else { return .empty() }
-        var section = currentState.sections
-        var commentItem = section[1].item
+        var commentItem = currentState.commentItem
         commentItem.remove(at: row)
-        let commentSection = QnADetailSection.comment(commentItem)
-        section[1] = commentSection
-        
+
         return .concat([
-            .just(.setSections(section)),
+            .just(.setCommentItem(commentItem)),
             .just(.setSelectedCommentRow(nil)),
             .just(.setCommentCount(currentState.commentCount! - 1))
         ])

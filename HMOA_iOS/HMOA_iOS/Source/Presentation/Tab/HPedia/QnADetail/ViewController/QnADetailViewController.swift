@@ -35,7 +35,7 @@ class QnADetailViewController: UIViewController, View {
     
     let commentWriteView = UIView().then {
         $0.layer.cornerRadius = 5
-        $0.backgroundColor = #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
+        $0.backgroundColor =  #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
     }
     
     let profileImageView = UIImageView().then {
@@ -52,7 +52,7 @@ class QnADetailViewController: UIViewController, View {
         $0.text = "댓글을 입력하세요"
         $0.isScrollEnabled = false
         $0.font = .customFont(.pretendard, 14)
-        $0.backgroundColor = #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
+        $0.backgroundColor =  #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
     }
     
     let commentWriteButton = UIButton().then {
@@ -167,6 +167,20 @@ class QnADetailViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        collectionView.rx.willDisplayCell
+            .filter { $0.at.section == 1 }
+            .map {
+                let currentItem = $0.at.item
+                if (currentItem + 1) % 6 == 0 && currentItem != 0 {
+                    return currentItem / 6 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // viewDidLoad
         rx.viewWillAppear
             .delay(.milliseconds(100), scheduler: MainScheduler.instance)
@@ -216,16 +230,17 @@ class QnADetailViewController: UIViewController, View {
         
         //colectionView binding
         reactor.state
-            .map { $0.sections }
+            .map { $0.communityItems }
             .distinctUntilChanged()
+            .filter { !$0.postItem.isEmpty }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(with: self, onNext: { owner, sections in
-                
+            .drive(with: self, onNext: { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<QnADetailSection, QnADetailSectionItem>()
-                snapshot.appendSections(sections)
-                sections.forEach { section in
-                    snapshot.appendItems(section.item, toSection: section)
-                }
+                snapshot.appendSections([.qnaPost, .comment])
+                
+                items.postItem.forEach { snapshot.appendItems([.qnaPostCell($0)], toSection: .qnaPost) }
+                
+                snapshot.appendItems(items.commentItem.map { .commentCell($0)}, toSection: .comment)
                 
                 DispatchQueue.main.async {
                     owner.dataSource.apply(snapshot)
@@ -324,7 +339,7 @@ extension QnADetailViewController {
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier, for: indexPath) as? QnAPostHeaderView else { return UICollectionReusableView() }
                 
                 self.reactor?.state
-                    .map { $0.sections[0].item[0].category }
+                    .map { $0.category }
                     .bind(to: header.recommendLabel.rx.text)
                     .disposed(by: self.disposeBag)
                 
@@ -338,6 +353,7 @@ extension QnADetailViewController {
                         if let count = count {
                             if count == 0 {
                                 owner.noCommentLabel.isHidden = false
+                                owner.collectionView.isScrollEnabled = false
                             } else {
                                 owner.noCommentLabel.isHidden = true
                                 owner.collectionView.isScrollEnabled = true
