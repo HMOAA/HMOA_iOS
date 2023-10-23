@@ -1,3 +1,4 @@
+
 //
 //  QnADetailSection.swift
 //  HMOA_iOS
@@ -7,25 +8,13 @@
 
 
 enum QnADetailSection: Hashable {
-    case qnaPost([QnADetailSectionItem])
-    case comment([QnADetailSectionItem])
+    case qnaPost
+    case comment
 }
 
 enum QnADetailSectionItem: Hashable {
     case qnaPostCell(CommunityDetail)
     case commentCell(CommunityComment?)
-}
-
-extension QnADetailSection {
-    
-    var item: [QnADetailSectionItem] {
-        switch self {
-        case .qnaPost(let qnaPost):
-            return qnaPost
-        case .comment(let comment):
-            return comment
-        }
-    }
 }
 
 extension QnADetailSectionItem {
@@ -37,4 +26,9 @@ extension QnADetailSectionItem {
         default: return ""
         }
     }
+}
+
+struct CommunityDetailItems: Equatable {
+    var postItem: [CommunityDetail]
+    var commentItem: [CommunityComment]
 }
