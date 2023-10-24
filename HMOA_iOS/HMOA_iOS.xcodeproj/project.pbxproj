@@ -195,6 +195,7 @@
 		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
 		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
 		CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */; };
+		CA943AD32AE685CF00A5B717 /* QnAListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AD22AE685CF00A5B717 /* QnAListService.swift */; };
 		CAA116082AC16AB40063806C /* BrandAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116072AC16AB40063806C /* BrandAddress.swift */; };
 		CAA1160A2AC16ABD0063806C /* BrandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116092AC16ABD0063806C /* BrandAPI.swift */; };
 		CAA1160C2AC16C0F0063806C /* BrandData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160B2AC16C0F0063806C /* BrandData.swift */; };
@@ -430,6 +431,7 @@
 		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
 		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
+		CA943AD22AE685CF00A5B717 /* QnAListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAListService.swift; sourceTree = "<group>"; };
 		CAA116072AC16AB40063806C /* BrandAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAddress.swift; sourceTree = "<group>"; };
 		CAA116092AC16ABD0063806C /* BrandAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAPI.swift; sourceTree = "<group>"; };
 		CAA1160B2AC16C0F0063806C /* BrandData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandData.swift; sourceTree = "<group>"; };
@@ -1770,6 +1772,7 @@
 		CA7C9C052AAADF3600072AB9 /* QnAList */ = {
 			isa = PBXGroup;
 			children = (
+				CA943AD12AE685B900A5B717 /* Service */,
 				CA7C9C092AAADF7100072AB9 /* Model */,
 				CA7C9C082AAADF6C00072AB9 /* Reactor */,
 				CA7C9C072AAADF5F00072AB9 /* View */,
@@ -1839,6 +1842,14 @@
 				CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		CA943AD12AE685B900A5B717 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CA943AD22AE685CF00A5B717 /* QnAListService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		CAA116052AC16A220063806C /* Brand */ = {
@@ -2200,6 +2211,7 @@
 				2C4CDC4329C770D900676163 /* BrandDetailViewController.swift in Sources */,
 				CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */,
 				2CA155A42A03921000D7B0C0 /* MemberAPI.swift in Sources */,
+				CA943AD32AE685CF00A5B717 /* QnAListService.swift in Sources */,
 				CAF19B9C2A625D1300374038 /* SearchAPI.swift in Sources */,
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */,

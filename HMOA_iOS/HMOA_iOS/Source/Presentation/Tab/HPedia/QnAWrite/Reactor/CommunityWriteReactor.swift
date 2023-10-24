@@ -12,6 +12,7 @@ import RxSwift
 
 class CommunityWriteReactor: Reactor {
     var initialState: State
+    let service: CommunityListProtocol?
     
     enum Action {
         case didTapOkButton
@@ -25,6 +26,7 @@ class CommunityWriteReactor: Reactor {
         case setTitle(String)
         case setContent(String)
         case setIsEndEditing(Bool)
+        case setSucces
     }
     
     struct State {
@@ -37,11 +39,12 @@ class CommunityWriteReactor: Reactor {
         var category: String
     }
     
-    init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String) {
+    init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String, service: CommunityListProtocol?) {
         initialState = State(id: communityId,
                              content: content,
                              title: title,
                              category: category)
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -81,12 +84,16 @@ class CommunityWriteReactor: Reactor {
             
         case .setTitle(let title):
             state.title = title
-
+            
         case .setIsEndEditing(let isEnd):
             state.isEndEditing = isEnd
             
         case .setContent(let content):
             state.content = content
+            
+        case .setSucces:
+            break
+            
         }
         
         return state
@@ -109,16 +116,16 @@ extension CommunityWriteReactor {
         ]
         return CommunityAPI.postCommunityPost(params)
             .catch { _ in.empty() }
-            .flatMap { _  -> Observable<Mutation> in
-                return .empty()
+            .flatMap { data -> Observable<Mutation> in
+                return self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces}
             }
     }
     
     func editCommunityPost(_ id: Int) -> Observable<Mutation> {
         return CommunityAPI.putCommunityPost(id, ["content": currentState.content])
             .catch { _ in .empty() }
-            .flatMap { _ -> Observable<Mutation> in
-                return .empty()
+            .flatMap { data -> Observable<Mutation> in
+                return self.service!.editCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces}
             }
     }
 }

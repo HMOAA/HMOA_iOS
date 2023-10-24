@@ -12,6 +12,7 @@ import RxSwift
 
 class QnADetailReactor: Reactor {
     let initialState: State
+    var service: CommunityListProtocol
     
     enum Action {
         case viewWillAppear
@@ -35,7 +36,6 @@ class QnADetailReactor: Reactor {
         case setSelectedCommentRow(Int?)
         case setIsEndEditing(Bool)
         case setIsDeleted(Bool)
-        case setCurrentPage(Int)
         case setLoadedPage(Int)
     }
     
@@ -50,13 +50,13 @@ class QnADetailReactor: Reactor {
         var isEndEditing: Bool = false
         var category: String = ""
         var isDeleted: Bool = false
-        var currentPage: Int = 0
         var loadedPage: Set<Int> = []
         var communityItems: CommunityDetailItems = CommunityDetailItems(postItem: [], commentItem: [])
     }
     
-    init(_ id: Int) {
+    init(_ id: Int, _ service: CommunityListProtocol) {
         initialState = State(communityId: id)
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -91,10 +91,7 @@ class QnADetailReactor: Reactor {
             ])
             
         case .willDisplayCell(let currentPage):
-            return .concat([
-                .just(.setCurrentPage(currentPage)),
-                setUpCommentSection(currentPage)
-            ])
+            return setUpCommentSection(currentPage)
         }
     }
     
@@ -126,9 +123,6 @@ class QnADetailReactor: Reactor {
             
         case .setIsDeleted(let isDeleted):
             state.isDeleted = isDeleted
-            
-        case .setCurrentPage(let page):
-            state.currentPage = page
         
         case .setLoadedPage(let page):
             state.loadedPage.insert(page)
@@ -136,6 +130,7 @@ class QnADetailReactor: Reactor {
         case .setPostItem(let item):
             state.postItem = item
             state.communityItems.postItem = item
+            
         case .setCommentItem(let item):
             state.commentItem = item
             state.communityItems.commentItem = item
@@ -201,5 +196,13 @@ extension QnADetailReactor {
             .just(.setSelectedCommentRow(nil)),
             .just(.setCommentCount(currentState.commentCount! - 1))
         ])
+    }
+    
+    func reactorForEdit() -> CommunityWriteReactor {
+        return CommunityWriteReactor(
+            communityId: currentState.communityId,
+            title: currentState.postItem[0].title,
+            category: currentState.category,
+            service: service)
     }
 }
