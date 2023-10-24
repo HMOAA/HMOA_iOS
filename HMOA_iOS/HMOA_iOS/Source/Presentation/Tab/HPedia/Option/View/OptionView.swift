@@ -166,23 +166,20 @@ class OptionView: UIView, View {
             .bind(with: self) { owner, _ in
                 // 댓글 수정
                 if reactor.currentState.type == "Comment" {
-                    let commentInfo = reactor.currentState.commentInfo!
-                    let isCommunity = owner.parentVC is QnADetailViewController
-                    owner.parentVC!.presentCommentWirteViewControllerForWriter(
-                        commentId: commentInfo.0,
-                        isWrited: true,
-                        content: commentInfo.1,
-                        isCommunity: isCommunity
-                    )
+//                    let commentInfo = reactor.currentState.commentInfo!
+//                    let isCommunity = owner.parentVC is QnADetailViewController
+//                    owner.parentVC!.presentCommentWirteViewControllerForWriter(
+//                        commentId: commentInfo.0,
+//                        isWrited: true,
+//                        content: commentInfo.1,
+//                        isCommunity: isCommunity
+                    //)
                 }
                 
                 if reactor.currentState.type == "Post" {
                     let postInfo = reactor.currentState.postInfo!
-                    owner.parentVC?.presentQnAWriteVCForEdit(
-                        id: postInfo.0,
-                        content: postInfo.1,
-                        title: postInfo.2,
-                        category: postInfo.3)
+                    let parentVC = owner.parentVC as! QnADetailViewController
+                    parentVC.presentQnAWriteVCForEdit(reactor: parentVC.reactor!)
                 }
             }.disposed(by: disposeBag)
     }

@@ -17,30 +17,25 @@ extension UIViewController {
         self.present(alertVC, animated: false)
     }
     
-    func presentQnADetailVC(_ id: Int) {
+    func presentQnADetailVC(_ id: Int, _ reactor: QNAListReactor) {
         let qnaDetailVC = QnADetailViewController()
-        let reactor = QnADetailReactor(id)
+        let reactor = reactor.reactorForDetail()
         qnaDetailVC.reactor = reactor
         qnaDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }
     
-    func presentQnAWriteVCForEdit(id: Int, content: String, title: String, category: String) {
+    func presentQnAWriteVCForEdit(reactor: QnADetailReactor) {
         let qnaWriteVC = QnAWriteViewController()
-        let reactor = CommunityWriteReactor(communityId: id,
-                                            content: content,
-                                            title: title,
-                                            category: category)
+        let reactor = reactor.reactorForEdit()
         qnaWriteVC.reactor = reactor
         qnaWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaWriteVC, animated: true)
     }
     
-    func presentQnAWriteVC(_ category: String) {
+    func presentQnAWriteVC(_ reactor: QNAListReactor) {
         let qnaWriteVC = QnAWriteViewController()
-        let reactor = CommunityWriteReactor(communityId: nil,
-                                            title: nil,
-                                            category: category)
+        let reactor = reactor.reactorForWrite()
         qnaWriteVC.reactor = reactor
         qnaWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaWriteVC, animated: true)
@@ -48,6 +43,7 @@ extension UIViewController {
     
     func presentQnAListVC() {
         let qnaListVC = QnAListViewController()
+        qnaListVC.reactor = QNAListReactor(service: CommunityListService())
         self.navigationController?.pushViewController(qnaListVC, animated: true)
     }
     
