@@ -73,6 +73,7 @@ class MyLogViewController: UIViewController, View {
             .map { $0.selectedRow }
             .compactMap { $0 }
             .bind(onNext: presentNextVC)
+            .disposed(by: disposeBag)
     }
 }
 
