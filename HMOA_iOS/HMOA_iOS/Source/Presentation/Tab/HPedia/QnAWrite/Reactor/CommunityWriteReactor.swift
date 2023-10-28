@@ -93,7 +93,6 @@ class CommunityWriteReactor: Reactor {
             
         case .setSucces:
             break
-            
         }
         
         return state
@@ -104,6 +103,7 @@ extension CommunityWriteReactor {
     func postCommunityPost() -> Observable<Mutation> {
         
         let state = currentState
+        
         guard let title = state.title else { return .empty() }
         if state.content.isEmpty || title.isEmpty {
             return .empty()
@@ -114,6 +114,7 @@ extension CommunityWriteReactor {
             "content": state.content,
             "title": title
         ]
+        
         return CommunityAPI.postCommunityPost(params)
             .catch { _ in.empty() }
             .flatMap { data -> Observable<Mutation> in
@@ -122,7 +123,14 @@ extension CommunityWriteReactor {
     }
     
     func editCommunityPost(_ id: Int) -> Observable<Mutation> {
-        return CommunityAPI.putCommunityPost(id, ["content": currentState.content])
+        guard let title = currentState.title else { return .empty() }
+        return CommunityAPI.putCommunityPost(
+            id,
+            [
+                "content": currentState.content,
+                "title": title
+            ]
+        )
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 return self.service!.editCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces}

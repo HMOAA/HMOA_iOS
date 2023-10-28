@@ -11,6 +11,7 @@ import ReactorKit
 final class OptionReactor: Reactor {
     
     var initialState: State
+    let service: CommunityListProtocol?
     
     enum Action {
         case didTapBackgroundView
@@ -27,6 +28,7 @@ final class OptionReactor: Reactor {
         case setPostInfo(Int, String, String, String)
         case setType(String)
         case setOptions([String])
+        case delete
     }
     
     struct State {
@@ -40,8 +42,9 @@ final class OptionReactor: Reactor {
         var category: String = ""
     }
     
-    init() {
+    init(service: CommunityListProtocol? = nil) {
         initialState = State()
+        self.service = service
     }
     
     
@@ -131,6 +134,8 @@ final class OptionReactor: Reactor {
             
         case .setOptions(let options):
             state.options = options
+            
+        case .delete: break
         }
         
         return state
@@ -156,10 +161,12 @@ extension OptionReactor {
         return CommunityAPI.deleteCommunityPost(currentState.postInfo!.0)
             .catch { _ in .empty() }
             .flatMap { _ -> Observable<Mutation> in
+                let postInfo = self.currentState.postInfo!
                 return .concat([
                     .just(.setisHiddenOptionView(true)),
                     .just(.setIsTapDelete(true)),
-                    .just(.setIsTapDelete(false))
+                    .just(.setIsTapDelete(false)),
+                    self.service!.deleteCommunityList(to: CategoryList(communityId: postInfo.0, category: postInfo.3, title: postInfo.2)).map { _ in .delete }
                 ])
             }
     }
