@@ -14,6 +14,8 @@ import RxSwift
 import ReactorKit
 import RxGesture
 
+// 커뮤니티 디테일 코멘트 페이징, crud, willappear 수정, 빈 데이터 못 보내게, 글자 수 제한
+
 class QnADetailViewController: UIViewController, View {
 
     //MARK: - Properties
@@ -60,12 +62,12 @@ class QnADetailViewController: UIViewController, View {
     }
     
     lazy var commentOptionView = OptionView().then {
-        $0.reactor = OptionReactor()
+        $0.reactor = OptionReactor(service: reactor!.service)
         $0.parentVC = self
     }
     
     lazy var postOptionView = OptionView().then {
-        $0.reactor = OptionReactor()
+        $0.reactor = OptionReactor(service: reactor!.service)
     }
     
     var disposeBag = DisposeBag()
@@ -317,7 +319,7 @@ extension QnADetailViewController {
                 // optionView에 comment 정보 전달
                 
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil, comment!.writed) }
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.commentId, comment?.content, nil, "Comment", nil, comment!.writed) }
                     .bind(to: self.commentOptionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 

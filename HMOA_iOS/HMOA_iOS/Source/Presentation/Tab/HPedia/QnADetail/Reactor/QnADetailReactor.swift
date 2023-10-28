@@ -148,10 +148,21 @@ extension QnADetailReactor {
                 
                 return .concat([
                     .just(.setCategory(data.category)),
-                    .just(.setPostItem([data]))
+                    .just(.setPostItem([data])),
+                    .just(.setContent(data.content))
                 ])
             }
     }
+    
+//    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+//        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
+//            
+//            switch event {
+//            case .
+//            }
+//            
+//        }
+//    }
     
     func setUpCommentSection(_ currentPage: Int = 0) -> Observable<Mutation> {
         let currentPage = currentPage
@@ -199,8 +210,10 @@ extension QnADetailReactor {
     }
     
     func reactorForEdit() -> CommunityWriteReactor {
+        
         return CommunityWriteReactor(
             communityId: currentState.communityId,
+            content: currentState.content,
             title: currentState.postItem[0].title,
             category: currentState.category,
             service: service)

@@ -124,11 +124,13 @@ class QNAListReactor: Reactor {
         case .setcurrentPage(let page):
             state.currentPage = page
         case .editCommunityList(let community):
-            break
+            if let index = state.items.firstIndex(where: { $0.communityId == community.communityId }) {
+                state.items[index] = community
+            }
         case .addCommunityList(let community):
             state.items.append(community)
         case .deleteCommunityList(let community):
-            break
+            state.items.removeAll { $0.communityId == community.communityId }
         }
         return state
     }

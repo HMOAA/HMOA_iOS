@@ -267,6 +267,7 @@ class QnAListViewController: UIViewController, View {
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
                 
                 snapshot.appendSections([.qna])
+                
                 items.forEach {
                     snapshot.appendItems([.qna($0)], toSection: .qna)
                 }
@@ -293,7 +294,6 @@ class QnAListViewController: UIViewController, View {
                 owner.presentQnAWriteVC(reactor)
             })
             .disposed(by: disposeBag)
-        
         //선택된 셀 id QnADetailVC로 push
         reactor.state
             .map { $0.selectedPostId }
