@@ -57,6 +57,14 @@ extension DetailSectionItem: Hashable {
         default: return 0
         }
     }
+    
+    var comment: Comment? {
+        switch self {
+        case .commentCell(let comment, _):
+            return comment
+        default: return nil
+        }
+    }
 }
 
 extension DetailSection: Hashable {

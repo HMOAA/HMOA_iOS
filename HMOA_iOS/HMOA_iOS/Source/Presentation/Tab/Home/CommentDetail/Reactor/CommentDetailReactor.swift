@@ -15,36 +15,27 @@ class CommentDetailReactor: Reactor {
     
     enum Action {
         case didTapLikeButton
-        case didTapChangeButton
     }
     
     enum Mutation {
         case setCommentLike(Bool)
-        case setIsPresentChangeVC(Bool)
         case setCommentContent(String)
     }
     
     struct State {
         var comment: Comment
-        var isTapChangeButton: Bool = false
         var isLiked: Bool = false
         var content: String
     }
     
     init(_ comment: Comment) {
-        initialState = State(comment: comment, content: comment.content)
+        initialState = State(comment: comment, isLiked: comment.liked, content: comment.content)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapLikeButton:
             return setCommentLike()
-            
-        case .didTapChangeButton:
-            return .concat([
-                .just(.setIsPresentChangeVC(true)),
-                .just(.setIsPresentChangeVC(false))
-            ])
         }
     }
     
@@ -57,8 +48,6 @@ class CommentDetailReactor: Reactor {
             let heartCount = state.comment.heartCount
             state.comment.heartCount = isLike ? heartCount + 1 : heartCount - 1
             
-        case .setIsPresentChangeVC(let isPresent):
-            state.isTapChangeButton = isPresent
         case .setCommentContent(let comment):
             state.content = comment
         }

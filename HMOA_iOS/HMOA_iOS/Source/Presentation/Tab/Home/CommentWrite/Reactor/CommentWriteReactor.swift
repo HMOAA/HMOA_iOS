@@ -10,6 +10,8 @@ import RxSwift
 
 class CommentWriteReactor: Reactor {
     var initialState: State
+    let communityService: CommunityListProtocol?
+    let commentService: DetailCommentServiceProtocol?
     
     enum Action {
         case didTapOkButton
@@ -36,13 +38,16 @@ class CommentWriteReactor: Reactor {
         var isCommunityComment: Bool
     }
     
-    init(perfumeId: Int?, isWrite: Bool, content: String, commentId: Int?, isCommunity: Bool) {
+    init(perfumeId: Int?, isWrite: Bool, content: String, commentId: Int?, isCommunity: Bool, commentService: DetailCommentServiceProtocol? , communityService: CommunityListProtocol? = nil) {
         // 수정인 경우
         if isWrite {
             self.initialState = State(content: content, isWrite: isWrite, commentId: commentId, isCommunityComment: isCommunity )
         } else { // 새로 댓글을 다는 경우
             self.initialState = State(perfumeId: perfumeId, isCommunityComment: isCommunity)
         }
+        
+        self.communityService = communityService
+        self.commentService = commentService
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -96,6 +101,7 @@ class CommentWriteReactor: Reactor {
 
 extension CommentWriteReactor {
     
+    //TODO: - api에서 수정, 추가한 댓글 리턴 받기
     func postCommentAndSetPopVC() -> Observable<Mutation> {
         let content = currentState.content
         return CommentAPI.postComment(
@@ -103,9 +109,10 @@ extension CommentWriteReactor {
             currentState.perfumeId!
         )
         .catch { _ in .empty() }
-        .flatMap { _ -> Observable<Mutation> in
+        .flatMap { comment -> Observable<Mutation> in
             return .concat([
-                .just(.setIsPopVC(true)),
+//                self.commentService!.editComment(to: comment)
+//                    .map { _ in .setIsPopVC(true) },
                 .just(.setIsPopVC(false))
             ])
         }
@@ -118,9 +125,10 @@ extension CommentWriteReactor {
                 ["content": content],
                 currentState.commentId!)
             .catch { _ in .empty() }
-            .flatMap { _ -> Observable<Mutation> in
+            .flatMap { comment -> Observable<Mutation> in
                 return .concat([
-                    .just(.setIsPopVC(true)),
+//                    self.commentService!.editComment(to: comment)
+//                        .map { _ in .setIsPopVC(true) },
                     .just(.setIsPopVC(false))
                 ])
             }
@@ -129,9 +137,10 @@ extension CommentWriteReactor {
                 currentState.commentId!,
                 ["content": content])
             .catch { _ in .empty() }
-            .flatMap { _ -> Observable<Mutation> in
+            .flatMap { comment -> Observable<Mutation> in
                 return .concat([
-                    .just(.setIsPopVC(true)),
+                    self.communityService!.editCommunityComment(to: comment)
+                        .map { _ in .setIsPopVC(true) },
                     .just(.setIsPopVC(false))
                 ])
             }

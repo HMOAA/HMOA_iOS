@@ -20,14 +20,16 @@ class EvaluationReactor: Reactor {
         case didTapSeasonButton(Int)
         case didTapGenderButton(Int)
         case didChangeAgeSlider(Float)
+        case didTapAgeResetButton
     }
     
     enum Mutation {
         case setSliderStep(Float)
         case setWeather(Weather)
         case setGender(Gender)
-        case setAge(Age)
+        case setAge(Age?)
         case setIsTap(Bool)
+        case setIsTapAgeReset(Bool)
     }
     
     struct State {
@@ -39,6 +41,7 @@ class EvaluationReactor: Reactor {
         var sliderStep: Float = 0
         var isLogin: Bool
         var isTapWhenNotLogin: Bool = false
+        var isTapAgeReset: Bool = false
     }
     
     init(_ evaluationData: Evaluation?, _ id: Int, isLogin: Bool) {
@@ -62,6 +65,14 @@ class EvaluationReactor: Reactor {
             
         case .viewDidLoad:
             return setValueInIsWrited()
+            
+        case .didTapAgeResetButton:
+            return .concat([
+                .just(.setAge(nil)),
+                .just(.setSliderStep(0)),
+                .just(.setIsTapAgeReset(true)),
+                .just(.setIsTapAgeReset(false))
+            ])
         }
     }
     
@@ -74,6 +85,7 @@ class EvaluationReactor: Reactor {
             state.weather = weather
             
         case .setGender(let gender):
+            //print(gender)
             state.gender = gender
             
         case .setSliderStep(let value):
@@ -85,6 +97,9 @@ class EvaluationReactor: Reactor {
             
         case .setIsTap(let isTap):
             state.isTapWhenNotLogin = isTap
+            
+        case .setIsTapAgeReset(let isTap):
+            state.isTapAgeReset = isTap
         }
         
         return state
@@ -122,6 +137,7 @@ extension EvaluationReactor {
     }
     
     func setAgeEvaluation(_ age: Int) -> Observable<Mutation> {
+        //print(age)
         if currentState.isLogin {
             if age != 0 {
                 return EvaluationAPI.postAge(

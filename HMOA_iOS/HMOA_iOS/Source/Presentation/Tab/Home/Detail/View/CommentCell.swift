@@ -19,8 +19,9 @@ class CommentCell: UICollectionViewCell {
     
     // MARK: - Properties
     lazy var subView = UIView().then {
+        $0.layer.cornerRadius = 10
         $0.isHidden = true
-        $0.layer.borderColor = UIColor.customColor(.labelGrayColor).cgColor
+        $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
         $0.layer.borderWidth = 1
     }
     
@@ -51,11 +52,9 @@ class CommentCell: UICollectionViewCell {
     }
     
     lazy var optionButton = UIButton().then {
-        $0.isHidden = true
-        $0.setImage(UIImage(named: "commentOption"), for: .normal)
+        $0.setImage(UIImage(named: "verticalOption"), for: .normal)
     }
     
-    var parentVC: UIViewController?
     
     var disposeBag = DisposeBag()
     
@@ -92,17 +91,12 @@ extension CommentCell {
         if !noCommentLabel.isHidden  { noCommentLabel.isHidden = true }
         if let item = item {
             userImageView.kf.setImage(with: URL(string: item.profileImg))
-            userNameLabel.text = item.nickname
+            userNameLabel.text = item.author
             contentLabel.text = item.content
             commentLikeButton.isHidden = true
             subView.isHidden = false
             
             if item.writed { optionButton.isHidden = false }
-            
-//            userImageView.kf.setImage(with: URL(string: item.profileImg))
-//            userNameLabel.text = item.author
-//            contentLabel.text = item.content
-//            subView.isHidden = false
         }
     }
     
@@ -139,22 +133,23 @@ extension CommentCell {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(9)
         }
-        
-        commentLikeButton.snp.makeConstraints {
-            $0.centerY.equalTo(userImageView)
-            $0.trailing.equalToSuperview().inset(16)
-//            $0.width.equalTo(60)
-            $0.height.equalTo(20)
-        }
-        
+    
         noCommentLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
         optionButton.snp.makeConstraints { make in
-            make.trailing.bottom.equalToSuperview().inset(7.2)
+            make.top.equalToSuperview().inset(15.2)
+            make.trailing.equalToSuperview().inset(13)
         }
+        
+        commentLikeButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(14)
+            $0.trailing.equalTo(optionButton.snp.leading).offset(-14.2)
+            $0.height.equalTo(20)
+        }
+        
     }
     
     func setLikeButtonText(_ text: String) -> AttributedString {

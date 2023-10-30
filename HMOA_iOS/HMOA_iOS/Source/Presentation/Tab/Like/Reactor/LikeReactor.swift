@@ -21,6 +21,7 @@ class LikeReactor: Reactor {
         case didTapCardButton
         case didTapListButton
         case didTapCollectionViewItem(IndexPath)
+        case didTapXButton(Int)
     }
     
     enum Mutation {
@@ -28,6 +29,7 @@ class LikeReactor: Reactor {
         case setShowListCollectionView(Bool)
         case setSelectedPerfumeId(IndexPath?)
         case setSectionItem([Like])
+        case setIsHideenNoLikeView(Bool)
     }
     
     struct State {
@@ -36,6 +38,7 @@ class LikeReactor: Reactor {
         var isSelectedList: Bool = false
         var selectedCardIndexPath: IndexPath? = nil
         var selectedPerfumeId: Int? = nil
+        var isHiddenNoLikeView: Bool = true
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -55,9 +58,14 @@ class LikeReactor: Reactor {
                 .just(.setSelectedPerfumeId(indexPath)),
                 .just(.setSelectedPerfumeId(nil))
             ])
+            
         case .viewWillAppear:
             return fetchLikePerfumes()
+            
+        case .didTapXButton(let row):
+            return deleteLikePerfume(row)
         }
+        
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
@@ -77,8 +85,10 @@ class LikeReactor: Reactor {
             state.selectedPerfumeId = state.sectionItem[indexPath.item].perfumeID
         case .setSectionItem(let item):
             state.sectionItem = item
-        }
             
+        case .setIsHideenNoLikeView(let isHidden):
+            state.isHiddenNoLikeView = isHidden
+        }
         return state
     }
 }
@@ -90,10 +100,30 @@ extension LikeReactor {
             .catch { _ in .empty() }
             .flatMap { list -> Observable<Mutation> in
                 let item: [Like] = list.likePerfumes
-                
+                let isHidden = !item.isEmpty
+        
                 return .concat([
-                    .just(.setSectionItem(item))
+                    .just(.setSectionItem(item)),
+                    .just(.setIsHideenNoLikeView(isHidden))
                 ])
             }
     }
+    
+    func deleteLikePerfume(_ row: Int) -> Observable<Mutation> {
+        let id = currentState.sectionItem[row].perfumeID
+        return LikeAPI.deleteLike(id)
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                var item = self.currentState.sectionItem
+                item.remove(at: row)
+                
+                let isHidden = !item.isEmpty
+                
+                return .concat([
+                    .just(.setSectionItem(item)),
+                    .just(.setIsHideenNoLikeView(isHidden))
+                ])
+            }
+    }
+    
 }

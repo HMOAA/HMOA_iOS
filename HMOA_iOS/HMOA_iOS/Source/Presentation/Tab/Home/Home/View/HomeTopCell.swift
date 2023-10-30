@@ -19,6 +19,12 @@ class HomeTopCell: UICollectionViewCell {
     
     lazy var newsImageView = UIImageView()
     
+    lazy var banerView = UIView().then {
+        $0.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9450980392, blue: 0.9529411765, alpha: 1)
+    }
+    lazy var banerLabel = UILabel().then {
+        $0.setLabelUI("시향지 체험단 모집 ~ 09.18", font: .pretendard_medium, size: 14, color: .banerLabelColor)
+    }
     
     // MARK: - Lifecycle
     override func layoutSubviews() {
@@ -31,10 +37,24 @@ class HomeTopCell: UICollectionViewCell {
 extension HomeTopCell {
     
     func configureUI() {
-        [newsImageView] .forEach { addSubview($0) }
+        banerView.addSubview(banerLabel)
+        
+        [newsImageView, banerView] .forEach { addSubview($0) }
         
         newsImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.leading.trailing.top.equalToSuperview()
+        }
+        
+        banerView.snp.makeConstraints { make in
+            make.top.equalTo(newsImageView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalTo(36)
+        }
+        
+        banerLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
         }
     }
     

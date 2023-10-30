@@ -106,9 +106,7 @@ extension MyPageViewController {
             .map { $0.presentVC }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: {
-                self.presentNextVC($0)
-            })
+            .bind(onNext: presentNextVC)
             .disposed(by: disposeBag)
     }
     
@@ -142,20 +140,6 @@ extension MyPageViewController {
                 
                 cell.updateCell(member, profileImage)
                 cell.selectionStyle = .none
-                let reactor = MemberCellReactor(member: member, profileImage: profileImage)
-                cell.reactor = reactor
-                cell.setupButtonTapHandling()
-                //프로필 수정 버튼 터치 이벤트
-                cell.reactor!.state
-                    .map { $0.isTapEditButton }
-                    .distinctUntilChanged()
-                    .filter { $0 }
-                    .bind(with: self) { owner, _ in
-                        let changeProfileReactor = self.reactor.reactorForMyProfile()
-                        let changeProfileVC = ChangeProfileImageViewController()
-                        changeProfileVC.reactor = changeProfileReactor
-                        owner.navigationController?.pushViewController(changeProfileVC, animated: true)
-                    }.disposed(by: self.disposeBag)
                 
                 return cell
                 
@@ -182,7 +166,11 @@ extension MyPageViewController {
             self.navigationController?.pushViewController(changeProfileVC, animated: true)
             
         case .myLog:
-            break
+            let myLogVC = MyLogViewController()
+            myLogVC.reactor = MyLogReactor()
+            
+            myLogVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(myLogVC, animated: true)
             
         case .myInformation:
             let myInformationReactor = self.reactor.reactorForMyInformation()
@@ -190,13 +178,13 @@ extension MyPageViewController {
 
             myInformationVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(myInformationVC, animated: true)
-            break
-            
-        case .openSource:
+        case .terms:
             break
         case .policy:
             break
         case .version:
+            break
+        case .inquireAccount:
             break
         case .logout:
             KeychainManager.delete()

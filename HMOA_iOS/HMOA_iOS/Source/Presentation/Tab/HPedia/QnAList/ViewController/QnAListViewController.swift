@@ -101,7 +101,6 @@ class QnAListViewController: UIViewController, View {
     
     //MARK: - Properties
     var disposeBag = DisposeBag()
-    let reactor = QNAListReactor()
     var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>!
     
     //MARK: - LifeCycle
@@ -113,7 +112,6 @@ class QnAListViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDatasource()
-        bind(reactor: reactor)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -195,9 +193,28 @@ class QnAListViewController: UIViewController, View {
         
         //Action
         
+        // WillDisplayCell
+        collectionView.rx.willDisplayCell
+            .map {
+                let currentItem = $0.at.item
+                if (currentItem + 1) % 10 == 0 && currentItem != 0 {
+                    return currentItem / 10 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // ViewDidLoad
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //viewWillAppear
         rx.viewWillAppear
-            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -243,12 +260,14 @@ class QnAListViewController: UIViewController, View {
         
         //collectionView Binding
         reactor.state
-            .map { $0.items }
+            .compactMap { $0.items }
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
                 
                 snapshot.appendSections([.qna])
+                
                 items.forEach {
                     snapshot.appendItems([.qna($0)], toSection: .qna)
                 }
@@ -270,16 +289,18 @@ class QnAListViewController: UIViewController, View {
         
         //선택된 카테고리 String QnAWriteVC로 push
         reactor.state
-            .map { $0.selectedAddCategory }
-            .compactMap { $0 }
-            .bind(onNext: presentQnAWriteVC)
+            .compactMap { $0.selectedAddCategory }
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentQnAWriteVC(reactor)
+            })
             .disposed(by: disposeBag)
-        
         //선택된 셀 id QnADetailVC로 push
         reactor.state
             .map { $0.selectedPostId }
             .compactMap { $0 }
-            .bind(onNext: presentQnADetailVC)
+            .bind(with: self, onNext: { owner, id in
+                owner.presentQnADetailVC(id, reactor)
+            })
             .disposed(by: disposeBag)
         
         reactor.state
@@ -313,7 +334,7 @@ class QnAListViewController: UIViewController, View {
             header.tagListView.tagViews[1].rx.tap.map { "시향기" },
             header.tagListView.tagViews[2].rx.tap.map { "자유" })
         .map { Reactor.Action.didTapCategoryButton($0) }
-        .bind(to: reactor.action)
+        .bind(to: reactor!.action)
         .disposed(by: disposeBag)
     }
 }

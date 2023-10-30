@@ -38,7 +38,21 @@ class LikeViewController: UIViewController, View {
         $0.register(LikeListCell.self, forCellWithReuseIdentifier: LikeListCell.identifier)
     }
     
-    var listCell: UICollectionViewCell!
+    lazy var noLikeView = UIView().then {
+        $0.isHidden = true
+    }
+    
+    lazy var perfumeImageView = UIImageView().then {
+        $0.image = UIImage(named: "noLike")
+    }
+    
+    lazy var noLikeLabel = UILabel().then {
+        $0.setLabelUI("저장된 향수가 없습니다", font: .pretendard_medium, size: 24, color: .black)
+    }
+    
+    lazy var saveLabel = UILabel().then {
+        $0.setLabelUI("좋아하는 향수를 저장해주세요", font: .pretendard, size: 16, color: .black)
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -62,13 +76,41 @@ class LikeViewController: UIViewController, View {
     }
     
     private func setAddView() {
+        
         [
+            perfumeImageView,
+            noLikeLabel,
+            saveLabel
+        ]   .forEach { noLikeView.addSubview($0) }
+        
+        
+        [
+            noLikeView,
             cardCollectionView,
             listCollectionView
         ]   .forEach { view.addSubview($0) }
     }
     
     private func setConstraints() {
+        
+        noLikeView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        perfumeImageView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(117)
+        }
+        
+        noLikeLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(perfumeImageView.snp.bottom).offset(35)
+        }
+        
+        saveLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(noLikeLabel.snp.bottom).offset(62)
+        }
         
         cardCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
@@ -122,8 +164,8 @@ class LikeViewController: UIViewController, View {
                 listSnapshot.appendItems(item, toSection: .main)
                 
                 DispatchQueue.main.async {
-                    self.cardDatasource.apply(cardSnapshot)
-                    self.listDatasource.apply(listSnapshot)
+                    self.cardDatasource.apply(cardSnapshot, animatingDifferences: true)
+                    self.listDatasource.apply(listSnapshot, animatingDifferences: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -134,6 +176,17 @@ class LikeViewController: UIViewController, View {
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
+        
+        // 좋아요한 향수 없을 시 뷰 보여주기
+        reactor.state
+            .map { $0.isHiddenNoLikeView }
+            .distinctUntilChanged()
+            .bind(with: self, onNext: { owner, isHidden in
+                print(isHidden)
+                owner.noLikeView.isHidden = isHidden
+                owner.cardCollectionView.isHidden = !isHidden
+            })
             .disposed(by: disposeBag)
       
     }
@@ -173,6 +226,11 @@ extension LikeViewController {
         cardDatasource = UICollectionViewDiffableDataSource<LikeSection, Like>(collectionView: cardCollectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCardCell.identifier, for: indexPath) as? LikeCardCell
             else { return UICollectionViewCell() }
+            
+            cell.xButton.rx.tap
+                .map { Reactor.Action.didTapXButton(indexPath.row) }
+                .bind(to: self.reactor.action)
+                .disposed(by: self.disposeBag)
             
             cell.updateCell(item: item)
             return cell
@@ -231,7 +289,6 @@ extension LikeViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topTrailing)
-        
         
         section.boundarySupplementaryItems = [sectionHeader]
         

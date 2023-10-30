@@ -17,30 +17,25 @@ extension UIViewController {
         self.present(alertVC, animated: false)
     }
     
-    func presentQnADetailVC(_ id: Int) {
+    func presentQnADetailVC(_ id: Int, _ reactor: QNAListReactor) {
         let qnaDetailVC = QnADetailViewController()
-        let reactor = QnADetailReactor(id)
+        let reactor = reactor.reactorForDetail()
         qnaDetailVC.reactor = reactor
         qnaDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }
     
-    func presentQnAWriteVCForEdit(id: Int, content: String, title: String, category: String) {
+    func presentQnAWriteVCForEdit(reactor: QnADetailReactor) {
         let qnaWriteVC = QnAWriteViewController()
-        let reactor = CommunityWriteReactor(communityId: id,
-                                            content: content,
-                                            title: title,
-                                            category: category)
+        let reactor = reactor.reactorForPostEdit()
         qnaWriteVC.reactor = reactor
         qnaWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaWriteVC, animated: true)
     }
     
-    func presentQnAWriteVC(_ category: String) {
+    func presentQnAWriteVC(_ reactor: QNAListReactor) {
         let qnaWriteVC = QnAWriteViewController()
-        let reactor = CommunityWriteReactor(communityId: nil,
-                                            title: nil,
-                                            category: category)
+        let reactor = reactor.reactorForWrite()
         qnaWriteVC.reactor = reactor
         qnaWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaWriteVC, animated: true)
@@ -48,6 +43,7 @@ extension UIViewController {
     
     func presentQnAListVC() {
         let qnaListVC = QnAListViewController()
+        qnaListVC.reactor = QNAListReactor(service: CommunityListService())
         self.navigationController?.pushViewController(qnaListVC, animated: true)
     }
     
@@ -75,7 +71,7 @@ extension UIViewController {
     
     func presentCommentViewContorller(_ id: Int) {
         let commentVC = CommentListViewController()
-        commentVC.perfumeId = id
+        commentVC.reactor = CommentListReactor(id, .detail, service: DetailCommentService())
         commentVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentVC, animated: true)
     }
@@ -94,23 +90,39 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
-    func presentCommentWriteViewController(_ perfumeId: Int) {
+    func presentCommentWriteViewController(_ reactorType: CommentReactorType) {
         let commentWriteVC = CommentWriteViewController()
-        commentWriteVC.reactor = CommentWriteReactor(
-            perfumeId: perfumeId,
-            isWrite: false,
-            content: "",
-            commentId: nil,
-            isCommunity: true)
         
+        var commentWriteReactor: CommentWriteReactor!
+        
+        switch reactorType {
+        case .perfumeDetail(let reactor):
+            commentWriteReactor = reactor.reactorForCommentAdd()
+        case .commentList(let reactor):
+            commentWriteReactor = reactor.reactorForCommentAdd()
+        default: break
+        }
+        
+        commentWriteVC.reactor = commentWriteReactor
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
-    func presentCommentWirteViewControllerForWriter(commentId: Int?, isWrited: Bool, content: String, isCommunity: Bool) {
+    func presentCommentWirteViewControllerForWriter(_ reactorType: CommentReactorType) {
         
         let commentWriteVC = CommentWriteViewController()
-        let commentWriteReactor = CommentWriteReactor(perfumeId: nil, isWrite: isWrited, content: content, commentId: commentId, isCommunity: isCommunity)
+        var commentWriteReactor: CommentWriteReactor!
+        switch reactorType {
+            
+        case .commentList(let reactor):
+            commentWriteReactor = reactor.reactorForEdit()
+            
+        case .community(let reactor):
+            commentWriteReactor = reactor.reactorForCommentEdit()
+            
+        case .perfumeDetail(let reactor):
+            commentWriteReactor = reactor.reactorForCommentEdit()
+        }
         commentWriteVC.reactor = commentWriteReactor
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)

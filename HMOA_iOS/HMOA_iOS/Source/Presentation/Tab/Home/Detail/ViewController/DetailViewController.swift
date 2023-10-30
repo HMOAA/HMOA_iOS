@@ -30,7 +30,7 @@ class DetailViewController: UIViewController, View {
     
     lazy var optionView = OptionView().then {
         $0.parentVC = self
-        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
+        $0.reactor = OptionReactor()
     }
     
     // MARK: - Lifecycle
@@ -96,6 +96,29 @@ extension DetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 댓글 셀 터치
+        detailView.collectionView.rx.itemSelected
+            .filter { $0.section == 2 }
+            .map { Reactor.Action.didTapCommentCell($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 같은 브랜드 향수 셀 터치
+        detailView.collectionView.rx.itemSelected
+            .filter { $0.section == 3 }
+            .map { Reactor.Action.didTapSimillarCell($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 옵션 뷰 삭제 버튼 터치 시
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeleteComment }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // collectionView 바인딩
@@ -125,27 +148,30 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         // 댓글 디테일 페이지로 이동
-        //        reactor.state
-        //            .map { $0.presentCommentId }
-        //            .distinctUntilChanged()
-        //            .compactMap { $0 }
-        //            .bind(onNext: presentCommentDetailViewController)
-        //            .disposed(by: disposeBag)
+        reactor.state
+            .map { $0.presentComment }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentCommentDetailViewController)
+            .disposed(by: disposeBag)
         
+        // TODO: - simillar cell 향수 아이디 받아오기
         // 향수 디테일 페이지로 이동
-        //        reactor.state
-        //            .map { $0.presentPerfumeId }
-        //            .distinctUntilChanged()
-        //            .compactMap { $0 }
-        //            .bind(onNext: presentDatailViewController)
-        //            .disposed(by: disposeBag)
+        reactor.state
+            .map { $0.presentPerfumeId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
         
         // 댓글 작성 페이지로 이동
         reactor.state
             .map { $0.isPresentCommentWirteVC }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentCommentWriteViewController)
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentCommentWriteViewController(.perfumeDetail(reactor))
+            })
             .disposed(by: disposeBag)
         
         // 홈 페이지로 이동
@@ -309,10 +335,16 @@ extension DetailViewController: UICollectionViewDelegate {
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 commentCell.updateCell(comment)
+                
                 commentCell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil) }
+                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil, comment?.writed) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.optionView.disposeBag)
+                
+                commentCell.optionButton.rx.tap
+                    .map { DetailViewReactor.Action.didTapOptionButton(indexPath.row) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
                     
                 
                 return commentCell
