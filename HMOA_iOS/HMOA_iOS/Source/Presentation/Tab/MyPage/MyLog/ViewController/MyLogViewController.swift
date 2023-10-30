@@ -87,13 +87,13 @@ extension MyLogViewController: UITableViewDelegate {
         switch row {
         case 0:
             let commentListVC = CommentListViewController()
-            let reactor = CommentListReactor(nil, CommentType.liked)
+            let reactor = CommentListReactor(nil, CommentType.liked, service: DetailCommentService())
             commentListVC.reactor = reactor
             
             navigationController?.pushViewController(commentListVC, animated: true)
         case 1:
             let commentListVC = CommentListViewController()
-            let reactor = CommentListReactor(nil, CommentType.writed)
+            let reactor = CommentListReactor(nil, CommentType.writed, service: DetailCommentService())
             commentListVC.reactor = reactor
             
             navigationController?.pushViewController(commentListVC, animated: true)
