@@ -71,7 +71,7 @@ extension UIViewController {
     
     func presentCommentViewContorller(_ id: Int) {
         let commentVC = CommentListViewController()
-        commentVC.reactor = CommentListReactor(id, .detail)
+        commentVC.reactor = CommentListReactor(id, .detail, service: DetailCommentService())
         commentVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentVC, animated: true)
     }
@@ -110,7 +110,7 @@ extension UIViewController {
         switch reactorType {
             
         case .commentList(let reactor):
-            break
+            commentWriteReactor = reactor.reactorForEdit()
             
         case .community(let reactor):
             commentWriteReactor = reactor.reactorForCommentEdit()

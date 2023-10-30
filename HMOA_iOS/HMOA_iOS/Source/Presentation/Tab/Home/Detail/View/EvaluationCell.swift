@@ -557,7 +557,6 @@ extension EvaluationCell {
     }
     
     // genderView 배경색, 텍스트 설정
-    // TODO: - 범위에 따른 image, text 색 변경
     private func setGenderViewColor(_ gender: Gender) {
         sexButtonView.isHidden = true
         evaluatedSexView.isHidden = false

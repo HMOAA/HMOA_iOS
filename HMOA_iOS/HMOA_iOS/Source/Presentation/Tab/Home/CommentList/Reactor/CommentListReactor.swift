@@ -10,6 +10,8 @@ import ReactorKit
 
 class CommentListReactor: Reactor {
     
+    let service: DetailCommentService
+    
     enum Action {
         case viewDidLoad
         case willDisplayCell(Int)
@@ -17,6 +19,8 @@ class CommentListReactor: Reactor {
         case didTapWriteButton
         case didTapLikeSortButton
         case didTapRecentSortButton
+        case didTapOptionButton(Int)
+        case didDeleteComment
     }
     
     enum Mutation {
@@ -26,6 +30,9 @@ class CommentListReactor: Reactor {
         case setSortType(String)
         case setCommentCount(Int)
         case setLoadedPage(Int)
+        case setSelectedRow(Int?)
+        case addComment(Comment)
+        case editComment(Comment)
     }
     
     struct State {
@@ -38,17 +45,19 @@ class CommentListReactor: Reactor {
         var commentType: CommentType
         var navigationTitle: String
         var loadedPage: Set<Int> = []
+        var selectedRow: Int? = nil
     }
     
     var initialState: State
 
-    init(_ currentPerfumeId: Int?, _ type: CommentType) {
+    init(_ currentPerfumeId: Int?, _ type: CommentType, service: DetailCommentService) {
         initialState = State(
             perfumeId: currentPerfumeId,
             sortType: "Latest",
             commentType: type,
             navigationTitle: type.title
         )
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -90,6 +99,12 @@ class CommentListReactor: Reactor {
             
         case .didTapRecentSortButton:
             return setCommentsList(type: "Latest", page: 0)
+            
+        case .didTapOptionButton(let row):
+            return .just(.setSelectedRow(row))
+            
+        case .didDeleteComment:
+            return .empty()
         }
     }
     
@@ -120,9 +135,31 @@ class CommentListReactor: Reactor {
             
         case .setLoadedPage(let page):
             state.loadedPage.insert(page)
+            
+        case .setSelectedRow(let row):
+            state.selectedRow = row
+            
+        case .addComment(let comment):
+            state.commentItems.append(comment)
+        case .editComment(let comment):
+            if let index = state.commentItems.firstIndex(where: { $0.id == comment.id }) {
+                state.commentItems[index] = comment
+            }
         }
         
         return state
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .addComment(let comment):
+                return .just(.addComment(comment))
+            case .editComment(let comment):
+                return .just(.editComment(comment))
+            }
+        }
+        return .merge(eventMutation, mutation)
     }
 }
 
@@ -167,5 +204,15 @@ extension CommentListReactor {
             .flatMap { data -> Observable<Mutation> in
                 return .just(.setCommentItem(data))
             }
+    }
+    
+    func reactorForEdit() -> CommentWriteReactor {
+        let state = currentState
+        return CommentWriteReactor(
+            perfumeId: state.perfumeId,
+            isWrite: true,
+            content: state.commentItems[state.selectedRow!].content,
+            commentId: state.commentItems[state.selectedRow!].id,
+            isCommunity: false)
     }
 }

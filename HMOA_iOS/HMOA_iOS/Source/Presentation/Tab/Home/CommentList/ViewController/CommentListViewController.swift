@@ -135,6 +135,14 @@ extension CommentListViewController {
             .bind(with: self) { owner, _ in
                 owner.bottomView.isHidden = true
             }.disposed(by: disposeBag)
+        
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeleteComment }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     func bindHeader() {
@@ -188,6 +196,13 @@ extension CommentListViewController {
                     .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, nil, "Comment", nil, comment.writed) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.disposeBag)
+                
+                // QnADetailReactor에 indexPathRow 전달
+                cell.optionButton.rx.tap
+                    .map { CommentListReactor.Action.didTapOptionButton(indexPath.row) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
                 
                 return cell
             }
