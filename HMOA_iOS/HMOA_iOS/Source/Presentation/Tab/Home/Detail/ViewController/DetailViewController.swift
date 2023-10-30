@@ -169,7 +169,9 @@ extension DetailViewController {
             .map { $0.isPresentCommentWirteVC }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentCommentWriteViewController)
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentCommentWriteViewController(.perfumeDetail(reactor))
+            })
             .disposed(by: disposeBag)
         
         // 홈 페이지로 이동

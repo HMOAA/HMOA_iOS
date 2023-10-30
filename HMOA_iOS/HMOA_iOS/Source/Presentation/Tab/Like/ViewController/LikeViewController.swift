@@ -50,12 +50,8 @@ class LikeViewController: UIViewController, View {
         $0.setLabelUI("저장된 향수가 없습니다", font: .pretendard_medium, size: 24, color: .black)
     }
     
-    lazy var goPerfumeButton = UIButton().then {
-        $0.titleLabel?.font = .customFont(.pretendard, 16)
-        $0.setTitle("향수 구경하러 가기 >", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = 10
-        $0.backgroundColor = #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
+    lazy var saveLabel = UILabel().then {
+        $0.setLabelUI("좋아하는 향수를 저장해주세요", font: .pretendard, size: 16, color: .black)
     }
     
     // MARK: - Lifecycle
@@ -84,7 +80,7 @@ class LikeViewController: UIViewController, View {
         [
             perfumeImageView,
             noLikeLabel,
-            goPerfumeButton
+            saveLabel
         ]   .forEach { noLikeView.addSubview($0) }
         
         
@@ -111,11 +107,9 @@ class LikeViewController: UIViewController, View {
             make.top.equalTo(perfumeImageView.snp.bottom).offset(35)
         }
         
-        goPerfumeButton.snp.makeConstraints { make in
-            make.width.equalTo(138)
-            make.height.equalTo(27)
+        saveLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(noLikeLabel.snp.bottom).offset(108)
+            make.top.equalTo(noLikeLabel.snp.bottom).offset(62)
         }
         
         cardCollectionView.snp.makeConstraints { make in
