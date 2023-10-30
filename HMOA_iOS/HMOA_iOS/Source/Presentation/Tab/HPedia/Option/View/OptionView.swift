@@ -167,13 +167,19 @@ class OptionView: UIView, View {
                 // 댓글 수정
                 if reactor.currentState.type == "Comment" {
                     if let parentVC = owner.parentVC as? QnADetailViewController {
-                        let isCommunity = true
-                        parentVC.presentCommentWirteViewControllerForWriter(parentVC.reactor!)
+                        parentVC.presentCommentWirteViewControllerForWriter(.community(parentVC.reactor!))
+                    }
+                    
+                    if let parentVC = owner.parentVC as? CommentListViewController {
+                        parentVC.presentCommentWirteViewControllerForWriter(.commentList(parentVC.reactor!))
+                    }
+                    
+                    if let parentVC = owner.parentVC as? DetailViewController {
+                        parentVC.presentCommentWirteViewControllerForWriter(.perfumeDetail(parentVC.reactor!))
                     }
                 }
                 
                 if reactor.currentState.type == "Post" {
-                    let postInfo = reactor.currentState.postInfo!
                     let parentVC = owner.parentVC as! QnADetailViewController
                     parentVC.presentQnAWriteVCForEdit(reactor: parentVC.reactor!)
                 }

@@ -11,6 +11,8 @@ import ReactorKit
 final class DetailViewReactor: Reactor {
     var initialState: State
 
+    
+    //TODO: - 댓글 삭제 기능 구현
     enum Action {
         case viewDidLoad(Bool)
         case viewWillAppear
@@ -24,6 +26,9 @@ final class DetailViewReactor: Reactor {
         case willDisplaySecondSection
         case didTapCommentCell(Int)
         case didTapSimillarCell(Int)
+        case didTapOptionButton(Int)
+        case didDeleteComment
+
     }
     
     enum Mutation {
@@ -42,6 +47,7 @@ final class DetailViewReactor: Reactor {
         case setIsTap(Bool)
         case setPresentBrandId(Int?)
         case setLikeCount(Int?)
+        case setSelectedCommentRow(Int)
     }
     
     struct State {
@@ -61,6 +67,7 @@ final class DetailViewReactor: Reactor {
         var isLogin: Bool = false
         var isTapWhenNotLogin: Bool = false
         var likeCount: Int? = nil
+        var selectedCommentRow: Int? = nil
     }
     
     init(perfumeId: Int) {
@@ -113,7 +120,7 @@ final class DetailViewReactor: Reactor {
         case .didTapLikeButton:
             return setPerfumeLike()
             
-        case .willDisplaySecondSection:
+        case .willDisplaySecondSection, .didDeleteComment:
             return setUpSecondDetailSections(id: currentState.perfumeId)
             
         case .didTapBrandView:
@@ -137,6 +144,9 @@ final class DetailViewReactor: Reactor {
                 .just(.setSelecctedPerfume(currentState.sections[3].items[row].id)),
                 .just(.setSelecctedPerfume(nil))
             ])
+            
+        case .didTapOptionButton(let row):
+            return .just(.setSelectedCommentRow(row))
         }
     }
     
@@ -188,6 +198,9 @@ final class DetailViewReactor: Reactor {
             
         case .setLikeCount(let count):
             state.likeCount = count
+            
+        case .setSelectedCommentRow(let row):
+            state.selectedCommentRow = row
         }
         
         return state
@@ -288,5 +301,14 @@ extension DetailViewReactor {
                 .just(.setIsTap(false))
             ])
         }
+    }
+    
+    func reactorForCommentEdit() -> CommentWriteReactor {
+        return CommentWriteReactor(
+            perfumeId: currentState.perfumeId,
+            isWrite: true,
+            content: currentState.sections[2].items[currentState.selectedCommentRow!].comment!.content,
+            commentId: currentState.sections[2].items[currentState.selectedCommentRow!].comment!.id,
+            isCommunity: false)
     }
 }

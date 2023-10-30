@@ -94,8 +94,8 @@ final class OptionReactor: Reactor {
                 ])
                 
             case "삭제":
-                if let _ = currentState.commentInfo {
-                    return deleteComment()
+                if let info = currentState.commentInfo {
+                    return deleteCommunityComment()
                 } else {
                     return deletePost()
                 }
@@ -146,7 +146,7 @@ final class OptionReactor: Reactor {
 
 extension OptionReactor {
     
-    func deleteComment() -> Observable<Mutation> {
+    func deleteCommunityComment() -> Observable<Mutation> {
         return CommunityAPI.deleteCommunityComment(currentState.commentInfo!.0)
             .catch { _ in .empty() }
             .flatMap { _  -> Observable<Mutation> in

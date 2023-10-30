@@ -196,6 +196,8 @@
 		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
 		CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */; };
 		CA943AD32AE685CF00A5B717 /* QnAListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AD22AE685CF00A5B717 /* QnAListService.swift */; };
+		CA943AD62AEF93E900A5B717 /* CommentReactorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AD52AEF93E900A5B717 /* CommentReactorType.swift */; };
+		CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AD82AEF971800A5B717 /* DetailCommentService.swift */; };
 		CAA116082AC16AB40063806C /* BrandAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116072AC16AB40063806C /* BrandAddress.swift */; };
 		CAA1160A2AC16ABD0063806C /* BrandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116092AC16ABD0063806C /* BrandAPI.swift */; };
 		CAA1160C2AC16C0F0063806C /* BrandData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160B2AC16C0F0063806C /* BrandData.swift */; };
@@ -432,6 +434,8 @@
 		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
 		CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 		CA943AD22AE685CF00A5B717 /* QnAListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAListService.swift; sourceTree = "<group>"; };
+		CA943AD52AEF93E900A5B717 /* CommentReactorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReactorType.swift; sourceTree = "<group>"; };
+		CA943AD82AEF971800A5B717 /* DetailCommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCommentService.swift; sourceTree = "<group>"; };
 		CAA116072AC16AB40063806C /* BrandAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAddress.swift; sourceTree = "<group>"; };
 		CAA116092AC16ABD0063806C /* BrandAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAPI.swift; sourceTree = "<group>"; };
 		CAA1160B2AC16C0F0063806C /* BrandData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandData.swift; sourceTree = "<group>"; };
@@ -1273,6 +1277,7 @@
 		2CAD9630298E465600974500 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				CA943AD72AEF96FC00A5B717 /* Service */,
 				2C04246F29A3E3BE009CF0FE /* Model */,
 				2C04246C29A3E0FD009CF0FE /* Reactor */,
 				2CAD9632298E467D00974500 /* View */,
@@ -1615,6 +1620,7 @@
 		CA4744722AD3C18200003584 /* Option */ = {
 			isa = PBXGroup;
 			children = (
+				CA943AD42AEF93DA00A5B717 /* Model */,
 				CA4744812AD3E2AD00003584 /* Reactor */,
 				CA4744742AD3C1C200003584 /* View */,
 			);
@@ -1848,6 +1854,22 @@
 			isa = PBXGroup;
 			children = (
 				CA943AD22AE685CF00A5B717 /* QnAListService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		CA943AD42AEF93DA00A5B717 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA943AD52AEF93E900A5B717 /* CommentReactorType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CA943AD72AEF96FC00A5B717 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CA943AD82AEF971800A5B717 /* DetailCommentService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -2313,6 +2335,7 @@
 				2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */,
 				CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */,
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
+				CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */,
 				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
 				2CA155B82A05368000D7B0C0 /* MyProfileReactor.swift in Sources */,
 				CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */,
@@ -2362,6 +2385,7 @@
 				2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */,
 				2C710EEF29798330006BE23B /* HomeFirstCellHeaderView.swift in Sources */,
 				CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */,
+				CA943AD62AEF93E900A5B717 /* CommentReactorType.swift in Sources */,
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,
 				CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */,
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
