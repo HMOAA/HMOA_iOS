@@ -56,10 +56,23 @@ extension CommentListViewController {
         
         // MARK: - Action
         
-        // viewWillAppear
-        rx.viewWillAppear
-            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
-            .map { _ in Reactor.Action.viewWillAppear }
+        // ViewDidLoad
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // WillDisplayCell
+        collectionView.rx.willDisplayCell
+            .map {
+                let currentItem = $0.at.item
+                if (currentItem + 1) %  10 == 0 && currentItem != 0 {
+                    return currentItem / 10 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -78,16 +91,16 @@ extension CommentListViewController {
         // MARK: - State
         // collectionView 바인딩
         reactor.state
-            .map { $0.commentSections }
+            .map { $0.commentItems }
+            .distinctUntilChanged()
+            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, sections in
+            .drive(with: self, onNext: { owner, item in
     
                 var snapshot = NSDiffableDataSourceSnapshot<CommentSection, CommentSectionItem>()
-                snapshot.appendSections(sections)
-                
-                sections.forEach { section in
-                    snapshot.appendItems(section.items, toSection: section)
-                }
+                snapshot.appendSections([.comment])
+            
+                item.forEach { snapshot.appendItems([.commentCell($0)]) }
                 
                 DispatchQueue.main.async {
                     owner.dataSource.apply(snapshot)
@@ -166,7 +179,7 @@ extension CommentListViewController {
         dataSource = UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {
-            case .commentCell(let comment, _):
+            case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 cell.updateCell(comment)
