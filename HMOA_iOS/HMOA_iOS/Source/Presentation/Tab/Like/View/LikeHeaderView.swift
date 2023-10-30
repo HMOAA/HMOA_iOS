@@ -51,12 +51,12 @@ class LikeHeaderView: UICollectionReusableView {
     func setConstraints() {
         cardButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(8)
-            make.height.equalTo(24)
+            make.width.height.equalTo(24)
         }
         
         listButton.snp.makeConstraints { make in
             make.trailing.equalTo(cardButton.snp.leading).offset(-13)
-            make.height.equalTo(24)
+            make.width.height.equalTo(24)
         }
     }
 }

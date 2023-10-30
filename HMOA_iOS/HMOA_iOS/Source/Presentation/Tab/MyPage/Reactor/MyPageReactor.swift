@@ -78,6 +78,7 @@ class MyPageReactor: Reactor {
                 .just(.setPresentVC(type)),
                 .just(.setPresentVC(nil))
             ])
+            
         case .didTapGoLoginButton:
             return .concat([
                 .just(.setIsTapGoLoginButton(true)),
@@ -139,12 +140,13 @@ extension MyPageReactor {
             ]   .map { MyPageSectionItem.otherCell($0) }
 
         let thrid = [
-            MyPageType.openSource.title,
+            MyPageType.terms.title,
             MyPageType.policy.title,
             MyPageType.version.title
             ]   .map { MyPageSectionItem.otherCell($0)}
         
         let fourth = [
+            MyPageType.inquireAccount.title,
             MyPageType.logout.title,
             MyPageType.deleteAccount.title
             ]   .map { MyPageSectionItem.otherCell($0)}

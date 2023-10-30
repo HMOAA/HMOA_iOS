@@ -21,7 +21,11 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
 
     // MARK: - UI Component
     
-    lazy var productImageView = UIImageView()
+    lazy var productImageView = UIImageView().then {
+        $0.layer.cornerRadius = 3
+        $0.layer.borderWidth = 2
+        $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
+    }
     
     var titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 14)
@@ -33,8 +37,7 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
     }
     
     lazy var likeButton = UIButton().then {
-        $0.setImage(UIImage(named: "heart"), for: .normal)
-        $0.setImage(UIImage(named: "heart_fill"), for: .selected)
+        $0.makeLikeButton()
     }
     
     // MARK: - init
@@ -83,10 +86,12 @@ extension BrandDetailCollectionViewCell {
     
     
     func bindUI(_ data: BrandPerfume) {
+        //TODO: - 좋아요 개수 바인딩
         titleLabel.text = data.brandName
         contentLabel.text = data.perfumeName
         likeButton.isSelected = data.liked
         productImageView.kf.setImage(with: URL(string: data.perfumeImgUrl))
+        
     }
 }
 

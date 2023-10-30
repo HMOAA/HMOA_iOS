@@ -19,7 +19,7 @@ class CommentListViewController: UIViewController, View {
     var perfumeId: Int = 0
 
     private var dataSource: UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>!
-    lazy var commendReactor = CommentListReactor(perfumeId)
+    
     var disposeBag = DisposeBag()
 
     // MARK: - UI Component
@@ -36,17 +36,15 @@ class CommentListViewController: UIViewController, View {
     }
     
     lazy var optionView = OptionView().then {
-        $0.reactor = OptionReactor(["수정", "삭제", "댓글 복사"])
+        $0.reactor = OptionReactor()
         $0.parentVC = self
     }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setBackItemNaviBar("댓글")
         configureUI()
         configureCollectionViewDataSource()
-        bind(reactor: commendReactor)
     }
 }
 
@@ -58,10 +56,23 @@ extension CommentListViewController {
         
         // MARK: - Action
         
-        // viewWillAppear
-        rx.viewWillAppear
-            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
-            .map { _ in Reactor.Action.viewWillAppear }
+        // ViewDidLoad
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // WillDisplayCell
+        collectionView.rx.willDisplayCell
+            .map {
+                let currentItem = $0.at.item
+                if (currentItem + 1) %  10 == 0 && currentItem != 0 {
+                    return currentItem / 10 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -80,16 +91,16 @@ extension CommentListViewController {
         // MARK: - State
         // collectionView 바인딩
         reactor.state
-            .map { $0.commentSections }
+            .map { $0.commentItems }
+            .distinctUntilChanged()
+            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, sections in
+            .drive(with: self, onNext: { owner, item in
     
                 var snapshot = NSDiffableDataSourceSnapshot<CommentSection, CommentSectionItem>()
-                snapshot.appendSections(sections)
-                
-                sections.forEach { section in
-                    snapshot.appendItems(section.items, toSection: section)
-                }
+                snapshot.appendSections([.comment])
+            
+                item.forEach { snapshot.appendItems([.commentCell($0)]) }
                 
                 DispatchQueue.main.async {
                     owner.dataSource.apply(snapshot)
@@ -109,7 +120,30 @@ extension CommentListViewController {
             .map { $0.isPresentCommentWriteVC }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentCommentWriteViewController)
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentCommentWriteViewController(.commentList(reactor))
+            })
+            .disposed(by: disposeBag)
+        
+        // 내비게이션 타이틀 설정
+        reactor.state
+            .map { $0.navigationTitle }
+            .bind(onNext: setBackItemNaviBar)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.commentType }
+            .filter { $0 != .detail }
+            .bind(with: self) { owner, _ in
+                owner.bottomView.isHidden = true
+            }.disposed(by: disposeBag)
+        
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeleteComment }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
     
@@ -120,22 +154,33 @@ extension CommentListViewController {
         // 좋아요순 버튼 클릭
         header.likeSortButton.rx.tap
             .map { Reactor.Action.didTapLikeSortButton }
-            .bind(to: commendReactor.action)
+            .bind(to: reactor!.action)
             .disposed(by: disposeBag)
         
         // 최신순 버튼 클릭
         header.recentSortButton.rx.tap
             .map { Reactor.Action.didTapRecentSortButton }
-            .bind(to: commendReactor.action)
+            .bind(to: reactor!.action)
             .disposed(by: disposeBag)
         
         //댓글 개수 
-        commendReactor.state
+        reactor?.state
             .map { $0.commentCount }
             .distinctUntilChanged()
             .map { "+" + String($0) }
             .bind(to: header.commentCountLabel.rx.text )
             .disposed(by: disposeBag)
+        
+        reactor?.state
+            .map { $0.commentType }
+            .filter { $0 != .detail }
+            .bind(with: self) { owner, _ in
+                owner.header.isHidden = true
+                owner.collectionView.snp.remakeConstraints { make in
+                    make.leading.trailing.bottom.equalToSuperview()
+                    make.top.equalTo(owner.view.safeAreaLayoutGuide)
+                }
+            }.disposed(by: disposeBag)
         
     }
     
@@ -144,15 +189,22 @@ extension CommentListViewController {
         dataSource = UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {
-            case .commentCell(let comment, _):
+            case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 cell.updateCell(comment)
                 
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, nil, "Comment", nil) }
+                    .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, nil, "Comment", nil, comment.writed) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.disposeBag)
+                
+                // QnADetailReactor에 indexPathRow 전달
+                cell.optionButton.rx.tap
+                    .map { CommentListReactor.Action.didTapOptionButton(indexPath.row) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
                 
                 return cell
             }

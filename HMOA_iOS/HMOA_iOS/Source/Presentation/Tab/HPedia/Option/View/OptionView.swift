@@ -81,7 +81,6 @@ class OptionView: UIView, View {
         tableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(cancleButton.snp.top).offset(-8)
-            make.top.equalToSuperview()
             make.height.equalTo(0)
         }
         
@@ -136,6 +135,8 @@ class OptionView: UIView, View {
         // tableview 개수에 따라 autoLayout 설정
         reactor.state
             .map { $0.options.count }
+            .distinctUntilChanged()
+            .filter { $0 != 0}
             .bind(with: self) { owner, count in
                 owner.tableView.snp.updateConstraints { make in
                     make.height.equalTo(count * 60)
@@ -164,23 +165,22 @@ class OptionView: UIView, View {
             .bind(with: self) { owner, _ in
                 // 댓글 수정
                 if reactor.currentState.type == "Comment" {
-                    let commentInfo = reactor.currentState.commentInfo!
-                    let isCommunity = owner.parentVC is QnADetailViewController
-                    owner.parentVC!.presentCommentWirteViewControllerForWriter(
-                        commentId: commentInfo.0,
-                        isWrited: true,
-                        content: commentInfo.1,
-                        isCommunity: isCommunity
-                    )
+                    if let parentVC = owner.parentVC as? QnADetailViewController {
+                        parentVC.presentCommentWirteViewControllerForWriter(.community(parentVC.reactor!))
+                    }
+                    
+                    if let parentVC = owner.parentVC as? CommentListViewController {
+                        parentVC.presentCommentWirteViewControllerForWriter(.commentList(parentVC.reactor!))
+                    }
+                    
+                    if let parentVC = owner.parentVC as? DetailViewController {
+                        parentVC.presentCommentWirteViewControllerForWriter(.perfumeDetail(parentVC.reactor!))
+                    }
                 }
                 
                 if reactor.currentState.type == "Post" {
-                    let postInfo = reactor.currentState.postInfo!
-                    owner.parentVC?.presentQnAWriteVCForEdit(
-                        id: postInfo.0,
-                        content: postInfo.1,
-                        title: postInfo.2,
-                        category: postInfo.3)
+                    let parentVC = owner.parentVC as! QnADetailViewController
+                    parentVC.presentQnAWriteVCForEdit(reactor: parentVC.reactor!)
                 }
             }.disposed(by: disposeBag)
     }
@@ -194,7 +194,14 @@ extension OptionView: UITableViewDelegate {
     }
     
     func showAnimation(_ isHidden: Bool) {
-        let buttonViewHeight = buttonView.bounds.height
+        
+        let count = reactor!.currentState.options.count
+        
+        var buttonViewHeight: CGFloat = 0
+        
+        if count != 0 {
+            buttonViewHeight = CGFloat((count + 1) * 60 + 8)
+        }
         // 숨기기
         if isHidden {
             UIView.animate(withDuration: 0.2, animations: {

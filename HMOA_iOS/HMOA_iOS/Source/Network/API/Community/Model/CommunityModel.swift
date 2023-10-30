@@ -21,7 +21,7 @@ struct CommunityDetail: Hashable, Codable {
 struct CategoryList: Hashable, Codable {
     let communityId: Int
     let category: String
-    let title: String
+    let title: String?
 }
 
 struct CommunityCommentResponse: Codable, Hashable {
@@ -30,15 +30,8 @@ struct CommunityCommentResponse: Codable, Hashable {
 }
 
 struct CommunityComment: Codable, Hashable {
-//    let author: String
-//    let commentId: Int
-//    let content, profileImg, time: String
-//    let writed: Bool
-    
-    let id: Int
-    let content: String
-    let nickname: String
-    let profileImg: String
-    let createAt: String
+    let author: String
+    let commentId: Int
+    let content, profileImg, time: String
     let writed: Bool
 }

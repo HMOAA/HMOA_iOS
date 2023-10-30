@@ -122,10 +122,10 @@ class HPediaViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         //Community DetailVC로 id Push
-        reactor.state
-            .compactMap { $0.selectedCommunityId }
-            .bind(onNext: presentQnADetailVC)
-            .disposed(by: disposeBag)
+//        reactor.state
+//            .compactMap { $0.selectedCommunityId }
+//            .bind(onNext: presentQnADetailVC)
+//            .disposed(by: disposeBag)
     }
 }
 

@@ -23,8 +23,20 @@ class HomeViewController: UIViewController, View {
 
     // MARK: - UI Component
     lazy var homeView = HomeView()
-    
+     
     lazy var brandSearchButton = UIButton().makeImageButton(UIImage(named: "homeMenu")!)
+    
+    lazy var indicatorImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.animationRepeatCount = 0
+        $0.animationDuration = 1.5
+        $0.animationImages = [
+            UIImage(named: "firstIndicator")!,
+            UIImage(named: "secondIndicator")!,
+            UIImage(named: "thirdIndicator")!,
+            UIImage(named: "fourthIndicator")!
+        ]
+    }
     
     lazy var searchButton = UIButton().makeImageButton(UIImage(named: "search")!)
     
@@ -100,9 +112,10 @@ extension HomeViewController {
         //snapshot 설정
         reactor.state
             .map { $0.sections }
+            .delay(.seconds(3), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
-                
+                owner.indicatorImageView.stopAnimating()
                 var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
                 snapshot.appendSections(sections)
                         
@@ -250,13 +263,20 @@ extension HomeViewController {
         homeView.collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        [homeView] .forEach { view.addSubview($0) }
+        [homeView, indicatorImageView] .forEach { view.addSubview($0) }
 
         homeView.snp.makeConstraints {
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
         }
+        
+        indicatorImageView.snp.makeConstraints { make in
+            make.centerY.centerX.equalToSuperview()
+            make.width.height.equalTo(110)
+        }
+        
+        indicatorImageView.startAnimating()
     }
 }
 

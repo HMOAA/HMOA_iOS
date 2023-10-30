@@ -12,19 +12,22 @@ import RxSwift
 
 class QnADetailReactor: Reactor {
     let initialState: State
+    var service: CommunityListProtocol
     
     enum Action {
-        case viewWillAppear
         case didChangeTextViewEditing(String)
         case didBeginEditing
         case didTapCommentWriteButton
         case didDeleteComment
         case didTapOptionButton(Int)
         case didDeletePost
+        case willDisplayCell(Int)
+        case viewDidLoad
     }
     
     enum Mutation {
-        case setSections([QnADetailSection])
+        case setPostItem([CommunityDetail])
+        case setCommentItem([CommunityComment])
         case setCategory(String)
         case setCommentCount(Int)
         case setContent(String)
@@ -33,11 +36,15 @@ class QnADetailReactor: Reactor {
         case setSelectedCommentRow(Int?)
         case setIsEndEditing(Bool)
         case setIsDeleted(Bool)
+        case setLoadedPage(Int)
+        case editComment(CommunityComment)
+        case editCommunityPost(CommunityDetail)
     }
     
     struct State {
         var communityId: Int
-        var sections: [QnADetailSection] = []
+        var postItem: [CommunityDetail] = []
+        var commentItem: [CommunityComment] = []
         var commentCount: Int? = nil
         var isBeginEditing: Bool = false
         var content: String = ""
@@ -45,15 +52,18 @@ class QnADetailReactor: Reactor {
         var isEndEditing: Bool = false
         var category: String = ""
         var isDeleted: Bool = false
+        var loadedPage: Set<Int> = []
+        var communityItems: CommunityDetailItems = CommunityDetailItems(postItem: [], commentItem: [])
     }
     
-    init(_ id: Int) {
+    init(_ id: Int, _ service: CommunityListProtocol) {
         initialState = State(communityId: id)
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewWillAppear:
+        case .viewDidLoad:
             return .concat([
                 setUpPostSection(),
                 setUpCommentSection()
@@ -81,6 +91,9 @@ class QnADetailReactor: Reactor {
                 .just(.setIsDeleted(true)),
                 .just(.setIsDeleted(false)),
             ])
+            
+        case .willDisplayCell(let currentPage):
+            return setUpCommentSection(currentPage)
         }
     }
     
@@ -88,9 +101,6 @@ class QnADetailReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setSections(let sections):
-            state.sections = sections
-            
         case .setCommentCount(let count):
             state.commentCount = count
             
@@ -101,14 +111,8 @@ class QnADetailReactor: Reactor {
             state.isBeginEditing = isBegin
             
         case .setComment(let comment):
-            var section = currentState.sections
-            var commentItem = section[1].item
-            commentItem.append(QnADetailSectionItem.commentCell(comment))
-            let commentSection = QnADetailSection.comment(commentItem)
-            section[1] = commentSection
-            
-            state.commentCount = currentState.commentCount! + 1
-            state.sections = section
+            state.communityItems.commentItem.append(comment)
+            state.commentCount! += 1
             
         case .setSelectedCommentRow(let row):
             state.selectedCommentRow = row
@@ -121,9 +125,41 @@ class QnADetailReactor: Reactor {
             
         case .setIsDeleted(let isDeleted):
             state.isDeleted = isDeleted
+        
+        case .setLoadedPage(let page):
+            state.loadedPage.insert(page)
+            
+        case .setPostItem(let item):
+            state.postItem = item
+            state.communityItems.postItem = item
+            
+        case .setCommentItem(let item):
+            state.commentItem = item
+            state.communityItems.commentItem = item
+            
+        case .editComment(let comment):
+            if let index = state.commentItem.firstIndex(where: { $0.commentId == comment.commentId }) {
+                state.communityItems.commentItem[index] = comment
+            }
+            
+        case .editCommunityPost(let detail):
+            state.communityItems.postItem = [detail]
         }
         
         return state
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .editCommunityComment(let comment):
+                return .just(.editComment(comment))
+            case .editCommunityDetail(let detail):
+                return .just(.editCommunityPost(detail))
+            default: return .empty()
+            }
+        }
+        return .merge(mutation, eventMutation)
     }
 }
 
@@ -132,32 +168,31 @@ extension QnADetailReactor {
         return CommunityAPI.fetchCommunityDetail(currentState.communityId)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                let item = QnADetailSectionItem.qnaPostCell(data)
-                let section = QnADetailSection.qnaPost([item])
                 
                 return .concat([
                     .just(.setCategory(data.category)),
-                    .just(.setSections([section]))
+                    .just(.setPostItem([data])),
+                    .just(.setContent(data.content))
                 ])
             }
     }
     
-    func setUpCommentSection() -> Observable<Mutation> {
-        let query: [String: Int] =
-        [
-            "page": 0
-        ]
+    func setUpCommentSection(_ currentPage: Int = 0) -> Observable<Mutation> {
+        let currentPage = currentPage
+        let query: [String: Int] = ["page": currentPage]
+        
+        if currentState.loadedPage.contains(currentPage) { return .empty() }
+        
         return CommunityAPI.fetchCommunityComment(currentState.communityId, query)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                var item = data.comments.map { QnADetailSectionItem.commentCell($0) }
-                var section = self.currentState.sections
-                
-                section.append(QnADetailSection.comment(item))
+                var commentItem = self.currentState.commentItem
+                commentItem.append(contentsOf: data.comments)
                 
                 return .concat([
-                    .just(.setSections(section)),
-                    .just(.setCommentCount(data.commentCount))
+                    .just(.setCommentItem(commentItem)),
+                    .just(.setCommentCount(data.commentCount)),
+                    .just(.setLoadedPage(currentPage))
                 ])
             }
     }
@@ -177,16 +212,34 @@ extension QnADetailReactor {
     
     func deleteCommentInSection() -> Observable<Mutation> {
         guard let row = currentState.selectedCommentRow else { return .empty() }
-        var section = currentState.sections
-        var commentItem = section[1].item
+        var commentItem = currentState.commentItem
         commentItem.remove(at: row)
-        let commentSection = QnADetailSection.comment(commentItem)
-        section[1] = commentSection
-        
+
         return .concat([
-            .just(.setSections(section)),
+            .just(.setCommentItem(commentItem)),
             .just(.setSelectedCommentRow(nil)),
             .just(.setCommentCount(currentState.commentCount! - 1))
         ])
+    }
+    
+    func reactorForPostEdit() -> CommunityWriteReactor {
+        
+        return CommunityWriteReactor(
+            communityId: currentState.communityId,
+            content: currentState.content,
+            title: currentState.postItem[0].title,
+            category: currentState.category,
+            service: service)
+    }
+    
+    func reactorForCommentEdit() -> CommentWriteReactor {
+        return CommentWriteReactor(
+            perfumeId: nil,
+            isWrite: true,
+            content: currentState.commentItem[currentState.selectedCommentRow!].content,
+            commentId: currentState.commentItem[currentState.selectedCommentRow!].commentId,
+            isCommunity: true, commentService: nil,
+            communityService: service
+        )
     }
 }
