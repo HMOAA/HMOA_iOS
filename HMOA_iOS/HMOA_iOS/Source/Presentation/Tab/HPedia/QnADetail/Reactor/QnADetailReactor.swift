@@ -238,8 +238,8 @@ extension QnADetailReactor {
             isWrite: true,
             content: currentState.commentItem[currentState.selectedCommentRow!].content,
             commentId: currentState.commentItem[currentState.selectedCommentRow!].commentId,
-            isCommunity: true,
-            service: service
+            isCommunity: true, commentService: nil,
+            communityService: service
         )
     }
 }

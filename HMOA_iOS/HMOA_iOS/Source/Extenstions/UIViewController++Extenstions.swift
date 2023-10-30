@@ -90,15 +90,20 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
-    func presentCommentWriteViewController(_ perfumeId: Int) {
+    func presentCommentWriteViewController(_ reactorType: CommentReactorType) {
         let commentWriteVC = CommentWriteViewController()
-        commentWriteVC.reactor = CommentWriteReactor(
-            perfumeId: perfumeId,
-            isWrite: false,
-            content: "",
-            commentId: nil,
-            isCommunity: true)
         
+        var commentWriteReactor: CommentWriteReactor!
+        
+        switch reactorType {
+        case .perfumeDetail(let reactor):
+            commentWriteReactor = reactor.reactorForCommentAdd()
+        case .commentList(let reactor):
+            commentWriteReactor = reactor.reactorForCommentAdd()
+        default: break
+        }
+        
+        commentWriteVC.reactor = commentWriteReactor
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }

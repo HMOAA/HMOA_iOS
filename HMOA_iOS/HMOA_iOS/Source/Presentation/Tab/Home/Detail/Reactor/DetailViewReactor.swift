@@ -309,6 +309,17 @@ extension DetailViewReactor {
             isWrite: true,
             content: currentState.sections[2].items[currentState.selectedCommentRow!].comment!.content,
             commentId: currentState.sections[2].items[currentState.selectedCommentRow!].comment!.id,
-            isCommunity: false)
+            isCommunity: false, commentService: nil)
+    }
+    
+    func reactorForCommentAdd() -> CommentWriteReactor {
+        return CommentWriteReactor(
+            perfumeId: currentState.perfumeId,
+            isWrite: false,
+            content: "",
+            commentId: nil,
+            isCommunity: true,
+            commentService: nil,
+            communityService: nil)
     }
 }

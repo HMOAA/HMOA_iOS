@@ -213,6 +213,17 @@ extension CommentListReactor {
             isWrite: true,
             content: state.commentItems[state.selectedRow!].content,
             commentId: state.commentItems[state.selectedRow!].id,
-            isCommunity: false)
+            isCommunity: false,
+            commentService: service)
+    }
+    
+    func reactorForCommentAdd() -> CommentWriteReactor {
+        return CommentWriteReactor(
+            perfumeId: currentState.perfumeId,
+            isWrite: false,
+            content: "",
+            commentId: nil,
+            isCommunity: false,
+            commentService: service)
     }
 }

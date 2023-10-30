@@ -120,7 +120,9 @@ extension CommentListViewController {
             .map { $0.isPresentCommentWriteVC }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentCommentWriteViewController)
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentCommentWriteViewController(.commentList(reactor))
+            })
             .disposed(by: disposeBag)
         
         // 내비게이션 타이틀 설정
