@@ -145,6 +145,7 @@ final class OptionReactor: Reactor {
 }
 
 extension OptionReactor {
+    
     func deleteComment() -> Observable<Mutation> {
         return CommunityAPI.deleteCommunityComment(currentState.commentInfo!.0)
             .catch { _ in .empty() }
@@ -161,12 +162,12 @@ extension OptionReactor {
         return CommunityAPI.deleteCommunityPost(currentState.postInfo!.0)
             .catch { _ in .empty() }
             .flatMap { _ -> Observable<Mutation> in
-                let postInfo = self.currentState.postInfo!
+                let postinfo = self.currentState.postInfo!
                 return .concat([
                     .just(.setisHiddenOptionView(true)),
                     .just(.setIsTapDelete(true)),
                     .just(.setIsTapDelete(false)),
-                    self.service!.deleteCommunityList(to: CategoryList(communityId: postInfo.0, category: postInfo.3, title: postInfo.2)).map { _ in .delete }
+                    self.service!.deleteCommunityList(to: CategoryList(communityId: postinfo.0, category: postinfo.3, title: postinfo.2)).map { _ in .delete }
                 ])
             }
     }

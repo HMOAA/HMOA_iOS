@@ -184,11 +184,13 @@ class QnADetailViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         // viewDidLoad
-        rx.viewWillAppear
-            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
-            .map { _ in Reactor.Action.viewWillAppear }
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        
+        // State
         
         // textView 사용자가 입력 시작
         commentTextView.rx.didBeginEditing
@@ -227,8 +229,6 @@ class QnADetailViewController: UIViewController, View {
             .map { _ in Reactor.Action.didDeletePost}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        // State
         
         //colectionView binding
         reactor.state

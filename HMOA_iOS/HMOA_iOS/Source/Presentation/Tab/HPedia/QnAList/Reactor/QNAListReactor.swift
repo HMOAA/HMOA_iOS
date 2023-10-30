@@ -34,7 +34,6 @@ class QNAListReactor: Reactor {
         case setPostList([CategoryList])
         case setLoadedPage(Set<Int>)
         case setSelectedCategory(String)
-        case setcurrentPage(Int)
         case editCommunityList(CategoryList)
         case addCommunityList(CategoryList)
         case deleteCommunityList(CategoryList)
@@ -49,7 +48,6 @@ class QNAListReactor: Reactor {
         var loadedPage: Set<Int> = []
         var selectedCategory: String = "추천"
         var items: [CategoryList] = []
-        var currentPage: Int = 0
     }
     
     init(service: CommunityListService) {
@@ -63,7 +61,7 @@ class QNAListReactor: Reactor {
             return .just(.setIsTapFloatingButton(false))
             
         case .viewDidLoad:
-            return setCommunityListItem("추천", currentState.currentPage)
+            return setCommunityListItem("추천", 0)
             
         case .didTapFloatingButton:
             return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
@@ -106,7 +104,6 @@ class QNAListReactor: Reactor {
             state.isFloatingButtonTap = isTap
         case .setSelectedAddCategory(let category):
             state.selectedAddCategory = category
-            state.loadedPage.remove(state.currentPage)
         case .setSelectedPostId(let indexPath):
             guard let indexPath = indexPath else {
                 state.selectedPostId = nil
@@ -121,8 +118,6 @@ class QNAListReactor: Reactor {
             state.loadedPage = loadedPage
         case .setSelectedCategory(let category):
             state.selectedCategory = category
-        case .setcurrentPage(let page):
-            state.currentPage = page
         case .editCommunityList(let community):
             if let index = state.items.firstIndex(where: { $0.communityId == community.communityId }) {
                 state.items[index] = community
@@ -144,6 +139,7 @@ class QNAListReactor: Reactor {
                 return .just(.deleteCommunityList(community))
             case .editCommunityList(let community):
                 return .just(.editCommunityList(community))
+            default: return .empty()
             }
         }
         
@@ -153,6 +149,7 @@ class QNAListReactor: Reactor {
 
 extension QNAListReactor {
     func setCommunityListItem(_ category: String, _ page: Int) -> Observable<Mutation> {
+        
         var loadedPage = currentState.loadedPage
         
         if category != currentState.selectedCategory {
@@ -177,8 +174,7 @@ extension QNAListReactor {
                 return .concat([
                     .just(.setPostList(postList)),
                     .just(.setLoadedPage(loadedPage)),
-                    .just(.setSelectedCategory(category)),
-                    .just(.setcurrentPage(page))
+                    .just(.setSelectedCategory(category))
                 ])
             }
     }
