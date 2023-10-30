@@ -37,8 +37,7 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
     }
     
     lazy var likeButton = UIButton().then {
-        $0.setImage(UIImage(named: "heart"), for: .normal)
-        $0.setImage(UIImage(named: "heart_fill"), for: .selected)
+        $0.makeLikeButton()
     }
     
     // MARK: - init
@@ -87,10 +86,12 @@ extension BrandDetailCollectionViewCell {
     
     
     func bindUI(_ data: BrandPerfume) {
+        //TODO: - 좋아요 개수 바인딩
         titleLabel.text = data.brandName
         contentLabel.text = data.perfumeName
         likeButton.isSelected = data.liked
         productImageView.kf.setImage(with: URL(string: data.perfumeImgUrl))
+        
     }
 }
 
