@@ -265,6 +265,7 @@ class QnAListViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
+                
                 snapshot.appendSections([.qna])
                 
                 items.forEach {
