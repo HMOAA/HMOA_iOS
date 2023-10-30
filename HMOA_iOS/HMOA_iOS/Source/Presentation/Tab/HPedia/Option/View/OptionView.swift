@@ -81,7 +81,6 @@ class OptionView: UIView, View {
         tableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(cancleButton.snp.top).offset(-8)
-            make.top.equalToSuperview()
             make.height.equalTo(0)
         }
         
