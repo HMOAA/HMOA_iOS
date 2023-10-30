@@ -27,7 +27,7 @@ extension UIViewController {
     
     func presentQnAWriteVCForEdit(reactor: QnADetailReactor) {
         let qnaWriteVC = QnAWriteViewController()
-        let reactor = reactor.reactorForEdit()
+        let reactor = reactor.reactorForPostEdit()
         qnaWriteVC.reactor = reactor
         qnaWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaWriteVC, animated: true)
@@ -103,10 +103,10 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
-    func presentCommentWirteViewControllerForWriter(commentId: Int?, isWrited: Bool, content: String, isCommunity: Bool) {
+    func presentCommentWirteViewControllerForWriter(_ reactor: QnADetailReactor) {
         
         let commentWriteVC = CommentWriteViewController()
-        let commentWriteReactor = CommentWriteReactor(perfumeId: nil, isWrite: isWrited, content: content, commentId: commentId, isCommunity: isCommunity)
+        let commentWriteReactor = reactor.reactorForCommentEdit()
         commentWriteVC.reactor = commentWriteReactor
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)

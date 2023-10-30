@@ -15,7 +15,6 @@ class QnADetailReactor: Reactor {
     var service: CommunityListProtocol
     
     enum Action {
-        case viewWillAppear
         case didChangeTextViewEditing(String)
         case didBeginEditing
         case didTapCommentWriteButton
@@ -23,6 +22,7 @@ class QnADetailReactor: Reactor {
         case didTapOptionButton(Int)
         case didDeletePost
         case willDisplayCell(Int)
+        case viewDidLoad
     }
     
     enum Mutation {
@@ -37,6 +37,8 @@ class QnADetailReactor: Reactor {
         case setIsEndEditing(Bool)
         case setIsDeleted(Bool)
         case setLoadedPage(Int)
+        case editComment(CommunityComment)
+        case editCommunityPost(CommunityDetail)
     }
     
     struct State {
@@ -61,7 +63,7 @@ class QnADetailReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewWillAppear:
+        case .viewDidLoad:
             return .concat([
                 setUpPostSection(),
                 setUpCommentSection()
@@ -134,9 +136,30 @@ class QnADetailReactor: Reactor {
         case .setCommentItem(let item):
             state.commentItem = item
             state.communityItems.commentItem = item
+            
+        case .editComment(let comment):
+            if let index = state.commentItem.firstIndex(where: { $0.commentId == comment.commentId }) {
+                state.communityItems.commentItem[index] = comment
+            }
+            
+        case .editCommunityPost(let detail):
+            state.communityItems.postItem = [detail]
         }
         
         return state
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .editCommunityComment(let comment):
+                return .just(.editComment(comment))
+            case .editCommunityDetail(let detail):
+                return .just(.editCommunityPost(detail))
+            default: return .empty()
+            }
+        }
+        return .merge(mutation, eventMutation)
     }
 }
 
@@ -153,16 +176,6 @@ extension QnADetailReactor {
                 ])
             }
     }
-    
-//    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-//        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
-//            
-//            switch event {
-//            case .
-//            }
-//            
-//        }
-//    }
     
     func setUpCommentSection(_ currentPage: Int = 0) -> Observable<Mutation> {
         let currentPage = currentPage
@@ -209,7 +222,7 @@ extension QnADetailReactor {
         ])
     }
     
-    func reactorForEdit() -> CommunityWriteReactor {
+    func reactorForPostEdit() -> CommunityWriteReactor {
         
         return CommunityWriteReactor(
             communityId: currentState.communityId,
@@ -217,5 +230,16 @@ extension QnADetailReactor {
             title: currentState.postItem[0].title,
             category: currentState.category,
             service: service)
+    }
+    
+    func reactorForCommentEdit() -> CommentWriteReactor {
+        return CommentWriteReactor(
+            perfumeId: nil,
+            isWrite: true,
+            content: currentState.commentItem[currentState.selectedCommentRow!].content,
+            commentId: currentState.commentItem[currentState.selectedCommentRow!].commentId,
+            isCommunity: true,
+            service: service
+        )
     }
 }

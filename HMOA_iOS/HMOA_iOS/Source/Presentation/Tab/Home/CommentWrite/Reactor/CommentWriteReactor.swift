@@ -10,6 +10,7 @@ import RxSwift
 
 class CommentWriteReactor: Reactor {
     var initialState: State
+    let service: CommunityListProtocol?
     
     enum Action {
         case didTapOkButton
@@ -36,13 +37,15 @@ class CommentWriteReactor: Reactor {
         var isCommunityComment: Bool
     }
     
-    init(perfumeId: Int?, isWrite: Bool, content: String, commentId: Int?, isCommunity: Bool) {
+    init(perfumeId: Int?, isWrite: Bool, content: String, commentId: Int?, isCommunity: Bool, service: CommunityListProtocol? = nil) {
         // 수정인 경우
         if isWrite {
             self.initialState = State(content: content, isWrite: isWrite, commentId: commentId, isCommunityComment: isCommunity )
         } else { // 새로 댓글을 다는 경우
             self.initialState = State(perfumeId: perfumeId, isCommunityComment: isCommunity)
         }
+        
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -129,9 +132,10 @@ extension CommentWriteReactor {
                 currentState.commentId!,
                 ["content": content])
             .catch { _ in .empty() }
-            .flatMap { _ -> Observable<Mutation> in
+            .flatMap { comment -> Observable<Mutation> in
                 return .concat([
-                    .just(.setIsPopVC(true)),
+                    self.service!.editCommunityComment(to: comment)
+                        .map { _ in .setIsPopVC(true) },
                     .just(.setIsPopVC(false))
                 ])
             }

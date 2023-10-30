@@ -166,14 +166,10 @@ class OptionView: UIView, View {
             .bind(with: self) { owner, _ in
                 // 댓글 수정
                 if reactor.currentState.type == "Comment" {
-//                    let commentInfo = reactor.currentState.commentInfo!
-//                    let isCommunity = owner.parentVC is QnADetailViewController
-//                    owner.parentVC!.presentCommentWirteViewControllerForWriter(
-//                        commentId: commentInfo.0,
-//                        isWrited: true,
-//                        content: commentInfo.1,
-//                        isCommunity: isCommunity
-                    //)
+                    if let parentVC = owner.parentVC as? QnADetailViewController {
+                        let isCommunity = true
+                        parentVC.presentCommentWirteViewControllerForWriter(parentVC.reactor!)
+                    }
                 }
                 
                 if reactor.currentState.type == "Post" {
