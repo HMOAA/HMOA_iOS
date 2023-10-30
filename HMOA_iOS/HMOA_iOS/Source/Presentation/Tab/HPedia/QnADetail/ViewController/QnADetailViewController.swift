@@ -14,8 +14,7 @@ import RxSwift
 import ReactorKit
 import RxGesture
 
-// 커뮤니티 디테일 코멘트 페이징, crud, willappear 수정, 빈 데이터 못 보내게, 글자 수 제한
-
+//빈 데이터 못 보내게, 글자 수 제한
 class QnADetailViewController: UIViewController, View {
 
     //MARK: - Properties
