@@ -52,10 +52,9 @@ class CommentCell: UICollectionViewCell {
     }
     
     lazy var optionButton = UIButton().then {
-        $0.setImage(UIImage(named: "commentOption"), for: .normal)
+        $0.setImage(UIImage(named: "verticalOption"), for: .normal)
     }
     
-    var parentVC: UIViewController?
     
     var disposeBag = DisposeBag()
     
@@ -134,22 +133,23 @@ extension CommentCell {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(9)
         }
-        
-        commentLikeButton.snp.makeConstraints {
-            $0.centerY.equalTo(userImageView)
-            $0.trailing.equalToSuperview().inset(16)
-//            $0.width.equalTo(60)
-            $0.height.equalTo(20)
-        }
-        
+    
         noCommentLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
         optionButton.snp.makeConstraints { make in
-            make.trailing.bottom.equalToSuperview().inset(6.2)
+            make.top.equalToSuperview().inset(15.2)
+            make.trailing.equalToSuperview().inset(13)
         }
+        
+        commentLikeButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(14)
+            $0.trailing.equalTo(optionButton.snp.leading).offset(-14.2)
+            $0.height.equalTo(20)
+        }
+        
     }
     
     func setLikeButtonText(_ text: String) -> AttributedString {
