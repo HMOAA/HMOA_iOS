@@ -103,10 +103,21 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
-    func presentCommentWirteViewControllerForWriter(_ reactor: QnADetailReactor) {
+    func presentCommentWirteViewControllerForWriter(_ reactorType: CommentReactorType) {
         
         let commentWriteVC = CommentWriteViewController()
-        let commentWriteReactor = reactor.reactorForCommentEdit()
+        var commentWriteReactor: CommentWriteReactor!
+        switch reactorType {
+            
+        case .commentList(let reactor):
+            break
+            
+        case .community(let reactor):
+            commentWriteReactor = reactor.reactorForCommentEdit()
+            
+        case .perfumeDetail(let reactor):
+            commentWriteReactor = reactor.reactorForCommentEdit()
+        }
         commentWriteVC.reactor = commentWriteReactor
         commentWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentWriteVC, animated: true)

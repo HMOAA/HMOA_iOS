@@ -110,6 +110,15 @@ extension DetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 옵션 뷰 삭제 버튼 터치 시
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeleteComment }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // collectionView 바인딩
@@ -329,6 +338,11 @@ extension DetailViewController: UICollectionViewDelegate {
                     .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil, comment?.writed) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.optionView.disposeBag)
+                
+                commentCell.optionButton.rx.tap
+                    .map { DetailViewReactor.Action.didTapOptionButton(indexPath.row) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
                     
                 
                 return commentCell
