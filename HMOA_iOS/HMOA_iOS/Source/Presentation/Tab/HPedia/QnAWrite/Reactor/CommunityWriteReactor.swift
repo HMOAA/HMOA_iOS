@@ -18,25 +18,24 @@ class CommunityWriteReactor: Reactor {
         case didTapOkButton
         case didChangeTitle(String)
         case didChangeTextViewEditing(String)
-        case didEndTextViewEditing
         case didBeginEditing
     }
     
     enum Mutation {
         case setTitle(String)
         case setContent(String)
-        case setIsEndEditing(Bool)
         case setSucces
+        case setIsPopVC(Bool)
     }
     
     struct State {
         var id: Int? = nil
         var isPopVC: Bool = false
         var isBeginEditing: Bool = false
-        var isEndEditing: Bool = false
         var content: String
         var title: String? = nil
         var category: String
+        var okButtonEnable: Bool = false
     }
     
     init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String, service: CommunityListProtocol?) {
@@ -57,21 +56,14 @@ class CommunityWriteReactor: Reactor {
             }
             
         case .didChangeTitle(let title):
-            return .concat([
-                .just(.setTitle(title))
-            ])
+            return .just(.setTitle(title))
+            
         case .didBeginEditing:
             if currentState.content == "내용을 입력해주세요" {
                 return .just(.setContent(""))
             } else {
                 return .empty()
             }
-        
-        case .didEndTextViewEditing:
-            return .concat([
-                .just(.setIsEndEditing(true)),
-                .just(.setIsEndEditing(false))
-            ])
             
         case .didChangeTextViewEditing(let content):
             return .just(.setContent(content))
@@ -84,15 +76,19 @@ class CommunityWriteReactor: Reactor {
             
         case .setTitle(let title):
             state.title = title
-            
-        case .setIsEndEditing(let isEnd):
-            state.isEndEditing = isEnd
+            state.okButtonEnable = isOkButtonEnabled(content: currentState.content,
+                                                     title: title)
             
         case .setContent(let content):
             state.content = content
+            state.okButtonEnable = isOkButtonEnabled(content: content,
+                                                     title: currentState.title ?? "")
             
         case .setSucces:
             break
+            
+        case .setIsPopVC(let isPop):
+            state.isPopVC = isPop
         }
         
         return state
@@ -118,7 +114,11 @@ extension CommunityWriteReactor {
         return CommunityAPI.postCommunityPost(params)
             .catch { _ in.empty() }
             .flatMap { data -> Observable<Mutation> in
-                return self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces}
+                return .concat([
+                    self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces },
+                    .just(.setIsPopVC(true)),
+                    .just(.setIsPopVC(false))
+                ])
             }
     }
     
@@ -140,8 +140,19 @@ extension CommunityWriteReactor {
                         title: data.title
                     )).map { _ in .setSucces},
                     self.service!.editCommunityDetail(to: data)
-                        .map { _ in .setSucces }
+                        .map { _ in .setSucces },
+                    .just(.setIsPopVC(true)),
+                    .just(.setIsPopVC(false))
                 ])
             }
+    }
+    
+    func isOkButtonEnabled(content: String, title: String ) -> Bool {
+        
+        let isContentEmpty = content.isEmpty
+        let isContentInitValue = content == "내용을 입력해주세요"
+        let isTitleEmpty = title.isEmpty
+        
+        return !(isContentEmpty || isTitleEmpty || isContentInitValue)
     }
 }
