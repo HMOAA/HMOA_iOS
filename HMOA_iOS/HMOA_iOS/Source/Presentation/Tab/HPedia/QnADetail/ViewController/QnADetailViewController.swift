@@ -165,9 +165,11 @@ class QnADetailViewController: UIViewController, View {
             .when(.recognized)
             .bind(with: self, onNext: { owner, _ in
                 owner.view.endEditing(true)
+                owner.commentTextView.text = "댓글을 입력하세요"
             })
             .disposed(by: disposeBag)
         
+        // willDisplayCell
         collectionView.rx.willDisplayCell
             .filter { $0.at.section == 1 }
             .map {
@@ -187,9 +189,6 @@ class QnADetailViewController: UIViewController, View {
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        
-        // State
         
         // textView 사용자가 입력 시작
         commentTextView.rx.didBeginEditing
@@ -228,6 +227,9 @@ class QnADetailViewController: UIViewController, View {
             .map { _ in Reactor.Action.didDeletePost}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        
+        // State
         
         //colectionView binding
         reactor.state
@@ -278,7 +280,7 @@ class QnADetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self, onNext: { owner, _ in
-                owner.commentTextView.text = ""
+                owner.commentTextView.text = "댓글을 입력하세요"
                 owner.view.endEditing(true)
             })
             .disposed(by: disposeBag)
@@ -290,6 +292,13 @@ class QnADetailViewController: UIViewController, View {
             .filter { $0 }
             .map { _ in }
             .bind(onNext: popViewController)
+            .disposed(by: disposeBag)
+        
+        // 댓글 빈 칸일 시 버튼 비활성화
+        reactor.state
+            .map { $0.writeButtonEnable }
+            .distinctUntilChanged()
+            .bind(to: commentWriteButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
 }

@@ -54,6 +54,7 @@ class QnADetailReactor: Reactor {
         var isDeleted: Bool = false
         var loadedPage: Set<Int> = []
         var communityItems: CommunityDetailItems = CommunityDetailItems(postItem: [], commentItem: [])
+        var writeButtonEnable: Bool = false
     }
     
     init(_ id: Int, _ service: CommunityListProtocol) {
@@ -70,13 +71,16 @@ class QnADetailReactor: Reactor {
             ])
             
         case .didBeginEditing:
-            return .just(.setIsBegenEditing(true))
+            return .concat([
+                .just(.setIsBegenEditing(true)),
+                .just(.setIsBegenEditing(false))
+            ])
             
         case .didChangeTextViewEditing(let content):
             return .just(.setContent(content))
             
         case .didTapCommentWriteButton:
-            if !currentState.content.isEmpty || currentState.content != "댓글을 입력하세요" {
+            if currentState.content != "댓글을 입력하세요" {
                 return setPostComment()
             } else { return .empty() }
             
@@ -106,6 +110,13 @@ class QnADetailReactor: Reactor {
             
         case .setContent(let content):
             state.content = content
+            if content.isEmpty {
+                state.writeButtonEnable = false }
+            else {
+                if !state.writeButtonEnable {
+                    state.writeButtonEnable = true
+                }
+            }
             
         case .setIsBegenEditing(let isBegin):
             state.isBeginEditing = isBegin
