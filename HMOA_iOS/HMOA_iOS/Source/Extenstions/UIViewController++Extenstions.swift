@@ -155,7 +155,6 @@ extension UIViewController {
     }
     
     func setOkCancleNavigationBar(okButton: UIButton, cancleButton: UIButton, titleLabel: UILabel) {
-        okButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
         cancleButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
         let okButtonItem = UIBarButtonItem(customView: okButton)
         let cancleButtonItem = UIBarButtonItem(customView: cancleButton)

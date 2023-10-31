@@ -14,7 +14,7 @@ import RxSwift
 import ReactorKit
 
 class QnAWriteViewController: UIViewController, View {
-
+    
     var disposeBag = DisposeBag()
     
     //MARK: - UI Components
@@ -34,8 +34,6 @@ class QnAWriteViewController: UIViewController, View {
     let okButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 16)
-        $0.setTitleColor(.black, for: .normal)
-        $0.tintColor = .black
     }
     
     let titleView = UIView()
@@ -49,6 +47,11 @@ class QnAWriteViewController: UIViewController, View {
         $0.font = .customFont(.pretendard, 14)
         $0.placeholder = "제목을 입력해주세요"
         $0.setPlaceholder(color: .customColor(.gray3))
+    }
+    
+    let titleCountLabel = UILabel().then {
+        $0.text = "0/20"
+        $0.font = .customFont(.pretendard_light, 14)
     }
     
     let textView = UITextView()
@@ -89,13 +92,14 @@ class QnAWriteViewController: UIViewController, View {
         
         [
             titleLabel,
-            titleTextField
+            titleTextField,
+            titleCountLabel
         ]   .forEach { titleView.addSubview($0) }
         
         [
-         titleView,
-         textView,
-         toolBar
+            titleView,
+            textView,
+            toolBar
         ].forEach { view.addSubview($0) }
     }
     
@@ -109,7 +113,13 @@ class QnAWriteViewController: UIViewController, View {
         
         titleTextField.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.trailing).offset(6)
-            make.trailing.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+            make.trailing.equalTo(titleCountLabel.snp.leading).offset(-3)
+        }
+        
+        titleCountLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.greaterThanOrEqualToSuperview().inset(15)
         }
         
         titleView.snp.makeConstraints { make in
@@ -136,7 +146,7 @@ class QnAWriteViewController: UIViewController, View {
         
         // 제목 변경
         titleTextField.rx.text.orEmpty
-            .filter { !$0.isEmpty }
+            .skip(1)
             .map { Reactor.Action.didChangeTitle($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -152,12 +162,6 @@ class QnAWriteViewController: UIViewController, View {
             .distinctUntilChanged()
             .skip(1)
             .map { Reactor.Action.didChangeTextViewEditing($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // textView 사용자가 입력 종료 (textView가 비활성화)
-        textView.rx.didEndEditing
-            .map { Reactor.Action.didEndTextViewEditing }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -183,7 +187,41 @@ class QnAWriteViewController: UIViewController, View {
         // 제목 텍스트 바인딩
         reactor.state
             .map { $0.title }
-            .bind(to: titleTextField.rx.text)
+            .compactMap { $0 }
+            .map { text in
+                if text.count > 20 {
+                    let index = text.index(text.startIndex, offsetBy: 20)
+                    return String(text[..<index])
+                } else {
+                    return text
+                }
+            }
+            .bind(with: self, onNext: { owner, text in
+                owner.titleTextField.text = text
+                owner.titleCountLabel.text = "\(text.count)/20"
+            })
+            .disposed(by: disposeBag)
+        
+        // ok버튼 enable 설정
+        reactor.state
+            .map { $0.okButtonEnable }
+            .bind(with: self) { owner, isEnable in
+                owner.okButton.isEnabled = isEnable
+                if isEnable {
+                    owner.okButton.setTitleColor(.black, for: .normal)
+                } else {
+                    owner.okButton.setTitleColor(.customColor(.gray3), for: .normal)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // Pop VC
+        reactor.state
+            .map { $0.isPopVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .bind(onNext: popViewController)
             .disposed(by: disposeBag)
         
     }
