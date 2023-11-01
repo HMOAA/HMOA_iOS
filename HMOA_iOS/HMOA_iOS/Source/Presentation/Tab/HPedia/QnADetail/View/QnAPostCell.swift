@@ -115,6 +115,7 @@ class QnAPostCell: UICollectionViewCell {
         contentLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.bottom.lessThanOrEqualToSuperview().inset(48)
         }
     }
 }

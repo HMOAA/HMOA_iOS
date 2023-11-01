@@ -45,10 +45,19 @@ class CommentCell: UICollectionViewCell {
     }
     
     lazy var noCommentLabel = UILabel().then {
+        $0.isHidden = true
         $0.setLabelUI("해당 제품의 의견을 남겨주세요",
                       font: .pretendard_light,
                       size: 14,
                       color: .gray3)
+    }
+    
+    lazy var communityNoCommentLabel = UILabel().then {
+        $0.isHidden = true
+        $0.setLabelUI("아직 작성한 댓글이 없습니다",
+                      font: .pretendard_medium,
+                      size: 20,
+                      color: .black)
     }
     
     lazy var optionButton = UIButton().then {
@@ -83,27 +92,28 @@ extension CommentCell {
             subView.isHidden = false
             noCommentLabel.isHidden = true
             
-            if item.writed { optionButton.isHidden = false }
-        }
+            //if item.writed { optionButton.isHidden = false }
+        } else { noCommentLabel.isHidden = false }
     }
     
     func updateCommunityComment(_ item: CommunityComment?) {
-        if !noCommentLabel.isHidden  { noCommentLabel.isHidden = true }
         if let item = item {
             userImageView.kf.setImage(with: URL(string: item.profileImg))
             userNameLabel.text = item.author
             contentLabel.text = item.content
             commentLikeButton.isHidden = true
             subView.isHidden = false
+            communityNoCommentLabel.isHidden = true
             
-            if item.writed { optionButton.isHidden = false }
-        }
+            //if item.writed { optionButton.isHidden = false }
+        } else { communityNoCommentLabel.isHidden = false }
     }
     
     func configureUI() {
         
         addSubview(subView)
         addSubview(noCommentLabel)
+        addSubview(communityNoCommentLabel)
         
         [   userImageView,
             userNameLabel,
@@ -137,6 +147,11 @@ extension CommentCell {
         noCommentLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
+        }
+        
+        communityNoCommentLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
         
         optionButton.snp.makeConstraints { make in

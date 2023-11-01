@@ -21,7 +21,6 @@ class QnADetailViewController: UIViewController, View {
     var dataSource: UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>!
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
-        $0.isScrollEnabled = false
         $0.register(QnAPostHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier)
         $0.register(QnACommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier)
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
@@ -29,10 +28,6 @@ class QnADetailViewController: UIViewController, View {
         
     }
     
-    lazy var noCommentLabel = UILabel().then {
-        $0.isHidden = true
-        $0.setLabelUI("아직 작성한 댓글이 없습니다", font: .pretendard_medium, size: 20, color: .black)
-    }
     
     let commentWriteView = UIView().then {
         $0.layer.cornerRadius = 5
@@ -100,7 +95,6 @@ class QnADetailViewController: UIViewController, View {
         
         [
             collectionView,
-            noCommentLabel,
             commentWriteView,
             commentOptionView,
             postOptionView
@@ -111,11 +105,6 @@ class QnADetailViewController: UIViewController, View {
         collectionView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().inset(98)
-        }
-        
-        noCommentLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(462)
         }
         
         commentWriteView.snp.makeConstraints { make in
@@ -243,7 +232,7 @@ class QnADetailViewController: UIViewController, View {
                 
                 items.postItem.forEach { snapshot.appendItems([.qnaPostCell($0)], toSection: .qnaPost) }
                 
-                snapshot.appendItems(items.commentItem.map { .commentCell($0)}, toSection: .comment)
+                snapshot.appendItems(items.commentItem.map { .commentCell($0) }, toSection: .comment)
                 
                 DispatchQueue.main.async {
                     owner.dataSource.apply(snapshot)
@@ -359,18 +348,9 @@ extension QnADetailViewController {
                 
                 self.reactor?.state
                     .map { $0.commentCount }
-                    .bind(with: self, onNext: { owner, count in
-                        if let count = count {
-                            if count == 0 {
-                                owner.noCommentLabel.isHidden = false
-                                owner.collectionView.isScrollEnabled = false
-                            } else {
-                                owner.noCommentLabel.isHidden = true
-                                owner.collectionView.isScrollEnabled = true
-                            }
-                            header.commentCountLabel.text = "+\(count)"
-                        }
-                    })
+                    .compactMap { $0 }
+                    .map { "+\($0)"}
+                    .bind(to: header.commentCountLabel.rx.text)
                     .disposed(by: self.disposeBag)
                 
                 return header
@@ -379,10 +359,10 @@ extension QnADetailViewController {
     }
     
     func configureQnAPostSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(268))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(268))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(268))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(268))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(14)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)

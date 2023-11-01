@@ -193,7 +193,6 @@ extension DetailViewController {
             .disposed(by: disposeBag)
         
         // 검색 페이지로 이동
-        
         reactor.state
             .map { $0.isPresentSearchVC }
             .distinctUntilChanged()
