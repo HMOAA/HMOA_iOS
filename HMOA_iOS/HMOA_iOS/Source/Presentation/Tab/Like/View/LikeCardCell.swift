@@ -9,9 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
-import RxDataSources
-import RxCocoa
-import ReactorKit
+import RxSwift
 
 class LikeCardCell: UICollectionViewCell {
     
@@ -86,7 +84,7 @@ class LikeCardCell: UICollectionViewCell {
         $0.layer.masksToBounds = false
     }
     
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     //MARK: - LifeCycle
 
@@ -109,6 +107,11 @@ class LikeCardCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 5
         contentView.layer.masksToBounds = true
         
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
     
     

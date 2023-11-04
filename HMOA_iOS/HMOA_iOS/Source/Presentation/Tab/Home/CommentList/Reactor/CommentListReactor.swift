@@ -191,7 +191,6 @@ extension CommentListReactor {
     }
     
     func setLikedCommentList() -> Observable<Mutation> {
-        print("22")
         return MemberAPI.fetchLikedComments(["page": 0])
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
@@ -200,7 +199,6 @@ extension CommentListReactor {
     }
     
     func setWritedCommentList() -> Observable<Mutation> {
-        print("44")
         return MemberAPI.fetchWritedComments(["page": 0])
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
