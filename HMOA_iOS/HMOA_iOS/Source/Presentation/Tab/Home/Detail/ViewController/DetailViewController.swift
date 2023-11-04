@@ -180,7 +180,7 @@ extension DetailViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
-            .bind(onNext: popViewController) // 임시로 Pop
+            .bind(onNext: popViewController)
             .disposed(by: disposeBag)
         
         // 뒤로 이동
@@ -209,6 +209,7 @@ extension DetailViewController {
             .bind(to: bottomView.likeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
+        // 로그인 안 되어 있을 시
         reactor.state
             .map { $0.isTapWhenNotLogin }
             .distinctUntilChanged()
@@ -239,7 +240,7 @@ extension DetailViewController {
             .brandView.tapGesture.rx.event
             .map { _ in Reactor.Action.didTapBrandView }
             .bind(to: self.reactor!.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: cell.disposeBag)
         
         // BrandDetailVC로 present
         reactor?.state
@@ -247,7 +248,7 @@ extension DetailViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(onNext: presentBrandDetailViewController)
-            .disposed(by: disposeBag)
+            .disposed(by: cell.disposeBag)
         
         //좋아요 이미지 변경
         reactor?.state
@@ -383,7 +384,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 commentFooter.moreButton.rx.tap
                     .map { Reactor.Action.didTapMoreButton }
                     .bind(to: self.reactor!.action)
-                    .disposed(by: self.disposeBag)
+                    .disposed(by: commentFooter.disposeBag)
                 
                 return commentFooter
             } else {
