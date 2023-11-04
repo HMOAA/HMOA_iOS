@@ -128,10 +128,15 @@ class LikeViewController: UIViewController, View {
     }
     //MARK: - Bind
     func bind(reactor: LikeReactor) {
-        
         //Input
+        
         rx.viewWillAppear
             .map { _ in LikeReactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rx.viewWillDisappear
+            .map { _ in LikeReactor.Action.viewWillDisappear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -144,6 +149,7 @@ class LikeViewController: UIViewController, View {
             .map { LikeReactor.Action.didTapCollectionViewItem($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+    
         
         //Output
         
@@ -183,10 +189,26 @@ class LikeViewController: UIViewController, View {
             .map { $0.isHiddenNoLikeView }
             .distinctUntilChanged()
             .bind(with: self, onNext: { owner, isHidden in
-                print(isHidden)
                 owner.noLikeView.isHidden = isHidden
                 owner.cardCollectionView.isHidden = !isHidden
             })
+            .disposed(by: disposeBag)
+        
+        // 마지막 아이템 삭제시 왼쪽으로 이동
+        reactor.state
+            .map { $0.isDeletedLast }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, isDeleted in
+                let row = reactor.currentState.currentRow
+                let targetIndexPath: IndexPath
+                if row > 0 {
+                    targetIndexPath = IndexPath(row: row - 1, section: 0)
+                } else {
+                    targetIndexPath = IndexPath(row: 0, section: 0)
+                }
+                owner.cardCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
+            }
             .disposed(by: disposeBag)
       
     }
@@ -197,25 +219,25 @@ class LikeViewController: UIViewController, View {
         headerView.cardButton.rx.tap
             .map { LikeReactor.Action.didTapCardButton }
             .bind(to: self.reactor.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: headerView.disposeBag)
         
         headerView.listButton.rx.tap
             .map { LikeReactor.Action.didTapListButton }
             .bind(to: self.reactor.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: headerView.disposeBag)
         
         reactor.state
             .map { $0.isSelectedList }
             .distinctUntilChanged()
             .bind(to: headerView.listButton.rx.isSelected, cardCollectionView.rx.isHidden)
-            .disposed(by: self.disposeBag)
+            .disposed(by: headerView.disposeBag)
         
         //listCollectionView 보여주기
         reactor.state
             .map { $0.isSelectedCard }
             .distinctUntilChanged()
             .bind(to: headerView.cardButton.rx.isSelected, listCollectionView.rx.isHidden)
-            .disposed(by: disposeBag)
+            .disposed(by: headerView.disposeBag)
     }
     
 }
@@ -226,11 +248,12 @@ extension LikeViewController {
         cardDatasource = UICollectionViewDiffableDataSource<LikeSection, Like>(collectionView: cardCollectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCardCell.identifier, for: indexPath) as? LikeCardCell
             else { return UICollectionViewCell() }
-            
+    
             cell.xButton.rx.tap
-                .map { Reactor.Action.didTapXButton(indexPath.row) }
+                .map { Reactor.Action.didTapXButton }
                 .bind(to: self.reactor.action)
-                .disposed(by: self.disposeBag)
+                .disposed(by: cell.disposeBag)
+                    
             
             cell.updateCell(item: item)
             return cell
@@ -266,6 +289,13 @@ extension LikeViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.interGroupSpacing = 16
+        
+        section.visibleItemsInvalidationHandler = { items, contentOffset, environment in
+            let currentPage = Int((contentOffset.x / environment.container.contentSize.width).rounded(.up))
+            
+            self.reactor.action.onNext(.didChangeCurrentPage(currentPage))
+            
+        }
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topTrailing)
         
