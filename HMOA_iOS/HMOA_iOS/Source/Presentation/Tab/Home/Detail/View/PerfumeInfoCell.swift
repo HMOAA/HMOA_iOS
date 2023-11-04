@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import Kingfisher
+import RxSwift
 
 class PerfumeInfoCell: UICollectionViewCell {
     
@@ -19,7 +20,7 @@ class PerfumeInfoCell: UICollectionViewCell {
     // MARK: - View
     
     let perfumeInfoView = PerfumeInfoView()
-    
+    var disposeBag = DisposeBag()
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -29,6 +30,10 @@ class PerfumeInfoCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
 }
 
