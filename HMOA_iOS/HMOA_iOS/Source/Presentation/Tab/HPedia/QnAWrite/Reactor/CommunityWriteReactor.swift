@@ -19,6 +19,8 @@ class CommunityWriteReactor: Reactor {
         case didChangeTitle(String)
         case didChangeTextViewEditing(String)
         case didBeginEditing
+        case didTapPhotoButton
+        case didSelectedImage(UIImage)
     }
     
     enum Mutation {
@@ -26,6 +28,8 @@ class CommunityWriteReactor: Reactor {
         case setContent(String)
         case setSucces
         case setIsPopVC(Bool)
+        case setIsPresentToAlbum(Bool)
+        case setSelectedImages(UIImage)
     }
     
     struct State {
@@ -36,6 +40,8 @@ class CommunityWriteReactor: Reactor {
         var title: String? = nil
         var category: String
         var okButtonEnable: Bool = false
+        var isPresentToAlbum: Bool = false
+        var selectedImages: [UIImage] = []
     }
     
     init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String, service: CommunityListProtocol?) {
@@ -67,6 +73,16 @@ class CommunityWriteReactor: Reactor {
             
         case .didChangeTextViewEditing(let content):
             return .just(.setContent(content))
+            
+        case .didTapPhotoButton:
+            return .concat([
+                .just(.setIsPresentToAlbum(true)),
+                .just(.setIsPresentToAlbum(false))
+            ])
+            
+        case .didSelectedImage(let image):
+            return .just(.setSelectedImages(image))
+            
         }
     }
     
@@ -89,6 +105,13 @@ class CommunityWriteReactor: Reactor {
             
         case .setIsPopVC(let isPop):
             state.isPopVC = isPop
+            
+        case .setIsPresentToAlbum(let isPresent):
+            if isPresent { state.selectedImages = []}
+            state.isPresentToAlbum = isPresent
+            
+        case .setSelectedImages(let image):
+            state.selectedImages.append(image)
         }
         
         return state
