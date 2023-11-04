@@ -260,8 +260,9 @@ class QnAListViewController: UIViewController, View {
         
         //collectionView Binding
         reactor.state
-            .compactMap { $0.items }
+            .map { $0.items }
             .distinctUntilChanged()
+            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
