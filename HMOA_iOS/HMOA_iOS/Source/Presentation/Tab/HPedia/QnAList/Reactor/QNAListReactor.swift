@@ -24,6 +24,7 @@ class QNAListReactor: Reactor {
         case didChangedSearchText(String)
         case didTapCategoryButton(String)
         case willDisplayCell(Int)
+        case didTapFloatingBackView
     }
     
     enum Mutation {
@@ -94,6 +95,9 @@ class QNAListReactor: Reactor {
             
         case .willDisplayCell(let page):
             return setCommunityListItem(currentState.selectedCategory, page)
+            
+        case .didTapFloatingBackView:
+            return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
         }
     }
     

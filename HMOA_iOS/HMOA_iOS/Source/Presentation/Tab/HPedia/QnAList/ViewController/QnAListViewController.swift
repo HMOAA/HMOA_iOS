@@ -13,6 +13,7 @@ import RxCocoa
 import RxSwift
 import ReactorKit
 import QuartzCore
+import RxGesture
 
 class QnAListViewController: UIViewController, View {
 
@@ -253,6 +254,13 @@ class QnAListViewController: UIViewController, View {
         // searchBar text 변경
         searchBar.rx.text.orEmpty
             .map { Reactor.Action.didChangedSearchText($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // floatingView 터치
+        floatingView.rx.tapGesture()
+            .when(.recognized)
+            .map { _ in Reactor.Action.didTapFloatingBackView }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
