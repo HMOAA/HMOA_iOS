@@ -19,7 +19,6 @@ class LoginReactor: Reactor {
         case didTapGoogleLoginButton
         case didTapAppleLoginButton
         case didTapKakaoLoginButton
-        case didTapLoginRetainButton
         case didTapNoLoginButton
     }
     
@@ -28,7 +27,6 @@ class LoginReactor: Reactor {
         case setPresentTabBar(Bool)
         case setPushStartVC(Bool)
         case setSignInGoogle(Bool)
-        case toggleRetainButton(Bool)
         case setKakaoToken(Token?)
     }
     
@@ -37,7 +35,6 @@ class LoginReactor: Reactor {
         var isSignInGoogle: Bool = false
         var isPushStartVC: Bool = false
         var isPresentTabBar: Bool = false
-        var isChecked: Bool = false
         var kakaoToken: Token? = nil
     }
     
@@ -71,11 +68,6 @@ class LoginReactor: Reactor {
                     },
                 .just(.setKakaoToken(nil))
                       ])
-        case .didTapLoginRetainButton:
-            return .concat([
-                .just(.toggleRetainButton(true)),
-                .just(.toggleRetainButton(false))
-                      ])
         }
         
     }
@@ -90,8 +82,6 @@ class LoginReactor: Reactor {
             state.isPresentTabBar = isPresent
         case .setPushStartVC(let isPush):
             state.isPushStartVC = isPush
-        case .toggleRetainButton(let isCheck):
-            state.isChecked = isCheck
         case .setKakaoToken(let token):
             state.kakaoToken = token
         }

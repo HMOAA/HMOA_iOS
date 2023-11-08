@@ -16,23 +16,11 @@ class LoginViewController: UIViewController, View {
         $0.image = UIImage(named: "logo_EG")
     }
     
-    let loginRetainButton = UIButton().then {
-        $0.layer.borderColor = UIColor.customColor(.gray1).cgColor
-        $0.layer.borderWidth = 1
-        $0.setImage(UIImage(), for: .normal)
-        //TODO: - 해당 이미지로 바꿔주기
-        $0.setImage(UIImage(named: "kakaotalk"), for: .selected)
-    }
-    let loginRetainLabel = UILabel().then {
-        $0.textColor = .customColor(.gray4)
-        $0.font = .customFont(.pretendard_light, 12)
-        $0.text = "로그인 상태 유지"
-    }
-    
     let loginStackView = UIStackView().then {
         $0.distribution = .fillEqually
         $0.setStackViewUI(spacing: 12)
     }
+    
     lazy var googleLoginButton = UIButton()
     lazy var appleLoginButton = UIButton()
     lazy var kakaoLoginButton = UIButton()
@@ -55,7 +43,7 @@ class LoginViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setUpConstraints()
-        
+
         bind(reactor: reactor)
     }
     
@@ -69,6 +57,7 @@ class LoginViewController: UIViewController, View {
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
         
+        googleLoginButton.addTarget(self, action: #selector(signIn(_ :)), for: .touchUpInside)
         googleLoginButton.setConfigButton(.google)
         appleLoginButton.setConfigButton(.apple)
         kakaoLoginButton.setConfigButton(.kakao)
@@ -83,15 +72,13 @@ class LoginViewController: UIViewController, View {
 
     private func setAddView() {
         [
-            googleLoginButton,
             appleLoginButton,
+            googleLoginButton,
             kakaoLoginButton
         ]       .forEach { loginStackView.addArrangedSubview($0)}
         
         [
             titleImageView,
-            loginRetainButton,
-            loginRetainLabel,
             loginStackView,
             noLoginButton
         ]      .forEach { view.addSubview($0)}
@@ -105,20 +92,9 @@ class LoginViewController: UIViewController, View {
             make.height.equalTo(100)
         }
         
-        loginRetainButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
-            make.top.equalTo(titleImageView.snp.bottom).offset(60)
-            make.width.height.equalTo(16)
-        }
-        
-        loginRetainLabel.snp.makeConstraints { make in
-            make.leading.equalTo(loginRetainButton.snp.trailing).offset(8)
-            make.top.equalTo(loginRetainButton.snp.top)
-        }
-        
         loginStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(loginRetainButton.snp.bottom).offset(14)
+            make.top.equalTo(titleImageView.snp.bottom).offset(90)
             make.height.equalTo(144)
         }
         
@@ -134,33 +110,26 @@ class LoginViewController: UIViewController, View {
         //MARK: - Actiong
         //Input
         
-        //구글 로그인 버튼 터치
-        googleLoginButton.rx.tap
-            .map { Reactor.Action.didTapGoogleLoginButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
         //애플 로그인 버튼 터치
         appleLoginButton.rx.tap
             .map { Reactor.Action.didTapAppleLoginButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
         //카카오톡 로그인 버튼 터치
         kakaoLoginButton.rx.tap
             .map { Reactor.Action.didTapKakaoLoginButton }
             .bind(to: reactor.action)
+        
             .disposed(by: disposeBag)
         //로그인 없이 이용하기 버튼 터치
         noLoginButton.rx.tap
             .map { Reactor.Action.didTapNoLoginButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        //로그인 상태 유지 버튼 터치
-        loginRetainButton.rx.tap
-            .map { Reactor.Action.didTapLoginRetainButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
         
         //MARK: - State
+        
         //Output
         
         //메인 탭바로 이동
@@ -186,14 +155,6 @@ class LoginViewController: UIViewController, View {
                 owner.present(nvController, animated: true, completion: nil)
             }).disposed(by: disposeBag)
         
-        //로그인 상태 유지 체크버튼 toggle
-        reactor.state
-            .map { $0.isChecked}
-            .distinctUntilChanged()
-            .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
-                owner.loginRetainButton.isSelected.toggle()
-        }).disposed(by: disposeBag)
         
         //구글 로그인 호출
         reactor.state
@@ -214,11 +175,18 @@ class LoginViewController: UIViewController, View {
                 owner.checkPreviousSignIn(token.existedMember!)
             }).disposed(by: disposeBag)
     }
+    
+    
+    @objc func signIn(_ sender: Any) {
+        reactor.action.onNext(.didTapGoogleLoginButton)
+    }
 }
 
 extension LoginViewController {
     func googleLogin() {
+        
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
+            
             guard error == nil, let result = result else { return }
             
             let token = result.user.accessToken.tokenString
@@ -227,7 +195,6 @@ extension LoginViewController {
             LoginAPI.postAccessToken(params: params, .google)
                 .bind(with: self, onNext: { owner, token in
                     KeychainManager.create(token: token)
-                    owner.loginManager.tokenSubject.onNext(token)
                     owner.checkPreviousSignIn(token.existedMember!)
                 }).disposed(by: self.disposeBag)
         }

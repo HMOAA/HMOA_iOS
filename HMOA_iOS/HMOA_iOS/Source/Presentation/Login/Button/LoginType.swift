@@ -17,11 +17,11 @@ enum LoginType {
     var title: String {
         switch self {
         case .google:
-            return "구글로 시작하기"
+            return "Google로 로그인"
         case .apple:
-            return "애플로 시작하기"
+            return "Apple로 로그인"
         case .kakao:
-            return "카카오로 시작하기"
+            return "Kakaotalk로 로그인"
         }
     }
     
@@ -44,7 +44,7 @@ enum LoginType {
         case .apple:
             return UIImage(named: "apple")!
         case .kakao:
-            return UIImage(named: "kakaotalk")!
+            return UIImage(named: "kakao")!
         }
     }
     
@@ -55,25 +55,29 @@ enum LoginType {
         case .apple:
             return .black
         case .kakao:
-            return #colorLiteral(red: 0.9983025193, green: 0.9065476656, blue: 0, alpha: 1)
+            return #colorLiteral(red: 1, green: 0.8980392157, blue: 0, alpha: 1)
         }
     }
     
     var padding: CGFloat {
         switch self {
-        case .google, .apple:
-            return 80
+        case .apple:
+            return 29
+        case .google:
+            return 24
         case .kakao:
-            return 60
+            return 21
         }
     }
     
     var rightPadding: CGFloat {
         switch self {
-        case .google, .apple:
-            return 120
+        case .apple:
+            return 114
+        case .google:
+            return 109
         case .kakao:
-            return 108
+            return 93
         }
     }
     
