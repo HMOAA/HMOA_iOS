@@ -22,7 +22,6 @@ enum Fonts {
 extension UIFont {
     
     static func customFont(_ font: Fonts, _ size: CGFloat) -> UIFont {
-        PretendardKit.register()
         switch font {
         case .pretendard_bold:
             return .pretendard(ofSize: size, weight: .bold)
