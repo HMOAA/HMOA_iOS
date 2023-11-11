@@ -6,6 +6,7 @@
 //
 
 import ReactorKit
+import RxSwift
 
 class ChangeProfileImageReactor: Reactor {
     

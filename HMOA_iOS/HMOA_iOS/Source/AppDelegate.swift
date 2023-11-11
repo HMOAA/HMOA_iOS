@@ -9,8 +9,8 @@ import UIKit
 import CoreData
 
 import GoogleSignIn
-import RxKakaoSDKAuth
 import RxKakaoSDKCommon
+import RxKakaoSDKAuth
 import KakaoSDKAuth
 
 
@@ -90,23 +90,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        var handled: Bool
-
-        //Google Login
-        handled = GIDSignIn.sharedInstance.handle(url)
-        if handled {
-            return true
-        }
-        
-        //Kakao Login
-        if (AuthApi.isKakaoTalkLoginUrl(url)) {
-            return AuthController.rx.handleOpenUrl(url: url)
-        }
-        
-        
-        return false
-    }
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+//        return false
+//    }
 
 }
 
