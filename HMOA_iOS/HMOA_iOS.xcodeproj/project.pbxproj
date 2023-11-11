@@ -192,9 +192,7 @@
 		CA7C9C132AAC315100072AB9 /* QNAListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C122AAC315100072AB9 /* QNAListReactor.swift */; };
 		CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448C297E75C700762BC0 /* LoginViewController.swift */; };
 		CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */; };
-		CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */; };
 		CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA914497297E873300762BC0 /* UIFont++Extenstions.swift */; };
-		CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */; };
 		CA943AD32AE685CF00A5B717 /* QnAListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AD22AE685CF00A5B717 /* QnAListService.swift */; };
 		CA943AD62AEF93E900A5B717 /* CommentReactorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AD52AEF93E900A5B717 /* CommentReactorType.swift */; };
 		CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AD82AEF971800A5B717 /* DetailCommentService.swift */; };
@@ -432,9 +430,7 @@
 		CA7C9C122AAC315100072AB9 /* QNAListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QNAListReactor.swift; sourceTree = "<group>"; };
 		CA91448C297E75C700762BC0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CA91448E297E760800762BC0 /* UITextField++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extenstions.swift"; sourceTree = "<group>"; };
-		CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slabo27px-Regular.ttf"; sourceTree = "<group>"; };
 		CA914497297E873300762BC0 /* UIFont++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extenstions.swift"; sourceTree = "<group>"; };
-		CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 		CA943AD22AE685CF00A5B717 /* QnAListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAListService.swift; sourceTree = "<group>"; };
 		CA943AD52AEF93E900A5B717 /* CommentReactorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReactorType.swift; sourceTree = "<group>"; };
 		CA943AD82AEF971800A5B717 /* DetailCommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCommentService.swift; sourceTree = "<group>"; };
@@ -1850,8 +1846,6 @@
 		CA914492297E854700762BC0 /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				CA914499297E8A5500762BC0 /* Pretendard-Regular.ttf */,
-				CA914495297E859100762BC0 /* Slabo27px-Regular.ttf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -2076,8 +2070,6 @@
 			files = (
 				2C39AA25296DB4E0000C6F71 /* LaunchScreen.storyboard in Resources */,
 				2C39AA22296DB4E0000C6F71 /* Assets.xcassets in Resources */,
-				CA91449A297E8A5500762BC0 /* Pretendard-Regular.ttf in Resources */,
-				CA914496297E859100762BC0 /* Slabo27px-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

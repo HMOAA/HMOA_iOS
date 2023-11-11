@@ -11,6 +11,7 @@ import RxKakaoSDKAuth
 import KakaoSDKAuth
 import ReactorKit
 import GoogleSignIn
+import PretendardKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -79,6 +80,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
     //로그인 기록에 따른 첫 뷰컨트롤러 설정
     func setFirstViewController() {
+        PretendardKit.register()
         let loginManager: LoginManager = LoginManager.shared
         if let token = KeychainManager.read() {
             print("start \(token)")

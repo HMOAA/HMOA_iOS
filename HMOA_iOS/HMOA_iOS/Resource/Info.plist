@@ -29,11 +29,6 @@
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Pretendard-Regular.ttf</string>
-		<string>Slabo27px-Regular.ttf</string>
-	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
