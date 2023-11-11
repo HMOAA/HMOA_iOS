@@ -92,7 +92,12 @@ final class MemberAPI {
             return Observable.error(NetworkError.invalidParameters)}
         
         return uploadNetworking(
-            urlStr: MemberAddress.uploadImage.url, method: .post, data: data, model: Response.self)
+            urlStr: MemberAddress.uploadImage.url,
+            method: .post,
+            imageData: [data],
+            imageFileName: "profileImage.jpeg",
+            parameter: nil,
+            model: Response.self)
         
     }
     

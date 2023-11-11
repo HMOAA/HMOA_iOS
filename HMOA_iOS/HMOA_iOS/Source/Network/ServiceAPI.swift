@@ -72,32 +72,46 @@ public func networking<T: Decodable>(
 public func uploadNetworking<T: Decodable>(
     urlStr: String,
     method: HTTPMethod,
-    data: Data,
+    imageData: [Data]?,
+    imageFileName: String?,
+    parameter: [String: String]?,
     model: T.Type) -> Observable<T> {
         
-    return Observable.create { observer in
-        guard let url = URL(string: baseURL.url + urlStr) else {
-            observer.onError(NetworkError.invalidURL)
+        return Observable.create { observer in
+            guard let url = URL(string: baseURL.url + urlStr) else {
+                observer.onError(NetworkError.invalidURL)
+                return Disposables.create()
+            }
+            
+            AF.upload(multipartFormData: { multipartFormData in
+                // text parmater가 있을 경우 추가
+                if let parameter = parameter {
+                    for (key, value) in parameter {
+                        if let data = value.data(using: .utf8) {
+                            multipartFormData.append(data, withName: key)
+                        }
+                    }
+                }
+                // 이미지 데이터가 있을 경우에만 추가
+                if let imageDatas = imageData, let imageFileName = imageFileName {
+                    for (_, imageData) in imageDatas.enumerated() {
+                        multipartFormData.append(imageData, withName: "image", fileName: imageFileName, mimeType: "image/jpeg")
+                    }
+                }
+            }, to: url, interceptor: AppRequestInterceptor())
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: model.self) { response in
+                switch response.result {
+                case .success(let result):
+                    observer.onNext(result)
+                    observer.onCompleted()
+                case .failure(let error):
+                    print(error)
+                    observer.onError(error)
+                }
+            }
+            
             return Disposables.create()
         }
-        
-        AF.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(data, withName: "image", fileName: "profileImage.jpeg", mimeType: "image/jpeg")
-        },to: url, interceptor: AppRequestInterceptor())
-        .validate(statusCode: 200..<300)
-        .responseDecodable(of: model.self) { response in
-            switch response.result {
-            case .success(let result):
-                observer.onNext(result)
-                observer.onCompleted()
-            case .failure(let error):
-                print("Error: \(error)")
-                observer.onError(error)
-            }
-        }
-                
-        return Disposables.create()
     }
-}
-
 
