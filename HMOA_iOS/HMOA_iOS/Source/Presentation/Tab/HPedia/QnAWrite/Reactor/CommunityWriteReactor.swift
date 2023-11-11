@@ -27,7 +27,6 @@ class CommunityWriteReactor: Reactor {
         case setTitle(String)
         case setContent(String)
         case setSucces
-        case setIsPopVC(Bool)
         case setIsPresentToAlbum(Bool)
         case setSelectedImages(UIImage)
     }
@@ -103,9 +102,6 @@ class CommunityWriteReactor: Reactor {
         case .setSucces:
             break
             
-        case .setIsPopVC(let isPop):
-            state.isPopVC = isPop
-            
         case .setIsPresentToAlbum(let isPresent):
             if isPresent { state.selectedImages = []}
             state.isPresentToAlbum = isPresent
@@ -133,14 +129,11 @@ extension CommunityWriteReactor {
             "content": state.content,
             "title": title
         ]
-        
-        return CommunityAPI.postCommunityPost(params)
-            .catch { _ in.empty() }
+        return CommunityAPI.postCommunityPost(params, images: state.selectedImages)
+            .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 return .concat([
-                    self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces },
-                    .just(.setIsPopVC(true)),
-                    .just(.setIsPopVC(false))
+                    self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category ?? "자유", title: data.title)).map { _ in .setSucces }
                 ])
             }
     }
@@ -163,9 +156,7 @@ extension CommunityWriteReactor {
                         title: data.title
                     )).map { _ in .setSucces},
                     self.service!.editCommunityDetail(to: data)
-                        .map { _ in .setSucces },
-                    .just(.setIsPopVC(true)),
-                    .just(.setIsPopVC(false))
+                        .map { _ in .setSucces }
                 ])
             }
     }
