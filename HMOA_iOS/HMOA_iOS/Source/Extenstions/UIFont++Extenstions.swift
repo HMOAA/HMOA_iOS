@@ -6,7 +6,9 @@
 //
 
 import UIKit
-import Pretendard
+
+import PretendardKit
+
 
 enum Fonts {
     case pretendard_bold
@@ -20,17 +22,18 @@ enum Fonts {
 extension UIFont {
     
     static func customFont(_ font: Fonts, _ size: CGFloat) -> UIFont {
+        PretendardKit.register()
         switch font {
         case .pretendard_bold:
-            return .pretendardFont(ofSize: size, weight: .bold)
+            return .pretendard(ofSize: size, weight: .bold)
         case .pretendard_semibold:
-            return .pretendardFont(ofSize: size, weight: .semibold)
+            return .pretendard(ofSize: size, weight: .semibold)
         case .pretendard_medium:
-            return .pretendardFont(ofSize: size, weight: .medium)
+            return .pretendard(ofSize: size, weight: .medium)
         case .pretendard_light:
-            return .pretendardFont(ofSize: size, weight: .light)
+            return .pretendard(ofSize: size, weight: .light)
         case .pretendard:
-            return .pretendardFont(ofSize: size, weight: .regular)
+            return .pretendard(ofSize: size, weight: .regular)
         case .slabo27px:
             return UIFont(name: "Slabo27px-Regular", size: size)!
         }

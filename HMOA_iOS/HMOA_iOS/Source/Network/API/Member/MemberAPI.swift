@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import UIKit
 
 
 final class MemberAPI {

@@ -60,14 +60,7 @@ class LoginReactor: Reactor {
                 .just(.setPushStartVC(false))
                       ])
         case .didTapKakaoLoginButton:
-            return .concat([
-                LoginAPI.kakaoLogin()
-                    .flatMap {
-                        LoginAPI.postAccessToken(params: ["token": $0.accessToken], .kakao)
-                            .map { .setKakaoToken($0) }
-                    },
-                .just(.setKakaoToken(nil))
-                      ])
+            return setKakaoToken()
         }
         
     }
@@ -92,4 +85,17 @@ class LoginReactor: Reactor {
 }
 
 extension LoginReactor {
+    
+    func setKakaoToken() -> Observable<Mutation> {
+        return LoginAPI.kakaoLogin()
+            .flatMap { oAuthToken -> Observable<Mutation> in
+                return LoginAPI.postAccessToken(params: ["token": oAuthToken.accessToken], .kakao)
+                    .flatMap { token -> Observable<Mutation> in
+                        return .concat([
+                            .just(.setKakaoToken(token)),
+                            .just(.setKakaoToken(nil))
+                        ])
+                    }
+            }
+    }
 }

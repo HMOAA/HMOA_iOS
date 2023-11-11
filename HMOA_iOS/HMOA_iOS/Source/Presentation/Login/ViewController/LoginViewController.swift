@@ -7,6 +7,7 @@ import ReactorKit
 import RxCocoa
 import GoogleSignIn
 import AuthenticationServices
+import KakaoSDKUser
 
 class LoginViewController: UIViewController, View {
     
@@ -57,7 +58,8 @@ class LoginViewController: UIViewController, View {
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
         
-        googleLoginButton.addTarget(self, action: #selector(signIn(_ :)), for: .touchUpInside)
+        googleLoginButton.addTarget(self, action: #selector(didTapGoogleButton(_ :)), for: .touchUpInside)
+        kakaoLoginButton.addTarget(self, action: #selector(didTapKakaoButton(_ :)), for: .touchUpInside)
         googleLoginButton.setConfigButton(.google)
         appleLoginButton.setConfigButton(.apple)
         kakaoLoginButton.setConfigButton(.kakao)
@@ -116,12 +118,6 @@ class LoginViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        //카카오톡 로그인 버튼 터치
-        kakaoLoginButton.rx.tap
-            .map { Reactor.Action.didTapKakaoLoginButton }
-            .bind(to: reactor.action)
-        
-            .disposed(by: disposeBag)
         //로그인 없이 이용하기 버튼 터치
         noLoginButton.rx.tap
             .map { Reactor.Action.didTapNoLoginButton }
@@ -177,8 +173,12 @@ class LoginViewController: UIViewController, View {
     }
     
     
-    @objc func signIn(_ sender: Any) {
+    @objc func didTapGoogleButton(_ sender: Any) {
         reactor.action.onNext(.didTapGoogleLoginButton)
+    }
+    
+    @objc func didTapKakaoButton(_ sender: Any) {
+        reactor.action.onNext(.didTapKakaoLoginButton)
     }
 }
 
