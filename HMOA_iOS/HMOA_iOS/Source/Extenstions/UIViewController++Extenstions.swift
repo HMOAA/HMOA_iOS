@@ -11,6 +11,13 @@ import Then
 
 extension UIViewController {
     
+    func presentImagePinchVC(_ indexPath: IndexPath, images: [CommunityPhoto]) {
+        let vc = ImagePinchViewController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.reactor = ImagePinchReactor(indexPath.row, images)
+        self.present(vc, animated: true)
+    }
+    
     func presentAlertVC(title: String, content: String, buttonTitle: String) {
         let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle)
         alertVC.modalPresentationStyle = .overFullScreen

@@ -338,7 +338,7 @@ class QnAWriteViewController: UIViewController, View {
                 
                 snapshot.appendSections([.photo])
                 
-                item.forEach { snapshot.appendItems([.photoCell($0)], toSection: .photo) }
+                item.forEach { snapshot.appendItems([.photoCell($0, nil)], toSection: .photo) }
                 
                 DispatchQueue.main.async {
                     owner.datasource.apply(snapshot)
@@ -394,11 +394,12 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
         datasource = UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>(collectionView: collectionView, cellProvider: {
             collectionView, indexPath, item in
             switch item {
-            case .photoCell(let image):
+            case .photoCell(let image, _):
                 
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
                 
-                cell.updateCell(image)
+                cell.isZoomEnabled = false
+                cell.updateCell(image!)
                 
                 self.view.endEditing(true)
                 
