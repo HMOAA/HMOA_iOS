@@ -178,6 +178,7 @@
 		CA6152BB2A6A8007007B04A7 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6152BA2A6A8007007B04A7 /* Brand.swift */; };
 		CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */; };
 		CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */; };
+		CA6CA1122AFF780300535B0D /* QnAPostPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6CA1112AFF780300535B0D /* QnAPostPhotoCell.swift */; };
 		CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D99E729C4932A000E80CF /* ListSecton.swift */; };
 		CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */; };
 		CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640112AA864630053076B /* DictionaryViewController.swift */; };
@@ -202,6 +203,8 @@
 		CAA1160A2AC16ABD0063806C /* BrandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116092AC16ABD0063806C /* BrandAPI.swift */; };
 		CAA1160C2AC16C0F0063806C /* BrandData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160B2AC16C0F0063806C /* BrandData.swift */; };
 		CAA1160E2AC2DABE0063806C /* DetailDictionaryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160D2AC2DABE0063806C /* DetailDictionaryReactor.swift */; };
+		CAC0043E2B03631C00EB2CF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAC0043D2B03631B00EB2CF1 /* GoogleService-Info.plist */; };
+		CAC004412B03653300EB2CF1 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CAC004402B03653300EB2CF1 /* FirebaseAnalytics */; };
 		CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */; };
 		CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */; };
 		CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */; };
@@ -416,6 +419,7 @@
 		CA6152BA2A6A8007007B04A7 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRequestInterCeptor.swift; sourceTree = "<group>"; };
 		CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer++Extenstions.swift"; sourceTree = "<group>"; };
+		CA6CA1112AFF780300535B0D /* QnAPostPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAPostPhotoCell.swift; sourceTree = "<group>"; };
 		CA6D99E729C4932A000E80CF /* ListSecton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSecton.swift; sourceTree = "<group>"; };
 		CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaQnAHeaderView.swift; sourceTree = "<group>"; };
 		CA7640112AA864630053076B /* DictionaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewController.swift; sourceTree = "<group>"; };
@@ -440,6 +444,7 @@
 		CAA116092AC16ABD0063806C /* BrandAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAPI.swift; sourceTree = "<group>"; };
 		CAA1160B2AC16C0F0063806C /* BrandData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandData.swift; sourceTree = "<group>"; };
 		CAA1160D2AC2DABE0063806C /* DetailDictionaryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDictionaryReactor.swift; sourceTree = "<group>"; };
+		CAC0043D2B03631B00EB2CF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCardCell.swift; sourceTree = "<group>"; };
@@ -465,6 +470,7 @@
 			files = (
 				CA4C68FF2AFCFC2E0039FB0E /* PretendardKit in Frameworks */,
 				AB23E901B87DB21E0AD3EE9E /* Pods_HMOA_iOS.framework in Frameworks */,
+				CAC004412B03653300EB2CF1 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,6 +725,7 @@
 		2C39AA4C297041D4000C6F71 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				CAC0043D2B03631B00EB2CF1 /* GoogleService-Info.plist */,
 				CA914492297E854700762BC0 /* Font */,
 				2C39AA7629704C2F000C6F71 /* Info.plist */,
 				2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */,
@@ -1563,6 +1570,7 @@
 				CA22389A2AAF492D00452A31 /* QnAPostCell.swift */,
 				CA2238A02AAF5FFD00452A31 /* QnAPostHeaderView.swift */,
 				CA2238A22AAF601000452A31 /* QnACommentHeaderView.swift */,
+				CA6CA1112AFF780300535B0D /* QnAPostPhotoCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1972,6 +1980,7 @@
 			name = HMOA_iOS;
 			packageProductDependencies = (
 				CA4C68FE2AFCFC2E0039FB0E /* PretendardKit */,
+				CAC004402B03653300EB2CF1 /* FirebaseAnalytics */,
 			);
 			productName = HMOA_iOS;
 			productReference = 2C39AA12296DB4DE000C6F71 /* HMOA_iOS.app */;
@@ -2051,6 +2060,7 @@
 			packageReferences = (
 				CA4C68FD2AFCFC2E0039FB0E /* XCRemoteSwiftPackageReference "PretendardKit" */,
 				CA5275ED2AFD1CA100BCDCC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
+				CAC0043F2B03638700EB2CF1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 2C39AA13296DB4DE000C6F71 /* Products */;
 			projectDirPath = "";
@@ -2070,6 +2080,7 @@
 			files = (
 				2C39AA25296DB4E0000C6F71 /* LaunchScreen.storyboard in Resources */,
 				2C39AA22296DB4E0000C6F71 /* Assets.xcassets in Resources */,
+				CAC0043E2B03631C00EB2CF1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2367,6 +2378,7 @@
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
 				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
 				CA0DB39129DBD67B0091DCB2 /* HPediaDictionaryCell.swift in Sources */,
+				CA6CA1122AFF780300535B0D /* QnAPostPhotoCell.swift in Sources */,
 				CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */,
@@ -2582,7 +2594,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2617,7 +2629,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2766,6 +2778,14 @@
 				minimumVersion = 2.18.2;
 			};
 		};
+		CAC0043F2B03638700EB2CF1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.17.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2773,6 +2793,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CA4C68FD2AFCFC2E0039FB0E /* XCRemoteSwiftPackageReference "PretendardKit" */;
 			productName = PretendardKit;
+		};
+		CAC004402B03653300EB2CF1 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CAC0043F2B03638700EB2CF1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 

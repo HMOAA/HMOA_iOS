@@ -28,6 +28,7 @@ class QnADetailReactor: Reactor {
     enum Mutation {
         case setPostItem([CommunityDetail])
         case setCommentItem([CommunityComment?])
+        case setPhotoItem([CommunityPhoto])
         case setCategory(String)
         case setCommentCount(Int)
         case setContent(String)
@@ -45,6 +46,7 @@ class QnADetailReactor: Reactor {
         var communityId: Int
         var postItem: [CommunityDetail] = []
         var commentItem: [CommunityComment?] = []
+        var photoItem: [CommunityPhoto] = []
         var commentCount: Int? = nil
         var isBeginEditing: Bool = false
         var content: String = ""
@@ -146,7 +148,7 @@ class QnADetailReactor: Reactor {
             
         case .setIsDeleted(let isDeleted):
             state.isDeleted = isDeleted
-        
+            
         case .setLoadedPage(let page):
             state.loadedPage.insert(page)
             
@@ -165,8 +167,10 @@ class QnADetailReactor: Reactor {
             
         case .editCommunityPost(let detail):
             state.communityItems.postItem = [detail]
+            
+        case .setPhotoItem(let item):
+            state.photoItem = item
         }
-        
         return state
     }
     
@@ -183,6 +187,7 @@ class QnADetailReactor: Reactor {
         return .merge(mutation, eventMutation)
     }
 }
+    
 
 extension QnADetailReactor {
     func setUpPostSection() -> Observable<Mutation> {
@@ -192,6 +197,7 @@ extension QnADetailReactor {
                 return .concat([
                     .just(.setCategory(data.category)),
                     .just(.setPostItem([data])),
+                    .just(.setPhotoItem(data.communityPhotos)),
                     .just(.setContent(data.content))
                 ])
             }

@@ -12,7 +12,7 @@ import GoogleSignIn
 import RxKakaoSDKCommon
 import RxKakaoSDKAuth
 import KakaoSDKAuth
-
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configureNavigationBar()
         
         RxKakaoSDK.initSDK(appKey: Key.KAKAO_NATIVE_APP_KEY)
+        FirebaseApp.configure()
         return true
     }
     

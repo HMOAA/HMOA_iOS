@@ -195,7 +195,7 @@ extension MyPageReactor {
                 return Disposables.create()
             }
             
-            let resource = ImageResource(downloadURL: imageURL)
+            let resource = KF.ImageResource(downloadURL: imageURL)
             
             KingfisherManager.shared.retrieveImage(with: resource) { result in
                 switch result {
