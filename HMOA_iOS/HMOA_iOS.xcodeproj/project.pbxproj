@@ -204,6 +204,8 @@
 		CAA1160C2AC16C0F0063806C /* BrandData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160B2AC16C0F0063806C /* BrandData.swift */; };
 		CAA1160E2AC2DABE0063806C /* DetailDictionaryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160D2AC2DABE0063806C /* DetailDictionaryReactor.swift */; };
 		CAA592692B048BB9003DAE51 /* UIImage++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA592682B048BB9003DAE51 /* UIImage++Extenstions.swift */; };
+		CAA5926B2B049197003DAE51 /* ImagePinchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926A2B049197003DAE51 /* ImagePinchViewController.swift */; };
+		CAA5926D2B049605003DAE51 /* ImagePinchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926C2B049605003DAE51 /* ImagePinchReactor.swift */; };
 		CAC0043E2B03631C00EB2CF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAC0043D2B03631B00EB2CF1 /* GoogleService-Info.plist */; };
 		CAC004412B03653300EB2CF1 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CAC004402B03653300EB2CF1 /* FirebaseAnalytics */; };
 		CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */; };
@@ -446,6 +448,8 @@
 		CAA1160B2AC16C0F0063806C /* BrandData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandData.swift; sourceTree = "<group>"; };
 		CAA1160D2AC2DABE0063806C /* DetailDictionaryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDictionaryReactor.swift; sourceTree = "<group>"; };
 		CAA592682B048BB9003DAE51 /* UIImage++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage++Extenstions.swift"; sourceTree = "<group>"; };
+		CAA5926A2B049197003DAE51 /* ImagePinchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePinchViewController.swift; sourceTree = "<group>"; };
+		CAA5926C2B049605003DAE51 /* ImagePinchReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePinchReactor.swift; sourceTree = "<group>"; };
 		CAC0043D2B03631B00EB2CF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
@@ -1563,6 +1567,7 @@
 			isa = PBXGroup;
 			children = (
 				CA2238922AAF420200452A31 /* QnADetailViewController.swift */,
+				CAA5926A2B049197003DAE51 /* ImagePinchViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1582,6 +1587,7 @@
 			isa = PBXGroup;
 			children = (
 				CA22389E2AAF515F00452A31 /* QnADetailReactor.swift */,
+				CAA5926C2B049605003DAE51 /* ImagePinchReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -2262,6 +2268,7 @@
 				2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */,
 				CA0160962AB0B11100D5839D /* SecondDetail.swift in Sources */,
 				2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */,
+				CAA5926D2B049605003DAE51 /* ImagePinchReactor.swift in Sources */,
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,
 				2C04246629A39C30009CF0FE /* HomeSection.swift in Sources */,
 				2C464E5029CDB26400A07658 /* MyPageSeparatorLineView.swift in Sources */,
@@ -2296,6 +2303,7 @@
 				CA219C422A9C6D91003FB215 /* LikeAddress.swift in Sources */,
 				CA2238992AAF471400452A31 /* QnADetailSection.swift in Sources */,
 				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
+				CAA5926B2B049197003DAE51 /* ImagePinchViewController.swift in Sources */,
 				2C15DF912A57DFE000EAB112 /* CoreGraphicManager.swift in Sources */,
 				CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */,
 				2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */,

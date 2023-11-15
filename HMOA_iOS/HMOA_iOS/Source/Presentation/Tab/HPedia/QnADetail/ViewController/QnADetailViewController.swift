@@ -12,7 +12,6 @@ import SnapKit
 import RxCocoa
 import RxSwift
 import ReactorKit
-import RxGesture
 import Kingfisher
 
 //빈 데이터 못 보내게, 글자 수 제한
@@ -152,13 +151,15 @@ class QnADetailViewController: UIViewController, View {
         
         // 빈 화면 터치 시 키보드 내리기
         collectionView.rx
-            .tapGesture()
-            .when(.recognized)
-            .bind(with: self, onNext: { owner, _ in
+            .itemSelected
+            .distinctUntilChanged()
+            .bind(with: self) { owner, index in
                 owner.view.endEditing(true)
                 owner.commentTextView.text = "댓글을 입력하세요"
-            })
+            }
             .disposed(by: disposeBag)
+        
+
         
         // willDisplayCell
         collectionView.rx.willDisplayCell
@@ -310,10 +311,28 @@ extension QnADetailViewController {
                     .disposed(by: self.disposeBag)
                 
                 cell.updateCell(qnaPost)
+                cell.bindPhotoCollectionView(qnaPost.communityPhotos)
+                
+                
+                self.reactor?.state
+                    .map { $0.photoItem }
+                    .distinctUntilChanged()
+                    .bind(to: cell.photoCollectionView.rx.items(cellIdentifier: PhotoCell.identifier, cellType: PhotoCell.self)) { row, item, cell in
+                        cell.isZoomEnabled = false
+                        cell.imageView.kf.setImage(with: URL(string: item.photoUrl))
+                        
+                    }
+                    .disposed(by: cell.disposeBag)
+                
+                cell.photoCollectionView.rx.itemSelected
+                    .bind(with: self, onNext: { owner, indexPath in
+                        owner.presentImagePinchVC(indexPath, images: qnaPost.communityPhotos)
+                    })
+                    .disposed(by: cell.disposeBag)
                 
                 
                 return cell
-                
+            
                 
             case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
@@ -323,7 +342,7 @@ extension QnADetailViewController {
                 cell.optionButton.rx.tap
                     .map { OptionReactor.Action.didTapOptionButton(comment?.commentId, comment?.content, nil, "Comment", nil, comment!.writed) }
                     .bind(to: self.commentOptionView.reactor!.action)
-                    .disposed(by: self.disposeBag)
+                    .disposed(by: cell.disposeBag)
                 
                 // QnADetailReactor에 indexPathRow 전달
                 cell.optionButton.rx.tap

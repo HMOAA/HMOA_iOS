@@ -50,6 +50,7 @@ class QnAPostCell: UICollectionViewCell {
     }
     
     lazy var photoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+        $0.isUserInteractionEnabled = true
         $0.isHidden = true
         $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
@@ -151,10 +152,9 @@ extension QnAPostCell {
         titleLabel.text = item.title
         contentLabel.text = item.content
         
-        bindPhotoCollectionView(item.communityPhotos)
     }
     
-    private func bindPhotoCollectionView(_ photos: [CommunityPhoto]) {
+   func bindPhotoCollectionView(_ photos: [CommunityPhoto]) {
         if !photos.isEmpty {
             
             photoCollectionView.isHidden = false
@@ -174,13 +174,6 @@ extension QnAPostCell {
                 make.centerX.equalToSuperview()
                 make.bottom.lessThanOrEqualToSuperview().inset(34)
             }
-            
-            Observable.just(photos)
-                .distinctUntilChanged()
-                .bind(to: photoCollectionView.rx.items(cellIdentifier: PhotoCell.identifier, cellType: PhotoCell.self)) { row, item, cell in
-                    cell.imageView.kf.setImage(with: URL(string: item.photoUrl))
-                }
-                .disposed(by: disposeBag)
         }
     }
     
