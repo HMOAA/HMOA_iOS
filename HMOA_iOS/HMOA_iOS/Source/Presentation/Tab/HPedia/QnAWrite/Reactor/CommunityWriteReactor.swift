@@ -133,7 +133,7 @@ extension CommunityWriteReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 return .concat([
-                    self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category ?? "자유", title: data.title)).map { _ in .setSucces }
+                    self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces }
                 ])
             }
     }

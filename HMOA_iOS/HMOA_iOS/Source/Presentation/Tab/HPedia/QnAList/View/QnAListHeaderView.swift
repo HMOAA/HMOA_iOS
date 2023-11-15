@@ -67,6 +67,8 @@ extension QnAListHeaderView: TagListViewDelegate {
     
     //태그 리스트 selected 설정
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
+        if tagView.isSelected { return }
+        
         tagView.isSelected.toggle()
         tagListView.tagViews.forEach {
             if $0 != tagView { $0.isSelected = false }

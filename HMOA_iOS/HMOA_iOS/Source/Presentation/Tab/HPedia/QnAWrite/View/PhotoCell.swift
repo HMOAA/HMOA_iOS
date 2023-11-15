@@ -21,11 +21,7 @@ class PhotoCell: UICollectionViewCell {
     
     //MARK: - UI Components
     let imageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
-    }
-    
-    let countLabel = UILabel().then {
-        $0.font = .customFont(.pretendard_light, 16)
+        $0.contentMode = .scaleAspectFit
     }
     
     
@@ -49,8 +45,7 @@ class PhotoCell: UICollectionViewCell {
     
     private func setAddView() {
         [
-            imageView,
-            countLabel
+            imageView
         ]   .forEach { addSubview($0) }
         
     }
@@ -60,14 +55,9 @@ class PhotoCell: UICollectionViewCell {
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-        countLabel.snp.makeConstraints { make in
-            make.trailing.bottom.equalToSuperview().inset(15)
-        }
     }
     
-    func updateCell(_ image: UIImage, _ row: Int) {
+    func updateCell(_ image: UIImage) {
         imageView.image = image
-        countLabel.text = "\(row + 1)/6"
     }
 }

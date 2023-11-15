@@ -93,8 +93,12 @@ class QnAWriteViewController: UIViewController, View {
         $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
+    lazy var pageControl = UIPageControl().then {
+        $0.isHidden = true
+    }
+    
     let stackView = UIStackView().then {
-        $0.spacing = 20
+        $0.spacing = 8
         $0.axis = .vertical
         $0.distribution = .fill
         $0.alignment = .center
@@ -148,7 +152,8 @@ class QnAWriteViewController: UIViewController, View {
         ]   .forEach { titleView.addSubview($0) }
         [
             textView,
-            collectionView
+            collectionView,
+            pageControl
         ]   .forEach { stackView.addArrangedSubview($0) }
         
         [
@@ -319,8 +324,16 @@ class QnAWriteViewController: UIViewController, View {
         // 선택된 이미지 바인딩
         reactor.state
             .map { $0.selectedImages }
+            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
+            .do(onNext: { print($0.count) })
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, item in
+                owner.pageControl.isHidden = false
+                owner.pageControl.currentPage = 0
+                owner.pageControl.numberOfPages = item.count
+                owner.pageControl.pageIndicatorTintColor = .customColor(.gray2)
+                owner.pageControl.currentPageIndicatorTintColor = .customColor(.gray4)
+                
                 var snapshot = NSDiffableDataSourceSnapshot<PhotoSection, PhotoSectionItem>()
                 
                 snapshot.appendSections([.photo])
@@ -367,6 +380,11 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
+        section.visibleItemsInvalidationHandler = {(item, offset, env) in
+            let index = Int((offset.x / env.container.contentSize.width).rounded(.up))
+            self.pageControl.currentPage = index
+        }
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
@@ -380,7 +398,7 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
                 
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
                 
-                cell.updateCell(image, indexPath.row)
+                cell.updateCell(image)
                 
                 self.view.endEditing(true)
                 

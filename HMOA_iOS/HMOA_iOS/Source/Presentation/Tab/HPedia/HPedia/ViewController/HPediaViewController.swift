@@ -221,6 +221,8 @@ extension HPediaViewController {
         return section
     }
     
+    
+    
     private func configureLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
             switch sectionIndex {
