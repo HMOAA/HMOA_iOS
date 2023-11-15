@@ -88,7 +88,7 @@ final class MemberAPI {
     /// 이미지 업로드
     static func uploadImage(image: UIImage) -> Observable<Response> {
         
-        guard let data = image.jpegData(compressionQuality: 0.1) else {
+        guard let data = image.resize(targetSize: image.size)?.jpegData(compressionQuality: 0.1) else {
             return Observable.error(NetworkError.invalidParameters)}
         
         return uploadNetworking(

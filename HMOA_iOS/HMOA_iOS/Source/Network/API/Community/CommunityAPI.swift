@@ -50,8 +50,9 @@ final class CommunityAPI {
         if images.isEmpty {
             imageData = nil
         } else {
-            imageData = images.compactMap { $0.jpegData(compressionQuality: 0.1) }
+            imageData = images.compactMap { $0.resize(targetSize: $0.size)?.jpegData(compressionQuality: 0.1) }
         }
+        
         
         return uploadNetworking(
             urlStr: CommunityAddress.postCommnunityPost.url,
@@ -140,3 +141,4 @@ final class CommunityAPI {
     }
 }
     
+
