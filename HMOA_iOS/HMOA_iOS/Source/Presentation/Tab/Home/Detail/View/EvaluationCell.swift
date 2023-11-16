@@ -369,7 +369,7 @@ class EvaluationCell: UICollectionViewCell, View {
     }
     
     func bind(reactor: EvaluationReactor) {
-        
+        // TODO: - 자기가 투표한 항목 리턴으로 수정 되면 delete 구현
         // Action
         
         //ViewDidLoad
