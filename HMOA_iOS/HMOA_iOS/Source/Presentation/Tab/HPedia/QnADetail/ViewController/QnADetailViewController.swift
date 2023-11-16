@@ -12,7 +12,7 @@ import SnapKit
 import RxCocoa
 import RxSwift
 import ReactorKit
-import RxGesture
+import Kingfisher
 
 //빈 데이터 못 보내게, 글자 수 제한
 class QnADetailViewController: UIViewController, View {
@@ -21,7 +21,7 @@ class QnADetailViewController: UIViewController, View {
     var dataSource: UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>!
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
-        $0.isScrollEnabled = false
+        
         $0.register(QnAPostHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier)
         $0.register(QnACommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier)
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
@@ -29,10 +29,6 @@ class QnADetailViewController: UIViewController, View {
         
     }
     
-    lazy var noCommentLabel = UILabel().then {
-        $0.isHidden = true
-        $0.setLabelUI("아직 작성한 댓글이 없습니다", font: .pretendard_medium, size: 20, color: .black)
-    }
     
     let commentWriteView = UIView().then {
         $0.layer.cornerRadius = 5
@@ -100,7 +96,6 @@ class QnADetailViewController: UIViewController, View {
         
         [
             collectionView,
-            noCommentLabel,
             commentWriteView,
             commentOptionView,
             postOptionView
@@ -111,11 +106,6 @@ class QnADetailViewController: UIViewController, View {
         collectionView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().inset(98)
-        }
-        
-        noCommentLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(462)
         }
         
         commentWriteView.snp.makeConstraints { make in
@@ -161,13 +151,17 @@ class QnADetailViewController: UIViewController, View {
         
         // 빈 화면 터치 시 키보드 내리기
         collectionView.rx
-            .tapGesture()
-            .when(.recognized)
-            .bind(with: self, onNext: { owner, _ in
+            .itemSelected
+            .distinctUntilChanged()
+            .bind(with: self) { owner, index in
                 owner.view.endEditing(true)
-            })
+                owner.commentTextView.text = "댓글을 입력하세요"
+            }
             .disposed(by: disposeBag)
         
+
+        
+        // willDisplayCell
         collectionView.rx.willDisplayCell
             .filter { $0.at.section == 1 }
             .map {
@@ -187,9 +181,6 @@ class QnADetailViewController: UIViewController, View {
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        
-        // State
         
         // textView 사용자가 입력 시작
         commentTextView.rx.didBeginEditing
@@ -229,6 +220,9 @@ class QnADetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        
+        // State
+        
         //colectionView binding
         reactor.state
             .map { $0.communityItems }
@@ -238,10 +232,10 @@ class QnADetailViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<QnADetailSection, QnADetailSectionItem>()
                 snapshot.appendSections([.qnaPost, .comment])
-                
+    
                 items.postItem.forEach { snapshot.appendItems([.qnaPostCell($0)], toSection: .qnaPost) }
                 
-                snapshot.appendItems(items.commentItem.map { .commentCell($0)}, toSection: .comment)
+                snapshot.appendItems(items.commentItem.map { .commentCell($0) }, toSection: .comment)
                 
                 DispatchQueue.main.async {
                     owner.dataSource.apply(snapshot)
@@ -278,7 +272,7 @@ class QnADetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self, onNext: { owner, _ in
-                owner.commentTextView.text = ""
+                owner.commentTextView.text = "댓글을 입력하세요"
                 owner.view.endEditing(true)
             })
             .disposed(by: disposeBag)
@@ -290,6 +284,13 @@ class QnADetailViewController: UIViewController, View {
             .filter { $0 }
             .map { _ in }
             .bind(onNext: popViewController)
+            .disposed(by: disposeBag)
+        
+        // 댓글 빈 칸일 시 버튼 비활성화
+        reactor.state
+            .map { $0.writeButtonEnable }
+            .distinctUntilChanged()
+            .bind(to: commentWriteButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
 }
@@ -310,7 +311,28 @@ extension QnADetailViewController {
                     .disposed(by: self.disposeBag)
                 
                 cell.updateCell(qnaPost)
+                cell.bindPhotoCollectionView(qnaPost.communityPhotos)
+                
+                
+                self.reactor?.state
+                    .map { $0.photoItem }
+                    .distinctUntilChanged()
+                    .bind(to: cell.photoCollectionView.rx.items(cellIdentifier: PhotoCell.identifier, cellType: PhotoCell.self)) { row, item, cell in
+                        cell.isZoomEnabled = false
+                        cell.imageView.kf.setImage(with: URL(string: item.photoUrl))
+                        
+                    }
+                    .disposed(by: cell.disposeBag)
+                
+                cell.photoCollectionView.rx.itemSelected
+                    .bind(with: self, onNext: { owner, indexPath in
+                        owner.presentImagePinchVC(indexPath, images: qnaPost.communityPhotos)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                
                 return cell
+            
                 
             case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
@@ -320,7 +342,7 @@ extension QnADetailViewController {
                 cell.optionButton.rx.tap
                     .map { OptionReactor.Action.didTapOptionButton(comment?.commentId, comment?.content, nil, "Comment", nil, comment!.writed) }
                     .bind(to: self.commentOptionView.reactor!.action)
-                    .disposed(by: self.disposeBag)
+                    .disposed(by: cell.disposeBag)
                 
                 // QnADetailReactor에 indexPathRow 전달
                 cell.optionButton.rx.tap
@@ -345,45 +367,39 @@ extension QnADetailViewController {
                     .disposed(by: self.disposeBag)
                 
                 return header
-            default:
+            case 1:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier, for: indexPath) as? QnACommentHeaderView else { return UICollectionReusableView() }
                 
                 self.reactor?.state
                     .map { $0.commentCount }
-                    .bind(with: self, onNext: { owner, count in
-                        if let count = count {
-                            if count == 0 {
-                                owner.noCommentLabel.isHidden = false
-                                owner.collectionView.isScrollEnabled = false
-                            } else {
-                                owner.noCommentLabel.isHidden = true
-                                owner.collectionView.isScrollEnabled = true
-                            }
-                            header.commentCountLabel.text = "+\(count)"
-                        }
-                    })
+                    .compactMap { $0 }
+                    .map { "+\($0)"}
+                    .bind(to: header.commentCountLabel.rx.text)
                     .disposed(by: self.disposeBag)
                 
                 return header
+            default:
+                return nil
             }
         }
     }
     
     func configureQnAPostSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(268))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(268))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(268))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(268))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(14)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 46, leading: 16, bottom: 52, trailing: 16)
+        section.contentInsets = .init(top: 46, leading: 16, bottom: 32, trailing: 16)
         sectionHeader.contentInsets = .init(top: 30, leading: 0, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [sectionHeader]
         return section
     }
+    
     
     func configureQnACommentSection() -> NSCollectionLayoutSection {
         
@@ -391,7 +407,7 @@ extension QnADetailViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(102))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(20)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         sectionHeader.contentInsets = .init(top: 0, leading: 0, bottom: 12, trailing: 0)
@@ -406,8 +422,10 @@ extension QnADetailViewController {
             switch section {
             case 0:
                 return self.configureQnAPostSection()
-            default:
+            case 1:
                 return self.configureQnACommentSection()
+            default:
+                return nil
             }
             
         }

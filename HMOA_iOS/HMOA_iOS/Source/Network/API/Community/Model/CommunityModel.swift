@@ -8,14 +8,22 @@
 import Foundation
 
 struct CommunityDetail: Hashable, Codable {
-    let author: String
+    let id: Int
+    let title: String
     let category: String
     let content: String
-    let id: Int
+    let author: String
     let profileImgUrl: String
+    let imagesCount: Int
+    let communityPhotos: [CommunityPhoto]
+    let myProfileImgUrl: String?
     let time: String
-    let title: String
     let writed: Bool
+}
+
+struct CommunityPhoto: Hashable, Codable {
+    let photoId: Int
+    let photoUrl: String
 }
 
 struct CategoryList: Hashable, Codable {
@@ -35,3 +43,4 @@ struct CommunityComment: Codable, Hashable {
     let content, profileImg, time: String
     let writed: Bool
 }
+

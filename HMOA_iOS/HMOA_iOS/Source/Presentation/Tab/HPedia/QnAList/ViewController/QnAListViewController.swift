@@ -13,6 +13,7 @@ import RxCocoa
 import RxSwift
 import ReactorKit
 import QuartzCore
+import RxGesture
 
 class QnAListViewController: UIViewController, View {
 
@@ -256,12 +257,20 @@ class QnAListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // floatingView 터치
+        floatingView.rx.tapGesture()
+            .when(.recognized)
+            .map { _ in Reactor.Action.didTapFloatingBackView }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //State
         
         //collectionView Binding
         reactor.state
-            .compactMap { $0.items }
+            .map { $0.items }
             .distinctUntilChanged()
+            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()

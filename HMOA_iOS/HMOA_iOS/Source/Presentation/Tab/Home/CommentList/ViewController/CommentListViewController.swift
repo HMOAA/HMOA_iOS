@@ -18,7 +18,7 @@ class CommentListViewController: UIViewController, View {
     // MARK: - Properties
     var perfumeId: Int = 0
 
-    private var dataSource: UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>?
     
     var disposeBag = DisposeBag()
 
@@ -96,14 +96,15 @@ extension CommentListViewController {
             .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
-    
+                guard let dataSource = owner.dataSource else { return }
+                
                 var snapshot = NSDiffableDataSourceSnapshot<CommentSection, CommentSectionItem>()
                 snapshot.appendSections([.comment])
             
                 item.forEach { snapshot.appendItems([.commentCell($0)]) }
                 
                 DispatchQueue.main.async {
-                    owner.dataSource.apply(snapshot)
+                    dataSource.apply(snapshot)
                 }
             }).disposed(by: disposeBag)
         
@@ -210,7 +211,7 @@ extension CommentListViewController {
             }
         })
         
-        dataSource.supplementaryViewProvider =  { collectionView, kind, indexPath -> UICollectionReusableView in
+        dataSource?.supplementaryViewProvider =  { collectionView, kind, indexPath -> UICollectionReusableView in
             
             switch indexPath.section {
             case 0:

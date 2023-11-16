@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.8.0)
+  - Alamofire (5.8.1)
   - AppAuth (1.6.2):
     - AppAuth/Core (= 1.6.2)
     - AppAuth/ExternalUserAgent (= 1.6.2)
@@ -16,18 +16,18 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.1.1)
-  - KakaoSDKAuth (2.15.0):
-    - KakaoSDKCommon (= 2.15.0)
-  - KakaoSDKCommon (2.15.0):
-    - KakaoSDKCommon/Common (= 2.15.0)
-    - KakaoSDKCommon/Network (= 2.15.0)
-  - KakaoSDKCommon/Common (2.15.0)
-  - KakaoSDKCommon/Network (2.15.0):
+  - KakaoSDKAuth (2.18.2):
+    - KakaoSDKCommon (= 2.18.2)
+  - KakaoSDKCommon (2.18.2):
+    - KakaoSDKCommon/Common (= 2.18.2)
+    - KakaoSDKCommon/Network (= 2.18.2)
+  - KakaoSDKCommon/Common (2.18.2)
+  - KakaoSDKCommon/Network (2.18.2):
     - Alamofire (~> 5.1)
-    - KakaoSDKCommon/Common (= 2.15.0)
-  - KakaoSDKUser (2.15.0):
-    - KakaoSDKAuth (= 2.15.0)
-  - Kingfisher (7.9.1)
+    - KakaoSDKCommon/Common (= 2.18.2)
+  - KakaoSDKUser (2.18.2):
+    - KakaoSDKAuth (= 2.18.2)
+  - Kingfisher (7.10.0)
   - ReactorKit (3.2.0):
     - RxSwift (~> 6.0)
     - WeakMapTable (~> 1.1)
@@ -39,9 +39,9 @@ PODS:
   - RxAppState (1.7.1):
     - RxCocoa (~> 6.2)
     - RxSwift (~> 6.2)
-  - RxCocoa (6.5.0):
-    - RxRelay (= 6.5.0)
-    - RxSwift (= 6.5.0)
+  - RxCocoa (6.6.0):
+    - RxRelay (= 6.6.0)
+    - RxSwift (= 6.6.0)
   - RxDataSources (5.0.0):
     - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
@@ -49,26 +49,26 @@ PODS:
   - RxGesture (4.0.4):
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
-  - RxKakaoSDKAuth (2.15.0):
-    - KakaoSDKAuth (= 2.15.0)
-    - RxKakaoSDKCommon (= 2.15.0)
-  - RxKakaoSDKCommon (2.15.0):
-    - RxKakaoSDKCommon/Common (= 2.15.0)
-    - RxKakaoSDKCommon/Network (= 2.15.0)
-  - RxKakaoSDKCommon/Common (2.15.0):
-    - KakaoSDKCommon/Common (= 2.15.0)
+  - RxKakaoSDKAuth (2.18.2):
+    - KakaoSDKAuth (= 2.18.2)
+    - RxKakaoSDKCommon (= 2.18.2)
+  - RxKakaoSDKCommon (2.18.2):
+    - RxKakaoSDKCommon/Common (= 2.18.2)
+    - RxKakaoSDKCommon/Network (= 2.18.2)
+  - RxKakaoSDKCommon/Common (2.18.2):
+    - KakaoSDKCommon/Common (= 2.18.2)
     - RxCocoa
     - RxSwift (~> 6.0)
-  - RxKakaoSDKCommon/Network (2.15.0):
-    - KakaoSDKCommon/Network (= 2.15.0)
+  - RxKakaoSDKCommon/Network (2.18.2):
+    - KakaoSDKCommon/Network (= 2.18.2)
     - RxAlamofire (~> 6.0)
-    - RxKakaoSDKCommon/Common (= 2.15.0)
-  - RxKakaoSDKUser (2.15.0):
-    - KakaoSDKUser (= 2.15.0)
-    - RxKakaoSDKAuth (= 2.15.0)
-  - RxRelay (6.5.0):
-    - RxSwift (= 6.5.0)
-  - RxSwift (6.5.0)
+    - RxKakaoSDKCommon/Common (= 2.18.2)
+  - RxKakaoSDKUser (2.18.2):
+    - KakaoSDKUser (= 2.18.2)
+    - RxKakaoSDKAuth (= 2.18.2)
+  - RxRelay (6.6.0):
+    - RxSwift (= 6.6.0)
+  - RxSwift (6.6.0)
   - SnapKit (5.6.0)
   - TagListView (1.4.1)
   - Then (3.0.0)
@@ -122,33 +122,33 @@ SPEC REPOS:
     - WeakMapTable
 
 SPEC CHECKSUMS:
-  Alamofire: 0e92e751b3e9e66d7982db43919d01f313b8eb91
+  Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
-  KakaoSDKAuth: 0fe5cf1756e8a9f66f8fc77826061aafa93034f3
-  KakaoSDKCommon: 89d863b7f34398e6fb93a0acb28a204908551a39
-  KakaoSDKUser: a997ca5c4c18ece2ab30646ff74841bc29d4399d
-  Kingfisher: 1d14e9f59cbe19389f591c929000332bf70efd32
+  KakaoSDKAuth: 3daf72ec463876e0fe6d0d37c7d6b0b2729169f1
+  KakaoSDKCommon: 516f68bc6b223ed502c34a362d6ecc9145e0dcc0
+  KakaoSDKUser: 5b0826033381d314f550dd90fbf70d3612044ad6
+  Kingfisher: a18f05d3b6d37d8650ee4a3e61d57a28fc6207f6
   ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
   RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
   RxAppState: 9c34f951d4ff8b9034f84016fe766202365bceb2
-  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxCocoa: 44a80de90e25b739b5aeaae3c8c371a32e3343cc
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
-  RxKakaoSDKAuth: e7d0ac86282b29538a30d63b83793539344d2271
-  RxKakaoSDKCommon: 31411d8a4945bb347067fe80159210e9d175d7e6
-  RxKakaoSDKUser: 08a495ae92224487a6c19f3b7495ccfcdb1b183e
-  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
-  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  RxKakaoSDKAuth: cbe83272ada53432d2c9341967e1ac0bff356ad5
+  RxKakaoSDKCommon: 2672d53ff6d74ea3f3ef5d820e401176690a3113
+  RxKakaoSDKUser: 35b3b16d78e8cb7df0c5240067fdbbbf60a0be5f
+  RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
+  RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   TagListView: a1c236d17960a0cf64156725a76ce6d73ebce2be
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 539af80460d49437abe3af96f2175023b261c8fa
+PODFILE CHECKSUM: 3769104dd9ec3ba22119fcc8b2d4777aeb29bd45
 
 COCOAPODS: 1.12.1

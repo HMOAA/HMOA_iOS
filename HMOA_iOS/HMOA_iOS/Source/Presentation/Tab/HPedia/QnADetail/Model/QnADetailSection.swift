@@ -30,5 +30,5 @@ extension QnADetailSectionItem {
 
 struct CommunityDetailItems: Equatable {
     var postItem: [CommunityDetail]
-    var commentItem: [CommunityComment]
+    var commentItem: [CommunityComment?]
 }

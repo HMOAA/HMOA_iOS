@@ -19,7 +19,6 @@ class LoginReactor: Reactor {
         case didTapGoogleLoginButton
         case didTapAppleLoginButton
         case didTapKakaoLoginButton
-        case didTapLoginRetainButton
         case didTapNoLoginButton
     }
     
@@ -28,7 +27,6 @@ class LoginReactor: Reactor {
         case setPresentTabBar(Bool)
         case setPushStartVC(Bool)
         case setSignInGoogle(Bool)
-        case toggleRetainButton(Bool)
         case setKakaoToken(Token?)
     }
     
@@ -37,7 +35,6 @@ class LoginReactor: Reactor {
         var isSignInGoogle: Bool = false
         var isPushStartVC: Bool = false
         var isPresentTabBar: Bool = false
-        var isChecked: Bool = false
         var kakaoToken: Token? = nil
     }
     
@@ -63,19 +60,7 @@ class LoginReactor: Reactor {
                 .just(.setPushStartVC(false))
                       ])
         case .didTapKakaoLoginButton:
-            return .concat([
-                LoginAPI.kakaoLogin()
-                    .flatMap {
-                        LoginAPI.postAccessToken(params: ["token": $0.accessToken], .kakao)
-                            .map { .setKakaoToken($0) }
-                    },
-                .just(.setKakaoToken(nil))
-                      ])
-        case .didTapLoginRetainButton:
-            return .concat([
-                .just(.toggleRetainButton(true)),
-                .just(.toggleRetainButton(false))
-                      ])
+            return setKakaoToken()
         }
         
     }
@@ -90,8 +75,6 @@ class LoginReactor: Reactor {
             state.isPresentTabBar = isPresent
         case .setPushStartVC(let isPush):
             state.isPushStartVC = isPush
-        case .toggleRetainButton(let isCheck):
-            state.isChecked = isCheck
         case .setKakaoToken(let token):
             state.kakaoToken = token
         }
@@ -102,4 +85,17 @@ class LoginReactor: Reactor {
 }
 
 extension LoginReactor {
+    
+    func setKakaoToken() -> Observable<Mutation> {
+        return LoginAPI.kakaoLogin()
+            .flatMap { oAuthToken -> Observable<Mutation> in
+                return LoginAPI.postAccessToken(params: ["token": oAuthToken.accessToken], .kakao)
+                    .flatMap { token -> Observable<Mutation> in
+                        return .concat([
+                            .just(.setKakaoToken(token)),
+                            .just(.setKakaoToken(nil))
+                        ])
+                    }
+            }
+    }
 }

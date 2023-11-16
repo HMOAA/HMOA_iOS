@@ -9,6 +9,7 @@ import UIKit
 
 import Then
 import SnapKit
+import RxSwift
 
 class QnAPostCell: UICollectionViewCell {
     
@@ -48,13 +49,32 @@ class QnAPostCell: UICollectionViewCell {
         $0.setImage(UIImage(named: "verticalOption"), for: .normal)
     }
     
+    lazy var photoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+        $0.isUserInteractionEnabled = true
+        $0.isHidden = true
+        $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+    }
+    
+    lazy var pageControl = UIPageControl().then {
+        $0.isHidden = true
+    }
+    
+    var disposeBag = DisposeBag()
+    
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUpUI()
         setAddView()
         setConstraints()
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
+    }
+    
+    override func layoutSubviews() {
+        setUpUI()
     }
     
     required init?(coder: NSCoder) {
@@ -63,9 +83,9 @@ class QnAPostCell: UICollectionViewCell {
     
     //MARK: - SetUp
     private func setUpUI() {
-        layer.cornerRadius = 10
-        layer.borderColor = UIColor.customColor(.gray2).cgColor
         layer.borderWidth = 1
+        layer.borderColor = UIColor.customColor(.gray2).cgColor
+        layer.cornerRadius = 10
     }
     
     private func setAddView() {
@@ -76,9 +96,12 @@ class QnAPostCell: UICollectionViewCell {
             dayLabel,
             titleLabel,
             contentLabel,
-            optionButton
+            optionButton,
+            photoCollectionView,
+            pageControl
         ]   .forEach { addSubview($0) }
     }
+    
     
     private func setConstraints() {
         
@@ -115,6 +138,7 @@ class QnAPostCell: UICollectionViewCell {
         contentLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.bottom.lessThanOrEqualToSuperview().inset(48)
         }
     }
 }
@@ -127,5 +151,54 @@ extension QnAPostCell {
         dayLabel.text = item.time
         titleLabel.text = item.title
         contentLabel.text = item.content
+        
+    }
+    
+   func bindPhotoCollectionView(_ photos: [CommunityPhoto]) {
+        if !photos.isEmpty {
+            
+            photoCollectionView.isHidden = false
+            pageControl.isHidden = false
+            pageControl.numberOfPages = photos.count
+            pageControl.pageIndicatorTintColor = .customColor(.gray2)
+            pageControl.currentPageIndicatorTintColor = .customColor(.gray4)
+            
+            photoCollectionView.snp.makeConstraints { make in
+                make.top.equalTo(contentLabel.snp.bottom).offset(24)
+                make.leading.trailing.equalToSuperview().inset(27)
+                make.height.equalTo(photoCollectionView.snp.width)
+            }
+            
+            pageControl.snp.makeConstraints { make in
+                make.top.equalTo(photoCollectionView.snp.bottom).offset(5)
+                make.centerX.equalToSuperview()
+                make.bottom.lessThanOrEqualToSuperview().inset(34)
+            }
+        }
+    }
+    
+    private func configureLayout() -> UICollectionViewCompositionalLayout {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                              heightDimension: .fractionalWidth(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .fractionalWidth(1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: [item])
+        
+   
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        
+        section.visibleItemsInvalidationHandler = {(item, offset, env) in
+            let index = Int((offset.x / env.container.contentSize.width).rounded(.up))
+            self.pageControl.currentPage = index
+        }
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
     }
 }

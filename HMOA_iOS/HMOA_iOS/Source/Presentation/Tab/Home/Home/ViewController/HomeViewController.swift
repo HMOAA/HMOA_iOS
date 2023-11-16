@@ -29,12 +29,11 @@ class HomeViewController: UIViewController, View {
     lazy var indicatorImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.animationRepeatCount = 0
-        $0.animationDuration = 1.5
+        $0.animationDuration = 2
         $0.animationImages = [
-            UIImage(named: "firstIndicator")!,
-            UIImage(named: "secondIndicator")!,
-            UIImage(named: "thirdIndicator")!,
-            UIImage(named: "fourthIndicator")!
+            UIImage(named: "indicator1")!,
+            UIImage(named: "indicator2")!,
+            UIImage(named: "indicator3")!
         ]
     }
     
@@ -112,7 +111,7 @@ extension HomeViewController {
         //snapshot 설정
         reactor.state
             .map { $0.sections }
-            .delay(.seconds(3), scheduler: MainScheduler.instance)
+            //.delay(.seconds(4), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
                 owner.indicatorImageView.stopAnimating()
