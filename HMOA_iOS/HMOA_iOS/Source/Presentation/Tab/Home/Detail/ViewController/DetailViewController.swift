@@ -38,7 +38,6 @@ class DetailViewController: UIViewController, View {
         super.viewDidLoad()
         configureUI()
         configureCollectionViewDataSource()
-        configreNavigationBar()
     }
 }
 
@@ -69,18 +68,6 @@ extension DetailViewController {
         // 댓글 작성 버튼 클릭
         bottomView.wirteButton.rx.tap
             .map { Reactor.Action.didTapWriteButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 뒤로가기 버튼 클릭
-        backBarButton.rx.tap
-            .map { Reactor.Action.didTapBackButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 홈 버튼 클릭
-        homeBarButton.rx.tap
-            .map { Reactor.Action.didTapHomeButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -174,24 +161,6 @@ extension DetailViewController {
             })
             .disposed(by: disposeBag)
         
-        // 홈 페이지로 이동
-        reactor.state
-            .map { $0.isPopRootVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: popViewController)
-            .disposed(by: disposeBag)
-        
-        // 뒤로 이동
-        reactor.state
-            .map { $0.isPopVC}
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: self.popViewController)
-            .disposed(by: disposeBag)
-        
         // 검색 페이지로 이동
         reactor.state
             .map { $0.isPresentSearchVC }
@@ -219,6 +188,13 @@ extension DetailViewController {
                                      content: "입력하신 내용을 다시 확인해주세요",
                                      buttonTitle: "로그인 하러가기 ")
             })
+            .disposed(by: disposeBag)
+        
+        // 백, 홈 네비게이션 타이틀 설정
+        reactor.state
+            .map { $0.perfumeName }
+            //.filter { !$0.isEmpty }
+            .bind(onNext: setBackHomeSearchNaviBar)
             .disposed(by: disposeBag)
         
     }
@@ -293,17 +269,6 @@ extension DetailViewController {
             make.edges.equalToSuperview()
         }
     }
-    
-    func configreNavigationBar() {
-        setNavigationBarTitle("조말론 런던")
-        
-        let backBarButtonItem = self.navigationItem.makeImageButtonItem(backBarButton)
-        let homeBarButtonItem = self.navigationItem.makeImageButtonItem(homeBarButton)
-        let searchBarButtonItem = self.navigationItem.makeImageButtonItem(searchBarButton)
-        
-        self.navigationItem.leftBarButtonItems = [backBarButtonItem, spacerItem(15), homeBarButtonItem]
-        self.navigationItem.rightBarButtonItems = [searchBarButtonItem]
-    }
 }
 
 extension DetailViewController: UICollectionViewDelegate {
@@ -312,14 +277,14 @@ extension DetailViewController: UICollectionViewDelegate {
         dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: {  collectionView, indexPath, item in
             
             switch item {
-            case .topCell(let detail, _):
+            case .topCell(let detail):
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
                 self.bindPerfumeInfoCell(perfumeInfoCell)
                 perfumeInfoCell.updateCell(detail)
                 return perfumeInfoCell
                 
-            case .evaluationCell(let evaluation, _):
+            case .evaluationCell(let evaluation):
                 guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
                 
                 evaluationCell.reactor = EvaluationReactor(
@@ -331,7 +296,7 @@ extension DetailViewController: UICollectionViewDelegate {
             
                 return evaluationCell
                 
-            case .commentCell(let comment, _):
+            case .commentCell(let comment):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 commentCell.updateCell(comment)
@@ -349,7 +314,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 
                 return commentCell
                 
-            case .similarCell(let similar, _):
+            case .similarCell(let similar):
                 guard let similarCell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarCell.identifier, for: indexPath) as? SimilarCell else { return UICollectionViewCell() }
                 
                 similarCell.updateUI(similar)

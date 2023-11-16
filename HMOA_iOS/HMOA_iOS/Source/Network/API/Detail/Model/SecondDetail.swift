@@ -34,5 +34,6 @@ struct Comment: Codable, Hashable {
 
 struct SimilarPerfume: Codable, Hashable {
     let brandName, perfumeImgUrl, perfumeName: String
+    let perfumeId, brandId: Int
 }
 

@@ -16,24 +16,21 @@ enum DetailSection {
 }
 
 enum DetailSectionItem {
-    case topCell(FirstDetail, Int)
-    case evaluationCell(Evaluation?, Int)
-    case commentCell(Comment?, Int)
-    case similarCell(SimilarPerfume, Int)
+    case topCell(FirstDetail)
+    case evaluationCell(Evaluation?)
+    case commentCell(Comment?)
+    case similarCell(SimilarPerfume)
 }
 
 extension DetailSectionItem: Hashable {
     
-    var id: Int {
+    var id: Int? {
         switch self {
-        case .topCell:
-            return 0
-        case .evaluationCell:
-            return 1
-        case .commentCell(_, let commentId):
-            return commentId
-        case .similarCell(_, let perfumeId):
-            return perfumeId
+        case .commentCell(let comment):
+            return comment?.id
+        case .similarCell(let perfume):
+            return perfume.perfumeId
+        default: return nil
         }
     }
     
@@ -52,7 +49,7 @@ extension DetailSectionItem: Hashable {
     
     var brandId: Int {
         switch self {
-        case .topCell(let data, _):
+        case .topCell(let data):
             return data.brandId
         default: return 0
         }
@@ -60,7 +57,7 @@ extension DetailSectionItem: Hashable {
     
     var comment: Comment? {
         switch self {
-        case .commentCell(let comment, _):
+        case .commentCell(let comment):
             return comment
         default: return nil
         }
