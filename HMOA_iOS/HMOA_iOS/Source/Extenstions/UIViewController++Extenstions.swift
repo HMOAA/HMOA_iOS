@@ -253,7 +253,6 @@ extension UIViewController {
     
     @objc func popViewController() {
         self.navigationController?.popViewController(animated: true)
-        
     }
     
     @objc func goToHome() {

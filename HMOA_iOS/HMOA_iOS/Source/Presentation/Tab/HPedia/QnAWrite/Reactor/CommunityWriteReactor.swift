@@ -33,7 +33,6 @@ class CommunityWriteReactor: Reactor {
     
     struct State {
         var id: Int? = nil
-        var isPopVC: Bool = false
         var isBeginEditing: Bool = false
         var content: String
         var title: String? = nil
@@ -41,6 +40,7 @@ class CommunityWriteReactor: Reactor {
         var okButtonEnable: Bool = false
         var isPresentToAlbum: Bool = false
         var selectedImages: [UIImage] = []
+        var isEndWriting: Bool = false
     }
     
     init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String, service: CommunityListProtocol?) {
@@ -108,6 +108,7 @@ class CommunityWriteReactor: Reactor {
             
         case .setSelectedImages(let image):
             state.selectedImages.append(image)
+            
         }
         
         return state
@@ -154,7 +155,7 @@ extension CommunityWriteReactor {
                         communityId: data.id,
                         category: data.category,
                         title: data.title
-                    )).map { _ in .setSucces},
+                    )).map { _ in .setSucces },
                     self.service!.editCommunityDetail(to: data)
                         .map { _ in .setSucces }
                 ])
