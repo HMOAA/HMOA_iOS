@@ -302,21 +302,13 @@ class QnAWriteViewController: UIViewController, View {
             }
             .disposed(by: disposeBag)
         
-        // Pop VC
-        reactor.state
-            .map { $0.isPopVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: popViewController)
-            .disposed(by: disposeBag)
-        
         // 앨범 창 열기
         reactor.state
             .map { $0.isPresentToAlbum }
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self) { owner, _ in
+                owner.view.endEditing(true)
                 owner.present(owner.pickerVC, animated: true)
             }
             .disposed(by: disposeBag)
@@ -324,8 +316,8 @@ class QnAWriteViewController: UIViewController, View {
         // 선택된 이미지 바인딩
         reactor.state
             .map { $0.selectedImages }
+            .filter { !$0.isEmpty }
             .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
-            .do(onNext: { print($0.count) })
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, item in
                 owner.pageControl.isHidden = false
@@ -397,11 +389,8 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
             case .photoCell(let image, _):
                 
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
-                
                 cell.isZoomEnabled = false
                 cell.updateCell(image!)
-                
-                self.view.endEditing(true)
                 
                 return cell
             }
