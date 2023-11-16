@@ -58,10 +58,8 @@ class EvaluationCell: UICollectionViewCell, View {
         $0.layer.cornerRadius = 5
     }
     
-    lazy var buttons = [springButton, summerButton, fallButton, winterButton]
-    lazy var originalImage = buttons.map {
-        $0.configuration?.image
-    }
+    lazy var seasonButtons = [springButton, summerButton, fallButton, winterButton]
+    
     
     let seasonLabelStackView = UIStackView().then {
         $0.layer.masksToBounds = true
@@ -93,6 +91,10 @@ class EvaluationCell: UICollectionViewCell, View {
                       color: .black)
     }
     
+    let seasonExplainLabel = UILabel().then {
+        $0.setLabelUI("여러분의 생각을 투표해주세요", font: .pretendard, size: 12, color: .black)
+    }
+    
     //성별
     let sexLabel = UILabel().then {
         $0.setLabelUI("성별",
@@ -101,53 +103,27 @@ class EvaluationCell: UICollectionViewCell, View {
                       color: .black)
     }
     
-    let sexButtonView = UIView().then {
-        $0.layer.cornerRadius = 5
+    let sexButtonStackView = UIStackView().then {
+        $0.distribution = .fillEqually
+        $0.setStackViewUI(spacing: 40, axis: .horizontal)
+    }
+    lazy var manButton: UIButton = UIButton().then {
+        $0.configuration = setSeasonButtonConfigure("man")
         $0.backgroundColor = .customColor(.gray1)
-    }
-    let wommanButton = UIButton().then {
-        $0.backgroundColor = .customColor(.gray2)
         $0.layer.cornerRadius = 5
-        $0.setImage(UIImage(named: "woman"), for: .normal)
     }
-    let uniSexButton = UIButton().then {
-        $0.backgroundColor = .customColor(.gray2)
+    lazy var uniSexButton = UIButton().then {
+        $0.configuration = setSeasonButtonConfigure("uniSex")
+        $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
-        $0.setImage(UIImage(named: "uniSex"), for: .normal)
     }
-    let manButton = UIButton().then {
-        $0.backgroundColor = .customColor(.gray2)
+    lazy var womanButton = UIButton().then {
+        $0.configuration = setSeasonButtonConfigure("woman")
+        $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
-        $0.setImage(UIImage(named: "man"), for: .normal)
     }
     
-    //평가된 성별 View
-    lazy var evaluatedSexView = UIView().then {
-        $0.layer.masksToBounds = true
-        $0.isHidden = true
-        $0.backgroundColor = .customColor(.gray1)
-    }
-    lazy var evaluatedWomanButton: UIButton = UIButton().then {
-        var config = UIButton.Configuration.plain()
-        config.image = UIImage(named: "woman")
-        config.imagePlacement = .top
-        config.imagePadding = 6
-        config.titleAlignment = .center
-        config.contentInsets = .init(top: 14, leading: 16, bottom: 6, trailing: 20)
-        config.baseForegroundColor = .white
-        $0.configuration = config
-    }
-    lazy var evaluatedManButton = UIButton().then {
-        var config = UIButton.Configuration.plain()
-        config.image = UIImage(named: "man")
-        config.imagePlacement = .top
-        config.imagePadding = 6
-        config.titleAlignment = .center
-        config.baseForegroundColor = .white
-        config.contentInsets = .init(top: 14, leading: 20, bottom: 5, trailing: 20)
-        $0.configuration = config
-    }
-
+    lazy var sexButtons = [manButton, uniSexButton, womanButton]
     let wommanLabel = UILabel().then {
         $0.setLabelUI("여성",
                       font: .pretendard,
@@ -167,6 +143,11 @@ class EvaluationCell: UICollectionViewCell, View {
                       color: .black)
     }
     
+    let sexExplainLabel = UILabel().then {
+        $0.setLabelUI("여러분의 생각을 투표해주세요", font: .pretendard, size: 12, color: .black)
+    }
+    
+    // 성별
     let ageLabel = UILabel().then {
         $0.setLabelUI("연령대",
                       font: .pretendard_medium,
@@ -238,25 +219,21 @@ class EvaluationCell: UICollectionViewCell, View {
     private func setUpUI() {
         
         //계절 버튼 검정색 배경 layer 추가
-        buttons.forEach {
-            let blackLayer = CALayer()
-            blackLayer.frame = CGRect(x: 0, y: 80, width: 52, height: 0)
-            blackLayer.backgroundColor = UIColor.black.cgColor
-            blackLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-            blackLayer.cornerRadius = 5
-            $0.layer.addSublayer(blackLayer)
+        seasonButtons.forEach {
+            $0.layer.addSublayer(setVerticalBlackLayer())
         }
+        
+        sexButtons.forEach {
+            $0.layer.addSublayer(setVerticalBlackLayer())
+        }
+        
+        
     }
     
     private func setAddView() {
         
         // 계절 버튼 스택 뷰
-        [
-           springButton,
-           summerButton,
-           fallButton,
-           winterButton
-        ].forEach { seasonButtonStackView.addArrangedSubview($0) }
+        seasonButtons.forEach { seasonButtonStackView.addArrangedSubview($0) }
         
         // 계절 라벨 스택 뷰
         [
@@ -267,28 +244,19 @@ class EvaluationCell: UICollectionViewCell, View {
         ].forEach { seasonLabelStackView.addArrangedSubview($0) }
         
         // 성별 버튼 스택 뷰
-        [
-            wommanButton,
-            uniSexButton,
-            manButton
-        ].forEach { sexButtonView.addSubview($0) }
-        
-        // 평가된 성별 뷰
-        [
-            evaluatedWomanButton,
-            evaluatedManButton
-        ]   .forEach { evaluatedSexView.addSubview($0) }
-        
+        sexButtons.forEach { sexButtonStackView.addArrangedSubview($0) }
+
         [
             seasonLabel,
             seasonButtonStackView,
             seasonLabelStackView,
+            seasonExplainLabel,
             sexLabel,
-            sexButtonView,
-            evaluatedSexView,
+            sexButtonStackView,
             wommanLabel,
             uniSexLabel,
             manLabel,
+            sexExplainLabel,
             ageLabel,
             ageResetButton,
             ageSlider,
@@ -309,7 +277,7 @@ class EvaluationCell: UICollectionViewCell, View {
         
         seasonButtonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(seasonLabel.snp.bottom).offset(16)
+            make.top.equalTo(seasonLabel.snp.bottom).offset(22)
             make.width.equalTo(256)
             make.height.equalTo(80)
         }
@@ -319,68 +287,47 @@ class EvaluationCell: UICollectionViewCell, View {
             make.top.equalTo(seasonButtonStackView.snp.bottom).offset(16)
         }
         
+        seasonExplainLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(30)
+            make.top.equalTo(seasonLabelStackView.snp.bottom).offset(16)
+        }
+        
         sexLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
             make.top.equalTo(seasonLabelStackView.snp.bottom).offset(40)
             make.trailing.equalToSuperview()
         }
         
-        sexButtonView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(32)
-            make.top.equalTo(sexLabel.snp.bottom).offset(16)
-            make.height.equalTo(52)
-        }
-        
-        wommanButton.snp.makeConstraints { make in
-            make.top.bottom.leading.equalToSuperview()
-            make.width.equalTo(52)
-        }
-        
-        manButton.snp.makeConstraints { make in
-            make.top.bottom.trailing.equalToSuperview()
-            make.width.equalTo(52)
-        }
-        
-        uniSexButton.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
+        sexButtonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalTo(52)
-        }
-        
-        evaluatedSexView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(32)
-            make.top.equalTo(sexLabel.snp.bottom).offset(16)
-            make.height.equalTo(52)
-        }
-        
-        evaluatedWomanButton.snp.makeConstraints { make in
-            make.width.equalTo(65)
-            make.bottom.top.leading.equalToSuperview()
-        }
-        
-        evaluatedManButton.snp.makeConstraints { make in
-            make.width.equalTo(65)
-            make.top.bottom.trailing.equalToSuperview()
+            make.top.equalTo(sexLabel.snp.bottom).offset(22)
+            make.height.equalTo(80)
+            make.width.equalTo(236)
         }
         
         wommanLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(42)
-            make.top.equalTo(sexButtonView.snp.bottom).offset(23)
+            make.centerX.equalTo(womanButton.snp.centerX)
+            make.top.equalTo(sexButtonStackView.snp.bottom).offset(9)
         }
         
         uniSexLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+            make.centerX.equalTo(uniSexButton.snp.centerX)
             make.top.equalTo(wommanLabel)
         }
         
         manLabel.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(42)
+            make.centerX.equalTo(manButton.snp.centerX)
             make.top.equalTo(wommanLabel)
+        }
+        
+        sexExplainLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(30)
+            make.top.equalTo(wommanLabel.snp.bottom).offset(16)
         }
         
         ageLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
-            make.top.equalTo(wommanLabel.snp.bottom).offset(40)
+            make.top.equalTo(wommanLabel.snp.bottom).offset(48)
         }
         
         ageResetButton.snp.makeConstraints { make in
@@ -457,9 +404,9 @@ class EvaluationCell: UICollectionViewCell, View {
         //성별 버튼 터치
         Observable.merge(
             manButton.rx.tap.map { 1 },
-            wommanButton.rx.tap.map { 2 },
-            evaluatedManButton.rx.tap.map { 1 },
-            evaluatedWomanButton.rx.tap.map { 2 })
+            womanButton.rx.tap.map { 2 },
+            uniSexButton.rx.tap.map { 3 }
+            )
         .map { Reactor.Action.didTapGenderButton($0) }
         .bind(to: reactor.action)
         .disposed(by: disposeBag)
@@ -470,19 +417,25 @@ class EvaluationCell: UICollectionViewCell, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        
         // weather 평가 값 계절 버튼에 binding
         reactor.state
             .map { $0.weather }
             .compactMap { $0 }
-            .bind(onNext: setSeasonButtonBackgroundColor)
+            .map { [$0.spring, $0.summer, $0.autumn, $0.winter] }
+            .bind(with: self) { owner, values in
+                owner.setVerticalButtonBackgroundColor(owner.seasonButtons, values)
+            }
             .disposed(by: disposeBag)
         
+        // TODO: - 중성 값 리턴 후 다시 하기
         // gender 평가 값 binding
         reactor.state
             .map { $0.gender }
             .compactMap { $0 }
-            .bind(onNext: setGenderViewColor)
+            .map { [$0.man, 50, $0.woman]}
+            .bind(with: self) { owner, values in
+                owner.setVerticalButtonBackgroundColor(owner.sexButtons, values)
+            }
             .disposed(by: disposeBag)
         
         // 슬라이더 10 단위로 맞추기
@@ -556,70 +509,15 @@ extension EvaluationCell {
         
     }
     
-    // genderView 배경색, 텍스트 설정
-    private func setGenderViewColor(_ gender: Gender) {
-        sexButtonView.isHidden = true
-        evaluatedSexView.isHidden = false
+    // 막대 버튼 배경색, 텍스트 설정
+    private func setVerticalButtonBackgroundColor(_ buttons: [UIButton], _ values: [Int]) {
         
-        if gender.woman >= 50 {
-            if gender.woman == 100 {
-                evaluatedSexView.layer.sublayers?[0].maskedCorners = allCornerRadius
-            }
-            let womanPercent = CGFloat(gender.woman) / 100.0
-            let width = (UIScreen.main.bounds.width - 64) * womanPercent
-            evaluatedSexView.layer.sublayers?[1].isHidden = true
-            evaluatedSexView.layer.sublayers?[0].isHidden = false
-            
-            evaluatedSexView.layer.sublayers?[0].frame = CGRect(x: 0, y: 0, width: width, height: 52)
-            
-            evaluatedWomanButton.configuration?.image = UIImage(named: "woman")?.withTintColor(.white)
-            evaluatedManButton.configuration?.image = UIImage(named: "man")?.withTintColor(.customColor(.gray2))
-            
-            evaluatedWomanButton.configuration?.baseForegroundColor = .white
-            evaluatedManButton.configuration?.baseForegroundColor = .black
-            
-            if gender.woman >= 95 {
-                evaluatedManButton.configuration?.image = UIImage(named: "man")
-                evaluatedManButton.configuration?.baseForegroundColor = .white
-            }
-            
-        } else {
-            let manPercent = CGFloat(gender.man) / 100.0
-            let width = (UIScreen.main.bounds.width - 64) * manPercent
-            evaluatedSexView.layer.sublayers?[0].isHidden = true
-            evaluatedSexView.layer.sublayers?[1].isHidden = false
-            evaluatedSexView.layer.sublayers?[1].frame = CGRect(x: frame.maxX - 64, y: 0, width: -width, height: 52)
-            
-            if gender.man == 100 {
-                evaluatedSexView.layer.sublayers?[1].maskedCorners = allCornerRadius
-            }
-            
-            evaluatedManButton.configuration?.image = UIImage(named: "man")
-            evaluatedManButton.configuration?.baseForegroundColor = .white
-            
-            evaluatedWomanButton.configuration?.image = UIImage(named: "woman")?.withTintColor(.customColor(.gray2))
-            evaluatedWomanButton.configuration?.baseForegroundColor = .black
-            
-            if gender.man >= 95 {
-                evaluatedWomanButton.configuration?.image = UIImage(named: "woman")
-                evaluatedWomanButton.configuration?.baseForegroundColor = .white
-            }
-        }
+        let count = values.count
+        var isChangedTitleColor = [Bool](repeating: false, count: count)
+        var isChangedImageColor = [Bool](repeating: false, count: count)
+        let originalImage = buttons.map { $0.configuration?.image }
         
-        
-        evaluatedWomanButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: " \(gender.woman)%", size: 10, font: .pretendard)
-        evaluatedManButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(gender.man)%", size: 10, font: .pretendard)
-    }
-    
-    // 계절 버튼 배경색, 텍스트 설정
-    private func setSeasonButtonBackgroundColor(_ weather: Weather) {
-        
-        let weatherValues = [weather.spring, weather.summer, weather.autumn, weather.winter]
-        
-        var isChangedTitleColor = [Bool](repeating: false, count: 4)
-        var isChangedImageColor = [Bool](repeating: false, count: 4)
-        
-        for (index, value) in weatherValues.enumerated() {
+        for (index, value) in values.enumerated() {
             
             let percent = CGFloat(value) / 100.0
             //검정색 배경 채우기
@@ -681,28 +579,27 @@ extension EvaluationCell {
     
     private func setBlackLayer() {
         
-        lazy var blackWomanLayer = CALayer()
-        lazy var blackManLayer = CALayer()
         lazy var blackAgeLayer = CALayer()
         
-        lazy var layers = [blackManLayer, blackWomanLayer, blackAgeLayer]
-        lazy var frame = evaluatedSexView.frame
+        lazy var frame = evaluatedAgeView.frame
         
-        blackManLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMaxYCorner]
-        blackWomanLayer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
         blackAgeLayer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
         
-        blackWomanLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 52)
-        blackManLayer.frame = CGRect(x: frame.maxX - 32, y: 0, width: 0, height: 52)
         blackAgeLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 52)
         
-        layers.forEach {
-            $0.cornerRadius = 5
-            $0.backgroundColor = UIColor.black.cgColor
-        }
-        
-        evaluatedSexView.layer.insertSublayer(blackWomanLayer, at: 0)
-        evaluatedSexView.layer.insertSublayer(blackManLayer, at: 1)
+        blackAgeLayer.cornerRadius = 5
+        blackAgeLayer.backgroundColor = UIColor.black.cgColor
+    
         evaluatedAgeView.layer.insertSublayer(blackAgeLayer, at: 0)
+    }
+    
+    private func setVerticalBlackLayer() -> CALayer {
+        let blackLayer = CALayer()
+        blackLayer.frame = CGRect(x: 0, y: 80, width: 52, height: 0)
+        blackLayer.backgroundColor = UIColor.black.cgColor
+        blackLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        blackLayer.cornerRadius = 5
+        
+        return blackLayer
     }
 }
