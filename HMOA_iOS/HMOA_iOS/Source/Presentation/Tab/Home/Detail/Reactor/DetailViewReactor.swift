@@ -19,8 +19,6 @@ final class DetailViewReactor: Reactor {
         case didTapBrandView
         case didTapMoreButton
         case didTapWriteButton
-        case didTapBackButton
-        case didTapHomeButton
         case didTapSearchButton
         case didTapLikeButton
         case willDisplaySecondSection
@@ -37,8 +35,6 @@ final class DetailViewReactor: Reactor {
         case setSelectedComment(Comment?)
         case setSelecctedPerfume(Int?)
         case setIsPresentCommentWrite(Int?)
-        case setIsPopVC(Bool)
-        case setIsPopRootVC(Bool)
         case setIsPresentSearchVC(Bool)
         case setIsLiked(Bool)
         case setCommentCount(Int)
@@ -48,6 +44,7 @@ final class DetailViewReactor: Reactor {
         case setPresentBrandId(Int?)
         case setLikeCount(Int?)
         case setSelectedCommentRow(Int)
+        case setPerfumeName(String)
     }
     
     struct State {
@@ -56,8 +53,6 @@ final class DetailViewReactor: Reactor {
         var presentComment: Comment? = nil
         var presentPerfumeId: Int? = nil
         var isPresentCommentWirteVC: Int? = nil
-        var isPopVC: Bool = false
-        var isPopRootVC: Bool = false
         var isPresentSearchVC: Bool = false
         var presentBrandId: Int? = nil
         var perfumeId: Int
@@ -68,6 +63,7 @@ final class DetailViewReactor: Reactor {
         var isTapWhenNotLogin: Bool = false
         var likeCount: Int? = nil
         var selectedCommentRow: Int? = nil
+        var perfumeName: String = ""
     }
     
     init(perfumeId: Int) {
@@ -99,18 +95,6 @@ final class DetailViewReactor: Reactor {
                     .just(.setIsTap(false))
                 ])
             }
-            
-        case .didTapBackButton:
-            return .concat([
-                .just(.setIsPopVC(true)),
-                .just(.setIsPopVC(false))
-            ])
-            
-        case .didTapHomeButton:
-            return .concat([
-                .just(.setIsPopRootVC(true)),
-                .just(.setIsPopRootVC(false))
-            ])
         
         case .didTapSearchButton:
             return .concat([
@@ -165,12 +149,6 @@ final class DetailViewReactor: Reactor {
             
         case .setIsPresentCommentWrite(let perfumeId):
             state.isPresentCommentWirteVC = perfumeId
-       
-        case .setIsPopVC(let isPop):
-            state.isPopVC = isPop
-            
-        case .setIsPopRootVC(let isPop):
-            state.isPopRootVC = isPop
             
         case .setIsPresentSearchVC(let isPresent):
             state.isPresentSearchVC = isPresent
@@ -201,6 +179,9 @@ final class DetailViewReactor: Reactor {
             
         case .setSelectedCommentRow(let row):
             state.selectedCommentRow = row
+            
+        case .setPerfumeName(let name):
+            state.perfumeName = name
         }
         
         return state
@@ -214,13 +195,13 @@ extension DetailViewReactor {
         return DetailAPI.fetchPerfumeDetail(id)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                let topItem = DetailSectionItem.topCell(data, 0)
+                let topItem = DetailSectionItem.topCell(data)
                 let topSection = DetailSection.top(topItem)
                 
                 let evaluation = Evaluation(age: data.evaluation.age,
                                             gender: data.evaluation.gender,
                                             weather: data.evaluation.weather)
-                let evaluationItem = DetailSectionItem.evaluationCell(evaluation, 1)
+                let evaluationItem = DetailSectionItem.evaluationCell(evaluation)
                 let evaluationSection = DetailSection.evaluation(evaluationItem)
                 
                 let sections = [topSection, evaluationSection]
@@ -228,7 +209,8 @@ extension DetailViewReactor {
                 return .concat([
                     .just(.setSections(sections)),
                     .just(.setIsLiked(data.liked)),
-                    .just(.setLikeCount(data.heartNum))
+                    .just(.setLikeCount(data.heartNum)),
+                    .just(.setPerfumeName(data.koreanName))
                 ])
             }
     }
@@ -239,15 +221,15 @@ extension DetailViewReactor {
             .flatMap { data -> Observable<Mutation> in
                 var sections = self.currentState.sections
                 
-                var commentItem = data.commentInfo.comments.map { DetailSectionItem.commentCell($0, 2)}
+                var commentItem = data.commentInfo.comments.map { DetailSectionItem.commentCell($0)}
                 
                 if commentItem.isEmpty {
-                    commentItem = [DetailSectionItem.commentCell(nil, 2)]
+                    commentItem = [DetailSectionItem.commentCell(nil)]
                 }
                 let commentSection = DetailSection.comment(commentItem)
                 
                 let similarItem = data.similarPerfumes.map {
-                    DetailSectionItem.similarCell($0, 3)
+                    DetailSectionItem.similarCell($0)
                 }
                 let similarSection = DetailSection.similar(similarItem)
         

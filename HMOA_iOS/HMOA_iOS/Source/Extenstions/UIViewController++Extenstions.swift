@@ -256,11 +256,11 @@ extension UIViewController {
     }
     
     @objc func goToHome() {
-        
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func goToSearch() {
-        
+        presentSearchViewController()
     }
     
     func spacerItem(_ width: Int) -> UIBarButtonItem {
