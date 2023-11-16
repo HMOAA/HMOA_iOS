@@ -12,12 +12,17 @@ import SnapKit
 import RxCocoa
 import RxSwift
 import ReactorKit
+import PhotosUI
 
 class QnAWriteViewController: UIViewController, View {
-
+    
     var disposeBag = DisposeBag()
     
     //MARK: - UI Components
+    
+    let scrollView = UIScrollView().then {
+        $0.alwaysBounceVertical = true
+    }
     
     let titleNaviLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 20)
@@ -34,8 +39,6 @@ class QnAWriteViewController: UIViewController, View {
     let okButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 16)
-        $0.setTitleColor(.black, for: .normal)
-        $0.tintColor = .black
     }
     
     let titleView = UIView()
@@ -51,7 +54,15 @@ class QnAWriteViewController: UIViewController, View {
         $0.setPlaceholder(color: .customColor(.gray3))
     }
     
-    let textView = UITextView()
+    let titleCountLabel = UILabel().then {
+        $0.text = "0/20"
+        $0.font = .customFont(.pretendard_light, 14)
+    }
+    
+    let textView = UITextView().then {
+        $0.autocorrectionType = .no
+        $0.isScrollEnabled = false
+    }
     
     let addImageButton = UIBarButtonItem(
         image: UIImage(named: "addImageButton"),
@@ -65,6 +76,36 @@ class QnAWriteViewController: UIViewController, View {
         $0.items = [addImageButton]
     }
     
+    var pickerViewConfig: PHPickerConfiguration {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 6
+        
+        return config
+    }
+    
+    lazy var pickerVC = PHPickerViewController(configuration: pickerViewConfig).then {
+        $0.delegate = self
+    }
+    
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+        
+        $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+    }
+    
+    lazy var pageControl = UIPageControl().then {
+        $0.isHidden = true
+    }
+    
+    let stackView = UIStackView().then {
+        $0.spacing = 8
+        $0.axis = .vertical
+        $0.distribution = .fill
+        $0.alignment = .center
+    }
+    
+    var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>!
+    
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +114,25 @@ class QnAWriteViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setConstraints()
+        setNotificationKeyboard()
+        configureDatasource()
+        
     }
+           
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+           
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let keyboardHeight = keyboardFrame.height
+            // textView가 키보드 위에 남도록 contentInset을 조절
+            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight - 20, right: 0)
+            scrollView.contentInset = contentInset
+            scrollView.scrollIndicatorInsets = contentInset
+        }
+    }
+    
     
     override func viewDidLayoutSubviews() {
         titleView.layer.addBorder([.top, .bottom], color: .black, width: 1)
@@ -86,20 +145,31 @@ class QnAWriteViewController: UIViewController, View {
     }
     
     private func setAddView() {
-        
         [
             titleLabel,
-            titleTextField
+            titleTextField,
+            titleCountLabel
         ]   .forEach { titleView.addSubview($0) }
+        [
+            textView,
+            collectionView,
+            pageControl
+        ]   .forEach { stackView.addArrangedSubview($0) }
         
         [
-         titleView,
-         textView,
-         toolBar
-        ].forEach { view.addSubview($0) }
+            stackView
+        ].forEach { scrollView.addSubview($0) }
+        
+        view.addSubview(titleView)
+        view.addSubview(scrollView)
     }
     
     private func setConstraints() {
+        
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(titleView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(32)
@@ -109,25 +179,47 @@ class QnAWriteViewController: UIViewController, View {
         
         titleTextField.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.trailing).offset(6)
-            make.trailing.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+            make.trailing.equalTo(titleCountLabel.snp.leading).offset(-3)
         }
         
+        titleCountLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.greaterThanOrEqualToSuperview().inset(15)
+        }
+        
+        stackView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(24)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.width.equalTo(view.frame.width)
+        }
+
         titleView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(45)
         }
         
         textView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(32)
-            make.top.equalTo(titleTextField.snp.bottom).offset(24)
-            make.bottom.equalToSuperview()
+            make.width.equalTo(view.frame.width - 32)
+            make.height.greaterThanOrEqualTo(150)
         }
+
+        collectionView.snp.makeConstraints { make in
+            make.width.equalTo(300)
+            make.height.equalTo(300)
+        }
+        
+        
+    }
+    
+    private func setNotificationKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
     func bind(reactor: CommunityWriteReactor) {
         // Action
-        
+    
         // 확인 버튼 클릭
         okButton.rx.tap
             .map { Reactor.Action.didTapOkButton }
@@ -136,7 +228,7 @@ class QnAWriteViewController: UIViewController, View {
         
         // 제목 변경
         titleTextField.rx.text.orEmpty
-            .filter { !$0.isEmpty }
+            .skip(1)
             .map { Reactor.Action.didChangeTitle($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -155,12 +247,11 @@ class QnAWriteViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // textView 사용자가 입력 종료 (textView가 비활성화)
-        textView.rx.didEndEditing
-            .map { Reactor.Action.didEndTextViewEditing }
+        // 이미지 버튼 터치
+        addImageButton.rx.tap
+            .map { Reactor.Action.didTapPhotoButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
         
         // State
         
@@ -183,8 +274,126 @@ class QnAWriteViewController: UIViewController, View {
         // 제목 텍스트 바인딩
         reactor.state
             .map { $0.title }
-            .bind(to: titleTextField.rx.text)
+            .compactMap { $0 }
+            .map { text in
+                if text.count > 20 {
+                    let index = text.index(text.startIndex, offsetBy: 20)
+                    return String(text[..<index])
+                } else {
+                    return text
+                }
+            }
+            .bind(with: self, onNext: { owner, text in
+                owner.titleTextField.text = text
+                owner.titleCountLabel.text = "\(text.count)/20"
+            })
             .disposed(by: disposeBag)
         
+        // ok버튼 enable 설정
+        reactor.state
+            .map { $0.okButtonEnable }
+            .bind(with: self) { owner, isEnable in
+                owner.okButton.isEnabled = isEnable
+                if isEnable {
+                    owner.okButton.setTitleColor(.black, for: .normal)
+                } else {
+                    owner.okButton.setTitleColor(.customColor(.gray3), for: .normal)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 앨범 창 열기
+        reactor.state
+            .map { $0.isPresentToAlbum }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                owner.view.endEditing(true)
+                owner.present(owner.pickerVC, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        // 선택된 이미지 바인딩
+        reactor.state
+            .map { $0.selectedImages }
+            .filter { !$0.isEmpty }
+            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self) { owner, item in
+                owner.pageControl.isHidden = false
+                owner.pageControl.currentPage = 0
+                owner.pageControl.numberOfPages = item.count
+                owner.pageControl.pageIndicatorTintColor = .customColor(.gray2)
+                owner.pageControl.currentPageIndicatorTintColor = .customColor(.gray4)
+                
+                var snapshot = NSDiffableDataSourceSnapshot<PhotoSection, PhotoSectionItem>()
+                
+                snapshot.appendSections([.photo])
+                
+                item.forEach { snapshot.appendItems([.photoCell($0, nil)], toSection: .photo) }
+                
+                DispatchQueue.main.async {
+                    owner.datasource.apply(snapshot)
+                }
+            }.disposed(by: disposeBag)
+        
+        
+    }
+}
+
+extension QnAWriteViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
+        results.forEach { result in
+            let itemProvider = result.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { item, error in
+                    let image = item as! UIImage
+                    DispatchQueue.main.async {
+                        self.reactor?.action.onNext(.didSelectedImage(image))
+                    }
+                }
+            }
+        }
+        DispatchQueue.main.async {
+            picker.dismiss(animated: true)
+        }
+    }
+    
+    private func configureLayout() -> UICollectionViewCompositionalLayout {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        
+        section.visibleItemsInvalidationHandler = {(item, offset, env) in
+            let index = Int((offset.x / env.container.contentSize.width).rounded(.up))
+            self.pageControl.currentPage = index
+        }
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
+    }
+    
+    func configureDatasource() {
+        datasource = UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>(collectionView: collectionView, cellProvider: {
+            collectionView, indexPath, item in
+            switch item {
+            case .photoCell(let image, _):
+                
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
+                cell.isZoomEnabled = false
+                cell.updateCell(image!)
+                
+                return cell
+            }
+        })
     }
 }

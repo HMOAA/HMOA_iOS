@@ -10,6 +10,8 @@ import UIKit
 import RxKakaoSDKAuth
 import KakaoSDKAuth
 import ReactorKit
+import GoogleSignIn
+import PretendardKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,16 +20,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
+        //KeychainManager.delete()
         window = UIWindow(windowScene: windowScene)
         setFirstViewController()
         window?.makeKeyAndVisible()
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        
         if let url = URLContexts.first?.url {
             if (AuthApi.isKakaoTalkLoginUrl(url)) {
                 _ = AuthController.rx.handleOpenUrl(url: url)
+            }
+            
+            else if ((url.scheme?.contains("com.googleusercontent.apps")) != nil) {  //구글 링크인지
+                GIDSignIn.sharedInstance.handle(url)
+            }
+            
+            else {
+                // 기타 URL 처리 로직
             }
         }
     }
@@ -69,6 +80,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
     //로그인 기록에 따른 첫 뷰컨트롤러 설정
     func setFirstViewController() {
+        PretendardKit.register()
         let loginManager: LoginManager = LoginManager.shared
         if let token = KeychainManager.read() {
             print("start \(token)")

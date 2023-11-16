@@ -42,17 +42,24 @@ final class CommunityAPI {
     ///category: String
     ///content: String
     ///title: String]
-    static func postCommunityPost(_ params: [String: String]) -> Observable<CommunityDetail> {
+    /// images: 선택한 이미지들
+    static func postCommunityPost(_ params: [String: String], images: [UIImage]) -> Observable<CommunityDetail> {
         
-        let data = try? JSONSerialization.data(
-            withJSONObject: params,
-            options: .prettyPrinted
-        )
+        var imageData: [Data]?
         
-        return networking(
+        if images.isEmpty {
+            imageData = nil
+        } else {
+            imageData = images.compactMap { $0.resize(targetSize: $0.size)?.jpegData(compressionQuality: 0.1) }
+        }
+        
+        
+        return uploadNetworking(
             urlStr: CommunityAddress.postCommnunityPost.url,
             method: .post,
-            data: data,
+            imageData: imageData,
+            imageFileName: "communityImage.jpeg",
+            parameter: params,
             model: CommunityDetail.self)
     }
     
@@ -134,3 +141,4 @@ final class CommunityAPI {
     }
 }
     
+

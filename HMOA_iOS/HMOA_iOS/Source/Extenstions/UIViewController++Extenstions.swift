@@ -11,6 +11,13 @@ import Then
 
 extension UIViewController {
     
+    func presentImagePinchVC(_ indexPath: IndexPath, images: [CommunityPhoto]) {
+        let vc = ImagePinchViewController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.reactor = ImagePinchReactor(indexPath.row, images)
+        self.present(vc, animated: true)
+    }
+    
     func presentAlertVC(title: String, content: String, buttonTitle: String) {
         let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle)
         alertVC.modalPresentationStyle = .overFullScreen
@@ -155,6 +162,7 @@ extension UIViewController {
     }
     
     func setOkCancleNavigationBar(okButton: UIButton, cancleButton: UIButton, titleLabel: UILabel) {
+        
         okButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
         cancleButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
         let okButtonItem = UIBarButtonItem(customView: okButton)
@@ -245,7 +253,6 @@ extension UIViewController {
     
     @objc func popViewController() {
         self.navigationController?.popViewController(animated: true)
-        
     }
     
     @objc func goToHome() {

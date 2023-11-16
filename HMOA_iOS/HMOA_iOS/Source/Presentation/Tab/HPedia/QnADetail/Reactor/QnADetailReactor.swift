@@ -27,7 +27,8 @@ class QnADetailReactor: Reactor {
     
     enum Mutation {
         case setPostItem([CommunityDetail])
-        case setCommentItem([CommunityComment])
+        case setCommentItem([CommunityComment?])
+        case setPhotoItem([CommunityPhoto])
         case setCategory(String)
         case setCommentCount(Int)
         case setContent(String)
@@ -44,7 +45,8 @@ class QnADetailReactor: Reactor {
     struct State {
         var communityId: Int
         var postItem: [CommunityDetail] = []
-        var commentItem: [CommunityComment] = []
+        var commentItem: [CommunityComment?] = []
+        var photoItem: [CommunityPhoto] = []
         var commentCount: Int? = nil
         var isBeginEditing: Bool = false
         var content: String = ""
@@ -54,6 +56,7 @@ class QnADetailReactor: Reactor {
         var isDeleted: Bool = false
         var loadedPage: Set<Int> = []
         var communityItems: CommunityDetailItems = CommunityDetailItems(postItem: [], commentItem: [])
+        var writeButtonEnable: Bool = false
     }
     
     init(_ id: Int, _ service: CommunityListProtocol) {
@@ -70,13 +73,16 @@ class QnADetailReactor: Reactor {
             ])
             
         case .didBeginEditing:
-            return .just(.setIsBegenEditing(true))
+            return .concat([
+                .just(.setIsBegenEditing(true)),
+                .just(.setIsBegenEditing(false))
+            ])
             
         case .didChangeTextViewEditing(let content):
             return .just(.setContent(content))
             
         case .didTapCommentWriteButton:
-            if !currentState.content.isEmpty || currentState.content != "댓글을 입력하세요" {
+            if currentState.content != "댓글을 입력하세요" {
                 return setPostComment()
             } else { return .empty() }
             
@@ -102,16 +108,33 @@ class QnADetailReactor: Reactor {
         
         switch mutation {
         case .setCommentCount(let count):
+            if count == 0 {
+                state.commentItem = [nil]
+                state.communityItems.commentItem = [nil]
+            }
             state.commentCount = count
             
         case .setContent(let content):
             state.content = content
+            if content.isEmpty {
+                state.writeButtonEnable = false }
+            else {
+                if !state.writeButtonEnable {
+                    state.writeButtonEnable = true
+                }
+            }
             
         case .setIsBegenEditing(let isBegin):
             state.isBeginEditing = isBegin
             
         case .setComment(let comment):
-            state.communityItems.commentItem.append(comment)
+            state.commentItem = [comment]
+            
+            if state.commentCount == 0 {
+                state.communityItems.commentItem = [comment]
+            } else {
+                state.communityItems.commentItem.append(comment)
+            }
             state.commentCount! += 1
             
         case .setSelectedCommentRow(let row):
@@ -125,7 +148,7 @@ class QnADetailReactor: Reactor {
             
         case .setIsDeleted(let isDeleted):
             state.isDeleted = isDeleted
-        
+            
         case .setLoadedPage(let page):
             state.loadedPage.insert(page)
             
@@ -138,14 +161,16 @@ class QnADetailReactor: Reactor {
             state.communityItems.commentItem = item
             
         case .editComment(let comment):
-            if let index = state.commentItem.firstIndex(where: { $0.commentId == comment.commentId }) {
+            if let index = state.commentItem.firstIndex(where: { $0?.commentId == comment.commentId }) {
                 state.communityItems.commentItem[index] = comment
             }
             
         case .editCommunityPost(let detail):
             state.communityItems.postItem = [detail]
+            
+        case .setPhotoItem(let item):
+            state.photoItem = item
         }
-        
         return state
     }
     
@@ -162,16 +187,17 @@ class QnADetailReactor: Reactor {
         return .merge(mutation, eventMutation)
     }
 }
+    
 
 extension QnADetailReactor {
     func setUpPostSection() -> Observable<Mutation> {
         return CommunityAPI.fetchCommunityDetail(currentState.communityId)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                
                 return .concat([
                     .just(.setCategory(data.category)),
                     .just(.setPostItem([data])),
+                    .just(.setPhotoItem(data.communityPhotos)),
                     .just(.setContent(data.content))
                 ])
             }
@@ -187,7 +213,9 @@ extension QnADetailReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 var commentItem = self.currentState.commentItem
+                
                 commentItem.append(contentsOf: data.comments)
+
                 
                 return .concat([
                     .just(.setCommentItem(commentItem)),
@@ -236,8 +264,8 @@ extension QnADetailReactor {
         return CommentWriteReactor(
             perfumeId: nil,
             isWrite: true,
-            content: currentState.commentItem[currentState.selectedCommentRow!].content,
-            commentId: currentState.commentItem[currentState.selectedCommentRow!].commentId,
+            content: currentState.commentItem[currentState.selectedCommentRow!]!.content,
+            commentId: currentState.commentItem[currentState.selectedCommentRow!]!.commentId,
             isCommunity: true, commentService: nil,
             communityService: service
         )

@@ -18,25 +18,29 @@ class CommunityWriteReactor: Reactor {
         case didTapOkButton
         case didChangeTitle(String)
         case didChangeTextViewEditing(String)
-        case didEndTextViewEditing
         case didBeginEditing
+        case didTapPhotoButton
+        case didSelectedImage(UIImage)
     }
     
     enum Mutation {
         case setTitle(String)
         case setContent(String)
-        case setIsEndEditing(Bool)
         case setSucces
+        case setIsPresentToAlbum(Bool)
+        case setSelectedImages(UIImage)
     }
     
     struct State {
         var id: Int? = nil
-        var isPopVC: Bool = false
         var isBeginEditing: Bool = false
-        var isEndEditing: Bool = false
         var content: String
         var title: String? = nil
         var category: String
+        var okButtonEnable: Bool = false
+        var isPresentToAlbum: Bool = false
+        var selectedImages: [UIImage] = []
+        var isEndWriting: Bool = false
     }
     
     init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String, service: CommunityListProtocol?) {
@@ -57,24 +61,27 @@ class CommunityWriteReactor: Reactor {
             }
             
         case .didChangeTitle(let title):
-            return .concat([
-                .just(.setTitle(title))
-            ])
+            return .just(.setTitle(title))
+            
         case .didBeginEditing:
             if currentState.content == "내용을 입력해주세요" {
                 return .just(.setContent(""))
             } else {
                 return .empty()
             }
-        
-        case .didEndTextViewEditing:
-            return .concat([
-                .just(.setIsEndEditing(true)),
-                .just(.setIsEndEditing(false))
-            ])
             
         case .didChangeTextViewEditing(let content):
             return .just(.setContent(content))
+            
+        case .didTapPhotoButton:
+            return .concat([
+                .just(.setIsPresentToAlbum(true)),
+                .just(.setIsPresentToAlbum(false))
+            ])
+            
+        case .didSelectedImage(let image):
+            return .just(.setSelectedImages(image))
+            
         }
     }
     
@@ -84,15 +91,24 @@ class CommunityWriteReactor: Reactor {
             
         case .setTitle(let title):
             state.title = title
-            
-        case .setIsEndEditing(let isEnd):
-            state.isEndEditing = isEnd
+            state.okButtonEnable = isOkButtonEnabled(content: currentState.content,
+                                                     title: title)
             
         case .setContent(let content):
             state.content = content
+            state.okButtonEnable = isOkButtonEnabled(content: content,
+                                                     title: currentState.title ?? "")
             
         case .setSucces:
             break
+            
+        case .setIsPresentToAlbum(let isPresent):
+            if isPresent { state.selectedImages = []}
+            state.isPresentToAlbum = isPresent
+            
+        case .setSelectedImages(let image):
+            state.selectedImages.append(image)
+            
         }
         
         return state
@@ -114,11 +130,12 @@ extension CommunityWriteReactor {
             "content": state.content,
             "title": title
         ]
-        
-        return CommunityAPI.postCommunityPost(params)
-            .catch { _ in.empty() }
+        return CommunityAPI.postCommunityPost(params, images: state.selectedImages)
+            .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                return self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces}
+                return .concat([
+                    self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces }
+                ])
             }
     }
     
@@ -138,10 +155,19 @@ extension CommunityWriteReactor {
                         communityId: data.id,
                         category: data.category,
                         title: data.title
-                    )).map { _ in .setSucces},
+                    )).map { _ in .setSucces },
                     self.service!.editCommunityDetail(to: data)
                         .map { _ in .setSucces }
                 ])
             }
+    }
+    
+    func isOkButtonEnabled(content: String, title: String ) -> Bool {
+        
+        let isContentEmpty = content.isEmpty
+        let isContentInitValue = content == "내용을 입력해주세요"
+        let isTitleEmpty = title.isEmpty
+        
+        return !(isContentEmpty || isTitleEmpty || isContentInitValue)
     }
 }

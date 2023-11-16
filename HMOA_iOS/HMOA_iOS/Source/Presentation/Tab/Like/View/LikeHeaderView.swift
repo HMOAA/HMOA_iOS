@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 class LikeHeaderView: UICollectionReusableView {
     static let identifier = "LikeHeaderView"
@@ -28,6 +29,8 @@ class LikeHeaderView: UICollectionReusableView {
                     for: .selected)
     }
     
+    var disposeBag = DisposeBag()
+    
     //MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,6 +41,10 @@ class LikeHeaderView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
     
     //MARK: - SetUp

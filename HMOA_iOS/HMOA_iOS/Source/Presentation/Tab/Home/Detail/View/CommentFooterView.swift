@@ -8,14 +8,17 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 class CommentFooterView: UICollectionReusableView {
     
     // MARK: - identifier
     static let identifier = "CommentFooterView"
     
+    
     // MARK: - Properies
-
+    var disposeBag = DisposeBag()
+    
     let moreButton = UIButton().then {
         $0.tintColor = UIColor.customColor(.gray4)
         $0.titleLabel?.textColor = .white
@@ -31,6 +34,10 @@ class CommentFooterView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
 }
 

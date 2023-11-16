@@ -6,6 +6,7 @@
 //
 
 import RxSwift
+import UIKit
 
 enum UserEvent {
     case updateNickname(content: String)
