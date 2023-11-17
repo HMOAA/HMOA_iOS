@@ -36,9 +36,9 @@ class QnADetailViewController: UIViewController, View {
     }
     
     let profileImageView = UIImageView().then {
-        $0.backgroundColor = .black
+        $0.image = UIImage(named: "initProfile")
         $0.layer.cornerRadius = 14
-        $0.layer.masksToBounds = false
+        $0.layer.masksToBounds = true
     }
     
     let colonLabel = UILabel().then {
@@ -315,6 +315,10 @@ extension QnADetailViewController {
                 
                 cell.updateCell(qnaPost)
                 cell.bindPhotoCollectionView(qnaPost.communityPhotos)
+                print(qnaPost)
+                if let url = qnaPost.myProfileImgUrl {
+                    self.profileImageView.kf.setImage(with: URL(string: url))
+                }
                 
                 
                 self.reactor?.state
