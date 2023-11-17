@@ -88,6 +88,15 @@ extension CommentListViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 댓글 삭제 터치
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeleteComment }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         // collectionView 바인딩
         reactor.state
@@ -132,6 +141,7 @@ extension CommentListViewController {
             .bind(onNext: setBackItemNaviBar)
             .disposed(by: disposeBag)
         
+        // commentList 타입에 따른 bottomview hidden
         reactor.state
             .map { $0.commentType }
             .filter { $0 != .detail }
@@ -139,13 +149,7 @@ extension CommentListViewController {
                 owner.bottomView.isHidden = true
             }.disposed(by: disposeBag)
         
-        optionView.reactor?.state
-            .map { $0.isTapDelete }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in Reactor.Action.didDeleteComment }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+       
     }
     
     func bindHeader() {
@@ -194,7 +198,7 @@ extension CommentListViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 
-                let optionData = OptionCommentData(id: comment.id, content: comment.content, isWrited: comment.writed)
+                let optionData = OptionCommentData(id: comment.id, content: comment.content, isWrited: comment.writed, isCommunity: false)
                 
                 cell.optionButton.rx.tap
                     .map { OptionReactor.Action.didTapOptionButton(.Comment(optionData)) }

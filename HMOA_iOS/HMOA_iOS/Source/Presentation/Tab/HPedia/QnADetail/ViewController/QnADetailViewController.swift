@@ -342,7 +342,7 @@ extension QnADetailViewController {
                 
                 // optionView에 comment 정보 전달
                 if let comment = comment {
-                    let optionData = OptionCommentData(id: comment.commentId, content: comment.content, isWrited: comment.writed)
+                    let optionData = OptionCommentData(id: comment.commentId, content: comment.content, isWrited: comment.writed, isCommunity: true)
                     
                     cell.optionButton.rx.tap
                         .map { OptionReactor.Action.didTapOptionButton(.Comment(optionData)) }

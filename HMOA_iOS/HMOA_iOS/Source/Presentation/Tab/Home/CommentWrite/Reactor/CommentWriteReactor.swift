@@ -111,7 +111,7 @@ extension CommentWriteReactor {
         .catch { _ in .empty() }
         .flatMap { comment -> Observable<Mutation> in
             return .concat([
-//                self.commentService!.editComment(to: comment)
+//                self.commentService!.addComment(to: comment)
 //                    .map { _ in .setIsPopVC(true) },
                 .just(.setIsPopVC(false))
             ])
@@ -127,8 +127,8 @@ extension CommentWriteReactor {
             .catch { _ in .empty() }
             .flatMap { comment -> Observable<Mutation> in
                 return .concat([
-//                    self.commentService!.editComment(to: comment)
-//                        .map { _ in .setIsPopVC(true) },
+                    self.commentService!.editComment(to: comment)
+                        .map { _ in .setIsPopVC(true) },
                     .just(.setIsPopVC(false))
                 ])
             }

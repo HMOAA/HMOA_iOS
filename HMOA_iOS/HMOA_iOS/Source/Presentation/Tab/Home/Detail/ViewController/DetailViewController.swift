@@ -50,6 +50,7 @@ extension DetailViewController {
         
         // MARK: - Action
         LoginManager.shared.isLogin
+            .distinctUntilChanged()
             .map { Reactor.Action.viewDidLoad($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -302,7 +303,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 
                 
                 if let comment = comment {
-                    let optionData = OptionCommentData(id: comment.id, content: comment.content, isWrited: comment.writed)
+                    let optionData = OptionCommentData(id: comment.id, content: comment.content, isWrited: comment.writed, isCommunity: false)
                     commentCell.optionButton.rx.tap
                         .map { OptionReactor.Action.didTapOptionButton(.Comment(optionData)) }
                         .bind(to: self.optionView.reactor!.action)

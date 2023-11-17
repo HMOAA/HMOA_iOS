@@ -92,12 +92,15 @@ final class OptionReactor: Reactor {
                 ])
                 
             case "삭제":
-                if currentState.commentData != nil {
-                    return deleteCommunityComment()
-                } else {
+                switch currentState.type {
+                case .Comment(let data):
+                    if data.isCommunity {
+                        return deleteCommunityComment()
+                    } else { return deletePerfumeComment() }
+                case .Post(_):
                     return deletePost()
+                default: return .empty()
                 }
-                
             default: return .empty()
             }
             
