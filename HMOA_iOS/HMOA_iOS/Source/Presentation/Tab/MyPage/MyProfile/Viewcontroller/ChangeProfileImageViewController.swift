@@ -20,12 +20,8 @@ class ChangeProfileImageViewController: UIViewController, View {
     typealias Reactor = ChangeProfileImageReactor
     var disposeBag = DisposeBag()
     
-    lazy var profileImageView: UIImageView = UIImageView().then {
-        $0.backgroundColor = .customColor(.gray3)
-        $0.layer.cornerRadius = 25
-    }
-    
     lazy var changeProfileImageButton: UIButton = UIButton().then {
+        $0.setImage(UIImage(named: "addProfile"), for: .normal)
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 36
     }
@@ -182,7 +178,6 @@ extension ChangeProfileImageViewController {
         pickerView.delegate = self
         
         [
-            profileImageView,
             changeProfileImageButton,
             nicknameView
         ]   .forEach { view.addSubview($0) }
