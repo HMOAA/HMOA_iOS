@@ -193,10 +193,11 @@ extension CommentListViewController {
             case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
-                cell.updateCell(comment)
+                
+                let optionData = OptionCommentData(id: comment.id, content: comment.content, isWrited: comment.writed)
                 
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, nil, "Comment", nil, comment.writed) }
+                    .map { OptionReactor.Action.didTapOptionButton(.Comment(optionData)) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
@@ -206,7 +207,7 @@ extension CommentListViewController {
                     .bind(to: self.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
-                
+                cell.updateCell(comment)
                 return cell
             }
         })

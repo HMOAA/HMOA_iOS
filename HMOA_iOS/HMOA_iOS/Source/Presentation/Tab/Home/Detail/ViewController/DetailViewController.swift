@@ -299,17 +299,22 @@ extension DetailViewController: UICollectionViewDelegate {
             case .commentCell(let comment):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
+                
+                
+                if let comment = comment {
+                    let optionData = OptionCommentData(id: comment.id, content: comment.content, isWrited: comment.writed)
+                    commentCell.optionButton.rx.tap
+                        .map { OptionReactor.Action.didTapOptionButton(.Comment(optionData)) }
+                        .bind(to: self.optionView.reactor!.action)
+                        .disposed(by: self.optionView.disposeBag)
+                    
+                    commentCell.optionButton.rx.tap
+                        .map { DetailViewReactor.Action.didTapOptionButton(indexPath.row) }
+                        .bind(to: self.reactor!.action)
+                        .disposed(by: self.disposeBag)
+                }
                 commentCell.updateCell(comment)
-                
-                commentCell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil, comment?.writed) }
-                    .bind(to: self.optionView.reactor!.action)
-                    .disposed(by: self.optionView.disposeBag)
-                
-                commentCell.optionButton.rx.tap
-                    .map { DetailViewReactor.Action.didTapOptionButton(indexPath.row) }
-                    .bind(to: self.reactor!.action)
-                    .disposed(by: self.disposeBag)
+    
                     
                 
                 return commentCell
