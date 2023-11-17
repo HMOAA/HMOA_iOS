@@ -33,6 +33,7 @@ struct OptionCommentData {
     let id: Int
     let content: String
     let isWrited: Bool
+    let isCommunity: Bool
 }
 
 extension CommentReactorType {

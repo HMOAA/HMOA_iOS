@@ -51,7 +51,7 @@ public func networking<T: Decodable>(
         
         reqeust.httpBody = data
         reqeust.method = method
-
+        
         AF.request(reqeust, interceptor: AppRequestInterceptor())
             .validate(statusCode: 200..<300)
             .responseDecodable(of: model.self) { response in

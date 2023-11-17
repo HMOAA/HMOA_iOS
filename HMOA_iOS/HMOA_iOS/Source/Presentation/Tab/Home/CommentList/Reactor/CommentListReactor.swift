@@ -206,6 +206,18 @@ extension CommentListReactor {
             }
     }
     
+    func deleteCommentInSection() -> Observable<Mutation> {
+        guard let row = currentState.selectedRow else { return .empty() }
+        var commentItem = currentState.commentItems
+        commentItem.remove(at: row)
+
+        return .concat([
+            .just(.setCommentItem(commentItem)),
+            .just(.setSelectedRow(nil)),
+            .just(.setCommentCount(currentState.commentCount - 1))
+        ])
+    }
+    
     func reactorForEdit() -> CommentWriteReactor {
         let state = currentState
         return CommentWriteReactor(
