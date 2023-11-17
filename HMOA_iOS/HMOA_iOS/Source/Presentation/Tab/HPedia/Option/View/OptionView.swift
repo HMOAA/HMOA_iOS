@@ -164,7 +164,9 @@ class OptionView: UIView, View {
             .filter { $0 }
             .bind(with: self) { owner, _ in
                 // 댓글 수정
-                if reactor.currentState.type == "Comment" {
+                
+                switch reactor.currentState.type {
+                case .Comment(_):
                     if let parentVC = owner.parentVC as? QnADetailViewController {
                         parentVC.presentCommentWirteViewControllerForWriter(.community(parentVC.reactor!))
                     }
@@ -176,11 +178,12 @@ class OptionView: UIView, View {
                     if let parentVC = owner.parentVC as? DetailViewController {
                         parentVC.presentCommentWirteViewControllerForWriter(.perfumeDetail(parentVC.reactor!))
                     }
-                }
-                
-                if reactor.currentState.type == "Post" {
+                case .Post(_):
                     let parentVC = owner.parentVC as! QnADetailViewController
                     parentVC.presentQnAWriteVCForEdit(reactor: parentVC.reactor!)
+                    
+                default:
+                    break
                 }
             }.disposed(by: disposeBag)
     }

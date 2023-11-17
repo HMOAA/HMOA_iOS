@@ -88,4 +88,12 @@ final class CommentAPI {
             data: nil,
             model: Response.self)
     }
+    
+    static func deleteComment(_ id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: CommentAddress.deleteComment(id).url,
+            method: .delete,
+            data: nil,
+            model: Response.self)
+    }
 }

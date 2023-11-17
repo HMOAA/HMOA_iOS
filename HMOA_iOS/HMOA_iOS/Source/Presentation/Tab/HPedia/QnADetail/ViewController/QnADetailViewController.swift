@@ -305,8 +305,11 @@ extension QnADetailViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QnAPostCell.identifier, for: indexPath) as? QnAPostCell else { return UICollectionViewCell() }
                 
                 self.postOptionView.parentVC = self
+            
+                let optionPostData = OptionPostData(id: qnaPost.id, content: qnaPost.content, title: qnaPost.title, category: qnaPost.category, isWrited: qnaPost.writed)
+                
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(qnaPost.id, qnaPost.content, qnaPost.title, "Post", (self.reactor?.currentState.category)!) }
+                    .map { OptionReactor.Action.didTapOptionButton(.Post(optionPostData)) }
                     .bind(to: self.postOptionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
@@ -338,17 +341,20 @@ extension QnADetailViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
                 // optionView에 comment 정보 전달
-                
-                cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment?.commentId, comment?.content, nil, "Comment", nil, comment!.writed) }
-                    .bind(to: self.commentOptionView.reactor!.action)
-                    .disposed(by: cell.disposeBag)
-                
-                // QnADetailReactor에 indexPathRow 전달
-                cell.optionButton.rx.tap
-                    .map { QnADetailReactor.Action.didTapOptionButton(indexPath.row) }
-                    .bind(to: self.reactor!.action)
-                    .disposed(by: self.disposeBag)
+                if let comment = comment {
+                    let optionData = OptionCommentData(id: comment.commentId, content: comment.content, isWrited: comment.writed)
+                    
+                    cell.optionButton.rx.tap
+                        .map { OptionReactor.Action.didTapOptionButton(.Comment(optionData)) }
+                        .bind(to: self.commentOptionView.reactor!.action)
+                        .disposed(by: cell.disposeBag)
+                    
+                    // QnADetailReactor에 indexPathRow 전달
+                    cell.optionButton.rx.tap
+                        .map { QnADetailReactor.Action.didTapOptionButton(indexPath.row) }
+                        .bind(to: self.reactor!.action)
+                        .disposed(by: self.disposeBag)
+                }
                 
                 cell.updateCommunityComment(comment)
                 return cell

@@ -15,7 +15,7 @@ final class OptionReactor: Reactor {
     
     enum Action {
         case didTapBackgroundView
-        case didTapOptionButton(Int?, String?, String?, String, String?, Bool? = true)
+        case didTapOptionButton(OptionType)
         case didTapOptionCell(Int)
         case didTapCancleButton
     }
@@ -24,9 +24,9 @@ final class OptionReactor: Reactor {
         case setisHiddenOptionView(Bool)
         case setIsTapEdit(Bool)
         case setIsTapDelete(Bool)
-        case setCommentInfo(Int, String)
-        case setPostInfo(Int, String, String, String)
-        case setType(String)
+        case setCommentData(OptionCommentData)
+        case setPostData(OptionPostData)
+        case setType(OptionType)
         case setOptions([String])
         case delete
     }
@@ -36,9 +36,9 @@ final class OptionReactor: Reactor {
         var isHiddenOptionView: Bool = true
         var isTapEdit: Bool = false
         var isTapDelete: Bool = false
-        var commentInfo: (Int, String)? = nil
-        var postInfo: (Int, String, String, String)? = nil
-        var type: String = ""
+        var commentData: OptionCommentData? = nil
+        var postData: OptionPostData? = nil
+        var type: OptionType? = nil
         var category: String = ""
     }
     
@@ -53,32 +53,30 @@ final class OptionReactor: Reactor {
         case .didTapBackgroundView:
             return .just(.setisHiddenOptionView(true))
             
-        case .didTapOptionButton(let id, let content, let title, let type, let category, let isWrited):
-            guard let id = id else { return .empty() }
-            guard let isWrited = isWrited else { return .empty()}
+        case .didTapOptionButton(let type):
             
-            if type == "Post" {
+            switch type {
+            case .Post(let postData):
                 return .concat([
                     .just(.setOptions(["수정", "삭제"])),
-                    .just(.setType(type)),
-                    .just(.setPostInfo(id, content!, title!, category!)),
-                    .just(.setisHiddenOptionView(false))
+                    .just(.setPostData(postData)),
+                    .just(.setisHiddenOptionView(false)),
+                    .just(.setType(type))
                 ])
-            }
-            else {
-                if isWrited {
+            case .Comment(let commentData):
+                if commentData.isWrited {
                     return .concat([
                         .just(.setOptions(["수정", "삭제"])),
-                        .just(.setType(type)),
-                        .just(.setCommentInfo(id, content!)),
-                        .just(.setisHiddenOptionView(false))
+                        .just(.setCommentData(commentData)),
+                        .just(.setisHiddenOptionView(false)),
+                        .just(.setType(type))
                     ])
                 } else {
                     return .concat([
                         .just(.setOptions(["신고"])),
-                        .just(.setType(type)),
-                        .just(.setCommentInfo(id, content!)),
-                        .just(.setisHiddenOptionView(false))
+                        .just(.setCommentData(commentData)),
+                        .just(.setisHiddenOptionView(false)),
+                        .just(.setType(type))
                     ])
                 }
             }
@@ -94,7 +92,7 @@ final class OptionReactor: Reactor {
                 ])
                 
             case "삭제":
-                if let info = currentState.commentInfo {
+                if currentState.commentData != nil {
                     return deleteCommunityComment()
                 } else {
                     return deletePost()
@@ -123,11 +121,11 @@ final class OptionReactor: Reactor {
         case .setIsTapDelete(let isTap):
             state.isTapDelete = isTap
             
-        case .setCommentInfo(let id, let content):
-            state.commentInfo = (id, content)
+        case .setCommentData(let data):
+            state.commentData = data
             
-        case .setPostInfo(let id, let content, let title, let category):
-            state.postInfo = (id, content, title, category)
+        case .setPostData(let data):
+            state.postData = data
             
         case .setType(let type):
             state.type = type
@@ -147,7 +145,19 @@ final class OptionReactor: Reactor {
 extension OptionReactor {
     
     func deleteCommunityComment() -> Observable<Mutation> {
-        return CommunityAPI.deleteCommunityComment(currentState.commentInfo!.0)
+        return CommunityAPI.deleteCommunityComment(currentState.commentData!.id)
+            .catch { _ in .empty() }
+            .flatMap { _  -> Observable<Mutation> in
+                return .concat([
+                    .just(.setisHiddenOptionView(true)),
+                    .just(.setIsTapDelete(true)),
+                    .just(.setIsTapDelete(false))
+                ])
+            }
+    }
+    
+    func deletePerfumeComment() -> Observable<Mutation> {
+        return CommentAPI.deleteComment(currentState.commentData!.id)
             .catch { _ in .empty() }
             .flatMap { _  -> Observable<Mutation> in
                 return .concat([
@@ -159,15 +169,19 @@ extension OptionReactor {
     }
     
     func deletePost() -> Observable<Mutation> {
-        return CommunityAPI.deleteCommunityPost(currentState.postInfo!.0)
+        return CommunityAPI.deleteCommunityPost(currentState.postData!.id)
             .catch { _ in .empty() }
             .flatMap { _ -> Observable<Mutation> in
-                let postinfo = self.currentState.postInfo!
+                let postData = self.currentState.postData!
                 return .concat([
                     .just(.setisHiddenOptionView(true)),
                     .just(.setIsTapDelete(true)),
                     .just(.setIsTapDelete(false)),
-                    self.service!.deleteCommunityList(to: CategoryList(communityId: postinfo.0, category: postinfo.3, title: postinfo.2)).map { _ in .delete }
+                    self.service!.deleteCommunityList(to: CategoryList(
+                        communityId: postData.id,
+                        category: postData.category,
+                        title: postData.title))
+                    .map { _ in .delete }
                 ])
             }
     }

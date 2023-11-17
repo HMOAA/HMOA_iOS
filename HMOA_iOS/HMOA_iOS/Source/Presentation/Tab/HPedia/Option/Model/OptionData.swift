@@ -16,6 +16,25 @@ enum CommentReactorType {
     
 }
 
+enum OptionType {
+    case Post(OptionPostData)
+    case Comment(OptionCommentData)
+}
+    
+struct OptionPostData {
+    let id: Int
+    let content: String
+    let title: String
+    let category: String
+    let isWrited: Bool
+}
+
+struct OptionCommentData {
+    let id: Int
+    let content: String
+    let isWrited: Bool
+}
+
 extension CommentReactorType {
     var reactor: any Reactor {
         switch self {

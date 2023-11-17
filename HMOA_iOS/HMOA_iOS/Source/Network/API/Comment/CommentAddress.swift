@@ -13,6 +13,7 @@ enum CommentAddress {
     case setCommentLike(Int)
     case putComment(Int)
     case modifyComment(Int)
+    case deleteComment(Int)
 }
 
 extension CommentAddress {
@@ -28,6 +29,8 @@ extension CommentAddress {
             return "perfume/comments\(commentId)/modify"
         case .modifyComment(let perfumeId):
             return "perfume/comments/\(perfumeId)/modify"
+        case .deleteComment(let perfumeId):
+            return "perfume/comments/\(perfumeId)/delete"
         }
     }
 }
