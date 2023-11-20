@@ -48,7 +48,7 @@ class MyLogCommentViewController: UIViewController, View {
     
     private func setConstraints() {
         collectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -117,7 +117,11 @@ extension MyLogCommentViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 44)
+        if reactor?.currentState.commentType == .liked(nil) {
+            return .zero
+            } else {
+                return CGSize(width: view.frame.width, height: 44)
+            }
     }
     
     func configureDatasource() {
@@ -128,20 +132,22 @@ extension MyLogCommentViewController: UICollectionViewDelegateFlowLayout {
             }
             
             switch item {
-            case .perfume(let comment):
+            case .perfume(let comment), .liked(let comment):
                 cell.updateCell(comment)
-                cell.updateForMyLogComment()
             case .community(let comment):
                 cell.updateCommunityComment(comment)
-                cell.updateForMyLogComment()
-            case .liked(let comment):
-                break
             }
+            
+            cell.updateForMyLogComment()
             
             return cell
         })
         
         datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            
+            if self.reactor?.currentState.commentType == .liked(nil) {
+                return nil
+            }
             
             switch indexPath.section {
             case 0:

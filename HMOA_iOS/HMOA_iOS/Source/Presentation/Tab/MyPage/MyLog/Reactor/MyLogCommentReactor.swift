@@ -30,7 +30,7 @@ class MyLogCommentReactor: Reactor {
     struct State {
         var perfumeItem: [Comment] = []
         var communityItem: [CommunityComment] = []
-        var items: MyLogCommentData = MyLogCommentData(like: [], perfume: [], community: [])
+        var items: MyLogCommentData = MyLogCommentData(perfume: [], community: [])
         var commentType: MyLogCommentSectionItem
         var page: Int = 0
         var loadedPage: Set<Int> = []
@@ -44,7 +44,11 @@ class MyLogCommentReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return setWritedPerfumeCommentList(0, [])
+            switch currentState.commentType {
+            case .liked(_):
+                return setLikedPerfumeComment(0, [])
+            default: return setWritedPerfumeCommentList(0, [])
+            }
             
         case .didTapPerfumeTab:
             return setWritedPerfumeCommentList(0, [])
@@ -59,7 +63,7 @@ class MyLogCommentReactor: Reactor {
             case .community(_):
                 return setWritedCommunityCommentList(page, currentState.loadedPage)
             case .liked(_):
-                return .empty()
+                return setLikedPerfumeComment(page, currentState.loadedPage)
             }
         }
     }
@@ -123,6 +127,24 @@ extension MyLogCommentReactor {
                     .just(.setPerfumeItem([])),
                     .just(.setLoadedPage(page)),
                     .just(.setCommentType(.community(nil)))
+                ])
+            }
+    }
+    
+    func setLikedPerfumeComment(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
+        
+        if loadedPage.contains(page) { return .empty() }
+        return MemberAPI.fetchLikedComments(["page": page])
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+
+                var item = self.currentState.perfumeItem
+                item.append(contentsOf: data)
+                
+                return .concat([
+                    .just(.setPerfumeItem(item)),
+                    .just(.setCommunityItem([])),
+                    .just(.setLoadedPage(page))
                 ])
             }
     }
