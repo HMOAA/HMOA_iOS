@@ -19,7 +19,6 @@ enum MyLogCommentSectionItem: Hashable {
 }
 
 struct MyLogCommentData {
-    var like: [Comment]
     var perfume: [Comment]
     var community: [CommunityComment]
 }
