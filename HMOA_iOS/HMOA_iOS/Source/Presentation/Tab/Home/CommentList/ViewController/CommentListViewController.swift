@@ -141,14 +141,6 @@ extension CommentListViewController {
             .bind(onNext: setBackItemNaviBar)
             .disposed(by: disposeBag)
         
-        // commentList 타입에 따른 bottomview hidden
-        reactor.state
-            .map { $0.commentType }
-            .filter { $0 != .detail }
-            .bind(with: self) { owner, _ in
-                owner.bottomView.isHidden = true
-            }.disposed(by: disposeBag)
-        
        
     }
     
@@ -175,18 +167,6 @@ extension CommentListViewController {
             .map { "+" + String($0) }
             .bind(to: header.commentCountLabel.rx.text )
             .disposed(by: disposeBag)
-        
-        reactor?.state
-            .map { $0.commentType }
-            .filter { $0 != .detail }
-            .bind(with: self) { owner, _ in
-                owner.header.isHidden = true
-                owner.collectionView.snp.remakeConstraints { make in
-                    make.leading.trailing.bottom.equalToSuperview()
-                    make.top.equalTo(owner.view.safeAreaLayoutGuide)
-                }
-            }.disposed(by: disposeBag)
-        
     }
     
     func configureCollectionViewDataSource() {

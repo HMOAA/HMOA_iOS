@@ -42,20 +42,17 @@ class CommentListReactor: Reactor {
         var selectedComment: Comment? = nil
         var isPresentCommentWriteVC: Int? = nil
         var sortType = ""
-        var commentType: CommentType
-        var navigationTitle: String
+        var navigationTitle: String = "댓글"
         var loadedPage: Set<Int> = []
         var selectedRow: Int? = nil
     }
     
     var initialState: State
 
-    init(_ currentPerfumeId: Int?, _ type: CommentType, service: DetailCommentService) {
+    init(_ currentPerfumeId: Int?, service: DetailCommentService) {
         initialState = State(
             perfumeId: currentPerfumeId,
-            sortType: "Latest",
-            commentType: type,
-            navigationTitle: type.title
+            sortType: "Latest"
         )
         self.service = service
     }
@@ -63,25 +60,12 @@ class CommentListReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            switch currentState.commentType {
-            case .detail:
-                return setCommentsList(type: currentState.sortType, page: 0)
-            case .liked:
-                return setLikedCommentList()
-            case .writed:
-                return setWritedCommentList()
-            }
+            return setCommentsList(type: currentState.sortType, page: 0)
             
         case .willDisplayCell(let page):
-            switch currentState.commentType {
-            case .detail:
-                return setCommentsList(type: currentState.sortType, page: page)
-            case .liked:
-                return setLikedCommentList()
-            case .writed:
-                return setWritedCommentList()
-            }
+            return setCommentsList(type: currentState.sortType, page: page)
             
+        
         case .didTapCell(let indexPath):
             return .concat([
                 .just(.setSelectedComment(indexPath)),
@@ -187,22 +171,6 @@ extension CommentListReactor {
                     .just(.setCommentCount(commentCount)),
                     .just(.setLoadedPage(page))
                 ])
-            }
-    }
-    
-    func setLikedCommentList() -> Observable<Mutation> {
-        return MemberAPI.fetchLikedComments(["page": 0])
-            .catch { _ in .empty() }
-            .flatMap { data -> Observable<Mutation> in
-                return .just(.setCommentItem(data))
-            }
-    }
-    
-    func setWritedCommentList() -> Observable<Mutation> {
-        return MemberAPI.fetchWritedComments(["page": 0])
-            .catch { _ in .empty() }
-            .flatMap { data -> Observable<Mutation> in
-                return .just(.setCommentItem(data))
             }
     }
     
