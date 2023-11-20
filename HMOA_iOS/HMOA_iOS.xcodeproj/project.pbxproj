@@ -159,6 +159,10 @@
 		CA360F3A29DD870E00A93873 /* HPediaReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3929DD870E00A93873 /* HPediaReactor.swift */; };
 		CA360F3C29DD8ABE00A93873 /* HPediaQnACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA360F3B29DD8ABE00A93873 /* HPediaQnACell.swift */; };
 		CA36DA842A4AA25700F9C17E /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA36DA832A4AA25700F9C17E /* IgnoerData.swift */; };
+		CA39D5652B0B35F900694677 /* MyLogCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39D5642B0B35F900694677 /* MyLogCommentViewController.swift */; };
+		CA39D5682B0B36C500694677 /* MyLogCommentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39D5672B0B36C500694677 /* MyLogCommentHeaderView.swift */; };
+		CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39D5692B0B36FF00694677 /* MyLogCommentReactor.swift */; };
+		CA39D56C2B0B3A9C00694677 /* MyLogCommentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39D56B2B0B3A9C00694677 /* MyLogCommentSection.swift */; };
 		CA4744692AC7EC0E00003584 /* CommunityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744682AC7EC0E00003584 /* CommunityAPI.swift */; };
 		CA47446B2AC7EC1400003584 /* CommunityAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47446A2AC7EC1400003584 /* CommunityAddress.swift */; };
 		CA47446D2AC7ECED00003584 /* CommunityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47446C2AC7ECED00003584 /* CommunityModel.swift */; };
@@ -167,7 +171,6 @@
 		CA4744792AD3C28C00003584 /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744782AD3C28C00003584 /* OptionCell.swift */; };
 		CA4744832AD3E2BB00003584 /* OptionReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744822AD3E2BB00003584 /* OptionReactor.swift */; };
 		CA4744862ADA718500003584 /* MyLogReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4744852ADA718500003584 /* MyLogReactor.swift */; };
-		CA47448D2ADA7D3600003584 /* CommentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47448C2ADA7D3600003584 /* CommentType.swift */; };
 		CA47EBF529CAB9DF00934E57 /* NicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */; };
 		CA4C68FF2AFCFC2E0039FB0E /* PretendardKit in Frameworks */ = {isa = PBXBuildFile; productRef = CA4C68FE2AFCFC2E0039FB0E /* PretendardKit */; };
 		CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA54DD8F29C445EE00167F05 /* LikeReactor.swift */; };
@@ -404,6 +407,10 @@
 		CA360F3929DD870E00A93873 /* HPediaReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaReactor.swift; sourceTree = "<group>"; };
 		CA360F3B29DD8ABE00A93873 /* HPediaQnACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaQnACell.swift; sourceTree = "<group>"; };
 		CA36DA832A4AA25700F9C17E /* IgnoerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
+		CA39D5642B0B35F900694677 /* MyLogCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogCommentViewController.swift; sourceTree = "<group>"; };
+		CA39D5672B0B36C500694677 /* MyLogCommentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogCommentHeaderView.swift; sourceTree = "<group>"; };
+		CA39D5692B0B36FF00694677 /* MyLogCommentReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogCommentReactor.swift; sourceTree = "<group>"; };
+		CA39D56B2B0B3A9C00694677 /* MyLogCommentSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogCommentSection.swift; sourceTree = "<group>"; };
 		CA4744682AC7EC0E00003584 /* CommunityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityAPI.swift; sourceTree = "<group>"; };
 		CA47446A2AC7EC1400003584 /* CommunityAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityAddress.swift; sourceTree = "<group>"; };
 		CA47446C2AC7ECED00003584 /* CommunityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityModel.swift; sourceTree = "<group>"; };
@@ -412,7 +419,6 @@
 		CA4744782AD3C28C00003584 /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
 		CA4744822AD3E2BB00003584 /* OptionReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionReactor.swift; sourceTree = "<group>"; };
 		CA4744852ADA718500003584 /* MyLogReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogReactor.swift; sourceTree = "<group>"; };
-		CA47448C2ADA7D3600003584 /* CommentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentType.swift; sourceTree = "<group>"; };
 		CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameReactor.swift; sourceTree = "<group>"; };
 		CA54DD8F29C445EE00167F05 /* LikeReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeReactor.swift; sourceTree = "<group>"; };
 		CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -906,6 +912,7 @@
 			isa = PBXGroup;
 			children = (
 				CA47448B2ADA7D2A00003584 /* Model */,
+				CA39D5662B0B36A900694677 /* View */,
 				CA4744842ADA717700003584 /* Reactor */,
 				2C464E5729CDDC7000A07658 /* ViewController */,
 			);
@@ -943,6 +950,7 @@
 			isa = PBXGroup;
 			children = (
 				2C464E5829CDDC8500A07658 /* MyLogViewController.swift */,
+				CA39D5642B0B35F900694677 /* MyLogCommentViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1618,6 +1626,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CA39D5662B0B36A900694677 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CA39D5672B0B36C500694677 /* MyLogCommentHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		CA4744662AC7EBF800003584 /* Community */ = {
 			isa = PBXGroup;
 			children = (
@@ -1667,6 +1683,7 @@
 			isa = PBXGroup;
 			children = (
 				CA4744852ADA718500003584 /* MyLogReactor.swift */,
+				CA39D5692B0B36FF00694677 /* MyLogCommentReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1674,7 +1691,7 @@
 		CA47448B2ADA7D2A00003584 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CA47448C2ADA7D3600003584 /* CommentType.swift */,
+				CA39D56B2B0B3A9C00694677 /* MyLogCommentSection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2287,6 +2304,7 @@
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
 				CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */,
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
+				CA39D5682B0B36C500694677 /* MyLogCommentHeaderView.swift in Sources */,
 				CA2238A12AAF5FFD00452A31 /* QnAPostHeaderView.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				CA01609B2AB2E45700D5839D /* EvaluationAPI.swift in Sources */,
@@ -2337,6 +2355,7 @@
 				CA1067DD29D6D39A009A7245 /* ChangeSexReactor.swift in Sources */,
 				CA1067D929D6C9A7009A7245 /* ChangeYearReactor.swift in Sources */,
 				2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */,
+				CA39D5652B0B35F900694677 /* MyLogCommentViewController.swift in Sources */,
 				CA7C9C112AAAFB9300072AB9 /* QnAListHeaderView.swift in Sources */,
 				CA7C9C0B2AAADF8500072AB9 /* QnAListViewController.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
@@ -2379,6 +2398,7 @@
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				CAE5F2A029F1109800BAF313 /* Response.swift in Sources */,
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
+				CA39D56C2B0B3A9C00694677 /* MyLogCommentSection.swift in Sources */,
 				2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */,
 				CA219C442A9C6DAD003FB215 /* LikeAPI.swift in Sources */,
 				CA4744832AD3E2BB00003584 /* OptionReactor.swift in Sources */,
@@ -2414,8 +2434,8 @@
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,
 				CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */,
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
+				CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
-				CA47448D2ADA7D3600003584 /* CommentType.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,

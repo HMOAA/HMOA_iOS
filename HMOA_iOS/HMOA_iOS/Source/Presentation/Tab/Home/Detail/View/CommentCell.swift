@@ -92,7 +92,6 @@ extension CommentCell {
             subView.isHidden = false
             noCommentLabel.isHidden = true
             
-            //if item.writed { optionButton.isHidden = false }
         } else { noCommentLabel.isHidden = false }
     }
     
@@ -105,8 +104,16 @@ extension CommentCell {
             subView.isHidden = false
             communityNoCommentLabel.isHidden = true
             
-            //if item.writed { optionButton.isHidden = false }
         } else { communityNoCommentLabel.isHidden = false }
+    }
+    
+    func updateForMyLogComment() {
+        optionButton.isHidden = true
+        commentLikeButton.snp.remakeConstraints { make in
+            make.top.equalToSuperview().inset(14)
+            make.trailing.equalToSuperview().inset(14)
+            make.height.equalTo(20)
+        }
     }
     
     func configureUI() {

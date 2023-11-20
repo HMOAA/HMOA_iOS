@@ -315,7 +315,7 @@ extension QnADetailViewController {
                 
                 cell.updateCell(qnaPost)
                 cell.bindPhotoCollectionView(qnaPost.communityPhotos)
-                print(qnaPost)
+                
                 if let url = qnaPost.myProfileImgUrl {
                     self.profileImageView.kf.setImage(with: URL(string: url))
                 }
