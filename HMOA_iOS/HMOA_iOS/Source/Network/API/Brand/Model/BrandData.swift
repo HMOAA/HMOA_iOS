@@ -21,4 +21,5 @@ struct BrandPerfume: Hashable, Codable {
     let perfumeImgUrl: String
     let perfumeName: String
     let liked: Bool
+    let heartCount: Int
 }
