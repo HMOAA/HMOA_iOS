@@ -193,8 +193,7 @@ extension DetailViewController {
         
         // 백, 홈 네비게이션 타이틀 설정
         reactor.state
-            .map { $0.perfumeName }
-            //.filter { !$0.isEmpty }
+            .map { $0.brandName}
             .bind(onNext: setBackHomeSearchNaviBar)
             .disposed(by: disposeBag)
         
