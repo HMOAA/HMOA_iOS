@@ -13,6 +13,7 @@ import SnapKit
 import ReactorKit
 import RxCocoa
 import RxSwift
+import RxAppState
 
 class HPediaViewController: UIViewController, View {
     
@@ -76,6 +77,10 @@ class HPediaViewController: UIViewController, View {
     func bind(reactor: HPediaReactor) {
         
         // Action
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // dictionary item 터치
         hPediaCollectionView.rx.itemSelected
@@ -87,7 +92,7 @@ class HPediaViewController: UIViewController, View {
         // ComunityItem 터치
         hPediaCollectionView.rx.itemSelected
             .filter { $0.section == 1 }
-            .map { Reactor.Action.didTapCommunityItem($0.item) }
+            .map { Reactor.Action.didTapCommunityItem($0.row) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -104,7 +109,7 @@ class HPediaViewController: UIViewController, View {
                 
                 state.DictionarySectionItems
                     .forEach { snapshot.appendItems([.dictionary($0)], toSection: .dictionary) }
-                state.qnASectionItems
+                state.communityItems
                     .forEach { snapshot.appendItems([.qna($0)], toSection: .qna) }
                 
                 DispatchQueue.main.async {
@@ -121,11 +126,13 @@ class HPediaViewController: UIViewController, View {
             .bind(onNext: presentDictionaryViewController)
             .disposed(by: disposeBag)
         
-        //Community DetailVC로 id Push
-//        reactor.state
-//            .compactMap { $0.selectedCommunityId }
-//            .bind(onNext: presentQnADetailVC)
-//            .disposed(by: disposeBag)
+        // Community DetailVC로 id Push
+        reactor.state
+            .compactMap { $0.selectedCommunityId }
+            .bind(with: self, onNext: { owner, id in
+                owner.presentQnADetailVC(id, nil)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

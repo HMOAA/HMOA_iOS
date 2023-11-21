@@ -16,12 +16,12 @@ class HPediaReactor: Reactor {
     enum Action {
         case didTapDictionaryItem(Int?)
         case didTapCommunityItem(Int?)
+        case viewWillAppear
     }
     
     struct State {
         var DictionarySectionItems: [HPediaDictionaryData] = HPediaDictionaryData.list
-        var qnASectionItems: [CategoryList] = []
-        
+        var communityItems: [CategoryList] = []
         var selectedDictionaryId: Int? = nil
         var selectedCommunityId: Int? = nil
     }
@@ -29,6 +29,7 @@ class HPediaReactor: Reactor {
     enum Mutation {
         case setSelectedDictionaryItemId(Int?)
         case setSelectedCommunityItemId(Int?)
+        case setCommunityItems([CategoryList])
     }
     
     init() {
@@ -37,32 +38,50 @@ class HPediaReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .didTapDictionaryItem(let itemId):
+        case .didTapDictionaryItem(let row):
             return .concat([
-                .just(.setSelectedDictionaryItemId(itemId)),
+                .just(.setSelectedDictionaryItemId(row)),
                 .just(.setSelectedDictionaryItemId(nil))
             ])
-        case .didTapCommunityItem(let itemId):
+        case .didTapCommunityItem(let row):
             return .concat([
-                    .just(.setSelectedCommunityItemId(itemId)),
+                    .just(.setSelectedCommunityItemId(row)),
                     .just(.setSelectedCommunityItemId(nil))
                 ])
+        case .viewWillAppear:
+            return setHpediaCommunityListItem()
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = initialState
         switch mutation {
+            
         case .setSelectedDictionaryItemId(let itemId):
             guard let itemId = itemId else {
                 return state
             }
             state.selectedDictionaryId = state.DictionarySectionItems[itemId].id
-        case .setSelectedCommunityItemId(let itemId):
-            guard let itemId = itemId else { return state }
-            state.selectedCommunityId = 1
+            
+        case .setSelectedCommunityItemId(let row):
+            guard let row = row else { return state }
+            state.selectedCommunityId = currentState.communityItems[row].communityId
+            print(currentState.communityItems[row].communityId)
+        case .setCommunityItems(let item):
+            state.communityItems = item
         }
         
         return state
+    }
+}
+
+extension HPediaReactor {
+    func setHpediaCommunityListItem() -> Observable<Mutation> {
+        return CommunityAPI.fetchHPediaCategoryList()
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .just(.setCommunityItems(data))
+            }
+        
     }
 }
