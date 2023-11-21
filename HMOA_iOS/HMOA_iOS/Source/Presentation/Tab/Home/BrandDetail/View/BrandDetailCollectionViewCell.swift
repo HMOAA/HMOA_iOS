@@ -86,12 +86,12 @@ extension BrandDetailCollectionViewCell {
     
     
     func bindUI(_ data: BrandPerfume) {
-        //TODO: - 좋아요 개수 바인딩
+        
         titleLabel.text = data.brandName
         contentLabel.text = data.perfumeName
         likeButton.isSelected = data.liked
         productImageView.kf.setImage(with: URL(string: data.perfumeImgUrl))
-        
+        likeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(data.heartCount)", size: 12, font: .pretendard_light)
     }
 }
 
