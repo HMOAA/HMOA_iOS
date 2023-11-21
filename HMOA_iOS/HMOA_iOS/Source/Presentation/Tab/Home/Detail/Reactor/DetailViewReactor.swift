@@ -44,7 +44,7 @@ final class DetailViewReactor: Reactor {
         case setPresentBrandId(Int?)
         case setLikeCount(Int?)
         case setSelectedCommentRow(Int)
-        case setPerfumeName(String)
+        case setBrandName(String)
     }
     
     struct State {
@@ -63,7 +63,7 @@ final class DetailViewReactor: Reactor {
         var isTapWhenNotLogin: Bool = false
         var likeCount: Int? = nil
         var selectedCommentRow: Int? = nil
-        var perfumeName: String = ""
+        var brandName: String = ""
     }
     
     init(perfumeId: Int) {
@@ -180,8 +180,8 @@ final class DetailViewReactor: Reactor {
         case .setSelectedCommentRow(let row):
             state.selectedCommentRow = row
             
-        case .setPerfumeName(let name):
-            state.perfumeName = name
+        case .setBrandName(let name):
+            state.brandName = name
         }
         
         return state
@@ -210,7 +210,7 @@ extension DetailViewReactor {
                     .just(.setSections(sections)),
                     .just(.setIsLiked(data.liked)),
                     .just(.setLikeCount(data.heartNum)),
-                    .just(.setPerfumeName(data.koreanName))
+                    .just(.setBrandName(data.brandName))
                 ])
             }
     }
