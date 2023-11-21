@@ -24,10 +24,15 @@ extension UIViewController {
         self.present(alertVC, animated: false)
     }
     
-    func presentQnADetailVC(_ id: Int, _ reactor: QNAListReactor) {
+    func presentQnADetailVC(_ id: Int, _ reactor: QNAListReactor?) {
         let qnaDetailVC = QnADetailViewController()
-        let reactor = reactor.reactorForDetail()
-        qnaDetailVC.reactor = reactor
+        var detailReactor: QnADetailReactor
+        if let listReactor = reactor {
+            detailReactor = listReactor.reactorForDetail()
+        } else {
+            detailReactor = QnADetailReactor(id, nil)
+        }
+        qnaDetailVC.reactor = detailReactor
         qnaDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }

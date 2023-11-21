@@ -139,6 +139,16 @@ final class CommunityAPI {
             data: nil,
             model: Response.self)
     }
+    
+    
+    /// HPedi 홈 화면 불러오기
+    static func fetchHPediaCategoryList() -> Observable<[CategoryList]> {
+        return networking(
+            urlStr: CommunityAddress.fetchHpediaHome.url,
+            method: .get,
+            data: nil,
+            model: [CategoryList].self)
+    }
 }
     
 
