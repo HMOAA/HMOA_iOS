@@ -13,6 +13,7 @@ import RxKakaoSDKCommon
 import RxKakaoSDKAuth
 import KakaoSDKAuth
 import FirebaseCore
+import FirebaseMessaging
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         RxKakaoSDK.initSDK(appKey: Key.KAKAO_NATIVE_APP_KEY)
         FirebaseApp.configure()
+        
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+                  UNUserNotificationCenter.current().requestAuthorization(
+                    options: authOptions,
+                    completionHandler: { _, _ in }
+                  )
+        application.registerForRemoteNotifications()
+        Messaging.messaging().isAutoInitEnabled = true
+        Messaging.messaging().delegate = self
+        
         return true
     }
     
@@ -95,5 +107,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        return false
 //    }
 
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .banner])
+    }
+    
+}
+
+extension AppDelegate: MessagingDelegate {
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("fcmToken: \(fcmToken)")
+    }
+    
 }
 
