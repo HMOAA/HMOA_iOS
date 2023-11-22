@@ -194,7 +194,7 @@ extension QnADetailReactor {
         return CommunityAPI.fetchCommunityDetail(currentState.communityId)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                print(data)
+                print(data.id)
                 return .concat([
                     .just(.setCategory(data.category)),
                     .just(.setPostItem([data])),
@@ -252,13 +252,14 @@ extension QnADetailReactor {
     }
     
     func reactorForPostEdit() -> CommunityWriteReactor {
-        
+
         return CommunityWriteReactor(
             communityId: currentState.communityId,
             content: currentState.content,
             title: currentState.postItem[0].title,
             category: currentState.category,
-            service: service!)
+            photos: currentState.photoItem,
+            service: service)
     }
     
     func reactorForCommentEdit() -> CommentWriteReactor {

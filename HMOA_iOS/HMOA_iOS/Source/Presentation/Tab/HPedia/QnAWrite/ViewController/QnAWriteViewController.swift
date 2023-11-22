@@ -76,24 +76,14 @@ class QnAWriteViewController: UIViewController, View {
         $0.items = [addImageButton]
     }
     
-    var pickerViewConfig: PHPickerConfiguration {
-        var config = PHPickerConfiguration()
-        config.filter = .images
-        config.selectionLimit = 6
-        
-        return config
-    }
-    
-    lazy var pickerVC = PHPickerViewController(configuration: pickerViewConfig).then {
-        $0.delegate = self
-    }
-    
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         
         $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
     lazy var pageControl = UIPageControl().then {
+        $0.pageIndicatorTintColor = .customColor(.gray2)
+        $0.currentPageIndicatorTintColor = .customColor(.gray4)
         $0.isHidden = true
     }
     
@@ -219,6 +209,12 @@ class QnAWriteViewController: UIViewController, View {
     
     func bind(reactor: CommunityWriteReactor) {
         // Action
+        
+        // ViewDidLoad
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     
         // 확인 버튼 클릭
         okButton.rx.tap
@@ -308,8 +304,18 @@ class QnAWriteViewController: UIViewController, View {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self) { owner, _ in
-                owner.view.endEditing(true)
-                owner.present(owner.pickerVC, animated: true)
+                let selectionLimit = 6 - reactor.currentState.photoCount
+                if selectionLimit > 0 {
+                    var config = PHPickerConfiguration()
+                    config.filter = .images
+                    config.selectionLimit = selectionLimit
+                    
+                    let pickerVC = PHPickerViewController(configuration: config)
+                    pickerVC.delegate = self
+                    
+                    owner.view.endEditing(true)
+                    owner.present(pickerVC, animated: true)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -320,11 +326,6 @@ class QnAWriteViewController: UIViewController, View {
             .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, item in
-                owner.pageControl.isHidden = false
-                owner.pageControl.currentPage = 0
-                owner.pageControl.numberOfPages = item.count
-                owner.pageControl.pageIndicatorTintColor = .customColor(.gray2)
-                owner.pageControl.currentPageIndicatorTintColor = .customColor(.gray4)
                 
                 var snapshot = NSDiffableDataSourceSnapshot<PhotoSection, PhotoSectionItem>()
                 
@@ -337,6 +338,15 @@ class QnAWriteViewController: UIViewController, View {
                 }
             }.disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.photoCount }
+            .filter { $0 != 0 }
+            .bind(with: self) { owner, count in
+                owner.pageControl.isHidden = false
+                owner.pageControl.currentPage = 0
+                owner.pageControl.numberOfPages = count
+            }
+            .disposed(by: disposeBag)
         
     }
 }
@@ -345,18 +355,26 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
-        results.forEach { result in
+        var items: [UIImage] = []
+            let dispatchGroup = DispatchGroup()
+
+        for result in results {
             let itemProvider = result.itemProvider
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { item, error in
-                    let image = item as! UIImage
+                dispatchGroup.enter()
+                itemProvider.loadObject(ofClass: UIImage.self) { (item, error) in
                     DispatchQueue.main.async {
-                        self.reactor?.action.onNext(.didSelectedImage(image))
+                        if let image = item as? UIImage {
+                            items.append(image)
+                        }
+                        dispatchGroup.leave()
                     }
                 }
             }
         }
-        DispatchQueue.main.async {
+
+        dispatchGroup.notify(queue: .main) {
+            self.reactor?.action.onNext(.didSelectedImage(items))
             picker.dismiss(animated: true)
         }
     }

@@ -188,6 +188,7 @@ extension QNAListReactor {
             communityId: nil,
             title: nil,
             category: currentState.selectedAddCategory!,
+            photos: [],
             service: service)
     }
     
