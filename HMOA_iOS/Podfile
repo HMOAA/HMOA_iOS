@@ -19,7 +19,10 @@ target 'HMOA_iOS' do
   pod 'RxKakaoSDKCommon'
   pod 'RxKakaoSDKAuth'
   pod 'RxKakaoSDKUser'
-
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseMessaging'
   use_frameworks!
 
   # Pods for HMOA_iOS

@@ -210,7 +210,6 @@
 		CAA5926B2B049197003DAE51 /* ImagePinchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926A2B049197003DAE51 /* ImagePinchViewController.swift */; };
 		CAA5926D2B049605003DAE51 /* ImagePinchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926C2B049605003DAE51 /* ImagePinchReactor.swift */; };
 		CAC0043E2B03631C00EB2CF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAC0043D2B03631B00EB2CF1 /* GoogleService-Info.plist */; };
-		CAC004412B03653300EB2CF1 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CAC004402B03653300EB2CF1 /* FirebaseAnalytics */; };
 		CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */; };
 		CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */; };
 		CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD18E1A29C2FFCF005BC997 /* LikeCardCell.swift */; };
@@ -411,6 +410,7 @@
 		CA39D5672B0B36C500694677 /* MyLogCommentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogCommentHeaderView.swift; sourceTree = "<group>"; };
 		CA39D5692B0B36FF00694677 /* MyLogCommentReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogCommentReactor.swift; sourceTree = "<group>"; };
 		CA39D56B2B0B3A9C00694677 /* MyLogCommentSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogCommentSection.swift; sourceTree = "<group>"; };
+		CA3C76172B0DE06B00365FC2 /* HMOA_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HMOA_iOS.entitlements; sourceTree = "<group>"; };
 		CA4744682AC7EC0E00003584 /* CommunityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityAPI.swift; sourceTree = "<group>"; };
 		CA47446A2AC7EC1400003584 /* CommunityAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityAddress.swift; sourceTree = "<group>"; };
 		CA47446C2AC7ECED00003584 /* CommunityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityModel.swift; sourceTree = "<group>"; };
@@ -482,7 +482,6 @@
 			files = (
 				CA4C68FF2AFCFC2E0039FB0E /* PretendardKit in Frameworks */,
 				AB23E901B87DB21E0AD3EE9E /* Pods_HMOA_iOS.framework in Frameworks */,
-				CAC004412B03653300EB2CF1 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,6 +700,7 @@
 		2C39AA14296DB4DE000C6F71 /* HMOA_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				CA3C76172B0DE06B00365FC2 /* HMOA_iOS.entitlements */,
 				2C39AA78297054CD000C6F71 /* Source */,
 				2C39AA4C297041D4000C6F71 /* Resource */,
 			);
@@ -2006,7 +2006,6 @@
 			name = HMOA_iOS;
 			packageProductDependencies = (
 				CA4C68FE2AFCFC2E0039FB0E /* PretendardKit */,
-				CAC004402B03653300EB2CF1 /* FirebaseAnalytics */,
 			);
 			productName = HMOA_iOS;
 			productReference = 2C39AA12296DB4DE000C6F71 /* HMOA_iOS.app */;
@@ -2086,7 +2085,6 @@
 			packageReferences = (
 				CA4C68FD2AFCFC2E0039FB0E /* XCRemoteSwiftPackageReference "PretendardKit" */,
 				CA5275ED2AFD1CA100BCDCC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
-				CAC0043F2B03638700EB2CF1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 2C39AA13296DB4DE000C6F71 /* Products */;
 			projectDirPath = "";
@@ -2616,6 +2614,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_ENTITLEMENTS = HMOA_iOS/HMOA_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WBG9V97XP4;
@@ -2650,6 +2649,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_ENTITLEMENTS = HMOA_iOS/HMOA_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WBG9V97XP4;
@@ -2810,14 +2810,6 @@
 				minimumVersion = 2.18.2;
 			};
 		};
-		CAC0043F2B03638700EB2CF1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.17.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2825,11 +2817,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CA4C68FD2AFCFC2E0039FB0E /* XCRemoteSwiftPackageReference "PretendardKit" */;
 			productName = PretendardKit;
-		};
-		CAC004402B03653300EB2CF1 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CAC0043F2B03638700EB2CF1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 
