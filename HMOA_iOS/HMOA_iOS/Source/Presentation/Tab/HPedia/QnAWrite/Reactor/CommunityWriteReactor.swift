@@ -9,6 +9,7 @@ import Foundation
 
 import ReactorKit
 import RxSwift
+import Kingfisher
 
 class CommunityWriteReactor: Reactor {
     var initialState: State
@@ -20,7 +21,8 @@ class CommunityWriteReactor: Reactor {
         case didChangeTextViewEditing(String)
         case didBeginEditing
         case didTapPhotoButton
-        case didSelectedImage(UIImage)
+        case didSelectedImage([UIImage])
+        case viewDidLoad
     }
     
     enum Mutation {
@@ -28,7 +30,8 @@ class CommunityWriteReactor: Reactor {
         case setContent(String)
         case setSucces
         case setIsPresentToAlbum(Bool)
-        case setSelectedImages(UIImage)
+        case setSelectedImages([UIImage])
+        //case setPhotoIds([Int])
     }
     
     struct State {
@@ -41,13 +44,21 @@ class CommunityWriteReactor: Reactor {
         var isPresentToAlbum: Bool = false
         var selectedImages: [UIImage] = []
         var isEndWriting: Bool = false
+        var photoIds: [Int] = []
+        var communityPhotos: [CommunityPhoto] = []
+        var photoCount: Int = 0
     }
     
-    init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String, service: CommunityListProtocol?) {
+    init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String, photos: [CommunityPhoto], service: CommunityListProtocol?) {
+        
         initialState = State(id: communityId,
                              content: content,
                              title: title,
-                             category: category)
+                             category: category,
+                             photoIds: photos.map { $0.photoId },
+                             communityPhotos: photos,
+                             photoCount: photos.count
+        )
         self.service = service
     }
     
@@ -82,6 +93,10 @@ class CommunityWriteReactor: Reactor {
         case .didSelectedImage(let image):
             return .just(.setSelectedImages(image))
             
+        case .viewDidLoad:
+            return CommunityWriteReactor.loadPhotos(currentState.communityPhotos)
+                .map { Mutation.setSelectedImages($0) }
+            
         }
     }
     
@@ -103,12 +118,13 @@ class CommunityWriteReactor: Reactor {
             break
             
         case .setIsPresentToAlbum(let isPresent):
-            if isPresent { state.selectedImages = []}
             state.isPresentToAlbum = isPresent
             
         case .setSelectedImages(let image):
-            state.selectedImages.append(image)
-            
+            state.selectedImages.append(contentsOf: image)
+            state.photoCount = state.selectedImages.count
+//        case .setPhotoIds():
+//            <#code#>
         }
         
         return state
@@ -141,7 +157,7 @@ extension CommunityWriteReactor {
     
     func editCommunityPost(_ id: Int) -> Observable<Mutation> {
         guard let title = currentState.title else { return .empty() }
-        return CommunityAPI.putCommunityPost(
+        return CommunityAPI.editCommunityPost(
             id,
             [
                 "content": currentState.content,
@@ -169,5 +185,27 @@ extension CommunityWriteReactor {
         let isTitleEmpty = title.isEmpty
         
         return !(isContentEmpty || isTitleEmpty || isContentInitValue)
+    }
+    
+    static func loadPhotos(_ photos: [CommunityPhoto]) -> Observable<[UIImage]> {
+        let imageLoadObservables = photos.map { photo in
+            Observable<UIImage>.create { observer in
+                guard let url = URL(string: photo.photoUrl) else {
+                    observer.onCompleted()
+                    return Disposables.create()
+                }
+                KingfisherManager.shared.retrieveImage(with: url) { result in
+                    switch result {
+                    case .success(let value):
+                        observer.onNext(value.image)
+                        observer.onCompleted()
+                    case .failure(_):
+                        observer.onCompleted()
+                    }
+                }
+                return Disposables.create()
+            }
+        }
+        return Observable.zip(imageLoadObservables)
     }
 }
