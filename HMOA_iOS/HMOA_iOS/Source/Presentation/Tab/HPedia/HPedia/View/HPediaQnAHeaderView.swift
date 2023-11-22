@@ -49,9 +49,8 @@ class HPediaQnAHeaderView: UICollectionReusableView {
         }
         
         allButton.snp.makeConstraints { make in
-            make.top.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.bottom.equalTo(titleLabel.snp.bottom)
+            make.bottom.equalTo(titleLabel.snp.bottom).offset(8)
         }
     }
 }

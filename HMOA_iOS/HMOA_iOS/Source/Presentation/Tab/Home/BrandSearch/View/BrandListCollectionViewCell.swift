@@ -7,16 +7,21 @@
 
 import UIKit
 
+import Then
+
 class BrandListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - identifier
     static let identifier = "BrandListCollectionViewCell"
     
     // MARK: - UI Component
-    lazy var brandImageView = UIImageView().then {
+    lazy var brandImageBorderView = UIView().then {
         $0.layer.cornerRadius = 3
         $0.layer.borderWidth = 2
         $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
+    }
+    lazy var brandImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
     }
     
     lazy var brandLabel = UILabel().then {
@@ -39,19 +44,25 @@ extension BrandListCollectionViewCell {
     
     // MARK: - Configure
     func configureUI() {
-        
-        [   brandImageView,
+        brandImageBorderView.addSubview(brandImageView)
+        [
+            brandImageBorderView,
             brandLabel
         ]   .forEach { addSubview($0) }
         
-        brandImageView.snp.makeConstraints {
-            $0.top.leading.equalToSuperview()
+        brandImageBorderView.snp.makeConstraints {
+            $0.leading.top.equalToSuperview()
             $0.width.equalTo((UIScreen.main.bounds.width - 56) / 4)
-            $0.height.equalTo(brandImageView.snp.width)
+            $0.height.equalTo(brandImageBorderView.snp.width)
+        }
+        
+        brandImageView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(8)
+            $0.top.bottom.equalToSuperview()
         }
         
         brandLabel.snp.makeConstraints {
-            $0.top.equalTo(brandImageView.snp.bottom).offset(8)
+            $0.top.equalTo(brandImageBorderView.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
         }
     }
