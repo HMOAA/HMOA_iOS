@@ -194,7 +194,6 @@ extension QnADetailReactor {
         return CommunityAPI.fetchCommunityDetail(currentState.communityId)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                print(data.id)
                 return .concat([
                     .just(.setCategory(data.category)),
                     .just(.setPostItem([data])),

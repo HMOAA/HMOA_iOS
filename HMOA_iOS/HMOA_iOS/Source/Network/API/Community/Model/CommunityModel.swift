@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct CommunityDetail: Hashable, Codable {
     let id: Int
@@ -24,6 +25,11 @@ struct CommunityDetail: Hashable, Codable {
 struct CommunityPhoto: Hashable, Codable {
     let photoId: Int
     let photoUrl: String
+}
+
+struct WritePhoto: Hashable, Equatable {
+    let photoId: Int?
+    let image: UIImage
 }
 
 struct CategoryList: Hashable, Codable {
