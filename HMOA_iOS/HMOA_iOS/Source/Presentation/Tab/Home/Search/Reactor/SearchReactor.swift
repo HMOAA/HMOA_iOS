@@ -101,7 +101,7 @@ class SearchReactor: Reactor {
             
         case .scrollCollectionView(let indexPath):
             return self.requestResultPaging((indexPath.item + 1) / 6, currentState.listContent)
-        //TODO: - 향수 이름 list api 개수 바꿔주기
+            
         case .scrollTableView(let indexPath):
             return self.requestListPaging((indexPath.item + 1) / 10, currentState.content)
         }
