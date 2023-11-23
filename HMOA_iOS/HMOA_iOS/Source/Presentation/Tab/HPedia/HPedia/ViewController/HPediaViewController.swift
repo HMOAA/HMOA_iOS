@@ -55,6 +55,16 @@ class HPediaViewController: UIViewController, View {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = .white
@@ -166,6 +176,18 @@ extension HPediaViewController {
         
         datasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             switch indexPath.section {
+            case 0:
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier, for: indexPath) as? HPediaQnAHeaderView else { return UICollectionReusableView() }
+                
+                header.titleLabel.snp.remakeConstraints { make in
+                    make.leading.equalToSuperview()
+                    make.bottom.equalToSuperview()
+                }
+                
+                header.titleLabel.text = "HPedia"
+                header.allButton.isHidden = true
+                
+                return header
             case 1:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier, for: indexPath) as? HPediaQnAHeaderView else { return UICollectionReusableView() }
                 
@@ -193,9 +215,15 @@ extension HPediaViewController {
         
    
         let section = NSCollectionLayoutSection(group: group)
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(80))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0)
+        section.boundarySupplementaryItems = [sectionHeader]
+        
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 8
-        section.contentInsets  = NSDirectionalEdgeInsets(top: 33,
+        section.contentInsets  = NSDirectionalEdgeInsets(top: 27,
                                                          leading: 0,
                                                          bottom: 19,
                                                          trailing: 0)
