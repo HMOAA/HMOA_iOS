@@ -12,6 +12,10 @@ enum HPediaAddress {
     case fetchNoteList
     case fetchPerfumerList
     case fetchBrandList
+    case fetchTermDetail(String)
+    case fetchNoteDetail(String)
+    case fetchPerfumerDetail(String)
+    case fetchBrandDetail(String)
 }
 
 extension HPediaAddress {
@@ -25,6 +29,14 @@ extension HPediaAddress {
             return "perfumer"
         case .fetchBrandList:
             return "brandstory"
+        case .fetchTermDetail(let id):
+            return "term/\(id)"
+        case .fetchNoteDetail(let id):
+            return "note/\(id)"
+        case .fetchPerfumerDetail(let id):
+            return "perfumer/\(id)"
+        case .fetchBrandDetail(let id):
+            return "brand/\(id)"
         }
     }
 }
