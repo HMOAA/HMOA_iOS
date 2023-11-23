@@ -73,9 +73,9 @@ extension UIViewController {
         self.navigationController?.pushViewController(detailDictionaryVC, animated: true)
     }
     
-    func presentDictionaryViewController(_ id: Int) {
+    func presentDictionaryViewController(_ type: HpediaType) {
         let dictionaryVC = DictionaryViewController()
-        let reactor = DictionaryReactor(id: id)
+        let reactor = DictionaryReactor(type: type)
         dictionaryVC.reactor = reactor
         self.navigationController?.pushViewController(dictionaryVC, animated: true)
     }

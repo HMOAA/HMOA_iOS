@@ -22,12 +22,12 @@ class HPediaReactor: Reactor {
     struct State {
         var DictionarySectionItems: [HPediaDictionaryData] = HPediaDictionaryData.list
         var communityItems: [CategoryList] = []
-        var selectedDictionaryId: Int? = nil
+        var selectedHPedia: HpediaType? = nil
         var selectedCommunityId: Int? = nil
     }
     
     enum Mutation {
-        case setSelectedDictionaryItemId(Int?)
+        case setSelectedHPedia(Int?)
         case setSelectedCommunityItemId(Int?)
         case setCommunityItems([CategoryList])
     }
@@ -40,8 +40,8 @@ class HPediaReactor: Reactor {
         switch action {
         case .didTapDictionaryItem(let row):
             return .concat([
-                .just(.setSelectedDictionaryItemId(row)),
-                .just(.setSelectedDictionaryItemId(nil))
+                .just(.setSelectedHPedia(row)),
+                .just(.setSelectedHPedia(nil))
             ])
         case .didTapCommunityItem(let row):
             return .concat([
@@ -57,16 +57,15 @@ class HPediaReactor: Reactor {
         var state = initialState
         switch mutation {
             
-        case .setSelectedDictionaryItemId(let itemId):
+        case .setSelectedHPedia(let itemId):
             guard let itemId = itemId else {
                 return state
             }
-            state.selectedDictionaryId = state.DictionarySectionItems[itemId].id
+            state.selectedHPedia = state.DictionarySectionItems[itemId].type
             
         case .setSelectedCommunityItemId(let row):
             guard let row = row else { return state }
             state.selectedCommunityId = currentState.communityItems[row].communityId
-            print(currentState.communityItems[row].communityId)
         case .setCommunityItems(let item):
             state.communityItems = item
         }
