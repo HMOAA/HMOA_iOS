@@ -53,7 +53,7 @@ class DictionaryReactor: Reactor {
     }
 
     func reduce(state: State, mutation: Mutation) -> State {
-        var state = initialState
+        var state = state
         
         switch mutation {
         case .setSelectedId(let indexPath):
@@ -76,7 +76,6 @@ extension DictionaryReactor {
             return HPediaAPI.fetchTermList()
                 .catch { _ in .empty() }
                 .flatMap { data -> Observable<Mutation> in
-                    print(data.data)
                     let item = data.data.map { $0.toHPediaItem() }
                     return .just(.setItems(item))
                 }

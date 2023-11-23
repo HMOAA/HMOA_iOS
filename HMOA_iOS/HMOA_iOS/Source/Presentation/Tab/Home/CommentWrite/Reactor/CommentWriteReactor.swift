@@ -126,11 +126,19 @@ extension CommentWriteReactor {
                 currentState.commentId!)
             .catch { _ in .empty() }
             .flatMap { comment -> Observable<Mutation> in
-                return .concat([
-                    self.commentService!.editComment(to: comment)
-                        .map { _ in .setIsPopVC(true) },
-                    .just(.setIsPopVC(false))
-                ])
+                
+                if let service = self.commentService {
+                    return .concat([
+                        self.commentService!.editComment(to: comment)
+                            .map { _ in .setIsPopVC(true) },
+                        .just(.setIsPopVC(false))
+                    ])
+                } else {
+                    return .concat([
+                        .just(.setIsPopVC(true)),
+                        .just(.setIsPopVC(false))
+                    ])
+                }
             }
         } else {
             return CommunityAPI.putCommunityComment(

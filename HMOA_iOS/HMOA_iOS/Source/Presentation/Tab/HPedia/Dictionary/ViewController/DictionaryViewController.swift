@@ -102,6 +102,7 @@ class DictionaryViewController: UIViewController, View {
         //선택된 타이틀 DetailDictionaryVC로 push
         reactor.state
             .map { $0.selectedId }
+            .distinctUntilChanged()
             .compactMap { $0 }
             .bind(with: self, onNext: { owner, id in
                 owner.presentDetailDictionaryVC(reactor.currentState.type, id)

@@ -143,7 +143,6 @@ extension DetailViewController {
             .bind(onNext: presentCommentDetailViewController)
             .disposed(by: disposeBag)
         
-        // TODO: - simillar cell 향수 아이디 받아오기
         // 향수 디테일 페이지로 이동
         reactor.state
             .map { $0.presentPerfumeId }
