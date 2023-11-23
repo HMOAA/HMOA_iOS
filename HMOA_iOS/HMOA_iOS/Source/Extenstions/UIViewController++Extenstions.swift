@@ -24,14 +24,21 @@ extension UIViewController {
         self.present(alertVC, animated: false)
     }
     
-    func presentQnADetailVC(_ id: Int, _ reactor: QNAListReactor?) {
+    // list -> detail
+    func presentQnADetailVC(_ id: Int, _ reactor: QNAListReactor) {
         let qnaDetailVC = QnADetailViewController()
-        var detailReactor: QnADetailReactor
-        if let listReactor = reactor {
-            detailReactor = listReactor.reactorForDetail()
-        } else {
-            detailReactor = QnADetailReactor(id, nil)
-        }
+        let detailReactor = reactor.reactorForDetail()
+        
+        qnaDetailVC.reactor = detailReactor
+        qnaDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(qnaDetailVC, animated: true)
+    }
+
+    // hpedia -> detail
+    func presentQnADetailVC(_ id: Int, _ reactor: HPediaReactor) {
+        let qnaDetailVC = QnADetailViewController()
+        let detailReactor = reactor.reactorForDetail()
+        
         qnaDetailVC.reactor = detailReactor
         qnaDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)

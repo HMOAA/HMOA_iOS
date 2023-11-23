@@ -321,12 +321,11 @@ class QnAWriteViewController: UIViewController, View {
         
         // 선택된 이미지 바인딩
         reactor.state
-            .map { $0.selectedImages }
+            .map { $0.images }
             .filter { !$0.isEmpty }
             .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, item in
-                
                 var snapshot = NSDiffableDataSourceSnapshot<PhotoSection, PhotoSectionItem>()
                 
                 snapshot.appendSections([.photo])
@@ -336,8 +335,10 @@ class QnAWriteViewController: UIViewController, View {
                 DispatchQueue.main.async {
                     owner.datasource.apply(snapshot)
                 }
+                
             }.disposed(by: disposeBag)
         
+        // pagecontrol 설정
         reactor.state
             .map { $0.photoCount }
             .filter { $0 != 0 }
@@ -355,7 +356,7 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
-        var items: [UIImage] = []
+        var items: [WritePhoto] = []
             let dispatchGroup = DispatchGroup()
 
         for result in results {
@@ -365,7 +366,7 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
                 itemProvider.loadObject(ofClass: UIImage.self) { (item, error) in
                     DispatchQueue.main.async {
                         if let image = item as? UIImage {
-                            items.append(image)
+                            items.append(WritePhoto(photoId: nil, image: image))
                         }
                         dispatchGroup.leave()
                     }
@@ -404,11 +405,18 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
         datasource = UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>(collectionView: collectionView, cellProvider: {
             collectionView, indexPath, item in
             switch item {
-            case .photoCell(let image, _):
+            case .photoCell(let writePhoto, _):
                 
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
+                
                 cell.isZoomEnabled = false
-                cell.updateCell(image!)
+                cell.updateCell(writePhoto!.image)
+                cell.configureXButton()
+                
+                cell.xButton.rx.tap
+                    .map { Reactor.Action.didTapXButton(indexPath.row) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
                 
                 return cell
             }

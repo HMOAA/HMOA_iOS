@@ -51,7 +51,6 @@ class HPediaViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDatasource()
-        configureSearchNavigationBar(nil, searchBar: searchBar)
         bind(reactor: reactor)
         
     }
@@ -130,7 +129,7 @@ class HPediaViewController: UIViewController, View {
         reactor.state
             .compactMap { $0.selectedCommunityId }
             .bind(with: self, onNext: { owner, id in
-                owner.presentQnADetailVC(id, nil)
+                owner.presentQnADetailVC(id, reactor)
             })
             .disposed(by: disposeBag)
     }

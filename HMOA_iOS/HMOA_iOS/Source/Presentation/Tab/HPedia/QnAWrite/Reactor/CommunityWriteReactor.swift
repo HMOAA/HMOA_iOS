@@ -21,8 +21,9 @@ class CommunityWriteReactor: Reactor {
         case didChangeTextViewEditing(String)
         case didBeginEditing
         case didTapPhotoButton
-        case didSelectedImage([UIImage])
+        case didSelectedImage([WritePhoto])
         case viewDidLoad
+        case didTapXButton(Int)
     }
     
     enum Mutation {
@@ -30,8 +31,9 @@ class CommunityWriteReactor: Reactor {
         case setContent(String)
         case setSucces
         case setIsPresentToAlbum(Bool)
-        case setSelectedImages([UIImage])
-        //case setPhotoIds([Int])
+        case setImages([WritePhoto])
+        case setEditImages([WritePhoto])
+        case setDeletePhotoIds(Int)
     }
     
     struct State {
@@ -42,11 +44,12 @@ class CommunityWriteReactor: Reactor {
         var category: String
         var okButtonEnable: Bool = false
         var isPresentToAlbum: Bool = false
-        var selectedImages: [UIImage] = []
+        var images: [WritePhoto] = []
         var isEndWriting: Bool = false
-        var photoIds: [Int] = []
+        var deletePhotoIds: [Int] = []
         var communityPhotos: [CommunityPhoto] = []
         var photoCount: Int = 0
+        var editImages: [WritePhoto] = []
     }
     
     init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String, photos: [CommunityPhoto], service: CommunityListProtocol?) {
@@ -55,7 +58,6 @@ class CommunityWriteReactor: Reactor {
                              content: content,
                              title: title,
                              category: category,
-                             photoIds: photos.map { $0.photoId },
                              communityPhotos: photos,
                              photoCount: photos.count
         )
@@ -91,12 +93,19 @@ class CommunityWriteReactor: Reactor {
             ])
             
         case .didSelectedImage(let image):
-            return .just(.setSelectedImages(image))
+            return .just(.setImages(image))
             
         case .viewDidLoad:
             return CommunityWriteReactor.loadPhotos(currentState.communityPhotos)
-                .map { Mutation.setSelectedImages($0) }
-            
+                .flatMap { photos -> Observable<Mutation> in
+                        .concat([
+                            .just(.setImages(photos)),
+                            .just(.setEditImages(photos))
+                        ])
+                }
+        
+        case .didTapXButton(let row):
+            return .just(.setDeletePhotoIds(row))
         }
     }
     
@@ -120,11 +129,19 @@ class CommunityWriteReactor: Reactor {
         case .setIsPresentToAlbum(let isPresent):
             state.isPresentToAlbum = isPresent
             
-        case .setSelectedImages(let image):
-            state.selectedImages.append(contentsOf: image)
-            state.photoCount = state.selectedImages.count
-//        case .setPhotoIds():
-//            <#code#>
+        case .setImages(let image):
+            state.images.append(contentsOf: image)
+            state.photoCount = state.images.count
+
+        case .setDeletePhotoIds(let row):
+            if let id = currentState.images[row].photoId {
+                state.deletePhotoIds.append(id)
+            }
+            state.images.remove(at: row)
+            state.photoCount -= 1
+            
+        case .setEditImages(let editImages):
+            state.editImages = editImages
         }
         
         return state
@@ -146,7 +163,8 @@ extension CommunityWriteReactor {
             "content": state.content,
             "title": title
         ]
-        return CommunityAPI.postCommunityPost(params, images: state.selectedImages)
+        let images = state.images.map { $0.image }
+        return CommunityAPI.postCommunityPost(params, images: images)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 return .concat([
@@ -157,12 +175,22 @@ extension CommunityWriteReactor {
     
     func editCommunityPost(_ id: Int) -> Observable<Mutation> {
         guard let title = currentState.title else { return .empty() }
+        
+        var addImages: [UIImage] = []
+        for item in currentState.images {
+            if !currentState.editImages.contains(where: { $0 == item }) {
+                addImages.append(item.image)
+            }
+        }
+        let params: [String: Any] = [
+            "deleteCommunityPhotoIds": currentState.deletePhotoIds,
+            "content": currentState.content,
+            "title": title
+        ]
         return CommunityAPI.editCommunityPost(
             id,
-            [
-                "content": currentState.content,
-                "title": title
-            ]
+            params,
+            addImages
         )
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
@@ -187,9 +215,9 @@ extension CommunityWriteReactor {
         return !(isContentEmpty || isTitleEmpty || isContentInitValue)
     }
     
-    static func loadPhotos(_ photos: [CommunityPhoto]) -> Observable<[UIImage]> {
+    static func loadPhotos(_ photos: [CommunityPhoto]) -> Observable<[WritePhoto]> {
         let imageLoadObservables = photos.map { photo in
-            Observable<UIImage>.create { observer in
+            Observable<WritePhoto>.create { observer in
                 guard let url = URL(string: photo.photoUrl) else {
                     observer.onCompleted()
                     return Disposables.create()
@@ -197,7 +225,7 @@ extension CommunityWriteReactor {
                 KingfisherManager.shared.retrieveImage(with: url) { result in
                     switch result {
                     case .success(let value):
-                        observer.onNext(value.image)
+                        observer.onNext(WritePhoto(photoId: photo.photoId, image: value.image))
                         observer.onCompleted()
                     case .failure(_):
                         observer.onCompleted()

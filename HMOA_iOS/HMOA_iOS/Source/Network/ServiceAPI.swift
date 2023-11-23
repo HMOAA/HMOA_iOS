@@ -74,7 +74,7 @@ public func uploadNetworking<T: Decodable>(
     method: HTTPMethod,
     imageData: [Data]?,
     imageFileName: String?,
-    parameter: [String: String]?,
+    parameter: [String: Any]?,
     model: T.Type) -> Observable<T> {
         
         return Observable.create { observer in
@@ -87,8 +87,19 @@ public func uploadNetworking<T: Decodable>(
                 // text parmater가 있을 경우 추가
                 if let parameter = parameter {
                     for (key, value) in parameter {
-                        if let data = value.data(using: .utf8) {
-                            multipartFormData.append(data, withName: key)
+                        if let intArray = value as? [Int] {
+                            // [Int] 배열 처리
+                            for intItem in intArray {
+                                if let data = "\(intItem)".data(using: .utf8) {
+                                    multipartFormData.append(data, withName: key + "[]")
+                                }
+                            }
+                        } else {
+                            // text 타입 처리
+                            let valueStr = String(describing: value)
+                            if let data = valueStr.data(using: .utf8) {
+                                multipartFormData.append(data, withName: key)
+                            }
                         }
                     }
                 }
