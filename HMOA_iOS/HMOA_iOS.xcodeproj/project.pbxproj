@@ -187,7 +187,7 @@
 		CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640112AA864630053076B /* DictionaryViewController.swift */; };
 		CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640132AA864750053076B /* DictionaryReactor.swift */; };
 		CA7640162AA8674B0053076B /* DictionaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640152AA8674B0053076B /* DictionaryCell.swift */; };
-		CA76401A2AA86C5E0053076B /* DictionaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640192AA86C5E0053076B /* DictionaryData.swift */; };
+		CA76401A2AA86C5E0053076B /* HpediaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640192AA86C5E0053076B /* HpediaData.swift */; };
 		CA799ED52A249EF3002087BA /* LoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA799ED42A249EF3002087BA /* LoginType.swift */; };
 		CA7C9C042AA8834100072AB9 /* DetailDictionaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */; };
 		CA7C9C0B2AAADF8500072AB9 /* QnAListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C9C0A2AAADF8500072AB9 /* QnAListViewController.swift */; };
@@ -225,6 +225,9 @@
 		CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */; };
 		CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */; };
 		CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */; };
+		CAFE2F1E2B0F414700054E22 /* HpediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F1D2B0F414700054E22 /* HpediaType.swift */; };
+		CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F202B0F42FD00054E22 /* HPediaAPI.swift */; };
+		CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F222B0F431000054E22 /* HPediaAddress.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -434,7 +437,7 @@
 		CA7640112AA864630053076B /* DictionaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewController.swift; sourceTree = "<group>"; };
 		CA7640132AA864750053076B /* DictionaryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryReactor.swift; sourceTree = "<group>"; };
 		CA7640152AA8674B0053076B /* DictionaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryCell.swift; sourceTree = "<group>"; };
-		CA7640192AA86C5E0053076B /* DictionaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryData.swift; sourceTree = "<group>"; };
+		CA7640192AA86C5E0053076B /* HpediaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpediaData.swift; sourceTree = "<group>"; };
 		CA799ED42A249EF3002087BA /* LoginType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
 		CA7C9C032AA8834100072AB9 /* DetailDictionaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDictionaryViewController.swift; sourceTree = "<group>"; };
 		CA7C9C0A2AAADF8500072AB9 /* QnAListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAListViewController.swift; sourceTree = "<group>"; };
@@ -472,6 +475,9 @@
 		CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearViewController.swift; sourceTree = "<group>"; };
 		CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginReactor.swift; sourceTree = "<group>"; };
+		CAFE2F1D2B0F414700054E22 /* HpediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpediaType.swift; sourceTree = "<group>"; };
+		CAFE2F202B0F42FD00054E22 /* HPediaAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaAPI.swift; sourceTree = "<group>"; };
+		CAFE2F222B0F431000054E22 /* HPediaAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaAddress.swift; sourceTree = "<group>"; };
 		CE0FD9ADF549034177344999 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1186,6 +1192,7 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				CAFE2F1F2B0F429A00054E22 /* HPedia */,
 				CA4744662AC7EBF800003584 /* Community */,
 				CAA116052AC16A220063806C /* Brand */,
 				CA219C4B2AA2FDC3003FB215 /* Comment */,
@@ -1722,7 +1729,6 @@
 		CA76400C2AA8643A0053076B /* Dictionary */ = {
 			isa = PBXGroup;
 			children = (
-				CA7640102AA864520053076B /* Model */,
 				CA76400F2AA8644C0053076B /* Reactor */,
 				CA76400E2AA864480053076B /* View */,
 				CA76400D2AA864410053076B /* ViewController */,
@@ -1757,7 +1763,8 @@
 		CA7640102AA864520053076B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CA7640192AA86C5E0053076B /* DictionaryData.swift */,
+				CA7640192AA86C5E0053076B /* HpediaData.swift */,
+				CAFE2F1D2B0F414700054E22 /* HpediaType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1984,6 +1991,16 @@
 				CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */,
 			);
 			path = Reactor;
+			sourceTree = "<group>";
+		};
+		CAFE2F1F2B0F429A00054E22 /* HPedia */ = {
+			isa = PBXGroup;
+			children = (
+				CA7640102AA864520053076B /* Model */,
+				CAFE2F202B0F42FD00054E22 /* HPediaAPI.swift */,
+				CAFE2F222B0F431000054E22 /* HPediaAddress.swift */,
+			);
+			path = HPedia;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2256,6 +2273,7 @@
 				CA4744692AC7EC0E00003584 /* CommunityAPI.swift in Sources */,
 				CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
+				CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */,
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
 				2C464E6529CDDD1500A07658 /* VersionViewController.swift in Sources */,
@@ -2273,6 +2291,7 @@
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
+				CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */,
 				2C8318CC2A0FC6FD004A3ACD /* HomeData.swift in Sources */,
 				CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */,
 				2C4CDC4129C770D900676163 /* BrandDetailCollectionViewCell.swift in Sources */,
@@ -2386,7 +2405,7 @@
 				CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */,
 				CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */,
 				2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */,
-				CA76401A2AA86C5E0053076B /* DictionaryData.swift in Sources */,
+				CA76401A2AA86C5E0053076B /* HpediaData.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
 				2CD023552A07B5A500459801 /* ChangeNicknameViewController.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
@@ -2410,6 +2429,7 @@
 				CA0DB39129DBD67B0091DCB2 /* HPediaDictionaryCell.swift in Sources */,
 				CA6CA1122AFF780300535B0D /* QnAPostPhotoCell.swift in Sources */,
 				CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */,
+				CAFE2F1E2B0F414700054E22 /* HpediaType.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */,
 				2CA155B02A039AD100D7B0C0 /* MemberAddress.swift in Sources */,

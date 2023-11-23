@@ -52,8 +52,8 @@ class DictionaryCell: UITableViewCell {
 }
 
 extension DictionaryCell {
-    func updateCell(_ data: DictionaryData) {
-        englishLabel.text = data.englishName
-        koreanLabel.text = data.koreanName
+    func updateCell(_ data: HPediaItem) {
+        englishLabel.text = data.subTitle
+        koreanLabel.text = data.title
     }
 }

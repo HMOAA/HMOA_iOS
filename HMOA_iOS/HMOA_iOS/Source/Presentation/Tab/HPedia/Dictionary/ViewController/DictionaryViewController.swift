@@ -65,6 +65,12 @@ class DictionaryViewController: UIViewController, View {
         
         // Action
         
+        // ViewDidLoad
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //tableView cell 터치
         tableView.rx.itemSelected
             .map { Reactor.Action.didTapItem($0) }
@@ -89,16 +95,16 @@ class DictionaryViewController: UIViewController, View {
         reactor.state
             .map { $0.title }
             .bind(with: self, onNext: { owner, title in
-                owner.setNavigationBarTitle(title: title, color: .black, isHidden: false, isScroll: false)
+                owner.setNavigationBarTitle(title: title, color: .white, isHidden: false, isScroll: false)
             })
             .disposed(by: disposeBag)
         
         //선택된 타이틀 DetailDictionaryVC로 push
-        reactor.state
-            .filter { $0.selectedTitle != nil }
-            .compactMap { ($0.selectedTitle!, $0.title) }
-            .bind(onNext: presentDetailDictionaryVC)
-            .disposed(by: disposeBag)
+//        reactor.state
+//            .filter { $0.selectedTitle != nil }
+//            .compactMap { ($0.selectedTitle!, $0.title) }
+//            .bind(onNext: presentDetailDictionaryVC)
+//            .disposed(by: disposeBag)
     }
 }
 

@@ -129,10 +129,12 @@ class HPediaViewController: UIViewController, View {
         
         //DictionaryVC로 선택된 Id push
         reactor.state
-            .map { $0.selectedDictionaryId }
+            .map { $0.selectedHPedia }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentDictionaryViewController)
+            .bind(with: self) { owner, type in
+                owner.presentDictionaryViewController(type)
+            }
             .disposed(by: disposeBag)
         
         // Community DetailVC로 id Push

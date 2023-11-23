@@ -15,31 +15,39 @@ class DictionaryReactor: Reactor {
     
     enum Action {
         case didTapItem(IndexPath)
+        case viewDidLoad
     }
     
     enum Mutation {
         case setSelectedId(IndexPath?)
+        case setItems([HPediaItem])
     }
     
     struct State {
-        var id: Int
+        var type: HpediaType
         var title: String
-        var items: [DictionaryData] = DictionaryData.data
-        var selectedTitle: String? = nil
+        var items: [HPediaItem] = []
     }
     
-    init(id: Int) {
-        initialState = State(id: id,
-                             title: HPediaDictionaryData.list[id - 1].title)
+    init(type: HpediaType) {
+        initialState = State(
+            type: type,
+            title: type.title
+        )
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+            
+        case .viewDidLoad:
+            return setDictionaryItems()
+            
         case .didTapItem(let indexPath):
             return .concat([
                 .just(.setSelectedId(indexPath)),
                 .just(.setSelectedId(nil))
             ])
+            
         }
     }
 
@@ -51,8 +59,47 @@ class DictionaryReactor: Reactor {
             guard let indexPath = indexPath else {
                 return state
             }
-            state.selectedTitle = DictionaryData.data[indexPath.item].koreanName
+            //state.selectedTitle = DictionaryData.data[indexPath.item].koreanName
+        case .setItems(let items):
+            state.items = items
         }
         return state
+    }
+}
+
+extension DictionaryReactor {
+    //TODO: - Paging
+    func setDictionaryItems() -> Observable<Mutation> {
+        switch currentState.type {
+        case .term:
+            return HPediaAPI.fetchTermList()
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    print(data.data)
+                    let item = data.data.map { $0.toHPediaItem() }
+                    return .just(.setItems(item))
+                }
+        case .note:
+            return HPediaAPI.fetchNoteList()
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    let item = data.data.map { $0.toHPediaItem() }
+                    return .just(.setItems(item))
+                }
+        case .perfumer:
+            return HPediaAPI.fetchPerfumerList()
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    let item = data.data.map { $0.toHPediaItem() }
+                    return .just(.setItems(item))
+                }
+        case .brand:
+            return HPediaAPI.fetchBrandList()
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    let item = data.data.map { $0.toHPediaItem() }
+                    return .just(.setItems(item))
+                }
+        }
     }
 }
