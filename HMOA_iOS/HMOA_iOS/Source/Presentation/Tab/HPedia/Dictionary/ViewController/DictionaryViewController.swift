@@ -100,11 +100,13 @@ class DictionaryViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         //선택된 타이틀 DetailDictionaryVC로 push
-//        reactor.state
-//            .filter { $0.selectedTitle != nil }
-//            .compactMap { ($0.selectedTitle!, $0.title) }
-//            .bind(onNext: presentDetailDictionaryVC)
-//            .disposed(by: disposeBag)
+        reactor.state
+            .map { $0.selectedId }
+            .compactMap { $0 }
+            .bind(with: self, onNext: { owner, id in
+                owner.presentDetailDictionaryVC(reactor.currentState.type, id)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

@@ -66,9 +66,9 @@ extension UIViewController {
         self.navigationController?.pushViewController(qnaListVC, animated: true)
     }
     
-    func presentDetailDictionaryVC(_ value: (String, String)) {
+    func presentDetailDictionaryVC(_ type: HpediaType, _ id: Int) {
         let detailDictionaryVC = DetailDictionaryViewController()
-        let reactor = DetailDictionaryReactor(value.1)
+        let reactor = DetailDictionaryReactor(type, id)
         detailDictionaryVC.reactor = reactor
         self.navigationController?.pushViewController(detailDictionaryVC, animated: true)
     }

@@ -27,6 +27,7 @@ class DictionaryReactor: Reactor {
         var type: HpediaType
         var title: String
         var items: [HPediaItem] = []
+        var selectedId: Int? = nil
     }
     
     init(type: HpediaType) {
@@ -59,7 +60,7 @@ class DictionaryReactor: Reactor {
             guard let indexPath = indexPath else {
                 return state
             }
-            //state.selectedTitle = DictionaryData.data[indexPath.item].koreanName
+            state.selectedId = currentState.items[indexPath.row].id
         case .setItems(let items):
             state.items = items
         }

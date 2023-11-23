@@ -47,4 +47,40 @@ final class HPediaAPI {
             data: nil,
             model: HpediaBrandResponse.self)
     }
+    
+    /// HPedia 용어 정보 받아오기
+    static func fetchTermDetail(_ id: Int) -> Observable<HpediaTermResponse> {
+        return networking(
+            urlStr: HPediaAddress.fetchTermDetail("\(id)").url,
+            method: .get,
+            data: nil,
+            model: HpediaTermResponse.self)
+    }
+    
+    /// HPedia 노트 정보 받아오기
+    static func fetchNoteDetail(_ id: Int) -> Observable<HpediaNoteResponse> {
+        return networking(
+            urlStr: HPediaAddress.fetchNoteDetail("\(id)").url,
+            method: .get,
+            data: nil,
+            model: HpediaNoteResponse.self)
+    }
+    
+    /// HPedia 조향사 정보 받아오기
+    static func fetchPerfumerDetail(_ id: Int) -> Observable<HpediaPerfumerResponse> {
+        return networking(
+            urlStr: HPediaAddress.fetchPerfumerDetail("\(id)").url,
+            method: .get,
+            data: nil,
+            model: HpediaPerfumerResponse.self)
+    }
+    
+    /// HPedia 브랜드 정보 받아오기
+    static func fetchBrandDetail(_ id: Int) -> Observable<HpediaBrandResponse> {
+        return networking(
+            urlStr: HPediaAddress.fetchBrandDetail("\(id)").url,
+            method: .get,
+            data: nil,
+            model: HpediaBrandResponse.self)
+    }
 }
