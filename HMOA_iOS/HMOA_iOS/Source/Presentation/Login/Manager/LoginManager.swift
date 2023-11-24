@@ -15,12 +15,23 @@ final class LoginManager {
     var disposeBag = DisposeBag()
     
     let tokenSubject: BehaviorSubject<Token?> = BehaviorSubject<Token?>(value: nil)
+    let loginStateSubject: BehaviorSubject<LoginState> = BehaviorSubject(value: .first)
     
     var isLogin: Observable<Bool> {
         return tokenSubject
             .flatMap{ token -> Observable<Bool> in
                 guard token != nil else { return .just(false) }
                 return .just(true)
+            }
+    }
+    
+    var isInApp: Observable<Bool> {
+        return loginStateSubject
+            .map { state -> Bool in
+                switch state {
+                case .first: return false
+                case .inApp: return true
+                }
             }
     }
     

@@ -68,10 +68,11 @@ class QnADetailReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewDidLoad(let isLogin):
             return .concat([
                 setUpPostSection(),
-                setUpCommentSection()
+                setUpCommentSection(),
+                .just(.setIsLogin(isLogin))
             ])
             
         case .didBeginEditing:

@@ -1719,13 +1719,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		CA5DB81729EAA6DC00BE0F79 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		CA76400C2AA8643A0053076B /* Dictionary */ = {
 			isa = PBXGroup;
 			children = (
@@ -1767,14 +1760,6 @@
 				CAFE2F1D2B0F414700054E22 /* HpediaType.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		CA799ED32A249EF3002087BA /* Button */ = {
-			isa = PBXGroup;
-			children = (
-				CA799ED42A249EF3002087BA /* LoginType.swift */,
-			);
-			path = Button;
 			sourceTree = "<group>";
 		};
 		CA7C9BFE2AA8830500072AB9 /* DetailDictionary */ = {
@@ -1861,12 +1846,19 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CA83149F2B10A2CF00ADE0FA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA799ED42A249EF3002087BA /* LoginType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				CA799ED32A249EF3002087BA /* Button */,
+				CA83149F2B10A2CF00ADE0FA /* Model */,
 				CA03C23C29EBED5F00FA0D2C /* Manager */,
-				CA5DB81729EAA6DC00BE0F79 /* Model */,
 				CACA20E229E38BC6009995F3 /* Key */,
 				CAFB9F3E29B5C6710009654C /* Reactor */,
 				CA1067D229D6C534009A7245 /* UserInformation */,

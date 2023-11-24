@@ -90,7 +90,7 @@ extension SceneDelegate {
             
         } else {
             let vc = LoginViewController()
-            vc.reactor = LoginReactor()
+            vc.reactor = LoginReactor(.first)
             window?.rootViewController = vc
         }
     }

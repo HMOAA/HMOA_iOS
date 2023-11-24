@@ -13,7 +13,14 @@ enum LoginType {
     case google
     case apple
     case kakao
-    
+}
+
+enum LoginState {
+    case first
+    case inApp
+}
+
+extension LoginType {
     var title: String {
         switch self {
         case .google:
@@ -80,6 +87,5 @@ enum LoginType {
             return 93
         }
     }
-    
 }
  

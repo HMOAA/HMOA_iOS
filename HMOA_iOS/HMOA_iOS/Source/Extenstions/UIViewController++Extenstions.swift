@@ -11,6 +11,27 @@ import Then
 
 extension UIViewController {
     
+    func presentLoginStartVC() {
+        let vc = LoginStartViewController()
+        let nvController = UINavigationController(rootViewController: vc)
+        nvController.modalPresentationStyle = .fullScreen
+        self.view.window?.rootViewController = nvController
+        self.present(nvController, animated: true)
+        self.view.window?.rootViewController?.dismiss(animated: false)
+    }
+    
+    func presentTabBar(_ state: LoginState) {
+        switch state {
+        case .first:
+            let tabBar = AppTabbarController()
+            tabBar.modalPresentationStyle = .fullScreen
+            self.present(tabBar, animated: true)
+        case .inApp:
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+        }
+    }
+        
+        
     func presentImagePinchVC(_ indexPath: IndexPath, images: [CommunityPhoto]) {
         let vc = ImagePinchViewController()
         vc.modalPresentationStyle = .fullScreen
