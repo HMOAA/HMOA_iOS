@@ -20,6 +20,7 @@ class LoginReactor: Reactor {
         case didTapAppleLoginButton
         case didTapKakaoLoginButton
         case didTapNoLoginButton
+        case didTapXButton
     }
     
     //상태 변화
@@ -28,6 +29,7 @@ class LoginReactor: Reactor {
         case setPushStartVC(Bool)
         case setSignInGoogle(Bool)
         case setKakaoToken(Token?)
+        case setIsDismiss(Bool)
     }
     
     //현재 뷰 상태
@@ -36,10 +38,12 @@ class LoginReactor: Reactor {
         var isPushStartVC: Bool = false
         var isPresentTabBar: Bool = false
         var kakaoToken: Token? = nil
+        var loginState: LoginState
+        var isDismiss: Bool = false
     }
     
-    init() {
-        initialState = State()
+    init(_ loginState: LoginState) {
+        initialState = State(loginState: loginState)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -61,6 +65,12 @@ class LoginReactor: Reactor {
                       ])
         case .didTapKakaoLoginButton:
             return setKakaoToken()
+            
+        case .didTapXButton:
+            return .concat([
+                .just(.setIsDismiss(true)),
+                .just(.setIsDismiss(false))
+            ])
         }
         
     }
@@ -77,6 +87,8 @@ class LoginReactor: Reactor {
             state.isPushStartVC = isPush
         case .setKakaoToken(let token):
             state.kakaoToken = token
+        case .setIsDismiss(let isDismiss):
+            state.isDismiss = isDismiss
         }
         
         return state

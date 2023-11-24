@@ -65,8 +65,11 @@ class QNAListReactor: Reactor {
         case .viewWillAppear:
             return .just(.setIsTapFloatingButton(false))
             
-        case .viewDidLoad:
-            return setCommunityListItem("추천", 0)
+        case .viewDidLoad(let isLogin):
+            return .concat([
+                setCommunityListItem("추천", 0),
+                .just(.setIsLogin(isLogin))
+            ])
             
         case .didTapFloatingButton:
             if currentState.isLogin {
