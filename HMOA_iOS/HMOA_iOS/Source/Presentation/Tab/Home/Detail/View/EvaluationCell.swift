@@ -485,6 +485,7 @@ class EvaluationCell: UICollectionViewCell, View {
                 owner.ageResetButton.isHidden = true
             }
             .disposed(by: disposeBag)
+        
     }
 }
 

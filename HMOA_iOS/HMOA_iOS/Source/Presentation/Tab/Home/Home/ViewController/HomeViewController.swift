@@ -274,8 +274,6 @@ extension HomeViewController {
             make.centerY.centerX.equalToSuperview()
             make.width.height.equalTo(110)
         }
-        
-        indicatorImageView.startAnimating()
     }
 }
 
