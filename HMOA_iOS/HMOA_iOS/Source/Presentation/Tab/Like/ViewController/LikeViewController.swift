@@ -24,7 +24,6 @@ class LikeViewController: UIViewController, View {
     
     lazy var cardCollectionView = UICollectionView(frame: .zero,
                                                    collectionViewLayout: configureCardLayout()).then {
-
         $0.isScrollEnabled = false
         $0.showsHorizontalScrollIndicator = false
         $0.register(LikeCardCell.self,
@@ -170,8 +169,8 @@ class LikeViewController: UIViewController, View {
                 listSnapshot.appendItems(item, toSection: .main)
                 
                 DispatchQueue.main.async {
-                    self.cardDatasource.apply(cardSnapshot, animatingDifferences: true)
-                    self.listDatasource.apply(listSnapshot, animatingDifferences: true)
+                    owner.cardDatasource.apply(cardSnapshot, animatingDifferences: true)
+                    owner.listDatasource.apply(listSnapshot, animatingDifferences: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -189,8 +188,14 @@ class LikeViewController: UIViewController, View {
             .map { $0.isHiddenNoLikeView }
             .distinctUntilChanged()
             .bind(with: self, onNext: { owner, isHidden in
-                owner.noLikeView.isHidden = isHidden
-                owner.cardCollectionView.isHidden = !isHidden
+                
+                if let isHidden = isHidden {
+                    owner.noLikeView.isHidden = isHidden
+                    owner.cardCollectionView.isHidden = !isHidden
+                } else {
+                    owner.noLikeView.isHidden = true
+                    owner.cardCollectionView.isHidden = true
+                }
             })
             .disposed(by: disposeBag)
         

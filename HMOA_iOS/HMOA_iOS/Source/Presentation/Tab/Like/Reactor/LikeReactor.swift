@@ -31,7 +31,7 @@ class LikeReactor: Reactor {
         case setShowListCollectionView(Bool)
         case setSelectedPerfumeId(IndexPath?)
         case setSectionItem([Like])
-        case setIsHideenNoLikeView(Bool)
+        case setIsHideenNoLikeView(Bool?)
         case setIsDeletedLast(Bool)
         case setCurrentRow(Int)
     }
@@ -42,7 +42,7 @@ class LikeReactor: Reactor {
         var isSelectedList: Bool = false
         var selectedCardIndexPath: IndexPath? = nil
         var selectedPerfumeId: Int? = nil
-        var isHiddenNoLikeView: Bool = true
+        var isHiddenNoLikeView: Bool? = nil
         var isDeletedLast: Bool = false
         var currentRow: Int = 0
     }
@@ -66,7 +66,10 @@ class LikeReactor: Reactor {
             ])
             
         case .viewWillAppear:
-            return fetchLikePerfumes()
+            return .concat([
+                .just(.setIsHideenNoLikeView(nil)),
+                fetchLikePerfumes()
+            ])
             
         case .didTapXButton:
             return deleteLikePerfume()
