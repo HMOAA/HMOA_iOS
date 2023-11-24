@@ -114,7 +114,7 @@ extension HomeViewController {
             //.delay(.seconds(4), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
-                owner.indicatorImageView.stopAnimating()
+                
                 var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
                 snapshot.appendSections(sections)
                         
