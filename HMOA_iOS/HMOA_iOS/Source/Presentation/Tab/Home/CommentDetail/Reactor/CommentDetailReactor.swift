@@ -15,17 +15,22 @@ class CommentDetailReactor: Reactor {
     
     enum Action {
         case didTapLikeButton
+        case viewDidLoad(Bool)
     }
     
     enum Mutation {
         case setCommentLike(Bool)
         case setCommentContent(String)
+        case setIsLogin(Bool)
+        case setIsTapWhenNotLogin(Bool)
     }
     
     struct State {
         var comment: Comment
         var isLiked: Bool = false
         var content: String
+        var isLogin: Bool = false
+        var isTapWhenNotLogin: Bool = false
     }
     
     init(_ comment: Comment) {
@@ -35,7 +40,17 @@ class CommentDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapLikeButton:
-            return setCommentLike()
+            if currentState.isLogin {
+                return setCommentLike()
+            } else {
+                return .concat([
+                    .just(.setIsTapWhenNotLogin(true)),
+                    .just(.setIsTapWhenNotLogin(false))
+                ])
+            }
+            
+        case .viewDidLoad(let isLogin):
+            return .just(.setIsLogin(isLogin))
         }
     }
     
@@ -50,6 +65,12 @@ class CommentDetailReactor: Reactor {
             
         case .setCommentContent(let comment):
             state.content = comment
+            
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
+            
+        case .setIsTapWhenNotLogin(let isTap):
+            state.isTapWhenNotLogin = isTap
         }
         
         return state

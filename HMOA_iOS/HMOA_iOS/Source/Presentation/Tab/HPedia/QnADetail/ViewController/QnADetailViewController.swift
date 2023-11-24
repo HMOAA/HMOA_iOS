@@ -148,7 +148,9 @@ class QnADetailViewController: UIViewController, View {
     func bind(reactor: QnADetailReactor) {
         
         // Action
-        
+        commentTextView.rx
+            .setDelegate(self)
+            .disposed(by: disposeBag)
         // 빈 화면 터치 시 키보드 내리기
         collectionView.rx
             .itemSelected
@@ -177,8 +179,8 @@ class QnADetailViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         // viewDidLoad
-        Observable.just(())
-            .map { Reactor.Action.viewDidLoad }
+        LoginManager.shared.isLogin
+            .map { Reactor.Action.viewDidLoad($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -295,7 +297,18 @@ class QnADetailViewController: UIViewController, View {
     }
 }
 
-extension QnADetailViewController {
+extension QnADetailViewController: UITextViewDelegate {
+
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        let isLogin = reactor!.currentState.isLogin
+        if !isLogin {
+            presentAlertVC(
+                title: "로그인 후 이용가능한 서비스입니다",
+                content: "입력하신 내용을 다시 확인해주세요",
+                buttonTitle: "로그인 하러가기 ")
+        }
+        return reactor!.currentState.isLogin
+    }
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in

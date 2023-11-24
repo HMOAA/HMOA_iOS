@@ -15,7 +15,7 @@ class QNAListReactor: Reactor {
     
     enum Action {
         case viewWillAppear
-        case viewDidLoad
+        case viewDidLoad(Bool)
         case didTapFloatingButton
         case didTapRecommendButton
         case didTapReviewButton
@@ -38,6 +38,8 @@ class QNAListReactor: Reactor {
         case editCommunityList(CategoryList)
         case addCommunityList(CategoryList)
         case deleteCommunityList(CategoryList)
+        case setIsLogin(Bool)
+        case setIsTapWhenNotLogin(Bool)
     }
     
     
@@ -49,6 +51,8 @@ class QNAListReactor: Reactor {
         var loadedPage: Set<Int> = []
         var selectedCategory: String = "추천"
         var items: [CategoryList] = []
+        var isLogin: Bool = false
+        var isTapWhenNotLogin: Bool = false
     }
     
     init(service: CommunityListService) {
@@ -65,7 +69,14 @@ class QNAListReactor: Reactor {
             return setCommunityListItem("추천", 0)
             
         case .didTapFloatingButton:
-            return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
+            if currentState.isLogin {
+                return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
+            } else {
+                return .concat([
+                    .just(.setIsTapWhenNotLogin(true)),
+                    .just(.setIsTapWhenNotLogin(false))
+                ])
+            }
             
         case .didTapRecommendButton:
             return .concat([
@@ -130,6 +141,10 @@ class QNAListReactor: Reactor {
             state.items.append(community)
         case .deleteCommunityList(let community):
             state.items.removeAll { $0.communityId == community.communityId }
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
+        case .setIsTapWhenNotLogin(let isTap):
+            state.isTapWhenNotLogin = isTap
         }
         return state
     }

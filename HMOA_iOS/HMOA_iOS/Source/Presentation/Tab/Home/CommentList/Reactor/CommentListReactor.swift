@@ -13,7 +13,7 @@ class CommentListReactor: Reactor {
     let service: DetailCommentService
     
     enum Action {
-        case viewDidLoad
+        case viewDidLoad(Bool)
         case willDisplayCell(Int)
         case didTapCell(IndexPath)
         case didTapWriteButton
@@ -33,6 +33,8 @@ class CommentListReactor: Reactor {
         case setSelectedRow(Int?)
         case addComment(Comment)
         case editComment(Comment)
+        case setIsLogin(Bool)
+        case setIsTapWhenNotLogin(Bool)
     }
     
     struct State {
@@ -45,6 +47,8 @@ class CommentListReactor: Reactor {
         var navigationTitle: String = "댓글"
         var loadedPage: Set<Int> = []
         var selectedRow: Int? = nil
+        var isLogin: Bool = false
+        var isTapWhenNotLogin: Bool = false
     }
     
     var initialState: State
@@ -59,8 +63,11 @@ class CommentListReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
-            return setCommentsList(type: currentState.sortType, page: 0)
+        case .viewDidLoad(let isLogin):
+            return .concat([
+                .just(.setIsLogin(isLogin)),
+                setCommentsList(type: currentState.sortType, page: 0)
+                ])
             
         case .willDisplayCell(let page):
             return setCommentsList(type: currentState.sortType, page: page)
@@ -73,10 +80,17 @@ class CommentListReactor: Reactor {
             ])
             
         case .didTapWriteButton:
-            return .concat([
-                .just(.setIsPresentCommentWrite(currentState.perfumeId)),
-                .just(.setIsPresentCommentWrite(nil))
-            ])
+            if currentState.isLogin {
+                return .concat([
+                    .just(.setIsPresentCommentWrite(currentState.perfumeId)),
+                    .just(.setIsPresentCommentWrite(nil))
+                ])
+            } else {
+                return .concat([
+                    .just(.setIsTapWhenNotLogin(true)),
+                    .just(.setIsTapWhenNotLogin(false))
+                ])
+            }
         
         case .didTapLikeSortButton:
             return setCommentsList(type: "Like", page: 0)
@@ -129,6 +143,12 @@ class CommentListReactor: Reactor {
             if let index = state.commentItems.firstIndex(where: { $0.id == comment.id }) {
                 state.commentItems[index] = comment
             }
+            
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
+            
+        case .setIsTapWhenNotLogin(let isTap):
+            state.isTapWhenNotLogin = isTap
         }
         
         return state

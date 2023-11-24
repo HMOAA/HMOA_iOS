@@ -22,7 +22,7 @@ class QnADetailReactor: Reactor {
         case didTapOptionButton(Int)
         case didDeletePost
         case willDisplayCell(Int)
-        case viewDidLoad
+        case viewDidLoad(Bool)
     }
     
     enum Mutation {
@@ -40,6 +40,7 @@ class QnADetailReactor: Reactor {
         case setLoadedPage(Int)
         case editComment(CommunityComment)
         case editCommunityPost(CommunityDetail)
+        case setIsLogin(Bool)
     }
     
     struct State {
@@ -57,6 +58,7 @@ class QnADetailReactor: Reactor {
         var loadedPage: Set<Int> = []
         var communityItems: CommunityDetailItems = CommunityDetailItems(postItem: [], commentItem: [])
         var writeButtonEnable: Bool = false
+        var isLogin: Bool = false
     }
     
     init(_ id: Int, _ service: CommunityListProtocol?) {
@@ -170,6 +172,9 @@ class QnADetailReactor: Reactor {
             
         case .setPhotoItem(let item):
             state.photoItem = item
+            
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
         }
         return state
     }

@@ -86,6 +86,11 @@ extension CommentDetailViewController {
         
         // MARK: - Action
         
+        LoginManager.shared.isLogin
+            .map { Reactor.Action.viewDidLoad($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // 댓글 좋아요 버튼 클릭
         commentLikeButton.rx.tap
             .map { Reactor.Action.didTapLikeButton }
@@ -135,6 +140,19 @@ extension CommentDetailViewController {
             .map { $0.isLiked }
             .distinctUntilChanged()
             .bind(to: commentLikeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        // 로그인 안되있을 시 present
+        reactor.state
+            .map { $0.isTapWhenNotLogin }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(
+                    title: "로그인 후 이용가능한 서비스입니다",
+                    content: "입력하신 내용을 다시 확인해주세요",
+                    buttonTitle: "로그인 하러가기 ")
+            })
             .disposed(by: disposeBag)
         
        

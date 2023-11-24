@@ -291,6 +291,19 @@ extension DetailViewController: UICollectionViewDelegate {
                     self.reactor!.currentState.perfumeId,
                     isLogin: self.reactor!.currentState.isLogin)
                 
+                // 로그인 안되있을 시 present
+                evaluationCell.reactor?.state
+                    .map { $0.isTapWhenNotLogin }
+                    .distinctUntilChanged()
+                    .filter { $0 }
+                    .bind(with: self, onNext: { owner, _ in
+                        owner.presentAlertVC(
+                            title: "로그인 후 이용가능한 서비스입니다",
+                            content: "입력하신 내용을 다시 확인해주세요",
+                            buttonTitle: "로그인 하러가기 ")
+                    })
+                    .disposed(by: evaluationCell.disposeBag)
+                
                 
             
                 return evaluationCell

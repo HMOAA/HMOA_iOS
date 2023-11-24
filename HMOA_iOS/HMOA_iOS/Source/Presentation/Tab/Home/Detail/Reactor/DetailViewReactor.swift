@@ -216,6 +216,7 @@ extension DetailViewReactor {
     }
     
     func setUpSecondDetailSections(id: Int) -> Observable<Mutation> {
+        print("22")
         return DetailAPI.fetchPerfumeDetail2(id)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
