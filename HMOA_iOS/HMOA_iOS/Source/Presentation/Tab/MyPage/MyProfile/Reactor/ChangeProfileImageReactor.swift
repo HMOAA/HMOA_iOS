@@ -17,7 +17,7 @@ class ChangeProfileImageReactor: Reactor {
         case viewDidLoad
         case didTapChangeProfileImageButton
         case didSelectedImage(UIImage)
-        case didTapChangeButton(UIImage)
+        case didTapChangeButton(UIImage?)
         case didTapDuplicateButton(String?)
         case didTapTextFieldReturn
     }
@@ -33,7 +33,7 @@ class ChangeProfileImageReactor: Reactor {
     }
     
     init(service: UserServiceProtocol, currentImage: UIImage?) {
-        self.initialState = State(profileImage: currentImage, currentNickname: "")
+        self.initialState = State(profileImage: currentImage)
         self.service = service
     }
     
@@ -44,7 +44,7 @@ class ChangeProfileImageReactor: Reactor {
         var isDuplicate: Bool? = nil
         var isEnable: Bool = false
         var isTapReturn: Bool = false
-        var currentNickname: String
+        var currentNickname: String = ""
         var nickname: String? = nil
         var nicknameResponse: Response? = nil
     }
@@ -65,16 +65,7 @@ class ChangeProfileImageReactor: Reactor {
             return .just(.setProfileImageForUIImage(image))
             
         case .didTapChangeButton(let image):
-            guard let nickname = currentState.nickname
-            else { return .just(.setNickNameResponse(nil)) }
-            return .concat([
-                ChangeProfileImageReactor.uploadProfileImage(image),
-                service.updateUserImage(to: image).map { _ in .dismiss(false) },
-                MemberAPI.updateNickname(params: ["nickname": nickname])
-                .map { .setNickNameResponse($0) },
-                service.updateUserNickname(to: nickname).map { _ in .dismiss(true) },
-                .just(.setNickNameResponse(nil))
-            ])
+            return updateProfile(image)
             
         case .didTapDuplicateButton(let nickname):
             guard let nickname = nickname
@@ -137,5 +128,29 @@ extension ChangeProfileImageReactor {
             .flatMap { response -> Observable<Mutation> in
                 return .just(.dismiss(true))
             }
+    }
+    
+    func updateProfile(_ image: UIImage?) -> Observable<Mutation> {
+        var observables: [Observable<Mutation>] = []
+        
+        if let nickname = currentState.nickname {
+            let nicknameMutation = MemberAPI.updateNickname(params: ["nickname": nickname])
+                .map { Mutation.setNickNameResponse($0) }
+            let updateNicknameMutation = service.updateUserNickname(to: nickname).map { _ in Mutation.dismiss(true) }
+            let nilMutation = Observable.just(Mutation.setNickNameResponse(nil))
+            observables.append(nicknameMutation)
+            observables.append(updateNicknameMutation)
+            observables.append(nilMutation)
+        }
+        
+        if let image = image {
+            let imageObservable = ChangeProfileImageReactor.uploadProfileImage(image)
+            let serviceObservable = service.updateUserImage(to: image).map { _ in Mutation.dismiss(false) }
+            
+            observables.append(imageObservable)
+            observables.append(serviceObservable)
+        }
+        
+        return .merge(observables)
     }
 }
