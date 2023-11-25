@@ -11,6 +11,36 @@ import Then
 
 extension UIViewController {
     
+    func showAlert(title: String,
+                   message: String,
+                   buttonTitle1: String,
+                   buttonTitle2: String? = nil,
+                   action1: (() -> Void)? = nil,
+                   action2: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let button1 = UIAlertAction(title: buttonTitle1, style: .default, handler: { _ in
+            action1?()
+        })
+        alert.addAction(button1)
+        
+        if let buttonTitle2 = buttonTitle2 {
+            let button2 = UIAlertAction(title: buttonTitle2, style: .cancel, handler: { _ in
+                action2?()
+            })
+            alert.addAction(button2)
+        }
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func presentInAppLoginVC() {
+        let loginVC = LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        loginVC.reactor = LoginReactor(.inApp)
+        self.present(loginVC, animated: true)
+    }
+    
     func presentLoginStartVC() {
         let vc = LoginStartViewController()
         let nvController = UINavigationController(rootViewController: vc)

@@ -17,6 +17,7 @@ class MyPageReactor: Reactor {
         case viewDidLoad
         case didTapGoLoginButton
         case didTapCell(MyPageType)
+        case didTapDeleteMember
     }
     
     enum Mutation {
@@ -84,6 +85,9 @@ class MyPageReactor: Reactor {
                 .just(.setIsTapGoLoginButton(true)),
                 .just(.setIsTapGoLoginButton(false))
             ])
+            
+        case .didTapDeleteMember:
+            return deleteMember()
         }
     }
     
@@ -177,6 +181,15 @@ extension MyPageReactor {
                     .just(.setSections(sections)),
                     downloadImage(url: member.memberImageUrl)
                 ])
+            }
+    }
+    
+    func deleteMember() -> Observable<Mutation> {
+        return MemberAPI.deleteMember()
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                print(data)
+                return .empty()
             }
     }
     
