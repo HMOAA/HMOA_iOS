@@ -180,6 +180,16 @@ class LoginViewController: UIViewController, View {
             }).disposed(by: disposeBag)
         
         reactor.state
+            .compactMap { $0.appleToken }
+            .distinctUntilChanged()
+            .bind(with: self) { owner, token in
+                KeychainManager.create(token: token)
+                owner.loginManager.tokenSubject.onNext(token)
+                owner.checkPreviousSignIn(token.existedMember!)
+            }.disposed(by: disposeBag)
+            
+        
+        reactor.state
             .map { $0.loginState }
             .bind(with: self) { owner, state in
                 switch state {
