@@ -97,6 +97,12 @@ extension MyLogViewController: UITableViewDelegate {
             commentListVC.reactor = reactor
             
             navigationController?.pushViewController(commentListVC, animated: true)
+        case 2:
+            let writedPostVC = MyLogWritedPostViewController()
+            let reactor = MyLogWritedPostReactor()
+            writedPostVC.reactor = reactor
+            
+            navigationController?.pushViewController(writedPostVC, animated: true)
         default:
             break
         }

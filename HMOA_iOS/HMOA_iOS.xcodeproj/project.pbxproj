@@ -202,6 +202,8 @@
 		CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AD82AEF971800A5B717 /* DetailCommentService.swift */; };
 		CA943ADB2AF2234700A5B717 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943ADA2AF2234700A5B717 /* PhotoCell.swift */; };
 		CA943AE12AF29C6400A5B717 /* PhotoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AE02AF29C6400A5B717 /* PhotoSection.swift */; };
+		CA99A6CC2B1200F20030364F /* MyLogWritedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA99A6CB2B1200F20030364F /* MyLogWritedPostViewController.swift */; };
+		CA99A6CE2B1201B10030364F /* MyLogWritedPostReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA99A6CD2B1201B10030364F /* MyLogWritedPostReactor.swift */; };
 		CAA116082AC16AB40063806C /* BrandAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116072AC16AB40063806C /* BrandAddress.swift */; };
 		CAA1160A2AC16ABD0063806C /* BrandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116092AC16ABD0063806C /* BrandAPI.swift */; };
 		CAA1160C2AC16C0F0063806C /* BrandData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160B2AC16C0F0063806C /* BrandData.swift */; };
@@ -452,6 +454,8 @@
 		CA943AD82AEF971800A5B717 /* DetailCommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCommentService.swift; sourceTree = "<group>"; };
 		CA943ADA2AF2234700A5B717 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		CA943AE02AF29C6400A5B717 /* PhotoSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSection.swift; sourceTree = "<group>"; };
+		CA99A6CB2B1200F20030364F /* MyLogWritedPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogWritedPostViewController.swift; sourceTree = "<group>"; };
+		CA99A6CD2B1201B10030364F /* MyLogWritedPostReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogWritedPostReactor.swift; sourceTree = "<group>"; };
 		CAA116072AC16AB40063806C /* BrandAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAddress.swift; sourceTree = "<group>"; };
 		CAA116092AC16ABD0063806C /* BrandAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAPI.swift; sourceTree = "<group>"; };
 		CAA1160B2AC16C0F0063806C /* BrandData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandData.swift; sourceTree = "<group>"; };
@@ -957,6 +961,7 @@
 			children = (
 				2C464E5829CDDC8500A07658 /* MyLogViewController.swift */,
 				CA39D5642B0B35F900694677 /* MyLogCommentViewController.swift */,
+				CA99A6CB2B1200F20030364F /* MyLogWritedPostViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1691,6 +1696,7 @@
 			children = (
 				CA4744852ADA718500003584 /* MyLogReactor.swift */,
 				CA39D5692B0B36FF00694677 /* MyLogCommentReactor.swift */,
+				CA99A6CD2B1201B10030364F /* MyLogWritedPostReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -2344,6 +2350,7 @@
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
 				2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */,
 				2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */,
+				CA99A6CE2B1201B10030364F /* MyLogWritedPostReactor.swift in Sources */,
 				2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */,
 				2C4CDC4829C770D900676163 /* BrandSearchSection.swift in Sources */,
 				CA219C4A2AA1C635003FB215 /* LikeHeaderView.swift in Sources */,
@@ -2375,6 +2382,7 @@
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
 				CA360F3429DD623D00A93873 /* HPediaSection.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
+				CA99A6CC2B1200F20030364F /* MyLogWritedPostViewController.swift in Sources */,
 				CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */,
 				2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */,
 				CA47446B2AC7EC1400003584 /* CommunityAddress.swift in Sources */,
