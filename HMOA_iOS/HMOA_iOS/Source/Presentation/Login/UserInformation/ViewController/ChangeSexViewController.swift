@@ -65,8 +65,6 @@ class ChangeSexViewController: UIViewController, View {
         config.baseBackgroundColor = .white
         config.imagePadding = 12
         config.baseForegroundColor = .black
-//        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0
-//        )
         config.attributedTitle = titleAttr
         
         return config
@@ -141,9 +139,9 @@ class ChangeSexViewController: UIViewController, View {
             .map { $0.isSexCheck }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
-                self.setEnableChangeButton()
-            }).disposed(by: disposeBag)
+            .bind(with: self) { owner, isCheck in
+                owner.setEnableChangeButton(isCheck)
+            }.disposed(by: disposeBag)
         
         //MyPage로 pop
         reactor.state
@@ -161,7 +159,14 @@ extension ChangeSexViewController {
     //MARK: - Functions
     
     //ChangeButton UI 변경
-    func setEnableChangeButton() {
+    func setEnableChangeButton(_ isCheck: Bool) {
+        if isCheck  {
+            changeButton.isEnabled = true
+            changeButton.backgroundColor = .black
+        } else {
+            changeButton.isEnabled = false
+            changeButton.backgroundColor = .customColor(.gray2)
+        }
     }
 
 }
