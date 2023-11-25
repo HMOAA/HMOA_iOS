@@ -23,7 +23,6 @@ final class LoginAPI {
                     options: .prettyPrinted)
                 
         else { return Observable.error(NetworkError.invalidParameters)}
-        
         return networking(
             urlStr: type.url,
             method: .post,

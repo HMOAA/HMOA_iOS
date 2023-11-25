@@ -8,11 +8,14 @@
 import UIKit
 
 import ReactorKit
-import RxCocoa
+import RxSwift
+import AuthenticationServices
 
-class LoginReactor: Reactor {
-    
+class LoginReactor: NSObject, Reactor {
     let initialState: State
+    
+    private let appleLoginResultSubject = PublishSubject<String?>()
+    let disposeBag = DisposeBag()
     
     //유저 액션
     enum Action {
@@ -30,6 +33,7 @@ class LoginReactor: Reactor {
         case setSignInGoogle(Bool)
         case setKakaoToken(Token?)
         case setIsDismiss(Bool)
+        case setAppleToken(Token?)
     }
     
     //현재 뷰 상태
@@ -40,6 +44,7 @@ class LoginReactor: Reactor {
         var kakaoToken: Token? = nil
         var loginState: LoginState
         var isDismiss: Bool = false
+        var appleToken: Token? = nil
     }
     
     init(_ loginState: LoginState) {
@@ -59,10 +64,8 @@ class LoginReactor: Reactor {
                 .just(.setSignInGoogle(false))
                       ])
         case .didTapAppleLoginButton:
-            return .concat([
-                .just(.setPushStartVC(true)),
-                .just(.setPushStartVC(false))
-                      ])
+            signInApple()
+            return setAppleLoginToken()
         case .didTapKakaoLoginButton:
             return setKakaoToken()
             
@@ -89,6 +92,9 @@ class LoginReactor: Reactor {
             state.kakaoToken = token
         case .setIsDismiss(let isDismiss):
             state.isDismiss = isDismiss
+        case .setAppleToken(let token):
+            state.appleToken = token
+            print(token)
         }
         
         return state
@@ -96,7 +102,7 @@ class LoginReactor: Reactor {
     
 }
 
-extension LoginReactor {
+extension LoginReactor: ASAuthorizationControllerDelegate {
     
     func setKakaoToken() -> Observable<Mutation> {
         return LoginAPI.kakaoLogin()
@@ -108,6 +114,48 @@ extension LoginReactor {
                             .just(.setKakaoToken(nil))
                         ])
                     }
+            }
+    }
+    
+    func signInApple() {
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = [.fullName]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.performRequests()
+        print("signIn")
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        //로그인 성공
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+               let identityToken = appleIDCredential.identityToken,
+               let tokenString = String(data: identityToken, encoding: .utf8) {
+                appleLoginResultSubject.onNext(tokenString)
+            } else {
+                appleLoginResultSubject.onNext(nil)
+            }
+        }
+    }
+    
+    // 애플 로그인 실패
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Apple Sign In Error: \(error.localizedDescription)")
+        appleLoginResultSubject.onError(error)
+    }
+    
+    func setAppleLoginToken() -> Observable<Mutation> {
+        print("setToken")
+        return appleLoginResultSubject
+            .flatMap { identityToken -> Observable<Mutation> in
+                guard let identityToken = identityToken else { return .empty() }
+                print(identityToken)
+                return LoginAPI.postAccessToken(params: ["token": identityToken], .apple)
+                    .catch { _ in .empty() }
+                    .map { .setAppleToken($0) }
             }
     }
 }

@@ -258,9 +258,11 @@ class UserInformationViewController: UIViewController, View {
             .map { $0.joinResponse }
             .distinctUntilChanged()
             .filter { $0 != nil }
-            .bind(with: self, onNext: { owner, _ in
-                owner.presentAppTabBarController()
-            }).disposed(by: disposeBag)
+            .withLatestFrom(LoginManager.shared.loginStateSubject) { ($0, $1) }
+            .bind(with: self, onNext: { owner, login in
+                owner.presentTabBar(login.1)
+            })
+            .disposed(by: disposeBag)
     }
     
     //MARK: - UpdateUI
