@@ -18,6 +18,7 @@ final class OptionReactor: Reactor {
         case didTapOptionButton(OptionType)
         case didTapOptionCell(Int)
         case didTapCancleButton
+        case didTapOkReportAlert
     }
     
     enum Mutation {
@@ -29,6 +30,8 @@ final class OptionReactor: Reactor {
         case setType(OptionType)
         case setOptions([String])
         case delete
+        case setIsTapReport(Bool)
+        case setIsReport(Bool)
     }
     
     struct State {
@@ -40,6 +43,8 @@ final class OptionReactor: Reactor {
         var postData: OptionPostData? = nil
         var type: OptionType? = nil
         var category: String = ""
+        var isTapReport: Bool = false
+        var isReport: Bool = false
     }
     
     init(service: CommunityListProtocol? = nil) {
@@ -57,12 +62,21 @@ final class OptionReactor: Reactor {
             
             switch type {
             case .Post(let postData):
-                return .concat([
-                    .just(.setOptions(["수정", "삭제"])),
-                    .just(.setPostData(postData)),
-                    .just(.setisHiddenOptionView(false)),
-                    .just(.setType(type))
-                ])
+                if postData.isWrited {
+                    return .concat([
+                        .just(.setOptions(["수정", "삭제"])),
+                        .just(.setPostData(postData)),
+                        .just(.setisHiddenOptionView(false)),
+                        .just(.setType(type))
+                    ])
+                } else {
+                    return .concat([
+                        .just(.setOptions(["신고"])),
+                        .just(.setPostData(postData)),
+                        .just(.setisHiddenOptionView(false)),
+                        .just(.setType(type))
+                    ])
+                }
             case .Comment(let commentData):
                 if commentData.isWrited {
                     return .concat([
@@ -101,11 +115,20 @@ final class OptionReactor: Reactor {
                     return deletePost()
                 default: return .empty()
                 }
+            case "신고":
+                return .concat([
+                    .just(.setIsTapReport(true)),
+                    .just(.setIsTapReport(false))
+                ])
+                
             default: return .empty()
             }
             
         case .didTapCancleButton:
             return .just(.setisHiddenOptionView(true))
+            
+        case .didTapOkReportAlert:
+            return reportContent()
         }
     }
     
@@ -137,6 +160,12 @@ final class OptionReactor: Reactor {
             state.options = options
             
         case .delete: break
+            
+        case .setIsTapReport(let isTap):
+            state.isTapReport = isTap
+            
+        case .setIsReport(let isReport):
+            state.isReport = isReport
         }
         
         return state
@@ -187,5 +216,50 @@ extension OptionReactor {
                     .map { _ in .delete }
                 ])
             }
+    }
+    
+    func reportContent() -> Observable<Mutation> {
+        switch currentState.type {
+        case .Comment(let data):
+            if data.isCommunity {
+                return ReportAPI.reportContent(
+                    ["targetId": data.id],
+                    .reportCommunityComment)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                        .concat([
+                            .just(.setisHiddenOptionView(true)),
+                            .just(.setIsReport(true)),
+                            .just(.setIsReport(false))
+                        ])
+                }
+            } else {
+                return ReportAPI.reportContent(
+                    ["targetId": data.id],
+                    .reportPerfumeComment)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                        .concat([
+                            .just(.setisHiddenOptionView(true)),
+                            .just(.setIsReport(true)),
+                            .just(.setIsReport(false))
+                        ])
+                }
+            }
+        case .Post(let data):
+            return ReportAPI.reportContent(
+                ["targetId": data.id],
+                .reportCommunity)
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                    .concat([
+                        .just(.setisHiddenOptionView(true)),
+                        .just(.setIsReport(true)),
+                        .just(.setIsReport(false))
+                    ])
+            }
+            
+        default: return .empty()
+        }
     }
 }
