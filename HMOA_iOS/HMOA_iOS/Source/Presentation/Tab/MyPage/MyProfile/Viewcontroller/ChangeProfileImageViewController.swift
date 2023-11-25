@@ -100,9 +100,10 @@ extension ChangeProfileImageViewController {
         reactor.state
             .map { $0.isDuplicate }
             .compactMap { $0 }
-            .bind(onNext: {
-                self.changeCaptionLabelColor($0)
-            }).disposed(by: disposeBag)
+            .bind(with: self) { owner, isDuplicate in
+                owner.view.endEditing(true)
+                owner.changeCaptionLabelColor(isDuplicate)
+            }.disposed(by: disposeBag)
         
         //버튼 enable 상태 변경
         reactor.state
