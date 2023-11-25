@@ -224,6 +224,7 @@ extension LoginViewController {
             
             LoginAPI.postAccessToken(params: params, .google)
                 .bind(with: self, onNext: { owner, token in
+                    owner.loginManager.tokenSubject.onNext(token)
                     KeychainManager.create(token: token)
                     owner.checkPreviousSignIn(token.existedMember!)
                 }).disposed(by: self.disposeBag)

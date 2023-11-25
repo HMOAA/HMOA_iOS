@@ -80,7 +80,7 @@ extension MyPageViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self, onNext: { owner, _ in
-                owner.dismiss(animated: true)
+                owner.presentInAppLoginVC()
             })
             .disposed(by: disposeBag)
         
@@ -187,23 +187,41 @@ extension MyPageViewController {
         case .inquireAccount:
             break
         case .logout:
-            KeychainManager.delete()
-            LoginManager.shared.tokenSubject.onNext(nil)
-            break
+            showAlert(title: "로그아웃",
+                      message: "로그아웃 하시겠습니까?",
+                      buttonTitle1: "아니요",
+                      buttonTitle2: "네",
+                      action2: {
+                self.presentInAppLoginVC()
+                KeychainManager.delete()
+                self.loginManger.tokenSubject.onNext(nil)
+            })
+            
         case .deleteAccount:
-            break
+            showAlert(title: "계정 삭제",
+                      message: "계정을 삭제 하시겠습니까?",
+                      buttonTitle1: "아니요",
+                      buttonTitle2: "네",
+                      action2: {
+                self.presentInAppLoginVC()
+                KeychainManager.delete()
+                self.loginManger.tokenSubject.onNext(nil)
+                self.reactor.action.onNext(.didTapDeleteMember)
+            })
         }
     }
     
     func setFirstView(_ isLogin: Bool) {
         if !isLogin {
-            noLoginView.isHidden = false
-            myPageView.isHidden = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.noLoginView.isHidden = false
+                self.myPageView.isHidden = true
+            }
         } else {
             Observable.just(())
               .map { Reactor.Action.viewDidLoad }
               .bind(to: reactor.action)
-              .disposed(by: self.disposeBag)
+              .disposed(by: disposeBag)
             noLoginView.isHidden = true
             myPageView.isHidden = false
         }

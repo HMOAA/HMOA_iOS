@@ -305,7 +305,11 @@ class QnAWriteViewController: UIViewController, View {
             .filter { $0 }
             .bind(with: self) { owner, _ in
                 let selectionLimit = 6 - reactor.currentState.photoCount
-                if selectionLimit > 0 {
+                if selectionLimit == 0 {
+                    owner.showAlert(title: "HMOA",
+                                    message: "사진은 6개까지 업로드 할 수 있습니다",
+                                    buttonTitle1: "확인")
+                } else {
                     var config = PHPickerConfiguration()
                     config.filter = .images
                     config.selectionLimit = selectionLimit

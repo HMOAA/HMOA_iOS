@@ -148,4 +148,13 @@ final class MemberAPI {
             query: query
         )
     }
+    
+    // TODO: - 에러 해결 후 테스트
+    static func deleteMember() -> Observable<Response> {
+        return networking(
+            urlStr: MemberAddress.deleteMember.url,
+            method: .delete,
+            data: nil,
+            model: Response.self)
+    }
 }

@@ -19,6 +19,7 @@ enum MemberAddress {
     case fetchPerfumeComment
     case fetchCommunityComment
     case fetchWritedPost
+    case deleteMember
 }
 
 extension MemberAddress {
@@ -46,6 +47,8 @@ extension MemberAddress {
             return "member/perfumeComments"
         case .fetchWritedPost:
             return "member/communities"
+        case .deleteMember:
+            return "member/delete"
         }
     }
 }
