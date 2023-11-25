@@ -85,16 +85,15 @@ extension UIViewController {
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }
 
-    // hpedia -> detail
-    func presentQnADetailVC(_ id: Int, _ reactor: HPediaReactor) {
+    // hpedia, writedPost -> detail
+    func presentQnADetailVC(_ id: Int) {
         let qnaDetailVC = QnADetailViewController()
-        let detailReactor = reactor.reactorForDetail()
+        let detailReactor = QnADetailReactor(id, CommunityListService())
         
         qnaDetailVC.reactor = detailReactor
         qnaDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }
-    
     func presentQnAWriteVCForEdit(reactor: QnADetailReactor) {
         let qnaWriteVC = QnAWriteViewController()
         let reactor = reactor.reactorForPostEdit()

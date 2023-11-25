@@ -83,9 +83,4 @@ extension HPediaReactor {
             }
         
     }
-    
-    func reactorForDetail() -> QnADetailReactor {
-        return QnADetailReactor(currentState.selectedCommunityId!,
-                                CommunityListService())
-    }
 }

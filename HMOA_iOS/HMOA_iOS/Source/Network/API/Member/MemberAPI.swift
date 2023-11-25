@@ -157,4 +157,13 @@ final class MemberAPI {
             data: nil,
             model: Response.self)
     }
+    
+    static func fetchWritedPosts(_ query: [String: Int]) -> Observable<[CategoryList]> {
+        return networking(
+            urlStr: MemberAddress.fetchWritedPost.url,
+            method: .get,
+            data: nil,
+            model: [CategoryList].self,
+            query: query)
+    }
 }

@@ -141,7 +141,7 @@ class HPediaViewController: UIViewController, View {
         reactor.state
             .compactMap { $0.selectedCommunityId }
             .bind(with: self, onNext: { owner, id in
-                owner.presentQnADetailVC(id, reactor)
+                owner.presentQnADetailVC(id)
             })
             .disposed(by: disposeBag)
     }
