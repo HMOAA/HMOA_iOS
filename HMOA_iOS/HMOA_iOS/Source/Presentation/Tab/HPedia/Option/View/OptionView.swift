@@ -111,7 +111,7 @@ class OptionView: UIView, View {
             .map { _ in Reactor.Action.didTapBackgroundView }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-    
+        
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
@@ -141,7 +141,7 @@ class OptionView: UIView, View {
                 owner.tableView.snp.updateConstraints { make in
                     make.height.equalTo(count * 60)
                 }
-
+                
                 owner.buttonView.snp.updateConstraints { make in
                     let height = (count + 1) * 60 + 8
                     make.height.equalTo(height)
@@ -186,6 +186,55 @@ class OptionView: UIView, View {
                     break
                 }
             }.disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isTapReport }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                switch reactor.currentState.type {
+                case .Comment(_):
+                    if let parentVC = owner.parentVC {
+                        parentVC.showAlert(
+                            title: "신고",
+                            message: "해당 댓글을 신고하시겠습니까?",
+                            buttonTitle1: "아니요",
+                            buttonTitle2: "네",
+                            action2: {
+                            reactor.action.onNext(.didTapOkReportAlert)
+                        })
+                    }
+                case .Post(_):
+                    if let parentVC = owner.parentVC {
+                        parentVC.showAlert(
+                            title: "신고",
+                            message: "해당 게시글을 신고하시겠습니까?",
+                            buttonTitle1: "아니요",
+                            buttonTitle2: "네",
+                            action2: {
+                            reactor.action.onNext(.didTapOkReportAlert)
+                        })
+                    }
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        
+        reactor.state
+            .map { $0.isReport }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                if let parentVC = owner.parentVC {
+                    parentVC.showAlert(
+                        title: "신고 완료",
+                        message: "신고 처리 되었습니다.",
+                        buttonTitle1: "확인")
+                }
+            }
+            .disposed(by: disposeBag)
     }
 
 }
