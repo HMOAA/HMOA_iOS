@@ -108,6 +108,16 @@ extension MyPageViewController {
             .compactMap { $0 }
             .bind(onNext: presentNextVC)
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                KeychainManager.delete()
+                owner.loginManger.tokenSubject.onNext(nil)
+            }
+            .disposed(by: disposeBag)
     }
     
     func configureUI() {
@@ -204,8 +214,6 @@ extension MyPageViewController {
                       buttonTitle2: "네",
                       action2: {
                 self.presentInAppLoginVC()
-                KeychainManager.delete()
-                self.loginManger.tokenSubject.onNext(nil)
                 self.reactor.action.onNext(.didTapDeleteMember)
             })
         }

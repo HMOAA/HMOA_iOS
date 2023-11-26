@@ -29,6 +29,7 @@ class MyPageReactor: Reactor {
         case updateAge(Int)
         case updateSex(Bool)
         case setIsTapGoLoginButton(Bool)
+        case setIsDelete(Bool)
     }
     
     struct State {
@@ -44,6 +45,7 @@ class MyPageReactor: Reactor {
         var profileImage: UIImage? = nil
         var isTapEditButton: Bool = false
         var isTapGoLoginButton: Bool = false
+        var isDelete: Bool = false
     }
     
     init(service: UserServiceProtocol) {
@@ -126,8 +128,12 @@ class MyPageReactor: Reactor {
             
         case .updateSex(let sex):
             state.member.sex = sex
+            
         case .setIsTapGoLoginButton(let isTap):
             state.isTapGoLoginButton = isTap
+            
+        case .setIsDelete(let isDelete):
+            state.isDelete = isDelete
         }
         
         
@@ -189,7 +195,10 @@ extension MyPageReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 print(data)
-                return .empty()
+                return .concat([
+                    .just(.setIsDelete(true)),
+                    .just(.setIsDelete(false))
+                ])
             }
     }
     
