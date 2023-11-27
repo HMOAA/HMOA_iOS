@@ -37,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().isAutoInitEnabled = true
         Messaging.messaging().delegate = self
         
+        sleep(2)
+        
         return true
     }
     
