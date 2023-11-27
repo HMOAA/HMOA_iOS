@@ -164,11 +164,12 @@ extension CommentCell {
         optionButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(15.2)
             make.trailing.equalToSuperview().inset(13)
+            make.width.equalTo(10)
         }
         
         commentLikeButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(14)
-            $0.trailing.equalTo(optionButton.snp.leading).offset(-14.2)
+            $0.trailing.equalTo(optionButton.snp.leading).offset(-10)
             $0.height.equalTo(20)
         }
         

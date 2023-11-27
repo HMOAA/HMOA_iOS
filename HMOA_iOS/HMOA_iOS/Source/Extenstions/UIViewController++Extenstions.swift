@@ -152,10 +152,10 @@ extension UIViewController {
         self.navigationController?.pushViewController(searchVC, animated: true)
     }
     
-    func presentCommentDetailViewController(_ comment: Comment) {
+    func presentCommentDetailViewController(_ comment: Comment?, _ communityCommet: CommunityComment?) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor(comment)
+        commentDetailVC.reactor = CommentDetailReactor(comment, communityCommet)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     

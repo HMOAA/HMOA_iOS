@@ -125,7 +125,8 @@ extension CommentListViewController {
             .map { $0.selectedComment }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentCommentDetailViewController)
+            .bind(with: self, onNext: { owner, comment in owner.presentCommentDetailViewController(comment, nil)
+            })
             .disposed(by: disposeBag)
         
         // 댓글 작성 페이지로 이동

@@ -14,7 +14,6 @@ import RxSwift
 import ReactorKit
 import Kingfisher
 
-//빈 데이터 못 보내게, 글자 수 제한
 class QnADetailViewController: UIViewController, View {
 
     //MARK: - Properties
@@ -151,6 +150,7 @@ class QnADetailViewController: UIViewController, View {
         commentTextView.rx
             .setDelegate(self)
             .disposed(by: disposeBag)
+        
         // 빈 화면 터치 시 키보드 내리기
         collectionView.rx
             .itemSelected
@@ -160,8 +160,6 @@ class QnADetailViewController: UIViewController, View {
                 owner.commentTextView.text = "댓글을 입력하세요"
             }
             .disposed(by: disposeBag)
-        
-
         
         // willDisplayCell
         collectionView.rx.willDisplayCell
@@ -222,6 +220,12 @@ class QnADetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 댓글 셀 터치
+        collectionView.rx.itemSelected
+            .filter { $0.section == 1 }
+            .map { Reactor.Action.didTapCommentCell($0.row)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // State
         
@@ -293,6 +297,15 @@ class QnADetailViewController: UIViewController, View {
             .map { $0.writeButtonEnable }
             .distinctUntilChanged()
             .bind(to: commentWriteButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedComment }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(with: self, onNext: { owner, communityComment in
+                owner.presentCommentDetailViewController(nil, communityComment)
+            })
             .disposed(by: disposeBag)
     }
 }
