@@ -326,18 +326,16 @@ class QnAWriteViewController: UIViewController, View {
         // 선택된 이미지 바인딩
         reactor.state
             .map { $0.images }
-            .filter { !$0.isEmpty }
-            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, item in
                 var snapshot = NSDiffableDataSourceSnapshot<PhotoSection, PhotoSectionItem>()
-                
                 snapshot.appendSections([.photo])
                 
                 item.forEach { snapshot.appendItems([.photoCell($0, nil)], toSection: .photo) }
                 
                 DispatchQueue.main.async {
-                    owner.datasource.apply(snapshot)
+                    owner.datasource.apply(snapshot, animatingDifferences: false)
                 }
                 
             }.disposed(by: disposeBag)
@@ -345,11 +343,25 @@ class QnAWriteViewController: UIViewController, View {
         // pagecontrol 설정
         reactor.state
             .map { $0.photoCount }
-            .filter { $0 != 0 }
             .bind(with: self) { owner, count in
                 owner.pageControl.isHidden = false
-                owner.pageControl.currentPage = 0
                 owner.pageControl.numberOfPages = count
+            }
+            .disposed(by: disposeBag)
+        
+        // 마지막 아이템 제거 시 그 전 아이템으로 이동
+        reactor.state
+            .map { $0.isDeletedLast }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, isDeleted in
+                let page = reactor.currentState.photoCount
+                if page > 0 {
+                    DispatchQueue.main.async {
+                        let targetIndexPath = IndexPath(row: page - 1, section: 0)
+                        owner.collectionView.scrollToItem(at: targetIndexPath, at: .right, animated: false)
+                    }
+                }
             }
             .disposed(by: disposeBag)
         
@@ -393,11 +405,12 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = .groupPagingCentered
         
         section.visibleItemsInvalidationHandler = {(item, offset, env) in
             let index = Int((offset.x / env.container.contentSize.width).rounded(.up))
             self.pageControl.currentPage = index
+            self.reactor?.action.onNext(.didChangePage(index))
         }
         
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -416,9 +429,8 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
                 cell.isZoomEnabled = false
                 cell.updateCell(writePhoto!.image)
                 cell.configureXButton()
-                
                 cell.xButton.rx.tap
-                    .map { Reactor.Action.didTapXButton(indexPath.row) }
+                    .map { Reactor.Action.didTapXButton }
                     .bind(to: self.reactor!.action)
                     .disposed(by: cell.disposeBag)
                 

@@ -202,17 +202,13 @@ class LikeViewController: UIViewController, View {
         // 마지막 아이템 삭제시 왼쪽으로 이동
         reactor.state
             .map { $0.isDeletedLast }
-            .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, isDeleted in
+            .bind(with: self) { owner, _ in
                 let row = reactor.currentState.currentRow
-                let targetIndexPath: IndexPath
                 if row > 0 {
-                    targetIndexPath = IndexPath(row: row - 1, section: 0)
-                } else {
-                    targetIndexPath = IndexPath(row: 0, section: 0)
+                    let targetIndexPath = IndexPath(row: row - 1, section: 0)
+                    owner.cardCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
                 }
-                owner.cardCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
             }
             .disposed(by: disposeBag)
       
@@ -299,7 +295,6 @@ extension LikeViewController {
             let currentPage = Int((contentOffset.x / environment.container.contentSize.width).rounded(.up))
             
             self.reactor.action.onNext(.didChangeCurrentPage(currentPage))
-            
         }
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topTrailing)

@@ -23,7 +23,8 @@ class CommunityWriteReactor: Reactor {
         case didTapPhotoButton
         case didSelectedImage([WritePhoto])
         case viewDidLoad
-        case didTapXButton(Int)
+        case didTapXButton
+        case didChangePage(Int)
     }
     
     enum Mutation {
@@ -33,7 +34,10 @@ class CommunityWriteReactor: Reactor {
         case setIsPresentToAlbum(Bool)
         case setImages([WritePhoto])
         case setEditImages([WritePhoto])
-        case setDeletePhotoIds(Int)
+        case setDeletePhotoIds
+        case setCurrentPage(Int)
+        case setIsDeletedLast(Bool)
+        
     }
     
     struct State {
@@ -50,6 +54,8 @@ class CommunityWriteReactor: Reactor {
         var communityPhotos: [CommunityPhoto] = []
         var photoCount: Int = 0
         var editImages: [WritePhoto] = []
+        var isDeletedLast: Bool = false
+        var currentPage: Int = 0
     }
     
     init(communityId: Int?, content: String = "내용을 입력해주세요", title: String?, category: String, photos: [CommunityPhoto], service: CommunityListProtocol?) {
@@ -104,8 +110,21 @@ class CommunityWriteReactor: Reactor {
                         ])
                 }
         
-        case .didTapXButton(let row):
-            return .just(.setDeletePhotoIds(row))
+        case .didTapXButton:
+            if currentState.currentPage == currentState.photoCount - 1 {
+                return .concat([
+                    .just(.setDeletePhotoIds),
+                    .just(.setIsDeletedLast(true)),
+                    .just(.setIsDeletedLast(false))
+                ])
+            } else {
+                return .just(.setDeletePhotoIds)
+            }
+            
+        case .didChangePage(let page):
+            if currentState.currentPage != page {
+                return .just(.setCurrentPage(page))
+            } else { return .empty() }
         }
     }
     
@@ -133,15 +152,23 @@ class CommunityWriteReactor: Reactor {
             state.images.append(contentsOf: image)
             state.photoCount = state.images.count
 
-        case .setDeletePhotoIds(let row):
-            if let id = currentState.images[row].photoId {
+        case .setDeletePhotoIds:
+            let page = state.currentPage
+            if let id = currentState.images[page].photoId {
                 state.deletePhotoIds.append(id)
             }
-            state.images.remove(at: row)
+            
+            state.images.remove(at: page)
             state.photoCount -= 1
             
         case .setEditImages(let editImages):
             state.editImages = editImages
+            
+        case .setCurrentPage(let page):
+            state.currentPage = page
+            
+        case .setIsDeletedLast(let isDeleted):
+            state.isDeletedLast = isDeleted
         }
         
         return state
