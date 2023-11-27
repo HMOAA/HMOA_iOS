@@ -23,6 +23,7 @@ class QnADetailReactor: Reactor {
         case didDeletePost
         case willDisplayCell(Int)
         case viewDidLoad(Bool)
+        case didTapCommentCell(Int)
     }
     
     enum Mutation {
@@ -41,6 +42,7 @@ class QnADetailReactor: Reactor {
         case editComment(CommunityComment)
         case editCommunityPost(CommunityDetail)
         case setIsLogin(Bool)
+        case setSelectedComment(Int?)
     }
     
     struct State {
@@ -59,6 +61,7 @@ class QnADetailReactor: Reactor {
         var communityItems: CommunityDetailItems = CommunityDetailItems(postItem: [], commentItem: [])
         var writeButtonEnable: Bool = false
         var isLogin: Bool = false
+        var selectedComment: CommunityComment? = nil
     }
     
     init(_ id: Int, _ service: CommunityListProtocol?) {
@@ -103,6 +106,12 @@ class QnADetailReactor: Reactor {
             
         case .willDisplayCell(let currentPage):
             return setUpCommentSection(currentPage)
+            
+        case .didTapCommentCell(let row):
+            return .concat([
+                .just(.setSelectedComment(row)),
+                .just(.setSelectedComment(nil))
+            ])
         }
     }
     
@@ -176,6 +185,10 @@ class QnADetailReactor: Reactor {
             
         case .setIsLogin(let isLogin):
             state.isLogin = isLogin
+            
+        case .setSelectedComment(let row):
+            guard let row = row else { return state }
+            state.selectedComment = state.commentItem[row]
         }
         return state
     }

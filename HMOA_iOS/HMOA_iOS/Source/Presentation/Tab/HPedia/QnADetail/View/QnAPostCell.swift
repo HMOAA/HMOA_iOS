@@ -106,6 +106,7 @@ class QnAPostCell: UICollectionViewCell {
         
         optionButton.snp.makeConstraints { make in
             make.top.trailing.equalToSuperview().inset(16.32)
+            make.width.equalTo(10)
         }
         
         QLabel.snp.makeConstraints { make in

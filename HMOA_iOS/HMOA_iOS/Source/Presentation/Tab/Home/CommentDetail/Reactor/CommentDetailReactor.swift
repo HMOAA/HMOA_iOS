@@ -26,15 +26,16 @@ class CommentDetailReactor: Reactor {
     }
     
     struct State {
-        var comment: Comment
+        var comment: Comment?
+        var communityCommet: CommunityComment?
         var isLiked: Bool = false
-        var content: String
+        var content: String = ""
         var isLogin: Bool = false
         var isTapWhenNotLogin: Bool = false
     }
     
-    init(_ comment: Comment) {
-        initialState = State(comment: comment, isLiked: comment.liked, content: comment.content)
+    init(_ comment: Comment?, _ communityComment: CommunityComment?) {
+        initialState = State(comment: comment, communityCommet: communityComment)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -60,8 +61,8 @@ class CommentDetailReactor: Reactor {
         switch mutation {
         case .setCommentLike(let isLike):
             state.isLiked = isLike
-            let heartCount = state.comment.heartCount
-            state.comment.heartCount = isLike ? heartCount + 1 : heartCount - 1
+            let heartCount = state.comment!.heartCount
+            state.comment?.heartCount = isLike ? heartCount + 1 : heartCount - 1
             
         case .setCommentContent(let comment):
             state.content = comment
@@ -82,13 +83,13 @@ extension CommentDetailReactor {
     func setCommentLike() -> Observable<Mutation> {
         
         if !currentState.isLiked {
-            return CommentAPI.putCommentLike(currentState.comment.id)
+            return CommentAPI.putCommentLike(currentState.comment!.id)
                 .catch { _ in .empty() }
                 .flatMap { _ -> Observable<Mutation> in
                     return .just(.setCommentLike(true))
                 }
         } else {
-            return CommentAPI.deleteCommentLike(currentState.comment.id)
+            return CommentAPI.deleteCommentLike(currentState.comment!.id)
                 .catch { _ in .empty() }
                 .flatMap { _ -> Observable<Mutation> in
                     return .just(.setCommentLike(false))

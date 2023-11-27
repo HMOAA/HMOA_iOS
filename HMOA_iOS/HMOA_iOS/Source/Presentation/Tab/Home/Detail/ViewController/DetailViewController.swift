@@ -140,7 +140,8 @@ extension DetailViewController {
             .map { $0.presentComment }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentCommentDetailViewController)
+            .bind(with: self, onNext:{ owner, comment in owner.presentCommentDetailViewController(comment, nil)
+            })
             .disposed(by: disposeBag)
         
         // 향수 디테일 페이지로 이동
