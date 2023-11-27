@@ -8,7 +8,8 @@
 import Foundation
 import RxSwift
 import UIKit
-
+import KakaoSDKTalk
+import RxKakaoSDKTalk
 
 final class MemberAPI {
 
@@ -165,5 +166,22 @@ final class MemberAPI {
             data: nil,
             model: [CategoryList].self,
             query: query)
+    }
+    
+    static func kakaoTalkAddChannel() -> Observable<Bool> {
+        return Observable.create { observer in
+            TalkApi.shared.rx.addChannel(channelPublicId: "_VxmaGG")
+                .subscribe(
+                    onCompleted: {
+                        observer.onNext(true)
+                        observer.onCompleted()
+                    },
+                    onError: { error in
+                        print(error)
+                        observer.onNext(false)
+                        observer.onCompleted()
+                    }
+                )
+        }
     }
 }
