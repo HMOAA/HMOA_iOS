@@ -11,6 +11,8 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 import RxAppState
+import KakaoSDKTalk
+import RxKakaoSDKTalk
 
 class MyPageViewController: UIViewController, View {
 
@@ -195,6 +197,12 @@ extension MyPageViewController {
         case .version:
             break
         case .inquireAccount:
+            
+            MemberAPI.kakaoTalkAddChannel()
+                .map { $0 }
+                .bind(onNext: { _ in print("success") })
+                .disposed(by: disposeBag)
+            
             break
         case .logout:
             showAlert(title: "로그아웃",

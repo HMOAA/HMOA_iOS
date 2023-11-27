@@ -832,6 +832,11 @@ PODS:
   - KakaoSDKCommon/Network (2.19.0):
     - Alamofire (~> 5.1)
     - KakaoSDKCommon/Common (= 2.19.0)
+  - KakaoSDKTalk (2.19.0):
+    - KakaoSDKTemplate (= 2.19.0)
+    - KakaoSDKUser (= 2.19.0)
+  - KakaoSDKTemplate (2.19.0):
+    - KakaoSDKCommon/Common (= 2.19.0)
   - KakaoSDKUser (2.19.0):
     - KakaoSDKAuth (= 2.19.0)
   - Kingfisher (7.10.0)
@@ -878,6 +883,10 @@ PODS:
     - KakaoSDKCommon/Network (= 2.19.0)
     - RxAlamofire (~> 6.0)
     - RxKakaoSDKCommon/Common (= 2.19.0)
+  - RxKakaoSDKTalk (2.19.0):
+    - KakaoSDKTalk (= 2.19.0)
+    - KakaoSDKTemplate (= 2.19.0)
+    - RxKakaoSDKUser (= 2.19.0)
   - RxKakaoSDKUser (2.19.0):
     - KakaoSDKUser (= 2.19.0)
     - RxKakaoSDKAuth (= 2.19.0)
@@ -905,6 +914,7 @@ DEPENDENCIES:
   - RxGesture
   - RxKakaoSDKAuth
   - RxKakaoSDKCommon
+  - RxKakaoSDKTalk
   - RxKakaoSDKUser
   - RxSwift
   - SnapKit
@@ -940,6 +950,8 @@ SPEC REPOS:
     - GTMSessionFetcher
     - KakaoSDKAuth
     - KakaoSDKCommon
+    - KakaoSDKTalk
+    - KakaoSDKTemplate
     - KakaoSDKUser
     - Kingfisher
     - leveldb-library
@@ -954,6 +966,7 @@ SPEC REPOS:
     - RxGesture
     - RxKakaoSDKAuth
     - RxKakaoSDKCommon
+    - RxKakaoSDKTalk
     - RxKakaoSDKUser
     - RxRelay
     - RxSwift
@@ -990,6 +1003,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
   KakaoSDKAuth: a1b4c416e54fbfdf086db8591405a17f88ffea64
   KakaoSDKCommon: d642a52ccf618036478643694212c072d5eceea6
+  KakaoSDKTalk: 9ac8cbc6e396a3e4d7d66099ba22ffbf3095d8ca
+  KakaoSDKTemplate: bb6cc31aec26a7f876fb66ee4c8882f9ce1ca2d5
   KakaoSDKUser: f21d7c3baf7cf2d08784cafc97aa9d49f2141624
   Kingfisher: a18f05d3b6d37d8650ee4a3e61d57a28fc6207f6
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
@@ -1004,6 +1019,7 @@ SPEC CHECKSUMS:
   RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
   RxKakaoSDKAuth: 45b863d2d50dfb0f8182cdf872898e8df0c95765
   RxKakaoSDKCommon: 780ffe181fc153f52e87b3598b3add84f9416709
+  RxKakaoSDKTalk: 5d0473e821e7c3344d41da1ee0c97ce3ba31d245
   RxKakaoSDKUser: 29e2e302ffe1cd2511fe101d1eb43f2f7a7a71c1
   RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
   RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
@@ -1012,6 +1028,6 @@ SPEC CHECKSUMS:
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 3e74912a99b1a7be48a7e0033b918315266f20d6
+PODFILE CHECKSUM: a89d7d9d7d7d192507226af51ff0b17070246f4a
 
 COCOAPODS: 1.14.3
