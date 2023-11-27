@@ -13,13 +13,11 @@ class BrandDetailReactor: Reactor {
     enum Action {
         case didTapPerfume(Int)
         case didTapLikeSortButton
-        case didTapBackButton
         case viewDidLoad
     }
     
     enum Mutation {
         case setPresentPerfumeId(Int?)
-        case setPopVC(Bool)
         case setSections([BrandDetailSection])
         case setBrand(Brand)
         case setIsTapLiked(Bool)
@@ -28,7 +26,6 @@ class BrandDetailReactor: Reactor {
     struct State {
         var section: [BrandDetailSection] = []
         var brand: Brand? = nil
-        var isPopVC: Bool = false
         var brandId: Int = 0
         var isTapLiked: Bool = false
         var presentPerfumeId: Int? = nil
@@ -43,11 +40,6 @@ class BrandDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         
         switch action {
-        case .didTapBackButton:
-            return .concat([
-                .just(.setPopVC(true)),
-                .just(.setPopVC(false))
-            ])
         case .viewDidLoad:
             return .concat([
                 requestBrandInfo(),
@@ -73,9 +65,7 @@ class BrandDetailReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setPopVC(let isPop):
-            state.isPopVC = isPop
-            
+
         case .setSections(let section):
             state.section = section
             
