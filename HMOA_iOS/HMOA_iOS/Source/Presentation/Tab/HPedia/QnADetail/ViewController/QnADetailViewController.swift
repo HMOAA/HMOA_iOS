@@ -46,7 +46,6 @@ class QnADetailViewController: UIViewController, View {
     
     let commentTextView = UITextView().then {
         $0.text = "댓글을 입력하세요"
-        $0.isScrollEnabled = false
         $0.font = .customFont(.pretendard, 14)
         $0.backgroundColor =  #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
     }
@@ -127,7 +126,7 @@ class QnADetailViewController: UIViewController, View {
         commentTextView.snp.makeConstraints { make in
             make.leading.equalTo(colonLabel.snp.trailing).offset(10)
             make.trailing.equalToSuperview().inset(36)
-            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
         
         commentWriteButton.snp.makeConstraints { make in
@@ -265,9 +264,15 @@ class QnADetailViewController: UIViewController, View {
                 let contentSize = self.commentTextView.sizeThatFits(CGSize(width: self.commentTextView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
                 return contentSize.height + 13
             }
+            .distinctUntilChanged()
+            .filter { $0 < 100}
             .bind(with: self) { owner, height in
-                owner.commentWriteView.snp.updateConstraints { make in
-                    make.height.equalTo(height)
+                print(height)
+                DispatchQueue.main.async {
+                    owner.commentWriteView.snp.updateConstraints { make in
+                        make.height.equalTo(height)
+                    }
+                    owner.commentTextView.alignCenterYText()
                 }
             }
             .disposed(by: disposeBag)
