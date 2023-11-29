@@ -16,11 +16,13 @@ class DictionaryReactor: Reactor {
     enum Action {
         case didTapItem(IndexPath)
         case viewDidLoad
+        case willDisplayCell(Int)
     }
     
     enum Mutation {
         case setSelectedId(IndexPath?)
         case setItems([HPediaItem])
+        case setLoadedPage(Int)
     }
     
     struct State {
@@ -28,6 +30,7 @@ class DictionaryReactor: Reactor {
         var title: String
         var items: [HPediaItem] = []
         var selectedId: Int? = nil
+        var loadedPage: Set<Int> = []
     }
     
     init(type: HpediaType) {
@@ -41,7 +44,7 @@ class DictionaryReactor: Reactor {
         switch action {
             
         case .viewDidLoad:
-            return setDictionaryItems()
+            return setDictionaryItems(0)
             
         case .didTapItem(let indexPath):
             return .concat([
@@ -49,6 +52,8 @@ class DictionaryReactor: Reactor {
                 .just(.setSelectedId(nil))
             ])
             
+        case .willDisplayCell(let page):
+            return setDictionaryItems(page)
         }
     }
 
@@ -63,6 +68,9 @@ class DictionaryReactor: Reactor {
             state.selectedId = currentState.items[indexPath.row].id
         case .setItems(let items):
             state.items = items
+            
+        case .setLoadedPage(let page):
+            state.loadedPage.insert(page)
         }
         return state
     }
@@ -70,35 +78,67 @@ class DictionaryReactor: Reactor {
 
 extension DictionaryReactor {
     //TODO: - Paging
-    func setDictionaryItems() -> Observable<Mutation> {
+    func setDictionaryItems(_ page: Int) -> Observable<Mutation> {
+        
+        if currentState.loadedPage.contains(page) {
+            return .empty()
+        }
+        
+        let query = ["pageNum": page]
+        
+        
         switch currentState.type {
         case .term:
-            return HPediaAPI.fetchTermList()
+            return HPediaAPI.fetchTermList(query)
                 .catch { _ in .empty() }
                 .flatMap { data -> Observable<Mutation> in
+                    var currentItem = self.currentState.items
                     let item = data.data.map { $0.toHPediaItem() }
-                    return .just(.setItems(item))
+                    currentItem.append(contentsOf: item)
+                    
+                    return .concat([
+                        .just(.setItems(currentItem)),
+                        .just(.setLoadedPage(page))
+                    ])
                 }
         case .note:
-            return HPediaAPI.fetchNoteList()
+            return HPediaAPI.fetchNoteList(query)
                 .catch { _ in .empty() }
                 .flatMap { data -> Observable<Mutation> in
+                    var currentItem = self.currentState.items
                     let item = data.data.map { $0.toHPediaItem() }
-                    return .just(.setItems(item))
+                    currentItem.append(contentsOf: item)
+                    
+                    return .concat([
+                        .just(.setItems(currentItem)),
+                        .just(.setLoadedPage(page))
+                    ])
                 }
         case .perfumer:
-            return HPediaAPI.fetchPerfumerList()
+            return HPediaAPI.fetchPerfumerList(query)
                 .catch { _ in .empty() }
                 .flatMap { data -> Observable<Mutation> in
+                    var currentItem = self.currentState.items
                     let item = data.data.map { $0.toHPediaItem() }
-                    return .just(.setItems(item))
+                    currentItem.append(contentsOf: item)
+                    
+                    return .concat([
+                        .just(.setItems(currentItem)),
+                        .just(.setLoadedPage(page))
+                    ])
                 }
         case .brand:
-            return HPediaAPI.fetchBrandList()
+            return HPediaAPI.fetchBrandList(query)
                 .catch { _ in .empty() }
                 .flatMap { data -> Observable<Mutation> in
+                    var currentItem = self.currentState.items
                     let item = data.data.map { $0.toHPediaItem() }
-                    return .just(.setItems(item))
+                    currentItem.append(contentsOf: item)
+                    
+                    return .concat([
+                        .just(.setItems(currentItem)),
+                        .just(.setLoadedPage(page))
+                    ])
                 }
         }
     }

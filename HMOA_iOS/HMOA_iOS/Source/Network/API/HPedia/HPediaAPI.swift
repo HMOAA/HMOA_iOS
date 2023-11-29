@@ -13,39 +13,49 @@ final class HPediaAPI {
     
     
     /// HPedia 용어 받아오기
-    static func fetchTermList() -> Observable<HpediaTermResponse> {
+    static func fetchTermList(_ query: [String: Int]) -> Observable<HpediaTermResponse> {
+        
+        
         return networking(
             urlStr: HPediaAddress.fetchTermList.url,
             method: .get,
             data: nil,
-            model: HpediaTermResponse.self)
+            model: HpediaTermResponse.self,
+            query: query
+        )
     }
     
     /// HPedia 노트 받아오기
-    static func fetchNoteList() -> Observable<HpediaNoteResponse> {
+    static func fetchNoteList(_ query: [String: Int]) -> Observable<HpediaNoteResponse> {
+        
         return networking(
             urlStr: HPediaAddress.fetchNoteList.url,
             method: .get,
             data: nil,
-            model: HpediaNoteResponse.self)
+            model: HpediaNoteResponse.self,
+            query: query)
     }
     
     /// HPedia 조향사 받아오기
-    static func fetchPerfumerList() -> Observable<HpediaPerfumerResponse> {
+    static func fetchPerfumerList(_ query: [String: Int]) -> Observable<HpediaPerfumerResponse> {
+        
         return networking(
             urlStr: HPediaAddress.fetchPerfumerList.url,
             method: .get,
             data: nil,
-            model: HpediaPerfumerResponse.self)
+            model: HpediaPerfumerResponse.self,
+            query: query)
     }
     
     /// HPedia 브랜드 받아오기
-    static func fetchBrandList() -> Observable<HpediaBrandResponse> {
+    static func fetchBrandList(_ query: [String: Int]) -> Observable<HpediaBrandResponse> {
+        
         return networking(
             urlStr: HPediaAddress.fetchBrandList.url,
             method: .get,
             data: nil,
-            model: HpediaBrandResponse.self)
+            model: HpediaBrandResponse.self,
+            query: query)
     }
     
     /// HPedia 용어 정보 받아오기
