@@ -94,9 +94,7 @@ class DictionaryViewController: UIViewController, View {
         //navigationBar title 설정
         reactor.state
             .map { $0.title }
-            .bind(with: self, onNext: { owner, title in
-                owner.setNavigationBarTitle(title: title, color: .white, isHidden: false, isScroll: false)
-            })
+            .bind(onNext: setBackItemNaviBar)
             .disposed(by: disposeBag)
         
         //선택된 타이틀 DetailDictionaryVC로 push

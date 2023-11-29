@@ -60,6 +60,7 @@ class QnAWriteViewController: UIViewController, View {
     }
     
     let textView = UITextView().then {
+        $0.font = .customFont(.pretendard, 14)
         $0.autocorrectionType = .no
         $0.isScrollEnabled = false
     }

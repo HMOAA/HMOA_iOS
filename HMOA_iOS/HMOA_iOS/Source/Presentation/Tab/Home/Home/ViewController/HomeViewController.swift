@@ -23,8 +23,6 @@ class HomeViewController: UIViewController, View {
 
     // MARK: - UI Component
     lazy var homeView = HomeView()
-     
-    lazy var brandSearchButton = UIButton().makeImageButton(UIImage(named: "homeMenu")!)
     
     lazy var indicatorImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
@@ -37,10 +35,6 @@ class HomeViewController: UIViewController, View {
         ]
     }
     
-    lazy var searchButton = UIButton().makeImageButton(UIImage(named: "search")!)
-    
-    lazy var bellButton = UIButton().makeImageButton(UIImage(named: "bell")!)
-    
     var headerViewReactor: HomeHeaderReactor!
     
     //MARK: - Init
@@ -49,7 +43,7 @@ class HomeViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureNavigationBar()
+        setBrandSearchBellNaviBar("H  M  O  A")
         configureCollectionViewDataSource()
         bind(reactor: homeReactor)
     }
@@ -88,24 +82,6 @@ extension HomeViewController {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        // 브랜드 검색 버튼 클릭
-        brandSearchButton.rx.tap
-            .map { Reactor.Action.didTapBrandSearchButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 종합 검색 버튼 클릭
-        searchButton.rx.tap
-            .map { Reactor.Action.didTapSearchButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 알림 버튼 클릭
-        bellButton.rx.tap
-            .map { Reactor.Action.didTapBellButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         // MARK: - State
         
         //snapshot 설정
@@ -135,23 +111,6 @@ extension HomeViewController {
             .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
         
-        // 브랜드 검색 페이지로 이동
-        reactor.state
-            .map { $0.isPresentBrandSearchVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: presentBrandSearchViewController)
-            .disposed(by: disposeBag)
-        
-        // 종합 검색 화면으로 이동
-        reactor.state
-            .map { $0.isPresentSearchVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: presentSearchViewController)
-            .disposed(by: disposeBag)
     }
     
     func bindHeader(reactor: HomeHeaderReactor) {
@@ -233,27 +192,6 @@ extension HomeViewController {
                 return header
             }
         }
-    }
-    
-    func configureNavigationBar() {
-        
-        setNavigationColor()
-        
-        let titleLabel = UILabel().then {
-            $0.text = "H  M  O  A"
-            $0.font = .customFont(.pretendard_medium, 20)
-            $0.textColor = .black
-        }
-                
-        let bracnSearchButtonItem = UIBarButtonItem(customView: brandSearchButton)
-        let searchButtonItem = UIBarButtonItem(customView: searchButton)
-        let bellButtonItem = UIBarButtonItem(customView: bellButton)
-        
-        navigationItem.titleView = titleLabel
-        
-        navigationItem.leftBarButtonItems = [spacerItem(13), bracnSearchButtonItem]
-        
-        navigationItem.rightBarButtonItems = [bellButtonItem, spacerItem(15), searchButtonItem]
     }
     
     func configureUI() {

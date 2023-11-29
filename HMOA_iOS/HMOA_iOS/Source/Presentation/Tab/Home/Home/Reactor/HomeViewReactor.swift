@@ -15,17 +15,11 @@ final class HomeViewReactor: Reactor {
     enum Action {
         case viewDidLoad
         case itemSelected(IndexPath)
-        case didTapBrandSearchButton
-        case didTapSearchButton
-        case didTapBellButton
         case scrollCollectionView
     }
     
     enum Mutation {
         case setSelectedPerfumeId(IndexPath?)
-        case setIsPresentBrandSearchVC(Bool)
-        case setIsPresentSearchVC(Bool)
-        case setIsPresentBellVC(Bool)
         case setSections([HomeSection])
         case setPagination(Bool)
     }
@@ -33,9 +27,6 @@ final class HomeViewReactor: Reactor {
     struct State {
         var sections: [HomeSection] = []
         var selectedPerfumeId: Int?
-        var isPresentBrandSearchVC: Bool = false
-        var isPresentSearchVC: Bool = false
-        var isPresentBellVC: Bool = false
         var isPaging: Bool = false
     }
     
@@ -50,23 +41,6 @@ final class HomeViewReactor: Reactor {
             return .concat([
                 Observable<Mutation>.just(.setSelectedPerfumeId(indexPath)),
                 Observable<Mutation>.just(.setSelectedPerfumeId(nil))
-            ])
-        case .didTapBrandSearchButton:
-            return .concat([
-                .just(.setIsPresentBrandSearchVC(true)),
-                .just(.setIsPresentBrandSearchVC(false))
-            ])
-            
-        case .didTapSearchButton:
-            return .concat([
-                .just(.setIsPresentSearchVC(true)),
-                .just(.setIsPresentSearchVC(false))
-            ])
-            
-        case .didTapBellButton:
-            return .concat([
-                .just(.setIsPresentBellVC(true)),
-                .just(.setIsPresentBellVC(false))
             ])
             
         case .scrollCollectionView:
@@ -91,15 +65,6 @@ final class HomeViewReactor: Reactor {
             if indexPath.section != 0 {
                 state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.item].perfumeId
             }
-            
-        case .setIsPresentBrandSearchVC(let isPresent):
-            state.isPresentBrandSearchVC = isPresent
-            
-        case .setIsPresentSearchVC(let isPresent):
-            state.isPresentSearchVC = isPresent
-            
-        case .setIsPresentBellVC(let isPresent):
-            state.isPresentBellVC = isPresent
             
         case .setPagination(let isPaging):
             state.isPaging = isPaging
