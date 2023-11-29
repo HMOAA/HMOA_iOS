@@ -38,7 +38,7 @@ class HPediaViewController: UIViewController, View {
     }
     
     //MARK: - Properties
-    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>?
+    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>!
     var disposeBag = DisposeBag()
     let reactor = HPediaReactor()
     
@@ -109,20 +109,20 @@ class HPediaViewController: UIViewController, View {
         
         // collectionView binding
         reactor.state
+            .map { $0.communityItems }
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, state in
-                guard let datasource = owner.datasource else { return }
+            .drive(with: self, onNext: { owner, item in
                 
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
                 snapshot.appendSections([.dictionary, .qna])
                 
-                state.DictionarySectionItems
+                reactor.currentState.DictionarySectionItems
                     .forEach { snapshot.appendItems([.dictionary($0)], toSection: .dictionary) }
-                state.communityItems
-                    .forEach { snapshot.appendItems([.qna($0)], toSection: .qna) }
+                item.forEach { snapshot.appendItems([.qna($0)], toSection: .qna) }
                 
                 DispatchQueue.main.async {
-                    datasource.apply(snapshot)
+                    owner.datasource.apply(snapshot)
                 }
             })
             .disposed(by: disposeBag)
@@ -139,7 +139,9 @@ class HPediaViewController: UIViewController, View {
         
         // Community DetailVC로 id Push
         reactor.state
-            .compactMap { $0.selectedCommunityId }
+            .map { $0.selectedCommunityId }
+            .compactMap { $0 }
+            .distinctUntilChanged()
             .bind(with: self, onNext: { owner, id in
                 owner.presentQnADetailVC(id)
             })
@@ -176,7 +178,7 @@ extension HPediaViewController {
             }
         })
         
-        datasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+        datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
             switch indexPath.section {
             case 0:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier, for: indexPath) as? HPediaQnAHeaderView else { return UICollectionReusableView() }
@@ -195,7 +197,7 @@ extension HPediaViewController {
                 
                 header.allButton.rx.tap
                     .bind(onNext: self.presentQnAListVC)
-                    .disposed(by: self.disposeBag)
+                    .disposed(by: header.disposeBag)
                 
                 return header
             default:

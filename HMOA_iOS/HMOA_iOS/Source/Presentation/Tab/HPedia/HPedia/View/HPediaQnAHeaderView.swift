@@ -9,6 +9,7 @@ import UIKit
 
 import Then
 import SnapKit
+import RxSwift
 
 class HPediaQnAHeaderView: UICollectionReusableView {
     static let identifier = "HPediaQnAHeaderView"
@@ -23,6 +24,8 @@ class HPediaQnAHeaderView: UICollectionReusableView {
         $0.setTitle("전체보기", for: .normal)
     }
     
+    var disposeBag = DisposeBag()
+    
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,6 +36,10 @@ class HPediaQnAHeaderView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
     
     //MARK: - SetUp
