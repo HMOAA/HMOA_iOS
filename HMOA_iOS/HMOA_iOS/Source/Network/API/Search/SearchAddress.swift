@@ -16,6 +16,7 @@ enum SearchAddress {
     case fetchHPediaNote
     case fetchHPediaPerfumer
     case fetchHPediaBrand
+    case fetchCommunity
 }
 
 extension SearchAddress {
@@ -38,6 +39,8 @@ extension SearchAddress {
             return "search/perfumer"
         case .fetchHPediaBrand:
             return "search/note"
+        case .fetchCommunity:
+            return "search/community"
         }
     }
 }
