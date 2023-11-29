@@ -17,20 +17,35 @@ class DictionaryReactor: Reactor {
         case didTapItem(IndexPath)
         case viewDidLoad
         case willDisplayCell(Int)
+        case didSearchItem(String)
     }
     
     enum Mutation {
         case setSelectedId(IndexPath?)
-        case setItems([HPediaItem])
+        case setListItems([HPediaItem])
+        case setSearchedItems([HPediaItem])
         case setLoadedPage(Int)
+        case setLoadedSearchPage(Int)
+        case setIsSearch(String)
     }
     
     struct State {
         var type: HpediaType
         var title: String
-        var items: [HPediaItem] = []
+        var items: [HPediaItem] {
+            if isSearch {
+                return searchedItems
+            } else {
+                return listItems
+            }
+        }
+        var isSearch: Bool = false
+        var listItems: [HPediaItem] = []
+        var searchedItems: [HPediaItem] = []
         var selectedId: Int? = nil
         var loadedPage: Set<Int> = []
+        var loadedSearchPage: Set<Int> = []
+        var searchedText: String = ""
     }
     
     init(type: HpediaType) {
@@ -53,7 +68,14 @@ class DictionaryReactor: Reactor {
             ])
             
         case .willDisplayCell(let page):
-            return setDictionaryItems(page)
+            if currentState.isSearch {
+                return setUpSearchedItems(page, currentState.searchedText)
+            } else {
+                return setDictionaryItems(page)
+            }
+            
+        case .didSearchItem(let text):
+            return setUpSearchedItems(0, text)
         }
     }
 
@@ -66,8 +88,19 @@ class DictionaryReactor: Reactor {
                 return state
             }
             state.selectedId = currentState.items[indexPath.row].id
-        case .setItems(let items):
-            state.items = items
+            
+        case .setListItems(let items):
+            state.listItems = items
+            
+        case .setLoadedSearchPage(let page):
+            state.loadedSearchPage.insert(page)
+            
+        case .setSearchedItems(let items):
+            state.searchedItems = items
+            
+        case .setIsSearch(let text):
+            state.searchedText = text
+            state.isSearch = !text.isEmpty
             
         case .setLoadedPage(let page):
             state.loadedPage.insert(page)
@@ -77,7 +110,7 @@ class DictionaryReactor: Reactor {
 }
 
 extension DictionaryReactor {
-    //TODO: - Paging
+    
     func setDictionaryItems(_ page: Int) -> Observable<Mutation> {
         
         if currentState.loadedPage.contains(page) {
@@ -87,59 +120,47 @@ extension DictionaryReactor {
         let query = ["pageNum": page]
         
         
-        switch currentState.type {
-        case .term:
-            return HPediaAPI.fetchTermList(query)
-                .catch { _ in .empty() }
-                .flatMap { data -> Observable<Mutation> in
-                    var currentItem = self.currentState.items
-                    let item = data.data.map { $0.toHPediaItem() }
-                    currentItem.append(contentsOf: item)
-                    
-                    return .concat([
-                        .just(.setItems(currentItem)),
-                        .just(.setLoadedPage(page))
-                    ])
-                }
-        case .note:
-            return HPediaAPI.fetchNoteList(query)
-                .catch { _ in .empty() }
-                .flatMap { data -> Observable<Mutation> in
-                    var currentItem = self.currentState.items
-                    let item = data.data.map { $0.toHPediaItem() }
-                    currentItem.append(contentsOf: item)
-                    
-                    return .concat([
-                        .just(.setItems(currentItem)),
-                        .just(.setLoadedPage(page))
-                    ])
-                }
-        case .perfumer:
-            return HPediaAPI.fetchPerfumerList(query)
-                .catch { _ in .empty() }
-                .flatMap { data -> Observable<Mutation> in
-                    var currentItem = self.currentState.items
-                    let item = data.data.map { $0.toHPediaItem() }
-                    currentItem.append(contentsOf: item)
-                    
-                    return .concat([
-                        .just(.setItems(currentItem)),
-                        .just(.setLoadedPage(page))
-                    ])
-                }
-        case .brand:
-            return HPediaAPI.fetchBrandList(query)
-                .catch { _ in .empty() }
-                .flatMap { data -> Observable<Mutation> in
-                    var currentItem = self.currentState.items
-                    let item = data.data.map { $0.toHPediaItem() }
-                    currentItem.append(contentsOf: item)
-                    
-                    return .concat([
-                        .just(.setItems(currentItem)),
-                        .just(.setLoadedPage(page))
-                    ])
-                }
+        return currentState.type.listApi(query)
+            .flatMap { data -> Observable<Mutation> in
+                var currentItem = self.currentState.listItems
+                currentItem.append(contentsOf: data)
+                
+                return .concat([
+                    .just(.setListItems(currentItem)),
+                    .just(.setLoadedPage(page))
+                ])
+            }
+    }
+    
+    func setUpSearchedItems(_ page: Int, _ text: String) -> Observable<Mutation> {
+        
+        
+        if page != 0 && currentState.loadedSearchPage.contains(page) {
+            return .empty()
         }
+        
+        let query: [String: Any] = [
+            "page": page,
+            "seachWord": text
+        ]
+        
+        return currentState.type.searchApi(query)
+            .flatMap { data -> Observable<Mutation> in
+                if page == 0 {
+                    return .concat([
+                        .just(.setSearchedItems(data)),
+                        .just(.setLoadedSearchPage(page)),
+                        .just(.setIsSearch(text))
+                    ])
+                } else {
+                    var currentItem = self.currentState.searchedItems
+                    currentItem.append(contentsOf: data)
+                    return .concat([
+                        .just(.setSearchedItems(currentItem)),
+                        .just(.setLoadedSearchPage(page)),
+                        .just(.setIsSearch(text))
+                    ])
+                }
+            }
     }
 }
