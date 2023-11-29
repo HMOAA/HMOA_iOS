@@ -94,6 +94,13 @@ class DictionaryViewController: UIViewController, View {
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
+        // 텍스트 입력
+        searchBar.rx.text
+            .orEmpty
+            .map { Reactor.Action.didSearchItem($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         
         // State
         
