@@ -14,8 +14,8 @@ class HPediaReactor: Reactor {
     var initialState: State
     
     enum Action {
-        case didTapDictionaryItem(Int?)
-        case didTapCommunityItem(Int?)
+        case didTapDictionaryItem(Int)
+        case didTapCommunityItem(Int)
         case viewWillAppear
     }
     
@@ -27,8 +27,8 @@ class HPediaReactor: Reactor {
     }
     
     enum Mutation {
-        case setSelectedHPedia(Int?)
-        case setSelectedCommunityItemId(Int?)
+        case setSelectedHPedia(Int)
+        case setSelectedCommunityItemId(Int)
         case setCommunityItems([CategoryList])
     }
     
@@ -39,33 +39,25 @@ class HPediaReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapDictionaryItem(let row):
-            return .concat([
-                .just(.setSelectedHPedia(row)),
-                .just(.setSelectedHPedia(nil))
-            ])
+            return .just(.setSelectedHPedia(row))
+            
         case .didTapCommunityItem(let row):
-            return .concat([
-                    .just(.setSelectedCommunityItemId(row)),
-                    .just(.setSelectedCommunityItemId(nil))
-                ])
+            return .just(.setSelectedCommunityItemId(row))
         case .viewWillAppear:
             return setHpediaCommunityListItem()
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        var state = initialState
+        var state = state
         switch mutation {
             
-        case .setSelectedHPedia(let itemId):
-            guard let itemId = itemId else {
-                return state
-            }
-            state.selectedHPedia = state.DictionarySectionItems[itemId].type
+        case .setSelectedHPedia(let row):
+            state.selectedHPedia = state.DictionarySectionItems[row].type
             
         case .setSelectedCommunityItemId(let row):
-            guard let row = row else { return state }
             state.selectedCommunityId = currentState.communityItems[row].communityId
+            
         case .setCommunityItems(let item):
             state.communityItems = item
         }

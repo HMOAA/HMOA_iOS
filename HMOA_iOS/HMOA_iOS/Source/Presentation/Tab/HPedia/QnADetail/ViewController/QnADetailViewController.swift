@@ -232,7 +232,7 @@ class QnADetailViewController: UIViewController, View {
         reactor.state
             .map { $0.communityItems }
             .distinctUntilChanged()
-            .filter { !$0.postItem.isEmpty}
+            .filter { !$0.postItem.isEmpty }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<QnADetailSection, QnADetailSectionItem>()
@@ -267,7 +267,6 @@ class QnADetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .filter { $0 < 100}
             .bind(with: self) { owner, height in
-                print(height)
                 DispatchQueue.main.async {
                     owner.commentWriteView.snp.updateConstraints { make in
                         make.height.equalTo(height)
