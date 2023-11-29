@@ -94,4 +94,15 @@ final class SearchAPI {
         )
     }
     
+    /// 커뮤니티 게시를  검색
+    static func fetchCommunity(query: [String: Any]) -> Observable<[CategoryList]> {
+        return networking(
+            urlStr: SearchAddress.fetchCommunity.url,
+            method: .get,
+            data: nil,
+            model: [CategoryList].self,
+            query: query
+        )
+    }
+    
 }

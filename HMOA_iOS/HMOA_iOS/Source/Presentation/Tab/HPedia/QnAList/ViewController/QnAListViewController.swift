@@ -20,14 +20,8 @@ class QnAListViewController: UIViewController, View {
     //MARK: - UI Components
     let searchBar = UISearchBar().configureHpediaSearchBar()
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureInitCollectionLayout()).then {
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureInitCollectionLayout(false)).then {
         $0.register(QnAListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAListHeaderView.identifier)
-        $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
-    }
-    
-    lazy var searchCollectionView = UICollectionView(frame: .zero, collectionViewLayout: configureSearchCollectionViewLayout()).then {
-        $0.backgroundColor = .black
-        $0.isHidden = true
         $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
     }
     
@@ -163,8 +157,7 @@ class QnAListViewController: UIViewController, View {
         
         [
             searchBar,
-            collectionView,
-            searchCollectionView
+            collectionView
         ]   .forEach { view.addSubview($0) }
 
     }
@@ -180,13 +173,7 @@ class QnAListViewController: UIViewController, View {
         collectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(searchBar.snp.bottom)
-            make.bottom.equalToSuperview()
-        }
-        
-        searchCollectionView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(searchBar.snp.bottom)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
     }
     
@@ -264,6 +251,12 @@ class QnAListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // searchBar 검색 버튼 터치
+            searchBar.rx.searchButtonClicked.map { _ in }
+            .map { Reactor.Action.didTapSearchButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //State
         
         //collectionView Binding
@@ -282,7 +275,7 @@ class QnAListViewController: UIViewController, View {
                 }
                 
                 DispatchQueue.main.async {
-                    owner.datasource.apply(snapshot)
+                    owner.datasource.apply(snapshot, animatingDifferences: false)
                 }
             })
             .disposed(by: disposeBag)
@@ -303,6 +296,7 @@ class QnAListViewController: UIViewController, View {
                 owner.presentQnAWriteVC(reactor)
             })
             .disposed(by: disposeBag)
+        
         //선택된 셀 id QnADetailVC로 push
         reactor.state
             .map { $0.selectedPostId }
@@ -310,26 +304,6 @@ class QnAListViewController: UIViewController, View {
             .bind(with: self, onNext: { owner, id in
                 owner.presentQnADetailVC(id, reactor)
             })
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .compactMap { $0.searchText }
-            .bind(with: self) { owner, text in
-                if text.isEmpty {
-                    owner.searchCollectionView.isHidden = true
-                    owner.collectionView.isHidden = false
-                    
-                }
-                else {
-                    if owner.searchCollectionView.isHidden {
-                        owner.searchCollectionView.isHidden = false
-                    }
-                    
-                    if !owner.collectionView.isHidden {
-                        owner.collectionView.isHidden = true
-                    }
-                }
-            }
             .disposed(by: disposeBag)
         
         // 로그인 안되있을 시 present
@@ -344,6 +318,31 @@ class QnAListViewController: UIViewController, View {
                     buttonTitle: "로그인 하러가기 ")
             })
             .disposed(by: disposeBag)
+        
+        // header 숨기기
+        reactor.state
+            .map { $0.isSearch }
+            .distinctUntilChanged()
+            .bind(with: self) { owner, isSearch in
+                owner.collectionView.collectionViewLayout = owner.configureInitCollectionLayout(isSearch)
+                // header 보이게 collectinoview 이동
+                if !isSearch {
+                    let newOffset = CGPoint(x: 0, y: 0)
+                    owner.collectionView.setContentOffset(newOffset, animated: false)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 검색 버튼 누를 시 키보드 숨기기
+        reactor.state
+            .map { $0.isHiddenKeyboard }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                DispatchQueue.main.async {
+                    owner.searchBar.resignFirstResponder()
+                }
+            }.disposed(by: disposeBag)
         
     }
     
@@ -363,7 +362,7 @@ class QnAListViewController: UIViewController, View {
 
 extension QnAListViewController {
     
-    func configureInitCollectionLayout() -> UICollectionViewCompositionalLayout {
+    func configureInitCollectionLayout(_ isSearch: Bool) -> UICollectionViewCompositionalLayout {
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -371,24 +370,12 @@ extension QnAListViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(59))
+        let headerHeight: CGFloat = isSearch ? 0 : 59
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(headerHeight))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
-        let section = NSCollectionLayoutSection(group: group)
-        section.boundarySupplementaryItems = [header]
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }
-    
-    func configureSearchCollectionViewLayout() -> UICollectionViewCompositionalLayout {
-        
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = headerHeight > 0 ? [header] : []
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -417,9 +404,6 @@ extension QnAListViewController {
             default: return UICollectionReusableView()
             }
         }
-        
-        collectionView.dataSource = datasource
-        searchCollectionView.dataSource = datasource
     }
     
     func showAnimation(_ isTap: Bool) {
