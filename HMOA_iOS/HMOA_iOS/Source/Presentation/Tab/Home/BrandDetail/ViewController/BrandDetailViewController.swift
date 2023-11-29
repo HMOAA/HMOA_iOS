@@ -81,7 +81,7 @@ extension BrandDetailViewController {
         reactor.state
             .map { $0.brand?.brandName ?? "" }
             .distinctUntilChanged()
-            .bind(onNext: setBackHomeSearchNaviBar)
+            .bind(onNext: setBackHomeRightNaviBar)
             .disposed(by: disposeBag)
         
         // 향수 디테일 페이지로 이동

@@ -19,7 +19,6 @@ final class DetailViewReactor: Reactor {
         case didTapBrandView
         case didTapMoreButton
         case didTapWriteButton
-        case didTapSearchButton
         case didTapLikeButton
         case willDisplaySecondSection
         case didTapCommentCell(Int)
@@ -35,7 +34,6 @@ final class DetailViewReactor: Reactor {
         case setSelectedComment(Comment?)
         case setSelecctedPerfume(Int?)
         case setIsPresentCommentWrite(Int?)
-        case setIsPresentSearchVC(Bool)
         case setIsLiked(Bool)
         case setCommentCount(Int)
         case setIsPaging(Bool)
@@ -53,7 +51,6 @@ final class DetailViewReactor: Reactor {
         var presentComment: Comment? = nil
         var presentPerfumeId: Int? = nil
         var isPresentCommentWirteVC: Int? = nil
-        var isPresentSearchVC: Bool = false
         var presentBrandId: Int? = nil
         var perfumeId: Int
         var isLiked: Bool? = nil
@@ -95,12 +92,6 @@ final class DetailViewReactor: Reactor {
                     .just(.setIsTap(false))
                 ])
             }
-        
-        case .didTapSearchButton:
-            return .concat([
-                .just(.setIsPresentSearchVC(true)),
-                .just(.setIsPresentSearchVC(false))
-            ])
         case .didTapLikeButton:
             return setPerfumeLike()
             
@@ -149,9 +140,6 @@ final class DetailViewReactor: Reactor {
             
         case .setIsPresentCommentWrite(let perfumeId):
             state.isPresentCommentWirteVC = perfumeId
-            
-        case .setIsPresentSearchVC(let isPresent):
-            state.isPresentSearchVC = isPresent
             
         case .setSections(let sections):
             state.sections = sections

@@ -24,10 +24,6 @@ class DetailViewController: UIViewController, View {
     
     let bottomView = DetailBottomView()
     
-    let homeBarButton = UIButton().makeImageButton(UIImage(named: "homeNavi")!)
-    let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
-    let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
-    
     lazy var optionView = OptionView().then {
         $0.parentVC = self
         $0.reactor = OptionReactor()
@@ -69,12 +65,6 @@ extension DetailViewController {
         // 댓글 작성 버튼 클릭
         bottomView.wirteButton.rx.tap
             .map { Reactor.Action.didTapWriteButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 검색 버튼 클릭
-        searchBarButton.rx.tap
-            .map { Reactor.Action.didTapSearchButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -162,15 +152,6 @@ extension DetailViewController {
             })
             .disposed(by: disposeBag)
         
-        // 검색 페이지로 이동
-        reactor.state
-            .map { $0.isPresentSearchVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: presentSearchViewController)
-            .disposed(by: disposeBag)
-        
         // 향수 좋아요 여부 바인딩
         reactor.state
             .map { $0.isLiked }
@@ -194,7 +175,7 @@ extension DetailViewController {
         // 백, 홈 네비게이션 타이틀 설정
         reactor.state
             .map { $0.brandName}
-            .bind(onNext: setBackHomeSearchNaviBar)
+            .bind(onNext: setBackHomeRightNaviBar)
             .disposed(by: disposeBag)
         
     }

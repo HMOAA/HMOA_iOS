@@ -243,6 +243,24 @@ extension UIViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
+    func setBrandSearchBellNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let brandButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToBrand), imageName: "homeMenu")
+        
+        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
+        
+        let bellButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "bell")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [brandButton]
+        self.navigationItem.rightBarButtonItems = [bellButton, spacerItem(15), searchButton]
+    }
+    
     func setBackItemNaviBar(_ title: String) {
         let titleLabel = UILabel().then {
             $0.text = title
@@ -272,6 +290,22 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton, spacerItem(15), homeButton]
         self.navigationItem.rightBarButtonItems = [searchButton]
+    }
+    
+    func setBackHomeRightNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        
+        let homeButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "homeNavi")
+
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+        self.navigationItem.rightBarButtonItems = [homeButton]
     }
     
     func setNavigationBarTitle(_ title: String) {
@@ -325,6 +359,10 @@ extension UIViewController {
         presentSearchViewController()
     }
     
+    @objc func goToBrand() {
+        presentBrandSearchViewController()
+    }
+    
     func spacerItem(_ width: Int) -> UIBarButtonItem {
         let spacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         
@@ -351,6 +389,9 @@ extension UIViewController {
         if let backButton = backButton {
             barBackButton = backButton
             let barButtonItem = UIBarButtonItem(customView: barBackButton)
+            barButtonItem.customView?.snp.makeConstraints {
+                $0.width.height.equalTo(30)
+            }
             self.navigationItem.leftBarButtonItems = [barButtonItem]
         }
         

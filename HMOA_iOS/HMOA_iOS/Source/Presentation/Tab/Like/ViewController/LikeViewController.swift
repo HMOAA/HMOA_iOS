@@ -113,7 +113,7 @@ class LikeViewController: UIViewController, View {
         
         cardCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(398).priority(751)
+            make.height.equalTo(510)
             make.top.equalTo(listCollectionView)
 
         }
@@ -281,7 +281,7 @@ extension LikeViewController {
     
     private func configureCardLayout() -> UICollectionViewCompositionalLayout {
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(354))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(460))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.79), heightDimension: .fractionalHeight(1))

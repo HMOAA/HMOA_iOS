@@ -141,7 +141,7 @@ class QNAListReactor: Reactor {
                 state.items[index] = community
             }
         case .addCommunityList(let community):
-            state.items.append(community)
+            state.items.insert(community, at: 0)
         case .deleteCommunityList(let community):
             state.items.removeAll { $0.communityId == community.communityId }
         case .setIsLogin(let isLogin):
