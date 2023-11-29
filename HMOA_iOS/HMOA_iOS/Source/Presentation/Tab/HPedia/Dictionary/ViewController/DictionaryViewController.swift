@@ -71,6 +71,20 @@ class DictionaryViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // willDisplayCell
+        tableView.rx.willDisplayCell
+            .map { cell, index -> Int? in
+                let currentItem = index.item
+                if (currentItem + 1) % 15 == 0 && currentItem != 0 {
+                    return currentItem / 15 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         //tableView cell 터치
         tableView.rx.itemSelected
             .map { Reactor.Action.didTapItem($0) }
