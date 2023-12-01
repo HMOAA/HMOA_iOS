@@ -124,10 +124,13 @@ extension SearchViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
-            .bind(onNext: { self.changeViewController(self.ResultVC) })
+            .bind(onNext: {
+                self.searchBar.endEditing(false)
+                self.changeViewController(self.ResultVC)
+            })
             .disposed(by: disposeBag)
 
-        // 서버로부터 검색 결과 값을 받아오면 collectionView에 바인딩
+        // collectionView 바인딩
         reactor.state
             .map { $0.resultProduct }
             .distinctUntilChanged()
@@ -214,10 +217,7 @@ extension SearchViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        
-        backButton.snp.makeConstraints {
-            $0.width.height.equalTo(24)
-        }
+
     }
     
     // MARK: - functions
@@ -248,7 +248,6 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.item == tableView.numberOfRows(inSection: tableView.numberOfSections - 1) - 1 {
             reactor?.action.onNext(.scrollTableView(indexPath))
-            //print(indexPath.item + 1)
         }
     }
     

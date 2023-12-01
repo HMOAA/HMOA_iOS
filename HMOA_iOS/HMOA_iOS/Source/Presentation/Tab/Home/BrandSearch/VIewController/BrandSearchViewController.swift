@@ -145,7 +145,8 @@ extension BrandSearchViewController {
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints {
-            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
         }
     }

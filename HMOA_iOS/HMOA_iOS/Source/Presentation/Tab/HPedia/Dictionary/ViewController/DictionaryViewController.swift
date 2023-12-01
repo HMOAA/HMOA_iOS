@@ -56,7 +56,7 @@ class DictionaryViewController: UIViewController, View {
         tableView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(32)
             make.trailing.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             make.top.equalTo(searchBar.snp.bottom).offset(13)
         }
     }
