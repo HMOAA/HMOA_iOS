@@ -103,10 +103,15 @@ class EvaluationReactor: Reactor {
 extension EvaluationReactor {
     
     func setSeasonEvaluation(_ season: Int) -> Observable<Mutation> {
+        var params: [String: Int]? = ["weather": season]
+        
+        if currentState.weather?.selected == season  {
+            params = nil
+        }
         if currentState.isLogin {
             return EvaluationAPI.postOrDeleteSeason(
                 id: "\(currentState.id)",
-                weather: ["weather": season])
+                weather: params)
             .catch { _ in .empty()}
             .flatMap { data -> Observable<Mutation> in
                 return .just(.setWeather(data))
@@ -117,10 +122,15 @@ extension EvaluationReactor {
     }
     
     func setGenderEvaluation(_ gender: Int) -> Observable<Mutation> {
+        var params: [String: Int]? = ["gender": gender]
+        
+        if currentState.gender?.selected == gender {
+            params = nil
+        }
         if currentState.isLogin {
             return EvaluationAPI.postOrDeleteGender(
                 id: "\(currentState.id)",
-                gender: ["gender": gender]
+                gender: params
             )
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in

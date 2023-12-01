@@ -47,12 +47,14 @@ struct Age: Codable, Hashable {
 }
 
 struct Gender: Codable, Hashable {
-    let man, woman: Int
+    let man, woman, neuter: Int
     let writed: Bool
+    let selected: Int
 }
 
 
 struct Weather: Codable, Hashable {
     let autumn, spring, summer, winter: Int
     let writed: Bool
+    let selected: Int
 }

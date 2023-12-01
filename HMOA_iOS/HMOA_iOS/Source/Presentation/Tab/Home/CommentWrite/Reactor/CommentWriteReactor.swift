@@ -101,7 +101,6 @@ class CommentWriteReactor: Reactor {
 
 extension CommentWriteReactor {
     
-    //TODO: - api에서 수정, 추가한 댓글 리턴 받기
     func postCommentAndSetPopVC() -> Observable<Mutation> {
         let content = currentState.content
         return CommentAPI.postComment(
@@ -110,11 +109,18 @@ extension CommentWriteReactor {
         )
         .catch { _ in .empty() }
         .flatMap { comment -> Observable<Mutation> in
-            return .concat([
-//                self.commentService!.addComment(to: comment)
-//                    .map { _ in .setIsPopVC(true) },
-                .just(.setIsPopVC(false))
-            ])
+            if let commentService = self.commentService {
+                return .concat([
+                    commentService.addComment(to: comment)
+                        .map { _ in .setIsPopVC(true) },
+                    .just(.setIsPopVC(false))
+                ])
+            } else {
+                return .concat([
+                    .just(.setIsPopVC(true)),
+                    .just(.setIsPopVC(false))
+                ])
+            }
         }
     }
     
@@ -129,7 +135,7 @@ extension CommentWriteReactor {
                 
                 if let service = self.commentService {
                     return .concat([
-                        self.commentService!.editComment(to: comment)
+                        service.editComment(to: comment)
                             .map { _ in .setIsPopVC(true) },
                         .just(.setIsPopVC(false))
                     ])

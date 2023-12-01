@@ -92,7 +92,10 @@ extension CommentCell {
             subView.isHidden = false
             noCommentLabel.isHidden = true
             
-        } else { noCommentLabel.isHidden = false }
+        } else {
+            noCommentLabel.isHidden = false
+            subView.isHidden = true
+        }
     }
     
     func updateCommunityComment(_ item: CommunityComment?) {
