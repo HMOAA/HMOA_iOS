@@ -103,7 +103,7 @@ class QnADetailViewController: UIViewController, View {
     private func setConstraints() {
         collectionView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().inset(98)
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-66)
         }
         
         commentWriteView.snp.makeConstraints { make in
