@@ -152,10 +152,10 @@ extension UIViewController {
         self.navigationController?.pushViewController(searchVC, animated: true)
     }
     
-    func presentCommentDetailViewController(_ comment: Comment?, _ communityCommet: CommunityComment?) {
+    func presentCommentDetailViewController(_ comment: Comment?, _ communityCommet: CommunityComment?, _ service: DetailCommentService? = nil) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor(comment, communityCommet)
+        commentDetailVC.reactor = CommentDetailReactor(comment, communityCommet, service)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
@@ -298,6 +298,8 @@ extension UIViewController {
             $0.font = .customFont(.pretendard_medium, 20)
             $0.textColor = .black
         }
+        
+        setNavigationColor()
         
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
         

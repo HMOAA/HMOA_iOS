@@ -12,6 +12,7 @@ import UIKit
 class CommentDetailReactor: Reactor {
     
     var initialState: State
+    let service: DetailCommentServiceProtocol?
     
     enum Action {
         case didTapLikeButton
@@ -28,14 +29,16 @@ class CommentDetailReactor: Reactor {
     struct State {
         var comment: Comment?
         var communityCommet: CommunityComment?
-        var isLiked: Bool = false
+        var isLiked: Bool
         var content: String = ""
         var isLogin: Bool = false
         var isTapWhenNotLogin: Bool = false
     }
     
-    init(_ comment: Comment?, _ communityComment: CommunityComment?) {
-        initialState = State(comment: comment, communityCommet: communityComment)
+    init(_ comment: Comment?, _ communityComment: CommunityComment?, _ service: DetailCommentServiceProtocol?) {
+        
+        initialState = State(comment: comment, communityCommet: communityComment, isLiked: comment?.liked ?? false)
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -81,18 +84,24 @@ class CommentDetailReactor: Reactor {
 extension CommentDetailReactor {
     
     func setCommentLike() -> Observable<Mutation> {
-        
+        var comment = currentState.comment!
         if !currentState.isLiked {
-            return CommentAPI.putCommentLike(currentState.comment!.id)
+            return CommentAPI.putCommentLike(comment.id)
                 .catch { _ in .empty() }
                 .flatMap { _ -> Observable<Mutation> in
-                    return .just(.setCommentLike(true))
+                    comment.liked = true
+                    comment.heartCount += 1
+                    return self.service!.setCommentLike(to: comment)
+                        .map { _ in .setCommentLike(true) }
                 }
         } else {
             return CommentAPI.deleteCommentLike(currentState.comment!.id)
                 .catch { _ in .empty() }
                 .flatMap { _ -> Observable<Mutation> in
-                    return .just(.setCommentLike(false))
+                    comment.liked = false
+                    comment.heartCount -= 1
+                    return self.service!.setCommentLike(to: comment)
+                        .map { _ in .setCommentLike(false) }
                 }
         }
     }

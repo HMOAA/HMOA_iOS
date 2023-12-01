@@ -11,8 +11,6 @@ import ReactorKit
 final class DetailViewReactor: Reactor {
     var initialState: State
 
-    
-    //TODO: - 댓글 삭제 기능 구현
     enum Action {
         case viewDidLoad(Bool)
         case viewWillAppear
@@ -204,7 +202,6 @@ extension DetailViewReactor {
     }
     
     func setUpSecondDetailSections(id: Int) -> Observable<Mutation> {
-        print("22")
         return DetailAPI.fetchPerfumeDetail2(id)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in

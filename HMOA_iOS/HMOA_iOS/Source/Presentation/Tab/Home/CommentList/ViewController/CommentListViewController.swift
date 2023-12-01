@@ -101,22 +101,21 @@ extension CommentListViewController {
             .disposed(by: disposeBag)
         
         // MARK: - State
+        
         // collectionView 바인딩
         reactor.state
             .map { $0.commentItems }
             .distinctUntilChanged()
-            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
                 guard let dataSource = owner.dataSource else { return }
-                
                 var snapshot = NSDiffableDataSourceSnapshot<CommentSection, CommentSectionItem>()
                 snapshot.appendSections([.comment])
             
                 item.forEach { snapshot.appendItems([.commentCell($0)]) }
                 
                 DispatchQueue.main.async {
-                    dataSource.apply(snapshot)
+                    dataSource.apply(snapshot, animatingDifferences: false)
                 }
             }).disposed(by: disposeBag)
         
@@ -125,7 +124,8 @@ extension CommentListViewController {
             .map { $0.selectedComment }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, comment in owner.presentCommentDetailViewController(comment, nil)
+            .bind(with: self, onNext: { owner, comment in
+                owner.presentCommentDetailViewController(comment, nil, reactor.service)
             })
             .disposed(by: disposeBag)
         
@@ -157,7 +157,6 @@ extension CommentListViewController {
                     buttonTitle: "로그인 하러가기 ")
             })
             .disposed(by: disposeBag)
-        
        
     }
     
@@ -204,7 +203,7 @@ extension CommentListViewController {
                 
                 // QnADetailReactor에 indexPathRow 전달
                 cell.optionButton.rx.tap
-                    .map { CommentListReactor.Action.didTapOptionButton(indexPath.row) }
+                    .map { CommentListReactor.Action.didTapOptionButton(comment.id) }
                     .bind(to: self.reactor!.action)
                     .disposed(by: self.disposeBag)
                 

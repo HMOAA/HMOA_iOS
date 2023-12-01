@@ -369,7 +369,6 @@ class EvaluationCell: UICollectionViewCell, View {
     }
     
     func bind(reactor: EvaluationReactor) {
-        // TODO: - 자기가 투표한 항목 리턴으로 수정 되면 delete 구현
         // Action
         
         //ViewDidLoad
@@ -427,12 +426,11 @@ class EvaluationCell: UICollectionViewCell, View {
             }
             .disposed(by: disposeBag)
         
-        // TODO: - 중성 값 리턴 후 다시 하기
         // gender 평가 값 binding
         reactor.state
             .map { $0.gender }
             .compactMap { $0 }
-            .map { [$0.man, 50, $0.woman]}
+            .map { [$0.man, $0.neuter, $0.woman]}
             .bind(with: self) { owner, values in
                 owner.setVerticalButtonBackgroundColor(owner.sexButtons, values)
             }
@@ -471,7 +469,6 @@ class EvaluationCell: UICollectionViewCell, View {
             .disposed(by: disposeBag)
         
         
-        // TODO: - 리셋 api 연동하기
         // age reset ui 설정
         reactor.state
             .map { $0.isTapAgeReset }
@@ -516,7 +513,6 @@ extension EvaluationCell {
         let count = values.count
         var isChangedTitleColor = [Bool](repeating: false, count: count)
         var isChangedImageColor = [Bool](repeating: false, count: count)
-        let originalImage = buttons.map { $0.configuration?.image }
         
         for (index, value) in values.enumerated() {
             
@@ -545,7 +541,7 @@ extension EvaluationCell {
                 buttons[index].configuration?.image = buttons[index].configuration?.image?.withTintColor(.white)
                 isChangedImageColor[index] = true
             } else {
-                buttons[index].configuration?.image = originalImage[index]
+                buttons[index].configuration?.image = buttons[index].configuration?.image?.withTintColor(.customColor(.gray2))
                 isChangedImageColor[index] = false
             }
             

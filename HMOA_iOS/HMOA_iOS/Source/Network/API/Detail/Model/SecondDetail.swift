@@ -25,7 +25,7 @@ struct Comment: Codable, Hashable {
     let content, createAt: String
     var heartCount: Int
     let id: Int
-    let liked: Bool
+    var liked: Bool
     let nickname: String?
     let perfumeId: Int
     let profileImg: String

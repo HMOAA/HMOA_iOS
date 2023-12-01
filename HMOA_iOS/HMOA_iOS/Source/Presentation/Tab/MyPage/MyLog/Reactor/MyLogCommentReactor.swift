@@ -131,7 +131,6 @@ extension MyLogCommentReactor {
             }
     }
     
-    // TODO: - 오류 해결 시 작동 테스트
     func setLikedPerfumeComment(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
         
         if loadedPage.contains(page) { return .empty() }
