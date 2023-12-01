@@ -22,8 +22,8 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
     // MARK: - UI Component
     
     lazy var productImageView = UIImageView().then {
+        $0.backgroundColor = #colorLiteral(red: 0.8799095154, green: 0.8735057712, blue: 0.87650913, alpha: 1)
         $0.layer.cornerRadius = 3
-        $0.layer.borderWidth = 2
         $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
     }
     

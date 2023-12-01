@@ -13,7 +13,9 @@ class PerfumeInfoView: UIView {
     
     // MARK: - Properies
     
-    lazy var perfumeImageView = UIImageView()
+    lazy var perfumeImageView = UIImageView().then {
+        $0.backgroundColor = #colorLiteral(red: 0.8799095154, green: 0.8735057712, blue: 0.87650913, alpha: 1)
+    }
     
     lazy var perfumeLikeView = UIView().then {
         $0.layer.cornerRadius = 10

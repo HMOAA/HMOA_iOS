@@ -31,7 +31,6 @@ class LikeCardCell: UICollectionViewCell {
     }
     
     let perpumeImageView = UIImageView().then {
-        $0.backgroundColor = .black
         $0.clipsToBounds = true
     }
     
@@ -151,8 +150,9 @@ class LikeCardCell: UICollectionViewCell {
         }
         
         xButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(21)
+            make.leading.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
+            make.width.height.equalTo(30)
         }
         
         brandNameLabel.snp.makeConstraints { make in
