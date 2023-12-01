@@ -45,7 +45,7 @@ struct CommunityCommentResponse: Codable, Hashable {
 
 struct CommunityComment: Codable, Hashable {
     let author: String
-    let commentId: Int
+    let commentId, communityId: Int
     let content, profileImg, time: String
     let writed: Bool
 }

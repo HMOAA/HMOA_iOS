@@ -81,6 +81,11 @@ class MyLogCommentViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // cell 선택
+        collectionView.rx.itemSelected
+            .map { Reactor.Action.didSelectedCell($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // State
         
@@ -107,6 +112,22 @@ class MyLogCommentViewController: UIViewController, View {
         reactor.state
             .map { $0.navigationTitle }
             .bind(onNext: setBackItemNaviBar)
+            .disposed(by: disposeBag)
+        
+        // 향수 상세 정보로 push
+        reactor.state
+            .map { $0.perfumeId }
+            .compactMap { $0 }
+            .distinctUntilChanged()
+            .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
+        
+        // 커뮤니티 게시글로 push
+        reactor.state
+            .map { $0.communityId }
+            .compactMap { $0 }
+            .distinctUntilChanged()
+            .bind(onNext: presentQnADetailVC)
             .disposed(by: disposeBag)
     }
 }

@@ -18,6 +18,7 @@ class MyLogCommentReactor: Reactor {
         case didTapPerfumeTab
         case didTapCommunityTab
         case willDisplayCell(Int)
+        case didSelectedCell(Int)
     }
     
     enum Mutation {
@@ -25,6 +26,8 @@ class MyLogCommentReactor: Reactor {
         case setCommunityItem([CommunityComment])
         case setCommentType(MyLogCommentSectionItem)
         case setLoadedPage(Int)
+        case setPerfumeId(Int?)
+        case setCommunityId(Int?)
     }
     
     struct State {
@@ -35,6 +38,9 @@ class MyLogCommentReactor: Reactor {
         var page: Int = 0
         var loadedPage: Set<Int> = []
         var navigationTitle: String
+        var perfumeId: Int? = nil
+        var communityId: Int? = nil
+        var selectedRow: Int? = nil
     }
     
     init(type: MyLogCommentSectionItem, title: String) {
@@ -65,6 +71,19 @@ class MyLogCommentReactor: Reactor {
             case .liked(_):
                 return setLikedPerfumeComment(page, currentState.loadedPage)
             }
+            
+        case .didSelectedCell(let row):
+            if !currentState.perfumeItem.isEmpty {
+                return .concat([
+                    .just(.setPerfumeId(currentState.perfumeItem[row].perfumeId)),
+                    .just(.setPerfumeId(nil))
+                ])
+            } else {
+                return .concat([
+                    .just(.setCommunityId(currentState.communityItem[row].communityId)),
+                    .just(.setCommunityId(nil))
+                ])
+            }
         }
     }
     
@@ -85,8 +104,13 @@ class MyLogCommentReactor: Reactor {
         case .setLoadedPage(let page):
             state.loadedPage.insert(page)
             
+        case .setPerfumeId(let id):
+            state.perfumeId = id
+            
+        case .setCommunityId(let id):
+            state.communityId = id
+            
         }
-        
         return state
     }
 }
