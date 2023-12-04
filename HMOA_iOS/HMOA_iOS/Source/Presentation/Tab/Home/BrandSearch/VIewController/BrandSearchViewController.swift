@@ -200,7 +200,9 @@ extension BrandSearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            reactor?.action.onNext(.scrollCollectionView(indexPath.section + 2))
+            var row = indexPath.section + 2
+            if row >= 10 { row += 1 }
+            reactor?.action.onNext(.scrollCollectionView(row))
         }
         
     }

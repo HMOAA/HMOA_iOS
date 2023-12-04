@@ -23,6 +23,7 @@ enum BrandListSection {
     case twelfth([BrandCell]) // ㅌ
     case thirteenth([BrandCell]) // ㅍ
     case fourtheenth([BrandCell]) // ㅎ
+    case fifteen([BrandCell]) // ㄲ
 }
 
 enum BrandCell {
@@ -40,39 +41,6 @@ extension BrandCell: Hashable {
 }
 
 extension BrandListSection: Hashable {
-    
-    func hash(into hasher: inout Hasher) {
-        switch self {
-        case .first(let brand):
-            hasher.combine(brand)
-        case .second(let brand):
-            hasher.combine(brand)
-        case .third(let brand):
-            hasher.combine(brand)
-        case .fourth(let brand):
-            hasher.combine(brand)
-        case .fifth(let brand):
-            hasher.combine(brand)
-        case .sixth(let brand):
-            hasher.combine(brand)
-        case .seventh(let brand):
-            hasher.combine(brand)
-        case .eighth(let brand):
-            hasher.combine(brand)
-        case .ninth(let brand):
-            hasher.combine(brand)
-        case .tenth(let brand):
-            hasher.combine(brand)
-        case .eleventh(let brand):
-            hasher.combine(brand)
-        case .twelfth(let brand):
-            hasher.combine(brand)
-        case .thirteenth(let brand):
-            hasher.combine(brand)
-        case .fourtheenth(let brand):
-            hasher.combine(brand)
-        }
-    }
     
     var items: [BrandCell] {
             switch self {
@@ -103,6 +71,8 @@ extension BrandListSection: Hashable {
             case .thirteenth(let items):
                 return items
             case .fourtheenth(let items):
+                return items
+            case .fifteen(let items):
                 return items
             }
         }
@@ -137,6 +107,10 @@ extension BrandListSection: Hashable {
             return "ㅍ"
         case .fourtheenth(_):
             return "ㅎ"
+        case .fourtheenth(_):
+            return "ㅎ"
+        case .fifteen(_):
+            return "ㄲ"
         }
     }
 }

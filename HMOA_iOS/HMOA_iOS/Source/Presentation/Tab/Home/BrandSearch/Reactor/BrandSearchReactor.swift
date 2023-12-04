@@ -130,7 +130,9 @@ extension BrandSearchReactor {
                 var newBrandList = self.currentState.reqeustData
                 newBrandList.append(brand)
                 var newSections = self.currentState.brandList
-                newSections.append(brand.section)
+                
+                guard let section = brand.section else { return .empty() }
+                newSections.append(section)
                 
                 return .concat([
                     .just(.setRequestData(newBrandList)),
@@ -149,7 +151,8 @@ extension BrandSearchReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 data.forEach { list in
-                    filteringSection.append(list.section)
+                    guard let section = list.section else { return }
+                    filteringSection.append(section)
                 }
                 
                 return .just(.setSearchResult(filteringSection))
