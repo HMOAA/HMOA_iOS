@@ -51,8 +51,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                let isPushEnabled = settings.authorizationStatus == .authorized
+                UserDefaults.standard.set(isPushEnabled, forKey: "alarm")
+                LoginManager.shared.isPushAlarmAuthorization.onNext(isPushEnabled)
+            }
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -93,6 +98,7 @@ extension SceneDelegate {
             vc.reactor = LoginReactor(.first)
             window?.rootViewController = vc
         }
+        
     }
 }
 

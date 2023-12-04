@@ -77,6 +77,7 @@ extension MyPageViewController {
             })
             .disposed(by: disposeBag)
         
+        
         reactor.state
             .map { $0.isTapGoLoginButton }
             .distinctUntilChanged()
@@ -155,14 +156,38 @@ extension MyPageViewController {
                 
                 return cell
                 
+            case .pushAlaramCell(let title):
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageSwitchCell.identifier, for: indexPath) as? MyPageSwitchCell else {
+                    return UITableViewCell() }
+                
+                cell.updateCell(title)
+                
+                
+                let alarmSwitch = UISwitch()
+                cell.accessoryView = alarmSwitch
+                
+                self.reactor.state
+                    .map { $0.setOnSwitch }
+                    .compactMap { $0 }
+                    .distinctUntilChanged()
+                    .bind(onNext: { isOn in
+                        alarmSwitch.setOn(isOn, animated: false)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                cell.selectionStyle = .none
+                
+                return cell
+                
             case .otherCell(let title):
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageCell.identifier, for: indexPath) as? MyPageCell else { return UITableViewCell() }
                 
                 cell.updateCell(title)
                 cell.selectionStyle = .none
-
+                
                 return cell
+                
             }
         })
     }
@@ -202,8 +227,6 @@ extension MyPageViewController {
                 .map { $0 }
                 .bind(onNext: { _ in print("success") })
                 .disposed(by: disposeBag)
-            
-            break
         case .logout:
             showAlert(title: "로그아웃",
                       message: "로그아웃 하시겠습니까?",
@@ -234,10 +257,17 @@ extension MyPageViewController {
                 self.myPageView.isHidden = true
             }
         } else {
+            
             Observable.just(())
-              .map { Reactor.Action.viewDidLoad }
-              .bind(to: reactor.action)
-              .disposed(by: disposeBag)
+                .map { Reactor.Action.viewDidLoad }
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+            
+            loginManger.isPushAlarmAuthorization
+                .map { Reactor.Action.settingAlarmAuthorization($0) }
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+            
             noLoginView.isHidden = true
             myPageView.isHidden = false
         }
@@ -258,7 +288,7 @@ extension MyPageViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
-        if section == 0 { return UIView() }
+        if section == 0 || section == 2 { return UIView() }
         
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyPageSeparatorLineView.ientfifier)
 

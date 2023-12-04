@@ -16,18 +16,28 @@ final class HomeViewReactor: Reactor {
         case viewDidLoad
         case itemSelected(IndexPath)
         case scrollCollectionView
+        case didTapBellButton
+        case settingAlarmAuthorization(Bool)
+        case settingIsUserSetting(Bool)
     }
     
     enum Mutation {
         case setSelectedPerfumeId(IndexPath?)
         case setSections([HomeSection])
         case setPagination(Bool)
+        case setIsPushAlarm(Bool)
+        case setIsTapBell(Bool)
+        case setUserSetting(Bool)
     }
     
     struct State {
         var sections: [HomeSection] = []
         var selectedPerfumeId: Int?
         var isPaging: Bool = false
+        var isPushAlarm: Bool? = nil
+        var isTapBell: Bool = false
+        var isPushSettiong: Bool = false
+        var isUserSetting: Bool? = UserDefaults.standard.object(forKey: "alarm") as? Bool
     }
     
     init() { self.initialState = State() }
@@ -37,6 +47,7 @@ final class HomeViewReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return HomeViewReactor.reqeustHomeFirstData()
+            
         case .itemSelected(let indexPath):
             return .concat([
                 Observable<Mutation>.just(.setSelectedPerfumeId(indexPath)),
@@ -48,6 +59,16 @@ final class HomeViewReactor: Reactor {
                 HomeViewReactor.requstHomeSecondData(currentState),
                 .just(.setPagination(true))
             ])
+        
+            //TODO: FCM 토큰 삭제, 토큰 보내기
+        case .didTapBellButton:
+            return postFcmToken()
+            
+        case .settingAlarmAuthorization(let isPush):
+            return .just(.setIsPushAlarm(isPush))
+            
+        case .settingIsUserSetting(let setting):
+            return .just(.setUserSetting(setting))
         }
     }
     
@@ -71,6 +92,21 @@ final class HomeViewReactor: Reactor {
             
         case .setSections(let sections):
             state.sections = sections
+            
+        case .setIsPushAlarm(let isPush):
+            state.isPushSettiong = !isPush
+            
+            if let isAlarm = state.isUserSetting {
+                state.isPushAlarm = isAlarm && isPush
+            } else { state.isPushAlarm = isPush }
+            
+        case .setIsTapBell(let isTap):
+            state.isTapBell = isTap
+            
+        case .setUserSetting(let setting):
+            state.isUserSetting = setting
+            state.isPushAlarm = setting
+            UserDefaults.standard.set(setting, forKey: "alarm")
         }
         return state
     }
@@ -115,6 +151,14 @@ extension HomeViewReactor {
                 }
                 return .just(.setSections(sections))
             }
+    }
+    
+    func postFcmToken() -> Observable<Mutation> {
+        // fcm 토큰 보내기
+        return .concat([
+            .just(.setIsTapBell(true)),
+            .just(.setIsTapBell(false))
+        ])
     }
 }
     

@@ -20,7 +20,8 @@ class HomeViewController: UIViewController, View {
     // MARK: Properties
     private var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>!
     var disposeBag = DisposeBag()
-
+    
+    let loginManager = LoginManager.shared
     // MARK: - UI Component
     lazy var homeView = HomeView()
     
@@ -35,6 +36,10 @@ class HomeViewController: UIViewController, View {
         ]
     }
     
+    let bellButton = UIBarButtonItem().then {
+        $0.image = UIImage(named: "bell")
+    }
+    
     var headerViewReactor: HomeHeaderReactor!
     
     //MARK: - Init
@@ -43,7 +48,7 @@ class HomeViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setBrandSearchBellNaviBar("H  M  O  A")
+        setBrandSearchBellNaviBar("H  M  O  A", bellButton: bellButton)
         configureCollectionViewDataSource()
         bind(reactor: homeReactor)
     }
@@ -72,9 +77,16 @@ extension HomeViewController {
         
         // viewDidLoad
         Observable.just(())
-            .map { Reactor.Action.viewDidLoad}
+            .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        loginManager.isPushAlarmAuthorization
+            .map { Reactor.Action.settingAlarmAuthorization($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        
         
         // collectionView item 클릭
         self.homeView.collectionView.rx.itemSelected
@@ -82,12 +94,16 @@ extension HomeViewController {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
+        bellButton.rx.tap
+            .map { Reactor.Action.didTapBellButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
-        //snapshot 설정
+        // snapshot 설정
         reactor.state
             .map { $0.sections }
-            //.delay(.seconds(4), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
                 
@@ -109,6 +125,37 @@ extension HomeViewController {
             .map { $0.selectedPerfumeId }
             .compactMap { $0 }
             .bind(onNext: presentDatailViewController)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushAlarm }
+            .compactMap { $0 }
+            .distinctUntilChanged()
+            .bind(with: self, onNext: { owner, isPush in
+                let color: UIColor = isPush ? .systemYellow : .black
+                owner.bellButton.tintColor = color
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isTapBell }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                if reactor.currentState.isPushSettiong {
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                } else {
+                    DispatchQueue.main.async {
+                        reactor.action.onNext(.settingIsUserSetting(true))
+                    }
+                }
+                
+                if reactor.currentState.isPushAlarm! {
+                    DispatchQueue.main.async {
+                        reactor.action.onNext(.settingIsUserSetting(false))
+                    }
+                }
+            }
             .disposed(by: disposeBag)
         
     }

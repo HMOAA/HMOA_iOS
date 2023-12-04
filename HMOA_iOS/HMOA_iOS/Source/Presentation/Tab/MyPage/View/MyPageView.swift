@@ -15,6 +15,7 @@ class MyPageView: UIView {
     lazy var tableView = UITableView(frame: .zero, style: .plain).then {
         $0.register(MyPageSeparatorLineView.self, forHeaderFooterViewReuseIdentifier: MyPageSeparatorLineView.ientfifier)
         $0.register(MyPageUserCell.self, forCellReuseIdentifier: MyPageUserCell.identifier)
+        $0.register(MyPageSwitchCell.self, forCellReuseIdentifier: MyPageSwitchCell.identifier)
         $0.register(MyPageCell.self, forCellReuseIdentifier: MyPageCell.identifier)
         $0.separatorStyle = .none
         $0.sectionHeaderTopPadding = 0

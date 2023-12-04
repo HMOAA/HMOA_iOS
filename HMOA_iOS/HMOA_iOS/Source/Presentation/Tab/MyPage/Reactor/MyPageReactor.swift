@@ -18,6 +18,8 @@ class MyPageReactor: Reactor {
         case didTapGoLoginButton
         case didTapCell(MyPageType)
         case didTapDeleteMember
+        case didSwitchAlarm(Bool)
+        case settingAlarmAuthorization(Bool)
     }
     
     enum Mutation {
@@ -30,6 +32,9 @@ class MyPageReactor: Reactor {
         case updateSex(Bool)
         case setIsTapGoLoginButton(Bool)
         case setIsDelete(Bool)
+        case setIsAlarmOn(Bool)
+        case setIsPushAlarm(Bool)
+        case setUserSetting(Bool)
     }
     
     struct State {
@@ -46,6 +51,10 @@ class MyPageReactor: Reactor {
         var isTapEditButton: Bool = false
         var isTapGoLoginButton: Bool = false
         var isDelete: Bool = false
+        var isAlarmOn: Bool = false
+        var isUserSetting: Bool? = UserDefaults.standard.object(forKey: "alarm") as? Bool
+        var setOnSwitch: Bool? = nil
+        var isPushSetting: Bool = false
     }
     
     init(service: UserServiceProtocol) {
@@ -90,6 +99,12 @@ class MyPageReactor: Reactor {
             
         case .didTapDeleteMember:
             return deleteMember()
+            
+        case .didSwitchAlarm(let isOn):
+            return .just(.setIsAlarmOn(isOn))
+            
+        case .settingAlarmAuthorization(let authorization):
+            return .just(.setIsPushAlarm(authorization))
         }
     }
     
@@ -112,7 +127,7 @@ class MyPageReactor: Reactor {
             state.sections = [
                 MyPageSection.memberSection(
                     MyPageSectionItem.memberCell(state.member, image))
-            ] + MyPageReactor.setUpOtherSection()
+            ] + [MyPageSection.pushAlarmSection(.pushAlaramCell("서비스 알림"))] + MyPageReactor.setUpOtherSection()
             
         case .updateNickname(let nickname):
             
@@ -121,7 +136,7 @@ class MyPageReactor: Reactor {
             state.sections = [
                 MyPageSection.memberSection(
                     MyPageSectionItem.memberCell(state.member, state.profileImage))
-            ] + MyPageReactor.setUpOtherSection()
+            ] + [MyPageSection.pushAlarmSection(.pushAlaramCell("서비스 알림"))] + MyPageReactor.setUpOtherSection()
             
         case .updateAge(let age):
             state.member.age = age
@@ -134,9 +149,20 @@ class MyPageReactor: Reactor {
             
         case .setIsDelete(let isDelete):
             state.isDelete = isDelete
+            
+        case .setIsAlarmOn(let isOn):
+            state.isAlarmOn = isOn
+            
+        case .setIsPushAlarm(let isPush):
+            state.isPushSetting = !isPush
+            if let isAlarm = state.isUserSetting {
+                state.setOnSwitch = isAlarm && isPush
+            } else { state.setOnSwitch = isPush }
+            
+        case .setUserSetting(let setting):
+            state.isUserSetting = setting
+            UserDefaults.standard.set(setting, forKey: "alarm")
         }
-        
-        
         return state
     }
 }
@@ -179,7 +205,7 @@ extension MyPageReactor {
                 
                 sections.append(MyPageSection.memberSection(
                     MyPageSectionItem.memberCell(member, nil)))
-                
+                sections.append(MyPageSection.pushAlarmSection(.pushAlaramCell("서비스 알림")))
                 sections += setUpOtherSection()
                 
                 return .concat([

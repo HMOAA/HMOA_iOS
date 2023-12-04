@@ -14,7 +14,6 @@ extension UINavigationItem {
         let button = UIButton().then {
             $0.setImage(UIImage(named: imageName), for: .normal)
             $0.addTarget(target, action: action, for: .touchUpInside)
-            $0.tintColor = .black
         }
         
         let barButtonItem = UIBarButtonItem(customView: button)
