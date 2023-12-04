@@ -55,7 +55,9 @@ extension UIViewController {
         case .first:
             let tabBar = AppTabbarController()
             tabBar.modalPresentationStyle = .fullScreen
+            self.view.window?.rootViewController = tabBar
             self.present(tabBar, animated: true)
+            self.view.window?.rootViewController?.dismiss(animated: false)
         case .inApp:
             self.presentingViewController?.dismiss(animated: true, completion: nil)
         }
@@ -243,7 +245,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
-    func setBrandSearchBellNaviBar(_ title: String) {
+    func setBrandSearchBellNaviBar(_ title: String, bellButton: UIBarButtonItem) {
         let titleLabel = UILabel().then {
             $0.text = title
             $0.font = .customFont(.pretendard_medium, 20)
@@ -253,12 +255,11 @@ extension UIViewController {
         let brandButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToBrand), imageName: "homeMenu")
         
         let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
-        
-        let bellButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "bell")
+
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [brandButton]
-        self.navigationItem.rightBarButtonItems = [bellButton, spacerItem(15), searchButton]
+        self.navigationItem.rightBarButtonItems = [bellButton, searchButton]
     }
     
     func setBackItemNaviBar(_ title: String) {

@@ -10,16 +10,16 @@ import UIKit
 enum MyPageType: String, CaseIterable {
     case myProfile = "00"
     
-    case myLog = "10"
-    case myInformation = "11"
+    case myLog = "20"
+    case myInformation = "21"
      
-    case terms = "20"
-    case policy = "21"
-    case version = "22"
+    case terms = "30"
+    case policy = "31"
+    case version = "32"
     
-    case inquireAccount = "30"
-    case logout = "31"
-    case deleteAccount = "32"
+    case inquireAccount = "40"
+    case logout = "41"
+    case deleteAccount = "42"
 
     var title: String {
         switch self {
