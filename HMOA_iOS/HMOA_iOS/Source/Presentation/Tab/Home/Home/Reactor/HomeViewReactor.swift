@@ -18,7 +18,7 @@ final class HomeViewReactor: Reactor {
         case scrollCollectionView
         case didTapBellButton
         case settingAlarmAuthorization(Bool)
-        case settingIsUserSetting(Bool)
+        case settingIsUserSetting(Bool?)
     }
     
     enum Mutation {
@@ -27,7 +27,7 @@ final class HomeViewReactor: Reactor {
         case setPagination(Bool)
         case setIsPushAlarm(Bool)
         case setIsTapBell(Bool)
-        case setUserSetting(Bool)
+        case setUserSetting(Bool?)
     }
     
     struct State {

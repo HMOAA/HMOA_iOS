@@ -174,27 +174,24 @@ class LoginViewController: UIViewController, View {
             .compactMap { $0.kakaoToken }
             .distinctUntilChanged()
             .bind(with: self, onNext: { owner, token in
-                KeychainManager.create(token: token)
-                owner.loginManager.tokenSubject.onNext(token)
-                owner.checkPreviousSignIn(token.existedMember!)
+                owner.checkPreviousSignIn(token)
             }).disposed(by: disposeBag)
         
+        // 애플 로그인 토큰
         reactor.state
             .compactMap { $0.appleToken }
             .distinctUntilChanged()
             .bind(with: self) { owner, token in
-                KeychainManager.create(token: token)
-                owner.loginManager.tokenSubject.onNext(token)
-                owner.checkPreviousSignIn(token.existedMember!)
+                owner.checkPreviousSignIn(token)
             }.disposed(by: disposeBag)
             
-        
+        // 로그인 state 분기 처리
         reactor.state
             .map { $0.loginState }
             .bind(with: self) { owner, state in
                 switch state {
                 case .first:
-                    owner.loginManager.loginStateSubject.onNext(.inApp)
+                    owner.loginManager.loginStateSubject.onNext(.first)
                 case .inApp:
                     owner.noLoginButton.isHidden = true
                     owner.xButton.isHidden = false
@@ -202,6 +199,7 @@ class LoginViewController: UIViewController, View {
                 }
             }.disposed(by: disposeBag)
         
+        // dismiss 
         reactor.state
             .map { $0.isDismiss }
             .distinctUntilChanged()
@@ -234,18 +232,20 @@ extension LoginViewController {
             
             LoginAPI.postAccessToken(params: params, .google)
                 .bind(with: self, onNext: { owner, token in
-                    owner.loginManager.tokenSubject.onNext(token)
-                    KeychainManager.create(token: token)
-                    owner.checkPreviousSignIn(token.existedMember!)
+                    owner.checkPreviousSignIn(token)
                 }).disposed(by: self.disposeBag)
         }
     }
     
-    func checkPreviousSignIn(_ isExisted: Bool) {
-        if !isExisted {
+    func checkPreviousSignIn(_ token: Token) {
+        
+        loginManager.tokenSubject.onNext(token)
+        
+        if !token.existedMember! {
             presentLoginStartVC()
         } else {
             presentTabBar(reactor!.currentState.loginState)
+            KeychainManager.create(token: token)
         }
     }
 }

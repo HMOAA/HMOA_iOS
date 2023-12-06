@@ -130,7 +130,6 @@ class HPediaViewController: UIViewController, View {
         //DictionaryVC로 선택된 Id push
         reactor.state
             .map { $0.selectedHPedia }
-            .distinctUntilChanged()
             .compactMap { $0 }
             .bind(with: self) { owner, type in
                 owner.presentDictionaryViewController(type)
@@ -141,7 +140,6 @@ class HPediaViewController: UIViewController, View {
         reactor.state
             .map { $0.selectedCommunityId }
             .compactMap { $0 }
-            .distinctUntilChanged()
             .bind(with: self, onNext: { owner, id in
                 owner.presentQnADetailVC(id)
             })

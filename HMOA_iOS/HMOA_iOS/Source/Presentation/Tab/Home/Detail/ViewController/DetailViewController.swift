@@ -130,7 +130,7 @@ extension DetailViewController {
             .map { $0.presentComment }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext:{ owner, comment in owner.presentCommentDetailViewController(comment, nil)
+            .bind(with: self, onNext:{ owner, comment in owner.presentCommentDetailViewController(comment, nil, nil)
             })
             .disposed(by: disposeBag)
         

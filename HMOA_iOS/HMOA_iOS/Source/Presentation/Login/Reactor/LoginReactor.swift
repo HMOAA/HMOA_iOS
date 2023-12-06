@@ -94,7 +94,6 @@ class LoginReactor: NSObject, Reactor {
             state.isDismiss = isDismiss
         case .setAppleToken(let token):
             state.appleToken = token
-            print(token)
         }
         
         return state

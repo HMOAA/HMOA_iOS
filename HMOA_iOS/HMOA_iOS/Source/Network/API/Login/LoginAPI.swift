@@ -22,7 +22,7 @@ final class LoginAPI {
                     withJSONObject: params,
                     options: .prettyPrinted)
                 
-        else { return Observable.error(NetworkError.invalidParameters)}
+        else { return Observable.error(NetworkError.invalidParameters) }
         return networking(
             urlStr: type.url,
             method: .post,
@@ -35,8 +35,9 @@ final class LoginAPI {
         let url = URL(string: baseURL.url + LoginAddress.remebered.url)
         guard let rememberToken = try? LoginManager.shared.tokenSubject.value()?.rememberedToken
         else { return }
-        
+        print(" rememberToken 값 \(rememberToken)")
         let params = ["rememberedToken": rememberToken]
+        
         guard let data = try? JSONSerialization.data(
             withJSONObject: params,
             options: .prettyPrinted
@@ -46,6 +47,7 @@ final class LoginAPI {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.method = .post
         request.httpBody = data
+        print(request)
         
         AF.request(request, interceptor: AppRequestInterceptor())
             .responseDecodable(of: Token.self) { response in

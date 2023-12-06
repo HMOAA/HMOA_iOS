@@ -91,7 +91,8 @@ extension CommentDetailReactor {
                 .flatMap { _ -> Observable<Mutation> in
                     comment.liked = true
                     comment.heartCount += 1
-                    return self.service!.setCommentLike(to: comment)
+                    guard let service = self.service else { return .just(.setCommentLike(true)) }
+                    return service.setCommentLike(to: comment)
                         .map { _ in .setCommentLike(true) }
                 }
         } else {
@@ -100,7 +101,8 @@ extension CommentDetailReactor {
                 .flatMap { _ -> Observable<Mutation> in
                     comment.liked = false
                     comment.heartCount -= 1
-                    return self.service!.setCommentLike(to: comment)
+                    guard let service = self.service else { return .just(.setCommentLike(false)) }
+                    return service.setCommentLike(to: comment)
                         .map { _ in .setCommentLike(false) }
                 }
         }

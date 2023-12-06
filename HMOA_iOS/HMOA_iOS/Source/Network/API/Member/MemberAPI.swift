@@ -22,7 +22,6 @@ final class MemberAPI {
             data: nil,
             model: Member.self)
         .map { result in
-            print(result)
             return result
         }
     }
