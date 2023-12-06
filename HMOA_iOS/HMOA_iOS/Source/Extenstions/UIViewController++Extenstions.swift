@@ -45,21 +45,16 @@ extension UIViewController {
         let vc = LoginStartViewController()
         let nvController = UINavigationController(rootViewController: vc)
         nvController.modalPresentationStyle = .fullScreen
-        self.view.window?.rootViewController = nvController
         self.present(nvController, animated: true)
-        self.view.window?.rootViewController?.dismiss(animated: false)
     }
     
     func presentTabBar(_ state: LoginState) {
         switch state {
         case .first:
             let tabBar = AppTabbarController()
-            tabBar.modalPresentationStyle = .fullScreen
             self.view.window?.rootViewController = tabBar
-            self.present(tabBar, animated: true)
-            self.view.window?.rootViewController?.dismiss(animated: false)
         case .inApp:
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            self.view.window?.rootViewController?.dismiss(animated: true)
         }
     }
         

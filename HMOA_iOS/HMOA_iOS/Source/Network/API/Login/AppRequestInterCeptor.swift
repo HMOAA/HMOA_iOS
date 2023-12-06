@@ -16,9 +16,11 @@ final class AppRequestInterceptor: RequestInterceptor {
             completion(.success(urlRequest))
             return
         }
+        
         var urlRequest = urlRequest
         urlRequest.setValue(token.authToken, forHTTPHeaderField: "X-AUTH-TOKEN")
         completion(.success(urlRequest))
+        print(" adpat \(urlRequest)")
     }
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
@@ -34,7 +36,8 @@ final class AppRequestInterceptor: RequestInterceptor {
             return
         }
         
-        LoginAPI.autoLoginToken{ response in
+        LoginAPI.autoLoginToken { response in
+            print("response \(response.result)")
             switch response.result {
             case .success(let token):
                 LoginManager.shared.tokenSubject.onNext(token)

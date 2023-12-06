@@ -22,6 +22,7 @@ class HomeViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     let loginManager = LoginManager.shared
+    
     // MARK: - UI Component
     lazy var homeView = HomeView()
     
@@ -86,6 +87,11 @@ extension HomeViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        loginManager.isUserSettingAlarm
+            .map { Reactor.Action.settingIsUserSetting($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         
         
         // collectionView item 클릭
@@ -127,6 +133,7 @@ extension HomeViewController {
             .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
         
+        // 푸시 알람 권한, 유저 셋팅에 따른 ui 바인딩
         reactor.state
             .map { $0.isPushAlarm }
             .compactMap { $0 }
@@ -137,22 +144,25 @@ extension HomeViewController {
             })
             .disposed(by: disposeBag)
         
+        // 벨 터치 이벤트
         reactor.state
             .map { $0.isTapBell }
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self) { owner, _ in
+                // 앱 알람 권한 설정 이동
                 if reactor.currentState.isPushSettiong {
                     UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                 } else {
+                    // 유져 셋팅 알람 true
                     DispatchQueue.main.async {
-                        reactor.action.onNext(.settingIsUserSetting(true))
+                        owner.loginManager.isUserSettingAlarm.onNext(true)
                     }
                 }
-                
+                // 유져 셋팅 알람 false
                 if reactor.currentState.isPushAlarm! {
                     DispatchQueue.main.async {
-                        reactor.action.onNext(.settingIsUserSetting(false))
+                        owner.loginManager.isUserSettingAlarm.onNext(false)
                     }
                 }
             }

@@ -54,7 +54,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
                 let isPushEnabled = settings.authorizationStatus == .authorized
-                UserDefaults.standard.set(isPushEnabled, forKey: "alarm")
                 LoginManager.shared.isPushAlarmAuthorization.onNext(isPushEnabled)
             }
         }

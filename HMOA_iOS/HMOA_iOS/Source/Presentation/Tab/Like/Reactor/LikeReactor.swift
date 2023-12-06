@@ -18,7 +18,6 @@ class LikeReactor: Reactor {
     
     enum Action {
         case viewWillAppear
-        case viewWillDisappear
         case didTapCardButton
         case didTapListButton
         case didTapCollectionViewItem(IndexPath)
@@ -68,7 +67,9 @@ class LikeReactor: Reactor {
         case .viewWillAppear:
             return .concat([
                 .just(.setIsHideenNoLikeView(nil)),
-                fetchLikePerfumes()
+                fetchLikePerfumes(),
+                .just(.setShowListCollectionView(false)),
+                .just(.setShowCardCollectionView(true))
             ])
             
         case .didTapXButton:
@@ -77,8 +78,6 @@ class LikeReactor: Reactor {
         case .didChangeCurrentPage(let currentRow):
             return .just(.setCurrentRow(currentRow))
             
-        case .viewWillDisappear:
-            return .just(.setSectionItem([]))
         }
         
     }

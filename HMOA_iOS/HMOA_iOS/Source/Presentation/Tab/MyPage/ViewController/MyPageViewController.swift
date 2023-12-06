@@ -77,7 +77,7 @@ extension MyPageViewController {
             })
             .disposed(by: disposeBag)
         
-        
+        // 로그인 버튼 터치
         reactor.state
             .map { $0.isTapGoLoginButton }
             .distinctUntilChanged()
@@ -112,6 +112,7 @@ extension MyPageViewController {
             .bind(onNext: presentNextVC)
             .disposed(by: disposeBag)
         
+        // 계정 삭제
         reactor.state
             .map { $0.isDelete }
             .distinctUntilChanged()
@@ -166,12 +167,24 @@ extension MyPageViewController {
                 let alarmSwitch = UISwitch()
                 cell.accessoryView = alarmSwitch
                 
+                alarmSwitch.rx.isOn
+                    .map { Reactor.Action.didSwitchAlarm($0) }
+                    .bind(to: self.reactor.action)
+                    .disposed(by: cell.disposeBag)
+                
                 self.reactor.state
-                    .map { $0.setOnSwitch }
+                    .map { $0.isOnSwitch }
                     .compactMap { $0 }
                     .distinctUntilChanged()
-                    .bind(onNext: { isOn in
-                        alarmSwitch.setOn(isOn, animated: false)
+                    .bind(with: self, onNext: { owner, isOn in
+                        if isOn && owner.reactor.currentState.isPushSetting {
+                            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                            
+                        }
+                        DispatchQueue.main.async {
+                            owner.loginManger.isUserSettingAlarm.onNext(isOn)
+                            alarmSwitch.isOn = isOn
+                        }
                     })
                     .disposed(by: cell.disposeBag)
                 
@@ -258,15 +271,24 @@ extension MyPageViewController {
             }
         } else {
             
+            // viewDidLoad
             Observable.just(())
                 .map { Reactor.Action.viewDidLoad }
                 .bind(to: reactor.action)
                 .disposed(by: disposeBag)
             
+            // 앱 알람 권한 설정 셋팅
             loginManger.isPushAlarmAuthorization
                 .map { Reactor.Action.settingAlarmAuthorization($0) }
                 .bind(to: reactor.action)
                 .disposed(by: disposeBag)
+            
+            // 유저 알람 권한 설정 셋팅
+            loginManger.isUserSettingAlarm
+                .map { Reactor.Action.settingIsUserSetting($0) }
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+
             
             noLoginView.isHidden = true
             myPageView.isHidden = false

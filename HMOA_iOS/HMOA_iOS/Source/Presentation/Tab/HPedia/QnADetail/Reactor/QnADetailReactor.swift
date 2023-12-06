@@ -178,6 +178,8 @@ class QnADetailReactor: Reactor {
             }
             
         case .editCommunityPost(let detail):
+            state.postItem = [detail]
+            state.photoItem = detail.communityPhotos
             state.communityItems.postItem = [detail]
             
         case .setPhotoItem(let item):

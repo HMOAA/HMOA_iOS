@@ -134,11 +134,6 @@ class LikeViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        rx.viewWillDisappear
-            .map { _ in LikeReactor.Action.viewWillDisappear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         cardCollectionView.rx.itemSelected
             .map { LikeReactor.Action.didTapCollectionViewItem($0) }
             .bind(to: reactor.action)

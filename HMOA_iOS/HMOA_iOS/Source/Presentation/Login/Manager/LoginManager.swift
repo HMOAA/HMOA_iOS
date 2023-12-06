@@ -17,6 +17,7 @@ final class LoginManager {
     let loginStateSubject: BehaviorSubject<LoginState> = BehaviorSubject(value: .first)
     let fcmTokenSubject: BehaviorSubject<String?> = BehaviorSubject(value: "")
     let isPushAlarmAuthorization: BehaviorSubject<Bool> = BehaviorSubject(value: false)
+    let isUserSettingAlarm: BehaviorSubject<Bool?> = BehaviorSubject(value: UserDefaults.standard.object(forKey: "alarm") as? Bool)
     
     var isLogin: Observable<Bool> {
         return tokenSubject

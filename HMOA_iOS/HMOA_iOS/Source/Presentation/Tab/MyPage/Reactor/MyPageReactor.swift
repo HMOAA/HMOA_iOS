@@ -20,6 +20,7 @@ class MyPageReactor: Reactor {
         case didTapDeleteMember
         case didSwitchAlarm(Bool)
         case settingAlarmAuthorization(Bool)
+        case settingIsUserSetting(Bool?)
     }
     
     enum Mutation {
@@ -32,9 +33,9 @@ class MyPageReactor: Reactor {
         case updateSex(Bool)
         case setIsTapGoLoginButton(Bool)
         case setIsDelete(Bool)
-        case setIsAlarmOn(Bool)
         case setIsPushAlarm(Bool)
-        case setUserSetting(Bool)
+        case setUserSetting(Bool?)
+        case setIsOnSwitch(Bool)
     }
     
     struct State {
@@ -51,9 +52,8 @@ class MyPageReactor: Reactor {
         var isTapEditButton: Bool = false
         var isTapGoLoginButton: Bool = false
         var isDelete: Bool = false
-        var isAlarmOn: Bool = false
-        var isUserSetting: Bool? = UserDefaults.standard.object(forKey: "alarm") as? Bool
-        var setOnSwitch: Bool? = nil
+        var isUserSetting: Bool? = nil
+        var isOnSwitch: Bool? = nil
         var isPushSetting: Bool = false
     }
     
@@ -101,10 +101,13 @@ class MyPageReactor: Reactor {
             return deleteMember()
             
         case .didSwitchAlarm(let isOn):
-            return .just(.setIsAlarmOn(isOn))
+            return .just(.setIsOnSwitch(isOn))
             
         case .settingAlarmAuthorization(let authorization):
             return .just(.setIsPushAlarm(authorization))
+            
+        case .settingIsUserSetting(let setting):
+            return .just(.setUserSetting(setting))
         }
     }
     
@@ -150,18 +153,19 @@ class MyPageReactor: Reactor {
         case .setIsDelete(let isDelete):
             state.isDelete = isDelete
             
-        case .setIsAlarmOn(let isOn):
-            state.isAlarmOn = isOn
-            
         case .setIsPushAlarm(let isPush):
             state.isPushSetting = !isPush
             if let isAlarm = state.isUserSetting {
-                state.setOnSwitch = isAlarm && isPush
-            } else { state.setOnSwitch = isPush }
+                state.isOnSwitch = isAlarm && isPush
+            } else { state.isOnSwitch = isPush }
             
         case .setUserSetting(let setting):
             state.isUserSetting = setting
+            state.isOnSwitch = setting
             UserDefaults.standard.set(setting, forKey: "alarm")
+            
+        case .setIsOnSwitch(let isOn):
+            state.isOnSwitch = isOn
         }
         return state
     }
@@ -220,7 +224,6 @@ extension MyPageReactor {
         return MemberAPI.deleteMember()
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                print(data)
                 return .concat([
                     .just(.setIsDelete(true)),
                     .just(.setIsDelete(false))

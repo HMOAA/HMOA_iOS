@@ -102,7 +102,7 @@ class MyLogCommentViewController: UIViewController, View {
                 items.community.forEach { snapshot.appendItems([.community($0)]) }
                 
                 DispatchQueue.main.async {
-                    owner.datasource.apply(snapshot)
+                    owner.datasource.apply(snapshot, animatingDifferences: false)
                 }
             }
             .disposed(by: disposeBag)

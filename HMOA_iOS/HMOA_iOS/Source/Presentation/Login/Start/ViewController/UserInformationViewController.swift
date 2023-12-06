@@ -69,7 +69,7 @@ class UserInformationViewController: UIViewController, View {
     var nickname: String = ""
     
     //MARK: - Init
-    init(nickname: String, reactor: UserInformationReactor) {
+    init(nickname: String = "", reactor: UserInformationReactor) {
         //닉네임 페이지에서 닉네임 받아오기
         self.reactor = reactor
         self.nickname = nickname
@@ -252,15 +252,19 @@ class UserInformationViewController: UIViewController, View {
             .bind(with: self, onNext: { owner, isStart in
                 owner.setEnableStartButton(isStart)
             }).disposed(by: disposeBag)
-
+        
         //메인 탭바로 이동
-        reactor.state
-            .map { $0.joinResponse }
-            .distinctUntilChanged()
-            .filter { $0 != nil }
-            .withLatestFrom(LoginManager.shared.loginStateSubject) { ($0, $1) }
+        Observable.combineLatest(
+            reactor.state.map { $0.joinResponse }
+                .distinctUntilChanged()
+                .filter { $0 != nil },
+            LoginManager.shared.loginStateSubject,
+            LoginManager.shared.tokenSubject
+        )
             .bind(with: self, onNext: { owner, login in
+                guard let token = login.2 else { return }
                 owner.presentTabBar(login.1)
+                KeychainManager.create(token: token)
             })
             .disposed(by: disposeBag)
     }
