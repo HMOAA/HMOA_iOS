@@ -132,7 +132,6 @@ extension LoginReactor: ASAuthorizationControllerDelegate {
             if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
                let authorizationCode = appleIDCredential.authorizationCode,
                let authorizationCodeString = String(data: authorizationCode, encoding: .utf8) {
-                print(authorizationCodeString)
                 appleLoginResultSubject.onNext(authorizationCodeString)
             } else {
                 appleLoginResultSubject.onNext(nil)

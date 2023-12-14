@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 class BrandDetailHeaderView: UICollectionReusableView {
         
@@ -47,6 +48,8 @@ class BrandDetailHeaderView: UICollectionReusableView {
         $0.setTitleColor(.black, for: .selected)
         $0.setTitle("좋아요순", for: .normal)
     }
+    
+    var disposeBag = DisposeBag()
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -57,6 +60,10 @@ class BrandDetailHeaderView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
 }
 

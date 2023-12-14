@@ -14,6 +14,7 @@ class BrandDetailReactor: Reactor {
         case didTapPerfume(Int)
         case didTapLikeSortButton
         case viewDidLoad
+        case willDisplayCell(Int)
     }
     
     enum Mutation {
@@ -21,6 +22,7 @@ class BrandDetailReactor: Reactor {
         case setSections([BrandDetailSection])
         case setBrand(Brand)
         case setIsTapLiked(Bool)
+        case setLoadedPage(Int)
     }
     
     struct State {
@@ -29,6 +31,7 @@ class BrandDetailReactor: Reactor {
         var brandId: Int = 0
         var isTapLiked: Bool = false
         var presentPerfumeId: Int? = nil
+        var loadedPage: Set<Int> = []
     }
     
     var initialState: State
@@ -43,14 +46,14 @@ class BrandDetailReactor: Reactor {
         case .viewDidLoad:
             return .concat([
                 requestBrandInfo(),
-                fetchBrandFerfumeList(false)
+                fetchBrandFerfumeList(0, false)
             ])
             
         case .didTapLikeSortButton:
             let currentState = currentState
             let isTapLiked = !currentState.isTapLiked
             return .concat([
-                fetchBrandFerfumeList(isTapLiked),
+                fetchBrandFerfumeList(0, isTapLiked),
                 .just(.setIsTapLiked(isTapLiked))
             ])
         case .didTapPerfume(let item):
@@ -58,6 +61,9 @@ class BrandDetailReactor: Reactor {
                 .just(.setPresentPerfumeId(currentState.section[0].items[item].perfumeId)),
                 .just(.setPresentPerfumeId(nil))
             ])
+            
+        case .willDisplayCell(let page):
+            return fetchBrandFerfumeList(page, currentState.isTapLiked)
         }
     }
     
@@ -79,6 +85,10 @@ class BrandDetailReactor: Reactor {
             }
         case .setPresentPerfumeId(let id):
             state.presentPerfumeId = id
+            
+        case .setLoadedPage(let page):
+            if page == 0 { state.loadedPage = [] }
+            state.loadedPage.insert(page)
         }
         
         
@@ -97,18 +107,26 @@ extension BrandDetailReactor {
             }
     }
     
-    func fetchBrandFerfumeList(_ isTapLiked: Bool) -> Observable<Mutation> {
-        
+    func fetchBrandFerfumeList(_ page: Int, _ isTapLiked: Bool) -> Observable<Mutation> {
+        if page != 0 && currentState.loadedPage.contains(page) { return .empty() }
         // 좋아요 순
         let type = isTapLiked ? "top" : ""
+        let query = ["pageNum": page]
         
-        return BrandAPI.fetchBrandList(["pageNum": 0], brandId: currentState.brandId, type: type)
+        return BrandAPI.fetchBrandList(query, brandId: currentState.brandId, type: type)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 let item = data.data.map { BrandDetailSectionItem.perfumeList($0) }
-                let firstSection = BrandDetailSection.first(item)
+                var section: [BrandDetailSection]!
+                if page == 0 {
+                    section = []
+                } else { section = self.currentState.section }
                 
-                return .just(.setSections([firstSection]))
+                section.append(.first(item))
+                return .concat([
+                    .just(.setSections(section)),
+                    .just(.setLoadedPage(page))
+                ])
             }
     }
 }

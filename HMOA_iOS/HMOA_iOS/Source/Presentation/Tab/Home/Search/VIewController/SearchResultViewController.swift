@@ -42,8 +42,7 @@ extension SearchResultViewController {
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(topView.snp.bottom).offset(3)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+            $0.leading.bottom.trailing.equalToSuperview()
         }
     }
 }
