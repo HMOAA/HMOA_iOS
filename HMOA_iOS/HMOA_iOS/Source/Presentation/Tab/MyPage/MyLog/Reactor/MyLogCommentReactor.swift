@@ -73,12 +73,13 @@ class MyLogCommentReactor: Reactor {
             }
             
         case .didSelectedCell(let row):
-            if !currentState.perfumeItem.isEmpty {
+            switch currentState.commentType {
+            case .perfume(_), .liked(_):
                 return .concat([
                     .just(.setPerfumeId(currentState.perfumeItem[row].perfumeId)),
                     .just(.setPerfumeId(nil))
                 ])
-            } else {
+            case .community(_):
                 return .concat([
                     .just(.setCommunityId(currentState.communityItem[row].communityId)),
                     .just(.setCommunityId(nil))
