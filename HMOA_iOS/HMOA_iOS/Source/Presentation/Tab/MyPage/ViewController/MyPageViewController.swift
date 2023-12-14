@@ -120,6 +120,7 @@ extension MyPageViewController {
             .bind(with: self) { owner, _ in
                 KeychainManager.delete()
                 owner.loginManger.tokenSubject.onNext(nil)
+                owner.presentInAppLoginVC()
             }
             .disposed(by: disposeBag)
     }
@@ -265,7 +266,6 @@ extension MyPageViewController {
                       buttonTitle1: "아니요",
                       buttonTitle2: "네",
                       action2: {
-                self.presentInAppLoginVC()
                 self.reactor.action.onNext(.didTapDeleteMember)
             })
         }

@@ -152,7 +152,7 @@ class LoginViewController: UIViewController, View {
         
         //StartVC로 이동
         reactor.state
-            .map { $0.isPushStartVC}
+            .map { $0.isPushStartVC }
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self, onNext: { owner, _ in

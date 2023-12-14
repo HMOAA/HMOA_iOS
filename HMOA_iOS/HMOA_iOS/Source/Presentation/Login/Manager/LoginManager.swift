@@ -12,20 +12,14 @@ import RxSwift
 final class LoginManager {
     
     static let shared = LoginManager()
-    
+    var disposeBag = DisposeBag()
     let tokenSubject: BehaviorSubject<Token?> = BehaviorSubject<Token?>(value: nil)
     let loginStateSubject: BehaviorSubject<LoginState> = BehaviorSubject(value: .first)
     let fcmTokenSubject: BehaviorSubject<String?> = BehaviorSubject(value: "")
     let isPushAlarmAuthorization: BehaviorSubject<Bool> = BehaviorSubject(value: false)
     let isUserSettingAlarm: BehaviorSubject<Bool?> = BehaviorSubject(value: UserDefaults.standard.object(forKey: "alarm") as? Bool)
+    let isLogin: BehaviorSubject<Bool> = BehaviorSubject(value: false)
     
-    var isLogin: Observable<Bool> {
-        return tokenSubject
-            .flatMap{ token -> Observable<Bool> in
-                guard token != nil else { return .just(false) }
-                return .just(true)
-            }
-    }
     
     var isInApp: Observable<Bool> {
         return loginStateSubject
@@ -39,6 +33,11 @@ final class LoginManager {
     
     
     
-    private init () { }
+    private init () { 
+        tokenSubject
+            .map { $0?.existedMember == true }
+            .bind(to: isLogin)
+            .disposed(by: disposeBag)
+    }
     
 }
