@@ -38,7 +38,7 @@ extension SearchAddress {
         case .fetchHPediaPerfumer:
             return "search/perfumer"
         case .fetchHPediaBrand:
-            return "search/note"
+            return "search/brandStory"
         case .fetchCommunity:
             return "search/community"
         }

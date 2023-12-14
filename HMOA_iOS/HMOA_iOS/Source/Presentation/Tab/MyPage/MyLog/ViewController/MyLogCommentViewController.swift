@@ -118,7 +118,6 @@ class MyLogCommentViewController: UIViewController, View {
         reactor.state
             .map { $0.perfumeId }
             .compactMap { $0 }
-            .distinctUntilChanged()
             .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
         
@@ -126,7 +125,6 @@ class MyLogCommentViewController: UIViewController, View {
         reactor.state
             .map { $0.communityId }
             .compactMap { $0 }
-            .distinctUntilChanged()
             .bind(onNext: presentQnADetailVC)
             .disposed(by: disposeBag)
     }
