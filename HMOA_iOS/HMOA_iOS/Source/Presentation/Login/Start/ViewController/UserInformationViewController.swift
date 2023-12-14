@@ -63,11 +63,12 @@ class UserInformationViewController: UIViewController, View {
     
     var reactor: UserInformationReactor
     var disposeBag = DisposeBag()
+    let loginManager = LoginManager.shared
     
     let yearList = Year().year
     var index: Int = 0
     var nickname: String = ""
-    
+    var subscription: Disposable?
     //MARK: - Init
     init(nickname: String = "", reactor: UserInformationReactor) {
         //닉네임 페이지에서 닉네임 받아오기
@@ -96,6 +97,13 @@ class UserInformationViewController: UIViewController, View {
         
         let frame = selectYearView.frame
         setBottomBorder(selectYearView, width: frame.width, height: frame.height)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // 구독 해제
+        subscription?.dispose()
     }
     
     //MARK: - SetUp
@@ -254,24 +262,22 @@ class UserInformationViewController: UIViewController, View {
             }).disposed(by: disposeBag)
         
         //메인 탭바로 이동
-        Observable.combineLatest(
+        subscription = Observable.combineLatest(
             reactor.state.map { $0.joinResponse }
                 .distinctUntilChanged()
                 .filter { $0 != nil },
-            LoginManager.shared.loginStateSubject,
-            LoginManager.shared.tokenSubject
+            loginManager.loginStateSubject,
+            loginManager.tokenSubject
         )
             .bind(with: self, onNext: { owner, login in
                 guard let token = login.2 else { return }
                 owner.presentTabBar(login.1)
+                owner.loginManager.isLogin.onNext(true)
                 KeychainManager.create(token: token)
             })
-            .disposed(by: disposeBag)
     }
     
     //MARK: - UpdateUI
-    
-    //selectLabel, startButton UI 변경
     func updateUIYearLabel(_ year: String) {
         if year == "선택" {
             selectLabel.textColor = .customColor(.gray3)
