@@ -124,19 +124,16 @@ extension LoginReactor: ASAuthorizationControllerDelegate {
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
         controller.performRequests()
-        print("signIn")
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         //로그인 성공
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
-               let identityToken = appleIDCredential.identityToken,
                let authorizationCode = appleIDCredential.authorizationCode,
-               let authorizationCodeString = String(data: authorizationCode, encoding: .utf8),
-               let tokenString = String(data: identityToken, encoding: .utf8) {
+               let authorizationCodeString = String(data: authorizationCode, encoding: .utf8) {
                 print(authorizationCodeString)
-                appleLoginResultSubject.onNext(tokenString)
+                appleLoginResultSubject.onNext(authorizationCodeString)
             } else {
                 appleLoginResultSubject.onNext(nil)
             }
@@ -150,12 +147,10 @@ extension LoginReactor: ASAuthorizationControllerDelegate {
     }
     
     func setAppleLoginToken() -> Observable<Mutation> {
-        print("setToken")
         return appleLoginResultSubject
-            .flatMap { identityToken -> Observable<Mutation> in
-                guard let identityToken = identityToken else { return .empty() }
-                print(identityToken)
-                return LoginAPI.postAccessToken(params: ["token": identityToken], .apple)
+            .flatMap { authorizationToken -> Observable<Mutation> in
+                guard let authorizationToken = authorizationToken else { return .empty() }
+                return LoginAPI.postAccessToken(params: ["token": authorizationToken], .apple)
                     .catch { _ in .empty() }
                     .map { .setAppleToken($0) }
             }

@@ -229,9 +229,9 @@ extension MyPageViewController {
             myInformationVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(myInformationVC, animated: true)
         case .terms:
-            break
+            UIApplication.shared.open(URL(string: "https://doc-hosting.flycricket.io/hyangmoa-terms-of-use/a176b58e-ad02-4c9c-8336-ead769d56449/terms")!)
         case .policy:
-            break
+            UIApplication.shared.open(URL(string: "https://doc-hosting.flycricket.io/hyangmoa-privacy-policy/d84a2e60-ab07-43bb-b0b9-324725785674/privacy")!)
         case .version:
             break
         case .inquireAccount:
