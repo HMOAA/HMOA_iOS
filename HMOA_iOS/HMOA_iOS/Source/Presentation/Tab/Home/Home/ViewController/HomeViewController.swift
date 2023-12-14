@@ -93,7 +93,6 @@ extension HomeViewController {
             .disposed(by: disposeBag)
         
         
-        
         // collectionView item 클릭
         self.homeView.collectionView.rx.itemSelected
             .map { Reactor.Action.itemSelected($0) }
@@ -153,16 +152,18 @@ extension HomeViewController {
                 // 앱 알람 권한 설정 이동
                 if reactor.currentState.isPushSettiong {
                     UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                } else {
-                    // 유져 셋팅 알람 true
-                    DispatchQueue.main.async {
-                        owner.loginManager.isUserSettingAlarm.onNext(true)
-                    }
                 }
-                // 유져 셋팅 알람 false
+                //print("asdf")
+                // 유져 셋팅 알람 설정
                 if reactor.currentState.isPushAlarm! {
                     DispatchQueue.main.async {
                         owner.loginManager.isUserSettingAlarm.onNext(false)
+                        reactor.action.onNext(.deleteFcmToken)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        owner.loginManager.isUserSettingAlarm.onNext(true)
+                        reactor.action.onNext(.postFcmToken)
                     }
                 }
             }

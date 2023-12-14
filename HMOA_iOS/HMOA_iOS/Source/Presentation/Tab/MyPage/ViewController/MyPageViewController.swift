@@ -168,24 +168,32 @@ extension MyPageViewController {
                 cell.accessoryView = alarmSwitch
                 
                 alarmSwitch.rx.isOn
+                    .skip(1)
                     .map { Reactor.Action.didSwitchAlarm($0) }
                     .bind(to: self.reactor.action)
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor.state
+                    .map { $0.isSetOnSwitch }
+                    .compactMap { $0 }
+                    .distinctUntilChanged()
+                    .bind(to: alarmSwitch.rx.isOn)
                     .disposed(by: cell.disposeBag)
                 
                 self.reactor.state
                     .map { $0.isOnSwitch }
                     .compactMap { $0 }
                     .distinctUntilChanged()
-                    .bind(with: self, onNext: { owner, isOn in
+                    .bind(with: self) { owner, isOn in
                         if isOn && owner.reactor.currentState.isPushSetting {
                             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                             
                         }
                         DispatchQueue.main.async {
                             owner.loginManger.isUserSettingAlarm.onNext(isOn)
-                            alarmSwitch.isOn = isOn
+                            owner.reactor.action.onNext(.networkingFcmTokenAPI(isOn))
                         }
-                    })
+                    }
                     .disposed(by: cell.disposeBag)
                 
                 cell.selectionStyle = .none

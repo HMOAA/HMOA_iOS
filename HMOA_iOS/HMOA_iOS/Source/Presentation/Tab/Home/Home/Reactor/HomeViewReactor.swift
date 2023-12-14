@@ -19,6 +19,8 @@ final class HomeViewReactor: Reactor {
         case didTapBellButton
         case settingAlarmAuthorization(Bool)
         case settingIsUserSetting(Bool?)
+        case postFcmToken
+        case deleteFcmToken
     }
     
     enum Mutation {
@@ -28,6 +30,7 @@ final class HomeViewReactor: Reactor {
         case setIsPushAlarm(Bool)
         case setIsTapBell(Bool)
         case setUserSetting(Bool?)
+        case success
     }
     
     struct State {
@@ -62,13 +65,23 @@ final class HomeViewReactor: Reactor {
         
             //TODO: FCM 토큰 삭제, 토큰 보내기
         case .didTapBellButton:
-            return postFcmToken()
+            return .concat([
+                .just(.setIsTapBell(true)),
+                .just(.setIsTapBell(false))
+                ])
             
         case .settingAlarmAuthorization(let isPush):
             return .just(.setIsPushAlarm(isPush))
             
         case .settingIsUserSetting(let setting):
             return .just(.setUserSetting(setting))
+            
+        case .postFcmToken:
+            return postFcmToken()
+            
+        case .deleteFcmToken:
+            return deleteFcmToken()
+            
         }
     }
     
@@ -107,6 +120,8 @@ final class HomeViewReactor: Reactor {
             state.isUserSetting = setting
             state.isPushAlarm = setting
             UserDefaults.standard.set(setting, forKey: "alarm")
+        case .success:
+            break
         }
         return state
     }
@@ -154,11 +169,18 @@ extension HomeViewReactor {
     }
     
     func postFcmToken() -> Observable<Mutation> {
-        // fcm 토큰 보내기
-        return .concat([
-            .just(.setIsTapBell(true)),
-            .just(.setIsTapBell(false))
-        ])
+        guard let fcmToken = try? LoginManager.shared.fcmTokenSubject.value()! else { return .empty() }
+        
+        return PushAlarmAPI.postFcmToken(["fcmToken": fcmToken])
+            .catch { _ in .empty() }
+            .map { _ in .success }
+        
+    }
+    
+    func deleteFcmToken() -> Observable<Mutation> {
+        return PushAlarmAPI.deleteFcmToken()
+            .catch { _ in .empty() }
+            .map { _ in .success }
     }
 }
     

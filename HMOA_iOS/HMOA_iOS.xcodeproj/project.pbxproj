@@ -178,6 +178,8 @@
 		CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */; };
 		CA5D24A12983EFAB0014ADF8 /* UIStackView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */; };
 		CA5DB81929EAA6F500BE0F79 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */; };
+		CA5E872D2B2AED07006DD2FA /* PushAlarmAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5E872C2B2AED07006DD2FA /* PushAlarmAPI.swift */; };
+		CA5E872F2B2AED13006DD2FA /* PushAlarmAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5E872E2B2AED12006DD2FA /* PushAlarmAddress.swift */; };
 		CA6152BB2A6A8007007B04A7 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6152BA2A6A8007007B04A7 /* Brand.swift */; };
 		CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */; };
 		CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */; };
@@ -434,6 +436,8 @@
 		CA5D249E2983EEE50014ADF8 /* UILabel++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5D24A02983EFAB0014ADF8 /* UIStackView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView++Extenstions.swift"; sourceTree = "<group>"; };
 		CA5DB81829EAA6F500BE0F79 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		CA5E872C2B2AED07006DD2FA /* PushAlarmAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmAPI.swift; sourceTree = "<group>"; };
+		CA5E872E2B2AED12006DD2FA /* PushAlarmAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmAddress.swift; sourceTree = "<group>"; };
 		CA6152BA2A6A8007007B04A7 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRequestInterCeptor.swift; sourceTree = "<group>"; };
 		CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer++Extenstions.swift"; sourceTree = "<group>"; };
@@ -1207,6 +1211,7 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				CA5E872B2B2AECEB006DD2FA /* PushAlarm */,
 				CA99A6CF2B1216D60030364F /* Report */,
 				CAFE2F1F2B0F429A00054E22 /* HPedia */,
 				CA4744662AC7EBF800003584 /* Community */,
@@ -1734,6 +1739,15 @@
 				CA6D99E729C4932A000E80CF /* ListSecton.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		CA5E872B2B2AECEB006DD2FA /* PushAlarm */ = {
+			isa = PBXGroup;
+			children = (
+				CA5E872C2B2AED07006DD2FA /* PushAlarmAPI.swift */,
+				CA5E872E2B2AED12006DD2FA /* PushAlarmAddress.swift */,
+			);
+			path = PushAlarm;
 			sourceTree = "<group>";
 		};
 		CA76400C2AA8643A0053076B /* Dictionary */ = {
@@ -2358,6 +2372,7 @@
 				CA219C422A9C6D91003FB215 /* LikeAddress.swift in Sources */,
 				CA2238992AAF471400452A31 /* QnADetailSection.swift in Sources */,
 				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
+				CA5E872F2B2AED13006DD2FA /* PushAlarmAddress.swift in Sources */,
 				CAA5926B2B049197003DAE51 /* ImagePinchViewController.swift in Sources */,
 				2C15DF912A57DFE000EAB112 /* CoreGraphicManager.swift in Sources */,
 				CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */,
@@ -2369,6 +2384,7 @@
 				CA4744862ADA718500003584 /* MyLogReactor.swift in Sources */,
 				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
 				CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */,
+				CA5E872D2B2AED07006DD2FA /* PushAlarmAPI.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
 				2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */,
 				2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */,

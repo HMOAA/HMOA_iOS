@@ -21,6 +21,7 @@ class MyPageReactor: Reactor {
         case didSwitchAlarm(Bool)
         case settingAlarmAuthorization(Bool)
         case settingIsUserSetting(Bool?)
+        case networkingFcmTokenAPI(Bool)
     }
     
     enum Mutation {
@@ -36,6 +37,7 @@ class MyPageReactor: Reactor {
         case setIsPushAlarm(Bool)
         case setUserSetting(Bool?)
         case setIsOnSwitch(Bool)
+        case success
     }
     
     struct State {
@@ -54,6 +56,7 @@ class MyPageReactor: Reactor {
         var isDelete: Bool = false
         var isUserSetting: Bool? = nil
         var isOnSwitch: Bool? = nil
+        var isSetOnSwitch: Bool? = nil
         var isPushSetting: Bool = false
     }
     
@@ -108,6 +111,9 @@ class MyPageReactor: Reactor {
             
         case .settingIsUserSetting(let setting):
             return .just(.setUserSetting(setting))
+            
+        case .networkingFcmTokenAPI(let isOn):
+            return pushOrDeleteFcmToken(isOn)
         }
     }
     
@@ -156,22 +162,40 @@ class MyPageReactor: Reactor {
         case .setIsPushAlarm(let isPush):
             state.isPushSetting = !isPush
             if let isAlarm = state.isUserSetting {
-                state.isOnSwitch = isAlarm && isPush
-            } else { state.isOnSwitch = isPush }
+                state.isSetOnSwitch = isAlarm && isPush
+            } else { state.isSetOnSwitch = isPush }
             
         case .setUserSetting(let setting):
             state.isUserSetting = setting
-            state.isOnSwitch = setting
+            state.isSetOnSwitch = setting
             UserDefaults.standard.set(setting, forKey: "alarm")
             
         case .setIsOnSwitch(let isOn):
             state.isOnSwitch = isOn
+            
+        case .success:
+            break
         }
         return state
     }
 }
 
 extension MyPageReactor {
+    
+    func pushOrDeleteFcmToken(_ isOn: Bool) -> Observable<Mutation> {
+        if isOn {
+            guard let fcmToken = try? LoginManager.shared.fcmTokenSubject.value()! else { return .empty() }
+            
+            return PushAlarmAPI.postFcmToken(["fcmToken": fcmToken])
+                .catch { _ in .empty() }
+                .map { _ in .success }
+            
+        } else  {
+            return PushAlarmAPI.deleteFcmToken()
+                .catch { _ in .empty() }
+                .map { _ in .success }
+        }
+    }
     
     static func setUpOtherSection() -> [MyPageSection] {
         let second = [
