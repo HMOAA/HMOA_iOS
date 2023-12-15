@@ -183,6 +183,8 @@
 		CA6152BB2A6A8007007B04A7 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6152BA2A6A8007007B04A7 /* Brand.swift */; };
 		CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */; };
 		CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */; };
+		CA6C48612B2C2F8C00F1BE7F /* TotalPerfumeAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6C48602B2C2F8C00F1BE7F /* TotalPerfumeAddress.swift */; };
+		CA6C48632B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6C48622B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift */; };
 		CA6CA1122AFF780300535B0D /* QnAPostPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6CA1112AFF780300535B0D /* QnAPostPhotoCell.swift */; };
 		CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D99E729C4932A000E80CF /* ListSecton.swift */; };
 		CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */; };
@@ -441,6 +443,8 @@
 		CA6152BA2A6A8007007B04A7 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		CA6903992A3023A000EAD59A /* AppRequestInterCeptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRequestInterCeptor.swift; sourceTree = "<group>"; };
 		CA69F39A29DEB2D0004958BB /* CALayer++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer++Extenstions.swift"; sourceTree = "<group>"; };
+		CA6C48602B2C2F8C00F1BE7F /* TotalPerfumeAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalPerfumeAddress.swift; sourceTree = "<group>"; };
+		CA6C48622B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalPerfumeAPI.swift; sourceTree = "<group>"; };
 		CA6CA1112AFF780300535B0D /* QnAPostPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAPostPhotoCell.swift; sourceTree = "<group>"; };
 		CA6D99E729C4932A000E80CF /* ListSecton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSecton.swift; sourceTree = "<group>"; };
 		CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaQnAHeaderView.swift; sourceTree = "<group>"; };
@@ -1193,6 +1197,7 @@
 		2C8318C52A0FC6BD004A3ACD /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				CA6C485F2B2C2F7800F1BE7F /* TotalPerfume */,
 				2C8318C82A0FC6E6004A3ACD /* Model */,
 				2C8318C62A0FC6D0004A3ACD /* HomeAPI.swift */,
 				2C8318CD2A0FC779004A3ACD /* HomeAddress.swift */,
@@ -1748,6 +1753,15 @@
 				CA5E872E2B2AED12006DD2FA /* PushAlarmAddress.swift */,
 			);
 			path = PushAlarm;
+			sourceTree = "<group>";
+		};
+		CA6C485F2B2C2F7800F1BE7F /* TotalPerfume */ = {
+			isa = PBXGroup;
+			children = (
+				CA6C48602B2C2F8C00F1BE7F /* TotalPerfumeAddress.swift */,
+				CA6C48622B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift */,
+			);
+			path = TotalPerfume;
 			sourceTree = "<group>";
 		};
 		CA76400C2AA8643A0053076B /* Dictionary */ = {
@@ -2351,6 +2365,7 @@
 				CA0160982AB2E15200D5839D /* EvaluationReactor.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
 				CA22389B2AAF492D00452A31 /* QnAPostCell.swift in Sources */,
+				CA6C48612B2C2F8C00F1BE7F /* TotalPerfumeAddress.swift in Sources */,
 				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
 				CA99A6D12B1216DE0030364F /* ReportAPI.swift in Sources */,
 				CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */,
@@ -2390,6 +2405,7 @@
 				2C04249B29A656BB009CF0FE /* CommentWriteViewController.swift in Sources */,
 				CA99A6CE2B1201B10030364F /* MyLogWritedPostReactor.swift in Sources */,
 				2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */,
+				CA6C48632B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift in Sources */,
 				2C4CDC4829C770D900676163 /* BrandSearchSection.swift in Sources */,
 				CA219C4A2AA1C635003FB215 /* LikeHeaderView.swift in Sources */,
 				CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */,

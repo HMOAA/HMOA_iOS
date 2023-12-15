@@ -31,6 +31,7 @@ class LikeCardCell: UICollectionViewCell {
     }
     
     let perpumeImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
     }
     

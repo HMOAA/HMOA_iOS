@@ -9,12 +9,12 @@ import UIKit
 
 enum HomeSection: Hashable {
     case topSection([HomeSectionItem])
-    case recommendSection(header: String, items: [HomeSectionItem])
+    case recommendSection(header: String, items: [HomeSectionItem], Int)
 }
 
 enum HomeSectionItem: Hashable {
     case topCell(String, Int)
-    case recommendCell(RecommendPerfume ,Int)
+    case recommendCell(RecommendPerfume, Int)
 }
 
 extension HomeSection {
@@ -23,7 +23,7 @@ extension HomeSection {
             switch self {
             case .topSection(let items):
                 return items
-            case .recommendSection(_, let items):
+            case .recommendSection(_, let items, _):
                 return items
             }
         }
