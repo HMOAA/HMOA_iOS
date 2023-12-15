@@ -19,6 +19,7 @@ final class HomeViewReactor: Reactor {
         case didTapBellButton
         case settingAlarmAuthorization(Bool)
         case settingIsUserSetting(Bool?)
+        case settingIsLogin(Bool)
         case postFcmToken
         case deleteFcmToken
     }
@@ -31,6 +32,7 @@ final class HomeViewReactor: Reactor {
         case setIsTapBell(Bool)
         case setUserSetting(Bool?)
         case success
+        case setIsLogin(Bool)
     }
     
     struct State {
@@ -41,6 +43,7 @@ final class HomeViewReactor: Reactor {
         var isTapBell: Bool = false
         var isPushSettiong: Bool = false
         var isUserSetting: Bool? = UserDefaults.standard.object(forKey: "alarm") as? Bool
+        var isLogin: Bool? = nil
     }
     
     init() { self.initialState = State() }
@@ -82,6 +85,8 @@ final class HomeViewReactor: Reactor {
         case .deleteFcmToken:
             return deleteFcmToken()
             
+        case .settingIsLogin(let isLogin):
+            return .just(.setIsLogin(isLogin))
         }
     }
     
@@ -120,8 +125,12 @@ final class HomeViewReactor: Reactor {
             state.isUserSetting = setting
             state.isPushAlarm = setting
             UserDefaults.standard.set(setting, forKey: "alarm")
+            
         case .success:
             break
+            
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
         }
         return state
     }

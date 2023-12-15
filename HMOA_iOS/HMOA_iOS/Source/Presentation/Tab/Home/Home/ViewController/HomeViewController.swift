@@ -37,8 +37,15 @@ class HomeViewController: UIViewController, View {
         ]
     }
     
-    let bellButton = UIBarButtonItem().then {
-        $0.image = UIImage(named: "bell")
+    let bellButton = UIButton().then {
+        $0.setImage(UIImage(named: "bellOn"), for: .selected)
+        $0.setImage(UIImage(named: "bellOff"), for: .normal)
+    }
+    
+    lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
+        $0.customView?.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+        }
     }
     
     var headerViewReactor: HomeHeaderReactor!
@@ -49,7 +56,7 @@ class HomeViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setBrandSearchBellNaviBar("H  M  O  A", bellButton: bellButton)
+        setBrandSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
         bind(reactor: homeReactor)
     }
@@ -63,8 +70,6 @@ class HomeViewController: UIViewController, View {
         presentSearchViewController()
     }
     
-    @objc func bellButtonClicked() {
-    }
 }
 
 // MARK: - Functions
@@ -89,6 +94,11 @@ extension HomeViewController {
         
         loginManager.isUserSettingAlarm
             .map { Reactor.Action.settingIsUserSetting($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        loginManager.isLogin
+            .map { Reactor.Action.settingIsLogin($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -138,8 +148,10 @@ extension HomeViewController {
             .compactMap { $0 }
             .distinctUntilChanged()
             .bind(with: self, onNext: { owner, isPush in
-                let color: UIColor = isPush ? .systemYellow : .black
-                owner.bellButton.tintColor = color
+                guard let isLogin = reactor.currentState.isLogin else { return }
+                if isLogin {
+                    owner.bellButton.isSelected = isPush
+                } else { owner.bellButton.isSelected = false }
             })
             .disposed(by: disposeBag)
         
@@ -150,7 +162,8 @@ extension HomeViewController {
             .filter { $0 }
             .bind(with: self) { owner, _ in
                 
-                guard let isLogin = try? owner.loginManager.isLogin.value() else { return }
+                guard let isLogin = reactor.currentState.isLogin else { return }
+                
                 if isLogin {
                     
                     // 앱 알람 권한 설정 이동
