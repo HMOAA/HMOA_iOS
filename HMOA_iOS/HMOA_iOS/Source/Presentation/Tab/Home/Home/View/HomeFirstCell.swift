@@ -85,6 +85,6 @@ extension HomeFirstCell {
     
     func bindUI(_ data: RecommendPerfume) {
         perfumeBrandLabel.text = data.brandName
-        perfumeImageView.kf.setImage(with: URL(string: data.imageUrl))
+        perfumeImageView.kf.setImage(with: URL(string: data.imgUrl))
     }
 }

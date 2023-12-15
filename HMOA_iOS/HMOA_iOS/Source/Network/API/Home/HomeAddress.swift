@@ -16,10 +16,10 @@ extension HomeAddress {
     var url: String {
         switch self {
         case .getFirstHomeData:
-            return "perfume/findtest"
+            return "main/first"
         
         case .getsecondHomeData:
-            return "perfume/findtest2"
+            return "main/second"
         }
     }
 }

@@ -147,11 +147,11 @@ extension HomeViewReactor {
                 
                 let homeTopItem = HomeSectionItem.topCell(data.mainImage, 1)
                 let homeTopSection = HomeSection.topSection([homeTopItem])
-                let recommend = data.recommend
+                let recommend = data.firstMenu
                 
                 sections.append(homeTopSection)
                 
-                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0, $0.id, UUID())}
+                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0, $0.perfumeId)}
                 
                 sections.append(HomeSection.recommendSection(header: recommend.title, items: item))
                 
@@ -167,9 +167,9 @@ extension HomeViewReactor {
             .flatMap { data -> Observable<Mutation> in
                 var sections = currentState.sections
                 
-                data.recommend.forEach {
+                data.forEach {
                     
-                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell($0, $0.id, UUID()) }
+                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell($0, $0.perfumeId) }
                     
                     sections.append(HomeSection.recommendSection(header: $0.title, items: item))
                 }

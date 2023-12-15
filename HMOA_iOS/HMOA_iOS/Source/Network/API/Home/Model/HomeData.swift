@@ -9,7 +9,7 @@ import Foundation
 
 struct HomeFirstData: Codable, Hashable {
     let mainImage: String
-    let recommend: RecommendPerfumeList
+    let firstMenu: RecommendPerfumeList
 }
 
 struct RecommendPerfumeList: Codable, Hashable {
@@ -18,20 +18,14 @@ struct RecommendPerfumeList: Codable, Hashable {
 }
 
 struct RecommendPerfume: Codable, Hashable{
-    let id: Int
+    let perfumeId: Int
     let brandName: String
     let perfumeName: String
-    let imageUrl: String
+    let imgUrl: String
 }
 
 
-struct HomeSecondData: Codable, Hashable {
-    let recommend: [RecommendPerfumeList]
-    
-    enum CodingKeys: String, CodingKey {
-        case recommend = "data"
-    }
-    
-}
+typealias HomeSecondData = [RecommendPerfumeList]
+
 
 
