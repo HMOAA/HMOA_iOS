@@ -11,22 +11,26 @@ import ReactorKit
 class TotalPerfumeReactor: Reactor {
     
     enum Action {
-        case didTapItem(RecommendPerfume)
+        case didTapItem(BrandPerfume)
+        case fetchTotalPerfumes
     }
     
     enum Mutation {
-        case setSelectedItem(RecommendPerfume?)
+        case setSection([TotalPerfumeSection])
+        case setSelectedItem(BrandPerfume?)
     }
     
     struct State {
-        var section: [TotalPerfumeSection]
-        var selectedItem: RecommendPerfume? = nil
+        var listType: Int
+        var sections: [TotalPerfumeSection] = []
+        var selectedItem: BrandPerfume? = nil
     }
     
     var initialState: State
     
     init(_ listType: Int) {
-        initialState = State(section: TotalPerfumeReactor.reqeustPerfumeList(listType))
+        initialState = State(listType: listType)
+        action.onNext(.fetchTotalPerfumes)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -36,6 +40,9 @@ class TotalPerfumeReactor: Reactor {
                 .just(.setSelectedItem(perfume)),
                 .just(.setSelectedItem(nil))
             ])
+            
+        case .fetchTotalPerfumes:
+            return setSection()
         }
     }
     
@@ -45,6 +52,9 @@ class TotalPerfumeReactor: Reactor {
         switch mutation {
         case .setSelectedItem(let perfume):
             state.selectedItem = perfume
+            
+        case .setSection(let sections):
+            state.sections = sections
         }
         
         return state
@@ -52,9 +62,23 @@ class TotalPerfumeReactor: Reactor {
 }
 
 extension TotalPerfumeReactor {
-    
-    static func reqeustPerfumeList(_ listType: Int) -> [TotalPerfumeSection] {
-    
-        return []
+    func setSection() -> Observable<Mutation> {
+        var url: TotalPerfumeAddress {
+            switch currentState.listType {
+            case 0:
+                return .fetchFirstMenu
+            case 1:
+                return .fetchSecondMenu
+            default:
+                return .fetchThirdMenu
+            }
+        }
+        return TotalPerfumeAPI.fetchTotalPerfumeList(url: url)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                let items = data.map { TotalPerfumeSectionItem.perfumeList($0) }
+                let sections = [TotalPerfumeSection.first(items)]
+                return .just(.setSection(sections))
+            }
     }
 }

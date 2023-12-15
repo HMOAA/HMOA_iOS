@@ -17,13 +17,6 @@ enum TotalPerfumeSectionItem {
 
 extension TotalPerfumeSectionItem: Hashable {
     
-    func hash(into hasher: inout Hasher) {
-        switch self {
-        case .perfumeList(let perpume):
-            hasher.combine(perpume)
-        }
-    }
-    
     var perfume: BrandPerfume {
         switch self {
         case .perfumeList(let perfume):

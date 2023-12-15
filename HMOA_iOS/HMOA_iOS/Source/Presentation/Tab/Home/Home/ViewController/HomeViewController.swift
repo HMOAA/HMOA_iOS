@@ -170,7 +170,6 @@ extension HomeViewController {
                     if reactor.currentState.isPushSettiong {
                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                     }
-                    //print("asdf")
                     // 유져 셋팅 알람 설정
                     if reactor.currentState.isPushAlarm! {
                         DispatchQueue.main.async {
@@ -257,16 +256,15 @@ extension HomeViewController {
             case .topSection(_):
                 return header
                 
-            case .recommendSection(let title, _):
+            case .recommendSection(let title, _, let type):
                 guard let homeFirstCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeFirstCellHeaderView.identifier,
                     for: indexPath) as? HomeFirstCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                
                 homeFirstCellHeader.bindUI(title: title)
-                homeFirstCellHeader.reactor = HomeHeaderReactor(title, 1)
+                homeFirstCellHeader.reactor = HomeHeaderReactor(title, type)
                 self.bindHeader(reactor: homeFirstCellHeader.reactor!)
                 header = homeFirstCellHeader
                 
