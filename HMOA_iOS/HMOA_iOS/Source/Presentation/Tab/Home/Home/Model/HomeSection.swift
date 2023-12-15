@@ -14,7 +14,7 @@ enum HomeSection: Hashable {
 
 enum HomeSectionItem: Hashable {
     case topCell(String, Int)
-    case recommendCell(RecommendPerfume ,Int, UUID)
+    case recommendCell(RecommendPerfume ,Int)
 }
 
 extension HomeSection {
@@ -35,15 +35,15 @@ extension HomeSectionItem {
             switch self {
             case .topCell(_, let perfumeId):
                 return perfumeId
-            case .recommendCell(_, let perfumeId, _):
+            case .recommendCell(_, let perfumeId):
                 return perfumeId
             }
         }
     
     var perfumeImage: String {
         switch self {
-        case .recommendCell(let perfume, _, _):
-            return perfume.imageUrl
+        case .recommendCell(let perfume, _):
+            return perfume.imgUrl
         default: return ""
         }
     }

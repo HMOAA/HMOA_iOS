@@ -25,6 +25,6 @@ class HomeCellReactor: Reactor {
     }
     
     init(perfume: RecommendPerfume) {
-        self.initialState = State(title: perfume.brandName, content: perfume.perfumeName, image: perfume.imageUrl)
+        self.initialState = State(title: perfume.brandName, content: perfume.perfumeName, image: perfume.imgUrl)
     }
 }
