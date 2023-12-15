@@ -56,8 +56,8 @@ final class HomeViewReactor: Reactor {
             
         case .itemSelected(let indexPath):
             return .concat([
-                Observable<Mutation>.just(.setSelectedPerfumeId(indexPath)),
-                Observable<Mutation>.just(.setSelectedPerfumeId(nil))
+                .just(.setSelectedPerfumeId(indexPath)),
+                .just(.setSelectedPerfumeId(nil))
             ])
             
         case .scrollCollectionView:
@@ -151,7 +151,7 @@ extension HomeViewReactor {
                 
                 sections.append(homeTopSection)
                 
-                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0, $0.perfumeId)}
+                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0)}
                 
                 sections.append(HomeSection.recommendSection(header: recommend.title, items: item, 0))
                 
@@ -168,7 +168,7 @@ extension HomeViewReactor {
                 var sections = currentState.sections
                 var listIndex = 1
                 data.forEach {
-                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell($0, listIndex) }
+                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell($0) }
                     
                     sections.append(HomeSection.recommendSection(header: $0.title, items: item, listIndex))
                     listIndex += 1
