@@ -11,6 +11,15 @@ import Then
 
 extension UIViewController {
     
+    func checkTutorialRun() {
+        let isTutorial = UserDefaults.standard.bool(forKey: "Tutorial")
+        if !isTutorial {
+            let vc = TutorialViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: false)
+        }
+    }
+    
     func showAlert(title: String,
                    message: String,
                    buttonTitle1: String,

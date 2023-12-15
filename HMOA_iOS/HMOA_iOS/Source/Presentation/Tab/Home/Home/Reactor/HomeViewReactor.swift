@@ -151,7 +151,7 @@ extension HomeViewReactor {
                 
                 sections.append(homeTopSection)
                 
-                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0)}
+                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0, 1)}
                 
                 sections.append(HomeSection.recommendSection(header: recommend.title, items: item, 0))
                 
@@ -168,7 +168,7 @@ extension HomeViewReactor {
                 var sections = currentState.sections
                 var listIndex = 1
                 data.forEach {
-                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell($0) }
+                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell($0, listIndex) }
                     
                     sections.append(HomeSection.recommendSection(header: $0.title, items: item, listIndex))
                     listIndex += 1

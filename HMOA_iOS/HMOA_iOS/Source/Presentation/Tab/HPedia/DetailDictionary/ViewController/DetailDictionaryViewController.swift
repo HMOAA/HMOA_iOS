@@ -104,6 +104,13 @@ class DetailDictionaryViewController: UIViewController, View {
                 owner.contentLabel.text = item.content
             }
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.type }
+            .bind(with: self) { owner, type in
+                if type == .brand { owner.explainLabel.isHidden = true }
+            }
+            .disposed(by: disposeBag)
     }
     
     

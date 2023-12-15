@@ -263,7 +263,6 @@ class QnAListViewController: UIViewController, View {
         reactor.state
             .map { $0.items }
             .distinctUntilChanged()
-            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()

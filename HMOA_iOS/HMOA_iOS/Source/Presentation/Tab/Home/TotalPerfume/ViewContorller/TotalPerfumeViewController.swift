@@ -108,7 +108,7 @@ extension TotalPerfumeViewController {
             case .perfumeList(let perfume):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BrandDetailCollectionViewCell.identifier, for: indexPath) as? BrandDetailCollectionViewCell else { return UICollectionViewCell() }
                 
-                cell.bindUI(perfume)
+                cell.bindRecommendUI(perfume)
                 
                 return cell
             }

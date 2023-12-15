@@ -11,19 +11,19 @@ import ReactorKit
 class TotalPerfumeReactor: Reactor {
     
     enum Action {
-        case didTapItem(BrandPerfume)
+        case didTapItem(RecommendPerfume)
         case fetchTotalPerfumes
     }
     
     enum Mutation {
         case setSection([TotalPerfumeSection])
-        case setSelectedItem(BrandPerfume?)
+        case setSelectedItem(RecommendPerfume?)
     }
     
     struct State {
         var listType: Int
         var sections: [TotalPerfumeSection] = []
-        var selectedItem: BrandPerfume? = nil
+        var selectedItem: RecommendPerfume? = nil
     }
     
     var initialState: State
