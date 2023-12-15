@@ -61,11 +61,11 @@ class PerfumeInfoView: UIView {
     }
     
     //TODO: singleNoteView 만들기
-    lazy var topNote = TastingNoteView(pos: "TOP")
+    lazy var topNote = TastingNoteView()
     
-    lazy var heartNote = TastingNoteView(pos: "HEART")
+    lazy var heartNote = TastingNoteView()
     
-    lazy var baseNote = TastingNoteView(pos: "BASE")
+    lazy var baseNote = TastingNoteView()
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -201,6 +201,10 @@ extension PerfumeInfoView {
             $0.height.equalTo(60)
 
         }
+        
+        topNote.noteLabel.text = "TOP"
+        heartNote.noteLabel.text = "HEART"
+        baseNote.noteLabel.text = "BASE"
         
     }
 }
