@@ -66,10 +66,10 @@ class LikeReactor: Reactor {
             
         case .viewWillAppear:
             return .concat([
-                .just(.setIsHideenNoLikeView(nil)),
-                fetchLikePerfumes(),
                 .just(.setShowListCollectionView(false)),
-                .just(.setShowCardCollectionView(true))
+                .just(.setShowCardCollectionView(true)),
+                .just(.setIsHideenNoLikeView(nil)),
+                fetchLikePerfumes()
             ])
             
         case .didTapXButton:
@@ -116,17 +116,20 @@ class LikeReactor: Reactor {
 extension LikeReactor {
     
     func fetchLikePerfumes() -> Observable<Mutation> {
-        return LikeAPI.fetchLikeList()
-            .catch { _ in .empty() }
-            .flatMap { list -> Observable<Mutation> in
-                let item: [Like] = list.likePerfumes
-                let isHidden = !item.isEmpty
-        
-                return .concat([
-                    .just(.setSectionItem(item)),
-                    .just(.setIsHideenNoLikeView(isHidden))
-                ])
-            }
+        guard let isLogin = try? LoginManager.shared.isLogin.value() else { return .empty() }
+        if isLogin {
+            return LikeAPI.fetchLikeList()
+                .catch { _ in .empty() }
+                .flatMap { list -> Observable<Mutation> in
+                    let item: [Like] = list.likePerfumes
+                    let isHidden = !item.isEmpty
+                    
+                    return .concat([
+                        .just(.setSectionItem(item)),
+                        .just(.setIsHideenNoLikeView(isHidden))
+                    ])
+                }
+        } else { return .just(.setIsHideenNoLikeView(false)) }
     }
     
     func deleteLikePerfume() -> Observable<Mutation> {

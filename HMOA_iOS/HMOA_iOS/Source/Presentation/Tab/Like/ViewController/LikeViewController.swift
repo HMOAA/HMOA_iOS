@@ -183,13 +183,13 @@ class LikeViewController: UIViewController, View {
             .map { $0.isHiddenNoLikeView }
             .distinctUntilChanged()
             .bind(with: self, onNext: { owner, isHidden in
-                
                 if let isHidden = isHidden {
                     owner.noLikeView.isHidden = isHidden
                     owner.cardCollectionView.isHidden = !isHidden
                 } else {
                     owner.noLikeView.isHidden = true
                     owner.cardCollectionView.isHidden = true
+                    owner.listCollectionView.isHidden = true
                 }
             })
             .disposed(by: disposeBag)
@@ -225,6 +225,7 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.isSelectedList }
             .distinctUntilChanged()
+            .do(onNext: { print($0) })
             .bind(to: headerView.listButton.rx.isSelected, cardCollectionView.rx.isHidden)
             .disposed(by: headerView.disposeBag)
         
@@ -232,6 +233,7 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.isSelectedCard }
             .distinctUntilChanged()
+            .do(onNext: { print($0) })
             .bind(to: headerView.cardButton.rx.isSelected, listCollectionView.rx.isHidden)
             .disposed(by: headerView.disposeBag)
     }
