@@ -111,13 +111,13 @@ struct HpediaBrandResponse: Hashable, Codable {
 }
 
 struct HpediaBrand: Hashable, Codable, HPediaItemConvertible {
-    let brandId: Int
-    let brandTitle: String
-    let brandSubTitle: String
+    let brandStoryId: Int
+    let brandStoryTitle: String
+    let brandStorySubtitle: String
     let content: String?
     
     func toHPediaItem() -> HPediaItem {
-        return HPediaItem(id: brandId, title: brandTitle, subTitle: brandSubTitle, content: content)
+        return HPediaItem(id: brandStoryId, title: brandStoryTitle, subTitle: brandStorySubtitle, content: content)
     }
 }
 

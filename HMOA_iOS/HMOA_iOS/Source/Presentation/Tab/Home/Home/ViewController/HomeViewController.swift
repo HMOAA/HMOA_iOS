@@ -222,7 +222,7 @@ extension HomeViewController {
                 
                 return homeTopCell
                 
-            case .recommendCell(let data):
+            case .recommendCell(let data, _):
                 guard let firstCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeFirstCell.identifier,
                     for: indexPath) as? HomeFirstCell else {

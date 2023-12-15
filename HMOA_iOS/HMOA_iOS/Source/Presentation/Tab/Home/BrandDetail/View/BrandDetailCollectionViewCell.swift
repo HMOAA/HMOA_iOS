@@ -93,6 +93,13 @@ extension BrandDetailCollectionViewCell {
         likeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(data.heartCount)", size: 12, font: .pretendard_light)
         
     }
+    
+    func bindRecommendUI(_ data: RecommendPerfume) {
+        titleLabel.text = data.brandName
+        contentLabel.text = data.perfumeName
+        likeButton.isHidden = true
+        productImageView.kf.setImage(with: URL(string: data.imgUrl))
+    }
 }
 
 

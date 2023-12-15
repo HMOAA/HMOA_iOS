@@ -9,11 +9,11 @@ import Foundation
 
 import RxSwift
 final class TotalPerfumeAPI {
-    static func fetchTotalPerfumeList(url: TotalPerfumeAddress) -> Observable<[BrandPerfume]> {
+    static func fetchTotalPerfumeList(url: TotalPerfumeAddress) -> Observable<[RecommendPerfume]> {
         return networking(
             urlStr: url.url,
             method: .get,
             data: nil,
-            model: [BrandPerfume].self)
+            model: [RecommendPerfume].self)
     }
 }

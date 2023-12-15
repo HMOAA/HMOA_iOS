@@ -36,7 +36,7 @@ extension HPediaAddress {
         case .fetchPerfumerDetail(let id):
             return "perfumer/\(id)"
         case .fetchBrandDetail(let id):
-            return "brand/\(id)"
+            return "brandstory/\(id)"
         }
     }
 }
