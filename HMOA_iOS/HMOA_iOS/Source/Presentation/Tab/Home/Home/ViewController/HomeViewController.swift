@@ -149,22 +149,32 @@ extension HomeViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self) { owner, _ in
-                // 앱 알람 권한 설정 이동
-                if reactor.currentState.isPushSettiong {
-                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                }
-                //print("asdf")
-                // 유져 셋팅 알람 설정
-                if reactor.currentState.isPushAlarm! {
-                    DispatchQueue.main.async {
-                        owner.loginManager.isUserSettingAlarm.onNext(false)
-                        reactor.action.onNext(.deleteFcmToken)
+                
+                guard let isLogin = try? owner.loginManager.isLogin.value() else { return }
+                if isLogin {
+                    
+                    // 앱 알람 권한 설정 이동
+                    if reactor.currentState.isPushSettiong {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }
+                    //print("asdf")
+                    // 유져 셋팅 알람 설정
+                    if reactor.currentState.isPushAlarm! {
+                        DispatchQueue.main.async {
+                            owner.loginManager.isUserSettingAlarm.onNext(false)
+                            reactor.action.onNext(.deleteFcmToken)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            owner.loginManager.isUserSettingAlarm.onNext(true)
+                            reactor.action.onNext(.postFcmToken)
+                        }
                     }
                 } else {
-                    DispatchQueue.main.async {
-                        owner.loginManager.isUserSettingAlarm.onNext(true)
-                        reactor.action.onNext(.postFcmToken)
-                    }
+                    owner.presentAlertVC(
+                        title: "로그인 후 이용가능한 서비스입니다",
+                        content: "입력하신 내용을 다시 확인해주세요",
+                        buttonTitle: "로그인 하러가기 ")
                 }
             }
             .disposed(by: disposeBag)
