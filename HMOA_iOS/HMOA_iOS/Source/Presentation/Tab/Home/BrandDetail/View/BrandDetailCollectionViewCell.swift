@@ -90,7 +90,7 @@ extension BrandDetailCollectionViewCell {
         contentLabel.text = data.perfumeName
         likeButton.isSelected = data.liked
         productImageView.kf.setImage(with: URL(string: data.perfumeImgUrl))
-        likeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(data.heartCount)", size: 12, font: .pretendard_light)
+        likeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(data.heartCount!)", size: 12, font: .pretendard_light)
         
     }
     

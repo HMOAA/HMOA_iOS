@@ -49,7 +49,7 @@ class TutorialContentViewController: UIViewController {
     
     //MARK: - SetUp
     private func setUpUI() {
-        view.backgroundColor = #colorLiteral(red: 0.9593991637, green: 0.9593990445, blue: 0.9593991637, alpha: 1)
+        //view.backgroundColor = #colorLiteral(red: 0.9593991637, green: 0.9593990445, blue: 0.9593991637, alpha: 1)
     }
     private func setAddView() {
         [
