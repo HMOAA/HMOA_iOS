@@ -7,10 +7,17 @@
 
 import UIKit
 
+import Then
+import SnapKit
+
 class TutorialViewController: UIPageViewController {
 
     private var pages = [UIViewController]()
-    
+    let pageControl = UIPageControl().then {
+        $0.pageIndicatorTintColor = #colorLiteral(red: 0.8797428012, green: 0.8797428012, blue: 0.8797428012, alpha: 1)
+        $0.currentPageIndicatorTintColor = .black
+        $0.numberOfPages = 4
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -70,17 +77,24 @@ class TutorialViewController: UIPageViewController {
     
     //MARK: - SetUp
     private func setUpUI() {
+        view.addSubview(pageControl)
+        view.backgroundColor = #colorLiteral(red: 0.9593991637, green: 0.9593990445, blue: 0.9593991637, alpha: 1)
+        pageControl.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(54)
+            make.centerX.equalToSuperview()
+        }
+        delegate = self
         dataSource = self
         setViewControllers([pages[0]], direction: .forward, animated: false)
     }
 }
 
-extension TutorialViewController: UIPageViewControllerDataSource {
+extension TutorialViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate  {
     // 이전 뷰컨트롤러를 리턴 (우측 -> 좌측 슬라이드 제스쳐)
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 
         guard let currentIndex = pages.firstIndex(of: viewController) else { return nil }
-        
+        pageControl.currentPage = currentIndex
         guard currentIndex > 0 else { return nil }
         return pages[currentIndex - 1]
     }
@@ -89,7 +103,16 @@ extension TutorialViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let currentIndex = pages.firstIndex(of: viewController) else { return nil }
         
+        pageControl.currentPage = currentIndex
         guard currentIndex < (pages.count - 1) else { return nil }
         return pages[currentIndex + 1]
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        
+        guard let viewControllers = pageViewController.viewControllers,
+              let currentIndex = pages.firstIndex(of: viewControllers[0]) else { return }
+        
+        pageControl.currentPage = currentIndex
     }
 }

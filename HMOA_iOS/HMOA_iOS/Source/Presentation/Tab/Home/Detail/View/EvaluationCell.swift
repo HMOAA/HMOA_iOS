@@ -453,6 +453,7 @@ class EvaluationCell: UICollectionViewCell, View {
                     let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
                     feedbackGenerator.impactOccurred()
                     owner.dragLabel.isHidden = true
+                    owner.averageAgeLabel.text = "\(Int(value))대"
                 }
                 
                 else {

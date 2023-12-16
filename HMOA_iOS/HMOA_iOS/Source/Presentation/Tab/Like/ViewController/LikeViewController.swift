@@ -151,7 +151,7 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.sectionItem }
             .distinctUntilChanged()
-            .compactMap { $0 }
+            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
 
@@ -225,7 +225,6 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.isSelectedList }
             .distinctUntilChanged()
-            .do(onNext: { print($0) })
             .bind(to: headerView.listButton.rx.isSelected, cardCollectionView.rx.isHidden)
             .disposed(by: headerView.disposeBag)
         
@@ -233,7 +232,6 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.isSelectedCard }
             .distinctUntilChanged()
-            .do(onNext: { print($0) })
             .bind(to: headerView.cardButton.rx.isSelected, listCollectionView.rx.isHidden)
             .disposed(by: headerView.disposeBag)
     }
