@@ -33,8 +33,12 @@ class LoginViewController: UIViewController, View {
         $0.setTitleColor(.customColor(.gray4), for: .normal)
     }
     
+    lazy var xButton = UIButton().then {
+        $0.isHidden = true
+        $0.setImage(UIImage(named: "x"), for: .normal)
+    }
+    
     var disposeBag = DisposeBag()
-    let reactor = LoginReactor()
     let loginManager = LoginManager.shared
     
     //MARK: - LifeCycle
@@ -44,8 +48,6 @@ class LoginViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setUpConstraints()
-
-        bind(reactor: reactor)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -82,7 +84,8 @@ class LoginViewController: UIViewController, View {
         [
             titleImageView,
             loginStackView,
-            noLoginButton
+            noLoginButton,
+            xButton
         ]      .forEach { view.addSubview($0)}
     }
     
@@ -104,6 +107,11 @@ class LoginViewController: UIViewController, View {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(48)
         }
+        
+        xButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(16)
+            make.top.equalToSuperview().inset(80)
+        }
     }
     
     //MARK: - Bind
@@ -124,31 +132,31 @@ class LoginViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        xButton.rx.tap
+            .map { Reactor.Action.didTapXButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //MARK: - State
         
         //Output
         
         //메인 탭바로 이동
         reactor.state
-            .map { $0.isPresentTabBar}
+            .map { $0.isPresentTabBar }
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self, onNext: { owner, _ in
-                let tabBar = AppTabbarController()
-                tabBar.modalPresentationStyle = .fullScreen
-                owner.present(tabBar, animated: true)
+                owner.presentTabBar(reactor.currentState.loginState)
             }).disposed(by: disposeBag)
         
         //StartVC로 이동
         reactor.state
-            .map { $0.isPushStartVC}
+            .map { $0.isPushStartVC }
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self, onNext: { owner, _ in
-                let vc = LoginStartViewController()
-                let nvController = UINavigationController(rootViewController: vc)
-                nvController.modalPresentationStyle = .fullScreen
-                owner.present(nvController, animated: true, completion: nil)
+                owner.presentLoginStartVC()
             }).disposed(by: disposeBag)
         
         
@@ -166,19 +174,49 @@ class LoginViewController: UIViewController, View {
             .compactMap { $0.kakaoToken }
             .distinctUntilChanged()
             .bind(with: self, onNext: { owner, token in
-                KeychainManager.create(token: token)
-                owner.loginManager.tokenSubject.onNext(token)
-                owner.checkPreviousSignIn(token.existedMember!)
+                owner.checkPreviousSignIn(token)
             }).disposed(by: disposeBag)
+        
+        // 애플 로그인 토큰
+        reactor.state
+            .compactMap { $0.appleToken }
+            .distinctUntilChanged()
+            .bind(with: self) { owner, token in
+                owner.checkPreviousSignIn(token)
+            }.disposed(by: disposeBag)
+            
+        // 로그인 state 분기 처리
+        reactor.state
+            .map { $0.loginState }
+            .bind(with: self) { owner, state in
+                switch state {
+                case .first:
+                    owner.loginManager.loginStateSubject.onNext(.first)
+                case .inApp:
+                    owner.noLoginButton.isHidden = true
+                    owner.xButton.isHidden = false
+                    owner.loginManager.loginStateSubject.onNext(.inApp)
+                }
+            }.disposed(by: disposeBag)
+        
+        // dismiss 
+        reactor.state
+            .map { $0.isDismiss }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     
     @objc func didTapGoogleButton(_ sender: Any) {
-        reactor.action.onNext(.didTapGoogleLoginButton)
+        reactor?.action.onNext(.didTapGoogleLoginButton)
     }
     
     @objc func didTapKakaoButton(_ sender: Any) {
-        reactor.action.onNext(.didTapKakaoLoginButton)
+        reactor?.action.onNext(.didTapKakaoLoginButton)
     }
 }
 
@@ -194,22 +232,20 @@ extension LoginViewController {
             
             LoginAPI.postAccessToken(params: params, .google)
                 .bind(with: self, onNext: { owner, token in
-                    KeychainManager.create(token: token)
-                    owner.checkPreviousSignIn(token.existedMember!)
+                    owner.checkPreviousSignIn(token)
                 }).disposed(by: self.disposeBag)
         }
     }
     
-    func checkPreviousSignIn(_ isExisted: Bool) {
-        if !isExisted {
-            let vc = LoginStartViewController()
-            let nvController = UINavigationController(rootViewController: vc)
-            nvController.modalPresentationStyle = .fullScreen
-            self.view.window?.rootViewController = nvController
-            self.present(nvController, animated: true)
-            self.view.window?.rootViewController?.dismiss(animated: false)
+    func checkPreviousSignIn(_ token: Token) {
+        
+        loginManager.tokenSubject.onNext(token)
+        
+        if !token.existedMember! {
+            presentLoginStartVC()
         } else {
-            self.presentAppTabBarController()
+            presentTabBar(reactor!.currentState.loginState)
+            KeychainManager.create(token: token)
         }
     }
 }

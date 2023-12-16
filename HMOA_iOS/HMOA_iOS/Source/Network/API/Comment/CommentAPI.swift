@@ -15,7 +15,7 @@ final class CommentAPI {
     /// - Parameters:
     ///   - params: content: 댓글 내용
     ///   - id: 향수 아이디
-    static func postComment(_ params: [String: String], _ id: Int) -> Observable<Response> {
+    static func postComment(_ params: [String: String], _ id: Int) -> Observable<Comment> {
         guard let data = try? JSONSerialization.data(
             withJSONObject: params,
             options: .prettyPrinted) else { return .error(NetworkError.invalidParameters) }
@@ -24,7 +24,7 @@ final class CommentAPI {
             urlStr: CommentAddress.postCommnet(id).url,
             method: .post,
             data: data,
-            model: Response.self)
+            model: Comment.self)
         
     }
     
@@ -33,7 +33,7 @@ final class CommentAPI {
     /// - Parameters:
     ///   - params: content: 댓글 내용
     ///   - id: 향수 아이디
-    static func modifyComment(_ params: [String: String], _ id: Int) -> Observable<Response> {
+    static func modifyComment(_ params: [String: String], _ id: Int) -> Observable<Comment> {
         guard let data = try? JSONSerialization.data(
             withJSONObject: params,
             options: .prettyPrinted
@@ -43,7 +43,7 @@ final class CommentAPI {
             urlStr: CommentAddress.modifyComment(id).url,
             method: .put,
             data: data,
-            model: Response.self)
+            model: Comment.self)
     }
     
     
@@ -84,6 +84,14 @@ final class CommentAPI {
     static func deleteCommentLike(_ id: Int) -> Observable<Response> {
         return networking(
             urlStr: CommentAddress.setCommentLike(id).url,
+            method: .delete,
+            data: nil,
+            model: Response.self)
+    }
+    
+    static func deleteComment(_ id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: CommentAddress.deleteComment(id).url,
             method: .delete,
             data: nil,
             model: Response.self)

@@ -43,6 +43,14 @@ class PhotoCell: UICollectionViewCell {
         $0.contentMode = .scaleAspectFit
     }
     
+    let xButtonBackView = UIView().then {
+        $0.layer.cornerRadius = 13
+        $0.backgroundColor = .lightGray.withAlphaComponent(0.5)
+    }
+    
+    let xButton = UIButton().then {
+        $0.setImage(UIImage(named: "x")?.withTintColor(.white), for: .normal)
+    }
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -81,6 +89,22 @@ class PhotoCell: UICollectionViewCell {
                     make.edges.equalToSuperview()
                 }
             }
+        }
+    }
+    
+    func configureXButton() {
+        
+        addSubview(xButtonBackView)
+        addSubview(xButton)
+        
+        xButtonBackView.snp.makeConstraints { make in
+            make.trailing.top.equalToSuperview().inset(8)
+            make.width.height.equalTo(26)
+        }
+
+        xButton.snp.makeConstraints { make in
+            make.centerX.equalTo(xButtonBackView.snp.centerX)
+            make.centerY.equalTo(xButtonBackView.snp.centerY)
         }
     }
     

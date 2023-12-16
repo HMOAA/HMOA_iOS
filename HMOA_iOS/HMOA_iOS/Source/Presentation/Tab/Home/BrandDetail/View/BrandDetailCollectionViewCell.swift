@@ -16,15 +16,15 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
 
     var disposeBag = DisposeBag()
     
-    
     static let identifier = "BrandDetailCollectionViewCell"
 
     // MARK: - UI Component
     
     lazy var productImageView = UIImageView().then {
+        $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8735057712, blue: 0.87650913, alpha: 0.3)
         $0.layer.cornerRadius = 3
-        $0.layer.borderWidth = 2
         $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
+        $0.contentMode = .scaleAspectFit
     }
     
     var titleLabel = UILabel().then {
@@ -53,7 +53,6 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
 
 extension BrandDetailCollectionViewCell {
 
-    
     // MARK: - Configure
     func configureUI() {
         [   productImageView,
@@ -86,12 +85,20 @@ extension BrandDetailCollectionViewCell {
     
     
     func bindUI(_ data: BrandPerfume) {
-        //TODO: - 좋아요 개수 바인딩
+        
         titleLabel.text = data.brandName
         contentLabel.text = data.perfumeName
         likeButton.isSelected = data.liked
         productImageView.kf.setImage(with: URL(string: data.perfumeImgUrl))
+        likeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(data.heartCount!)", size: 12, font: .pretendard_light)
         
+    }
+    
+    func bindRecommendUI(_ data: RecommendPerfume) {
+        titleLabel.text = data.brandName
+        contentLabel.text = data.perfumeName
+        likeButton.isHidden = true
+        productImageView.kf.setImage(with: URL(string: data.imgUrl))
     }
 }
 

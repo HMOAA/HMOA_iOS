@@ -119,13 +119,23 @@ final class CommunityAPI {
     /// - Parameters:
     ///   - id: 커뮤니티 아이디
     ///   - params: content: String
-    static func putCommunityPost(_ id: Int, _ params: [String: String]) -> Observable<CommunityDetail> {
+    static func editCommunityPost(_ id: Int, _ params: [String: Any], _ images: [UIImage]) -> Observable<CommunityDetail> {
         let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
         
-        return networking(
+        var imageData: [Data]?
+        
+        if images.isEmpty {
+            imageData = nil
+        } else {
+            imageData = images.compactMap { $0.resize(targetSize: $0.size)?.jpegData(compressionQuality: 0.1) }
+        }
+        
+        return uploadNetworking(
             urlStr: CommunityAddress.putOrDeleteCommunityPost("\(id)").url,
-            method: .put,
-            data: data,
+            method: .post,
+            imageData: imageData,
+            imageFileName: "communityImage.jpeg",
+            parameter: params,
             model: CommunityDetail.self)
     }
     
@@ -138,6 +148,16 @@ final class CommunityAPI {
             method: .delete,
             data: nil,
             model: Response.self)
+    }
+    
+    
+    /// HPedi 홈 화면 불러오기
+    static func fetchHPediaCategoryList() -> Observable<[CategoryList]> {
+        return networking(
+            urlStr: CommunityAddress.fetchHpediaHome.url,
+            method: .get,
+            data: nil,
+            model: [CategoryList].self)
     }
 }
     

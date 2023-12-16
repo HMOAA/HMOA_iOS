@@ -16,15 +16,3 @@ enum HPediaSectionItem: Hashable {
     case dictionary(HPediaDictionaryData)
     case qna(CategoryList)
 }
-
-extension HPediaSectionItem {
-    var id: Int {
-        switch self {
-        case .dictionary(let data):
-            return data.id
-        case .qna(let data):
-            return 1
-        }
-    }
-}
-

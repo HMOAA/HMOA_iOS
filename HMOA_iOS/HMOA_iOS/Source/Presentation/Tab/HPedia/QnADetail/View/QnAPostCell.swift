@@ -45,7 +45,6 @@ class QnAPostCell: UICollectionViewCell {
     }
     
     lazy var optionButton = UIButton().then {
-        $0.isHidden = true
         $0.setImage(UIImage(named: "verticalOption"), for: .normal)
     }
     
@@ -107,6 +106,7 @@ class QnAPostCell: UICollectionViewCell {
         
         optionButton.snp.makeConstraints { make in
             make.top.trailing.equalToSuperview().inset(16.32)
+            make.width.equalTo(10)
         }
         
         QLabel.snp.makeConstraints { make in
@@ -145,7 +145,6 @@ class QnAPostCell: UICollectionViewCell {
 
 extension QnAPostCell {
     func updateCell(_ item: CommunityDetail) {
-        if item.writed { optionButton.isHidden = false }
         profileImageView.kf.setImage(with: URL(string: item.profileImgUrl))
         nicknameLabel.text = item.author
         dayLabel.text = item.time

@@ -12,6 +12,7 @@ import RxSwift
 enum DetailCommentEvent{
     case editComment(Comment)
     case addComment(Comment)
+    case setCommentLike(Comment)
 }
 
 protocol DetailCommentServiceProtocol {
@@ -19,6 +20,7 @@ protocol DetailCommentServiceProtocol {
     
     func addComment(to comment: Comment) -> Observable<Comment>
     func editComment(to comment: Comment) -> Observable<Comment>
+    func setCommentLike(to comment: Comment) -> Observable<Comment>
 }
 
 class DetailCommentService: DetailCommentServiceProtocol {
@@ -35,5 +37,8 @@ class DetailCommentService: DetailCommentServiceProtocol {
         return .just(comment)
     }
     
-    
+    func setCommentLike(to comment: Comment) -> Observable<Comment> {
+        event.onNext(.setCommentLike(comment))
+        return .just(comment)
+    }
 }

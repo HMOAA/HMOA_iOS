@@ -19,7 +19,6 @@ class BrandView: UIView {
         $0.layer.borderWidth = 1
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .white
-        $0.image = UIImage(named: "brand")
     }
     
     lazy var brandEnglishLabel = UILabel().then {

@@ -8,7 +8,8 @@
 import Foundation
 import RxSwift
 import UIKit
-
+import KakaoSDKTalk
+import RxKakaoSDKTalk
 
 final class MemberAPI {
 
@@ -21,7 +22,6 @@ final class MemberAPI {
             data: nil,
             model: Member.self)
         .map { result in
-            print(result)
             return result
         }
     }
@@ -125,15 +125,61 @@ final class MemberAPI {
         )
     }
     
-    /// 작성한 댓글 불러오기
+    /// 작성한 향수 댓글 불러오기
     /// - Parameter query: [Page: Int]
-    static func fetchWritedComments(_ query: [String: Int]) -> Observable<[Comment]> {
+    static func fetchPerfumeComments(_ query: [String: Int]) -> Observable<[Comment]> {
         return networking(
-            urlStr: MemberAddress.fetchWritedComment.url,
+            urlStr: MemberAddress.fetchPerfumeComment.url,
             method: .get,
             data: nil,
             model: [Comment].self,
             query: query
         )
+    }
+    
+    /// 작성한 커뮤니티 댓글 불러오기
+    /// - Parameter query: [Page: Int]
+    static func fetchCommunityComments(_ query: [String: Int]) -> Observable<[CommunityComment]> {
+        return networking(
+            urlStr: MemberAddress.fetchCommunityComment.url,
+            method: .get,
+            data: nil,
+            model: [CommunityComment].self,
+            query: query
+        )
+    }
+    
+    static func deleteMember() -> Observable<Response> {
+        return networking(
+            urlStr: MemberAddress.deleteMember.url,
+            method: .delete,
+            data: nil,
+            model: Response.self)
+    }
+    
+    static func fetchWritedPosts(_ query: [String: Int]) -> Observable<[CategoryList]> {
+        return networking(
+            urlStr: MemberAddress.fetchWritedPost.url,
+            method: .get,
+            data: nil,
+            model: [CategoryList].self,
+            query: query)
+    }
+    
+    static func kakaoTalkAddChannel() -> Observable<Bool> {
+        return Observable.create { observer in
+            TalkApi.shared.rx.addChannel(channelPublicId: "_VxmaGG")
+                .subscribe(
+                    onCompleted: {
+                        observer.onNext(true)
+                        observer.onCompleted()
+                    },
+                    onError: { error in
+                        print(error)
+                        observer.onNext(false)
+                        observer.onCompleted()
+                    }
+                )
+        }
     }
 }

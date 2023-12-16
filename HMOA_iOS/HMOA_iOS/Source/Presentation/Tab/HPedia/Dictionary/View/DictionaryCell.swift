@@ -12,11 +12,13 @@ class DictionaryCell: UITableViewCell {
     static let identifier = "DictionaryCell"
     
     let englishLabel = UILabel().then {
-        $0.setLabelUI("탑", font: .pretendard_semibold, size: 22, color: .black)
+        $0.lineBreakMode = .byWordWrapping
+        $0.numberOfLines = 2
+        $0.setLabelUI("", font: .pretendard_semibold, size: 22, color: .black)
     }
     
     let koreanLabel = UILabel().then {
-        $0.setLabelUI("sdf", font: .pretendard_semibold, size: 16, color: .black)
+        $0.setLabelUI("", font: .pretendard_semibold, size: 16, color: .black)
     }
 
     
@@ -39,21 +41,23 @@ class DictionaryCell: UITableViewCell {
     }
     
     private func setConstraints() {
+        
         englishLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview()
+            make.width.equalTo(200)
             make.centerY.equalToSuperview()
         }
         
         koreanLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
-            make.bottom.equalTo(englishLabel.snp.bottom)
+            make.centerY.equalToSuperview()
         }
     }
 }
 
 extension DictionaryCell {
-    func updateCell(_ data: DictionaryData) {
-        englishLabel.text = data.englishName
-        koreanLabel.text = data.koreanName
+    func updateCell(_ data: HPediaItem) {
+        englishLabel.text = data.subTitle
+        koreanLabel.text = data.title
     }
 }

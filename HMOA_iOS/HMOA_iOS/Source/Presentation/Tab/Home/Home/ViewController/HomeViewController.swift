@@ -20,11 +20,11 @@ class HomeViewController: UIViewController, View {
     // MARK: Properties
     private var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>!
     var disposeBag = DisposeBag()
-
+    
+    let loginManager = LoginManager.shared
+    
     // MARK: - UI Component
     lazy var homeView = HomeView()
-     
-    lazy var brandSearchButton = UIButton().makeImageButton(UIImage(named: "homeMenu")!)
     
     lazy var indicatorImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
@@ -37,9 +37,16 @@ class HomeViewController: UIViewController, View {
         ]
     }
     
-    lazy var searchButton = UIButton().makeImageButton(UIImage(named: "search")!)
+    let bellButton = UIButton().then {
+        $0.setImage(UIImage(named: "bellOn"), for: .selected)
+        $0.setImage(UIImage(named: "bellOff"), for: .normal)
+    }
     
-    lazy var bellButton = UIButton().makeImageButton(UIImage(named: "bell")!)
+    lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
+        $0.customView?.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+        }
+    }
     
     var headerViewReactor: HomeHeaderReactor!
     
@@ -49,7 +56,7 @@ class HomeViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureNavigationBar()
+        setBrandSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
         bind(reactor: homeReactor)
     }
@@ -63,8 +70,6 @@ class HomeViewController: UIViewController, View {
         presentSearchViewController()
     }
     
-    @objc func bellButtonClicked() {
-    }
 }
 
 // MARK: - Functions
@@ -78,9 +83,25 @@ extension HomeViewController {
         
         // viewDidLoad
         Observable.just(())
-            .map { Reactor.Action.viewDidLoad}
+            .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        loginManager.isPushAlarmAuthorization
+            .map { Reactor.Action.settingAlarmAuthorization($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        loginManager.isUserSettingAlarm
+            .map { Reactor.Action.settingIsUserSetting($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        loginManager.isLogin
+            .map { Reactor.Action.settingIsLogin($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         
         // collectionView item 클릭
         self.homeView.collectionView.rx.itemSelected
@@ -88,19 +109,6 @@ extension HomeViewController {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        // 브랜드 검색 버튼 클릭
-        brandSearchButton.rx.tap
-            .map { Reactor.Action.didTapBrandSearchButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 종합 검색 버튼 클릭
-        searchButton.rx.tap
-            .map { Reactor.Action.didTapSearchButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 알림 버튼 클릭
         bellButton.rx.tap
             .map { Reactor.Action.didTapBellButton }
             .bind(to: reactor.action)
@@ -108,13 +116,12 @@ extension HomeViewController {
         
         // MARK: - State
         
-        //snapshot 설정
+        // snapshot 설정
         reactor.state
             .map { $0.sections }
-            //.delay(.seconds(4), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
-                owner.indicatorImageView.stopAnimating()
+                
                 var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
                 snapshot.appendSections(sections)
                         
@@ -135,23 +142,55 @@ extension HomeViewController {
             .bind(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
         
-        // 브랜드 검색 페이지로 이동
+        // 푸시 알람 권한, 유저 셋팅에 따른 ui 바인딩
         reactor.state
-            .map { $0.isPresentBrandSearchVC }
+            .map { $0.isPushAlarm }
+            .compactMap { $0 }
             .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: presentBrandSearchViewController)
+            .bind(with: self, onNext: { owner, isPush in
+                guard let isLogin = reactor.currentState.isLogin else { return }
+                if isLogin {
+                    owner.bellButton.isSelected = isPush
+                } else { owner.bellButton.isSelected = false }
+            })
             .disposed(by: disposeBag)
         
-        // 종합 검색 화면으로 이동
+        // 벨 터치 이벤트
         reactor.state
-            .map { $0.isPresentSearchVC }
+            .map { $0.isTapBell }
             .distinctUntilChanged()
             .filter { $0 }
-            .map { _ in }
-            .bind(onNext: presentSearchViewController)
+            .bind(with: self) { owner, _ in
+                
+                guard let isLogin = reactor.currentState.isLogin else { return }
+                
+                if isLogin {
+                    
+                    // 앱 알람 권한 설정 이동
+                    if reactor.currentState.isPushSettiong {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }
+                    // 유져 셋팅 알람 설정
+                    if reactor.currentState.isPushAlarm! {
+                        DispatchQueue.main.async {
+                            owner.loginManager.isUserSettingAlarm.onNext(false)
+                            reactor.action.onNext(.deleteFcmToken)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            owner.loginManager.isUserSettingAlarm.onNext(true)
+                            reactor.action.onNext(.postFcmToken)
+                        }
+                    }
+                } else {
+                    owner.presentAlertVC(
+                        title: "로그인 후 이용가능한 서비스입니다",
+                        content: "입력하신 내용을 다시 확인해주세요",
+                        buttonTitle: "로그인 하러가기 ")
+                }
+            }
             .disposed(by: disposeBag)
+        
     }
     
     func bindHeader(reactor: HomeHeaderReactor) {
@@ -183,7 +222,7 @@ extension HomeViewController {
                 
                 return homeTopCell
                 
-            case .recommendCell(let data, _, _):
+            case .recommendCell(let data, _):
                 guard let firstCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeFirstCell.identifier,
                     for: indexPath) as? HomeFirstCell else {
@@ -217,43 +256,21 @@ extension HomeViewController {
             case .topSection(_):
                 return header
                 
-            case .recommendSection(let title, _):
+            case .recommendSection(let title, _, let type):
                 guard let homeFirstCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeFirstCellHeaderView.identifier,
                     for: indexPath) as? HomeFirstCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                
                 homeFirstCellHeader.bindUI(title: title)
-                homeFirstCellHeader.reactor = HomeHeaderReactor(title, 1)
+                homeFirstCellHeader.reactor = HomeHeaderReactor(title, type)
                 self.bindHeader(reactor: homeFirstCellHeader.reactor!)
                 header = homeFirstCellHeader
                 
                 return header
             }
         }
-    }
-    
-    func configureNavigationBar() {
-        
-        setNavigationColor()
-        
-        let titleLabel = UILabel().then {
-            $0.text = "H  M  O  A"
-            $0.font = .customFont(.pretendard_medium, 20)
-            $0.textColor = .black
-        }
-                
-        let bracnSearchButtonItem = UIBarButtonItem(customView: brandSearchButton)
-        let searchButtonItem = UIBarButtonItem(customView: searchButton)
-        let bellButtonItem = UIBarButtonItem(customView: bellButton)
-        
-        navigationItem.titleView = titleLabel
-        
-        navigationItem.leftBarButtonItems = [spacerItem(13), bracnSearchButtonItem]
-        
-        navigationItem.rightBarButtonItems = [bellButtonItem, spacerItem(15), searchButtonItem]
     }
     
     func configureUI() {
@@ -274,8 +291,6 @@ extension HomeViewController {
             make.centerY.centerX.equalToSuperview()
             make.width.height.equalTo(110)
         }
-        
-        indicatorImageView.startAnimating()
     }
 }
 

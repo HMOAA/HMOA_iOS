@@ -12,7 +12,7 @@ import RxSwift
 
 class QnADetailReactor: Reactor {
     let initialState: State
-    var service: CommunityListProtocol
+    var service: CommunityListProtocol?
     
     enum Action {
         case didChangeTextViewEditing(String)
@@ -22,7 +22,8 @@ class QnADetailReactor: Reactor {
         case didTapOptionButton(Int)
         case didDeletePost
         case willDisplayCell(Int)
-        case viewDidLoad
+        case viewDidLoad(Bool)
+        case didTapCommentCell(Int)
     }
     
     enum Mutation {
@@ -40,6 +41,8 @@ class QnADetailReactor: Reactor {
         case setLoadedPage(Int)
         case editComment(CommunityComment)
         case editCommunityPost(CommunityDetail)
+        case setIsLogin(Bool)
+        case setSelectedComment(Int?)
     }
     
     struct State {
@@ -57,19 +60,22 @@ class QnADetailReactor: Reactor {
         var loadedPage: Set<Int> = []
         var communityItems: CommunityDetailItems = CommunityDetailItems(postItem: [], commentItem: [])
         var writeButtonEnable: Bool = false
+        var isLogin: Bool = false
+        var selectedComment: CommunityComment? = nil
     }
     
-    init(_ id: Int, _ service: CommunityListProtocol) {
+    init(_ id: Int, _ service: CommunityListProtocol?) {
         initialState = State(communityId: id)
         self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewDidLoad(let isLogin):
             return .concat([
                 setUpPostSection(),
-                setUpCommentSection()
+                setUpCommentSection(),
+                .just(.setIsLogin(isLogin))
             ])
             
         case .didBeginEditing:
@@ -100,6 +106,12 @@ class QnADetailReactor: Reactor {
             
         case .willDisplayCell(let currentPage):
             return setUpCommentSection(currentPage)
+            
+        case .didTapCommentCell(let row):
+            return .concat([
+                .just(.setSelectedComment(row)),
+                .just(.setSelectedComment(nil))
+            ])
         }
     }
     
@@ -166,16 +178,25 @@ class QnADetailReactor: Reactor {
             }
             
         case .editCommunityPost(let detail):
+            state.postItem = [detail]
+            state.photoItem = detail.communityPhotos
             state.communityItems.postItem = [detail]
             
         case .setPhotoItem(let item):
             state.photoItem = item
+            
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
+            
+        case .setSelectedComment(let row):
+            guard let row = row else { return state }
+            state.selectedComment = state.commentItem[row]
         }
         return state
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
+        let eventMutation = service?.event.flatMap { event -> Observable<Mutation> in
             switch event {
             case .editCommunityComment(let comment):
                 return .just(.editComment(comment))
@@ -183,7 +204,7 @@ class QnADetailReactor: Reactor {
                 return .just(.editCommunityPost(detail))
             default: return .empty()
             }
-        }
+        } ?? .empty()
         return .merge(mutation, eventMutation)
     }
 }
@@ -251,12 +272,13 @@ extension QnADetailReactor {
     }
     
     func reactorForPostEdit() -> CommunityWriteReactor {
-        
+
         return CommunityWriteReactor(
             communityId: currentState.communityId,
             content: currentState.content,
             title: currentState.postItem[0].title,
             category: currentState.category,
+            photos: currentState.photoItem,
             service: service)
     }
     
@@ -267,7 +289,7 @@ extension QnADetailReactor {
             content: currentState.commentItem[currentState.selectedCommentRow!]!.content,
             commentId: currentState.commentItem[currentState.selectedCommentRow!]!.commentId,
             isCommunity: true, commentService: nil,
-            communityService: service
+            communityService: service!
         )
     }
 }

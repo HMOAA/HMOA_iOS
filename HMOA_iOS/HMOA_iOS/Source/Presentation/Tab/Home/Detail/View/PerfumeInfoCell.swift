@@ -21,6 +21,9 @@ class PerfumeInfoCell: UICollectionViewCell {
     
     let perfumeInfoView = PerfumeInfoView()
     var disposeBag = DisposeBag()
+    lazy var noteViews = [perfumeInfoView.topNote,
+                         perfumeInfoView.heartNote,
+                         perfumeInfoView.baseNote]
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -51,6 +54,8 @@ extension PerfumeInfoCell {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(48)
         }
+        
+        noteViews.forEach { $0.isHidden = true }
     }
     
     func setLikeButtonText(_ text: String) -> AttributedString {
@@ -67,15 +72,41 @@ extension PerfumeInfoCell {
         perfumeInfoView.titleKoreanLabel.text = item.koreanName
         perfumeInfoView.titleEnglishLabel.text = item.englishName
         perfumeInfoView.priceLabel.text = "₩\(numberFormatter(item.price))"
-        perfumeInfoView.topNote.nameLabel.text = item.topNote
-        perfumeInfoView.heartNote.nameLabel.text = item.heartNote
-        perfumeInfoView.baseNote.nameLabel.text = item.baseNote
         perfumeInfoView.brandView.brandEnglishLabel.text = item.brandEnglishName
         perfumeInfoView.brandView.brandKoreanLabel.text = item.brandName
         perfumeInfoView.brandView.brandImageView.kf.setImage(with: URL(string: item.brandImgUrl))
+        
         setVolume(item)
+        updateNote(item)
         
-        
+    }
+    
+    func updateNote(_ item: FirstDetail) {
+        //singlNote일 때
+        if let singleNote = item.singleNote {
+            noteViews[0].noteImageView.image = UIImage(named: "note\(item.notePhotos[0])")
+            noteViews[0].isHidden = false
+            let noteTexts = singleNote.joined(separator: ", ")
+            noteViews[0].posLabel.text = noteTexts
+            
+            noteViews[1].snp.removeConstraints()
+            noteViews[2].snp.removeConstraints()
+            
+            noteViews[0].snp.remakeConstraints {
+                $0.top.equalTo(perfumeInfoView.tastingLabel.snp.bottom).offset(16)
+                $0.leading.equalToSuperview().inset(16)
+                $0.trailing.equalToSuperview()
+                $0.height.equalTo(60)
+                $0.bottom.equalToSuperview().inset(16)
+            }
+        } else {
+            let notes = [item.topNote, item.heartNote, item.baseNote]
+            for (i, photo) in item.notePhotos.enumerated() {
+                noteViews[i].noteImageView.image = UIImage(named: "note\(photo)")
+                noteViews[i].isHidden = false
+                noteViews[i].posLabel.text = notes[i]
+            }
+        }
     }
     
     func numberFormatter(_ number: Int) -> String {

@@ -13,25 +13,25 @@ class BrandDetailReactor: Reactor {
     enum Action {
         case didTapPerfume(Int)
         case didTapLikeSortButton
-        case didTapBackButton
         case viewDidLoad
+        case willDisplayCell(Int)
     }
     
     enum Mutation {
         case setPresentPerfumeId(Int?)
-        case setPopVC(Bool)
         case setSections([BrandDetailSection])
         case setBrand(Brand)
         case setIsTapLiked(Bool)
+        case setLoadedPage(Int)
     }
     
     struct State {
         var section: [BrandDetailSection] = []
         var brand: Brand? = nil
-        var isPopVC: Bool = false
         var brandId: Int = 0
         var isTapLiked: Bool = false
         var presentPerfumeId: Int? = nil
+        var loadedPage: Set<Int> = []
     }
     
     var initialState: State
@@ -43,22 +43,17 @@ class BrandDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         
         switch action {
-        case .didTapBackButton:
-            return .concat([
-                .just(.setPopVC(true)),
-                .just(.setPopVC(false))
-            ])
         case .viewDidLoad:
             return .concat([
                 requestBrandInfo(),
-                fetchBrandFerfumeList(false)
+                fetchBrandFerfumeList(0, false)
             ])
             
         case .didTapLikeSortButton:
             let currentState = currentState
             let isTapLiked = !currentState.isTapLiked
             return .concat([
-                fetchBrandFerfumeList(isTapLiked),
+                fetchBrandFerfumeList(0, isTapLiked),
                 .just(.setIsTapLiked(isTapLiked))
             ])
         case .didTapPerfume(let item):
@@ -66,6 +61,9 @@ class BrandDetailReactor: Reactor {
                 .just(.setPresentPerfumeId(currentState.section[0].items[item].perfumeId)),
                 .just(.setPresentPerfumeId(nil))
             ])
+            
+        case .willDisplayCell(let page):
+            return fetchBrandFerfumeList(page, currentState.isTapLiked)
         }
     }
     
@@ -73,9 +71,7 @@ class BrandDetailReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setPopVC(let isPop):
-            state.isPopVC = isPop
-            
+
         case .setSections(let section):
             state.section = section
             
@@ -89,6 +85,10 @@ class BrandDetailReactor: Reactor {
             }
         case .setPresentPerfumeId(let id):
             state.presentPerfumeId = id
+            
+        case .setLoadedPage(let page):
+            if page == 0 { state.loadedPage = [] }
+            state.loadedPage.insert(page)
         }
         
         
@@ -107,18 +107,26 @@ extension BrandDetailReactor {
             }
     }
     
-    func fetchBrandFerfumeList(_ isTapLiked: Bool) -> Observable<Mutation> {
-        
+    func fetchBrandFerfumeList(_ page: Int, _ isTapLiked: Bool) -> Observable<Mutation> {
+        if page != 0 && currentState.loadedPage.contains(page) { return .empty() }
         // 좋아요 순
         let type = isTapLiked ? "top" : ""
+        let query = ["pageNum": page]
         
-        return BrandAPI.fetchBrandList(["pageNum": 0], brandId: currentState.brandId, type: type)
+        return BrandAPI.fetchBrandList(query, brandId: currentState.brandId, type: type)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 let item = data.data.map { BrandDetailSectionItem.perfumeList($0) }
-                let firstSection = BrandDetailSection.first(item)
+                var section: [BrandDetailSection]!
+                if page == 0 {
+                    section = []
+                } else { section = self.currentState.section }
                 
-                return .just(.setSections([firstSection]))
+                section.append(.first(item))
+                return .concat([
+                    .just(.setSections(section)),
+                    .just(.setLoadedPage(page))
+                ])
             }
     }
 }

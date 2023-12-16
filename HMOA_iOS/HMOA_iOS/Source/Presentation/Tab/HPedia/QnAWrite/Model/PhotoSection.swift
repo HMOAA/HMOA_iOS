@@ -12,5 +12,5 @@ enum PhotoSection: Hashable {
 }
 
 enum PhotoSectionItem: Hashable {
-    case photoCell(UIImage?, CommunityPhoto?)
+    case photoCell(WritePhoto?, CommunityPhoto?)
 }

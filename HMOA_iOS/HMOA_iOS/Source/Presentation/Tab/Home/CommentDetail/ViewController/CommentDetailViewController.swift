@@ -86,6 +86,11 @@ extension CommentDetailViewController {
         
         // MARK: - Action
         
+        LoginManager.shared.isLogin
+            .map { Reactor.Action.viewDidLoad($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // 댓글 좋아요 버튼 클릭
         commentLikeButton.rx.tap
             .map { Reactor.Action.didTapLikeButton }
@@ -94,40 +99,30 @@ extension CommentDetailViewController {
         
         // MARK: - State
         
-        // 이미지 바인딩
+        // comment 바인딩
         reactor.state
-            .map { $0.comment.profileImg }
-            .map { URL(string: $0) }
-            .bind(with: self) { owner, url in
-                owner.userImageView.kf.setImage(with: url)
+            .map { $0.comment }
+            .compactMap { $0 }
+            .bind(with: self) { owner, comment in
+                owner.userImageView.kf.setImage(with: URL(string: comment.profileImg))
+                owner.dateLabel.text = comment.createAt
+                owner.contentLabel.text = comment.content
+                owner.userNameLabel.text = comment.nickname
+                owner.commentLikeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(comment.heartCount)", size: 12, font: .pretendard_light)
             }
             .disposed(by: disposeBag)
         
-        // 날짜 바인딩
+        // communityComment 바인딩
         reactor.state
-            .map { $0.comment.createAt }
-            .bind(to: dateLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        // 댓글 내용
-        reactor.state
-            .map { $0.content }
-            .bind(to: contentLabel.rx.text)
-            .disposed(by: disposeBag)
-
-        // 유저 이름
-        reactor.state
-            .map { $0.comment.nickname}
-            .bind(to: userNameLabel.rx.text)
-            .disposed(by: disposeBag)
-
-        // 좋아요 개수
-        reactor.state
-            .map { $0.comment.heartCount }
-            .map { String($0) }
-            .bind(with: self, onNext: { owner, title in
-                owner.commentLikeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: title, size: 12, font: .pretendard_light)
-            })
+            .map { $0.communityCommet }
+            .compactMap { $0 }
+            .bind(with: self) { owner, comment in
+                owner.userImageView.kf.setImage(with: URL(string: comment.profileImg))
+                owner.dateLabel.text = comment.time
+                owner.contentLabel.text = comment.content
+                owner.userNameLabel.text = comment.author
+                owner.commentLikeButton.isHidden = true
+            }
             .disposed(by: disposeBag)
         
         // 좋아요 여부
@@ -135,6 +130,19 @@ extension CommentDetailViewController {
             .map { $0.isLiked }
             .distinctUntilChanged()
             .bind(to: commentLikeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        // 로그인 안되있을 시 present
+        reactor.state
+            .map { $0.isTapWhenNotLogin }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(
+                    title: "로그인 후 이용가능한 서비스입니다",
+                    content: "입력하신 내용을 다시 확인해주세요",
+                    buttonTitle: "로그인 하러가기 ")
+            })
             .disposed(by: disposeBag)
         
        

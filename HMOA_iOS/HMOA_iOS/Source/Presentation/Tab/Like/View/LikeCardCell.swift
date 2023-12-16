@@ -31,6 +31,7 @@ class LikeCardCell: UICollectionViewCell {
     }
     
     let perpumeImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
     }
     
@@ -150,8 +151,9 @@ class LikeCardCell: UICollectionViewCell {
         }
         
         xButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(21)
+            make.leading.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
+            make.width.height.equalTo(30)
         }
         
         brandNameLabel.snp.makeConstraints { make in
@@ -161,7 +163,7 @@ class LikeCardCell: UICollectionViewCell {
         perpumeImageView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(32)
             make.centerX.equalToSuperview()
-            make.height.width.equalTo(120)
+            make.height.width.equalTo(250)
         }
         
         nameStackView.snp.makeConstraints { make in
@@ -170,14 +172,12 @@ class LikeCardCell: UICollectionViewCell {
         }
         
         priceTextLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameStackView.snp.bottom).offset(28)
-            make.bottom.equalToSuperview().inset(30)
+            make.top.equalTo(nameStackView.snp.bottom).offset(36)
             make.leading.equalToSuperview().inset(24)
         }
         
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameStackView.snp.bottom).offset(28)
-            make.bottom.equalToSuperview().inset(30)
+            make.top.equalTo(nameStackView.snp.bottom).offset(36)
             make.trailing.equalToSuperview().inset(24)
         }
     }

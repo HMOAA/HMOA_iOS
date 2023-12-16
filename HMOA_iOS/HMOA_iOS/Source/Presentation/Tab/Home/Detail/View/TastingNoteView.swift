@@ -13,30 +13,13 @@ class TastingNoteView: UIView {
     
     // MARK: - Properties
     
-    lazy var leftImageView = UIImageView().then {
-        $0.layer.backgroundColor = UIColor.customColor(.tabbarColor).cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.white.cgColor
-        $0.layer.cornerRadius = 30
+    
+    lazy var noteImageView = UIImageView().then {
+        $0.clipsToBounds = true
     }
     
-    lazy var centerImageView = UIImageView().then {
-        $0.layer.backgroundColor = UIColor.customColor(.tabbarColor).cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.white.cgColor
-        $0.layer.cornerRadius = 30
-    }
-    
-    lazy var rightImageView = UIImageView().then {
-        $0.layer.backgroundColor = UIColor.customColor(.tabbarColor).cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.white.cgColor
-        $0.layer.cornerRadius = 30
-    }
-    
-    lazy var nameLabel = UILabel().then {
-        $0.textColor = .white
-        $0.font = UIFont.customFont(.pretendard, 12)
+    lazy var noteLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_bold, size: 12, color: .white)
     }
 
     lazy var lineView = UIView().then {
@@ -44,13 +27,13 @@ class TastingNoteView: UIView {
     }
     
     lazy var posLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard, 16)
-        $0.textColor = UIColor.customColor(.gray3)
+        $0.textAlignment = .right
+        $0.numberOfLines = 2
+        $0.setLabelUI("", font: .pretendard_medium, size: 12, color: .black)
     }
     
-    init(pos: String) {
+    init() {
         super.init(frame: .zero)
-        self.posLabel.text = pos
         configureUI()
     }
     
@@ -62,40 +45,28 @@ class TastingNoteView: UIView {
 extension TastingNoteView {
     
     func configureUI() {
-        [   leftImageView,
-            centerImageView,
-            rightImageView,
+        [   noteImageView,
             lineView,
             posLabel    ]   .forEach { addSubview($0) }
         
-        centerImageView.addSubview(nameLabel)
+        noteImageView.addSubview(noteLabel)
         
-        leftImageView.snp.makeConstraints {
+        noteImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview()
-            $0.width.height.equalTo(60)
+            $0.height.equalTo(60)
+            $0.width.equalTo(180)
         }
         
-        centerImageView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalTo(leftImageView.snp.trailing)
-            $0.width.height.equalTo(60)
-        }
-        
-        rightImageView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalTo(centerImageView.snp.trailing)
-            $0.width.height.equalTo(60)
-        }
-        
-        nameLabel.snp.makeConstraints {
+        noteLabel.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
         }
         
         lineView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(rightImageView.snp.trailing).offset(6)
+            $0.leading.equalTo(noteImageView.snp.trailing).offset(6)
             $0.height.equalTo(1)
+            $0.width.greaterThanOrEqualTo(6)
         }
         
         posLabel.snp.makeConstraints {

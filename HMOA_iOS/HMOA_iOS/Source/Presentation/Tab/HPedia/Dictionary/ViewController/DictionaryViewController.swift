@@ -56,7 +56,7 @@ class DictionaryViewController: UIViewController, View {
         tableView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(32)
             make.trailing.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             make.top.equalTo(searchBar.snp.bottom).offset(13)
         }
     }
@@ -65,6 +65,26 @@ class DictionaryViewController: UIViewController, View {
         
         // Action
         
+        // ViewDidLoad
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // willDisplayCell
+        tableView.rx.willDisplayCell
+            .map { cell, index -> Int? in
+                let currentItem = index.item
+                if (currentItem + 1) % 15 == 0 && currentItem != 0 {
+                    return currentItem / 15 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         //tableView cell 터치
         tableView.rx.itemSelected
             .map { Reactor.Action.didTapItem($0) }
@@ -72,6 +92,13 @@ class DictionaryViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        // 텍스트 입력
+        searchBar.rx.text
+            .orEmpty
+            .map { Reactor.Action.didSearchItem($0) }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         
@@ -88,23 +115,24 @@ class DictionaryViewController: UIViewController, View {
         //navigationBar title 설정
         reactor.state
             .map { $0.title }
-            .bind(with: self, onNext: { owner, title in
-                owner.setNavigationBarTitle(title: title, color: .black, isHidden: false, isScroll: false)
-            })
+            .bind(onNext: setBackItemNaviBar)
             .disposed(by: disposeBag)
         
         //선택된 타이틀 DetailDictionaryVC로 push
         reactor.state
-            .filter { $0.selectedTitle != nil }
-            .compactMap { ($0.selectedTitle!, $0.title) }
-            .bind(onNext: presentDetailDictionaryVC)
+            .map { $0.selectedId }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(with: self, onNext: { owner, id in
+                owner.presentDetailDictionaryVC(reactor.currentState.type, id)
+            })
             .disposed(by: disposeBag)
     }
 }
 
 extension DictionaryViewController: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 }

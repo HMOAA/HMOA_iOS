@@ -24,7 +24,7 @@ struct Brand: Equatable, Hashable, Codable {
 
 extension BrandList {
     
-    var section: BrandListSection {
+    var section: BrandListSection? {
         switch self.consonant {
         case 1:
             return BrandListSection.first(self.brands.map { BrandCell.BrandItem($0) })
@@ -46,7 +46,7 @@ extension BrandList {
         case 9:
             return BrandListSection.ninth(self.brands.map { BrandCell.BrandItem($0) })
         case 10:
-            return BrandListSection.tenth(self.brands.map { BrandCell.BrandItem($0) })
+            return BrandListSection.tenth(self.brands.map { BrandCell.BrandItem($0)})
         case 11:
             return BrandListSection.eleventh(self.brands.map { BrandCell.BrandItem($0) })
         case 12:
@@ -55,8 +55,10 @@ extension BrandList {
             return BrandListSection.thirteenth(self.brands.map { BrandCell.BrandItem($0) })
         case 14:
             return BrandListSection.fourtheenth(self.brands.map { BrandCell.BrandItem($0) })
+        case 15:
+            return BrandListSection.fifteen(self.brands.map { BrandCell.BrandItem($0) })
         default:
-            return BrandListSection.first([])
+            return nil
         }
     }
 }

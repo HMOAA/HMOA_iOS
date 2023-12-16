@@ -13,7 +13,10 @@ class PerfumeInfoView: UIView {
     
     // MARK: - Properies
     
-    lazy var perfumeImageView = UIImageView()
+    lazy var perfumeImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.backgroundColor = #colorLiteral(red: 0.8799095154, green: 0.8735057712, blue: 0.87650913, alpha: 1)
+    }
     
     lazy var perfumeLikeView = UIView().then {
         $0.layer.cornerRadius = 10
@@ -58,11 +61,11 @@ class PerfumeInfoView: UIView {
     }
     
     //TODO: singleNoteView 만들기
-    lazy var topNote = TastingNoteView(pos: "TOP")
+    lazy var topNote = TastingNoteView()
     
-    lazy var heartNote = TastingNoteView(pos: "HEART")
+    lazy var heartNote = TastingNoteView()
     
-    lazy var baseNote = TastingNoteView(pos: "BASE")
+    lazy var baseNote = TastingNoteView()
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -198,6 +201,10 @@ extension PerfumeInfoView {
             $0.height.equalTo(60)
 
         }
+        
+        topNote.noteLabel.text = "TOP"
+        heartNote.noteLabel.text = "HEART"
+        baseNote.noteLabel.text = "BASE"
         
     }
 }
