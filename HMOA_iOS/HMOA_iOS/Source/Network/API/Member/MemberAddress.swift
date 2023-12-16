@@ -16,8 +16,10 @@ enum MemberAddress {
     case member
     case uploadImage
     case fetchLikedComment
-    case fetchWritedComment
+    case fetchPerfumeComment
+    case fetchCommunityComment
     case fetchWritedPost
+    case deleteMember
 }
 
 extension MemberAddress {
@@ -39,10 +41,14 @@ extension MemberAddress {
             return "member/profile-photo"
         case .fetchLikedComment:
             return "member/hearts"
-        case .fetchWritedComment:
-            return "member/comments"
+        case .fetchCommunityComment:
+            return "member/communityComments"
+        case .fetchPerfumeComment:
+            return "member/perfumeComments"
         case .fetchWritedPost:
-            return ""
+            return "member/communities"
+        case .deleteMember:
+            return "member/delete"
         }
     }
 }

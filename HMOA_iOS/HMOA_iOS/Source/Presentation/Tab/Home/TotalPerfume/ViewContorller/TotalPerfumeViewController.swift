@@ -41,26 +41,26 @@ extension TotalPerfumeViewController {
         // MARK: - Action
         
         //collectionView - item 클릭
-//        collectionView.rx.itemSelected
-//            .map { indexPath in
-//                let item = self.dataSource.itemIdentifier(for: indexPath)
-//                switch item {
-//                case .perfumeList(let perfume):
-//                    return perfume
-//                case .none:
-//                    return nil
-//                }
-//            }
-//            .compactMap { $0 }
-//            .map { Reactor.Action.didTapItem($0)}
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
+        collectionView.rx.itemSelected
+            .map { indexPath in
+                let item = self.dataSource.itemIdentifier(for: indexPath)
+                switch item {
+                case .perfumeList(let perfume):
+                    return perfume
+                case .none:
+                    return nil
+                }
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.didTapItem($0)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: - State
         
         // collectionView 바인딩
         reactor.state
-            .map { $0.section }
+            .map { $0.sections }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
                 var snapshot = NSDiffableDataSourceSnapshot<TotalPerfumeSection, TotalPerfumeSectionItem>()
@@ -76,14 +76,14 @@ extension TotalPerfumeViewController {
             }).disposed(by: disposeBag)
         
         // item 클릭 시 향수 상세 화면으로 이동
-//        reactor.state
-//            .map { $0.selectedItem }
-//            .distinctUntilChanged()
-//            .compactMap { $0 }
-//            .bind(with: self, onNext: { owner, perfume in
-//                self.presentDatailViewController($0.perfumeId)
-//            })
-//            .disposed(by: disposeBag)
+        reactor.state
+            .map { $0.selectedItem }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(with: self, onNext: { owner, perfume in
+                owner.presentDatailViewController(perfume.perfumeId)
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -108,7 +108,7 @@ extension TotalPerfumeViewController {
             case .perfumeList(let perfume):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BrandDetailCollectionViewCell.identifier, for: indexPath) as? BrandDetailCollectionViewCell else { return UICollectionViewCell() }
                 
-                cell.bindUI(perfume)
+                cell.bindRecommendUI(perfume)
                 
                 return cell
             }

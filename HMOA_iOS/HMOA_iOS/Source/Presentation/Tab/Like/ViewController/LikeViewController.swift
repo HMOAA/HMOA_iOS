@@ -24,7 +24,6 @@ class LikeViewController: UIViewController, View {
     
     lazy var cardCollectionView = UICollectionView(frame: .zero,
                                                    collectionViewLayout: configureCardLayout()).then {
-
         $0.isScrollEnabled = false
         $0.showsHorizontalScrollIndicator = false
         $0.register(LikeCardCell.self,
@@ -114,7 +113,7 @@ class LikeViewController: UIViewController, View {
         
         cardCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(398).priority(751)
+            make.height.equalTo(510)
             make.top.equalTo(listCollectionView)
 
         }
@@ -135,11 +134,6 @@ class LikeViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        rx.viewWillDisappear
-            .map { _ in LikeReactor.Action.viewWillDisappear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         cardCollectionView.rx.itemSelected
             .map { LikeReactor.Action.didTapCollectionViewItem($0) }
             .bind(to: reactor.action)
@@ -157,7 +151,7 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.sectionItem }
             .distinctUntilChanged()
-            .compactMap { $0 }
+            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
 
@@ -170,8 +164,8 @@ class LikeViewController: UIViewController, View {
                 listSnapshot.appendItems(item, toSection: .main)
                 
                 DispatchQueue.main.async {
-                    self.cardDatasource.apply(cardSnapshot, animatingDifferences: true)
-                    self.listDatasource.apply(listSnapshot, animatingDifferences: true)
+                    owner.cardDatasource.apply(cardSnapshot, animatingDifferences: true)
+                    owner.listDatasource.apply(listSnapshot, animatingDifferences: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -189,25 +183,27 @@ class LikeViewController: UIViewController, View {
             .map { $0.isHiddenNoLikeView }
             .distinctUntilChanged()
             .bind(with: self, onNext: { owner, isHidden in
-                owner.noLikeView.isHidden = isHidden
-                owner.cardCollectionView.isHidden = !isHidden
+                if let isHidden = isHidden {
+                    owner.noLikeView.isHidden = isHidden
+                    owner.cardCollectionView.isHidden = !isHidden
+                } else {
+                    owner.noLikeView.isHidden = true
+                    owner.cardCollectionView.isHidden = true
+                    owner.listCollectionView.isHidden = true
+                }
             })
             .disposed(by: disposeBag)
         
         // 마지막 아이템 삭제시 왼쪽으로 이동
         reactor.state
             .map { $0.isDeletedLast }
-            .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, isDeleted in
+            .bind(with: self) { owner, _ in
                 let row = reactor.currentState.currentRow
-                let targetIndexPath: IndexPath
                 if row > 0 {
-                    targetIndexPath = IndexPath(row: row - 1, section: 0)
-                } else {
-                    targetIndexPath = IndexPath(row: 0, section: 0)
+                    let targetIndexPath = IndexPath(row: row - 1, section: 0)
+                    owner.cardCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
                 }
-                owner.cardCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
             }
             .disposed(by: disposeBag)
       
@@ -280,7 +276,7 @@ extension LikeViewController {
     
     private func configureCardLayout() -> UICollectionViewCompositionalLayout {
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(354))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(460))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.79), heightDimension: .fractionalHeight(1))
@@ -294,7 +290,6 @@ extension LikeViewController {
             let currentPage = Int((contentOffset.x / environment.container.contentSize.width).rounded(.up))
             
             self.reactor.action.onNext(.didChangeCurrentPage(currentPage))
-            
         }
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topTrailing)

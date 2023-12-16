@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 class BrandDetailHeaderView: UICollectionReusableView {
         
@@ -20,9 +21,15 @@ class BrandDetailHeaderView: UICollectionReusableView {
         $0.backgroundColor = .black
     }
     
-    lazy var brandImageView = UIImageView().then {
-        $0.layer.borderWidth = 3
+    lazy var brandBorderView = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 3
+        $0.layer.borderWidth = 2
         $0.layer.borderColor = UIColor.customColor(.gray3).cgColor
+    }
+    
+    lazy var brandImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
     }
     
     lazy var koreanLabel = UILabel().then {
@@ -41,6 +48,8 @@ class BrandDetailHeaderView: UICollectionReusableView {
         $0.setTitleColor(.black, for: .selected)
         $0.setTitle("좋아요순", for: .normal)
     }
+    
+    var disposeBag = DisposeBag()
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -52,6 +61,10 @@ class BrandDetailHeaderView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
+    }
 }
 
 extension BrandDetailHeaderView {
@@ -59,6 +72,7 @@ extension BrandDetailHeaderView {
     // MARK: - Configure
     
     func configureUI() {
+        brandBorderView.addSubview(brandImageView)
         
         [   brandInfoView,
             sortButton
@@ -66,7 +80,7 @@ extension BrandDetailHeaderView {
         
         [   englishLabel,
             koreanLabel,
-            brandImageView
+            brandBorderView
         ]   .forEach { brandInfoView.addSubview($0) }
         
         
@@ -86,9 +100,13 @@ extension BrandDetailHeaderView {
             $0.height.equalTo(14)
         }
         
-        brandImageView.snp.makeConstraints {
+        brandBorderView.snp.makeConstraints {
             $0.trailing.bottom.equalToSuperview().inset(16)
             $0.width.height.equalTo(100)
+        }
+        brandImageView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(8)
+            $0.top.bottom.equalToSuperview()
         }
         
         sortButton.snp.makeConstraints {

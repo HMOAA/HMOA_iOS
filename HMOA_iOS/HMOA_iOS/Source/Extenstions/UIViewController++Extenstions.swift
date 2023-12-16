@@ -11,6 +11,63 @@ import Then
 
 extension UIViewController {
     
+    func checkTutorialRun() {
+        let isTutorial = UserDefaults.standard.bool(forKey: "Tutorial")
+        if !isTutorial {
+            let vc = TutorialViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: false)
+        }
+    }
+    
+    func showAlert(title: String,
+                   message: String,
+                   buttonTitle1: String,
+                   buttonTitle2: String? = nil,
+                   action1: (() -> Void)? = nil,
+                   action2: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let button1 = UIAlertAction(title: buttonTitle1, style: .default, handler: { _ in
+            action1?()
+        })
+        alert.addAction(button1)
+        
+        if let buttonTitle2 = buttonTitle2 {
+            let button2 = UIAlertAction(title: buttonTitle2, style: .cancel, handler: { _ in
+                action2?()
+            })
+            alert.addAction(button2)
+        }
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func presentInAppLoginVC() {
+        let loginVC = LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        loginVC.reactor = LoginReactor(.inApp)
+        self.present(loginVC, animated: true)
+    }
+    
+    func presentLoginStartVC() {
+        let vc = LoginStartViewController()
+        let nvController = UINavigationController(rootViewController: vc)
+        nvController.modalPresentationStyle = .fullScreen
+        self.present(nvController, animated: true)
+    }
+    
+    func presentTabBar(_ state: LoginState) {
+        switch state {
+        case .first:
+            let tabBar = AppTabbarController()
+            self.view.window?.rootViewController = tabBar
+        case .inApp:
+            self.view.window?.rootViewController?.dismiss(animated: true)
+        }
+    }
+        
+        
     func presentImagePinchVC(_ indexPath: IndexPath, images: [CommunityPhoto]) {
         let vc = ImagePinchViewController()
         vc.modalPresentationStyle = .fullScreen
@@ -24,14 +81,25 @@ extension UIViewController {
         self.present(alertVC, animated: false)
     }
     
+    // list -> detail
     func presentQnADetailVC(_ id: Int, _ reactor: QNAListReactor) {
         let qnaDetailVC = QnADetailViewController()
-        let reactor = reactor.reactorForDetail()
-        qnaDetailVC.reactor = reactor
+        let detailReactor = reactor.reactorForDetail()
+        
+        qnaDetailVC.reactor = detailReactor
         qnaDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(qnaDetailVC, animated: true)
     }
-    
+
+    // hpedia, writedPost -> detail
+    func presentQnADetailVC(_ id: Int) {
+        let qnaDetailVC = QnADetailViewController()
+        let detailReactor = QnADetailReactor(id, CommunityListService())
+        
+        qnaDetailVC.reactor = detailReactor
+        qnaDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(qnaDetailVC, animated: true)
+    }
     func presentQnAWriteVCForEdit(reactor: QnADetailReactor) {
         let qnaWriteVC = QnAWriteViewController()
         let reactor = reactor.reactorForPostEdit()
@@ -54,16 +122,16 @@ extension UIViewController {
         self.navigationController?.pushViewController(qnaListVC, animated: true)
     }
     
-    func presentDetailDictionaryVC(_ value: (String, String)) {
+    func presentDetailDictionaryVC(_ type: HpediaType, _ id: Int) {
         let detailDictionaryVC = DetailDictionaryViewController()
-        let reactor = DetailDictionaryReactor(value.1)
+        let reactor = DetailDictionaryReactor(type, id)
         detailDictionaryVC.reactor = reactor
         self.navigationController?.pushViewController(detailDictionaryVC, animated: true)
     }
     
-    func presentDictionaryViewController(_ id: Int) {
+    func presentDictionaryViewController(_ type: HpediaType) {
         let dictionaryVC = DictionaryViewController()
-        let reactor = DictionaryReactor(id: id)
+        let reactor = DictionaryReactor(type: type)
         dictionaryVC.reactor = reactor
         self.navigationController?.pushViewController(dictionaryVC, animated: true)
     }
@@ -78,7 +146,7 @@ extension UIViewController {
     
     func presentCommentViewContorller(_ id: Int) {
         let commentVC = CommentListViewController()
-        commentVC.reactor = CommentListReactor(id, .detail, service: DetailCommentService())
+        commentVC.reactor = CommentListReactor(id, service: DetailCommentService())
         commentVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(commentVC, animated: true)
     }
@@ -90,10 +158,10 @@ extension UIViewController {
         self.navigationController?.pushViewController(searchVC, animated: true)
     }
     
-    func presentCommentDetailViewController(_ comment: Comment) {
+    func presentCommentDetailViewController(_ comment: Comment?, _ communityCommet: CommunityComment?, _ service: DetailCommentService? = nil) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor(comment)
+        commentDetailVC.reactor = CommentDetailReactor(comment, communityCommet, service)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
@@ -181,6 +249,23 @@ extension UIViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
+    func setBrandSearchBellNaviBar(_ title: String, bellButton: UIBarButtonItem) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let brandButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToBrand), imageName: "homeMenu")
+        
+        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
+
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [brandButton]
+        self.navigationItem.rightBarButtonItems = [bellButton, searchButton]
+    }
+    
     func setBackItemNaviBar(_ title: String) {
         let titleLabel = UILabel().then {
             $0.text = title
@@ -210,6 +295,24 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton, spacerItem(15), homeButton]
         self.navigationItem.rightBarButtonItems = [searchButton]
+    }
+    
+    func setBackHomeRightNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        setNavigationColor()
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        
+        let homeButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "homeNavi")
+
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+        self.navigationItem.rightBarButtonItems = [homeButton]
     }
     
     func setNavigationBarTitle(_ title: String) {
@@ -256,11 +359,15 @@ extension UIViewController {
     }
     
     @objc func goToHome() {
-        
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func goToSearch() {
-        
+        presentSearchViewController()
+    }
+    
+    @objc func goToBrand() {
+        presentBrandSearchViewController()
     }
     
     func spacerItem(_ width: Int) -> UIBarButtonItem {
@@ -289,6 +396,9 @@ extension UIViewController {
         if let backButton = backButton {
             barBackButton = backButton
             let barButtonItem = UIBarButtonItem(customView: barBackButton)
+            barButtonItem.customView?.snp.makeConstraints {
+                $0.width.height.equalTo(30)
+            }
             self.navigationItem.leftBarButtonItems = [barButtonItem]
         }
         

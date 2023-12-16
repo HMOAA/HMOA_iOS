@@ -50,4 +50,59 @@ final class SearchAPI {
         )
     }
     
+    /// HPedia 용어 검색
+    static func fetchSearchedHPediaTerm(query: [String: Any]) -> Observable<[HpediaTerm]> {
+        return networking(
+            urlStr: SearchAddress.fetchHPediaTerm.url,
+            method: .get,
+            data: nil,
+            model: [HpediaTerm].self,
+            query: query
+        )
+    }
+    
+    /// HPedia 노트 검색
+    static func fetchSearchedHPediaNote(query: [String: Any]) -> Observable<[HpediaNote]> {
+        return networking(
+            urlStr: SearchAddress.fetchHPediaNote.url,
+            method: .get,
+            data: nil,
+            model: [HpediaNote].self,
+            query: query
+        )
+    }
+    
+    /// HPedia 조향사 검색
+    static func fetchSearchedHPediaPerfumer(query: [String: Any]) -> Observable<[HpediaPerfumer]> {
+        return networking(
+            urlStr: SearchAddress.fetchHPediaPerfumer.url,
+            method: .get,
+            data: nil,
+            model: [HpediaPerfumer].self,
+            query: query
+        )
+    }
+    
+    /// HPedia 브랜드 검색
+    static func fetchSearchedHPediaBrand(query: [String: Any]) -> Observable<[HpediaBrand]> {
+        return networking(
+            urlStr: SearchAddress.fetchHPediaBrand.url,
+            method: .get,
+            data: nil,
+            model: [HpediaBrand].self,
+            query: query
+        )
+    }
+    
+    /// 커뮤니티 게시를  검색
+    static func fetchCommunity(query: [String: Any]) -> Observable<[CategoryList]> {
+        return networking(
+            urlStr: SearchAddress.fetchCommunity.url,
+            method: .get,
+            data: nil,
+            model: [CategoryList].self,
+            query: query
+        )
+    }
+    
 }

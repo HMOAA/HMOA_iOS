@@ -21,11 +21,7 @@ class BrandDetailViewController: UIViewController, View {
     
     // MARK: - UI Component
     private var dataSource: UICollectionViewDiffableDataSource<BrandDetailSection, BrandDetailSectionItem>!
-
-    let homeBarButton = UIButton().makeImageButton(UIImage(named: "homeNavi")!)
-    let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
-    let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
-
+    
     lazy var layout = UICollectionViewFlowLayout()
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
@@ -38,7 +34,6 @@ class BrandDetailViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureNavigationBar()
 
     }
 }
@@ -56,9 +51,17 @@ extension BrandDetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // 뒤로가기 버튼 클릭
-        backBarButton.rx.tap
-            .map { Reactor.Action.didTapBackButton }
+        // willDisplayCell
+        collectionView.rx.willDisplayCell
+            .map {
+                let currentItem = $0.at.item
+                if (currentItem + 1) % 6 == 0 && currentItem != 0 {
+                    return currentItem / 6 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayCell($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -90,19 +93,9 @@ extension BrandDetailViewController {
         
         // NavigationBar title 설정
         reactor.state
-            .compactMap { $0.brand }
-            .map { $0.brandName }
+            .map { $0.brand?.brandName ?? "" }
             .distinctUntilChanged()
-            .bind(onNext: self.setNavigationBarTitle)
-            .disposed(by: disposeBag)
-        
-        // pop VC
-        reactor.state
-            .map { $0.isPopVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: self.popViewController)
+            .bind(onNext: setBackHomeRightNaviBar)
             .disposed(by: disposeBag)
         
         // 향수 디테일 페이지로 이동
@@ -120,7 +113,7 @@ extension BrandDetailViewController {
         headerView.sortButton.rx.tap
             .map { Reactor.Action.didTapLikeSortButton }
             .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+            .disposed(by: headerView.disposeBag)
         
         // State
         // 브랜드 이름 바인딩
@@ -128,7 +121,7 @@ extension BrandDetailViewController {
             .compactMap { $0.brand }
             .map { $0.brandName }
             .bind(to: headerView.koreanLabel.rx.text)
-            .disposed(by: disposeBag)
+            .disposed(by: headerView.disposeBag)
         
         // 브랜드 이미지 바인딩
         reactor.state
@@ -137,20 +130,20 @@ extension BrandDetailViewController {
             .bind(onNext: { url in
                 headerView.brandImageView.kf.setImage(with: url)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: headerView.disposeBag)
         
         // 브랜드 영어 이름 바인딩
         reactor.state
             .compactMap { $0.brand }
             .map { $0.englishName }
             .bind(to: headerView.englishLabel.rx.text)
-            .disposed(by: disposeBag)
+            .disposed(by: headerView.disposeBag)
         
         // 향수 좋아요순 색 변경
         reactor.state
             .map { $0.isTapLiked }
             .bind(to: headerView.sortButton.rx.isSelected)
-            .disposed(by: disposeBag)
+            .disposed(by: headerView.disposeBag)
     }
     
     // MARK: - Configure
@@ -169,15 +162,6 @@ extension BrandDetailViewController {
         }
     }
     
-    func configureNavigationBar() {
-        let backBarButtonItem = self.navigationItem.makeImageButtonItem(backBarButton)
-        let homeBarButtonItem = self.navigationItem.makeImageButtonItem(homeBarButton)
-        let searchBarButtonItem = self.navigationItem.makeImageButtonItem(searchBarButton)
-        
-        self.navigationItem.leftBarButtonItems = [backBarButtonItem, spacerItem(15), homeBarButtonItem]
-        self.navigationItem.rightBarButtonItems = [searchBarButtonItem]
-    }
-    
     func configureCollectionViewDataSource() {
         dataSource = UICollectionViewDiffableDataSource<BrandDetailSection, BrandDetailSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
@@ -193,19 +177,14 @@ extension BrandDetailViewController {
         })
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView in
             
-            var header = UICollectionReusableView()
-            
-            
             switch indexPath.section {
             case 0:
                 guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandDetailHeaderView.identifier, for: indexPath) as? BrandDetailHeaderView else { return UICollectionReusableView() }
                 
                 self.bindHeader(headerView, reactor: self.reactor!)
-                header = headerView
-                return header
+                return headerView
                 
-            default: return header
-                
+            default: return UICollectionReusableView()
             }
         }
     }
@@ -230,7 +209,9 @@ extension BrandDetailViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 256)
+        if section == 0 {
+            return CGSize(width: UIScreen.main.bounds.width, height: 256)
+        } else { return .zero }
     }
 }
 

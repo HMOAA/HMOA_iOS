@@ -92,8 +92,10 @@ extension CommentCell {
             subView.isHidden = false
             noCommentLabel.isHidden = true
             
-            //if item.writed { optionButton.isHidden = false }
-        } else { noCommentLabel.isHidden = false }
+        } else {
+            noCommentLabel.isHidden = false
+            subView.isHidden = true
+        }
     }
     
     func updateCommunityComment(_ item: CommunityComment?) {
@@ -105,8 +107,16 @@ extension CommentCell {
             subView.isHidden = false
             communityNoCommentLabel.isHidden = true
             
-            //if item.writed { optionButton.isHidden = false }
         } else { communityNoCommentLabel.isHidden = false }
+    }
+    
+    func updateForMyLogComment() {
+        optionButton.isHidden = true
+        commentLikeButton.snp.remakeConstraints { make in
+            make.top.equalToSuperview().inset(14)
+            make.trailing.equalToSuperview().inset(14)
+            make.height.equalTo(20)
+        }
     }
     
     func configureUI() {
@@ -157,11 +167,12 @@ extension CommentCell {
         optionButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(15.2)
             make.trailing.equalToSuperview().inset(13)
+            make.width.equalTo(10)
         }
         
         commentLikeButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(14)
-            $0.trailing.equalTo(optionButton.snp.leading).offset(-14.2)
+            $0.trailing.equalTo(optionButton.snp.leading).offset(-10)
             $0.height.equalTo(20)
         }
         

@@ -8,11 +8,14 @@
 import UIKit
 
 import ReactorKit
-import RxCocoa
+import RxSwift
+import AuthenticationServices
 
-class LoginReactor: Reactor {
-    
+class LoginReactor: NSObject, Reactor {
     let initialState: State
+    
+    private let appleLoginResultSubject = PublishSubject<String?>()
+    let disposeBag = DisposeBag()
     
     //유저 액션
     enum Action {
@@ -20,6 +23,7 @@ class LoginReactor: Reactor {
         case didTapAppleLoginButton
         case didTapKakaoLoginButton
         case didTapNoLoginButton
+        case didTapXButton
     }
     
     //상태 변화
@@ -28,6 +32,8 @@ class LoginReactor: Reactor {
         case setPushStartVC(Bool)
         case setSignInGoogle(Bool)
         case setKakaoToken(Token?)
+        case setIsDismiss(Bool)
+        case setAppleToken(Token?)
     }
     
     //현재 뷰 상태
@@ -36,10 +42,13 @@ class LoginReactor: Reactor {
         var isPushStartVC: Bool = false
         var isPresentTabBar: Bool = false
         var kakaoToken: Token? = nil
+        var loginState: LoginState
+        var isDismiss: Bool = false
+        var appleToken: Token? = nil
     }
     
-    init() {
-        initialState = State()
+    init(_ loginState: LoginState) {
+        initialState = State(loginState: loginState)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -55,12 +64,16 @@ class LoginReactor: Reactor {
                 .just(.setSignInGoogle(false))
                       ])
         case .didTapAppleLoginButton:
-            return .concat([
-                .just(.setPushStartVC(true)),
-                .just(.setPushStartVC(false))
-                      ])
+            signInApple()
+            return setAppleLoginToken()
         case .didTapKakaoLoginButton:
             return setKakaoToken()
+            
+        case .didTapXButton:
+            return .concat([
+                .just(.setIsDismiss(true)),
+                .just(.setIsDismiss(false))
+            ])
         }
         
     }
@@ -77,14 +90,18 @@ class LoginReactor: Reactor {
             state.isPushStartVC = isPush
         case .setKakaoToken(let token):
             state.kakaoToken = token
+        case .setIsDismiss(let isDismiss):
+            state.isDismiss = isDismiss
+        case .setAppleToken(let token):
+            state.appleToken = token
         }
         
         return state
     }
-    
+    //가격 내리고 카드 크기 줄이기
 }
 
-extension LoginReactor {
+extension LoginReactor: ASAuthorizationControllerDelegate {
     
     func setKakaoToken() -> Observable<Mutation> {
         return LoginAPI.kakaoLogin()
@@ -96,6 +113,45 @@ extension LoginReactor {
                             .just(.setKakaoToken(nil))
                         ])
                     }
+            }
+    }
+    
+    func signInApple() {
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = [.fullName]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.performRequests()
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        //로그인 성공
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+               let authorizationCode = appleIDCredential.authorizationCode,
+               let authorizationCodeString = String(data: authorizationCode, encoding: .utf8) {
+                appleLoginResultSubject.onNext(authorizationCodeString)
+            } else {
+                appleLoginResultSubject.onNext(nil)
+            }
+        }
+    }
+    
+    // 애플 로그인 실패
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Apple Sign In Error: \(error.localizedDescription)")
+        appleLoginResultSubject.onError(error)
+    }
+    
+    func setAppleLoginToken() -> Observable<Mutation> {
+        return appleLoginResultSubject
+            .flatMap { authorizationToken -> Observable<Mutation> in
+                guard let authorizationToken = authorizationToken else { return .empty() }
+                return LoginAPI.postAccessToken(params: ["token": authorizationToken], .apple)
+                    .catch { _ in .empty() }
+                    .map { .setAppleToken($0) }
             }
     }
 }

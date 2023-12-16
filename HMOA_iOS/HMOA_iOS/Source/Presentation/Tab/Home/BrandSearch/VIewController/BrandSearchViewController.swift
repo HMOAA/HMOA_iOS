@@ -145,7 +145,8 @@ extension BrandSearchViewController {
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints {
-            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
         }
     }
@@ -199,7 +200,9 @@ extension BrandSearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            reactor?.action.onNext(.scrollCollectionView(indexPath.section + 2))
+            var row = indexPath.section + 2
+            if row >= 10 { row += 1 }
+            reactor?.action.onNext(.scrollCollectionView(row))
         }
         
     }

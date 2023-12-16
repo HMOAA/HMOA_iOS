@@ -24,10 +24,6 @@ class DetailViewController: UIViewController, View {
     
     let bottomView = DetailBottomView()
     
-    let homeBarButton = UIButton().makeImageButton(UIImage(named: "homeNavi")!)
-    let searchBarButton = UIButton().makeImageButton(UIImage(named: "search")!)
-    let backBarButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
-    
     lazy var optionView = OptionView().then {
         $0.parentVC = self
         $0.reactor = OptionReactor()
@@ -38,7 +34,6 @@ class DetailViewController: UIViewController, View {
         super.viewDidLoad()
         configureUI()
         configureCollectionViewDataSource()
-        configreNavigationBar()
     }
 }
 
@@ -51,6 +46,7 @@ extension DetailViewController {
         
         // MARK: - Action
         LoginManager.shared.isLogin
+            .distinctUntilChanged()
             .map { Reactor.Action.viewDidLoad($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -69,24 +65,6 @@ extension DetailViewController {
         // 댓글 작성 버튼 클릭
         bottomView.wirteButton.rx.tap
             .map { Reactor.Action.didTapWriteButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 뒤로가기 버튼 클릭
-        backBarButton.rx.tap
-            .map { Reactor.Action.didTapBackButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 홈 버튼 클릭
-        homeBarButton.rx.tap
-            .map { Reactor.Action.didTapHomeButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        // 검색 버튼 클릭
-        searchBarButton.rx.tap
-            .map { Reactor.Action.didTapSearchButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -152,10 +130,10 @@ extension DetailViewController {
             .map { $0.presentComment }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentCommentDetailViewController)
+            .bind(with: self, onNext:{ owner, comment in owner.presentCommentDetailViewController(comment, nil, nil)
+            })
             .disposed(by: disposeBag)
         
-        // TODO: - simillar cell 향수 아이디 받아오기
         // 향수 디테일 페이지로 이동
         reactor.state
             .map { $0.presentPerfumeId }
@@ -172,33 +150,6 @@ extension DetailViewController {
             .bind(with: self, onNext: { owner, _ in
                 owner.presentCommentWriteViewController(.perfumeDetail(reactor))
             })
-            .disposed(by: disposeBag)
-        
-        // 홈 페이지로 이동
-        reactor.state
-            .map { $0.isPopRootVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: popViewController)
-            .disposed(by: disposeBag)
-        
-        // 뒤로 이동
-        reactor.state
-            .map { $0.isPopVC}
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: self.popViewController)
-            .disposed(by: disposeBag)
-        
-        // 검색 페이지로 이동
-        reactor.state
-            .map { $0.isPresentSearchVC }
-            .distinctUntilChanged()
-            .filter { $0 }
-            .map { _ in }
-            .bind(onNext: presentSearchViewController)
             .disposed(by: disposeBag)
         
         // 향수 좋아요 여부 바인딩
@@ -219,6 +170,12 @@ extension DetailViewController {
                                      content: "입력하신 내용을 다시 확인해주세요",
                                      buttonTitle: "로그인 하러가기 ")
             })
+            .disposed(by: disposeBag)
+        
+        // 백, 홈 네비게이션 타이틀 설정
+        reactor.state
+            .map { $0.brandName}
+            .bind(onNext: setBackHomeRightNaviBar)
             .disposed(by: disposeBag)
         
     }
@@ -293,17 +250,6 @@ extension DetailViewController {
             make.edges.equalToSuperview()
         }
     }
-    
-    func configreNavigationBar() {
-        setNavigationBarTitle("조말론 런던")
-        
-        let backBarButtonItem = self.navigationItem.makeImageButtonItem(backBarButton)
-        let homeBarButtonItem = self.navigationItem.makeImageButtonItem(homeBarButton)
-        let searchBarButtonItem = self.navigationItem.makeImageButtonItem(searchBarButton)
-        
-        self.navigationItem.leftBarButtonItems = [backBarButtonItem, spacerItem(15), homeBarButtonItem]
-        self.navigationItem.rightBarButtonItems = [searchBarButtonItem]
-    }
 }
 
 extension DetailViewController: UICollectionViewDelegate {
@@ -312,14 +258,14 @@ extension DetailViewController: UICollectionViewDelegate {
         dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: {  collectionView, indexPath, item in
             
             switch item {
-            case .topCell(let detail, _):
+            case .topCell(let detail):
                 guard let perfumeInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: PerfumeInfoCell.identifier, for: indexPath) as? PerfumeInfoCell else { return UICollectionViewCell() }
                 
                 self.bindPerfumeInfoCell(perfumeInfoCell)
                 perfumeInfoCell.updateCell(detail)
                 return perfumeInfoCell
                 
-            case .evaluationCell(let evaluation, _):
+            case .evaluationCell(let evaluation):
                 guard let evaluationCell = collectionView.dequeueReusableCell(withReuseIdentifier: EvaluationCell.identifier, for: indexPath) as? EvaluationCell else { return UICollectionViewCell() }
                 
                 evaluationCell.reactor = EvaluationReactor(
@@ -327,29 +273,47 @@ extension DetailViewController: UICollectionViewDelegate {
                     self.reactor!.currentState.perfumeId,
                     isLogin: self.reactor!.currentState.isLogin)
                 
+                // 로그인 안되있을 시 present
+                evaluationCell.reactor?.state
+                    .map { $0.isTapWhenNotLogin }
+                    .distinctUntilChanged()
+                    .filter { $0 }
+                    .bind(with: self, onNext: { owner, _ in
+                        owner.presentAlertVC(
+                            title: "로그인 후 이용가능한 서비스입니다",
+                            content: "입력하신 내용을 다시 확인해주세요",
+                            buttonTitle: "로그인 하러가기 ")
+                    })
+                    .disposed(by: evaluationCell.disposeBag)
+                
                 
             
                 return evaluationCell
                 
-            case .commentCell(let comment, _):
+            case .commentCell(let comment):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
+                
+                
+                if let comment = comment {
+                    let optionData = OptionCommentData(id: comment.id, content: comment.content, isWrited: comment.writed, isCommunity: false)
+                    commentCell.optionButton.rx.tap
+                        .map { OptionReactor.Action.didTapOptionButton(.Comment(optionData)) }
+                        .bind(to: self.optionView.reactor!.action)
+                        .disposed(by: self.optionView.disposeBag)
+                    
+                    commentCell.optionButton.rx.tap
+                        .map { DetailViewReactor.Action.didTapOptionButton(indexPath.row) }
+                        .bind(to: self.reactor!.action)
+                        .disposed(by: self.disposeBag)
+                }
                 commentCell.updateCell(comment)
-                
-                commentCell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment?.id, comment?.content, nil, "Comment", nil, comment?.writed) }
-                    .bind(to: self.optionView.reactor!.action)
-                    .disposed(by: self.optionView.disposeBag)
-                
-                commentCell.optionButton.rx.tap
-                    .map { DetailViewReactor.Action.didTapOptionButton(indexPath.row) }
-                    .bind(to: self.reactor!.action)
-                    .disposed(by: self.disposeBag)
+    
                     
                 
                 return commentCell
                 
-            case .similarCell(let similar, _):
+            case .similarCell(let similar):
                 guard let similarCell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarCell.identifier, for: indexPath) as? SimilarCell else { return UICollectionViewCell() }
                 
                 similarCell.updateUI(similar)

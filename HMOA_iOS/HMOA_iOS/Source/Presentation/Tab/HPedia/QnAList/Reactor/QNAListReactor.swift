@@ -15,7 +15,7 @@ class QNAListReactor: Reactor {
     
     enum Action {
         case viewWillAppear
-        case viewDidLoad
+        case viewDidLoad(Bool)
         case didTapFloatingButton
         case didTapRecommendButton
         case didTapReviewButton
@@ -25,6 +25,7 @@ class QNAListReactor: Reactor {
         case didTapCategoryButton(String)
         case willDisplayCell(Int)
         case didTapFloatingBackView
+        case didTapSearchButton
     }
     
     enum Mutation {
@@ -32,12 +33,17 @@ class QNAListReactor: Reactor {
         case setSelectedAddCategory(String?)
         case setSelectedPostId(IndexPath?)
         case setSearchText(String)
-        case setPostList([CategoryList])
-        case setLoadedPage(Set<Int>)
+        case setListItems([CategoryList])
+        case setSearchedItems([CategoryList])
+        case setLoadedListPage(Set<Int>)
+        case setLoadedSearchPage(Int)
         case setSelectedCategory(String)
         case editCommunityList(CategoryList)
         case addCommunityList(CategoryList)
         case deleteCommunityList(CategoryList)
+        case setIsLogin(Bool)
+        case setIsTapWhenNotLogin(Bool)
+        case setIsHiddenKeyboard(Bool)
     }
     
     
@@ -45,10 +51,21 @@ class QNAListReactor: Reactor {
         var selectedAddCategory: String? = nil
         var isFloatingButtonTap: Bool = false
         var selectedPostId: Int? = nil
-        var searchText: String? = nil
-        var loadedPage: Set<Int> = []
+        var searchText: String = ""
+        var loadedListPage: Set<Int> = []
+        var loadedSearchPage: Set<Int> = []
         var selectedCategory: String = "추천"
-        var items: [CategoryList] = []
+        var items: [CategoryList] {
+            if isSearch {
+                searchedItems
+            } else { listItems }
+        }
+        var searchedItems: [CategoryList] = []
+        var listItems: [CategoryList] = []
+        var isLogin: Bool = false
+        var isTapWhenNotLogin: Bool = false
+        var isSearch: Bool = false
+        var isHiddenKeyboard: Bool = false
     }
     
     init(service: CommunityListService) {
@@ -61,11 +78,21 @@ class QNAListReactor: Reactor {
         case .viewWillAppear:
             return .just(.setIsTapFloatingButton(false))
             
-        case .viewDidLoad:
-            return setCommunityListItem("추천", 0)
+        case .viewDidLoad(let isLogin):
+            return .concat([
+                setCommunityListItem("추천", 0),
+                .just(.setIsLogin(isLogin))
+            ])
             
         case .didTapFloatingButton:
-            return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
+            if currentState.isLogin {
+                return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
+            } else {
+                return .concat([
+                    .just(.setIsTapWhenNotLogin(true)),
+                    .just(.setIsTapWhenNotLogin(false))
+                ])
+            }
             
         case .didTapRecommendButton:
             return .concat([
@@ -88,16 +115,26 @@ class QNAListReactor: Reactor {
                 .just(.setSelectedPostId(nil))
             ])
         case .didChangedSearchText(let text):
-            return .just(.setSearchText(text))
+            return setUpSearchedItem(0, text)
             
         case .didTapCategoryButton(let category):
             return setCommunityListItem(category, 0)
             
         case .willDisplayCell(let page):
-            return setCommunityListItem(currentState.selectedCategory, page)
+            if !currentState.isSearch {
+                return setCommunityListItem(currentState.selectedCategory, page)
+            } else {
+                return setUpSearchedItem(page, currentState.searchText)
+            }
             
         case .didTapFloatingBackView:
             return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
+            
+        case .didTapSearchButton:
+            return .concat([
+                .just(.setIsHiddenKeyboard(true)),
+                .just(.setIsHiddenKeyboard(false))
+            ])
         }
     }
     
@@ -116,20 +153,31 @@ class QNAListReactor: Reactor {
             state.selectedPostId = currentState.items[indexPath.row].communityId
         case .setSearchText(let text):
             state.searchText = text
-        case .setPostList(let item):
-            state.items = item
-        case .setLoadedPage(let loadedPage):
-            state.loadedPage = loadedPage
+            state.isSearch = !text.isEmpty
+        case .setListItems(let item):
+            state.listItems = item
+        case .setLoadedListPage(let loadedPage):
+            state.loadedListPage = loadedPage
         case .setSelectedCategory(let category):
             state.selectedCategory = category
         case .editCommunityList(let community):
-            if let index = state.items.firstIndex(where: { $0.communityId == community.communityId }) {
-                state.items[index] = community
+            if let index = state.listItems.firstIndex(where: { $0.communityId == community.communityId }) {
+                state.listItems[index] = community
             }
         case .addCommunityList(let community):
-            state.items.append(community)
+            state.listItems.insert(community, at: 0)
         case .deleteCommunityList(let community):
-            state.items.removeAll { $0.communityId == community.communityId }
+            state.listItems.removeAll { $0.communityId == community.communityId }
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
+        case .setIsTapWhenNotLogin(let isTap):
+            state.isTapWhenNotLogin = isTap
+        case .setSearchedItems(let items):
+            state.searchedItems = items
+        case .setLoadedSearchPage(let page):
+            state.loadedSearchPage.insert(page)
+        case .setIsHiddenKeyboard(let isHidden):
+            state.isHiddenKeyboard = isHidden
         }
         return state
     }
@@ -154,7 +202,7 @@ class QNAListReactor: Reactor {
 extension QNAListReactor {
     func setCommunityListItem(_ category: String, _ page: Int) -> Observable<Mutation> {
         
-        var loadedPage = currentState.loadedPage
+        var loadedPage = currentState.loadedListPage
         
         if category != currentState.selectedCategory {
             loadedPage = []
@@ -176,10 +224,41 @@ extension QNAListReactor {
                 loadedPage.insert(page)
                 
                 return .concat([
-                    .just(.setPostList(postList)),
-                    .just(.setLoadedPage(loadedPage)),
+                    .just(.setListItems(postList)),
+                    .just(.setLoadedListPage(loadedPage)),
                     .just(.setSelectedCategory(category))
                 ])
+            }
+    }
+    
+    func setUpSearchedItem(_ page: Int, _ text: String) -> Observable<Mutation> {
+        if page != 0 && currentState.loadedSearchPage.contains(page) {
+            return .empty()
+        }
+        
+        let query: [String: Any] = [
+            "page": page,
+            "seachWord": text
+        ]
+        
+        return SearchAPI.fetchCommunity(query: query)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                if page == 0 {
+                    return .concat([
+                        .just(.setSearchedItems(data)),
+                        .just(.setLoadedSearchPage(page)),
+                        .just(.setSearchText(text))
+                    ])
+                } else {
+                    var currentItem = self.currentState.searchedItems
+                    currentItem.append(contentsOf: data)
+                    return .concat([
+                        .just(.setSearchedItems(currentItem)),
+                        .just(.setLoadedSearchPage(page)),
+                        .just(.setSearchText(text))
+                    ])
+                }
             }
     }
     
@@ -188,6 +267,7 @@ extension QNAListReactor {
             communityId: nil,
             title: nil,
             category: currentState.selectedAddCategory!,
+            photos: [],
             service: service)
     }
     

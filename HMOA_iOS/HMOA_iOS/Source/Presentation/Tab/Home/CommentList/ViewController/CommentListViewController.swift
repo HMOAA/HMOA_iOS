@@ -21,6 +21,8 @@ class CommentListViewController: UIViewController, View {
     private var dataSource: UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>?
     
     var disposeBag = DisposeBag()
+    
+    
 
     // MARK: - UI Component
     
@@ -57,8 +59,9 @@ extension CommentListViewController {
         // MARK: - Action
         
         // ViewDidLoad
-        Observable.just(())
-            .map { Reactor.Action.viewDidLoad }
+        LoginManager.shared.isLogin
+            .distinctUntilChanged()
+            .map { Reactor.Action.viewDidLoad($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -88,23 +91,31 @@ extension CommentListViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 댓글 삭제 터치
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeleteComment }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
+        
         // collectionView 바인딩
         reactor.state
             .map { $0.commentItems }
             .distinctUntilChanged()
-            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
                 guard let dataSource = owner.dataSource else { return }
-                
                 var snapshot = NSDiffableDataSourceSnapshot<CommentSection, CommentSectionItem>()
                 snapshot.appendSections([.comment])
             
                 item.forEach { snapshot.appendItems([.commentCell($0)]) }
                 
                 DispatchQueue.main.async {
-                    dataSource.apply(snapshot)
+                    dataSource.apply(snapshot, animatingDifferences: false)
                 }
             }).disposed(by: disposeBag)
         
@@ -113,7 +124,9 @@ extension CommentListViewController {
             .map { $0.selectedComment }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentCommentDetailViewController)
+            .bind(with: self, onNext: { owner, comment in
+                owner.presentCommentDetailViewController(comment, nil, reactor.service)
+            })
             .disposed(by: disposeBag)
         
         // 댓글 작성 페이지로 이동
@@ -132,20 +145,19 @@ extension CommentListViewController {
             .bind(onNext: setBackItemNaviBar)
             .disposed(by: disposeBag)
         
+        // 로그인 안되있을 시 present
         reactor.state
-            .map { $0.commentType }
-            .filter { $0 != .detail }
-            .bind(with: self) { owner, _ in
-                owner.bottomView.isHidden = true
-            }.disposed(by: disposeBag)
-        
-        optionView.reactor?.state
-            .map { $0.isTapDelete }
+            .map { $0.isTapWhenNotLogin }
             .distinctUntilChanged()
             .filter { $0 }
-            .map { _ in Reactor.Action.didDeleteComment }
-            .bind(to: reactor.action)
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(
+                    title: "로그인 후 이용가능한 서비스입니다",
+                    content: "입력하신 내용을 다시 확인해주세요",
+                    buttonTitle: "로그인 하러가기 ")
+            })
             .disposed(by: disposeBag)
+       
     }
     
     func bindHeader() {
@@ -171,18 +183,6 @@ extension CommentListViewController {
             .map { "+" + String($0) }
             .bind(to: header.commentCountLabel.rx.text )
             .disposed(by: disposeBag)
-        
-        reactor?.state
-            .map { $0.commentType }
-            .filter { $0 != .detail }
-            .bind(with: self) { owner, _ in
-                owner.header.isHidden = true
-                owner.collectionView.snp.remakeConstraints { make in
-                    make.leading.trailing.bottom.equalToSuperview()
-                    make.top.equalTo(owner.view.safeAreaLayoutGuide)
-                }
-            }.disposed(by: disposeBag)
-        
     }
     
     func configureCollectionViewDataSource() {
@@ -193,20 +193,21 @@ extension CommentListViewController {
             case .commentCell(let comment):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
-                cell.updateCell(comment)
+                
+                let optionData = OptionCommentData(id: comment.id, content: comment.content, isWrited: comment.writed, isCommunity: false)
                 
                 cell.optionButton.rx.tap
-                    .map { OptionReactor.Action.didTapOptionButton(comment.id, comment.content, nil, "Comment", nil, comment.writed) }
+                    .map { OptionReactor.Action.didTapOptionButton(.Comment(optionData)) }
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
                 // QnADetailReactor에 indexPathRow 전달
                 cell.optionButton.rx.tap
-                    .map { CommentListReactor.Action.didTapOptionButton(indexPath.row) }
+                    .map { CommentListReactor.Action.didTapOptionButton(comment.id) }
                     .bind(to: self.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
-                
+                cell.updateCell(comment)
                 return cell
             }
         })

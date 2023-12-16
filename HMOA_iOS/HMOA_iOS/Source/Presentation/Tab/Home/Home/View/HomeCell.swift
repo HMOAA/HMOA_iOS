@@ -22,7 +22,8 @@ class HomeCell: UICollectionViewCell, View {
     
     // MARK: - Properties
     let perfumeImageView = UIImageView().then {
-        $0.layer.borderWidth = 0.5
+        $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8735057712, blue: 0.87650913, alpha: 0.3)
+        $0.layer.cornerRadius = 3
         $0.contentMode = .scaleAspectFit
     }
     
@@ -88,6 +89,6 @@ extension HomeCell {
     func bindUI(_ data: RecommendPerfume) {
         perfumeInfoLabel.text = data.perfumeName
         perfumeTitleLabel.text = data.brandName
-        perfumeImageView.kf.setImage(with: URL(string: data.imageUrl))
+        perfumeImageView.kf.setImage(with: URL(string: data.imgUrl))
     }
 }

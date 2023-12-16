@@ -60,6 +60,7 @@ class QnAWriteViewController: UIViewController, View {
     }
     
     let textView = UITextView().then {
+        $0.font = .customFont(.pretendard, 14)
         $0.autocorrectionType = .no
         $0.isScrollEnabled = false
     }
@@ -76,24 +77,14 @@ class QnAWriteViewController: UIViewController, View {
         $0.items = [addImageButton]
     }
     
-    var pickerViewConfig: PHPickerConfiguration {
-        var config = PHPickerConfiguration()
-        config.filter = .images
-        config.selectionLimit = 6
-        
-        return config
-    }
-    
-    lazy var pickerVC = PHPickerViewController(configuration: pickerViewConfig).then {
-        $0.delegate = self
-    }
-    
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         
         $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
     lazy var pageControl = UIPageControl().then {
+        $0.pageIndicatorTintColor = .customColor(.gray2)
+        $0.currentPageIndicatorTintColor = .customColor(.gray4)
         $0.isHidden = true
     }
     
@@ -219,6 +210,12 @@ class QnAWriteViewController: UIViewController, View {
     
     func bind(reactor: CommunityWriteReactor) {
         // Action
+        
+        // ViewDidLoad
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     
         // 확인 버튼 클릭
         okButton.rx.tap
@@ -308,35 +305,66 @@ class QnAWriteViewController: UIViewController, View {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self) { owner, _ in
-                owner.view.endEditing(true)
-                owner.present(owner.pickerVC, animated: true)
+                let selectionLimit = 6 - reactor.currentState.photoCount
+                if selectionLimit == 0 {
+                    owner.showAlert(title: "HMOA",
+                                    message: "사진은 6개까지 업로드 할 수 있습니다",
+                                    buttonTitle1: "확인")
+                } else {
+                    var config = PHPickerConfiguration()
+                    config.filter = .images
+                    config.selectionLimit = selectionLimit
+                    
+                    let pickerVC = PHPickerViewController(configuration: config)
+                    pickerVC.delegate = self
+                    
+                    owner.view.endEditing(true)
+                    owner.present(pickerVC, animated: true)
+                }
             }
             .disposed(by: disposeBag)
         
         // 선택된 이미지 바인딩
         reactor.state
-            .map { $0.selectedImages }
-            .filter { !$0.isEmpty }
-            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
+            .map { $0.images }
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, item in
-                owner.pageControl.isHidden = false
-                owner.pageControl.currentPage = 0
-                owner.pageControl.numberOfPages = item.count
-                owner.pageControl.pageIndicatorTintColor = .customColor(.gray2)
-                owner.pageControl.currentPageIndicatorTintColor = .customColor(.gray4)
-                
                 var snapshot = NSDiffableDataSourceSnapshot<PhotoSection, PhotoSectionItem>()
-                
                 snapshot.appendSections([.photo])
                 
                 item.forEach { snapshot.appendItems([.photoCell($0, nil)], toSection: .photo) }
                 
                 DispatchQueue.main.async {
-                    owner.datasource.apply(snapshot)
+                    owner.datasource.apply(snapshot, animatingDifferences: false)
                 }
+                
             }.disposed(by: disposeBag)
         
+        // pagecontrol 설정
+        reactor.state
+            .map { $0.photoCount }
+            .bind(with: self) { owner, count in
+                owner.pageControl.isHidden = false
+                owner.pageControl.numberOfPages = count
+            }
+            .disposed(by: disposeBag)
+        
+        // 마지막 아이템 제거 시 그 전 아이템으로 이동
+        reactor.state
+            .map { $0.isDeletedLast }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self) { owner, isDeleted in
+                let page = reactor.currentState.photoCount
+                if page > 0 {
+                    DispatchQueue.main.async {
+                        let targetIndexPath = IndexPath(row: page - 1, section: 0)
+                        owner.collectionView.scrollToItem(at: targetIndexPath, at: .right, animated: false)
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
         
     }
 }
@@ -345,18 +373,26 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
-        results.forEach { result in
+        var items: [WritePhoto] = []
+            let dispatchGroup = DispatchGroup()
+
+        for result in results {
             let itemProvider = result.itemProvider
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { item, error in
-                    let image = item as! UIImage
+                dispatchGroup.enter()
+                itemProvider.loadObject(ofClass: UIImage.self) { (item, error) in
                     DispatchQueue.main.async {
-                        self.reactor?.action.onNext(.didSelectedImage(image))
+                        if let image = item as? UIImage {
+                            items.append(WritePhoto(photoId: nil, image: image))
+                        }
+                        dispatchGroup.leave()
                     }
                 }
             }
         }
-        DispatchQueue.main.async {
+
+        dispatchGroup.notify(queue: .main) {
+            self.reactor?.action.onNext(.didSelectedImage(items))
             picker.dismiss(animated: true)
         }
     }
@@ -370,11 +406,12 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = .groupPagingCentered
         
         section.visibleItemsInvalidationHandler = {(item, offset, env) in
             let index = Int((offset.x / env.container.contentSize.width).rounded(.up))
             self.pageControl.currentPage = index
+            self.reactor?.action.onNext(.didChangePage(index))
         }
         
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -386,11 +423,17 @@ extension QnAWriteViewController: PHPickerViewControllerDelegate {
         datasource = UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>(collectionView: collectionView, cellProvider: {
             collectionView, indexPath, item in
             switch item {
-            case .photoCell(let image, _):
+            case .photoCell(let writePhoto, _):
                 
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
+                
                 cell.isZoomEnabled = false
-                cell.updateCell(image!)
+                cell.updateCell(writePhoto!.image)
+                cell.configureXButton()
+                cell.xButton.rx.tap
+                    .map { Reactor.Action.didTapXButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
                 
                 return cell
             }

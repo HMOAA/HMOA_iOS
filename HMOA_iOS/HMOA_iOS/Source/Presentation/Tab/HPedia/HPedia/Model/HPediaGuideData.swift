@@ -7,46 +7,50 @@
 
 import Foundation
 
-struct HPediaDictionaryData: Hashable{
-    var id: Int
+struct HPediaDictionaryData: Hashable {
     var title: String
     var content: String
+    var type: HpediaType
 }
 
 extension HPediaDictionaryData {
     static let list =
     [
         HPediaDictionaryData(
-            id: 1,
-            title: "용어",
+            title: HpediaType.term.title,
             content:
                   """
                   Top notes
                   탑노트란?
-                  """),
+                  """,
+            type: .term
+        ),
         HPediaDictionaryData(
-            id: 2,
-            title: "노트",
+            title: HpediaType.note.title,
             content:
                   """
                   woody
                   우디
-                  """),
+                  """,
+            type: .note
+        ),
         HPediaDictionaryData(
-            id: 3,
-            title: "조향사",
+            title: HpediaType.perfumer.title,
             content:
                   """
                   JoWanHee
                   조완희
-                  """),
+                  """,
+            type: .perfumer
+        ),
         HPediaDictionaryData(
-            id: 4,
-            title: "브랜드",
+            title: HpediaType.brand.title,
             content:
                   """
                   Gucci
                   구찌
-                  """)
+                  """,
+            type: .brand
+        )
     ]
 }

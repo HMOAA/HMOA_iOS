@@ -13,7 +13,7 @@ class CommentListReactor: Reactor {
     let service: DetailCommentService
     
     enum Action {
-        case viewDidLoad
+        case viewDidLoad(Bool)
         case willDisplayCell(Int)
         case didTapCell(IndexPath)
         case didTapWriteButton
@@ -30,9 +30,12 @@ class CommentListReactor: Reactor {
         case setSortType(String)
         case setCommentCount(Int)
         case setLoadedPage(Int)
-        case setSelectedRow(Int?)
+        case setSelectedCommentId(Int?)
         case addComment(Comment)
         case editComment(Comment)
+        case setIsLogin(Bool)
+        case setIsTapWhenNotLogin(Bool)
+        case setIsLike(Comment)
     }
     
     struct State {
@@ -41,47 +44,36 @@ class CommentListReactor: Reactor {
         var commentCount: Int = 0
         var selectedComment: Comment? = nil
         var isPresentCommentWriteVC: Int? = nil
-        var sortType = ""
-        var commentType: CommentType
-        var navigationTitle: String
+        var sortType: String = ""
+        var navigationTitle: String = "댓글"
         var loadedPage: Set<Int> = []
-        var selectedRow: Int? = nil
+        var selectedCommentId: Int? = nil
+        var isLogin: Bool = false
+        var isTapWhenNotLogin: Bool = false
     }
     
     var initialState: State
 
-    init(_ currentPerfumeId: Int?, _ type: CommentType, service: DetailCommentService) {
+    init(_ currentPerfumeId: Int?, service: DetailCommentService) {
         initialState = State(
             perfumeId: currentPerfumeId,
-            sortType: "Latest",
-            commentType: type,
-            navigationTitle: type.title
+            sortType: "Latest"
         )
         self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
-            switch currentState.commentType {
-            case .detail:
-                return setCommentsList(type: currentState.sortType, page: 0)
-            case .liked:
-                return setLikedCommentList()
-            case .writed:
-                return setWritedCommentList()
-            }
+        case .viewDidLoad(let isLogin):
+            return .concat([
+                .just(.setIsLogin(isLogin)),
+                setCommentsList(type: currentState.sortType, page: 0)
+                ])
             
         case .willDisplayCell(let page):
-            switch currentState.commentType {
-            case .detail:
-                return setCommentsList(type: currentState.sortType, page: page)
-            case .liked:
-                return setLikedCommentList()
-            case .writed:
-                return setWritedCommentList()
-            }
+            return setCommentsList(type: currentState.sortType, page: page)
             
+        
         case .didTapCell(let indexPath):
             return .concat([
                 .just(.setSelectedComment(indexPath)),
@@ -89,10 +81,17 @@ class CommentListReactor: Reactor {
             ])
             
         case .didTapWriteButton:
-            return .concat([
-                .just(.setIsPresentCommentWrite(currentState.perfumeId)),
-                .just(.setIsPresentCommentWrite(nil))
-            ])
+            if currentState.isLogin {
+                return .concat([
+                    .just(.setIsPresentCommentWrite(currentState.perfumeId)),
+                    .just(.setIsPresentCommentWrite(nil))
+                ])
+            } else {
+                return .concat([
+                    .just(.setIsTapWhenNotLogin(true)),
+                    .just(.setIsTapWhenNotLogin(false))
+                ])
+            }
         
         case .didTapLikeSortButton:
             return setCommentsList(type: "Like", page: 0)
@@ -100,11 +99,11 @@ class CommentListReactor: Reactor {
         case .didTapRecentSortButton:
             return setCommentsList(type: "Latest", page: 0)
             
-        case .didTapOptionButton(let row):
-            return .just(.setSelectedRow(row))
+        case .didTapOptionButton(let id):
+            return .just(.setSelectedCommentId(id))
             
         case .didDeleteComment:
-            return .empty()
+            return deleteCommentInSection()
         }
     }
     
@@ -136,12 +135,25 @@ class CommentListReactor: Reactor {
         case .setLoadedPage(let page):
             state.loadedPage.insert(page)
             
-        case .setSelectedRow(let row):
-            state.selectedRow = row
+        case .setSelectedCommentId(let id):
+            state.selectedCommentId = id
             
         case .addComment(let comment):
-            state.commentItems.append(comment)
+            if state.sortType == "Latest" {
+                state.commentItems.insert(comment, at: 0)
+            } else { state.commentItems.append(comment) }
         case .editComment(let comment):
+            if let index = state.commentItems.firstIndex(where: { $0.id == comment.id }) {
+                state.commentItems[index] = comment
+            }
+            
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
+            
+        case .setIsTapWhenNotLogin(let isTap):
+            state.isTapWhenNotLogin = isTap
+            
+        case .setIsLike(let comment):
             if let index = state.commentItems.firstIndex(where: { $0.id == comment.id }) {
                 state.commentItems[index] = comment
             }
@@ -157,6 +169,8 @@ class CommentListReactor: Reactor {
                 return .just(.addComment(comment))
             case .editComment(let comment):
                 return .just(.editComment(comment))
+            case .setCommentLike(let isLike):
+                return .just(.setIsLike(isLike))
             }
         }
         return .merge(eventMutation, mutation)
@@ -166,9 +180,10 @@ class CommentListReactor: Reactor {
 extension CommentListReactor {
     
     func setCommentsList(type: String, page: Int) -> Observable<Mutation> {
+        
         guard let perfumeId = currentState.perfumeId else { return .empty() }
          
-        if currentState.loadedPage.contains(page) { return .empty() }
+        if page != 0 && currentState.loadedPage.contains(page) { return .empty() }
         
         let parameter = [
             "page": page,
@@ -179,40 +194,45 @@ extension CommentListReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 var items = self.currentState.commentItems
+                if page == 0 { items = [] }
+                
                 let commentCount = data.commentCount
                 items.append(contentsOf: data.comments)
                 
                 return .concat([
                     .just(.setCommentItem(items)),
                     .just(.setCommentCount(commentCount)),
-                    .just(.setLoadedPage(page))
+                    .just(.setLoadedPage(page)),
+                    .just(.setSortType(type))
                 ])
             }
     }
     
-    func setLikedCommentList() -> Observable<Mutation> {
-        return MemberAPI.fetchLikedComments(["page": 0])
-            .catch { _ in .empty() }
-            .flatMap { data -> Observable<Mutation> in
-                return .just(.setCommentItem(data))
-            }
-    }
-    
-    func setWritedCommentList() -> Observable<Mutation> {
-        return MemberAPI.fetchWritedComments(["page": 0])
-            .catch { _ in .empty() }
-            .flatMap { data -> Observable<Mutation> in
-                return .just(.setCommentItem(data))
-            }
+    func deleteCommentInSection() -> Observable<Mutation> {
+        guard let row = currentState.selectedCommentId else { return .empty() }
+        var commentItem = currentState.commentItems
+        commentItem.removeAll(where: { $0.id == row })
+        
+        return .concat([
+            .just(.setCommentItem(commentItem)),
+            .just(.setSelectedCommentId(nil)),
+            .just(.setCommentCount(currentState.commentCount - 1))
+        ])
     }
     
     func reactorForEdit() -> CommentWriteReactor {
         let state = currentState
+        var content = ""
+        
+        if let index = state.commentItems.firstIndex(where: { $0.id == state.selectedCommentId }) {
+            content = state.commentItems[index].content
+        }
+        
         return CommentWriteReactor(
             perfumeId: state.perfumeId,
             isWrite: true,
-            content: state.commentItems[state.selectedRow!].content,
-            commentId: state.commentItems[state.selectedRow!].id,
+            content: content,
+            commentId: state.selectedCommentId,
             isCommunity: false,
             commentService: service)
     }

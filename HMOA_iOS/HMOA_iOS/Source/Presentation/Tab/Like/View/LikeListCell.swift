@@ -15,7 +15,9 @@ class LikeListCell: UICollectionViewCell {
     static let identifier = "LikeListCell"
 
     //MARK: - Property
-    let perpumeImageView = UIImageView()
+    let perpumeImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     let heartButton = UIButton().then {
         $0.setImage(UIImage(named: "drawerSelected"), for: .normal)
     }

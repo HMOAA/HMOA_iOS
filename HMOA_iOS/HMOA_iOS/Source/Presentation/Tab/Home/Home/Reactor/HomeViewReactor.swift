@@ -15,28 +15,35 @@ final class HomeViewReactor: Reactor {
     enum Action {
         case viewDidLoad
         case itemSelected(IndexPath)
-        case didTapBrandSearchButton
-        case didTapSearchButton
-        case didTapBellButton
         case scrollCollectionView
+        case didTapBellButton
+        case settingAlarmAuthorization(Bool)
+        case settingIsUserSetting(Bool?)
+        case settingIsLogin(Bool)
+        case postFcmToken
+        case deleteFcmToken
     }
     
     enum Mutation {
         case setSelectedPerfumeId(IndexPath?)
-        case setIsPresentBrandSearchVC(Bool)
-        case setIsPresentSearchVC(Bool)
-        case setIsPresentBellVC(Bool)
         case setSections([HomeSection])
         case setPagination(Bool)
+        case setIsPushAlarm(Bool)
+        case setIsTapBell(Bool)
+        case setUserSetting(Bool?)
+        case success
+        case setIsLogin(Bool)
     }
     
     struct State {
         var sections: [HomeSection] = []
         var selectedPerfumeId: Int?
-        var isPresentBrandSearchVC: Bool = false
-        var isPresentSearchVC: Bool = false
-        var isPresentBellVC: Bool = false
         var isPaging: Bool = false
+        var isPushAlarm: Bool? = nil
+        var isTapBell: Bool = false
+        var isPushSettiong: Bool = false
+        var isUserSetting: Bool? = UserDefaults.standard.object(forKey: "alarm") as? Bool
+        var isLogin: Bool? = nil
     }
     
     init() { self.initialState = State() }
@@ -46,27 +53,11 @@ final class HomeViewReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return HomeViewReactor.reqeustHomeFirstData()
+            
         case .itemSelected(let indexPath):
             return .concat([
-                Observable<Mutation>.just(.setSelectedPerfumeId(indexPath)),
-                Observable<Mutation>.just(.setSelectedPerfumeId(nil))
-            ])
-        case .didTapBrandSearchButton:
-            return .concat([
-                .just(.setIsPresentBrandSearchVC(true)),
-                .just(.setIsPresentBrandSearchVC(false))
-            ])
-            
-        case .didTapSearchButton:
-            return .concat([
-                .just(.setIsPresentSearchVC(true)),
-                .just(.setIsPresentSearchVC(false))
-            ])
-            
-        case .didTapBellButton:
-            return .concat([
-                .just(.setIsPresentBellVC(true)),
-                .just(.setIsPresentBellVC(false))
+                .just(.setSelectedPerfumeId(indexPath)),
+                .just(.setSelectedPerfumeId(nil))
             ])
             
         case .scrollCollectionView:
@@ -74,6 +65,28 @@ final class HomeViewReactor: Reactor {
                 HomeViewReactor.requstHomeSecondData(currentState),
                 .just(.setPagination(true))
             ])
+        
+            //TODO: FCM 토큰 삭제, 토큰 보내기
+        case .didTapBellButton:
+            return .concat([
+                .just(.setIsTapBell(true)),
+                .just(.setIsTapBell(false))
+                ])
+            
+        case .settingAlarmAuthorization(let isPush):
+            return .just(.setIsPushAlarm(isPush))
+            
+        case .settingIsUserSetting(let setting):
+            return .just(.setUserSetting(setting))
+            
+        case .postFcmToken:
+            return postFcmToken()
+            
+        case .deleteFcmToken:
+            return deleteFcmToken()
+            
+        case .settingIsLogin(let isLogin):
+            return .just(.setIsLogin(isLogin))
         }
     }
     
@@ -92,20 +105,32 @@ final class HomeViewReactor: Reactor {
                 state.selectedPerfumeId = state.sections[indexPath.section].items[indexPath.item].perfumeId
             }
             
-        case .setIsPresentBrandSearchVC(let isPresent):
-            state.isPresentBrandSearchVC = isPresent
-            
-        case .setIsPresentSearchVC(let isPresent):
-            state.isPresentSearchVC = isPresent
-            
-        case .setIsPresentBellVC(let isPresent):
-            state.isPresentBellVC = isPresent
-            
         case .setPagination(let isPaging):
             state.isPaging = isPaging
             
         case .setSections(let sections):
             state.sections = sections
+            
+        case .setIsPushAlarm(let isPush):
+            state.isPushSettiong = !isPush
+            
+            if let isAlarm = state.isUserSetting {
+                state.isPushAlarm = isAlarm && isPush
+            } else { state.isPushAlarm = isPush }
+            
+        case .setIsTapBell(let isTap):
+            state.isTapBell = isTap
+            
+        case .setUserSetting(let setting):
+            state.isUserSetting = setting
+            state.isPushAlarm = setting
+            UserDefaults.standard.set(setting, forKey: "alarm")
+            
+        case .success:
+            break
+            
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
         }
         return state
     }
@@ -122,13 +147,13 @@ extension HomeViewReactor {
                 
                 let homeTopItem = HomeSectionItem.topCell(data.mainImage, 1)
                 let homeTopSection = HomeSection.topSection([homeTopItem])
-                let recommend = data.recommend
+                let recommend = data.firstMenu
                 
                 sections.append(homeTopSection)
                 
-                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0, $0.id, UUID())}
+                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0, 1)}
                 
-                sections.append(HomeSection.recommendSection(header: recommend.title, items: item))
+                sections.append(HomeSection.recommendSection(header: recommend.title, items: item, 0))
                 
                 return .just(.setSections(sections))
             }
@@ -141,15 +166,30 @@ extension HomeViewReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 var sections = currentState.sections
-                
-                data.recommend.forEach {
+                var listIndex = 1
+                data.forEach {
+                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell($0, listIndex) }
                     
-                    let item = $0.perfumeList.map { HomeSectionItem.recommendCell($0, $0.id, UUID()) }
-                    
-                    sections.append(HomeSection.recommendSection(header: $0.title, items: item))
+                    sections.append(HomeSection.recommendSection(header: $0.title, items: item, listIndex))
+                    listIndex += 1
                 }
                 return .just(.setSections(sections))
             }
+    }
+    
+    func postFcmToken() -> Observable<Mutation> {
+        guard let fcmToken = try? LoginManager.shared.fcmTokenSubject.value()! else { return .empty() }
+        
+        return PushAlarmAPI.postFcmToken(["fcmToken": fcmToken])
+            .catch { _ in .empty() }
+            .map { _ in .success }
+        
+    }
+    
+    func deleteFcmToken() -> Observable<Mutation> {
+        return PushAlarmAPI.deleteFcmToken()
+            .catch { _ in .empty() }
+            .map { _ in .success }
     }
 }
     

@@ -105,6 +105,18 @@ class AlertViewController: UIViewController {
                 owner.dismiss(animated: false)
             })
             .disposed(by: disposeBag)
+        
+        loginButton.rx.tap
+            .bind(with: self) { owner, _ in
+                guard let presentingVC = owner.presentingViewController else { return }
+                let loginVC = LoginViewController()
+                loginVC.modalPresentationStyle = .fullScreen
+                loginVC.reactor = LoginReactor(.inApp)
+                owner.dismiss(animated: false) {
+                    presentingVC.present(loginVC, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     func updateAlertView(title: String, content: String, buttonTitle: String) {

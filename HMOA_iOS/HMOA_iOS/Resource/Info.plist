@@ -26,6 +26,7 @@
 	<string>788055646907-v9chjefcdm4vs2p5c6utgvmutbp0lrv4.apps.googleusercontent.com</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>kakaoplus</string>
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 	</array>
@@ -46,5 +47,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>

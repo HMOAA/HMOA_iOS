@@ -29,7 +29,7 @@ class ChangeSexReactor: Reactor {
         var isCheckedWoman: Bool = false
         var isCheckedMan: Bool = false
         var isPopMyPage: Bool = false
-        var isSexCheck: Bool = false
+        var isSexCheck: Bool = true
         var sexType: Bool? = false
     }
     

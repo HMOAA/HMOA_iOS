@@ -20,12 +20,8 @@ class ChangeProfileImageViewController: UIViewController, View {
     typealias Reactor = ChangeProfileImageReactor
     var disposeBag = DisposeBag()
     
-    lazy var profileImageView: UIImageView = UIImageView().then {
-        $0.backgroundColor = .customColor(.gray3)
-        $0.layer.cornerRadius = 25
-    }
-    
     lazy var changeProfileImageButton: UIButton = UIButton().then {
+        $0.setImage(UIImage(named: "addProfile"), for: .normal)
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 36
     }
@@ -104,9 +100,10 @@ extension ChangeProfileImageViewController {
         reactor.state
             .map { $0.isDuplicate }
             .compactMap { $0 }
-            .bind(onNext: {
-                self.changeCaptionLabelColor($0)
-            }).disposed(by: disposeBag)
+            .bind(with: self) { owner, isDuplicate in
+                owner.view.endEditing(true)
+                owner.changeCaptionLabelColor(isDuplicate)
+            }.disposed(by: disposeBag)
         
         //버튼 enable 상태 변경
         reactor.state
@@ -182,7 +179,6 @@ extension ChangeProfileImageViewController {
         pickerView.delegate = self
         
         [
-            profileImageView,
             changeProfileImageButton,
             nicknameView
         ]   .forEach { view.addSubview($0) }

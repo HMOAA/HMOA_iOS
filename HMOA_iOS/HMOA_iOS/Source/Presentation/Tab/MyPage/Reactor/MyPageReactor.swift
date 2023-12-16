@@ -17,6 +17,11 @@ class MyPageReactor: Reactor {
         case viewDidLoad
         case didTapGoLoginButton
         case didTapCell(MyPageType)
+        case didTapDeleteMember
+        case didSwitchAlarm(Bool)
+        case settingAlarmAuthorization(Bool)
+        case settingIsUserSetting(Bool?)
+        case networkingFcmTokenAPI(Bool)
     }
     
     enum Mutation {
@@ -28,6 +33,11 @@ class MyPageReactor: Reactor {
         case updateAge(Int)
         case updateSex(Bool)
         case setIsTapGoLoginButton(Bool)
+        case setIsDelete(Bool)
+        case setIsPushAlarm(Bool)
+        case setUserSetting(Bool?)
+        case setIsOnSwitch(Bool)
+        case success
     }
     
     struct State {
@@ -43,6 +53,11 @@ class MyPageReactor: Reactor {
         var profileImage: UIImage? = nil
         var isTapEditButton: Bool = false
         var isTapGoLoginButton: Bool = false
+        var isDelete: Bool = false
+        var isUserSetting: Bool? = nil
+        var isOnSwitch: Bool? = nil
+        var isSetOnSwitch: Bool? = nil
+        var isPushSetting: Bool = false
     }
     
     init(service: UserServiceProtocol) {
@@ -84,6 +99,21 @@ class MyPageReactor: Reactor {
                 .just(.setIsTapGoLoginButton(true)),
                 .just(.setIsTapGoLoginButton(false))
             ])
+            
+        case .didTapDeleteMember:
+            return deleteMember()
+            
+        case .didSwitchAlarm(let isOn):
+            return .just(.setIsOnSwitch(isOn))
+            
+        case .settingAlarmAuthorization(let authorization):
+            return .just(.setIsPushAlarm(authorization))
+            
+        case .settingIsUserSetting(let setting):
+            return .just(.setUserSetting(setting))
+            
+        case .networkingFcmTokenAPI(let isOn):
+            return pushOrDeleteFcmToken(isOn)
         }
     }
     
@@ -106,7 +136,7 @@ class MyPageReactor: Reactor {
             state.sections = [
                 MyPageSection.memberSection(
                     MyPageSectionItem.memberCell(state.member, image))
-            ] + MyPageReactor.setUpOtherSection()
+            ] + [MyPageSection.pushAlarmSection(.pushAlaramCell("서비스 알림"))] + MyPageReactor.setUpOtherSection()
             
         case .updateNickname(let nickname):
             
@@ -115,23 +145,57 @@ class MyPageReactor: Reactor {
             state.sections = [
                 MyPageSection.memberSection(
                     MyPageSectionItem.memberCell(state.member, state.profileImage))
-            ] + MyPageReactor.setUpOtherSection()
+            ] + [MyPageSection.pushAlarmSection(.pushAlaramCell("서비스 알림"))] + MyPageReactor.setUpOtherSection()
             
         case .updateAge(let age):
             state.member.age = age
             
         case .updateSex(let sex):
             state.member.sex = sex
+            
         case .setIsTapGoLoginButton(let isTap):
             state.isTapGoLoginButton = isTap
+            
+        case .setIsDelete(let isDelete):
+            state.isDelete = isDelete
+            
+        case .setIsPushAlarm(let isPush):
+            state.isPushSetting = !isPush
+            if let isAlarm = state.isUserSetting {
+                state.isSetOnSwitch = isAlarm && isPush
+            } else { state.isSetOnSwitch = isPush }
+            
+        case .setUserSetting(let setting):
+            state.isUserSetting = setting
+            state.isSetOnSwitch = setting
+            UserDefaults.standard.set(setting, forKey: "alarm")
+            
+        case .setIsOnSwitch(let isOn):
+            state.isOnSwitch = isOn
+            
+        case .success:
+            break
         }
-        
-        
         return state
     }
 }
 
 extension MyPageReactor {
+    
+    func pushOrDeleteFcmToken(_ isOn: Bool) -> Observable<Mutation> {
+        if isOn {
+            guard let fcmToken = try? LoginManager.shared.fcmTokenSubject.value()! else { return .empty() }
+            
+            return PushAlarmAPI.postFcmToken(["fcmToken": fcmToken])
+                .catch { _ in .empty() }
+                .map { _ in .success }
+            
+        } else  {
+            return PushAlarmAPI.deleteFcmToken()
+                .catch { _ in .empty() }
+                .map { _ in .success }
+        }
+    }
     
     static func setUpOtherSection() -> [MyPageSection] {
         let second = [
@@ -169,13 +233,24 @@ extension MyPageReactor {
                 
                 sections.append(MyPageSection.memberSection(
                     MyPageSectionItem.memberCell(member, nil)))
-                
+                sections.append(MyPageSection.pushAlarmSection(.pushAlaramCell("서비스 알림")))
                 sections += setUpOtherSection()
                 
                 return .concat([
                     .just(.setMember(member)),
                     .just(.setSections(sections)),
                     downloadImage(url: member.memberImageUrl)
+                ])
+            }
+    }
+    
+    func deleteMember() -> Observable<Mutation> {
+        return MemberAPI.deleteMember()
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .concat([
+                    .just(.setIsDelete(true)),
+                    .just(.setIsDelete(false))
                 ])
             }
     }

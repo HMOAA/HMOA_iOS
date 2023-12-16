@@ -53,6 +53,34 @@ extension SearchViewController {
     func bind(reactor: SearchReactor) {
         // MARK: - Action
         
+        // willDisplayResultCell
+        ResultVC.collectionView.rx.willDisplayCell
+            .map {
+                let currentItem = $0.at.item
+                if (currentItem + 1) % 6 == 0 && currentItem != 0 {
+                    return currentItem / 6 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayResultCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // willDisplayListCell
+        listVC.tableView.rx.willDisplayCell
+            .map {
+                let currentItem = $0.indexPath.item
+                if (currentItem + 1) % 20 == 0 && currentItem != 0 {
+                    return currentItem / 20 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayListCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // 뒤로 가기 버튼 클릭
         backButton.rx.tap
             .map { Reactor.Action.didTapBackButton }
@@ -124,10 +152,13 @@ extension SearchViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
-            .bind(onNext: { self.changeViewController(self.ResultVC) })
+            .bind(onNext: {
+                self.searchBar.endEditing(false)
+                self.changeViewController(self.ResultVC)
+            })
             .disposed(by: disposeBag)
 
-        // 서버로부터 검색 결과 값을 받아오면 collectionView에 바인딩
+        // collectionView 바인딩
         reactor.state
             .map { $0.resultProduct }
             .distinctUntilChanged()
@@ -212,12 +243,10 @@ extension SearchViewController {
         
         containerView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
-        
-        backButton.snp.makeConstraints {
-            $0.width.height.equalTo(24)
-        }
+
     }
     
     // MARK: - functions
@@ -245,13 +274,6 @@ extension SearchViewController: UITableViewDelegate {
         return 34
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.item == tableView.numberOfRows(inSection: tableView.numberOfSections - 1) - 1 {
-            reactor?.action.onNext(.scrollTableView(indexPath))
-            //print(indexPath.item + 1)
-        }
-    }
-    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -269,12 +291,4 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollection
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        if indexPath.item == collectionView.numberOfItems(inSection: collectionView.numberOfSections - 1) - 1 {
-            reactor?.action.onNext(.scrollCollectionView(indexPath))
-        }
-    }
-    
 }
