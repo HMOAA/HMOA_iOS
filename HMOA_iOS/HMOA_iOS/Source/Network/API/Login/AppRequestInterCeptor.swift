@@ -39,7 +39,8 @@ final class AppRequestInterceptor: RequestInterceptor {
         LoginAPI.autoLoginToken { response in
             print("response \(response.result)")
             switch response.result {
-            case .success(let token):
+            case .success(var token):
+                token.existedMember = true
                 LoginManager.shared.tokenSubject.onNext(token)
                 KeychainManager.create(token: token)
                 print("성공")

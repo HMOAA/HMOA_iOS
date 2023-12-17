@@ -270,9 +270,10 @@ class UserInformationViewController: UIViewController, View {
             loginManager.tokenSubject
         )
             .bind(with: self, onNext: { owner, login in
-                guard let token = login.2 else { return }
+                guard var token = login.2 else { return }
                 owner.presentTabBar(login.1)
                 owner.loginManager.isLogin.onNext(true)
+                token.existedMember = true
                 KeychainManager.create(token: token)
             })
     }
