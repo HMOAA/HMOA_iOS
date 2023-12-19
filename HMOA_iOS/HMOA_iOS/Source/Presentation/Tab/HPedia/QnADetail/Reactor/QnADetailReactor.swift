@@ -140,12 +140,12 @@ class QnADetailReactor: Reactor {
             state.isBeginEditing = isBegin
             
         case .setComment(let comment):
-            state.commentItem = [comment]
-            
             if state.commentCount == 0 {
+                state.commentItem = [comment]
                 state.communityItems.commentItem = [comment]
             } else {
                 state.communityItems.commentItem.append(comment)
+                state.commentItem.append(comment)
             }
             state.commentCount! += 1
             
@@ -235,7 +235,10 @@ extension QnADetailReactor {
             .flatMap { data -> Observable<Mutation> in
                 var commentItem = self.currentState.commentItem
                 
-                commentItem.append(contentsOf: data.comments)
+                let newComments = data.comments.filter { newComment in
+                    !commentItem.contains(where: { $0?.commentId == newComment.commentId })
+                }
+                commentItem.append(contentsOf: newComments)
 
                 
                 return .concat([
@@ -251,11 +254,20 @@ extension QnADetailReactor {
         return CommunityAPI.postCommunityComment(currentState.communityId, param)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                return .concat([
-                    .just(.setComment(data)),
-                    .just(.setIsEndEditing(true)),
-                    .just(.setIsEndEditing(false))
-                ])
+                
+                let commentItem = self.currentState.commentItem
+                if !commentItem.contains(where: { $0?.commentId == data.commentId }) {
+                    return .concat([
+                        .just(.setComment(data)),
+                        .just(.setIsEndEditing(true)),
+                        .just(.setIsEndEditing(false))
+                    ])
+                } else {
+                    return .concat([
+                        .just(.setIsEndEditing(true)),
+                        .just(.setIsEndEditing(false))
+                    ])
+                }
             }
     }
     
@@ -263,7 +275,7 @@ extension QnADetailReactor {
         guard let row = currentState.selectedCommentRow else { return .empty() }
         var commentItem = currentState.commentItem
         commentItem.remove(at: row)
-
+        
         return .concat([
             .just(.setCommentItem(commentItem)),
             .just(.setSelectedCommentRow(nil)),

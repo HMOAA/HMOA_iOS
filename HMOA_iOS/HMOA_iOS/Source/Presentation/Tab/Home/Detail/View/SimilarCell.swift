@@ -23,7 +23,9 @@ class SimilarCell: UICollectionViewCell, View {
     
     // MARK: - Properties
     
-    lazy var perfumeImageView = UIImageView()
+    lazy var perfumeImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     lazy var perfumetitleLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard, 12)

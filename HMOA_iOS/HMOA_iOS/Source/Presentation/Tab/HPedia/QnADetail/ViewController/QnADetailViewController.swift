@@ -385,9 +385,13 @@ extension QnADetailViewController: UITextViewDelegate {
                     
                     // QnADetailReactor에 indexPathRow 전달
                     cell.optionButton.rx.tap
-                        .map { QnADetailReactor.Action.didTapOptionButton(indexPath.row) }
-                        .bind(to: self.reactor!.action)
-                        .disposed(by: self.disposeBag)
+                        .bind(with: self, onNext: { owner, _  in
+                            guard let indexPath = owner.collectionView.indexPath(for: cell) else { return }
+                            
+                            let detailAction = QnADetailReactor.Action.didTapOptionButton(indexPath.row)
+                            owner.reactor?.action.onNext(detailAction)
+                        })
+                        .disposed(by: cell.disposeBag)
                 }
                 
                 cell.updateCommunityComment(comment)

@@ -19,7 +19,6 @@ class HomeView: UIView {
         $0.register(HomeTopCell.self, forCellWithReuseIdentifier: HomeTopCell.identifier)
         $0.register(HomeFirstCell.self, forCellWithReuseIdentifier: HomeFirstCell.identifier)
         $0.register(HomeCellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCellHeaderView.identifier)
-        $0.register(HomeFirstCellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeFirstCellHeaderView.identifier)
     }
     
     
@@ -127,6 +126,7 @@ extension HomeView {
     
     func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
+            
             switch sectionIndex {
             case 0:
                 return self.homeTopCellCompositionalLayout()

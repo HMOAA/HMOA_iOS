@@ -10,6 +10,7 @@ import ReactorKit
 
 final class DetailViewReactor: Reactor {
     var initialState: State
+    let service: BrandDetailProtocol?
 
     enum Action {
         case viewDidLoad(Bool)
@@ -61,8 +62,9 @@ final class DetailViewReactor: Reactor {
         var brandName: String = ""
     }
     
-    init(perfumeId: Int) {
+    init(perfumeId: Int, service: BrandDetailProtocol?) {
         self.initialState = State(perfumeId: perfumeId)
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -248,19 +250,52 @@ extension DetailViewReactor {
                 return LikeAPI.deleteLike(perfumeId)
                     .catch { _ in .empty() }
                     .flatMap { _ -> Observable<Mutation> in
-                        return .concat([
+                        var mutations: [Observable<Mutation>] = []
+                        
+                        if let service = self.service {
+                            mutations
+                                .append(service.setIsLikedPerfume(
+                                    to: BrandPerfume(
+                                        brandName: "",
+                                        perfumeId: perfumeId,
+                                        perfumeImgUrl: "",
+                                        perfumeName: "",
+                                        liked: false,
+                                        heartCount: likeCount - 1))
+                                    .flatMap { _ in Observable<Mutation> .empty() })
+                        }
+                        mutations.append(contentsOf: [
                             .just(.setIsLiked(false)),
                             .just(.setLikeCount(likeCount - 1))
                         ])
+                        
+                        return .concat(mutations)
                     }
             } else {
                 return LikeAPI.putLike(perfumeId)
                     .catch { _ in .empty() }
                     .flatMap { _ -> Observable<Mutation> in
-                        return .concat([
+                        var mutations: [Observable<Mutation>] = []
+                        
+                        if let service = self.service {
+                            mutations
+                                .append(service.setIsLikedPerfume(
+                                    to: BrandPerfume(
+                                        brandName: "",
+                                        perfumeId: perfumeId,
+                                        perfumeImgUrl: "",
+                                        perfumeName: "",
+                                        liked: true,
+                                        heartCount: likeCount + 1))
+                                    .flatMap { _ in Observable<Mutation> .empty() })
+                        }
+                        
+                        mutations.append(contentsOf: [
                             .just(.setIsLiked(true)),
                             .just(.setLikeCount(likeCount + 1))
                         ])
+                        
+                        return .concat(mutations)
                     }
             }
         } else {
