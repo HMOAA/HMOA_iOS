@@ -257,16 +257,16 @@ extension HomeViewController {
                 return header
                 
             case .recommendSection(let title, _, let type):
-                guard let homeFirstCellHeader = collectionView.dequeueReusableSupplementaryView(
+                guard let homeCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: HomeFirstCellHeaderView.identifier,
-                    for: indexPath) as? HomeFirstCellHeaderView else {
+                    withReuseIdentifier: HomeCellHeaderView.identifier,
+                    for: indexPath) as? HomeCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                homeFirstCellHeader.bindUI(title: title)
-                homeFirstCellHeader.reactor = HomeHeaderReactor(title, type)
-                self.bindHeader(reactor: homeFirstCellHeader.reactor!)
-                header = homeFirstCellHeader
+                
+                homeCellHeader.reactor = HomeHeaderReactor(title, type)
+                self.bindHeader(reactor: homeCellHeader.reactor!)
+                header = homeCellHeader
                 
                 return header
             }

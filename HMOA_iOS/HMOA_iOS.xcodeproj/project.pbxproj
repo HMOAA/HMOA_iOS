@@ -84,7 +84,6 @@
 		2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6DAD0A29A76F0D003F0E98 /* SearchReactor.swift */; };
 		2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C700DE729C1A84F00DDEF77 /* HomeHeaderReactor.swift */; };
 		2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEC29798172006BE23B /* HomeFirstCell.swift */; };
-		2C710EEF29798330006BE23B /* HomeFirstCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EEE29798330006BE23B /* HomeFirstCellHeaderView.swift */; };
 		2C710EF1297BCC33006BE23B /* UIViewController++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */; };
 		2C710EF5297C0C8C006BE23B /* MyPageUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF4297C0C8C006BE23B /* MyPageUserCell.swift */; };
 		2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C710EF7297C0F5E006BE23B /* MyPageView.swift */; };
@@ -343,7 +342,6 @@
 		2C6DAD0A29A76F0D003F0E98 /* SearchReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReactor.swift; sourceTree = "<group>"; };
 		2C700DE729C1A84F00DDEF77 /* HomeHeaderReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderReactor.swift; sourceTree = "<group>"; };
 		2C710EEC29798172006BE23B /* HomeFirstCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFirstCell.swift; sourceTree = "<group>"; };
-		2C710EEE29798330006BE23B /* HomeFirstCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFirstCellHeaderView.swift; sourceTree = "<group>"; };
 		2C710EF0297BCC33006BE23B /* UIViewController++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extenstions.swift"; sourceTree = "<group>"; };
 		2C710EF4297C0C8C006BE23B /* MyPageUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageUserCell.swift; sourceTree = "<group>"; };
 		2C710EF7297C0F5E006BE23B /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
@@ -1122,7 +1120,6 @@
 				2C4DD3732976E1A70027CE40 /* HomeView.swift */,
 				2C710EEC29798172006BE23B /* HomeFirstCell.swift */,
 				2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */,
-				2C710EEE29798330006BE23B /* HomeFirstCellHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2526,7 +2523,6 @@
 				2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */,
 				2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */,
 				2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */,
-				2C710EEF29798330006BE23B /* HomeFirstCellHeaderView.swift in Sources */,
 				CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */,
 				CA943AD62AEF93E900A5B717 /* OptionData.swift in Sources */,
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,

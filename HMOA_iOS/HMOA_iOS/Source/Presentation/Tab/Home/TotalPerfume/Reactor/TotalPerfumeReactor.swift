@@ -65,9 +65,9 @@ extension TotalPerfumeReactor {
     func setSection() -> Observable<Mutation> {
         var url: TotalPerfumeAddress {
             switch currentState.listType {
-            case 0:
-                return .fetchFirstMenu
             case 1:
+                return .fetchFirstMenu
+            case 2:
                 return .fetchSecondMenu
             default:
                 return .fetchThirdMenu
