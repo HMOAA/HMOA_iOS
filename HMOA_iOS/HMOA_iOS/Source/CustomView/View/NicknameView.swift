@@ -23,6 +23,11 @@ class NicknameView: UIView {
         $0.setTextFieldUI("닉네임을 입력하세요", leftPadding: 16, font: .pretendard_light, isCapsule: false)
     }
     
+    let nicknameCountLabel = UILabel().then {
+        $0.text = "0/8"
+        $0.font = .customFont(.pretendard_light, 14)
+    }
+    
     lazy var duplicateCheckButton = UIButton().then {
         $0.layer.cornerRadius = 5
         $0.setTitle("중복확인", for: .normal)
@@ -54,6 +59,7 @@ extension NicknameView {
     
     func configureUI() {
         
+        nicknameTextField.addSubview(nicknameCountLabel)
         
         [   nicknameTextField,
             duplicateCheckButton
@@ -64,6 +70,11 @@ extension NicknameView {
             nicknameCaptionLabel,
             bottomButton
         ]   .forEach { addSubview($0) }
+        
+        nicknameCountLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.greaterThanOrEqualToSuperview().inset(15)
+        }
         
         nicknameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(36)
