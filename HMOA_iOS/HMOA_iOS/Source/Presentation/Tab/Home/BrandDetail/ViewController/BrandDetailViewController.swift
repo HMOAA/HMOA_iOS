@@ -67,7 +67,7 @@ extension BrandDetailViewController {
         
         // 향수 터치
         collectionView.rx.itemSelected
-            .map { Reactor.Action.didTapPerfume($0.item) }
+            .map { Reactor.Action.didTapPerfume($0.row) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
             
