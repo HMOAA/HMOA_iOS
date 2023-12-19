@@ -117,14 +117,16 @@ extension BrandDetailReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 let item = data.data.map { BrandDetailSectionItem.perfumeList($0) }
-                var section: [BrandDetailSection]!
-                if page == 0 {
-                    section = []
-                } else { section = self.currentState.section }
                 
-                section.append(.first(item))
+                var updatedSection = self.currentState.section.first ?? .first([])
+                
+                if case .first(var items) = updatedSection {
+                    items.append(contentsOf: item)
+                    updatedSection = .first(items)
+                }
+                
                 return .concat([
-                    .just(.setSections(section)),
+                    .just(.setSections([updatedSection])),
                     .just(.setLoadedPage(page))
                 ])
             }
