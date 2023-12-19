@@ -139,7 +139,9 @@ extension HomeViewController {
         reactor.state
             .map { $0.selectedPerfumeId }
             .compactMap { $0 }
-            .bind(onNext: presentDatailViewController)
+            .bind(with: self, onNext: { owner, id in
+                owner.presentDatailViewController(id)
+            })
             .disposed(by: disposeBag)
         
         // 푸시 알람 권한, 유저 셋팅에 따른 ui 바인딩
@@ -257,16 +259,16 @@ extension HomeViewController {
                 return header
                 
             case .recommendSection(let title, _, let type):
-                guard let homeFirstCellHeader = collectionView.dequeueReusableSupplementaryView(
+                guard let homeCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: HomeFirstCellHeaderView.identifier,
-                    for: indexPath) as? HomeFirstCellHeaderView else {
+                    withReuseIdentifier: HomeCellHeaderView.identifier,
+                    for: indexPath) as? HomeCellHeaderView else {
                     return UICollectionReusableView()
                 }
-                homeFirstCellHeader.bindUI(title: title)
-                homeFirstCellHeader.reactor = HomeHeaderReactor(title, type)
-                self.bindHeader(reactor: homeFirstCellHeader.reactor!)
-                header = homeFirstCellHeader
+                
+                homeCellHeader.reactor = HomeHeaderReactor(title, type)
+                self.bindHeader(reactor: homeCellHeader.reactor!)
+                header = homeCellHeader
                 
                 return header
             }

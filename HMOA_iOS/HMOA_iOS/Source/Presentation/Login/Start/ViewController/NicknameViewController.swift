@@ -72,9 +72,16 @@ class NicknameViewController: UIViewController, View {
     func bind(reactor: Reactor) {
         //Input
         
+        // 닉네임 textfiled 입력 이벤트
+        nicknameView.nicknameTextField.rx.text
+            .orEmpty
+            .map { NicknameReactor.Action.didBeginEditingNickname($0)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         //중복확인 터치 이벤트
         nicknameView.duplicateCheckButton.rx.tap
-            .map { NicknameReactor.Action.didTapDuplicateButton(self.nicknameView.nicknameTextField.text)}
+            .map { NicknameReactor.Action.didTapDuplicateButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -118,13 +125,31 @@ class NicknameViewController: UIViewController, View {
         
         //연도 VC로 화면 전환
         reactor.state
-            .map { $0.nicknameResponse }
+            .map { $0.isPushNextVC }
             .distinctUntilChanged()
-            .filter { $0 != nil }
+            .filter { $0 }
             .bind(onNext: { _ in
                 let vc = UserInformationViewController(nickname: reactor.currentState.nickname!, reactor: UserInformationReactor(service: UserYearService()))
                 self.navigationController?.pushViewController(vc,animated: true)
             }).disposed(by: disposeBag)
+        
+        // 닉네임 길이 제한
+        reactor.state
+            .map { $0.nickname }
+            .compactMap { $0 }
+            .map { text in
+                if text.count > 8 {
+                    let index = text.index(text.startIndex, offsetBy: 8)
+                    return String(text[..<index])
+                } else {
+                    return text
+                }
+            }
+            .bind(with: self, onNext: { owner, text in
+                owner.nicknameView.nicknameTextField.text = text
+                owner.nicknameView.nicknameCountLabel.text = "\(text.count)/8"
+            })
+            .disposed(by: disposeBag)
             
     }
     

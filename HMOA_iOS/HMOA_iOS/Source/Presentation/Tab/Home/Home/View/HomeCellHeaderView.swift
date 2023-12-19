@@ -77,5 +77,13 @@ extension HomeCellHeaderView {
             .distinctUntilChanged()
             .bind(to: titleLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.listType }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .map { $0 == 0 }
+            .bind(to: moreButton.rx.isHidden)
+            .disposed(by: disposeBag)
     }
 }

@@ -13,13 +13,14 @@ class NicknameReactor: Reactor {
     var initialState: State
     
     enum Action {
-        case didTapDuplicateButton(String?)
+        case didTapDuplicateButton
         case didTapStartButton
         case didTapTextFieldReturn
+        case didBeginEditingNickname(String)
     }
     
     enum Mutation {
-        case setNickNameResponse(Response?)
+        case setIsPushNextVC(Bool)
         case setNickname(String)
         case setIsDuplicate(Bool)
         case setIsTapReturn(Bool)
@@ -30,7 +31,7 @@ class NicknameReactor: Reactor {
         var isEnable: Bool = false
         var isTapReturn: Bool = false
         var nickname: String? = nil
-        var nicknameResponse: Response? = nil
+        var isPushNextVC: Bool = false
     }
     
     init() {
@@ -39,8 +40,8 @@ class NicknameReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .didTapDuplicateButton(let nickname):
-            guard let nickname = nickname
+        case .didTapDuplicateButton:
+            guard let nickname = currentState.nickname
             else { return .just(.setIsDuplicate(true))}
             
             if nickname.isEmpty { return .just(.setIsDuplicate(true))}
@@ -52,17 +53,19 @@ class NicknameReactor: Reactor {
             ])
         case .didTapStartButton:
             guard let nickname = currentState.nickname
-            else { return .just(.setNickNameResponse(nil)) }
+            else { return .just(.setIsPushNextVC(false)) }
             return .concat([
-                MemberAPI.updateNickname(params: ["nickname": nickname])
-                .map { .setNickNameResponse($0) },
-                .just(.setNickNameResponse(nil))
+                .just(.setIsPushNextVC(true)),
+                .just(.setIsPushNextVC(false))
             ])
         case .didTapTextFieldReturn:
             return .concat([
                 .just(.setIsTapReturn(true)),
                 .just(.setIsTapReturn(false))
             ])
+            
+        case .didBeginEditingNickname(let nickname):
+            return .just(.setNickname(nickname))
         }
     }
     
@@ -77,8 +80,8 @@ class NicknameReactor: Reactor {
             state.isTapReturn = isTapReturn
         case .setNickname(let nickname):
             state.nickname = nickname
-        case .setNickNameResponse(let response):
-            state.nicknameResponse = response
+        case .setIsPushNextVC(let isPush):
+            state.isPushNextVC = isPush
         }
         
         return state

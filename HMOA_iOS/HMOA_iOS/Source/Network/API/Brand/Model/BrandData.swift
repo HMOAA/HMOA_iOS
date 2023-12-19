@@ -20,6 +20,6 @@ struct BrandPerfume: Hashable, Codable {
     let perfumeId: Int
     let perfumeImgUrl: String
     let perfumeName: String
-    let liked: Bool
-    let heartCount: Int?
+    var liked: Bool
+    var heartCount: Int?
 }

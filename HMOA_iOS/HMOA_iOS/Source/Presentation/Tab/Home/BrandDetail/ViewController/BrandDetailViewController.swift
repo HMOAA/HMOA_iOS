@@ -67,7 +67,7 @@ extension BrandDetailViewController {
         
         // 향수 터치
         collectionView.rx.itemSelected
-            .map { Reactor.Action.didTapPerfume($0.item) }
+            .map { Reactor.Action.didTapPerfume($0.row) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
             
@@ -101,7 +101,9 @@ extension BrandDetailViewController {
         // 향수 디테일 페이지로 이동
         reactor.state
             .compactMap { $0.presentPerfumeId }
-            .bind(onNext: presentDatailViewController)
+            .bind(with: self, onNext: { owner, id in
+                owner.presentDatailViewController(id, reactor.service)
+            })
             .disposed(by: disposeBag)
         
     }
