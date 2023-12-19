@@ -10,6 +10,7 @@ import RxSwift
 
 class BrandDetailReactor: Reactor {
     
+    
     enum Action {
         case didTapPerfume(Int)
         case didTapLikeSortButton
@@ -23,6 +24,7 @@ class BrandDetailReactor: Reactor {
         case setBrand(Brand)
         case setIsTapLiked(Bool)
         case setLoadedPage(Int)
+        case setIsLiked(BrandPerfume)
     }
     
     struct State {
@@ -32,12 +34,16 @@ class BrandDetailReactor: Reactor {
         var isTapLiked: Bool = false
         var presentPerfumeId: Int? = nil
         var loadedPage: Set<Int> = []
+        var changedPerfumeLike: BrandPerfume? = nil
+        var likeCount: Int? = nil
     }
     
     var initialState: State
+    let service: BrandDetailService
     
-    init(_ brandId: Int) {
+    init(_ brandId: Int, _ service: BrandDetailService) {
         initialState = State(brandId: brandId)
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -50,7 +56,6 @@ class BrandDetailReactor: Reactor {
             ])
             
         case .didTapLikeSortButton:
-            let currentState = currentState
             let isTapLiked = !currentState.isTapLiked
             return .concat([
                 fetchBrandFerfumeList(0, isTapLiked),
@@ -89,10 +94,38 @@ class BrandDetailReactor: Reactor {
         case .setLoadedPage(let page):
             if page == 0 { state.loadedPage = [] }
             state.loadedPage.insert(page)
+            
+        case .setIsLiked(let updatedPerfume):
+            if var firstSection = state.section.first,
+               case .first(var items) = firstSection {
+                items = items.map { item in
+                    switch item {
+                    case .perfumeList(var perfume) where perfume.perfumeId == updatedPerfume.perfumeId:
+                        perfume.liked = updatedPerfume.liked
+                        perfume.heartCount = updatedPerfume.heartCount
+                        return .perfumeList(perfume)
+                    default:
+                        return item
+                    }
+                }
+                firstSection = .first(items)
+                state.section = [firstSection]
+            }
         }
         
         
         return state
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .setIsLikedPerfume(let perfume):
+                return .just(.setIsLiked(perfume))
+            }
+        }
+        
+        return .merge(mutation, eventMutation)
     }
 }
 
@@ -117,6 +150,7 @@ extension BrandDetailReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 let item = data.data.map { BrandDetailSectionItem.perfumeList($0) }
+                
                 
                 var updatedSection: BrandDetailSection!
                 if page == 0 {

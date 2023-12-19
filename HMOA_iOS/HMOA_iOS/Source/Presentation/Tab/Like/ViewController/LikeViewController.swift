@@ -175,7 +175,9 @@ class LikeViewController: UIViewController, View {
             .map { $0.selectedPerfumeId }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: presentDatailViewController)
+            .bind(with: self, onNext: { owner, id in
+                owner.presentDatailViewController(id)
+            })
             .disposed(by: disposeBag)
         
         // 좋아요한 향수 없을 시 뷰 보여주기
