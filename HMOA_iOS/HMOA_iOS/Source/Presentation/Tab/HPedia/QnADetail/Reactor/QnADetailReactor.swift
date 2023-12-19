@@ -140,12 +140,12 @@ class QnADetailReactor: Reactor {
             state.isBeginEditing = isBegin
             
         case .setComment(let comment):
-            state.commentItem = [comment]
-            
             if state.commentCount == 0 {
+                state.commentItem = [comment]
                 state.communityItems.commentItem = [comment]
             } else {
                 state.communityItems.commentItem.append(comment)
+                state.commentItem.append(comment)
             }
             state.commentCount! += 1
             
