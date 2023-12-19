@@ -118,7 +118,9 @@ class MyLogCommentViewController: UIViewController, View {
         reactor.state
             .map { $0.perfumeId }
             .compactMap { $0 }
-            .bind(onNext: presentDatailViewController)
+            .bind(with: self, onNext: { owner, id in
+                owner.presentDatailViewController(id)
+            })
             .disposed(by: disposeBag)
         
         // 커뮤니티 게시글로 push

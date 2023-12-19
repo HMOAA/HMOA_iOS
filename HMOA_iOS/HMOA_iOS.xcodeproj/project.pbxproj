@@ -219,6 +219,7 @@
 		CAA592692B048BB9003DAE51 /* UIImage++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA592682B048BB9003DAE51 /* UIImage++Extenstions.swift */; };
 		CAA5926B2B049197003DAE51 /* ImagePinchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926A2B049197003DAE51 /* ImagePinchViewController.swift */; };
 		CAA5926D2B049605003DAE51 /* ImagePinchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926C2B049605003DAE51 /* ImagePinchReactor.swift */; };
+		CABED5512B3186E40030874F /* BrandDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABED5502B3186E40030874F /* BrandDetailService.swift */; };
 		CAC0043E2B03631C00EB2CF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAC0043D2B03631B00EB2CF1 /* GoogleService-Info.plist */; };
 		CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */; };
 		CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */; };
@@ -480,6 +481,7 @@
 		CAA592682B048BB9003DAE51 /* UIImage++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage++Extenstions.swift"; sourceTree = "<group>"; };
 		CAA5926A2B049197003DAE51 /* ImagePinchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePinchViewController.swift; sourceTree = "<group>"; };
 		CAA5926C2B049605003DAE51 /* ImagePinchReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePinchReactor.swift; sourceTree = "<group>"; };
+		CABED5502B3186E40030874F /* BrandDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandDetailService.swift; sourceTree = "<group>"; };
 		CAC0043D2B03631B00EB2CF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
@@ -1025,6 +1027,7 @@
 		2C4CDC2729C770D900676163 /* BrandDetail */ = {
 			isa = PBXGroup;
 			children = (
+				CABED54F2B3186D40030874F /* Service */,
 				2C4CDC2829C770D900676163 /* Model */,
 				2C4CDC2B29C770D900676163 /* View */,
 				2C4CDC2E29C770D900676163 /* ViewController */,
@@ -1998,6 +2001,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CABED54F2B3186D40030874F /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CABED5502B3186E40030874F /* BrandDetailService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		CACA20E229E38BC6009995F3 /* Key */ = {
 			isa = PBXGroup;
 			children = (
@@ -2521,6 +2532,7 @@
 				2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */,
 				2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */,
 				2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */,
+				CABED5512B3186E40030874F /* BrandDetailService.swift in Sources */,
 				2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */,
 				2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */,
 				CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */,

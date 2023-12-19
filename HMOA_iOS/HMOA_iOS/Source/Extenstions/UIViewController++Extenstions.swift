@@ -136,8 +136,8 @@ extension UIViewController {
         self.navigationController?.pushViewController(dictionaryVC, animated: true)
     }
     
-    func presentDatailViewController(_ id: Int) {
-        let reactor = DetailViewReactor(perfumeId: id)
+    func presentDatailViewController(_ id: Int, _ service: BrandDetailService? = nil) {
+        let reactor = DetailViewReactor(perfumeId: id, service: service)
         let detailVC = DetailViewController()
         detailVC.reactor = reactor
         detailVC.hidesBottomBarWhenPushed = true
@@ -211,7 +211,7 @@ extension UIViewController {
     
     func presentBrandDetailViewController(_ brandId: Int) {
         let brandDetailVC = BrandDetailViewController()
-        brandDetailVC.reactor = BrandDetailReactor(brandId)
+        brandDetailVC.reactor = BrandDetailReactor(brandId, BrandDetailService())
         self.navigationController?.pushViewController(brandDetailVC, animated: true)
     }
     

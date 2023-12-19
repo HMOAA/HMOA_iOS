@@ -139,7 +139,9 @@ extension HomeViewController {
         reactor.state
             .map { $0.selectedPerfumeId }
             .compactMap { $0 }
-            .bind(onNext: presentDatailViewController)
+            .bind(with: self, onNext: { owner, id in
+                owner.presentDatailViewController(id)
+            })
             .disposed(by: disposeBag)
         
         // 푸시 알람 권한, 유저 셋팅에 따른 ui 바인딩
