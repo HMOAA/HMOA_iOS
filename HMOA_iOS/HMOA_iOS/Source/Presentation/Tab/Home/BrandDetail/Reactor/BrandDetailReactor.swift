@@ -118,8 +118,15 @@ extension BrandDetailReactor {
             .flatMap { data -> Observable<Mutation> in
                 let item = data.data.map { BrandDetailSectionItem.perfumeList($0) }
                 
-                var updatedSection = self.currentState.section.first ?? .first([])
-                
+                var updatedSection: BrandDetailSection!
+                if page == 0 {
+                    let section = BrandDetailSection.first(item)
+                    return .concat([
+                        .just(.setSections([section])),
+                        .just(.setLoadedPage(page))
+                    ])
+                } else { updatedSection = self.currentState.section.first }
+
                 if case .first(var items) = updatedSection {
                     items.append(contentsOf: item)
                     updatedSection = .first(items)

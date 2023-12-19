@@ -66,7 +66,6 @@ final class HomeViewReactor: Reactor {
                 .just(.setPagination(true))
             ])
         
-            //TODO: FCM 토큰 삭제, 토큰 보내기
         case .didTapBellButton:
             return .concat([
                 .just(.setIsTapBell(true)),
@@ -151,7 +150,7 @@ extension HomeViewReactor {
                 
                 sections.append(homeTopSection)
                 
-                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0, 1)}
+                let item = recommend.perfumeList.map { HomeSectionItem.recommendCell($0, 0)}
                 
                 sections.append(HomeSection.recommendSection(header: recommend.title, items: item, 0))
                 
