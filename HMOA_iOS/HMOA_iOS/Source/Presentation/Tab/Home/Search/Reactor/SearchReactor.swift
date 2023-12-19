@@ -172,7 +172,7 @@ extension SearchReactor {
         
         if content.isEmpty { return .empty() }
         
-        if page != 0 && currentState.loadedResultPages.contains(page)  {
+        if page != 0 && currentState.loadedListPages.contains(page)  {
             return .empty()
         }
         
