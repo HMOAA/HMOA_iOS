@@ -275,7 +275,7 @@ extension QnADetailReactor {
         guard let row = currentState.selectedCommentRow else { return .empty() }
         var commentItem = currentState.commentItem
         commentItem.remove(at: row)
-
+        
         return .concat([
             .just(.setCommentItem(commentItem)),
             .just(.setSelectedCommentRow(nil)),
