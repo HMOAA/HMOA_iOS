@@ -235,7 +235,10 @@ extension QnADetailReactor {
             .flatMap { data -> Observable<Mutation> in
                 var commentItem = self.currentState.commentItem
                 
-                commentItem.append(contentsOf: data.comments)
+                let newComments = data.comments.filter { newComment in
+                    !commentItem.contains(where: { $0?.commentId == newComment.commentId })
+                }
+                commentItem.append(contentsOf: newComments)
 
                 
                 return .concat([
@@ -251,11 +254,20 @@ extension QnADetailReactor {
         return CommunityAPI.postCommunityComment(currentState.communityId, param)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                return .concat([
-                    .just(.setComment(data)),
-                    .just(.setIsEndEditing(true)),
-                    .just(.setIsEndEditing(false))
-                ])
+                
+                let commentItem = self.currentState.commentItem
+                if !commentItem.contains(where: { $0?.commentId == data.commentId }) {
+                    return .concat([
+                        .just(.setComment(data)),
+                        .just(.setIsEndEditing(true)),
+                        .just(.setIsEndEditing(false))
+                    ])
+                } else {
+                    return .concat([
+                        .just(.setIsEndEditing(true)),
+                        .just(.setIsEndEditing(false))
+                    ])
+                }
             }
     }
     
