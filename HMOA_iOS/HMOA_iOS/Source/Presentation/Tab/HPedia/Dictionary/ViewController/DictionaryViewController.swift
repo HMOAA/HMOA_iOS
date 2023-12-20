@@ -17,6 +17,7 @@ class DictionaryViewController: UIViewController, View {
     
     //MARK: - UI Components
     lazy var tableView = UITableView().then {
+        $0.showsVerticalScrollIndicator = false
         $0.separatorStyle = .none
         $0.register(DictionaryCell.self, forCellReuseIdentifier: DictionaryCell.identifier)
     }
