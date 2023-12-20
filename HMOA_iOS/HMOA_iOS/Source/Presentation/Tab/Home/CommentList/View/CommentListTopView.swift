@@ -28,13 +28,15 @@ class CommentListTopView: UICollectionReusableView {
     
     var likeSortButton = UIButton().then {
         $0.titleLabel!.font = .customFont(.pretendard_light, 12)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(.black, for: .selected)
+        $0.setTitleColor(.customColor(.gray3), for: .normal)
         $0.setTitle("좋아요순", for: .normal)
     }
     
     var recentSortButton = UIButton().then {
         $0.titleLabel!.font = .customFont(.pretendard_light, 12)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(.black, for: .selected)
+        $0.setTitleColor(.customColor(.gray3), for: .normal)
         $0.setTitle("최신순", for: .normal)
     }
     
