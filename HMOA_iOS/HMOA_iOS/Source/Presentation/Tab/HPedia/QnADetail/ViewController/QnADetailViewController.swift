@@ -75,8 +75,6 @@ class QnADetailViewController: UIViewController, View {
         setNavigationBarTitle(title: "Community", color: .white, isHidden: false)
         configureDataSource()
     }
-    
-    
 
     //MARK: - SetUp
     private func setUpUI() {
@@ -101,6 +99,7 @@ class QnADetailViewController: UIViewController, View {
     }
     
     private func setConstraints() {
+        
         collectionView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-66)
@@ -235,6 +234,7 @@ class QnADetailViewController: UIViewController, View {
             .filter { !$0.postItem.isEmpty }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
+                
                 var snapshot = NSDiffableDataSourceSnapshot<QnADetailSection, QnADetailSectionItem>()
                 snapshot.appendSections([.qnaPost, .comment])
     
