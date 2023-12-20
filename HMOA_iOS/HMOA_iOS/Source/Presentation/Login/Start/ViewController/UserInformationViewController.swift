@@ -274,6 +274,7 @@ class UserInformationViewController: UIViewController, View {
                 owner.presentTabBar(login.1)
                 owner.loginManager.isLogin.onNext(true)
                 token.existedMember = true
+                owner.loginManager.tokenSubject.onNext(token)
                 KeychainManager.create(token: token)
             })
     }

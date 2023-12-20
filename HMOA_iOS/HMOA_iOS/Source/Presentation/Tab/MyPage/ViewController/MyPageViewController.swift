@@ -183,6 +183,7 @@ extension MyPageViewController {
                 
                 self.reactor.state
                     .map { $0.isOnSwitch }
+                    .skip(1)
                     .compactMap { $0 }
                     .distinctUntilChanged()
                     .bind(with: self) { owner, isOn in
