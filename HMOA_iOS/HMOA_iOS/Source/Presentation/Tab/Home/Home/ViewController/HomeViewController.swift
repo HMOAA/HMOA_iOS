@@ -60,16 +60,6 @@ class HomeViewController: UIViewController, View {
         configureCollectionViewDataSource()
         bind(reactor: homeReactor)
     }
-    
-    // MARK: objc functions
-    
-    @objc func menuButtonClicked() {
-    }
-    
-    @objc func searchButtonClicked() {
-        presentSearchViewController()
-    }
-    
 }
 
 // MARK: - Functions
