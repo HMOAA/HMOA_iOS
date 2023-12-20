@@ -458,6 +458,7 @@ class EvaluationCell: UICollectionViewCell, View {
                 
                 else {
                     owner.dragLabel.isHidden = false
+                    owner.averageAgeLabel.text = ""
                 }
             }
             .disposed(by: disposeBag)
