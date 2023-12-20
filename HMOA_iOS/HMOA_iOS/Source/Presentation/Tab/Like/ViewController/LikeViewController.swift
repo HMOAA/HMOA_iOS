@@ -33,6 +33,7 @@ class LikeViewController: UIViewController, View {
     
     lazy var listCollectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: configureListLayout()).then {
+        $0.isHidden = true
         $0.register(LikeHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LikeHeaderView.identifier)
         $0.register(LikeListCell.self, forCellWithReuseIdentifier: LikeListCell.identifier)
     }
@@ -84,9 +85,9 @@ class LikeViewController: UIViewController, View {
         
         
         [
-            noLikeView,
+            listCollectionView,
             cardCollectionView,
-            listCollectionView
+            noLikeView
         ]   .forEach { view.addSubview($0) }
     }
     
@@ -151,7 +152,6 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.sectionItem }
             .distinctUntilChanged()
-            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
 
@@ -187,7 +187,11 @@ class LikeViewController: UIViewController, View {
             .bind(with: self, onNext: { owner, isHidden in
                 if let isHidden = isHidden {
                     owner.noLikeView.isHidden = isHidden
-                    owner.cardCollectionView.isHidden = !isHidden
+                    if reactor.currentState.isSelectedCard {
+                        owner.cardCollectionView.isHidden = !isHidden
+                    } else {
+                        owner.listCollectionView.isHidden = !isHidden
+                    }
                 } else {
                     owner.noLikeView.isHidden = true
                     owner.cardCollectionView.isHidden = true
