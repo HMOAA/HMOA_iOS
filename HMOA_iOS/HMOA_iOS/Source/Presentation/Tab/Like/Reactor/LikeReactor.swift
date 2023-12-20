@@ -66,8 +66,6 @@ class LikeReactor: Reactor {
             
         case .viewWillAppear:
             return .concat([
-                .just(.setShowListCollectionView(false)),
-                .just(.setShowCardCollectionView(true)),
                 .just(.setIsHideenNoLikeView(nil)),
                 fetchLikePerfumes()
             ])

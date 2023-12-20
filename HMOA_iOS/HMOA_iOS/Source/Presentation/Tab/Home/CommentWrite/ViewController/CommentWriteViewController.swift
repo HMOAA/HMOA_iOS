@@ -101,16 +101,6 @@ extension CommentWriteViewController {
             .disposed(by: disposeBag)
         
         // MARK: - State
-//        
-//        // 화면 Pop
-//        reactor.state
-//            .map { $0.isPopVC }
-//            .distinctUntilChanged()
-//            .filter { $0 }
-//            .map { _ in }
-//            .bind(onNext: self.popViewController)
-//            .disposed(by: disposeBag)
-        
         
         // 사용자가 입력 종료 (textView 비활성화)
         reactor.state

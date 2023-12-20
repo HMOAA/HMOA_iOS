@@ -36,6 +36,7 @@ class SearchReactor: Reactor {
         case setSelectedPerfumeId(Int?)
         case setLoadedResultPage(Int)
         case setLoadedListPage(Int)
+        case setIsLiked(BrandPerfume)
     }
     
     struct State {
@@ -55,7 +56,13 @@ class SearchReactor: Reactor {
         var prePage: Int = 0 // 이전 페이지
     }
     
-    var initialState = State()
+    var initialState: State
+    let service: BrandDetailService
+    
+    init(service: BrandDetailService) {
+        initialState = State()
+        self.service = service
+    }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -160,9 +167,34 @@ class SearchReactor: Reactor {
         case .setLoadedListPage(let page):
             if page == 0 { state.loadedListPages = [] }
             state.loadedListPages.insert(page)
+        case .setIsLiked(let perfume):
+            let searchPerfume = SearchPerfume(
+                brandName: perfume.brandName,
+                isHeart: perfume.liked,
+                perfumeId: perfume.perfumeId,
+                perfumeImageUrl: perfume.perfumeImgUrl,
+                perfumeName: perfume.perfumeName)
+            var perfumes = state.resultProduct
+            for i in 0..<perfumes.count {
+                if perfumes[i].perfumeId == searchPerfume.perfumeId {
+                    state.resultProduct[i].isHeart = searchPerfume.isHeart
+                    break
+                }
+            }
         }
         
         return state
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .setIsLikedPerfume(let perfume):
+                return .just(.setIsLiked(perfume))
+            }
+        }
+        
+        return .merge(mutation, eventMutation)
     }
 }
 

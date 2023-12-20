@@ -80,8 +80,9 @@ extension SearchResultCollectionViewCell {
     }
     
     func updateCell(_ product: SearchPerfume) {
-        self.productImageView.kf.setImage(with: URL(string: product.perfumeImageUrl))
-        self.brandLabel.text = product.brandName
-        self.nameLabel.text = product.perfumeName
+        productImageView.kf.setImage(with: URL(string: product.perfumeImageUrl))
+        brandLabel.text = product.brandName
+        nameLabel.text = product.perfumeName
+        likeButton.isSelected = product.isHeart
     }
 }

@@ -153,7 +153,7 @@ extension UIViewController {
     
     func presentSearchViewController() {
         let searchVC = SearchViewController()
-        searchVC.reactor = SearchReactor()
+        searchVC.reactor = SearchReactor(service: BrandDetailService())
         searchVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(searchVC, animated: true)
     }
