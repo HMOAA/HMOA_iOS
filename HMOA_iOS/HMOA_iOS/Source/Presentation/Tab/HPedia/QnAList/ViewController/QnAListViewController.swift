@@ -171,9 +171,9 @@ class QnAListViewController: UIViewController, View {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
+            make.leading.bottom.trailing.equalToSuperview()
             make.top.equalTo(searchBar.snp.bottom)
-            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+            
         }
     }
     
@@ -324,10 +324,19 @@ class QnAListViewController: UIViewController, View {
             .distinctUntilChanged()
             .bind(with: self) { owner, isSearch in
                 owner.collectionView.collectionViewLayout = owner.configureInitCollectionLayout(isSearch)
+                
                 // header 보이게 collectinoview 이동
                 if !isSearch {
                     let newOffset = CGPoint(x: 0, y: 0)
                     owner.collectionView.setContentOffset(newOffset, animated: false)
+                    // collectionview bottom이 키보드 레이아웃에 따를 경우 collectionview item 변경이 바로 적용 안 되고 드래그 해야 적용 돼 검색 상태에 따라 업데이트
+                    owner.collectionView.snp.updateConstraints { make in
+                        make.bottom.equalToSuperview()
+                    }
+                } else {
+                    owner.collectionView.snp.updateConstraints { make in
+                        make.bottom.equalTo(owner.view.keyboardLayoutGuide.snp.top)
+                    }
                 }
             }
             .disposed(by: disposeBag)

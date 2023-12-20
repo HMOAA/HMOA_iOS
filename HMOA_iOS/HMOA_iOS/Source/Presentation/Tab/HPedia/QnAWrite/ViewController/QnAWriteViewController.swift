@@ -109,9 +109,13 @@ class QnAWriteViewController: UIViewController, View {
         configureDatasource()
         
     }
-           
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        titleTextField.resignFirstResponder()
+        textView.resignFirstResponder()
     }
            
     @objc func keyboardWillShow(_ notification: Notification) {

@@ -52,6 +52,12 @@ class CommentWriteViewController: UIViewController, View {
         configureUI()
         setOkCancleNavigationBar(okButton: okButton, cancleButton: cancleButton, titleLabel: titleLabel)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        textView.resignFirstResponder()
+        
+    }
 }
 
 // MARK: - Functions
