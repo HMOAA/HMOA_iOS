@@ -157,10 +157,11 @@ extension CommentListViewController {
                     buttonTitle: "로그인 하러가기 ")
             })
             .disposed(by: disposeBag)
+        
        
     }
     
-    func bindHeader() {
+    func bindHeader(_ header: CommentListTopView) {
                 
         // MARK: - bindHeader - Action
         
@@ -182,6 +183,15 @@ extension CommentListViewController {
             .distinctUntilChanged()
             .map { "+" + String($0) }
             .bind(to: header.commentCountLabel.rx.text )
+            .disposed(by: disposeBag)
+        
+        reactor?.state
+            .map { $0.sortType }
+            .map { $0 == "Latest" }
+            .bind(onNext: { isLatest in
+                header.recentSortButton.isSelected = isLatest
+                header.likeSortButton.isSelected = !isLatest
+            })
             .disposed(by: disposeBag)
     }
     
@@ -219,7 +229,7 @@ extension CommentListViewController {
                 guard let commentListTopView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentListTopView.identifier, for: indexPath) as? CommentListTopView else { return UICollectionReusableView() }
                 
                 self.header = commentListTopView
-                self.bindHeader()
+                self.bindHeader(commentListTopView)
                 
                 return commentListTopView
                 
