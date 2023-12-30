@@ -55,7 +55,7 @@ class DictionaryViewController: UIViewController, View {
         }
         
         tableView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(32)
+            make.leading.equalToSuperview().inset(16)
             make.trailing.equalToSuperview().inset(16)
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             make.top.equalTo(searchBar.snp.bottom).offset(13)
@@ -122,7 +122,6 @@ class DictionaryViewController: UIViewController, View {
         //선택된 타이틀 DetailDictionaryVC로 push
         reactor.state
             .map { $0.selectedId }
-            .distinctUntilChanged()
             .compactMap { $0 }
             .bind(with: self, onNext: { owner, id in
                 owner.presentDetailDictionaryVC(reactor.currentState.type, id)

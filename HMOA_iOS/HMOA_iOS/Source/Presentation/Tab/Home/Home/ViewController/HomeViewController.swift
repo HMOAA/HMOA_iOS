@@ -228,7 +228,7 @@ extension HomeViewController {
                 }
                                 
                 if indexPath.section == 1 {
-                    firstCell.bindUI(data)
+                    firstCell.bindUI(data, indexPath.row)
                     return firstCell
                 } else {
                     otherCell.bindUI(data)

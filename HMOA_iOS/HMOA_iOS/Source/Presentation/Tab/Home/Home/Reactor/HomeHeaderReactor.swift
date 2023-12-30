@@ -26,8 +26,6 @@ class HomeHeaderReactor: Reactor {
     }
     
     init(_ title: String, _ listType: Int) {
-        print("title :\(title)")
-        print("list: \(listType)")
         self.initialState = State(headerTitle: title, listType: listType)
     }
     
