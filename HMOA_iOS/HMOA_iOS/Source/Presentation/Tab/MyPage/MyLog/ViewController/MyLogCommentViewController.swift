@@ -24,6 +24,19 @@ class MyLogCommentViewController: UIViewController, View {
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
     }
     
+    lazy var noLikedView = NoLoginEmptyView(title:
+                                                """
+                                                좋아요를 누른 댓글이
+                                                없습니다
+                                                """,
+                                             subTitle:
+                                                """
+                                                좋아하는 향수에 좋아요를 눌러주세요
+                                                """,
+                                            buttonHidden:  true).then {
+        $0.isHidden = true
+    }
+    
     var datasource: UICollectionViewDiffableDataSource<MyLogCommentSection, MyLogCommentSectionItem>!
     
     var disposeBag = DisposeBag()
@@ -43,7 +56,10 @@ class MyLogCommentViewController: UIViewController, View {
     }
     
     private func setAddView() {
-        view.addSubview(collectionView)
+        [
+            collectionView,
+            noLikedView
+        ]   .forEach { view.addSubview($0) }
     }
     
     private func setConstraints() {
@@ -51,6 +67,11 @@ class MyLogCommentViewController: UIViewController, View {
             make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        
+        noLikedView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
     }
     
     func bind(reactor: MyLogCommentReactor) {
@@ -92,10 +113,21 @@ class MyLogCommentViewController: UIViewController, View {
         // colectionView binding
         reactor.state
             .map { $0.items }
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<MyLogCommentSection, MyLogCommentSectionItem>()
-                
+                switch reactor.currentState.commentType {
+                case .liked(_):
+                    if items.perfume.isEmpty {
+                        owner.noLikedView.isHidden = false
+                        owner.collectionView.isHidden = true
+                    } else {
+                        owner.noLikedView.isHidden = true
+                        owner.collectionView.isHidden = false
+                    }
+                default: break
+                }
                 snapshot.appendSections([.comment])
                 
                 items.perfume.forEach { snapshot.appendItems([.perfume($0)]) }

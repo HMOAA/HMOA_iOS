@@ -22,7 +22,18 @@ class MyPageViewController: UIViewController, View {
     
     // MARK: - UI Component
     let myPageView = MyPageView()
-    let noLoginView = NoLoginView()
+    let noLoginView = NoLoginEmptyView(title:
+                                            """
+                                            로그인이 필요한
+                                            페이지 입니다
+                                            """,
+                                       subTitle:
+                                            """
+                                            향모아의 회원이 되면
+                                            더 많은 기능을 사용할 수 있어요
+                                            """,
+                                       buttonHidden: false
+                                  )
 
     var dataSource: UITableViewDiffableDataSource<MyPageSection, MyPageSectionItem>!
     
