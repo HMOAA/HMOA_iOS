@@ -11,7 +11,7 @@ import Then
 import SnapKit
 import RxCocoa
 
-class NoLoginView: UIView {
+class NoLoginEmptyView: UIView {
 
     //MARK: - Properites
     
@@ -19,23 +19,15 @@ class NoLoginView: UIView {
     //MARK: - UIComponents
     let titleLabel = UILabel().then {
         $0.numberOfLines = 2
-        $0.setLabelUI(
-"""
-로그인이 필요한
-페이지 입니다
-""",
+        $0.setLabelUI("",
                       font: .pretendard_medium,
-                      size: 42,
+                      size: 30,
                       color: .black)
     }
      
     let explainLabel = UILabel().then {
         $0.numberOfLines = 2
-        $0.setLabelUI(
-"""
-향모아의 회원이 되면
-더 많은 기능을 사용할 수 있어요
-""",
+        $0.setLabelUI("",
                       font: .pretendard,
                       size: 16,
                       color: .black)
@@ -49,9 +41,14 @@ class NoLoginView: UIView {
         $0.setImage(UIImage(named: "rightArrow"), for: .normal)
     }
     
-    //MARK: - LifeCycles
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    //MARK: - Init
+    init(title: String, subTitle: String, buttonHidden: Bool) {
+        super .init(frame: .zero)
+        
+        titleLabel.text = title
+        explainLabel.text = subTitle
+        goLoginButton.isHidden = buttonHidden
+        goLoginLabel.isHidden = buttonHidden
         
         setAddView()
         setConstraints()

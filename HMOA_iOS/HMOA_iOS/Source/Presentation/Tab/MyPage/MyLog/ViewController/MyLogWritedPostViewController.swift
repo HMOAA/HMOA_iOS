@@ -27,6 +27,19 @@ class MyLogWritedPostViewController: UIViewController, View {
         $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
     }
     
+    lazy var noWriteView = NoLoginEmptyView(title:
+                                                """
+                                                작성한 게시글이
+                                                없습니다
+                                                """,
+                                             subTitle:
+                                                """
+                                                커뮤니티에서 게시글을 작성 해주세요
+                                                """,
+                                            buttonHidden:  true).then {
+        $0.isHidden = true
+    }
+    
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
@@ -45,10 +58,15 @@ class MyLogWritedPostViewController: UIViewController, View {
     
     private func setAddView() {
         view.addSubview(collectionView)
+        view.addSubview(noWriteView)
     }
     
     private func setConstraints() {
         collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        noWriteView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -74,6 +92,20 @@ class MyLogWritedPostViewController: UIViewController, View {
                 cell.isListCell = true
                 cell.configure(item)
             }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.writedPostItems.isEmpty }
+            .distinctUntilChanged()
+            .bind(with: self, onNext: { owner, isEmpty in
+                if isEmpty {
+                    owner.noWriteView.isHidden = false
+                    owner.collectionView.isHidden = true
+                } else {
+                    owner.noWriteView.isHidden = true
+                    owner.collectionView.isHidden = false
+                }
+            })
             .disposed(by: disposeBag)
         
         reactor.state
