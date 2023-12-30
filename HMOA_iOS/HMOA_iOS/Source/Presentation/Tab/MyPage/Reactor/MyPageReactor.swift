@@ -186,7 +186,7 @@ extension MyPageReactor {
         if isOn {
             guard let fcmToken = try? LoginManager.shared.fcmTokenSubject.value()! else { return .empty() }
             
-            return PushAlarmAPI.postFcmToken(["fcmToken": fcmToken])
+            return PushAlarmAPI.postFcmToken(["fcmtoken": fcmToken])
                 .catch { _ in .empty() }
                 .map { _ in .success }
             
