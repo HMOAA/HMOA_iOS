@@ -9,6 +9,8 @@ import UIKit
 
 import Then
 import SnapKit
+import RxCocoa
+import RxSwift
 
 class TutorialViewController: UIPageViewController {
 
@@ -18,11 +20,19 @@ class TutorialViewController: UIPageViewController {
         $0.currentPageIndicatorTintColor = .black
         $0.numberOfPages = 4
     }
+    
+    let xButton = UIButton().then {
+        $0.setImage(UIImage(named: "x"), for: .normal)
+    }
+    
+    let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setUpPage()
         setUpUI()
+        bind()
     }
     
     private func setUpPage() {
@@ -78,14 +88,32 @@ class TutorialViewController: UIPageViewController {
     //MARK: - SetUp
     private func setUpUI() {
         view.addSubview(pageControl)
+        view.addSubview(xButton)
+        
         view.backgroundColor = #colorLiteral(red: 0.9593991637, green: 0.9593990445, blue: 0.9593991637, alpha: 1)
+        
         pageControl.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(54)
             make.centerX.equalToSuperview()
         }
+        
+        xButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.trailing.equalToSuperview().inset(32)
+        }
+        
         delegate = self
         dataSource = self
         setViewControllers([pages[0]], direction: .forward, animated: false)
+    }
+    
+    private func bind() {
+        xButton.rx.tap
+            .bind(with: self) { owner, _ in
+                UserDefaults.standard.set(true, forKey: "Tutorial")
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 }
 

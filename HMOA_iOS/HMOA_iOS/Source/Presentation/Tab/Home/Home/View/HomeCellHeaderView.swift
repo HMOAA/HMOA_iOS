@@ -24,7 +24,7 @@ class HomeCellHeaderView: UICollectionReusableView, View{
     
     // MARK: - Properties
     let titleLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 14)
+        $0.font = .customFont(.pretendard, 16)
     }
     
     lazy var moreButton = UIButton().then {

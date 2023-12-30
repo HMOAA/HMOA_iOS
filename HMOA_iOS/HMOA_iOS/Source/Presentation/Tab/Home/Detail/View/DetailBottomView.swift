@@ -15,7 +15,7 @@ class DetailBottomView: UIView {
 
     lazy var likeButton = UIButton().then {
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)
-        let normalImage = UIImage(named: "bottomHeart", in: .none, with: config)
+        let normalImage = UIImage(named: "bottomHeart", in: .none, with: config)?.withTintColor(.black)
         let selectedImage = UIImage(named: "bottomHeart", in: .none, with: config)?.withTintColor(.red)
 
         $0.setImage(normalImage, for: .normal)
@@ -29,9 +29,9 @@ class DetailBottomView: UIView {
         
         config.attributedTitle?.font = .customFont(.pretendard_medium, 16)
         config.titleAlignment = .trailing
-        config.image = UIImage(named: "bottomComment")
+        config.image = UIImage(named: "bottomComment")?.withTintColor(.black)
         config.imagePadding = 10
-        config.baseForegroundColor = .white
+        config.baseForegroundColor = .black
         config.attributedTitle = attri
         let button = UIButton(configuration: config)
         
@@ -54,7 +54,7 @@ class DetailBottomView: UIView {
 extension DetailBottomView {
     
     func configureUI() {
-        backgroundColor = .black
+        backgroundColor = .white
         
         [   likeButton,
             wirteButton   ]   .forEach { addSubview($0) }

@@ -25,18 +25,16 @@ class HomeFirstCell: UICollectionViewCell, View {
     var disposeBag = DisposeBag()
 
     lazy var perfumeImageView = UIImageView().then {
-        $0.layer.cornerRadius = 3
         $0.contentMode = .scaleAspectFit
-        $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8735057712, blue: 0.87650913, alpha: 1)
     }
 
     
     let perfumeBrandLabel = UILabel().then {
-        $0.font = .customFont(.pretendard_medium, 10)
+        $0.font = .customFont(.pretendard_medium, 12)
     }
     
     let perfumeInfoLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 10)
+        $0.font = .customFont(.pretendard, 12)
         $0.numberOfLines = 3
         $0.textAlignment = .left
     }
@@ -71,20 +69,52 @@ extension HomeFirstCell {
     }
     
     func configureUI() {
-        [perfumeImageView, perfumeBrandLabel, perfumeInfoLabel] .forEach { addSubview($0) }
+        [perfumeBrandLabel, perfumeInfoLabel] .forEach { addSubview($0) }
+        layer.cornerRadius = 3
+        backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8735057712, blue: 0.87650913, alpha: 1)
         
-        perfumeImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         perfumeBrandLabel.snp.makeConstraints {
-            $0.bottom.equalTo(perfumeImageView).inset(4)
-            $0.leading.equalTo(perfumeImageView).inset(4)
+            $0.bottom.leading.equalToSuperview().inset(8)
         }
     }
     
-    func bindUI(_ data: RecommendPerfume) {
+    func bindUI(_ data: RecommendPerfume, _ row: Int) {
+        addSubview(perfumeImageView)
         perfumeBrandLabel.text = data.brandName
         perfumeImageView.kf.setImage(with: URL(string: data.imgUrl))
+        
+        switch row {
+        case 0:
+            perfumeImageView.snp.makeConstraints {
+                $0.top.equalToSuperview().inset(37)
+                $0.bottom.equalToSuperview().inset(42)
+                $0.leading.trailing.equalToSuperview().inset(18)
+            }
+        case 1:
+            perfumeImageView.snp.makeConstraints {
+                $0.top.equalToSuperview().inset(30)
+                $0.bottom.equalToSuperview().inset(38)
+                $0.leading.trailing.equalToSuperview().inset(18)
+            }
+        case 2:
+            perfumeImageView.snp.makeConstraints {
+                $0.top.equalToSuperview().inset(20)
+                $0.bottom.equalToSuperview().inset(28)
+                $0.leading.trailing.equalToSuperview().inset(8)
+            }
+        case 3:
+            perfumeImageView.snp.makeConstraints {
+                $0.top.equalToSuperview().inset(17)
+                $0.bottom.equalToSuperview().inset(26)
+                $0.leading.trailing.equalToSuperview().inset(23)
+            }
+        default:
+            perfumeImageView.snp.makeConstraints {
+                $0.top.equalToSuperview().inset(22)
+                $0.bottom.equalToSuperview().inset(28)
+                $0.leading.trailing.equalToSuperview().inset(25)
+            }
+        }
     }
 }

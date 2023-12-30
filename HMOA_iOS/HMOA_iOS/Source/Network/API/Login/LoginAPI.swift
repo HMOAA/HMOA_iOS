@@ -35,7 +35,6 @@ final class LoginAPI {
         let url = URL(string: baseURL.url + LoginAddress.remebered.url)
         guard let rememberToken = try? LoginManager.shared.tokenSubject.value()?.rememberedToken
         else { return }
-        print(" rememberToken 값 \(rememberToken)")
         let params = ["rememberedToken": rememberToken]
         
         guard let data = try? JSONSerialization.data(

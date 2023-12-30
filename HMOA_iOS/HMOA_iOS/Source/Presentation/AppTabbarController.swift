@@ -73,12 +73,13 @@ extension AppTabbarController {
         
         self.selectedIndex = 0
         view.backgroundColor = .white
-        tabBar.barTintColor = .black
-        tabBar.tintColor = .white
-        tabBar.backgroundColor = .black
+        tabBar.barTintColor = .white
+        tabBar.tintColor = .black
+        tabBar.backgroundColor = .white
         tabBar.isTranslucent = false
-        tabBar.unselectedItemTintColor = UIColor.customColor(.tabbarColor)
+        tabBar.unselectedItemTintColor = UIColor.customColor(.gray3)
         tabBar.layer.masksToBounds = true
+        tabBar.layer.addBorder([.top], color: .customColor(.gray1), width: 1)
         
         homeVC.tabBarItem = homeTab
         hPediaVC.tabBarItem = hPediaTab

@@ -91,17 +91,17 @@ extension SceneDelegate {
             let vc = AppTabbarController()
             window?.rootViewController = vc
             loginManager.tokenSubject.onNext(token)
-//            DispatchQueue.main.async {
-//                vc.checkTutorialRun()
-//            }
+            DispatchQueue.main.async {
+                vc.checkTutorialRun()
+            }
             
         } else {
             let vc = LoginViewController()
             vc.reactor = LoginReactor(.first)
             window?.rootViewController = vc
-//            DispatchQueue.main.async {
-//                vc.checkTutorialRun()
-//            }
+            DispatchQueue.main.async {
+                vc.checkTutorialRun()
+            }
         }
         
     }

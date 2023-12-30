@@ -85,6 +85,7 @@ class DictionaryReactor: Reactor {
         switch mutation {
         case .setSelectedId(let indexPath):
             guard let indexPath = indexPath else {
+                state.selectedId = nil
                 return state
             }
             state.selectedId = currentState.items[indexPath.row].id

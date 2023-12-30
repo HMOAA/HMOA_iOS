@@ -28,11 +28,11 @@ class HomeCell: UICollectionViewCell, View {
     }
     
     let perfumeTitleLabel = UILabel().then {
-        $0.font = .customFont(.pretendard_medium, 10)
+        $0.font = .customFont(.pretendard_medium, 12)
     }
     
     let perfumeInfoLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 10)
+        $0.font = .customFont(.pretendard, 12)
         $0.numberOfLines = 2
     }
     
