@@ -96,6 +96,16 @@ extension ChangeProfileImageViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // nicknameTextView text 이벤트
+        nicknameView.nicknameTextField.rx.text
+            .orEmpty
+            .map { ChangeProfileImageReactor.Action.didBeginEditingNickname($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        
+        // State
+        
         //닉네임 캡션 라벨 변경
         reactor.state
             .map { $0.isDuplicate }
@@ -141,8 +151,6 @@ extension ChangeProfileImageViewController {
             .bind(to: nicknameView.nicknameTextField.rx.text)
             .disposed(by: disposeBag)
 
-        // state
-        
         // 프로필 이미지 바인딩
         reactor.state
             .map { $0.profileImage }
@@ -168,6 +176,24 @@ extension ChangeProfileImageViewController {
             .filter { $0 }
             .bind(onNext: { _ in
                 self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // 닉네임 길이 제한
+        reactor.state
+            .map { $0.nickname }
+            .compactMap { $0 }
+            .map { text in
+                if text.count > 8 {
+                    let index = text.index(text.startIndex, offsetBy: 8)
+                    return String(text[..<index])
+                } else {
+                    return text
+                }
+            }
+            .bind(with: self, onNext: { owner, text in
+                owner.nicknameView.nicknameTextField.text = text
+                owner.nicknameView.nicknameCountLabel.text = "\(text.count)/8"
             })
             .disposed(by: disposeBag)
     }
