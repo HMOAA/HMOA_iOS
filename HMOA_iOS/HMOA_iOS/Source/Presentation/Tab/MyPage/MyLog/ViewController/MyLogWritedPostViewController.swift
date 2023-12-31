@@ -57,8 +57,8 @@ class MyLogWritedPostViewController: UIViewController, View {
     }
     
     private func setAddView() {
+        //view.addSubview(noWriteView)
         view.addSubview(collectionView)
-        view.addSubview(noWriteView)
     }
     
     private func setConstraints() {
@@ -66,13 +66,14 @@ class MyLogWritedPostViewController: UIViewController, View {
             make.edges.equalToSuperview()
         }
         
-        noWriteView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+//        noWriteView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
     }
     
     func bind(reactor: MyLogWritedPostReactor) {
         
+        // Action
         Observable.just(())
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
@@ -81,11 +82,26 @@ class MyLogWritedPostViewController: UIViewController, View {
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
+        collectionView.rx.willDisplayCell
+            .map {
+                let currentItem = $0.at.item
+                if (currentItem + 1) % 10 == 0 && currentItem != 0 {
+                    return currentItem / 10 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         collectionView.rx.itemSelected
             .map { Reactor.Action.didSelectedCell($0.row) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        
+        // State
         reactor.state
             .map { $0.writedPostItems }
             .bind(to: collectionView.rx.items(cellIdentifier: HPediaQnACell.identifier, cellType: HPediaQnACell.self)) { row, item, cell in

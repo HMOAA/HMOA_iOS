@@ -25,7 +25,7 @@ class MyLogCommentReactor: Reactor {
         case setPerfumeItem([Comment])
         case setCommunityItem([CommunityComment])
         case setCommentType(MyLogCommentSectionItem)
-        case setLoadedPage(Int)
+        case setLoadedPage(Set<Int>)
         case setPerfumeId(Int?)
         case setCommunityId(Int?)
     }
@@ -103,7 +103,7 @@ class MyLogCommentReactor: Reactor {
             state.commentType = type
             
         case .setLoadedPage(let page):
-            state.loadedPage.insert(page)
+            state.loadedPage = page
             
         case .setPerfumeId(let id):
             state.perfumeId = id
@@ -127,10 +127,17 @@ extension MyLogCommentReactor {
                 var item = self.currentState.perfumeItem
                 item.append(contentsOf: data)
                 
+                var loadedPage: Set<Int>
+                if page == 0 { loadedPage = [0] }
+                else {
+                    loadedPage = self.currentState.loadedPage
+                    loadedPage.insert(page)
+                }
+                
                 return .concat([
                     .just(.setPerfumeItem(item)),
                     .just(.setCommunityItem([])),
-                    .just(.setLoadedPage(page)),
+                    .just(.setLoadedPage(loadedPage)),
                     .just(.setCommentType(.perfume(nil)))
                 ])
             }
@@ -147,10 +154,17 @@ extension MyLogCommentReactor {
                 var item = self.currentState.communityItem
                 item.append(contentsOf: data)
                 
+                var loadedPage: Set<Int>
+                if page == 0 { loadedPage = [0] }
+                else {
+                    loadedPage = self.currentState.loadedPage
+                    loadedPage.insert(page)
+                }
+                
                 return .concat([
                     .just(.setCommunityItem(item)),
                     .just(.setPerfumeItem([])),
-                    .just(.setLoadedPage(page)),
+                    .just(.setLoadedPage(loadedPage)),
                     .just(.setCommentType(.community(nil)))
                 ])
             }
@@ -165,11 +179,13 @@ extension MyLogCommentReactor {
 
                 var item = self.currentState.perfumeItem
                 item.append(contentsOf: data)
+                var loadedPage = self.currentState.loadedPage
+                loadedPage.insert(page)
                 
                 return .concat([
                     .just(.setPerfumeItem(item)),
                     .just(.setCommunityItem([])),
-                    .just(.setLoadedPage(page))
+                    .just(.setLoadedPage(loadedPage))
                 ])
             }
     }

@@ -91,6 +91,7 @@ extension CommentCell {
             commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
             subView.isHidden = false
             noCommentLabel.isHidden = true
+            commentLikeButton.isHidden = false
             
         } else {
             noCommentLabel.isHidden = false

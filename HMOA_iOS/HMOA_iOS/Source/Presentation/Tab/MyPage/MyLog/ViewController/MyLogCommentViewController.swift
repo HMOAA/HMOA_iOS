@@ -117,8 +117,7 @@ class MyLogCommentViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<MyLogCommentSection, MyLogCommentSectionItem>()
-                switch reactor.currentState.commentType {
-                case .liked(_):
+                if case .liked(_) = reactor.currentState.commentType {
                     if items.perfume.isEmpty {
                         owner.noLikedView.isHidden = false
                         owner.collectionView.isHidden = true
@@ -126,7 +125,6 @@ class MyLogCommentViewController: UIViewController, View {
                         owner.noLikedView.isHidden = true
                         owner.collectionView.isHidden = false
                     }
-                default: break
                 }
                 snapshot.appendSections([.comment])
                 

@@ -271,11 +271,13 @@ class UserInformationViewController: UIViewController, View {
         )
             .bind(with: self, onNext: { owner, login in
                 guard var token = login.2 else { return }
-                owner.presentTabBar(login.1)
-                owner.loginManager.isLogin.onNext(true)
-                token.existedMember = true
-                owner.loginManager.tokenSubject.onNext(token)
-                KeychainManager.create(token: token)
+                DispatchQueue.main.async {
+                    owner.presentTabBar(login.1)
+                    owner.loginManager.isLogin.onNext(true)
+                    token.existedMember = true
+                    owner.loginManager.tokenSubject.onNext(token)
+                    KeychainManager.create(token: token)
+                }
             })
     }
     
