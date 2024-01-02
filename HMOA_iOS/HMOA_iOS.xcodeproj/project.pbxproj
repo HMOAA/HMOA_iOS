@@ -46,7 +46,6 @@
 		2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA5D2970470D000C6F71 /* AppTabbarController.swift */; };
 		2C39AA60297047F9000C6F71 /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA5F297047F9000C6F71 /* LikeViewController.swift */; };
 		2C39AA6229704803000C6F71 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA6129704803000C6F71 /* MyPageViewController.swift */; };
-		2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA632970480E000C6F71 /* MenuViewController.swift */; };
 		2C39AA682970481F000C6F71 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA672970481F000C6F71 /* HomeViewController.swift */; };
 		2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA7A29705524000C6F71 /* UIColor++Extenstions.swift */; };
 		2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39AA7E29705B4C000C6F71 /* UITabBarItem++Extensions.swift */; };
@@ -60,8 +59,6 @@
 		2C464E5029CDB26400A07658 /* MyPageSeparatorLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E4F29CDB26400A07658 /* MyPageSeparatorLineView.swift */; };
 		2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E5829CDDC8500A07658 /* MyLogViewController.swift */; };
 		2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E5B29CDDCB600A07658 /* MyProfileViewController.swift */; };
-		2C464E6229CDDCF900A07658 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E6129CDDCF900A07658 /* PolicyViewController.swift */; };
-		2C464E6529CDDD1500A07658 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C464E6429CDDD1500A07658 /* VersionViewController.swift */; };
 		2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */; };
 		2C4CDC3F29C770D900676163 /* BrandDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2929C770D900676163 /* BrandDetailSection.swift */; };
 		2C4CDC4029C770D900676163 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4CDC2A29C770D900676163 /* BrandInfo.swift */; };
@@ -112,9 +109,7 @@
 		2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */; };
 		2CC12C7D2A2CCC09003B3A60 /* String++Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC12C7C2A2CCC09003B3A60 /* String++Extension.swift */; };
 		2CD023512A07AEBC00459801 /* NicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023502A07AEBC00459801 /* NicknameView.swift */; };
-		2CD023552A07B5A500459801 /* ChangeNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023542A07B5A500459801 /* ChangeNicknameViewController.swift */; };
 		2CD0235A2A07D3CB00459801 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023592A07D3CB00459801 /* UserService.swift */; };
-		2CD0235C2A07D68F00459801 /* ChangeNicknameReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD0235B2A07D68F00459801 /* ChangeNicknameReactor.swift */; };
 		2CD0235E2A080D4500459801 /* MyProfileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD0235D2A080D4500459801 /* MyProfileType.swift */; };
 		2CD023632A092A5200459801 /* UserYearService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023622A092A5200459801 /* UserYearService.swift */; };
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
@@ -235,7 +230,6 @@
 		CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19BA22A625F7600374038 /* SearchPerfume.swift */; };
 		CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450729AB7DC300ACF2C1 /* YearModel.swift */; };
 		CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */; };
-		CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */; };
 		CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */; };
 		CAFE2F1E2B0F414700054E22 /* HpediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F1D2B0F414700054E22 /* HpediaType.swift */; };
 		CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F202B0F42FD00054E22 /* HPediaAPI.swift */; };
@@ -303,7 +297,6 @@
 		2C39AA5D2970470D000C6F71 /* AppTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabbarController.swift; sourceTree = "<group>"; };
 		2C39AA5F297047F9000C6F71 /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		2C39AA6129704803000C6F71 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		2C39AA632970480E000C6F71 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		2C39AA672970481F000C6F71 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2C39AA7629704C2F000C6F71 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C39AA7A29705524000C6F71 /* UIColor++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++Extenstions.swift"; sourceTree = "<group>"; };
@@ -318,8 +311,6 @@
 		2C464E4F29CDB26400A07658 /* MyPageSeparatorLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSeparatorLineView.swift; sourceTree = "<group>"; };
 		2C464E5829CDDC8500A07658 /* MyLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogViewController.swift; sourceTree = "<group>"; };
 		2C464E5B29CDDCB600A07658 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
-		2C464E6129CDDCF900A07658 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
-		2C464E6429CDDD1500A07658 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
 		2C4A265C29C2F6F3009F288F /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		2C4CDC2929C770D900676163 /* BrandDetailSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandDetailSection.swift; sourceTree = "<group>"; };
 		2C4CDC2A29C770D900676163 /* BrandInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
@@ -371,9 +362,7 @@
 		2CAD9640298E6F6200974500 /* TagListView++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagListView++Extenstions.swift"; sourceTree = "<group>"; };
 		2CC12C7C2A2CCC09003B3A60 /* String++Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String++Extension.swift"; sourceTree = "<group>"; };
 		2CD023502A07AEBC00459801 /* NicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameView.swift; sourceTree = "<group>"; };
-		2CD023542A07B5A500459801 /* ChangeNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameViewController.swift; sourceTree = "<group>"; };
 		2CD023592A07D3CB00459801 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		2CD0235B2A07D68F00459801 /* ChangeNicknameReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameReactor.swift; sourceTree = "<group>"; };
 		2CD0235D2A080D4500459801 /* MyProfileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileType.swift; sourceTree = "<group>"; };
 		2CD023622A092A5200459801 /* UserYearService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserYearService.swift; sourceTree = "<group>"; };
 		2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageViewController.swift; sourceTree = "<group>"; };
@@ -497,7 +486,6 @@
 		CAF19BA22A625F7600374038 /* SearchPerfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPerfume.swift; sourceTree = "<group>"; };
 		CAFA450729AB7DC300ACF2C1 /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
 		CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearViewController.swift; sourceTree = "<group>"; };
-		CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginReactor.swift; sourceTree = "<group>"; };
 		CAFE2F1D2B0F414700054E22 /* HpediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpediaType.swift; sourceTree = "<group>"; };
 		CAFE2F202B0F42FD00054E22 /* HPediaAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaAPI.swift; sourceTree = "<group>"; };
@@ -578,7 +566,7 @@
 		2C04246729A3A983009CF0FE /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				2CAB7A9B29B08E3200E74809 /* Model */,
+				CADEAE1B2B441C2500BC8964 /* Model */,
 				2C4041CC29ACD92A009247E7 /* View */,
 				2C6DAD0929A76EF9003F0E98 /* Reactor */,
 				2C6DAD0829A76EF3003F0E98 /* VIewController */,
@@ -784,7 +772,6 @@
 				2C60F22929BA12E300595EF4 /* HPedia */,
 				2C39AA5229704292000C6F71 /* Like */,
 				2C39AA512970426E000C6F71 /* MyPage */,
-				2C39AA5029704265000C6F71 /* Menu */,
 				2C39AA4E29704253000C6F71 /* Home */,
 			);
 			path = Tab;
@@ -804,14 +791,6 @@
 				2CAD9630298E465600974500 /* Detail */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		2C39AA5029704265000C6F71 /* Menu */ = {
-			isa = PBXGroup;
-			children = (
-				2C39AA6C29704855000C6F71 /* ViewController */,
-			);
-			path = Menu;
 			sourceTree = "<group>";
 		};
 		2C39AA512970426E000C6F71 /* MyPage */ = {
@@ -853,14 +832,6 @@
 			isa = PBXGroup;
 			children = (
 				2C39AA6129704803000C6F71 /* MyPageViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		2C39AA6C29704855000C6F71 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2C39AA632970480E000C6F71 /* MenuViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -918,7 +889,6 @@
 				2C4041D529AD1211009247E7 /* SearchListTableViewCell.swift */,
 				2CAB7A9729B07A2300E74809 /* SearchResultTopView.swift */,
 				2CAB7A9929B08BBA00E74809 /* SearchResultCollectionViewCell.swift */,
-				2CAB7A9C29B08E4100E74809 /* Product.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -965,7 +935,6 @@
 		2C464E5529CDDC4800A07658 /* Policy */ = {
 			isa = PBXGroup;
 			children = (
-				2C464E6029CDDCED00A07658 /* ViewController */,
 			);
 			path = Policy;
 			sourceTree = "<group>";
@@ -973,7 +942,6 @@
 		2C464E5629CDDC6700A07658 /* Version */ = {
 			isa = PBXGroup;
 			children = (
-				2C464E6329CDDD0700A07658 /* ViewController */,
 			);
 			path = Version;
 			sourceTree = "<group>";
@@ -991,27 +959,12 @@
 		2C464E5A29CDDCA200A07658 /* Viewcontroller */ = {
 			isa = PBXGroup;
 			children = (
+				CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */,
+				CA1067DA29D6CFC2009A7245 /* ChangeSexViewController.swift */,
 				2C464E5B29CDDCB600A07658 /* MyProfileViewController.swift */,
-				2CD023542A07B5A500459801 /* ChangeNicknameViewController.swift */,
 				2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */,
 			);
 			path = Viewcontroller;
-			sourceTree = "<group>";
-		};
-		2C464E6029CDDCED00A07658 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2C464E6129CDDCF900A07658 /* PolicyViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		2C464E6329CDDD0700A07658 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2C464E6429CDDD1500A07658 /* VersionViewController.swift */,
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		2C4A265B29C2F6E1009F288F /* Network */ = {
@@ -1287,7 +1240,8 @@
 			isa = PBXGroup;
 			children = (
 				2CA155B72A05368000D7B0C0 /* MyProfileReactor.swift */,
-				2CD0235B2A07D68F00459801 /* ChangeNicknameReactor.swift */,
+				CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */,
+				CA1067DC29D6D399009A7245 /* ChangeSexReactor.swift */,
 				2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */,
 			);
 			path = Reactor;
@@ -1323,13 +1277,6 @@
 			isa = PBXGroup;
 			children = (
 				2CA7F69C29D2FD180022E7FD /* TotalPerfumeSection.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		2CAB7A9B29B08E3200E74809 /* Model */ = {
-			isa = PBXGroup;
-			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1377,7 +1324,6 @@
 		2CAD963C298E693D00974500 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				CAFA450F29AB7E3400ACF2C1 /* Label */,
 				2CAD963D298E695200974500 /* View */,
 			);
 			path = CustomView;
@@ -1387,7 +1333,6 @@
 			isa = PBXGroup;
 			children = (
 				2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */,
-				2CD023502A07AEBC00459801 /* NicknameView.swift */,
 				CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */,
 			);
 			path = View;
@@ -1451,6 +1396,8 @@
 		CA051CAC297FD9BD001865F5 /* Start */ = {
 			isa = PBXGroup;
 			children = (
+				CADEAE1A2B43FBA000BC8964 /* Model */,
+				CADEAE192B43F9F100BC8964 /* View */,
 				CA1067D529D6C6AC009A7245 /* Reactor */,
 				CA051CAE297FDA04001865F5 /* ViewController */,
 			);
@@ -1478,38 +1425,10 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		CA1067D229D6C534009A7245 /* UserInformation */ = {
-			isa = PBXGroup;
-			children = (
-				CAFA450629AB7D9B00ACF2C1 /* Model */,
-				CA1067D429D6C5D5009A7245 /* Reactor */,
-				CA1067D329D6C579009A7245 /* ViewController */,
-			);
-			path = UserInformation;
-			sourceTree = "<group>";
-		};
-		CA1067D329D6C579009A7245 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				CA1067D629D6C83C009A7245 /* ChangeYearViewConroller.swift */,
-				CA1067DA29D6CFC2009A7245 /* ChangeSexViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		CA1067D429D6C5D5009A7245 /* Reactor */ = {
-			isa = PBXGroup;
-			children = (
-				CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */,
-				CA1067D829D6C9A7009A7245 /* ChangeYearReactor.swift */,
-				CA1067DC29D6D399009A7245 /* ChangeSexReactor.swift */,
-			);
-			path = Reactor;
-			sourceTree = "<group>";
-		};
 		CA1067D529D6C6AC009A7245 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				CA16AC8529BCD83E00FD57C1 /* ChoiceYearReactor.swift */,
 				CA174F6229BB33AF006E7680 /* UserInformationReactor.swift */,
 				CA47EBF429CAB9DF00934E57 /* NicknameReactor.swift */,
 			);
@@ -1924,13 +1843,10 @@
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				CA83149F2B10A2CF00ADE0FA /* Model */,
+				CADEAE182B43F9E100BC8964 /* Login */,
 				CA03C23C29EBED5F00FA0D2C /* Manager */,
 				CACA20E229E38BC6009995F3 /* Key */,
-				CAFB9F3E29B5C6710009654C /* Reactor */,
-				CA1067D229D6C534009A7245 /* UserInformation */,
 				CA051CAC297FD9BD001865F5 /* Start */,
-				CA91448B297E75B100762BC0 /* ViewController */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -2027,6 +1943,40 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		CADEAE182B43F9E100BC8964 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CA83149F2B10A2CF00ADE0FA /* Model */,
+				CAFB9F3E29B5C6710009654C /* Reactor */,
+				CA91448B297E75B100762BC0 /* ViewController */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		CADEAE192B43F9F100BC8964 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2CD023502A07AEBC00459801 /* NicknameView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CADEAE1A2B43FBA000BC8964 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CAFA450729AB7DC300ACF2C1 /* YearModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CADEAE1B2B441C2500BC8964 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2CAB7A9C29B08E4100E74809 /* Product.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CAF19B9A2A625CEF00374038 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -2043,22 +1993,6 @@
 				CAF19BA22A625F7600374038 /* SearchPerfume.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		CAFA450629AB7D9B00ACF2C1 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				CAFA450729AB7DC300ACF2C1 /* YearModel.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		CAFA450F29AB7E3400ACF2C1 /* Label */ = {
-			isa = PBXGroup;
-			children = (
-				CAFA451029AB7E4000ACF2C1 /* PaddingLabel.swift */,
-			);
-			path = Label;
 			sourceTree = "<group>";
 		};
 		CAFB9F3E29B5C6710009654C /* Reactor */ = {
@@ -2338,7 +2272,6 @@
 				CA36DA842A4AA25700F9C17E /* IgnoerData.swift in Sources */,
 				CAA1160E2AC2DABE0063806C /* DetailDictionaryReactor.swift in Sources */,
 				CA4744772AD3C1E800003584 /* OptionView.swift in Sources */,
-				2C464E6229CDDCF900A07658 /* PolicyViewController.swift in Sources */,
 				CA360F3A29DD870E00A93873 /* HPediaReactor.swift in Sources */,
 				2C4CDC4029C770D900676163 /* BrandInfo.swift in Sources */,
 				2CC12C7D2A2CCC09003B3A60 /* String++Extension.swift in Sources */,
@@ -2353,7 +2286,6 @@
 				CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */,
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
-				2C464E6529CDDD1500A07658 /* VersionViewController.swift in Sources */,
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
 				2CA155B22A039B1B00D7B0C0 /* LoginAddress.swift in Sources */,
 				CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */,
@@ -2397,7 +2329,6 @@
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
 				CA22389B2AAF492D00452A31 /* QnAPostCell.swift in Sources */,
 				CA6C48612B2C2F8C00F1BE7F /* TotalPerfumeAddress.swift in Sources */,
-				2C39AA642970480E000C6F71 /* MenuViewController.swift in Sources */,
 				CA99A6D12B1216DE0030364F /* ReportAPI.swift in Sources */,
 				CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */,
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
@@ -2421,7 +2352,6 @@
 				CA5E872F2B2AED13006DD2FA /* PushAlarmAddress.swift in Sources */,
 				CAA5926B2B049197003DAE51 /* ImagePinchViewController.swift in Sources */,
 				2C15DF912A57DFE000EAB112 /* CoreGraphicManager.swift in Sources */,
-				CAFA451129AB7E4000ACF2C1 /* PaddingLabel.swift in Sources */,
 				2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */,
 				CA2238902AAEFCC000452A31 /* QnAWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
@@ -2493,7 +2423,6 @@
 				2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */,
 				CA76401A2AA86C5E0053076B /* HpediaData.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
-				2CD023552A07B5A500459801 /* ChangeNicknameViewController.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
 				CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
@@ -2523,7 +2452,6 @@
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
 				CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */,
-				2CD0235C2A07D68F00459801 /* ChangeNicknameReactor.swift in Sources */,
 				2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */,
 				2CD023512A07AEBC00459801 /* NicknameView.swift in Sources */,
 				2C4CDC4929C770D900676163 /* BrandListHeaderView.swift in Sources */,

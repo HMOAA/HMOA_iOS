@@ -17,12 +17,12 @@ class HomeTopCell: UICollectionViewCell {
     
     // MARK: - Properies
     
-    lazy var newsImageView = UIImageView()
+    private lazy var newsImageView = UIImageView()
     
-    lazy var banerView = UIView().then {
+    private lazy var banerView = UIView().then {
         $0.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9450980392, blue: 0.9529411765, alpha: 1)
     }
-    lazy var banerLabel = UILabel().then {
+    private lazy var banerLabel = UILabel().then {
         $0.setLabelUI("시향지 체험단 모집 ~ 09.18", font: .pretendard_medium, size: 14, color: .banerLabelColor)
     }
     

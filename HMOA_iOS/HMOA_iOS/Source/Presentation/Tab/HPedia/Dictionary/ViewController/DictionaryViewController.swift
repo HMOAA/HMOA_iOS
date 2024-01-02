@@ -16,13 +16,13 @@ import SnapKit
 class DictionaryViewController: UIViewController, View {
     
     //MARK: - UI Components
-    lazy var tableView = UITableView().then {
+    private lazy var tableView = UITableView().then {
         $0.showsVerticalScrollIndicator = false
         $0.separatorStyle = .none
         $0.register(DictionaryCell.self, forCellReuseIdentifier: DictionaryCell.identifier)
     }
     
-    let searchBar = UISearchBar().configureHpediaSearchBar()
+    private let searchBar = UISearchBar().configureHpediaSearchBar()
     
     //MARK: - Properties
     typealias Reactor = DictionaryReactor

@@ -16,7 +16,7 @@ class CommentListTopView: UICollectionReusableView {
     
     // MARK: - UI Component
     
-    var commentLabel = UILabel().then {
+    private var commentLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 16)
         $0.text = "댓글"
     }

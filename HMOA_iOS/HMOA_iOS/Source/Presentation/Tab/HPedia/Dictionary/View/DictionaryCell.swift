@@ -11,13 +11,13 @@ class DictionaryCell: UITableViewCell {
     
     static let identifier = "DictionaryCell"
     
-    let englishLabel = UILabel().then {
+    private let englishLabel = UILabel().then {
         $0.lineBreakMode = .byWordWrapping
         $0.numberOfLines = 2
         $0.setLabelUI("", font: .pretendard_semibold, size: 22, color: .black)
     }
     
-    let koreanLabel = UILabel().then {
+    private let koreanLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_semibold, size: 16, color: .black)
     }
 

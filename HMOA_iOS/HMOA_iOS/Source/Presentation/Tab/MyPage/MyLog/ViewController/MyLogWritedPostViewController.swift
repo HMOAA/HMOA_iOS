@@ -21,13 +21,13 @@ class MyLogWritedPostViewController: UIViewController, View {
     
     // MARK: - UIComponents
     
-    let layout = UICollectionViewFlowLayout()
+    private let layout = UICollectionViewFlowLayout()
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
     }
     
-    lazy var noWriteView = NoLoginEmptyView(title:
+    private lazy var noWriteView = NoLoginEmptyView(title:
                                                 """
                                                 작성한 게시글이
                                                 없습니다

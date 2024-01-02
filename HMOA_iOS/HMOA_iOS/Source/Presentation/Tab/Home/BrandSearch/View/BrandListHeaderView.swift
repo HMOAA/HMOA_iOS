@@ -13,7 +13,7 @@ class BrandListHeaderView: UICollectionReusableView {
     static let identifier = "BrandListHeaderView"
     
     // MARK: - UI Component
-    var consonantLabel = UILabel().then {
+    private var consonantLabel = UILabel().then {
         $0.clipsToBounds = true
         $0.textAlignment = .center
         $0.layer.cornerRadius = 10

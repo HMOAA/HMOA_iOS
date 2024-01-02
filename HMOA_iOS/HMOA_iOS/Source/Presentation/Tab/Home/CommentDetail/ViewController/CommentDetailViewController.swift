@@ -19,7 +19,7 @@ class CommentDetailViewController: UIViewController, View {
     
     // MARK: - UI Component
     
-    lazy var userImageView = UIImageView().then {
+    private lazy var userImageView = UIImageView().then {
         $0.layer.masksToBounds = true
         $0.layer.borderColor = UIColor.white.cgColor
         $0.layer.borderWidth = 1
@@ -27,21 +27,21 @@ class CommentDetailViewController: UIViewController, View {
         $0.layer.backgroundColor = UIColor.customColor(.tabbarColor).cgColor
     }
     
-    lazy var userNameLabel = UILabel().then {
+    private lazy var userNameLabel = UILabel().then {
         $0.font = .customFont(.pretendard, 14)
     }
     
-    lazy var contentLabel = UILabel().then {
+    private lazy var contentLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.font = .customFont(.pretendard, 14)
     }
     
-    lazy var dateLabel = UILabel().then {
+    private lazy var dateLabel = UILabel().then {
         $0.textColor = .customColor(.gray3)
         $0.font = .customFont(.pretendard, 12)
     }
     
-    lazy var commentLikeButton = UIButton().then {
+    private lazy var commentLikeButton = UIButton().then {
         
         var buttonConfig = UIButton.Configuration.plain()
 
@@ -62,7 +62,7 @@ class CommentDetailViewController: UIViewController, View {
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    lazy var changeButton = UIButton().then {
+    private lazy var changeButton = UIButton().then {
         $0.isHidden = true
         $0.titleLabel?.font = .customFont(.pretendard, 16)
         $0.setTitle("수정", for: .normal)
@@ -148,7 +148,7 @@ extension CommentDetailViewController {
        
     }
         
-    func configureUI() {
+    private func configureUI() {
         
         view.backgroundColor = .white
         
@@ -188,7 +188,7 @@ extension CommentDetailViewController {
 
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         let changeButtonItem = UIBarButtonItem(customView: changeButton)
         
         self.navigationItem.rightBarButtonItem = changeButtonItem

@@ -17,9 +17,9 @@ import Kingfisher
 class QnADetailViewController: UIViewController, View {
 
     //MARK: - Properties
-    var dataSource: UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>!
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         
         $0.register(QnAPostHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier)
         $0.register(QnACommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier)
@@ -29,37 +29,37 @@ class QnADetailViewController: UIViewController, View {
     }
     
     
-    let commentWriteView = UIView().then {
+    private let commentWriteView = UIView().then {
         $0.layer.cornerRadius = 5
         $0.backgroundColor =  #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
     }
     
-    let profileImageView = UIImageView().then {
+    private let profileImageView = UIImageView().then {
         $0.image = UIImage(named: "initProfile")
         $0.layer.cornerRadius = 14
         $0.layer.masksToBounds = true
     }
     
-    let colonLabel = UILabel().then {
+    private let colonLabel = UILabel().then {
         $0.setLabelUI(":", font: .pretendard, size: 14, color: .black)
     }
     
-    let commentTextView = UITextView().then {
+    private let commentTextView = UITextView().then {
         $0.text = "댓글을 입력하세요"
         $0.font = .customFont(.pretendard, 14)
         $0.backgroundColor =  #colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1)
     }
     
-    let commentWriteButton = UIButton().then {
+    private let commentWriteButton = UIButton().then {
         $0.setImage(UIImage(named: "commentWrite"), for: .normal)
     }
     
-    lazy var commentOptionView = OptionView().then {
+    private lazy var commentOptionView = OptionView().then {
         $0.reactor = OptionReactor(service: reactor!.service)
         $0.parentVC = self
     }
     
-    lazy var postOptionView = OptionView().then {
+    private lazy var postOptionView = OptionView().then {
         $0.reactor = OptionReactor(service: reactor!.service)
     }
     
@@ -327,7 +327,7 @@ extension QnADetailViewController: UITextViewDelegate {
         return reactor!.currentState.isLogin
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {
@@ -428,7 +428,7 @@ extension QnADetailViewController: UITextViewDelegate {
         }
     }
     
-    func configureQnAPostSection() -> NSCollectionLayoutSection {
+    private func configureQnAPostSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(268))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -445,7 +445,7 @@ extension QnADetailViewController: UITextViewDelegate {
     }
     
     
-    func configureQnACommentSection() -> NSCollectionLayoutSection {
+    private func configureQnACommentSection() -> NSCollectionLayoutSection {
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(102))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -461,7 +461,7 @@ extension QnADetailViewController: UITextViewDelegate {
         return section
     }
     
-    func configureLayout() -> UICollectionViewCompositionalLayout {
+    private func configureLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { section, _ in
             switch section {
             case 0:

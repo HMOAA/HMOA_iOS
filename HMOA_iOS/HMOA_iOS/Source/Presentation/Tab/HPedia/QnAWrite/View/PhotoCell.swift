@@ -26,7 +26,7 @@ class PhotoCell: UICollectionViewCell {
     }
     
     //MARK: - UI Components
-    lazy var scrollView = UIScrollView().then {
+    private lazy var scrollView = UIScrollView().then {
         
         $0.delegate = self
         $0.minimumZoomScale = 1.0
@@ -43,7 +43,7 @@ class PhotoCell: UICollectionViewCell {
         $0.contentMode = .scaleAspectFit
     }
     
-    let xButtonBackView = UIView().then {
+    private let xButtonBackView = UIView().then {
         $0.layer.cornerRadius = 13
         $0.backgroundColor = .lightGray.withAlphaComponent(0.5)
     }

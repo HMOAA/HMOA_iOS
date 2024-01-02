@@ -20,30 +20,30 @@ class ChangeProfileImageViewController: UIViewController, View {
     typealias Reactor = ChangeProfileImageReactor
     var disposeBag = DisposeBag()
     
-    lazy var changeProfileImageButton: UIButton = UIButton().then {
+    private lazy var changeProfileImageButton: UIButton = UIButton().then {
         $0.setImage(UIImage(named: "addProfile"), for: .normal)
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 36
     }
     
 
-    var pickerViewConfig: PHPickerConfiguration = {
+    private var pickerViewConfig: PHPickerConfiguration = {
        var config = PHPickerConfiguration()
         config.filter = .images
         
         return config
     }()
     
-    lazy var pickerView: PHPickerViewController = {
+    private lazy var pickerView: PHPickerViewController = {
        
         let pickerView = PHPickerViewController(configuration: pickerViewConfig)
         
         return pickerView
     }()
     
-    lazy var nicknameView = NicknameView("변경")
+    private lazy var nicknameView = NicknameView("변경")
     
-    var tqwe: UILabel = {
+    private var tqwe: UILabel = {
        var label = UILabel()
         
         return label
@@ -199,7 +199,7 @@ extension ChangeProfileImageViewController {
     }
     
     // MARK: - Configure
-    func configureUI() {
+    private func configureUI() {
         
         view.backgroundColor = .white
         pickerView.delegate = self
@@ -256,7 +256,7 @@ extension ChangeProfileImageViewController: PHPickerViewControllerDelegate {
 
 extension ChangeProfileImageViewController {
     
-    func setEnableChangeButton() {
+    private func setEnableChangeButton() {
         nicknameView.bottomButton.backgroundColor = .black
         nicknameView.bottomButton.isEnabled = true
     }

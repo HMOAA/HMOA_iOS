@@ -33,7 +33,7 @@ class NoLoginEmptyView: UIView {
                       color: .black)
     }
     
-    let goLoginLabel = UILabel().then {
+    private let goLoginLabel = UILabel().then {
         $0.setLabelUI("로그인 바로가기", font: .pretendard_light, size: 16, color: .black)
     }
     

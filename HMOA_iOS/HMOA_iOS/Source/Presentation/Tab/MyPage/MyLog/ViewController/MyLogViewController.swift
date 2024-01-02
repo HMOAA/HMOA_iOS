@@ -17,7 +17,7 @@ class MyLogViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     // MARK: - UI Components
-    let tableView = UITableView(frame: .zero, style: .plain).then {
+    private let tableView = UITableView(frame: .zero, style: .plain).then {
         $0.register(MyPageCell.self, forCellReuseIdentifier: MyPageCell.identifier)
         $0.separatorStyle = .none
     }
@@ -83,7 +83,7 @@ extension MyLogViewController: UITableViewDelegate {
         return 52
     }
     
-    func presentNextVC(_ row: Int) {
+    private func presentNextVC(_ row: Int) {
         switch row {
         case 0:
             let commentListVC = MyLogCommentViewController()

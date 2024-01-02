@@ -22,9 +22,9 @@ class BrandDetailViewController: UIViewController, View {
     // MARK: - UI Component
     private var dataSource: UICollectionViewDiffableDataSource<BrandDetailSection, BrandDetailSectionItem>!
     
-    lazy var layout = UICollectionViewFlowLayout()
+    private lazy var layout = UICollectionViewFlowLayout()
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         
         $0.register(BrandDetailHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandDetailHeaderView.identifier)
         $0.register(BrandDetailCollectionViewCell.self, forCellWithReuseIdentifier: BrandDetailCollectionViewCell.identifier)
@@ -149,7 +149,7 @@ extension BrandDetailViewController {
     }
     
     // MARK: - Configure
-    func configureUI() {
+    private func configureUI() {
         
         view.backgroundColor = .white
         
@@ -164,7 +164,7 @@ extension BrandDetailViewController {
         }
     }
     
-    func configureCollectionViewDataSource() {
+    private func configureCollectionViewDataSource() {
         dataSource = UICollectionViewDiffableDataSource<BrandDetailSection, BrandDetailSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {

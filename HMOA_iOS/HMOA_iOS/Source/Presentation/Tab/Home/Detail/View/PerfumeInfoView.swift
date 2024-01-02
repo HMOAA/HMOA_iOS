@@ -49,13 +49,13 @@ class PerfumeInfoView: UIView {
     lazy var perfumeView30 = EmptyPerfumeView()
     
     
-    let seperatorLine2 = UIView().then {
+     let seperatorLine2 = UIView().then {
         $0.backgroundColor = UIColor.customColor(.gray2)
     }
     
-    lazy var brandView = BrandView()
+     lazy var brandView = BrandView()
     
-    lazy var tastingLabel = UILabel().then {
+     lazy var tastingLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard_medium, 20)
         $0.text = "테이스팅 노트"
     }
@@ -88,7 +88,7 @@ class PerfumeInfoView: UIView {
 // MARK: - Functions
 extension PerfumeInfoView {
     
-    func configureUI() {
+    private  func configureUI() {
         [
             perfumeLikeImageView,
             perfumeLikeCountLabel,

@@ -17,9 +17,9 @@ class TotalPerfumeViewController: UIViewController, View {
     
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    var dataSource: UICollectionViewDiffableDataSource<TotalPerfumeSection, TotalPerfumeSectionItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<TotalPerfumeSection, TotalPerfumeSectionItem>!
     // MARK: - UI Component
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(BrandDetailCollectionViewCell.self, forCellWithReuseIdentifier: BrandDetailCollectionViewCell.identifier)
     }
     
@@ -88,7 +88,7 @@ extension TotalPerfumeViewController {
     }
     
     // MARK: - Configure
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .white
         
         view.addSubview(collectionView)
@@ -102,7 +102,7 @@ extension TotalPerfumeViewController {
         }
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<TotalPerfumeSection, TotalPerfumeSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
             case .perfumeList(let perfume):

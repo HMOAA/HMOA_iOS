@@ -15,8 +15,8 @@ import ReactorKit
 
 class UserInformationViewController: UIViewController, View {
     
-    //MARK: - Property
-    let titleLabel = UILabel().then {
+    //MARK: - UIComponents
+    private let titleLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.text = """
         나에게 꼭 맞는
@@ -26,7 +26,7 @@ class UserInformationViewController: UIViewController, View {
         $0.font = .customFont(.pretendard, 30)
     }
     
-    let explainLabel = UILabel().then {
+    private let explainLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.text = """
         출생연도와 성별을 설정하면,
@@ -35,25 +35,25 @@ class UserInformationViewController: UIViewController, View {
         $0.font = .customFont(.pretendard, 14)
     }
     
-    let birthYearLabel = UILabel().then {
+    private let birthYearLabel = UILabel().then {
         $0.setLabelUI("출생연도", font: .pretendard_medium, size: 16, color: .black)
     }
     
-    let selectYearView = UIView()
-    let selectLabel = UILabel().then {
+    private let selectYearView = UIView()
+    private let selectLabel = UILabel().then {
         $0.setLabelUI("선택", font: .pretendard, size: 16, color: .gray3)
     }
-    let selectYearButton = UIButton().then {
+    private let selectYearButton = UIButton().then {
         $0.setImage(UIImage(named: "downPolygon"), for: .normal)
     }
     
-    let sexStackView = UIStackView().then {
+    private let sexStackView = UIStackView().then {
         $0.setStackViewUI(spacing: 16, axis: .horizontal)
     }
-    var womanButton: UIButton!
-    var manButton: UIButton!
+    private var womanButton: UIButton!
+    private var manButton: UIButton!
     
-    let startButton = UIButton().then {
+    private let startButton = UIButton().then {
         $0.isEnabled = false
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .customColor(.gray2)
@@ -61,14 +61,15 @@ class UserInformationViewController: UIViewController, View {
         $0.setTitle("시작하기", for: .normal)
     }
     
-    var reactor: UserInformationReactor
+    //MARK: Properties
+    private var reactor: UserInformationReactor
     var disposeBag = DisposeBag()
-    let loginManager = LoginManager.shared
+    private let loginManager = LoginManager.shared
     
-    let yearList = Year().year
-    var index: Int = 0
-    var nickname: String = ""
-    var subscription: Disposable?
+    private let yearList = Year().year
+    private var nickname: String = ""
+    private var subscription: Disposable?
+    
     //MARK: - Init
     init(nickname: String = "", reactor: UserInformationReactor) {
         //닉네임 페이지에서 닉네임 받아오기
@@ -282,7 +283,7 @@ class UserInformationViewController: UIViewController, View {
     }
     
     //MARK: - UpdateUI
-    func updateUIYearLabel(_ year: String) {
+    private func updateUIYearLabel(_ year: String) {
         if year == "선택" {
             selectLabel.textColor = .customColor(.gray3)
             setEnableStartButton(false)
@@ -293,7 +294,7 @@ class UserInformationViewController: UIViewController, View {
         }
     }
     
-    func setEnableStartButton(_ isEnable: Bool) {
+    private func setEnableStartButton(_ isEnable: Bool) {
         if isEnable {
             startButton.backgroundColor = .black
             startButton.isEnabled = true
@@ -305,7 +306,7 @@ class UserInformationViewController: UIViewController, View {
         }
     }
     
-    func presentSelectYear() -> ChoiceYearViewController {
+    private func presentSelectYear() -> ChoiceYearViewController {
         
         let choiceYearReactor = reactor.reactorForChoiceYear()
         let vc = ChoiceYearViewController(reactor: choiceYearReactor)

@@ -20,82 +20,83 @@ class QnAWriteViewController: UIViewController, View {
     
     //MARK: - UI Components
     
-    let scrollView = UIScrollView().then {
+    private let scrollView = UIScrollView().then {
         $0.alwaysBounceVertical = true
     }
     
-    let titleNaviLabel = UILabel().then {
+    private let titleNaviLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 20)
         $0.textColor = .black
     }
     
-    let cancleButton = UIButton().then {
+    private let cancleButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 16)
         $0.setTitleColor(.black, for: .normal)
         $0.tintColor = .black
     }
     
-    let okButton = UIButton().then {
+    private let okButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 16)
     }
     
-    let titleView = UIView()
+    private let titleView = UIView()
     
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_light, 16)
         $0.text = "제목:"
         $0.textColor = .black
     }
-    let titleTextField = UITextField().then {
+    
+    private let titleTextField = UITextField().then {
         $0.font = .customFont(.pretendard, 14)
         $0.placeholder = "제목을 입력해주세요"
         $0.setPlaceholder(color: .customColor(.gray3))
     }
     
-    let titleCountLabel = UILabel().then {
+    private let titleCountLabel = UILabel().then {
         $0.text = "0/20"
         $0.font = .customFont(.pretendard_light, 14)
     }
     
-    let textView = UITextView().then {
+    private let textView = UITextView().then {
         $0.font = .customFont(.pretendard, 14)
         $0.autocorrectionType = .no
         $0.isScrollEnabled = false
     }
     
-    let addImageButton = UIBarButtonItem(
+    private let addImageButton = UIBarButtonItem(
         image: UIImage(named: "addImageButton"),
         style: .plain,
         target: nil,
         action: nil)
     
-    lazy var toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 34)).then {
+    private lazy var toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 34)).then {
         $0.tintColor = .black
         $0.sizeToFit()
         $0.items = [addImageButton]
     }
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         
         $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
-    lazy var pageControl = UIPageControl().then {
+    private lazy var pageControl = UIPageControl().then {
         $0.pageIndicatorTintColor = .customColor(.gray2)
         $0.currentPageIndicatorTintColor = .customColor(.gray4)
         $0.isHidden = true
     }
     
-    let stackView = UIStackView().then {
+    private let stackView = UIStackView().then {
         $0.spacing = 8
         $0.axis = .vertical
         $0.distribution = .fill
         $0.alignment = .center
     }
     
-    var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>!
+    private var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>!
     
     //MARK: - LifeCycle
     override func viewDidLoad() {

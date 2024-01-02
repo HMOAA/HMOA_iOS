@@ -12,34 +12,34 @@ import KakaoSDKUser
 class LoginViewController: UIViewController, View {
     
 
-    //MARK: - Property
-    let titleImageView = UIImageView().then {
+    //MARK: - UIComponents
+    private let titleImageView = UIImageView().then {
         $0.image = UIImage(named: "logo_EG")
     }
     
-    let loginStackView = UIStackView().then {
+    private let loginStackView = UIStackView().then {
         $0.distribution = .fillEqually
         $0.setStackViewUI(spacing: 12)
     }
     
-    lazy var googleLoginButton = UIButton()
-    lazy var appleLoginButton = UIButton()
-    lazy var kakaoLoginButton = UIButton()
+    private lazy var googleLoginButton = UIButton()
+    private lazy var appleLoginButton = UIButton()
+    private lazy var kakaoLoginButton = UIButton()
     
-    let noLoginButton = UIButton().then {
+    private let noLoginButton = UIButton().then {
         $0.titleLabel?.font = .customFont(.pretendard, 12)
         $0.sizeToFit()
         $0.setTitle("로그인없이 사용하기", for: .normal)
         $0.setTitleColor(.customColor(.gray4), for: .normal)
     }
     
-    lazy var xButton = UIButton().then {
+    private lazy var xButton = UIButton().then {
         $0.isHidden = true
         $0.setImage(UIImage(named: "x"), for: .normal)
     }
     
     var disposeBag = DisposeBag()
-    let loginManager = LoginManager.shared
+    private let loginManager = LoginManager.shared
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -221,7 +221,7 @@ class LoginViewController: UIViewController, View {
 }
 
 extension LoginViewController {
-    func googleLogin() {
+    private func googleLogin() {
         
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
             
@@ -237,7 +237,7 @@ extension LoginViewController {
         }
     }
     
-    func checkPreviousSignIn(_ token: Token) {
+    private func checkPreviousSignIn(_ token: Token) {
         
         loginManager.tokenSubject.onNext(token)
         

@@ -12,7 +12,7 @@ import Then
 class CommentListBottomView: UIView {
     
     // MARK: - UI Component
-    lazy var backgroundView = UIView().then {
+    private lazy var backgroundView = UIView().then {
         $0.backgroundColor = .black
     }
     
@@ -45,7 +45,7 @@ class CommentListBottomView: UIView {
 
 extension CommentListBottomView {
     
-    func configureUI() {
+    private func configureUI() {
         
         [   backgroundView,
             writeButton

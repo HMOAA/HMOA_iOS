@@ -16,7 +16,7 @@ import ReactorKit
 class NicknameViewController: UIViewController, View {
     //MARK: - Property
     
-    lazy var nicknameView = NicknameView("다음")
+    private lazy var nicknameView = NicknameView("다음")
     
     var disposeBag = DisposeBag()
     typealias Reactor = NicknameReactor

@@ -10,7 +10,7 @@ import UIKit
 class OptionCell: UITableViewCell {
 
     static let identifer = "OptionCell"
-    let contentLabel = UILabel().then {
+    private let contentLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 20)
         $0.textColor = .systemBlue
     }
