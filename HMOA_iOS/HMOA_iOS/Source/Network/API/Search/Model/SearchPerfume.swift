@@ -13,7 +13,7 @@ struct SearchPerfumeName: Codable {
 
 struct SearchPerfume: Codable, Equatable {
     let brandName: String
-    let isHeart: Bool
+    var isHeart: Bool
     let perfumeId: Int
     let perfumeImageUrl: String
     let perfumeName: String

@@ -15,13 +15,13 @@ import ReactorKit
 
 class OptionView: UIView, View {
     
-    lazy var tableView = UITableView(frame: .zero, style: .plain).then {
+    private lazy var tableView = UITableView(frame: .zero, style: .plain).then {
         $0.isScrollEnabled = false
         $0.layer.cornerRadius = 15
         $0.register(OptionCell.self, forCellReuseIdentifier: OptionCell.identifer)
     }
     
-    lazy var cancleButton = UIButton().then {
+    private lazy var cancleButton = UIButton().then {
         $0.titleLabel?.font = .customFont(.pretendard_medium, 20)
         $0.setTitleColor(.systemBlue, for: .normal)
         $0.backgroundColor = .white
@@ -29,13 +29,13 @@ class OptionView: UIView, View {
         $0.setTitle("취소", for: .normal)
     }
     
-    lazy var backgroundView = UIView().then {
+    private lazy var backgroundView = UIView().then {
         $0.backgroundColor = .clear
     }
     
-    lazy var buttonView = UIView()
+    private lazy var buttonView = UIView()
     
-    lazy var backgroundTapGesture = UITapGestureRecognizer()
+    private lazy var backgroundTapGesture = UITapGestureRecognizer()
     
     var parentVC: UIViewController? = nil
     
@@ -245,7 +245,7 @@ extension OptionView: UITableViewDelegate {
         return 60
     }
     
-    func showAnimation(_ isHidden: Bool) {
+    private func showAnimation(_ isHidden: Bool) {
         
         let count = reactor!.currentState.options.count
         

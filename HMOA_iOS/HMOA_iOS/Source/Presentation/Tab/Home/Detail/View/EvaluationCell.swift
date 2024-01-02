@@ -19,148 +19,148 @@ class EvaluationCell: UICollectionViewCell, View {
     //MARK: - UI Component
     
     //계절
-    let evaluationLabel = UILabel().then {
+    private let evaluationLabel = UILabel().then {
         $0.setLabelUI("이 제품에 대해 평가해주세요",
                       font: .pretendard_medium,
                       size: 20,
                       color: .black)
     }
     
-    let seasonLabel = UILabel().then {
+    private let seasonLabel = UILabel().then {
         $0.setLabelUI("계절감",
                       font: .pretendard_medium,
                       size: 16,
                       color: .black)
     }
     
-    let seasonButtonStackView = UIStackView().then {
+    private let seasonButtonStackView = UIStackView().then {
         $0.distribution = .fillEqually
         $0.setStackViewUI(spacing: 16, axis: .horizontal)
     }
-    lazy var springButton: UIButton = UIButton().then {
+    private lazy var springButton: UIButton = UIButton().then {
         $0.configuration = setSeasonButtonConfigure("spring")
         $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
-    lazy var summerButton = UIButton().then {
+    private lazy var summerButton = UIButton().then {
         $0.configuration = setSeasonButtonConfigure("summer")
         $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
-    lazy var fallButton = UIButton().then {
+    private lazy var fallButton = UIButton().then {
         $0.configuration = setSeasonButtonConfigure("fall")
         $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
-    lazy var winterButton = UIButton().then {
+    private lazy var winterButton = UIButton().then {
         $0.configuration = setSeasonButtonConfigure("winter")
         $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
     
-    lazy var seasonButtons = [springButton, summerButton, fallButton, winterButton]
+    private lazy var seasonButtons = [springButton, summerButton, fallButton, winterButton]
     
     
-    let seasonLabelStackView = UIStackView().then {
+    private let seasonLabelStackView = UIStackView().then {
         $0.layer.masksToBounds = true
         $0.distribution = .fillEqually
         $0.setStackViewUI(spacing: 40, axis: .horizontal)
     }
-    let springLabel = UILabel().then {
+    private let springLabel = UILabel().then {
         $0.setLabelUI(" 봄",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
-    let summerLabel = UILabel().then {
+    private let summerLabel = UILabel().then {
         $0.setLabelUI("여름",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
-    let fallLabel = UILabel().then {
+    private let fallLabel = UILabel().then {
         $0.setLabelUI("가을",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
-    let winterLabel = UILabel().then {
+    private let winterLabel = UILabel().then {
         $0.setLabelUI("겨울",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
     
-    let seasonExplainLabel = UILabel().then {
+    private let seasonExplainLabel = UILabel().then {
         $0.setLabelUI("여러분의 생각을 투표해주세요", font: .pretendard, size: 12, color: .black)
     }
     
     //성별
-    let sexLabel = UILabel().then {
+    private let sexLabel = UILabel().then {
         $0.setLabelUI("성별",
                       font: .pretendard_medium,
                       size: 16,
                       color: .black)
     }
     
-    let sexButtonStackView = UIStackView().then {
+    private let sexButtonStackView = UIStackView().then {
         $0.distribution = .fillEqually
         $0.setStackViewUI(spacing: 40, axis: .horizontal)
     }
-    lazy var manButton: UIButton = UIButton().then {
+    private lazy var manButton: UIButton = UIButton().then {
         $0.configuration = setSeasonButtonConfigure("man")
         $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
-    lazy var uniSexButton = UIButton().then {
+    private lazy var uniSexButton = UIButton().then {
         $0.configuration = setSeasonButtonConfigure("uniSex")
         $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
-    lazy var womanButton = UIButton().then {
+    private lazy var womanButton = UIButton().then {
         $0.configuration = setSeasonButtonConfigure("woman")
         $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
     }
     
-    lazy var sexButtons = [manButton, uniSexButton, womanButton]
-    let wommanLabel = UILabel().then {
+    private lazy var sexButtons = [manButton, uniSexButton, womanButton]
+    private let wommanLabel = UILabel().then {
         $0.setLabelUI("여성",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
-    let uniSexLabel = UILabel().then {
+    private let uniSexLabel = UILabel().then {
         $0.setLabelUI("중성",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
-    let manLabel = UILabel().then {
+    private let manLabel = UILabel().then {
         $0.setLabelUI("남성",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
     
-    let sexExplainLabel = UILabel().then {
+    private let sexExplainLabel = UILabel().then {
         $0.setLabelUI("여러분의 생각을 투표해주세요", font: .pretendard, size: 12, color: .black)
     }
     
     // 성별
-    let ageLabel = UILabel().then {
+    private let ageLabel = UILabel().then {
         $0.setLabelUI("연령대",
                       font: .pretendard_medium,
                       size: 16,
                       color: .black)
     }
     
-    lazy var ageResetButton = UIButton().then {
+    private lazy var ageResetButton = UIButton().then {
         $0.setImage(UIImage(named: "ageReset"), for: .normal)
         $0.isHidden = true
     }
     
-    let ageSlider = UISlider().then {
+    private let ageSlider = UISlider().then {
         $0.minimumValue = 0
         $0.maximumValue = 50
         $0.setThumbImage(UIImage(named: "arrowSlider"), for: .normal)
@@ -168,36 +168,36 @@ class EvaluationCell: UICollectionViewCell, View {
         $0.setMaximumTrackImage(UIImage(named: "maxSlider"), for: .normal)
     }
     
-    let minAgeLabel = UILabel().then {
+    private let minAgeLabel = UILabel().then {
         $0.setLabelUI("10대",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
     
-    lazy var averageAgeLabel = UILabel().then {
+    private lazy var averageAgeLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 16, color: .black)
     }
     
-    let maxAgeLabel = UILabel().then {
+    private let maxAgeLabel = UILabel().then {
         $0.setLabelUI("50대 이상",
                       font: .pretendard,
                       size: 16,
                       color: .black)
     }
     
-    lazy var dragLabel = UILabel().then {
+    private lazy var dragLabel = UILabel().then {
         $0.setLabelUI("드래그 해주세요", font: .pretendard, size: 16, color: .gray2)
     }
     
-    lazy var evaluatedAgeView = UIView().then {
+    private lazy var evaluatedAgeView = UIView().then {
         $0.layer.masksToBounds = true
         $0.isHidden = true
         $0.layer.cornerRadius = 5
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    lazy var allCornerRadius: CACornerMask  = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
+    private lazy var allCornerRadius: CACornerMask  = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
     
     
     
@@ -458,6 +458,7 @@ class EvaluationCell: UICollectionViewCell, View {
                 
                 else {
                     owner.dragLabel.isHidden = false
+                    owner.averageAgeLabel.text = ""
                 }
             }
             .disposed(by: disposeBag)

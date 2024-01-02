@@ -18,7 +18,7 @@ enum MyLogCommentSectionItem: Hashable {
     case community(CommunityComment?)
 }
 
-struct MyLogCommentData {
+struct MyLogCommentData: Equatable {
     var perfume: [Comment]
     var community: [CommunityComment]
 }

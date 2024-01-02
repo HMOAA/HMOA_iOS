@@ -22,21 +22,21 @@ class ChangeSexViewController: UIViewController, View {
     
     // MARK: - UI Component
     
-    let sexStackView = UIStackView().then {
+    private let sexStackView = UIStackView().then {
         $0.setStackViewUI(spacing: 16, axis: .horizontal)
     }
     
-    lazy var womanButton = UIButton(configuration: configureButton("여성")).then {
+    private lazy var womanButton = UIButton(configuration: configureButton("여성")).then {
         $0.setImage(UIImage(named: "circle"), for: .normal)
         $0.setImage(UIImage(named: "selectCircle"), for: .selected)
     }
     
-    lazy var manButton = UIButton(configuration: configureButton("남성")).then {
+    private lazy var manButton = UIButton(configuration: configureButton("남성")).then {
         $0.setImage(UIImage(named: "circle"), for: .normal)
         $0.setImage(UIImage(named: "selectCircle"), for: .selected)
     }
     
-    lazy var changeButton = UIButton().then {
+    private lazy var changeButton = UIButton().then {
         $0.setProfileChangeBottomView()
     }
         
@@ -159,7 +159,7 @@ extension ChangeSexViewController {
     //MARK: - Functions
     
     //ChangeButton UI 변경
-    func setEnableChangeButton(_ isCheck: Bool) {
+    private func setEnableChangeButton(_ isCheck: Bool) {
         if isCheck  {
             changeButton.isEnabled = true
             changeButton.backgroundColor = .black

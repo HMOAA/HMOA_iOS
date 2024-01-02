@@ -25,9 +25,9 @@ class SearchViewController: UIViewController, View {
     private lazy var ResultVC = SearchResultViewController()
     private lazy var containerView = UIView()
     private var previousSection: Int = -1
-    lazy var backButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
+    private lazy var backButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
     
-    lazy var searchBar = UISearchBar().then {
+    private lazy var searchBar = UISearchBar().then {
         $0.showsBookmarkButton = true
         $0.setImage(UIImage(named: "clearButton"), for: .clear, state: .normal)
         $0.setImage(UIImage(named: "search")?.withTintColor(.customColor(.gray3)), for: .bookmark, state: .normal)
@@ -218,13 +218,13 @@ extension SearchViewController {
             .map { $0.selectedPerfumeId }
             .compactMap { $0 }
             .bind(with: self, onNext: { owner, id in
-                owner.presentDatailViewController(id)
+                owner.presentDatailViewController(id, reactor.service)
             })
             .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
-    func configureUI() {
+    private func configureUI() {
         
         view.backgroundColor = .white
         
@@ -254,14 +254,14 @@ extension SearchViewController {
     // MARK: - functions
     
     // 입력받은 VC를 containerView에 호출
-    func changeViewController(_ vc: UIViewController) {
+    private func changeViewController(_ vc: UIViewController) {
         containerView.addSubview(vc.view)
         vc.view.frame = containerView.bounds
         vc.didMove(toParent: self)
     }
     
     // 입력받은 VC의 자식관계 해제
-    func removeChiledViewController(_ vc: UIViewController) {
+    private func removeChiledViewController(_ vc: UIViewController) {
         vc.willMove(toParent: self)
         vc.removeFromParent()
         vc.view.removeFromSuperview()

@@ -37,13 +37,12 @@ final class AppRequestInterceptor: RequestInterceptor {
         }
         
         LoginAPI.autoLoginToken { response in
-            print("response \(response.result)")
             switch response.result {
             case .success(var token):
                 token.existedMember = true
                 LoginManager.shared.tokenSubject.onNext(token)
                 KeychainManager.create(token: token)
-                print("성공")
+                print("토큰 갱신 성공")
                 completion(.retry)
             case .failure(let error):
                 completion(.doNotRetryWithError(error))

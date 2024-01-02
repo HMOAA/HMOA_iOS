@@ -21,18 +21,18 @@ class HomeCell: UICollectionViewCell, View {
     static let identifier = "HomeCell"
     
     // MARK: - Properties
-    let perfumeImageView = UIImageView().then {
+    private let perfumeImageView = UIImageView().then {
         $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8735057712, blue: 0.87650913, alpha: 0.3)
         $0.layer.cornerRadius = 3
         $0.contentMode = .scaleAspectFit
     }
     
-    let perfumeTitleLabel = UILabel().then {
-        $0.font = .customFont(.pretendard_medium, 10)
+    private let perfumeTitleLabel = UILabel().then {
+        $0.font = .customFont(.pretendard_medium, 12)
     }
     
-    let perfumeInfoLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 10)
+    private let perfumeInfoLabel = UILabel().then {
+        $0.font = .customFont(.pretendard, 12)
         $0.numberOfLines = 2
     }
     
@@ -67,7 +67,7 @@ extension HomeCell {
             .disposed(by: disposeBag)
     }
     
-    func configureUI() {
+    private func configureUI() {
         [perfumeImageView, perfumeTitleLabel, perfumeInfoLabel] .forEach { addSubview($0) }
         
         perfumeImageView.snp.makeConstraints {

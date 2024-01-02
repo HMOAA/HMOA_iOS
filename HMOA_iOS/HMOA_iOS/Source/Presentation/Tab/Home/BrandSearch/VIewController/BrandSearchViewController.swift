@@ -22,9 +22,9 @@ class BrandSearchViewController: UIViewController, View {
     
 
     // MARK: - UI Component
-    lazy var backButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
+    private lazy var backButton = UIButton().makeImageButton(UIImage(named: "backButton")!)
     
-    lazy var searchBar = UISearchBar().then {
+    private lazy var searchBar = UISearchBar().then {
         $0.showsBookmarkButton = true
         $0.setImage(UIImage(named: "clearButton"), for: .clear, state: .normal)
         $0.setImage(UIImage(named: "search")?.withTintColor(.customColor(.gray3)), for: .bookmark, state: .normal)
@@ -35,9 +35,9 @@ class BrandSearchViewController: UIViewController, View {
         $0.placeholder = "브랜드 검색"
     }
     
-    lazy var layout = UICollectionViewFlowLayout()
+    private lazy var layout = UICollectionViewFlowLayout()
 
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.register(BrandListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandListHeaderView.identifier)
         $0.register(BrandListCollectionViewCell.self, forCellWithReuseIdentifier: BrandListCollectionViewCell.identifier)
     }
@@ -135,7 +135,7 @@ extension BrandSearchViewController {
     
     // MARK: - Configure
     
-    func configureUI() {
+    private func configureUI() {
         
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -151,7 +151,7 @@ extension BrandSearchViewController {
         }
     }
     
-    func configureCollectionViewDataSource() {
+    private func configureCollectionViewDataSource() {
         dataSource = UICollectionViewDiffableDataSource<BrandListSection, BrandCell>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
             case .BrandItem(let brand):

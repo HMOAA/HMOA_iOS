@@ -98,7 +98,6 @@ class LoginReactor: NSObject, Reactor {
         
         return state
     }
-    //가격 내리고 카드 크기 줄이기
 }
 
 extension LoginReactor: ASAuthorizationControllerDelegate {

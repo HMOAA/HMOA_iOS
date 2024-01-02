@@ -11,7 +11,7 @@ class AppTabbarController: UITabBarController {
     
     // MARK: - Properties
     
-    let homeTab: UITabBarItem = {
+    private let homeTab: UITabBarItem = {
        
         let item = UITabBarItem()
         item.customTabBar(imageName: "home")
@@ -20,7 +20,7 @@ class AppTabbarController: UITabBarController {
         return item
     }()
     
-    let hPediaTab: UITabBarItem = {
+    private let hPediaTab: UITabBarItem = {
        
         let item = UITabBarItem()
         item.customTabBar(imageName: "HPeida")
@@ -28,7 +28,7 @@ class AppTabbarController: UITabBarController {
         return item
     }()
     
-    let likeTab: UITabBarItem = {
+    private let likeTab: UITabBarItem = {
        
         let item = UITabBarItem()
         item.customTabBar(imageName: "drawer")
@@ -36,7 +36,7 @@ class AppTabbarController: UITabBarController {
         return item
     }()
     
-    let myPageTab: UITabBarItem = {
+    private let myPageTab: UITabBarItem = {
        
         let item = UITabBarItem()
         item.customTabBar(imageName: "myPage")
@@ -54,7 +54,7 @@ class AppTabbarController: UITabBarController {
 
 extension AppTabbarController {
     
-    func configureTabbar() {
+    private func configureTabbar() {
         
         delegate = self
         
@@ -73,12 +73,13 @@ extension AppTabbarController {
         
         self.selectedIndex = 0
         view.backgroundColor = .white
-        tabBar.barTintColor = .black
-        tabBar.tintColor = .white
-        tabBar.backgroundColor = .black
+        tabBar.barTintColor = .white
+        tabBar.tintColor = .black
+        tabBar.backgroundColor = .white
         tabBar.isTranslucent = false
-        tabBar.unselectedItemTintColor = UIColor.customColor(.tabbarColor)
+        tabBar.unselectedItemTintColor = UIColor.customColor(.gray3)
         tabBar.layer.masksToBounds = true
+        tabBar.layer.addBorder([.top], color: .customColor(.gray1), width: 1)
         
         homeVC.tabBarItem = homeTab
         hPediaVC.tabBarItem = hPediaTab

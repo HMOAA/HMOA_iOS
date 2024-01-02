@@ -23,11 +23,11 @@ class HomeCellHeaderView: UICollectionReusableView, View{
     static let identifier = "HomeCellHeaderView"
     
     // MARK: - Properties
-    let titleLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 14)
+    private let titleLabel = UILabel().then {
+        $0.font = .customFont(.pretendard, 16)
     }
     
-    lazy var moreButton = UIButton().then {
+    private lazy var moreButton = UIButton().then {
         $0.setTitle("전체보기", for: .normal)
         $0.titleLabel!.font = .customFont(.pretendard_light, 12)
         $0.setTitleColor(.black, for: .normal)
@@ -46,7 +46,7 @@ class HomeCellHeaderView: UICollectionReusableView, View{
 }
 
 extension HomeCellHeaderView {
-    func configureUI() {
+    private func configureUI() {
         [   titleLabel,
             moreButton  ] .forEach { addSubview($0) }
         

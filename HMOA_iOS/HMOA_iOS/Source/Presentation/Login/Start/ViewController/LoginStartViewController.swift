@@ -14,11 +14,12 @@ import RxCocoa
 
 class LoginStartViewController: UIViewController {
 
-    let welcomLabel = UILabel().then {
+    // MARK: - UIComponents
+    private let welcomLabel = UILabel().then {
         $0.setLabelUI("환영합니다", font: .pretendard_medium, size: 30, color: .black)
     }
     
-    let explainLabel = UILabel().then {
+    private let explainLabel = UILabel().then {
         $0.numberOfLines = 2
         $0.setLabelUI(
                         """
@@ -30,14 +31,14 @@ class LoginStartViewController: UIViewController {
                         color: .black)
     }
     
-    let nextButton = UIButton().then {
+    private let nextButton = UIButton().then {
         $0.titleLabel?.font = .customFont(.pretendard_semibold, 16)
         $0.setTitle("다음", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .black
     }
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()

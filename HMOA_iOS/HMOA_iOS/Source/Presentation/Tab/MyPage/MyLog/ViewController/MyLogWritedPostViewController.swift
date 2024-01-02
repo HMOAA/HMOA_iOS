@@ -21,10 +21,23 @@ class MyLogWritedPostViewController: UIViewController, View {
     
     // MARK: - UIComponents
     
-    let layout = UICollectionViewFlowLayout()
+    private let layout = UICollectionViewFlowLayout()
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
+    }
+    
+    private lazy var noWriteView = NoLoginEmptyView(title:
+                                                """
+                                                작성한 게시글이
+                                                없습니다
+                                                """,
+                                             subTitle:
+                                                """
+                                                커뮤니티에서 게시글을 작성 해주세요
+                                                """,
+                                            buttonHidden:  true).then {
+        $0.isHidden = true
     }
     
     
@@ -44,6 +57,7 @@ class MyLogWritedPostViewController: UIViewController, View {
     }
     
     private func setAddView() {
+        //view.addSubview(noWriteView)
         view.addSubview(collectionView)
     }
     
@@ -51,10 +65,15 @@ class MyLogWritedPostViewController: UIViewController, View {
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
+//        noWriteView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
     }
     
     func bind(reactor: MyLogWritedPostReactor) {
         
+        // Action
         Observable.just(())
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
@@ -63,17 +82,46 @@ class MyLogWritedPostViewController: UIViewController, View {
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
+        collectionView.rx.willDisplayCell
+            .map {
+                let currentItem = $0.at.item
+                if (currentItem + 1) % 10 == 0 && currentItem != 0 {
+                    return currentItem / 10 + 1
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .map { Reactor.Action.willDisplayCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         collectionView.rx.itemSelected
             .map { Reactor.Action.didSelectedCell($0.row) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        
+        // State
         reactor.state
             .map { $0.writedPostItems }
             .bind(to: collectionView.rx.items(cellIdentifier: HPediaQnACell.identifier, cellType: HPediaQnACell.self)) { row, item, cell in
                 cell.isListCell = true
                 cell.configure(item)
             }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.writedPostItems.isEmpty }
+            .distinctUntilChanged()
+            .bind(with: self, onNext: { owner, isEmpty in
+                if isEmpty {
+                    owner.noWriteView.isHidden = false
+                    owner.collectionView.isHidden = true
+                } else {
+                    owner.noWriteView.isHidden = true
+                    owner.collectionView.isHidden = false
+                }
+            })
             .disposed(by: disposeBag)
         
         reactor.state

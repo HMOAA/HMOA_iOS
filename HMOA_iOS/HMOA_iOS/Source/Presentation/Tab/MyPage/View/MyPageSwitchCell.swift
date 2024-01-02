@@ -18,7 +18,7 @@ class MyPageSwitchCell: UITableViewCell {
     
     // MARK: - Properies
     
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard, 16)
         $0.textAlignment = .left
     }
@@ -44,7 +44,7 @@ class MyPageSwitchCell: UITableViewCell {
 
 extension MyPageSwitchCell {
     
-    func configureUI() {
+    private func configureUI() {
         [   titleLabel
         ]   .forEach { addSubview($0) }
         

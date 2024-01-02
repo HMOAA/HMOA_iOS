@@ -16,12 +16,12 @@ class MyPageCell: UITableViewCell {
     
     // MARK: - Properies
     
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard, 16)
         $0.textAlignment = .left
     }
     
-    lazy var rightArrowImageView = UIImageView().then {
+    private lazy var rightArrowImageView = UIImageView().then {
         $0.image = UIImage(named: "rightArrow")
     }
     

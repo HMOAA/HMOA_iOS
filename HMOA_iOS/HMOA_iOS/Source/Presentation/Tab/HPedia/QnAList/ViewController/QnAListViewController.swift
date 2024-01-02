@@ -18,20 +18,20 @@ import RxGesture
 class QnAListViewController: UIViewController, View {
 
     //MARK: - UI Components
-    let searchBar = UISearchBar().configureHpediaSearchBar()
+    private let searchBar = UISearchBar().configureHpediaSearchBar()
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureInitCollectionLayout(false)).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureInitCollectionLayout(false)).then {
         $0.register(QnAListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAListHeaderView.identifier)
         $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
     }
     
     
-    let floatingButton = UIButton().then {
+    private let floatingButton = UIButton().then {
         $0.setImage(UIImage(named: "addButton"), for: .normal)
         $0.setImage(UIImage(named: "selectedAddButton"), for: .selected)
     }
     
-    let recommendButton: UIButton = {
+    private let recommendButton: UIButton = {
         var config = UIButton.Configuration.plain()
         var titleAttr = AttributedString.init("추천")
         titleAttr.font = .customFont(.pretendard, 16)
@@ -46,7 +46,7 @@ class QnAListViewController: UIViewController, View {
         button.contentHorizontalAlignment = .leading
         return button
     }()
-    let reviewButton: UIButton = {
+    private let reviewButton: UIButton = {
         var config = UIButton.Configuration.plain()
         var titleAttr = AttributedString.init("시향기")
         titleAttr.font = .customFont(.pretendard, 16)
@@ -61,7 +61,7 @@ class QnAListViewController: UIViewController, View {
         return button
     }()
     
-    let etcButton: UIButton = {
+    private let etcButton: UIButton = {
         var config = UIButton.Configuration.plain()
         var titleAttr = AttributedString.init("자유")
         titleAttr.font = .customFont(.pretendard, 16)
@@ -75,9 +75,9 @@ class QnAListViewController: UIViewController, View {
         return button
     }()
     
-    lazy var floatingButtons = [recommendButton, reviewButton, etcButton]
+    private lazy var floatingButtons = [recommendButton, reviewButton, etcButton]
     
-    let floatingStackView = UIStackView().then {
+    private let floatingStackView = UIStackView().then {
         $0.alpha = 0
         $0.backgroundColor = .black
         $0.isHidden = true
@@ -86,7 +86,7 @@ class QnAListViewController: UIViewController, View {
         $0.axis = .vertical
     }
     
-    lazy var floatingView = UIView().then {
+    private lazy var floatingView = UIView().then {
         $0.frame = view.frame
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         $0.alpha = 0
@@ -96,7 +96,7 @@ class QnAListViewController: UIViewController, View {
     
     //MARK: - Properties
     var disposeBag = DisposeBag()
-    var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>!
+    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>!
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -171,9 +171,9 @@ class QnAListViewController: UIViewController, View {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
+            make.leading.bottom.trailing.equalToSuperview()
             make.top.equalTo(searchBar.snp.bottom)
-            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+            
         }
     }
     
@@ -324,10 +324,19 @@ class QnAListViewController: UIViewController, View {
             .distinctUntilChanged()
             .bind(with: self) { owner, isSearch in
                 owner.collectionView.collectionViewLayout = owner.configureInitCollectionLayout(isSearch)
+                
                 // header 보이게 collectinoview 이동
                 if !isSearch {
                     let newOffset = CGPoint(x: 0, y: 0)
                     owner.collectionView.setContentOffset(newOffset, animated: false)
+                    // collectionview bottom이 키보드 레이아웃에 따를 경우 collectionview item 변경이 바로 적용 안 되고 드래그 해야 적용 돼 검색 상태에 따라 업데이트
+                    owner.collectionView.snp.updateConstraints { make in
+                        make.bottom.equalToSuperview()
+                    }
+                } else {
+                    owner.collectionView.snp.updateConstraints { make in
+                        make.bottom.equalTo(owner.view.keyboardLayoutGuide.snp.top)
+                    }
                 }
             }
             .disposed(by: disposeBag)
@@ -345,7 +354,7 @@ class QnAListViewController: UIViewController, View {
         
     }
     
-    func bindHeader(_ header: QnAListHeaderView) {
+    private func bindHeader(_ header: QnAListHeaderView) {
         // Action
         
         // 카테고리 버튼 터치
@@ -361,7 +370,7 @@ class QnAListViewController: UIViewController, View {
 
 extension QnAListViewController {
     
-    func configureInitCollectionLayout(_ isSearch: Bool) -> UICollectionViewCompositionalLayout {
+    private func configureInitCollectionLayout(_ isSearch: Bool) -> UICollectionViewCompositionalLayout {
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -380,7 +389,7 @@ extension QnAListViewController {
         return layout
     }
     
-    func configureDatasource() {
+    private func configureDatasource() {
         datasource = UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
             case .qna(let data):
@@ -405,7 +414,7 @@ extension QnAListViewController {
         }
     }
     
-    func showAnimation(_ isTap: Bool) {
+    private func showAnimation(_ isTap: Bool) {
         floatingButton.isSelected = isTap
         //버튼, 뷰 숨기기
         if !isTap {
