@@ -18,13 +18,24 @@ class MyPageViewController: UIViewController, View {
 
     var reactor: MyPageReactor
     var disposeBag = DisposeBag()
-    let loginManger = LoginManager.shared
+    private let loginManger = LoginManager.shared
     
     // MARK: - UI Component
-    let myPageView = MyPageView()
-    let noLoginView = NoLoginView()
+    private let myPageView = MyPageView()
+    private let noLoginView = NoLoginEmptyView(title:
+                                            """
+                                            로그인이 필요한
+                                            페이지 입니다
+                                            """,
+                                       subTitle:
+                                            """
+                                            향모아의 회원이 되면
+                                            더 많은 기능을 사용할 수 있어요
+                                            """,
+                                       buttonHidden: false
+                                  )
 
-    var dataSource: UITableViewDiffableDataSource<MyPageSection, MyPageSectionItem>!
+    private var dataSource: UITableViewDiffableDataSource<MyPageSection, MyPageSectionItem>!
     
     init(reactor: MyPageReactor) {
         self.reactor = reactor
@@ -125,7 +136,7 @@ extension MyPageViewController {
             .disposed(by: disposeBag)
     }
     
-    func configureUI() {
+    private func configureUI() {
         noLoginView.isHidden = true
         [
             myPageView,
@@ -145,7 +156,7 @@ extension MyPageViewController {
         }
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         dataSource = UITableViewDiffableDataSource(tableView: myPageView.tableView, cellProvider: { tableView, indexPath, item in
             
             switch item {
@@ -183,6 +194,7 @@ extension MyPageViewController {
                 
                 self.reactor.state
                     .map { $0.isOnSwitch }
+                    .skip(1)
                     .compactMap { $0 }
                     .distinctUntilChanged()
                     .bind(with: self) { owner, isOn in
@@ -214,7 +226,7 @@ extension MyPageViewController {
         })
     }
     
-    func presentNextVC(_ type: MyPageType) {
+    private func presentNextVC(_ type: MyPageType) {
         
         switch type {
         case .myProfile:
@@ -271,7 +283,7 @@ extension MyPageViewController {
         }
     }
     
-    func setFirstView(_ isLogin: Bool) {
+    private func setFirstView(_ isLogin: Bool) {
         if !isLogin {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.noLoginView.isHidden = false

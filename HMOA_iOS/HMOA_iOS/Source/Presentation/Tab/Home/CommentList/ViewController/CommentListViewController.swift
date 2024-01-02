@@ -16,7 +16,6 @@ import RxAppState
 class CommentListViewController: UIViewController, View {
     
     // MARK: - Properties
-    var perfumeId: Int = 0
 
     private var dataSource: UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>?
     
@@ -26,18 +25,18 @@ class CommentListViewController: UIViewController, View {
 
     // MARK: - UI Component
     
-    let bottomView = CommentListBottomView()
+    private let bottomView = CommentListBottomView()
     
-    lazy var layout = UICollectionViewFlowLayout()
+    private lazy var layout = UICollectionViewFlowLayout()
     private var header: CommentListTopView!
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.alwaysBounceVertical = true
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
         $0.register(CommentListTopView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentListTopView.identifier)
     }
     
-    lazy var optionView = OptionView().then {
+    private lazy var optionView = OptionView().then {
         $0.reactor = OptionReactor()
         $0.parentVC = self
     }
@@ -157,10 +156,11 @@ extension CommentListViewController {
                     buttonTitle: "로그인 하러가기 ")
             })
             .disposed(by: disposeBag)
+        
        
     }
     
-    func bindHeader() {
+    private func bindHeader(_ header: CommentListTopView) {
                 
         // MARK: - bindHeader - Action
         
@@ -183,9 +183,18 @@ extension CommentListViewController {
             .map { "+" + String($0) }
             .bind(to: header.commentCountLabel.rx.text )
             .disposed(by: disposeBag)
+        
+        reactor?.state
+            .map { $0.sortType }
+            .map { $0 == "Latest" }
+            .bind(onNext: { isLatest in
+                header.recentSortButton.isSelected = isLatest
+                header.likeSortButton.isSelected = !isLatest
+            })
+            .disposed(by: disposeBag)
     }
     
-    func configureCollectionViewDataSource() {
+    private func configureCollectionViewDataSource() {
         
         dataSource = UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
@@ -219,7 +228,7 @@ extension CommentListViewController {
                 guard let commentListTopView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentListTopView.identifier, for: indexPath) as? CommentListTopView else { return UICollectionReusableView() }
                 
                 self.header = commentListTopView
-                self.bindHeader()
+                self.bindHeader(commentListTopView)
                 
                 return commentListTopView
                 
@@ -229,7 +238,7 @@ extension CommentListViewController {
         }
     }
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .white
         
         collectionView.rx.setDelegate(self)

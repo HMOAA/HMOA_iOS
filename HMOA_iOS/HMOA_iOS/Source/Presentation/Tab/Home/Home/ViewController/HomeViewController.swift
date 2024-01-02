@@ -21,34 +21,34 @@ class HomeViewController: UIViewController, View {
     private var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>!
     var disposeBag = DisposeBag()
     
-    let loginManager = LoginManager.shared
+    private let loginManager = LoginManager.shared
     
     // MARK: - UI Component
-    lazy var homeView = HomeView()
+    private lazy var homeView = HomeView()
     
-    lazy var indicatorImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-        $0.animationRepeatCount = 0
-        $0.animationDuration = 2
-        $0.animationImages = [
-            UIImage(named: "indicator1")!,
-            UIImage(named: "indicator2")!,
-            UIImage(named: "indicator3")!
-        ]
-    }
+//    private lazy var indicatorImageView = UIImageView().then {
+//        $0.contentMode = .scaleAspectFit
+//        $0.animationRepeatCount = 0
+//        $0.animationDuration = 2
+//        $0.animationImages = [
+//            UIImage(named: "indicator1")!,
+//            UIImage(named: "indicator2")!,
+//            UIImage(named: "indicator3")!
+//        ]
+//    }
     
-    let bellButton = UIButton().then {
+    private let bellButton = UIButton().then {
         $0.setImage(UIImage(named: "bellOn"), for: .selected)
         $0.setImage(UIImage(named: "bellOff"), for: .normal)
     }
     
-    lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
+    private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
         $0.customView?.snp.makeConstraints {
             $0.width.height.equalTo(30)
         }
     }
     
-    var headerViewReactor: HomeHeaderReactor!
+    private  var headerViewReactor: HomeHeaderReactor!
     
     //MARK: - Init
     
@@ -60,16 +60,6 @@ class HomeViewController: UIViewController, View {
         configureCollectionViewDataSource()
         bind(reactor: homeReactor)
     }
-    
-    // MARK: objc functions
-    
-    @objc func menuButtonClicked() {
-    }
-    
-    @objc func searchButtonClicked() {
-        presentSearchViewController()
-    }
-    
 }
 
 // MARK: - Functions
@@ -195,7 +185,7 @@ extension HomeViewController {
         
     }
     
-    func bindHeader(reactor: HomeHeaderReactor) {
+    private func bindHeader(reactor: HomeHeaderReactor) {
         
         // MARK: - Action
         
@@ -209,7 +199,7 @@ extension HomeViewController {
             .disposed(by: disposeBag)
     }
     
-    func configureCollectionViewDataSource() {
+    private func configureCollectionViewDataSource() {
         dataSource = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem> (collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {
@@ -238,7 +228,7 @@ extension HomeViewController {
                 }
                                 
                 if indexPath.section == 1 {
-                    firstCell.bindUI(data)
+                    firstCell.bindUI(data, indexPath.row)
                     return firstCell
                 } else {
                     otherCell.bindUI(data)
@@ -275,23 +265,18 @@ extension HomeViewController {
         }
     }
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = UIColor.white
         
         homeView.collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        [homeView, indicatorImageView] .forEach { view.addSubview($0) }
+        [homeView] .forEach { view.addSubview($0) }
 
         homeView.snp.makeConstraints {
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
-        }
-        
-        indicatorImageView.snp.makeConstraints { make in
-            make.centerY.centerX.equalToSuperview()
-            make.width.height.equalTo(110)
         }
     }
 }

@@ -17,25 +17,25 @@ class ChangeYearViewConroller: UIViewController, View {
 
     // MARK: - Properties
     
-    var reactor: ChangeYearReactor
+    private var reactor: ChangeYearReactor
     var disposeBag = DisposeBag()
-    let yearList = Year().year
+    private let yearList = Year().year
 
     // MARK: - UI Component
     
-    let birthYearLabel = UILabel().then {
+    private let birthYearLabel = UILabel().then {
         $0.setLabelUI("출생연도", font: .pretendard_medium, size: 16, color: .black)
     }
     
-    let selectYearView = UIView()
-    let selectLabel = UILabel().then {
+    private let selectYearView = UIView()
+    private let selectLabel = UILabel().then {
         $0.setLabelUI("선택", font: .pretendard, size: 16, color: .gray3)
     }
-    let selectYearButton = UIButton().then {
+    private let selectYearButton = UIButton().then {
         $0.setImage(UIImage(named: "downPolygon"), for: .normal)
     }
     
-    let changeButton = UIButton().then {
+    private let changeButton = UIButton().then {
         $0.setProfileChangeBottomView()
     }
     
@@ -174,7 +174,7 @@ extension ChangeYearViewConroller {
     //MARK: - Functions
 
     //selectLabel, changeButton UI 변경
-    func updateUIStartAndYear(_ year: String) {
+    private func updateUIStartAndYear(_ year: String) {
         if year != "선택" {
             selectLabel.textColor = .black
             changeButton.backgroundColor = .black
@@ -188,7 +188,7 @@ extension ChangeYearViewConroller {
         }
     }
     
-    func presentSelectYear() -> ChoiceYearViewController {
+    private func presentSelectYear() -> ChoiceYearViewController {
         let choiceYearReactor = self.reactor.reactorForChoiceYear()
         
         let vc = ChoiceYearViewController(reactor: choiceYearReactor)

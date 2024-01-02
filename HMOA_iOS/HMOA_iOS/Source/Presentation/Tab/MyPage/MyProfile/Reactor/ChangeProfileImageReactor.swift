@@ -20,6 +20,7 @@ class ChangeProfileImageReactor: Reactor {
         case didTapChangeButton(UIImage?)
         case didTapDuplicateButton(String?)
         case didTapTextFieldReturn
+        case didBeginEditingNickname(String)
     }
     
     enum Mutation {
@@ -84,6 +85,9 @@ class ChangeProfileImageReactor: Reactor {
                 .just(.setIsTapReturn(true)),
                 .just(.setIsTapReturn(false))
             ])
+            
+        case .didBeginEditingNickname(let nickname):
+            return .just(.setNickname(nickname))
         }
     }
     

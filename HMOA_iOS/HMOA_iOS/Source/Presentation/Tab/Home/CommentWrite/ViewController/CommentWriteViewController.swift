@@ -20,27 +20,27 @@ class CommentWriteViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     // MARK: - UI Component
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.text = "댓글"
         $0.font = .customFont(.pretendard_medium, 20)
         $0.textColor = .black
     }
     
-    let cancleButton = UIButton().then {
+    private let cancleButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 16)
         $0.setTitleColor(.black, for: .normal)
         $0.tintColor = .black
     }
     
-    let okButton = UIButton().then {
+    private let okButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 16)
         $0.setTitleColor(.black, for: .normal)
         $0.tintColor = .black
     }
     
-    lazy var textView = UITextView().then {
+    private lazy var textView = UITextView().then {
         $0.font = .customFont(.pretendard, 14)
         $0.textAlignment = .left
     }
@@ -51,6 +51,12 @@ class CommentWriteViewController: UIViewController, View {
         super.viewDidLoad()
         configureUI()
         setOkCancleNavigationBar(okButton: okButton, cancleButton: cancleButton, titleLabel: titleLabel)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        textView.resignFirstResponder()
+        
     }
 }
 
@@ -95,16 +101,6 @@ extension CommentWriteViewController {
             .disposed(by: disposeBag)
         
         // MARK: - State
-//        
-//        // 화면 Pop
-//        reactor.state
-//            .map { $0.isPopVC }
-//            .distinctUntilChanged()
-//            .filter { $0 }
-//            .map { _ in }
-//            .bind(onNext: self.popViewController)
-//            .disposed(by: disposeBag)
-        
         
         // 사용자가 입력 종료 (textView 비활성화)
         reactor.state
@@ -137,7 +133,7 @@ extension CommentWriteViewController {
             .disposed(by: disposeBag)
     }
     
-    func configureUI() {
+    private func configureUI() {
         
         view.backgroundColor = .white
         view.addSubview(textView)

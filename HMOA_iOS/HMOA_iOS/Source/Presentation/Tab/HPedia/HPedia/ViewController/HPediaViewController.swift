@@ -18,7 +18,7 @@ import RxAppState
 class HPediaViewController: UIViewController, View {
     
     //MARK: - Properties
-    lazy var hPediaCollectionView = UICollectionView(frame: .zero,
+    private lazy var hPediaCollectionView = UICollectionView(frame: .zero,
                                                 collectionViewLayout: configureLayout()).then {
         $0.register(HPediaQnAHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier)
         $0.register(HPediaQnACell.self,
@@ -26,7 +26,7 @@ class HPediaViewController: UIViewController, View {
         $0.register(HPediaDictionaryCell.self,
                     forCellWithReuseIdentifier: HPediaDictionaryCell.identifier)
     }
-    lazy var searchBar = UISearchBar().then {
+    private lazy var searchBar = UISearchBar().then {
         $0.showsBookmarkButton = true
         $0.setImage(UIImage(named: "clearButton"), for: .clear, state: .normal)
         $0.setImage(UIImage(), for: .search, state: .normal)
@@ -40,7 +40,7 @@ class HPediaViewController: UIViewController, View {
     //MARK: - Properties
     private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>!
     var disposeBag = DisposeBag()
-    let reactor = HPediaReactor()
+    private let reactor = HPediaReactor()
     
     
     //MARK: - LifeCycle
@@ -150,7 +150,7 @@ class HPediaViewController: UIViewController, View {
 //MARK: - CollectionView Configure
 extension HPediaViewController {
     
-    func configureDatasource () {
+    private func configureDatasource () {
         datasource = UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>(collectionView: hPediaCollectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
             case .qna(let data):

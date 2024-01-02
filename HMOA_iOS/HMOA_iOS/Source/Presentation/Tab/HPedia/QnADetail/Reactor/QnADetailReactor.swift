@@ -143,7 +143,9 @@ class QnADetailReactor: Reactor {
             if state.commentCount == 0 {
                 state.commentItem = [comment]
                 state.communityItems.commentItem = [comment]
-            } else {
+            }
+            // 페이징으로 아이템을 받으므로 페이징으로 댓글을 받지 않았을 경우에 append
+            else if state.commentItem.count >= state.commentCount! - 1 {
                 state.communityItems.commentItem.append(comment)
                 state.commentItem.append(comment)
             }

@@ -20,16 +20,16 @@ class ImagePinchViewController: UIViewController, View {
 
     var disposeBag = DisposeBag()
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         $0.backgroundColor = .black
         $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
-    let xButton = UIButton().then {
+    private let xButton = UIButton().then {
         $0.setImage(UIImage(named: "x"), for: .normal)
     }
     
-    var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>!
+    private var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>!
     
     override func viewDidLoad() {
         super.viewDidLoad()

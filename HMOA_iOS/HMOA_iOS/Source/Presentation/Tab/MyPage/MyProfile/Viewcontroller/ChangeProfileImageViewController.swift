@@ -20,30 +20,30 @@ class ChangeProfileImageViewController: UIViewController, View {
     typealias Reactor = ChangeProfileImageReactor
     var disposeBag = DisposeBag()
     
-    lazy var changeProfileImageButton: UIButton = UIButton().then {
+    private lazy var changeProfileImageButton: UIButton = UIButton().then {
         $0.setImage(UIImage(named: "addProfile"), for: .normal)
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 36
     }
     
 
-    var pickerViewConfig: PHPickerConfiguration = {
+    private var pickerViewConfig: PHPickerConfiguration = {
        var config = PHPickerConfiguration()
         config.filter = .images
         
         return config
     }()
     
-    lazy var pickerView: PHPickerViewController = {
+    private lazy var pickerView: PHPickerViewController = {
        
         let pickerView = PHPickerViewController(configuration: pickerViewConfig)
         
         return pickerView
     }()
     
-    lazy var nicknameView = NicknameView("변경")
+    private lazy var nicknameView = NicknameView("변경")
     
-    var tqwe: UILabel = {
+    private var tqwe: UILabel = {
        var label = UILabel()
         
         return label
@@ -96,6 +96,16 @@ extension ChangeProfileImageViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // nicknameTextView text 이벤트
+        nicknameView.nicknameTextField.rx.text
+            .orEmpty
+            .map { ChangeProfileImageReactor.Action.didBeginEditingNickname($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        
+        // State
+        
         //닉네임 캡션 라벨 변경
         reactor.state
             .map { $0.isDuplicate }
@@ -141,8 +151,6 @@ extension ChangeProfileImageViewController {
             .bind(to: nicknameView.nicknameTextField.rx.text)
             .disposed(by: disposeBag)
 
-        // state
-        
         // 프로필 이미지 바인딩
         reactor.state
             .map { $0.profileImage }
@@ -170,10 +178,28 @@ extension ChangeProfileImageViewController {
                 self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
+        
+        // 닉네임 길이 제한
+        reactor.state
+            .map { $0.nickname }
+            .compactMap { $0 }
+            .map { text in
+                if text.count > 8 {
+                    let index = text.index(text.startIndex, offsetBy: 8)
+                    return String(text[..<index])
+                } else {
+                    return text
+                }
+            }
+            .bind(with: self, onNext: { owner, text in
+                owner.nicknameView.nicknameTextField.text = text
+                owner.nicknameView.nicknameCountLabel.text = "\(text.count)/8"
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
-    func configureUI() {
+    private func configureUI() {
         
         view.backgroundColor = .white
         pickerView.delegate = self
@@ -230,7 +256,7 @@ extension ChangeProfileImageViewController: PHPickerViewControllerDelegate {
 
 extension ChangeProfileImageViewController {
     
-    func setEnableChangeButton() {
+    private func setEnableChangeButton() {
         nicknameView.bottomButton.backgroundColor = .black
         nicknameView.bottomButton.isEnabled = true
     }

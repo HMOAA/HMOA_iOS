@@ -12,7 +12,6 @@ import Then
 import RxCocoa
 import RxSwift
 import ReactorKit
-import RxDataSources
 
 class ChoiceYearViewController: UIViewController, View {
     
@@ -22,19 +21,18 @@ class ChoiceYearViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     let yearList = Year().year
 
-    // MARK: - UI Component
-    
-    let xButton = UIButton().then {
+    // MARK: - UIComponents
+    private let xButton = UIButton().then {
         $0.setImage(UIImage(named: "x"), for: .normal)
     }
     
-    let birthYearLabel = UILabel().then {
+    private let birthYearLabel = UILabel().then {
         $0.setLabelUI("출생 연도", font: .pretendard, size: 16, color: .black)
     }
     
-    let yearPicker = UIPickerView()
+    private let yearPicker = UIPickerView()
     
-    let okButton = UIButton().then {
+    private let okButton = UIButton().then {
         $0.titleLabel?.font = .customFont(.pretendard_semibold, 16)
         $0.setTitle("확인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
@@ -42,7 +40,6 @@ class ChoiceYearViewController: UIViewController, View {
     }
 
     // MARK: - init
-    
     init(reactor: ChoiceYearReactor) {
         self.reactor = reactor
         super.init(nibName: nil, bundle: nil)
@@ -52,6 +49,7 @@ class ChoiceYearViewController: UIViewController, View {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,6 +77,7 @@ class ChoiceYearViewController: UIViewController, View {
         
     }
     
+    // MARK: - SetUp
     private func setUpUI() {
         yearPicker.dataSource = self
         view.backgroundColor = .white

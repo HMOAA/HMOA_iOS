@@ -15,16 +15,16 @@ class BrandListCollectionViewCell: UICollectionViewCell {
     static let identifier = "BrandListCollectionViewCell"
     
     // MARK: - UI Component
-    lazy var brandImageBorderView = UIView().then {
+    private lazy var brandImageBorderView = UIView().then {
         $0.layer.cornerRadius = 3
         $0.layer.borderWidth = 2
         $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
     }
-    lazy var brandImageView = UIImageView().then {
+    private lazy var brandImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
     
-    lazy var brandLabel = UILabel().then {
+    private lazy var brandLabel = UILabel().then {
         $0.numberOfLines = 2
         $0.font = .customFont(.pretendard, 14)
     }

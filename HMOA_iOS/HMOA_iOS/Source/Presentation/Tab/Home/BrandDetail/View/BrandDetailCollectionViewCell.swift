@@ -20,23 +20,23 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
 
     // MARK: - UI Component
     
-    lazy var productImageView = UIImageView().then {
+    private lazy var productImageView = UIImageView().then {
         $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8735057712, blue: 0.87650913, alpha: 0.3)
         $0.layer.cornerRadius = 3
         $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
         $0.contentMode = .scaleAspectFit
     }
     
-    var titleLabel = UILabel().then {
+    private var titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 14)
     }
     
-    var contentLabel = UILabel().then {
+    private var contentLabel = UILabel().then {
         $0.numberOfLines = 2
         $0.font = .customFont(.pretendard, 12)
     }
     
-    lazy var likeButton = UIButton().then {
+    private lazy var likeButton = UIButton().then {
         $0.makeLikeButton()
     }
     
@@ -54,7 +54,7 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
 extension BrandDetailCollectionViewCell {
 
     // MARK: - Configure
-    func configureUI() {
+    private func configureUI() {
         [   productImageView,
             titleLabel,
             contentLabel,

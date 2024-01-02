@@ -14,16 +14,19 @@ class MyLogWritedPostReactor: Reactor {
     enum Action {
         case viewDidLoad
         case didSelectedCell(Int)
+        case willDisplayCell(Int)
     }
     
     enum Mutation {
         case setWritedPostItems([CategoryList])
         case setSelectedId(Int?)
+        case setLoadedPage(Int)
     }
     
     struct State {
         var writedPostItems: [CategoryList] = []
         var selectedId: Int? = nil
+        var loadedPage: Set<Int> = []
     }
     
     init() {
@@ -33,13 +36,16 @@ class MyLogWritedPostReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return setWritedPostItems()
+            return setWritedPostItems(0)
             
         case .didSelectedCell(let row):
             return .concat([
                 .just(.setSelectedId(row)),
                 .just(.setSelectedId(nil))
             ])
+            
+        case .willDisplayCell(let page):
+            return setWritedPostItems(page)
         }
     }
     
@@ -53,6 +59,9 @@ class MyLogWritedPostReactor: Reactor {
             if let row = row {
                 state.selectedId = state.writedPostItems[row].communityId
             }
+            
+        case .setLoadedPage(let page):
+            state.loadedPage.insert(page)
         }
         
         return state
@@ -60,9 +69,20 @@ class MyLogWritedPostReactor: Reactor {
 }
 
 extension MyLogWritedPostReactor {
-    func setWritedPostItems() -> Observable<Mutation> {
-        return MemberAPI.fetchWritedPosts(["page": 0])
+    func setWritedPostItems(_ page: Int) -> Observable<Mutation> {
+        
+        if currentState.loadedPage.contains(page) { return .empty() }
+        
+        return MemberAPI.fetchWritedPosts(["page": page])
             .catch { _ in .empty() }
-            .map { .setWritedPostItems($0) }
+            .flatMap { data -> Observable<Mutation> in
+                var item = self.currentState.writedPostItems
+                item.append(contentsOf: data)
+                
+                return .concat(
+                    .just(.setLoadedPage(page)),
+                    .just(.setWritedPostItems(item))
+                )
+            }
     }
 }

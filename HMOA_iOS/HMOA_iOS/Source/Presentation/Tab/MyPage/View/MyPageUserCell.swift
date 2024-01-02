@@ -17,16 +17,16 @@ class MyPageUserCell: UITableViewCell {
     
     // MARK: - Properties
 
-    lazy var profileImage = UIImageView().then {
+    private lazy var profileImage = UIImageView().then {
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 22
     }
     
-    lazy var nickNameLabel = UILabel().then {
+    private lazy var nickNameLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 20)
     }
     
-    lazy var loginTypeLabel = UILabel().then {
+    private lazy var loginTypeLabel = UILabel().then {
         $0.font = .customFont(.pretendard_light, 12)
     }
     

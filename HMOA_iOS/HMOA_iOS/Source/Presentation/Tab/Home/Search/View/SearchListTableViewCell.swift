@@ -14,7 +14,7 @@ class SearchListTableViewCell: UITableViewCell {
     
     // MARK: - UI Component
     
-    var titleLabel = UILabel().then {
+    private var titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_light, 14)
     }
     

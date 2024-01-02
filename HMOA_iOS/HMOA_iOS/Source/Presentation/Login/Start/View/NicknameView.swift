@@ -11,11 +11,12 @@ import Then
 
 class NicknameView: UIView {
     
-    let nicknameLabel = UILabel().then {
+    // MARK: - UIComponents
+    private let nicknameLabel = UILabel().then {
         $0.setLabelUI("닉네임", font: .pretendard_medium, size: 14, color: .gray4)
     }
     
-    let nicknameHorizontalStackView = UIStackView().then {
+    private let nicknameHorizontalStackView = UIStackView().then {
         $0.setStackViewUI(spacing: 8, axis: .horizontal)
     }
     
@@ -36,7 +37,7 @@ class NicknameView: UIView {
         $0.titleLabel?.font = .customFont(.pretendard_light, 14)
     }
     
-    let nicknameCaptionLabel = PaddingLabel().then {
+    let nicknameCaptionLabel = UILabel().then {
         $0.setLabelUI("닉네임 제한 캡션입니다.", font: .pretendard_light, size: 12, color: .gray4)
     }
     
@@ -44,6 +45,7 @@ class NicknameView: UIView {
         $0.setProfileChangeBottomView()
     }
     
+    // MARK: - Init
     init(_ bottomButtonTitle: String) {
         super.init(frame: .zero)
         self.bottomButton.setTitle(bottomButtonTitle, for: .normal)
@@ -57,7 +59,7 @@ class NicknameView: UIView {
 
 extension NicknameView {
     
-    func configureUI() {
+    private func configureUI() {
         
         nicknameTextField.addSubview(nicknameCountLabel)
         

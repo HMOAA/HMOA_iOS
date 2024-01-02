@@ -12,7 +12,6 @@ import Then
 class HomeView: UIView {
         
     // MARK: - Properties
-    let scrollView = UIScrollView()
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
         $0.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.identifier)
@@ -38,7 +37,7 @@ class HomeView: UIView {
 
 extension HomeView {
     
-    func configureUI() {
+    private func configureUI() {
         [collectionView] .forEach { addSubview($0) }
 
         collectionView.snp.makeConstraints {
@@ -46,7 +45,7 @@ extension HomeView {
         }
     }
     
-    func homeTopCellCompositionalLayout() -> NSCollectionLayoutSection {
+    private func homeTopCellCompositionalLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1.3778))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -61,7 +60,7 @@ extension HomeView {
         return section
     }
     
-    func homeCellCompositionalLayout() -> NSCollectionLayoutSection {
+    private func homeCellCompositionalLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .absolute(126))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 1.5)
@@ -82,7 +81,7 @@ extension HomeView {
         return section
     }
     
-    func homeFirstCellCompositionalLayout() -> NSCollectionLayoutSection {
+    private func homeFirstCellCompositionalLayout() -> NSCollectionLayoutSection {
         
         let leftTopItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.55)))
         
@@ -124,7 +123,7 @@ extension HomeView {
         return section
     }
     
-    func createLayout() -> UICollectionViewCompositionalLayout {
+    private func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
             
             switch sectionIndex {

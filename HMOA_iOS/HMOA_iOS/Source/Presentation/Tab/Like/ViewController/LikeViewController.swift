@@ -15,14 +15,14 @@ import ReactorKit
 class LikeViewController: UIViewController, View {
     
     //MARK: - Property
-    let reactor = LikeReactor()
+    private let reactor = LikeReactor()
     var disposeBag = DisposeBag()
     
     private var cardDatasource: UICollectionViewDiffableDataSource<LikeSection, Like>!
     private var listDatasource: UICollectionViewDiffableDataSource<LikeSection, Like>!
 
     
-    lazy var cardCollectionView = UICollectionView(frame: .zero,
+    private lazy var cardCollectionView = UICollectionView(frame: .zero,
                                                    collectionViewLayout: configureCardLayout()).then {
         $0.isScrollEnabled = false
         $0.showsHorizontalScrollIndicator = false
@@ -31,25 +31,26 @@ class LikeViewController: UIViewController, View {
         $0.register(LikeHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LikeHeaderView.identifier)
     }
     
-    lazy var listCollectionView = UICollectionView(frame: .zero,
+    private lazy var listCollectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: configureListLayout()).then {
+        $0.isHidden = true
         $0.register(LikeHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LikeHeaderView.identifier)
         $0.register(LikeListCell.self, forCellWithReuseIdentifier: LikeListCell.identifier)
     }
     
-    lazy var noLikeView = UIView().then {
+    private lazy var noLikeView = UIView().then {
         $0.isHidden = true
     }
     
-    lazy var perfumeImageView = UIImageView().then {
+    private lazy var perfumeImageView = UIImageView().then {
         $0.image = UIImage(named: "noLike")
     }
     
-    lazy var noLikeLabel = UILabel().then {
+    private lazy var noLikeLabel = UILabel().then {
         $0.setLabelUI("저장된 향수가 없습니다", font: .pretendard_medium, size: 24, color: .black)
     }
     
-    lazy var saveLabel = UILabel().then {
+    private lazy var saveLabel = UILabel().then {
         $0.setLabelUI("좋아하는 향수를 저장해주세요", font: .pretendard, size: 16, color: .black)
     }
     
@@ -84,9 +85,9 @@ class LikeViewController: UIViewController, View {
         
         
         [
-            noLikeView,
+            listCollectionView,
             cardCollectionView,
-            listCollectionView
+            noLikeView
         ]   .forEach { view.addSubview($0) }
     }
     
@@ -151,7 +152,6 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.sectionItem }
             .distinctUntilChanged()
-            .filter { !$0.isEmpty }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
 
@@ -187,7 +187,11 @@ class LikeViewController: UIViewController, View {
             .bind(with: self, onNext: { owner, isHidden in
                 if let isHidden = isHidden {
                     owner.noLikeView.isHidden = isHidden
-                    owner.cardCollectionView.isHidden = !isHidden
+                    if reactor.currentState.isSelectedCard {
+                        owner.cardCollectionView.isHidden = !isHidden
+                    } else {
+                        owner.listCollectionView.isHidden = !isHidden
+                    }
                 } else {
                     owner.noLikeView.isHidden = true
                     owner.cardCollectionView.isHidden = true
@@ -211,7 +215,7 @@ class LikeViewController: UIViewController, View {
       
     }
     
-    func bindHeaderView(headerView: LikeHeaderView) {
+    private func bindHeaderView(headerView: LikeHeaderView) {
         
         //카드버튼 터치 이벤트
         headerView.cardButton.rx.tap
@@ -242,7 +246,7 @@ class LikeViewController: UIViewController, View {
 
 extension LikeViewController {
     
-    func configureCardDataSource() {
+    private func configureCardDataSource() {
         cardDatasource = UICollectionViewDiffableDataSource<LikeSection, Like>(collectionView: cardCollectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCardCell.identifier, for: indexPath) as? LikeCardCell
             else { return UICollectionViewCell() }
@@ -262,7 +266,7 @@ extension LikeViewController {
         }
     }
     
-    func configureListDataSource() {
+    private func configureListDataSource() {
         listDatasource = UICollectionViewDiffableDataSource<LikeSection, Like> (collectionView: listCollectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeListCell.identifier, for: indexPath) as? LikeListCell
             else { return UICollectionViewCell() }
@@ -324,7 +328,7 @@ extension LikeViewController {
         return layout
     }
     
-    func configureHeader(_ collectionView: UICollectionView, _ kind: String, _ indexPath: IndexPath) -> UICollectionReusableView {
+    private func configureHeader(_ collectionView: UICollectionView, _ kind: String, _ indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LikeHeaderView.identifier, for: indexPath) as? LikeHeaderView else { return UICollectionReusableView() }
         
         self.bindHeaderView(headerView: header)

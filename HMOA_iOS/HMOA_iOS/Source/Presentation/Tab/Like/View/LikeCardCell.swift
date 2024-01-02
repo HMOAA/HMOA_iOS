@@ -13,44 +13,44 @@ import RxSwift
 
 class LikeCardCell: UICollectionViewCell {
     
-    // MARK: - Property
+    // MARK: - UIComponents
     static let identifier = "LikeCardCell"
     
-    let topView = UIView().then {
+    private let topView = UIView().then {
         $0.backgroundColor = .black
     }
     let xButton = UIButton().then {
         $0.setImage(UIImage(named: "x"), for: .normal)
     }
     
-    let brandNameLabel = UILabel().then {
+    private let brandNameLabel = UILabel().then {
         $0.setLabelUI("",
                       font: .pretendard_medium,
                       size: 14,
                       color: .white)
     }
     
-    let perpumeImageView = UIImageView().then {
+    private let perpumeImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
     }
     
-    let layout = UICollectionViewFlowLayout().then {
+    private let layout = UICollectionViewFlowLayout().then {
         $0.itemSize = CGSize(width: 50, height: 18)
         $0.minimumLineSpacing = 4
         $0.scrollDirection = .horizontal
     }
     
-    let nameStackView = UIStackView().then {
+    private let nameStackView = UIStackView().then {
         $0.distribution = .fillProportionally
         $0.setStackViewUI(spacing: 8)
     }
-    let korNameLabel = UILabel().then {
+    private let korNameLabel = UILabel().then {
         $0.setLabelUI("",
                       font: .pretendard, size: 14, color: .black)
     }
     
-    let engNameLabel = UILabel().then {
+    private let engNameLabel = UILabel().then {
         $0.sizeToFit()
         
         $0.setLabelUI("",
@@ -59,21 +59,21 @@ class LikeCardCell: UICollectionViewCell {
                       color: .black)
     }
     
-    let priceTextLabel = UILabel().then {
+    private let priceTextLabel = UILabel().then {
         $0.setLabelUI("Price",
                       font: .pretendard,
                       size: 14,
                       color: .black)
     }
     
-    let priceLabel = UILabel().then {
+    private let priceLabel = UILabel().then {
         $0.setLabelUI("",
                       font: .pretendard,
                       size: 14,
                       color: .black)
     }
     
-    let shadowView = UIView().then {
+    private let shadowView = UIView().then {
         
         $0.backgroundColor = .white
         $0.layer.borderWidth = 1
@@ -92,7 +92,6 @@ class LikeCardCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super .init(frame: frame)
         
-        setUpUI()
         setAddView()
         setConstraints()
         
@@ -117,10 +116,6 @@ class LikeCardCell: UICollectionViewCell {
     
     
     //MARK: - SetUp
-    private func setUpUI() {
-        
-    }
-    
     private func setAddView() {
         
         addSubview(shadowView)
