@@ -20,27 +20,27 @@ class CommentWriteViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     // MARK: - UI Component
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.text = "댓글"
         $0.font = .customFont(.pretendard_medium, 20)
         $0.textColor = .black
     }
     
-    let cancleButton = UIButton().then {
+    private let cancleButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 16)
         $0.setTitleColor(.black, for: .normal)
         $0.tintColor = .black
     }
     
-    let okButton = UIButton().then {
+    private let okButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 16)
         $0.setTitleColor(.black, for: .normal)
         $0.tintColor = .black
     }
     
-    lazy var textView = UITextView().then {
+    private lazy var textView = UITextView().then {
         $0.font = .customFont(.pretendard, 14)
         $0.textAlignment = .left
     }
@@ -133,7 +133,7 @@ extension CommentWriteViewController {
             .disposed(by: disposeBag)
     }
     
-    func configureUI() {
+    private func configureUI() {
         
         view.backgroundColor = .white
         view.addSubview(textView)

@@ -27,7 +27,7 @@ extension SearchListViewController {
     
     // MARK: - Configure
     
-    func configureUI() {
+    private func configureUI() {
         
         view.addSubview(tableView)
                 

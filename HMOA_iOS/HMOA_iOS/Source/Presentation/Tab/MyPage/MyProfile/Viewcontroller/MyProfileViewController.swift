@@ -14,13 +14,13 @@ import ReactorKit
 
 class MyProfileViewController: UIViewController, View {
     
-    var reactor: MyProfileReactor
+    private var reactor: MyProfileReactor
     var disposeBag = DisposeBag()
     
-    var dataSource: UITableViewDiffableDataSource<MyProfileSection, MyProfileItem>!
+    private var dataSource: UITableViewDiffableDataSource<MyProfileSection, MyProfileItem>!
 
     // MARK: - UI Component
-    lazy var tableView = UITableView(frame: .zero, style: .plain).then {
+    private lazy var tableView = UITableView(frame: .zero, style: .plain).then {
         $0.register(MyPageSeparatorLineView.self, forHeaderFooterViewReuseIdentifier: MyPageSeparatorLineView.ientfifier)
         $0.register(MyPageCell.self, forCellReuseIdentifier: MyPageCell.identifier)
         $0.separatorStyle = .none
@@ -99,7 +99,7 @@ extension MyProfileViewController {
     
     // MARK: - Configure
     
-    func configureUI() {
+    private func configureUI() {
         
         view.addSubview(tableView)
         
@@ -111,7 +111,7 @@ extension MyProfileViewController {
         }
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         dataSource = UITableViewDiffableDataSource<MyProfileSection, MyProfileItem>(tableView: tableView, cellProvider: { tableView, indexPath, item in
             
             switch item {
@@ -126,7 +126,7 @@ extension MyProfileViewController {
         })
     }
     
-    func presentNextVC(_ type: MyProfileType) {
+    private func presentNextVC(_ type: MyProfileType) {
         switch type {
         case .year:
             let changeYearReactor = reactor.reactorForChangeYear()
@@ -139,9 +139,6 @@ extension MyProfileViewController {
             changeSexVC.reactor = reactor.reactorForChangeSex()
             
             self.navigationController?.pushViewController(changeSexVC, animated: true)
-            
-        default:
-            break
         }
     }
 }

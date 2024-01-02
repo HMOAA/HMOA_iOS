@@ -18,33 +18,32 @@ class CommentCell: UICollectionViewCell {
     static let identifier = "CommentCell"
     
     // MARK: - Properties
-    lazy var subView = UIView().then {
+    private lazy var subView = UIView().then {
         $0.layer.cornerRadius = 10
         $0.isHidden = true
         $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
         $0.layer.borderWidth = 1
     }
     
-    lazy var userImageView = UIImageView().then {
+    private lazy var userImageView = UIImageView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 28 / 2
     }
     
-    lazy var userNameLabel = UILabel().then {
+    private lazy var userNameLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard, 14)
     }
     
-    lazy var contentLabel = UILabel().then {
+    private lazy var contentLabel = UILabel().then {
         $0.numberOfLines = 2
         $0.font = UIFont.customFont(.pretendard, 14)
     }
     
-//    lazy var likeView = LikeView()
     lazy var commentLikeButton = UIButton().then {
         $0.makeLikeButton()
     }
     
-    lazy var noCommentLabel = UILabel().then {
+    private lazy var noCommentLabel = UILabel().then {
         $0.isHidden = true
         $0.setLabelUI("해당 제품의 의견을 남겨주세요",
                       font: .pretendard_light,
@@ -52,7 +51,7 @@ class CommentCell: UICollectionViewCell {
                       color: .gray3)
     }
     
-    lazy var communityNoCommentLabel = UILabel().then {
+    private lazy var communityNoCommentLabel = UILabel().then {
         $0.isHidden = true
         $0.setLabelUI("아직 작성한 댓글이 없습니다",
                       font: .pretendard_medium,
@@ -120,7 +119,7 @@ extension CommentCell {
         }
     }
     
-    func configureUI() {
+    private func configureUI() {
         
         addSubview(subView)
         addSubview(noCommentLabel)
@@ -179,7 +178,7 @@ extension CommentCell {
         
     }
     
-    func setLikeButtonText(_ text: String) -> AttributedString {
+    private func setLikeButtonText(_ text: String) -> AttributedString {
         var attri = AttributedString.init(text)
         attri.font = .customFont(.pretendard_light, 12)
         

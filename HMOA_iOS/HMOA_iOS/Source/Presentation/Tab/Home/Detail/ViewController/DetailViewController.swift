@@ -20,11 +20,11 @@ class DetailViewController: UIViewController, View {
     
     private var dataSource: UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>!
 
-    let detailView = DetailView()
+    private let detailView = DetailView()
     
-    let bottomView = DetailBottomView()
+    private let bottomView = DetailBottomView()
     
-    lazy var optionView = OptionView().then {
+    private lazy var optionView = OptionView().then {
         $0.parentVC = self
         $0.reactor = OptionReactor()
     }
@@ -187,7 +187,7 @@ extension DetailViewController {
         
     }
     
-    func bindHeader(_ header: CommentHeaderView) {
+    private func bindHeader(_ header: CommentHeaderView) {
         reactor?.state
             .map { "+\($0.commentCount)" }
             .bind(to: header.countLabel.rx.text)
@@ -195,7 +195,7 @@ extension DetailViewController {
 
     }
     
-    func bindPerfumeInfoCell(_ cell: PerfumeInfoCell) {
+    private func bindPerfumeInfoCell(_ cell: PerfumeInfoCell) {
         
         // Action
         
@@ -234,7 +234,7 @@ extension DetailViewController {
             .disposed(by: disposeBag)
     }
     
-    func configureUI() {
+    private func configureUI() {
         
         [   detailView,
             bottomView,
@@ -261,7 +261,7 @@ extension DetailViewController {
 
 extension DetailViewController: UICollectionViewDelegate {
     
-    func configureCollectionViewDataSource() {
+    private func configureCollectionViewDataSource() {
         dataSource = UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>(collectionView: detailView.collectionView, cellProvider: {  collectionView, indexPath, item in
             
             switch item {

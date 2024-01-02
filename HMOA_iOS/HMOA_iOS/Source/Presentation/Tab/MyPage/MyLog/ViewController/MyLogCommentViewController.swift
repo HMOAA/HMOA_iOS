@@ -16,15 +16,15 @@ import ReactorKit
 class MyLogCommentViewController: UIViewController, View {
     
     // MARK: - UIComponents
-    lazy var layout = UICollectionViewFlowLayout()
+    private lazy var layout = UICollectionViewFlowLayout()
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.alwaysBounceVertical = true
         $0.register(MyLogCommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MyLogCommentHeaderView.identifier)
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
     }
     
-    lazy var noLikedView = NoLoginEmptyView(title:
+    private lazy var noLikedView = NoLoginEmptyView(title:
                                                 """
                                                 좋아요를 누른 댓글이
                                                 없습니다
@@ -37,7 +37,7 @@ class MyLogCommentViewController: UIViewController, View {
         $0.isHidden = true
     }
     
-    var datasource: UICollectionViewDiffableDataSource<MyLogCommentSection, MyLogCommentSectionItem>!
+    private var datasource: UICollectionViewDiffableDataSource<MyLogCommentSection, MyLogCommentSectionItem>!
     
     var disposeBag = DisposeBag()
     
@@ -175,7 +175,7 @@ extension MyLogCommentViewController: UICollectionViewDelegateFlowLayout {
             }
     }
     
-    func configureDatasource() {
+    private func configureDatasource() {
         datasource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else {

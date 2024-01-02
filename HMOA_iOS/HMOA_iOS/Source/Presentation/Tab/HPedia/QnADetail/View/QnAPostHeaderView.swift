@@ -30,11 +30,11 @@ class QnAPostHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setAddView() {
+    private func setAddView() {
         addSubview(recommendLabel)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         recommendLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

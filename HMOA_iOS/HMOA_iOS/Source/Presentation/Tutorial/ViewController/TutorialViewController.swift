@@ -14,8 +14,9 @@ import RxSwift
 
 class TutorialViewController: UIPageViewController {
 
+    // MARK: - UIComponents
     private var pages = [UIViewController]()
-    let pageControl = UIPageControl().then {
+    private let pageControl = UIPageControl().then {
         $0.pageIndicatorTintColor = #colorLiteral(red: 0.8797428012, green: 0.8797428012, blue: 0.8797428012, alpha: 1)
         $0.currentPageIndicatorTintColor = .black
         $0.numberOfPages = 4
@@ -25,8 +26,11 @@ class TutorialViewController: UIPageViewController {
         $0.setImage(UIImage(named: "x"), for: .normal)
     }
     
+    // MARK: - Properties
     let disposeBag = DisposeBag()
     
+    
+    // MARK: LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
 

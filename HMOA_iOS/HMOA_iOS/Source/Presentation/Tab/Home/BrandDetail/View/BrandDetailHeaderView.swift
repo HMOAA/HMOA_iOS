@@ -17,11 +17,11 @@ class BrandDetailHeaderView: UICollectionReusableView {
     
     // MARK: - UI Component
     
-    lazy var brandInfoView = UIView().then {
+    private lazy var brandInfoView = UIView().then {
         $0.backgroundColor = .black
     }
     
-    lazy var brandBorderView = UIView().then {
+    private lazy var brandBorderView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 3
         $0.layer.borderWidth = 2
@@ -71,7 +71,7 @@ extension BrandDetailHeaderView {
     
     // MARK: - Configure
     
-    func configureUI() {
+    private func configureUI() {
         brandBorderView.addSubview(brandImageView)
         
         [   brandInfoView,

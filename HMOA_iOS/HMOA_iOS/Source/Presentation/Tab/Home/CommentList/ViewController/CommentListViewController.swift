@@ -16,7 +16,6 @@ import RxAppState
 class CommentListViewController: UIViewController, View {
     
     // MARK: - Properties
-    var perfumeId: Int = 0
 
     private var dataSource: UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>?
     
@@ -26,18 +25,18 @@ class CommentListViewController: UIViewController, View {
 
     // MARK: - UI Component
     
-    let bottomView = CommentListBottomView()
+    private let bottomView = CommentListBottomView()
     
-    lazy var layout = UICollectionViewFlowLayout()
+    private lazy var layout = UICollectionViewFlowLayout()
     private var header: CommentListTopView!
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.alwaysBounceVertical = true
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
         $0.register(CommentListTopView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentListTopView.identifier)
     }
     
-    lazy var optionView = OptionView().then {
+    private lazy var optionView = OptionView().then {
         $0.reactor = OptionReactor()
         $0.parentVC = self
     }
@@ -161,7 +160,7 @@ extension CommentListViewController {
        
     }
     
-    func bindHeader(_ header: CommentListTopView) {
+    private func bindHeader(_ header: CommentListTopView) {
                 
         // MARK: - bindHeader - Action
         
@@ -195,7 +194,7 @@ extension CommentListViewController {
             .disposed(by: disposeBag)
     }
     
-    func configureCollectionViewDataSource() {
+    private func configureCollectionViewDataSource() {
         
         dataSource = UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
@@ -239,7 +238,7 @@ extension CommentListViewController {
         }
     }
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .white
         
         collectionView.rx.setDelegate(self)

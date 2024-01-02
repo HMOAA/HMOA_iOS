@@ -16,11 +16,11 @@ class HPediaDictionaryCell: UICollectionViewCell {
     static let identifier = "HPediaDictionaryCell"
     
     //MARK: - UIComponents
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_semibold, size: 16, color: .white)
     }
     
-    let contentLabel = UILabel().then {
+    private let contentLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.setLabelUI("", font: .pretendard, size: 16, color: .white)
     }

@@ -16,29 +16,29 @@ class QnAPostCell: UICollectionViewCell {
     static let identifier = "QnAPostCell"
     
     //MARK: - UIComponents
-    let QLabel = UILabel().then {
+    private let QLabel = UILabel().then {
         $0.setLabelUI("Q", font: .pretendard_bold, size: 26, color: .black)
     }
     
-    let profileImageView = UIImageView().then {
+    private let profileImageView = UIImageView().then {
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 14
     }
     
-    let nicknameLabel = UILabel().then {
+    private let nicknameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
     }
     
-    let dayLabel = UILabel().then {
+    private let dayLabel = UILabel().then {
         $0.setLabelUI("일 전", font: .pretendard, size: 12, color: .gray3)
     }
     
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.setLabelUI("", font: .pretendard_medium, size: 20, color: .black)
     }
     
-    let contentLabel = UILabel().then {
+    private let contentLabel = UILabel().then {
         $0.lineBreakMode = .byCharWrapping
         $0.numberOfLines = 0
         $0.setLabelUI("", font: .pretendard_medium, size: 16, color: .black)
@@ -54,7 +54,7 @@ class QnAPostCell: UICollectionViewCell {
         $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
-    lazy var pageControl = UIPageControl().then {
+    private lazy var pageControl = UIPageControl().then {
         $0.isHidden = true
     }
     

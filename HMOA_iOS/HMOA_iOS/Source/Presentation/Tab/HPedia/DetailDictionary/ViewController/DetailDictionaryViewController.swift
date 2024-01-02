@@ -19,19 +19,19 @@ class DetailDictionaryViewController: UIViewController, View {
     
     
     //MARK: - UI Components
-    let titleEnglishLabel = UILabel().then {
+    private let titleEnglishLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_semibold, size: 30, color: .black)
     }
     
-    let titleKoreanLabel = UILabel().then {
+    private let titleKoreanLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
     }
     
-    let explainLabel = UILabel().then {
+    private let explainLabel = UILabel().then {
         $0.setLabelUI("내용", font: .pretendard_semibold, size: 16, color: .black)
     }
     
-    let contentLabel = UILabel().then {
+    private let contentLabel = UILabel().then {
         $0.lineBreakMode = .byCharWrapping
         $0.numberOfLines = 0
         $0.setLabelUI("", font: .pretendard, size: 16, color: .black)

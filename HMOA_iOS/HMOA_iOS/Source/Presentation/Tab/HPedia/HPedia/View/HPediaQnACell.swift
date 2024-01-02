@@ -13,11 +13,11 @@ class HPediaQnACell: UICollectionViewCell{
     
     static let identifier = "HPediaQnACell"
     //MARK: - UI Components
-    let categoryLabel = UILabel().then {
+    private let categoryLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 14, color: .gray2)
     }
     
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 16, color: .black)
     }
     var isListCell: Bool = false {

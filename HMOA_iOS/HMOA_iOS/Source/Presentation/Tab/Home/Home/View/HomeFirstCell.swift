@@ -24,16 +24,16 @@ class HomeFirstCell: UICollectionViewCell, View {
     // MARK: - Properties
     var disposeBag = DisposeBag()
 
-    lazy var perfumeImageView = UIImageView().then {
+    private lazy var perfumeImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
 
     
-    let perfumeBrandLabel = UILabel().then {
+    private let perfumeBrandLabel = UILabel().then {
         $0.font = .customFont(.pretendard_medium, 12)
     }
     
-    let perfumeInfoLabel = UILabel().then {
+    private let perfumeInfoLabel = UILabel().then {
         $0.font = .customFont(.pretendard, 12)
         $0.numberOfLines = 3
         $0.textAlignment = .left
@@ -68,7 +68,7 @@ extension HomeFirstCell {
             .disposed(by: disposeBag)
     }
     
-    func configureUI() {
+    private func configureUI() {
         [perfumeBrandLabel, perfumeInfoLabel] .forEach { addSubview($0) }
         layer.cornerRadius = 3
         backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8735057712, blue: 0.87650913, alpha: 1)

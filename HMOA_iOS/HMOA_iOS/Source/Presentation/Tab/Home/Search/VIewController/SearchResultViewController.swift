@@ -13,7 +13,7 @@ class SearchResultViewController: UIViewController {
     
     lazy var topView = SearchResultTopView()
     
-    lazy var layout = UICollectionViewFlowLayout()
+    private lazy var layout = UICollectionViewFlowLayout()
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.register(SearchResultCollectionViewCell.self, forCellWithReuseIdentifier: SearchResultCollectionViewCell.identifier)
@@ -29,7 +29,7 @@ class SearchResultViewController: UIViewController {
 extension SearchResultViewController {
     
     // MARK: - Configure
-    func configureUI() {
+    private func configureUI() {
         
         [   topView,
             collectionView
