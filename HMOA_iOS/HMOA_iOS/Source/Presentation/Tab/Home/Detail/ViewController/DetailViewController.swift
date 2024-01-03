@@ -35,11 +35,6 @@ class DetailViewController: UIViewController, View {
         configureUI()
         configureCollectionViewDataSource()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        bottomView.layer.addBorder([.top], color: .customColor(.gray1), width: 1)
-    }
 }
 
 // MARK: - Functions
