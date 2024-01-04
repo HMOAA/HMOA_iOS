@@ -28,9 +28,12 @@ class QnAPostCell: UICollectionViewCell {
     private let nicknameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
     }
+    private let userMarkImageView = UIImageView().then {
+        $0.image = UIImage(named: "postMark")
+    }
     
     private let dayLabel = UILabel().then {
-        $0.setLabelUI("일 전", font: .pretendard, size: 12, color: .gray3)
+        $0.setLabelUI("", font: .pretendard, size: 12, color: .gray3)
     }
     
     private let titleLabel = UILabel().then {
@@ -76,6 +79,22 @@ class QnAPostCell: UICollectionViewCell {
         setUpUI()
     }
     
+    override func updateConstraints() {
+        super.updateConstraints()
+        
+        if userMarkImageView.isHidden {
+            dayLabel.snp.makeConstraints {
+                $0.centerY.equalTo(profileImageView)
+                $0.leading.equalTo(nicknameLabel.snp.trailing).offset(2)
+            }
+        } else {
+            dayLabel.snp.makeConstraints {
+                $0.centerY.equalTo(profileImageView)
+                $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
+            }
+        }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -92,6 +111,7 @@ class QnAPostCell: UICollectionViewCell {
             QLabel,
             profileImageView,
             nicknameLabel,
+            userMarkImageView,
             dayLabel,
             titleLabel,
             contentLabel,
@@ -125,9 +145,9 @@ class QnAPostCell: UICollectionViewCell {
             make.leading.equalTo(profileImageView.snp.trailing).offset(8)
         }
         
-        dayLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(31)
-            make.leading.equalTo(nicknameLabel.snp.trailing).offset(2)
+        userMarkImageView.snp.makeConstraints {
+            $0.leading.equalTo(nicknameLabel.snp.trailing).offset(2)
+            $0.centerY.equalTo(profileImageView)
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -150,7 +170,7 @@ extension QnAPostCell {
         dayLabel.text = item.time
         titleLabel.text = item.title
         contentLabel.text = item.content
-        
+        userMarkImageView.isHidden = !item.writed
     }
     
    func bindPhotoCollectionView(_ photos: [CommunityPhoto]) {
