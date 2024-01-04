@@ -57,7 +57,7 @@ class MyLogWritedPostViewController: UIViewController, View {
     }
     
     private func setAddView() {
-        //view.addSubview(noWriteView)
+        view.addSubview(noWriteView)
         view.addSubview(collectionView)
     }
     
@@ -66,9 +66,9 @@ class MyLogWritedPostViewController: UIViewController, View {
             make.edges.equalToSuperview()
         }
         
-//        noWriteView.snp.makeConstraints { make in
-//            make.edges.equalToSuperview()
-//        }
+        noWriteView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     func bind(reactor: MyLogWritedPostReactor) {

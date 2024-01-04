@@ -21,6 +21,7 @@ class MyPageViewController: UIViewController, View {
     private let loginManger = LoginManager.shared
     
     // MARK: - UI Component
+    private let alarmSwitch = UISwitch()
     private let myPageView = MyPageView()
     private let noLoginView = NoLoginEmptyView(title:
                                             """
@@ -176,10 +177,9 @@ extension MyPageViewController {
                 cell.updateCell(title)
                 
                 
-                let alarmSwitch = UISwitch()
-                cell.accessoryView = alarmSwitch
+                cell.accessoryView = self.alarmSwitch
                 
-                alarmSwitch.rx.isOn
+                self.alarmSwitch.rx.isOn
                     .skip(1)
                     .map { Reactor.Action.didSwitchAlarm($0) }
                     .bind(to: self.reactor.action)
@@ -189,7 +189,7 @@ extension MyPageViewController {
                     .map { $0.isSetOnSwitch }
                     .compactMap { $0 }
                     .distinctUntilChanged()
-                    .bind(to: alarmSwitch.rx.isOn)
+                    .bind(to: self.alarmSwitch.rx.isOn)
                     .disposed(by: cell.disposeBag)
                 
                 self.reactor.state
@@ -256,10 +256,15 @@ extension MyPageViewController {
         case .version:
             break
         case .inquireAccount:
-            
             MemberAPI.kakaoTalkAddChannel()
                 .map { $0 }
-                .bind(onNext: { _ in print("success") })
+                .bind(with: self, onNext: { owner, isSetKakao in
+                    if !isSetKakao {
+                        owner.showAlert(title: "카카오톡 미설치",
+                                        message: "카카오톡이 설치되어 있어야 합니다.",
+                                        buttonTitle1: "확인")
+                    }
+                })
                 .disposed(by: disposeBag)
         case .logout:
             showAlert(title: "로그아웃",
@@ -267,9 +272,16 @@ extension MyPageViewController {
                       buttonTitle1: "아니요",
                       buttonTitle2: "네",
                       action2: {
-                self.presentInAppLoginVC()
-                KeychainManager.delete()
-                self.loginManger.tokenSubject.onNext(nil)
+                if self.alarmSwitch.isOn {
+                    PushAlarmAPI.deleteFcmToken()
+                        .bind(with: self, onNext: { owner, _ in
+                            owner.presentInAppLoginVC()
+                            KeychainManager.delete()
+                            owner.loginManger.tokenSubject.onNext(nil)
+                            
+                        })
+                        .disposed(by: self.disposeBag)
+                }
             })
             
         case .deleteAccount:
