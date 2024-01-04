@@ -10,6 +10,8 @@ import RxSwift
 import UIKit
 import KakaoSDKTalk
 import RxKakaoSDKTalk
+import KakaoSDKUser
+import RxKakaoSDKUser
 
 final class MemberAPI {
 
@@ -167,19 +169,21 @@ final class MemberAPI {
     }
     
     static func kakaoTalkAddChannel() -> Observable<Bool> {
-        return Observable.create { observer in
-            TalkApi.shared.rx.addChannel(channelPublicId: "_VxmaGG")
-                .subscribe(
-                    onCompleted: {
-                        observer.onNext(true)
-                        observer.onCompleted()
-                    },
-                    onError: { error in
-                        print(error)
-                        observer.onNext(false)
-                        observer.onCompleted()
-                    }
-                )
+        if (UserApi.isKakaoTalkLoginAvailable()) {
+            return Observable.create { observer in
+                TalkApi.shared.rx.addChannel(channelPublicId: "_VxmaGG")
+                    .subscribe(
+                        onCompleted: {
+                            observer.onNext(true)
+                            observer.onCompleted()
+                        },
+                        onError: { error in
+                            observer.onError(error)
+                        }
+                    )
+            }
+        } else {
+            return .just(false)
         }
     }
 }
