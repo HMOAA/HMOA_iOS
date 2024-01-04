@@ -153,17 +153,14 @@ extension HomeViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .bind(with: self) { owner, _ in
-                
                 guard let isLogin = reactor.currentState.isLogin else { return }
-                
                 if isLogin {
-                    
                     // 앱 알람 권한 설정 이동
                     if reactor.currentState.isPushSettiong {
                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                     }
                     // 유져 셋팅 알람 설정
-                    if reactor.currentState.isPushAlarm! {
+                    if reactor.currentState.isPushAlarm ?? false {
                         DispatchQueue.main.async {
                             owner.loginManager.isUserSettingAlarm.onNext(false)
                             reactor.action.onNext(.deleteFcmToken)
