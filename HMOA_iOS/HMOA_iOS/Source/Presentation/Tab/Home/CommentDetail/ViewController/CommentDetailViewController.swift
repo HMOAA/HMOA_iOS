@@ -36,6 +36,10 @@ class CommentDetailViewController: UIViewController, View {
         $0.font = .customFont(.pretendard, 14)
     }
     
+    private lazy var userMarkImageView = UIImageView().then {
+        $0.image = UIImage(named: "postMark")
+    }
+    
     private lazy var dateLabel = UILabel().then {
         $0.textColor = .customColor(.gray3)
         $0.font = .customFont(.pretendard, 12)
@@ -77,6 +81,21 @@ class CommentDetailViewController: UIViewController, View {
         configureUI()
         configureNavigationBar()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if userMarkImageView.isHidden {
+            dateLabel.snp.makeConstraints {
+                $0.centerY.equalTo(userImageView)
+                $0.leading.equalTo(userNameLabel.snp.trailing).offset(2)
+            }
+        } else {
+            dateLabel.snp.makeConstraints {
+                $0.centerY.equalTo(userImageView)
+                $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
+            }
+        }
+    }
 }
 
 extension CommentDetailViewController {
@@ -109,6 +128,9 @@ extension CommentDetailViewController {
                 owner.contentLabel.text = comment.content
                 owner.userNameLabel.text = comment.nickname
                 owner.commentLikeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(comment.heartCount)", size: 12, font: .pretendard_light)
+                
+                owner.userMarkImageView.isHidden = !comment.writed
+                //owner.view.setNeedsUpdateConstraints()
             }
             .disposed(by: disposeBag)
         
@@ -122,6 +144,7 @@ extension CommentDetailViewController {
                 owner.contentLabel.text = comment.content
                 owner.userNameLabel.text = comment.author
                 owner.commentLikeButton.isHidden = true
+                owner.userMarkImageView.isHidden = !comment.writed
             }
             .disposed(by: disposeBag)
         
@@ -155,6 +178,7 @@ extension CommentDetailViewController {
         [   userImageView,
             userNameLabel,
             contentLabel,
+            userMarkImageView,
             dateLabel,
             commentLikeButton
         ]   .forEach { view.addSubview($0) }
@@ -169,10 +193,10 @@ extension CommentDetailViewController {
             $0.centerY.equalTo(userImageView)
             $0.leading.equalTo(userImageView.snp.trailing).offset(8)
         }
-        
-        dateLabel.snp.makeConstraints {
+    
+        userMarkImageView.snp.makeConstraints {
+            $0.leading.equalTo(userNameLabel.snp.trailing).offset(2)
             $0.centerY.equalTo(userImageView)
-            $0.leading.equalTo(userNameLabel.snp.trailing).offset(8)
         }
         
         contentLabel.snp.makeConstraints {

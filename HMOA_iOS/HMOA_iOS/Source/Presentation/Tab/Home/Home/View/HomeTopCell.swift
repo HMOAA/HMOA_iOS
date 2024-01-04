@@ -23,7 +23,7 @@ class HomeTopCell: UICollectionViewCell {
         $0.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9450980392, blue: 0.9529411765, alpha: 1)
     }
     private lazy var banerLabel = UILabel().then {
-        $0.setLabelUI("시향지 체험단 모집 ~ 09.18", font: .pretendard_medium, size: 14, color: .banerLabelColor)
+        $0.setLabelUI("앱 출시 기념 시향카드 증정 이벤트 예정 2/1~", font: .pretendard_medium, size: 14, color: .banerLabelColor)
     }
     
     // MARK: - Lifecycle
