@@ -58,6 +58,8 @@ final class LoginAPI {
     static func kakaoLogin() -> Observable<OAuthToken>{
         if (UserApi.isKakaoTalkLoginAvailable()) {
             return UserApi.shared.rx.loginWithKakaoTalk()
-        } else { return Observable.empty() }
+        } else {
+            return UserApi.shared.rx.loginWithKakaoAccount()
+        }
     }
 }

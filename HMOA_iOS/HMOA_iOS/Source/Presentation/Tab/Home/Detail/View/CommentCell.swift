@@ -43,6 +43,15 @@ class CommentCell: UICollectionViewCell {
         $0.makeLikeButton()
     }
     
+    private lazy var userMarkImageView = UIImageView().then {
+        $0.image = UIImage(named: "postMark")
+    }
+    
+    private lazy var dateLabel = UILabel().then {
+        $0.textColor = .customColor(.gray3)
+        $0.font = .customFont(.pretendard, 12)
+    }
+    
     private lazy var noCommentLabel = UILabel().then {
         $0.isHidden = true
         $0.setLabelUI("해당 제품의 의견을 남겨주세요",
@@ -91,6 +100,8 @@ extension CommentCell {
             subView.isHidden = false
             noCommentLabel.isHidden = true
             commentLikeButton.isHidden = false
+            dateLabel.text = item.createAt
+            userMarkImageView.isHidden = !item.writed
             
         } else {
             noCommentLabel.isHidden = false
@@ -106,7 +117,8 @@ extension CommentCell {
             commentLikeButton.isHidden = true
             subView.isHidden = false
             communityNoCommentLabel.isHidden = true
-            
+            dateLabel.text = item.time
+            userMarkImageView.isHidden = !item.writed
         } else { communityNoCommentLabel.isHidden = false }
     }
     
@@ -129,6 +141,8 @@ extension CommentCell {
             userNameLabel,
             contentLabel,
             commentLikeButton,
+            userMarkImageView,
+            dateLabel,
             optionButton
         ] .forEach { subView.addSubview($0) }
 
@@ -146,6 +160,11 @@ extension CommentCell {
         userNameLabel.snp.makeConstraints {
             $0.centerY.equalTo(userImageView)
             $0.leading.equalTo(userImageView.snp.trailing).offset(8)
+        }
+        
+        userMarkImageView.snp.makeConstraints {
+            $0.leading.equalTo(userNameLabel.snp.trailing).offset(2)
+            $0.centerY.equalTo(userImageView)
         }
         
         contentLabel.snp.makeConstraints {
@@ -176,6 +195,21 @@ extension CommentCell {
             $0.height.equalTo(20)
         }
         
+    }
+    override func updateConstraints() {
+        super.updateConstraints()
+        
+        if userMarkImageView.isHidden {
+            dateLabel.snp.remakeConstraints {
+                $0.centerY.equalTo(userImageView)
+                $0.leading.equalTo(userNameLabel.snp.trailing).offset(2)
+            }
+        } else {
+            dateLabel.snp.remakeConstraints {
+                $0.centerY.equalTo(userImageView)
+                $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
+            }
+        }
     }
     
     private func setLikeButtonText(_ text: String) -> AttributedString {

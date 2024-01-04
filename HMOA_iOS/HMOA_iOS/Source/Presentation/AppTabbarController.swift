@@ -15,8 +15,9 @@ class AppTabbarController: UITabBarController {
        
         let item = UITabBarItem()
         item.customTabBar(imageName: "home")
-        item.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -8, right: 0)
+        item.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -10, right: 0)
         item.title = "Home"
+        item.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 0)
         return item
     }()
     
@@ -108,7 +109,7 @@ extension AppTabbarController: UITabBarControllerDelegate {
         }
         
         item.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -10, right: 0)
-        
+        item.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 2)
         tabBar.items?.filter { $0 != item }.forEach {
             $0.title = nil
             $0.imageInsets = UIEdgeInsets(top: 16, left: 0, bottom: -20, right: 0)
