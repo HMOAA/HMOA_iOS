@@ -15,6 +15,9 @@ class PerfumeInfoView: UIView {
     
     lazy var perfumeImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
+    }
+    
+    lazy var perfumeBackgroundView = UIView().then {
         $0.backgroundColor = #colorLiteral(red: 0.8799095154, green: 0.8735057712, blue: 0.87650913, alpha: 1)
     }
     
@@ -94,7 +97,9 @@ extension PerfumeInfoView {
             perfumeLikeCountLabel,
         ]   .forEach { perfumeLikeView.addSubview($0) }
         
-        [   perfumeImageView,
+        [  
+            perfumeBackgroundView,
+            perfumeImageView,
             perfumeLikeView,
             titleEnglishLabel,
             titleKoreanLabel,
@@ -108,15 +113,21 @@ extension PerfumeInfoView {
             heartNote,
             baseNote    ] .forEach { addSubview($0) }
         
-        perfumeImageView.snp.makeConstraints {
+        perfumeBackgroundView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.centerX.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width)
-            $0.height.equalTo(360)
+            $0.height.equalTo(UIScreen.main.bounds.width)
+        }
+        
+        perfumeImageView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(perfumeBackgroundView)
+            make.height.width.equalTo(231)
         }
         
         perfumeLikeView.snp.makeConstraints {
-            $0.top.equalTo(perfumeImageView.snp.bottom).offset(16)
+            $0.top.equalTo(perfumeBackgroundView.snp.bottom).offset(16)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(20)
         }
