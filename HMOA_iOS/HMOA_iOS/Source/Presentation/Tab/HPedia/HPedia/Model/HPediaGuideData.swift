@@ -38,19 +38,19 @@ extension HPediaDictionaryData {
             title: HpediaType.perfumer.title,
             content:
                   """
-                  JoWanHee
-                  조완희
+                  Coco Chanel
+                  코코 샤넬
                   """,
             type: .perfumer
-        ),
-        HPediaDictionaryData(
-            title: HpediaType.brand.title,
-            content:
-                  """
-                  Gucci
-                  구찌
-                  """,
-            type: .brand
         )
+//        HPediaDictionaryData(
+//            title: HpediaType.brand.title,
+//            content:
+//                  """
+//                  Gucci
+//                  구찌
+//                  """,
+//            type: .brand
+//        )
     ]
 }
