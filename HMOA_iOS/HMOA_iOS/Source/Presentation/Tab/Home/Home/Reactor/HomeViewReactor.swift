@@ -144,7 +144,7 @@ extension HomeViewReactor {
             .flatMap { data -> Observable<Mutation> in
                 var sections = [HomeSection]()
                 
-                let homeTopItem = HomeSectionItem.topCell(data.mainImage, 1)
+                let homeTopItem = HomeSectionItem.topCell(data, 1)
                 let homeTopSection = HomeSection.topSection([homeTopItem])
                 let recommend = data.firstMenu
                 

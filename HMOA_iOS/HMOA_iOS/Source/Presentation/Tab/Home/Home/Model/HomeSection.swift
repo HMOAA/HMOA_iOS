@@ -13,7 +13,7 @@ enum HomeSection: Hashable {
 }
 
 enum HomeSectionItem: Hashable {
-    case topCell(String, Int)
+    case topCell(HomeFirstData, Int)
     case recommendCell(RecommendPerfume, Int)
 }
 

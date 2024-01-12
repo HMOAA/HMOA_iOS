@@ -9,6 +9,7 @@ import Foundation
 
 struct HomeFirstData: Codable, Hashable {
     let mainImage: String
+    let banner: String
     let firstMenu: RecommendPerfumeList
 }
 
