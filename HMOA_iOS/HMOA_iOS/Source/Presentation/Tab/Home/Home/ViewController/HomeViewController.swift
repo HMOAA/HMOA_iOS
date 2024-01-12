@@ -200,14 +200,14 @@ extension HomeViewController {
         dataSource = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem> (collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {
-            case .topCell(let imageUrl, _):
+            case .topCell(let data, _):
                 guard let homeTopCell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomeTopCell.identifier,
                     for: indexPath) as? HomeTopCell else {
                     return UICollectionViewCell()
                 }
                 
-                homeTopCell.setImage(imageUrl)
+                homeTopCell.setImage(data)
                 
                 return homeTopCell
                 

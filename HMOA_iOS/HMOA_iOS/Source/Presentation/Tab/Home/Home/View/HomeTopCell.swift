@@ -23,7 +23,7 @@ class HomeTopCell: UICollectionViewCell {
         $0.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9450980392, blue: 0.9529411765, alpha: 1)
     }
     private lazy var banerLabel = UILabel().then {
-        $0.setLabelUI("앱 출시 기념 시향카드 증정 이벤트 예정 2/1~", font: .pretendard_medium, size: 14, color: .banerLabelColor)
+        $0.setLabelUI("", font: .pretendard_medium, size: 14, color: .banerLabelColor)
     }
     
     // MARK: - Lifecycle
@@ -58,9 +58,9 @@ extension HomeTopCell {
         }
     }
     
-    func setImage(_ imageUrl: String) {
-        let url = URL(string: imageUrl)
-        
+    func setImage(_ item: HomeFirstData) {
+        let url = URL(string: item.mainImage)
+        banerLabel.text =  item.banner
         newsImageView.kf.setImage(with: url)
     }
 }
