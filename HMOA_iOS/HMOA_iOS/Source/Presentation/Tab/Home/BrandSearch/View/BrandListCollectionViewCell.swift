@@ -25,6 +25,7 @@ class BrandListCollectionViewCell: UICollectionViewCell {
     }
     
     private lazy var brandLabel = UILabel().then {
+        $0.textAlignment = .center
         $0.numberOfLines = 2
         $0.font = .customFont(.pretendard, 14)
     }
