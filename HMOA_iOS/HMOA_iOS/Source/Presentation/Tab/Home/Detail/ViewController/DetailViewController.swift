@@ -18,7 +18,7 @@ class DetailViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
     
-    private var dataSource: UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>?
 
     private let detailView = DetailView()
     
@@ -57,7 +57,6 @@ extension DetailViewController {
         
         // viewWillAppear
         rx.viewWillAppear
-            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -105,6 +104,7 @@ extension DetailViewController {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
+                guard let dataSource = owner.dataSource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<DetailSection, DetailSectionItem>()
                 snapshot.appendSections(sections)
                 
@@ -113,7 +113,7 @@ extension DetailViewController {
                 }
                 
                 DispatchQueue.main.async {
-                    owner.dataSource.apply(snapshot)
+                    dataSource.apply(snapshot)
                 }
             }).disposed(by: disposeBag)
         
@@ -176,7 +176,7 @@ extension DetailViewController {
         
         // 백, 홈 네비게이션 타이틀 설정
         reactor.state
-            .map { $0.brandName}
+            .map { $0.brandName }
             .bind(onNext: setBackHomeRightNaviBar)
             .disposed(by: disposeBag)
         
@@ -324,7 +324,7 @@ extension DetailViewController: UICollectionViewDelegate {
             }
         })
         
-        dataSource.supplementaryViewProvider = {collectionView, kind, indexPath -> UICollectionReusableView in
+        dataSource?.supplementaryViewProvider = {collectionView, kind, indexPath -> UICollectionReusableView in
             var header = UICollectionReusableView()
             
             switch indexPath.section {
