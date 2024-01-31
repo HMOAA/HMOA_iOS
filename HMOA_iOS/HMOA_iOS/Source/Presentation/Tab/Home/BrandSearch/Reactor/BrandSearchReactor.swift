@@ -122,6 +122,7 @@ extension BrandSearchReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 var brand: BrandList!
+                //TODO: 필요없는 코드
                 if data.isEmpty {
                     brand = BrandList(consonant: consonant, brands: [Brand(brandId: 0, brandImageUrl: "", brandName: "", englishName: "")])
                 } else {
