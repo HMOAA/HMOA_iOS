@@ -110,7 +110,7 @@ final class DetailViewReactor: Reactor {
             
         case .didTapCommentCell(let row):
             return .concat([
-                .just(.setSelectedComment(currentState.sections[2].items[row].comment!)),
+                .just(.setSelectedComment(currentState.sections[2].items[row].comment)),
                 .just(.setSelectedComment(nil))
             ])
             
