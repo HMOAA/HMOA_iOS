@@ -107,8 +107,6 @@ extension BrandListSection: Hashable {
             return "ㅍ"
         case .fourtheenth(_):
             return "ㅎ"
-        case .fourtheenth(_):
-            return "ㅎ"
         case .fifteen(_):
             return "ㄲ"
         }
