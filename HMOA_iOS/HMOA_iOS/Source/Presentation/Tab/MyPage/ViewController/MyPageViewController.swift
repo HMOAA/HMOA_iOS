@@ -272,14 +272,12 @@ extension MyPageViewController {
                       buttonTitle1: "아니요",
                       buttonTitle2: "네",
                       action2: {
+                self.presentInAppLoginVC()
+                KeychainManager.delete()
+                self.loginManger.tokenSubject.onNext(nil)
                 if self.alarmSwitch.isOn {
                     PushAlarmAPI.deleteFcmToken()
-                        .bind(with: self, onNext: { owner, _ in
-                            owner.presentInAppLoginVC()
-                            KeychainManager.delete()
-                            owner.loginManger.tokenSubject.onNext(nil)
-                            
-                        })
+                        .bind(onNext: { _ in })
                         .disposed(by: self.disposeBag)
                 }
             })
