@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import Then
 
+import Hero
+
 extension UIViewController {
     
     func checkTutorialRun() {
@@ -206,6 +208,8 @@ extension UIViewController {
     func presentBrandSearchViewController() {
         let brandSearchVC = BrandSearchViewController()
         brandSearchVC.reactor = BrandSearchReactor()
+        self.navigationController?.hero.isEnabled = true
+        self.navigationController?.hero.navigationAnimationType = .selectBy(presenting: .push(direction: .right), dismissing: .push(direction: .left))
         self.navigationController?.pushViewController(brandSearchVC, animated: true)
     }
     
