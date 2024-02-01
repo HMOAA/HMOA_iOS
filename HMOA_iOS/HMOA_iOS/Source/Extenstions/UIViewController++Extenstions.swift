@@ -118,6 +118,14 @@ extension UIViewController {
         self.navigationController?.pushViewController(qnaWriteVC, animated: true)
     }
     
+    func presentQnAWriteVC(_ reactor: HPediaReactor) {
+        let qnaWriteVC = QnAWriteViewController()
+        let reactor = reactor.reactorForWrite()
+        qnaWriteVC.reactor = reactor
+        qnaWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(qnaWriteVC, animated: true)
+    }
+    
     func presentQnAListVC() {
         let qnaListVC = QnAListViewController()
         qnaListVC.reactor = QNAListReactor(service: CommunityListService())
@@ -416,5 +424,36 @@ extension UIViewController {
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.compactAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    func showFloatingButtonAnimation(floatingButton: UIButton, stackView: UIStackView, backgroundView: UIView, isTap: Bool) {
+        floatingButton.isSelected = isTap
+        //버튼, 뷰 숨기기
+        if !isTap {
+            UIView.animate(withDuration: 0.3) {
+                stackView.alpha = 0
+                stackView.isHidden = true
+                self.view.layoutIfNeeded()
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                backgroundView.alpha = 0
+            }) { _ in
+                backgroundView.isHidden = true
+            }
+        }
+        // 버튼, 뷰 보이기
+        else {
+            backgroundView.isHidden = false
+            UIView.animate(withDuration: 0.3, animations: {
+                backgroundView.alpha = 1
+            })
+            
+            UIView.animate(withDuration: 0.3) {
+                stackView.alpha = 1
+                stackView.isHidden = false
+                self.view.layoutIfNeeded()
+            }
+        }
     }
 }
