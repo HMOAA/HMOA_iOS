@@ -17,7 +17,7 @@ import RxAppState
 
 class HPediaViewController: UIViewController, View {
     
-    //MARK: - Properties
+    //MARK: - UIComponents
     private lazy var hPediaCollectionView = UICollectionView(frame: .zero,
                                                 collectionViewLayout: configureLayout()).then {
         $0.register(HPediaQnAHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier)
@@ -35,6 +35,35 @@ class HPediaViewController: UIViewController, View {
         $0.searchTextField.textAlignment = .left
         $0.searchTextField.font = .customFont(.pretendard_light, 16)
         $0.placeholder = "향에 대해 궁금한 점을 검색해보세요"
+    }
+    
+    private let floatingButton = UIButton().then {
+        $0.setImage(UIImage(named: "addButton"), for: .normal)
+        $0.setImage(UIImage(named: "selectedAddButton"), for: .selected)
+    }
+    
+    private let recommendButton = UIButton().makeFloatingListButton(title: "추천")
+    
+    private let reviewButton = UIButton().makeFloatingListButton(title: "시향기")
+    
+    private let etcButton = UIButton().makeFloatingListButton(title: "자유")
+    
+    private lazy var floatingButtons = [recommendButton, reviewButton, etcButton]
+    
+    private let floatingStackView = UIStackView().then {
+        $0.alpha = 0
+        $0.backgroundColor = .black
+        $0.isHidden = true
+        $0.distribution = .fillEqually
+        $0.layer.cornerRadius = 10
+        $0.axis = .vertical
+    }
+    
+    private lazy var floatingView = UIView().then {
+        $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+        $0.alpha = 0
+        $0.isHidden = true
+        
     }
     
     //MARK: - Properties
@@ -58,11 +87,38 @@ class HPediaViewController: UIViewController, View {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        if let tabBarController = tabBarController {
+            tabBarController.view.addSubview(floatingView)
+            tabBarController.view.addSubview(floatingButton)
+            tabBarController.view.addSubview(floatingStackView)
+            
+            floatingButton.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().inset(12)
+                make.bottom.equalToSuperview().offset(-95)
+                make.width.height.equalTo(56)
+            }
+            
+            floatingStackView.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().inset(8)
+                make.width.equalTo(135)
+                make.height.equalTo(137)
+                make.bottom.equalTo(floatingButton.snp.top).offset(-8)
+            }
+            
+            floatingView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+        
+        floatingStackView.removeFromSuperview()
+        floatingView.removeFromSuperview()
+        floatingButton.removeFromSuperview()
     }
     
     //MARK: - SetUp
@@ -72,6 +128,10 @@ class HPediaViewController: UIViewController, View {
     
     private func setAddView() {
         view.addSubview(hPediaCollectionView)
+        
+        floatingButtons.forEach {
+            floatingStackView.addArrangedSubview($0)
+        }
     }
     
     private func setConstraints() {
@@ -91,6 +151,12 @@ class HPediaViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // ViewDidLoad
+        LoginManager.shared.isLogin
+            .map { Reactor.Action.viewDidLoad($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // dictionary item 터치
         hPediaCollectionView.rx.itemSelected
             .filter { $0.section == 0 }
@@ -104,6 +170,39 @@ class HPediaViewController: UIViewController, View {
             .map { Reactor.Action.didTapCommunityItem($0.row) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        //floatinButton 터치
+        floatingButton.rx.tap
+            .throttle(RxTimeInterval.milliseconds(350), scheduler: MainScheduler.instance)
+            .map { Reactor.Action.didTapFloatingButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //추천 버튼 터치
+        recommendButton.rx.tap
+            .map { Reactor.Action.didTapRecommendButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //선물 버튼 터치
+        reviewButton.rx.tap
+            .map { Reactor.Action.didTapReviewButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //기타 버튼 터치
+        etcButton.rx.tap
+            .map { Reactor.Action.didTapEtcButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // floatingView 터치
+        floatingView.rx.tapGesture()
+            .when(.recognized)
+            .map { _ in Reactor.Action.didTapFloatingBackView }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         
         // State
         
@@ -127,6 +226,14 @@ class HPediaViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        //선택된 카테고리 String QnAWriteVC로 push
+        reactor.state
+            .compactMap { $0.selectedAddCategory }
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentQnAWriteVC(reactor)
+            })
+            .disposed(by: disposeBag)
+        
         //DictionaryVC로 선택된 Id push
         reactor.state
             .map { $0.selectedHPedia }
@@ -142,6 +249,32 @@ class HPediaViewController: UIViewController, View {
             .compactMap { $0 }
             .bind(with: self, onNext: { owner, id in
                 owner.presentQnADetailVC(id)
+            })
+            .disposed(by: disposeBag)
+        
+        //플로팅 뷰, 다른 버튼들 애니메이션 보여주기
+        reactor.state
+            .map { $0.isFloatingButtonTap }
+            .skip(1)
+            .bind(with: self, onNext: { owner, isTap in
+                owner.showFloatingButtonAnimation(
+                    floatingButton: owner.floatingButton,
+                    stackView: owner.floatingStackView,
+                    backgroundView: owner.floatingView,
+                    isTap: isTap)
+            })
+            .disposed(by: disposeBag)
+        
+        // 로그인 안되있을 시 present
+        reactor.state
+            .map { $0.isTapWhenNotLogin }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(
+                    title: "로그인 후 이용가능한 서비스입니다",
+                    content: "입력하신 내용을 다시 확인해주세요",
+                    buttonTitle: "로그인 하러가기 ")
             })
             .disposed(by: disposeBag)
     }
