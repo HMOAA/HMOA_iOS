@@ -1,0 +1,489 @@
+name: abseil, nameSpecified: 
+body: 
+                   …
+version: 1.20220623.0
+
+name: abseil, nameSpecified: 
+body: 
+                   …
+version: 1.20220623.0
+
+name: Alamofire, nameSpecified: 
+body: Copyright (c) 2014-2…
+version: 5.8.1
+
+name: Alamofire, nameSpecified: 
+body: Copyright (c) 2014-2…
+version: 5.8.1
+
+name: AppAuth, nameSpecified: 
+body: 
+                   …
+version: 1.6.2
+
+name: AppAuth, nameSpecified: 
+body: 
+                   …
+version: 1.6.2
+
+name: BoringSSL-GRPC, nameSpecified: 
+body: BoringSSL is a fork …
+version: 0.0.24
+
+name: BoringSSL-GRPC, nameSpecified: 
+body: BoringSSL is a fork …
+version: 0.0.24
+
+name: Differentiator, nameSpecified: 
+body: MIT License
+
+Copyrig…
+version: 5.0.0
+
+name: Differentiator, nameSpecified: 
+body: MIT License
+
+Copyrig…
+version: 5.0.0
+
+name: DropDown, nameSpecified: 
+body: The MIT License (MIT…
+version: 2.3.13
+
+name: DropDown, nameSpecified: 
+body: The MIT License (MIT…
+version: 2.3.13
+
+name: FirebaseAnalytics, nameSpecified: 
+body: Copyright 2022 Googl…
+version: 10.20.0
+
+name: FirebaseAnalytics, nameSpecified: 
+body: Copyright 2022 Googl…
+version: 10.20.0
+
+name: FirebaseAppCheckInterop, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseAppCheckInterop, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseAuth, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseAuth, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseCore, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseCore, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseCoreExtension, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseCoreExtension, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseCoreInternal, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseCoreInternal, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseFirestore, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseFirestore, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseFirestoreInternal, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseFirestoreInternal, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseInstallations, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseInstallations, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseMessaging, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseMessaging, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseSharedSwift, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: FirebaseSharedSwift, nameSpecified: 
+body: 
+                   …
+version: 10.20.0
+
+name: GoogleAppMeasurement, nameSpecified: 
+body: Copyright 2022 Googl…
+version: 10.20.0
+
+name: GoogleAppMeasurement, nameSpecified: 
+body: Copyright 2022 Googl…
+version: 10.20.0
+
+name: GoogleDataTransport, nameSpecified: 
+body: 
+                   …
+version: 9.3.0
+
+name: GoogleDataTransport, nameSpecified: 
+body: 
+                   …
+version: 9.3.0
+
+name: GoogleSignIn, nameSpecified: 
+body: 
+                   …
+version: 7.0.0
+
+name: GoogleSignIn, nameSpecified: 
+body: 
+                   …
+version: 7.0.0
+
+name: GoogleUtilities, nameSpecified: 
+body: 
+                   …
+version: 7.12.0
+
+name: GoogleUtilities, nameSpecified: 
+body: 
+                   …
+version: 7.12.0
+
+name: gRPC-C++, nameSpecified: 
+body: 
+                   …
+version: 
+
+name: gRPC-C++, nameSpecified: 
+body: 
+                   …
+version: 
+
+name: gRPC-Core, nameSpecified: 
+body: 
+                   …
+version: 1.49.1
+
+name: gRPC-Core, nameSpecified: 
+body: 
+                   …
+version: 1.49.1
+
+name: GTMAppAuth, nameSpecified: 
+body: 
+                   …
+version: 2.0.0
+
+name: GTMAppAuth, nameSpecified: 
+body: 
+                   …
+version: 2.0.0
+
+name: GTMSessionFetcher, nameSpecified: 
+body: 
+                   …
+version: 3.3.1
+
+name: GTMSessionFetcher, nameSpecified: 
+body: 
+                   …
+version: 3.3.1
+
+name: Hero, nameSpecified: 
+body: The MIT License (MIT…
+version: 1.6.2
+
+name: Hero, nameSpecified: 
+body: The MIT License (MIT…
+version: 1.6.2
+
+name: KakaoSDKAuth, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: KakaoSDKAuth, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: KakaoSDKCommon, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: KakaoSDKCommon, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: KakaoSDKTalk, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: KakaoSDKTalk, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: KakaoSDKTemplate, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: KakaoSDKTemplate, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: KakaoSDKUser, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: KakaoSDKUser, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: Kingfisher, nameSpecified: 
+body: The MIT License (MIT…
+version: 7.10.2
+
+name: Kingfisher, nameSpecified: 
+body: The MIT License (MIT…
+version: 7.10.2
+
+name: leveldb-library, nameSpecified: 
+body: Copyright (c) 2011 T…
+version: 1.22.2
+
+name: leveldb-library, nameSpecified: 
+body: Copyright (c) 2011 T…
+version: 1.22.2
+
+name: nanopb, nameSpecified: 
+body: Copyright (c) 2011 P…
+version: 2.30909.1
+
+name: nanopb, nameSpecified: 
+body: Copyright (c) 2011 P…
+version: 2.30909.1
+
+name: PromisesObjC, nameSpecified: 
+body: 
+                   …
+version: 2.3.1
+
+name: PromisesObjC, nameSpecified: 
+body: 
+                   …
+version: 2.3.1
+
+name: ReactorKit, nameSpecified: 
+body: The MIT License (MIT…
+version: 3.2.0
+
+name: ReactorKit, nameSpecified: 
+body: The MIT License (MIT…
+version: 3.2.0
+
+name: RecaptchaInterop, nameSpecified: 
+body: 
+                   …
+version: 100.0.0
+
+name: RecaptchaInterop, nameSpecified: 
+body: 
+                   …
+version: 100.0.0
+
+name: RxAlamofire, nameSpecified: 
+body: The MIT License (MIT…
+version: 6.1.1
+
+name: RxAlamofire, nameSpecified: 
+body: The MIT License (MIT…
+version: 6.1.1
+
+name: RxAppState, nameSpecified: 
+body: Copyright (c) 2021 J…
+version: 1.7.1
+
+name: RxAppState, nameSpecified: 
+body: Copyright (c) 2021 J…
+version: 1.7.1
+
+name: RxCocoa, nameSpecified: 
+body: **The MIT License**
+…
+version: 6.6.0
+
+name: RxCocoa, nameSpecified: 
+body: **The MIT License**
+…
+version: 6.6.0
+
+name: RxDataSources, nameSpecified: 
+body: MIT License
+
+Copyrig…
+version: 5.0.0
+
+name: RxDataSources, nameSpecified: 
+body: MIT License
+
+Copyrig…
+version: 5.0.0
+
+name: RxGesture, nameSpecified: 
+body: Copyright (c) RxSwif…
+version: 4.0.4
+
+name: RxGesture, nameSpecified: 
+body: Copyright (c) RxSwif…
+version: 4.0.4
+
+name: RxKakaoSDKAuth, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: RxKakaoSDKAuth, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: RxKakaoSDKCommon, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: RxKakaoSDKCommon, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: RxKakaoSDKTalk, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: RxKakaoSDKTalk, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: RxKakaoSDKUser, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: RxKakaoSDKUser, nameSpecified: 
+body:                     …
+version: 2.20.0
+
+name: RxRelay, nameSpecified: 
+body: **The MIT License**
+…
+version: 6.6.0
+
+name: RxRelay, nameSpecified: 
+body: **The MIT License**
+…
+version: 6.6.0
+
+name: RxSwift, nameSpecified: 
+body: **The MIT License**
+…
+version: 6.6.0
+
+name: RxSwift, nameSpecified: 
+body: **The MIT License**
+…
+version: 6.6.0
+
+name: SnapKit, nameSpecified: 
+body: Copyright (c) 2011-P…
+version: 5.6.0
+
+name: SnapKit, nameSpecified: 
+body: Copyright (c) 2011-P…
+version: 5.6.0
+
+name: TagListView, nameSpecified: 
+body: The MIT License (MIT…
+version: 1.4.1
+
+name: TagListView, nameSpecified: 
+body: The MIT License (MIT…
+version: 1.4.1
+
+name: Then, nameSpecified: 
+body: The MIT License (MIT…
+version: 3.0.0
+
+name: Then, nameSpecified: 
+body: The MIT License (MIT…
+version: 3.0.0
+
+name: WeakMapTable, nameSpecified: 
+body: The MIT License (MIT…
+version: 1.2.0
+
+name: WeakMapTable, nameSpecified: 
+body: The MIT License (MIT…
+version: 1.2.0
+
+name: Alamofire, nameSpecified: Alamofire, owner: Alamofire, version: 5.8.1, source: https://github.com/Alamofire/Alamofire
+
+name: kakao-ios-sdk, nameSpecified: KakaoOpenSDK, owner: kakao, version: 2.20.0, source: https://github.com/kakao/kakao-ios-sdk
+
+name: kakao-ios-sdk-rx, nameSpecified: RxKakaoOpenSDK, owner: kakao, version: 2.20.0, source: https://github.com/kakao/kakao-ios-sdk-rx
+
+name: OHHTTPStubs, nameSpecified: OHHTTPStubs, owner: AliSoftware, version: 9.1.0, source: https://github.com/AliSoftware/OHHTTPStubs
+
+name: PretendardKit, nameSpecified: PretendardKit, owner: wookeon, version: 1.0.0, source: https://github.com/wookeon/PretendardKit
+
+name: RxAlamofire, nameSpecified: RxAlamofire, owner: RxSwiftCommunity, version: 6.1.2, source: https://github.com/RxSwiftCommunity/RxAlamofire
+
+name: RxSwift, nameSpecified: RxSwift, owner: ReactiveX, version: 6.6.0, source: https://github.com/ReactiveX/RxSwift
+
+add-version-numbers: false
+
+LicensePlist Version: 3.25.1

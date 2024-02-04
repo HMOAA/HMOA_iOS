@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import ReactorKit
+import Hero
 
 
 class HomeViewController: UIViewController, View {
@@ -264,7 +265,7 @@ extension HomeViewController {
     
     private func configureUI() {
         view.backgroundColor = UIColor.white
-        
+        self.hero.isEnabled = true
         homeView.collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         

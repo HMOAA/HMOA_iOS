@@ -11,6 +11,7 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
+import Hero
 
 class BrandSearchViewController: UIViewController, View {
     typealias Reactor = BrandSearchReactor
@@ -48,6 +49,10 @@ class BrandSearchViewController: UIViewController, View {
         super.viewDidLoad()
         configureUI()
         configureSearchNavigationBar(backButton, searchBar: searchBar)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.hero.isEnabled = false
     }
 }
 
@@ -117,8 +122,9 @@ extension BrandSearchViewController {
             .map { $0.isPopVC }
             .distinctUntilChanged()
             .filter { $0 }
-            .map { _ in }
-            .bind(onNext: popViewController)
+            .bind(with: self, onNext: { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            })
             .disposed(by: disposeBag)
         
         // 브랜드 상세 페이지로 이동
@@ -139,8 +145,8 @@ extension BrandSearchViewController {
         
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
-        
         view.backgroundColor = .white
+        
         
         view.addSubview(collectionView)
         

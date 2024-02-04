@@ -31,49 +31,11 @@ class QnAListViewController: UIViewController, View {
         $0.setImage(UIImage(named: "selectedAddButton"), for: .selected)
     }
     
-    private let recommendButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        var titleAttr = AttributedString.init("추천")
-        titleAttr.font = .customFont(.pretendard, 16)
-        config.attributedTitle = titleAttr
-        config.image = UIImage(named: "floatingCircle")
-        config.imagePlacement = .leading
-        config.imagePadding = 7
-        config.titleAlignment = .leading
-        config.baseBackgroundColor = .black
-        config.baseForegroundColor = .white
-        let button = UIButton(configuration: config)
-        button.contentHorizontalAlignment = .leading
-        return button
-    }()
-    private let reviewButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        var titleAttr = AttributedString.init("시향기")
-        titleAttr.font = .customFont(.pretendard, 16)
-        config.attributedTitle = titleAttr
-        config.image = UIImage(named: "floatingCircle")
-        config.imagePlacement = .leading
-        config.imagePadding = 7
-        config.titleAlignment = .leading
-        config.baseForegroundColor = .white
-        let button = UIButton(configuration: config)
-        button.contentHorizontalAlignment = .leading
-        return button
-    }()
+    private let recommendButton = UIButton().makeFloatingListButton(title: "추천")
     
-    private let etcButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        var titleAttr = AttributedString.init("자유")
-        titleAttr.font = .customFont(.pretendard, 16)
-        config.attributedTitle = titleAttr
-        config.image = UIImage(named: "floatingCircle")
-        config.imagePlacement = .leading
-        config.imagePadding = 7
-        config.baseForegroundColor = .white
-        let button = UIButton(configuration: config)
-        button.contentHorizontalAlignment = .leading
-        return button
-    }()
+    private let reviewButton = UIButton().makeFloatingListButton(title: "시향기")
+    
+    private let etcButton = UIButton().makeFloatingListButton(title: "자유")
     
     private lazy var floatingButtons = [recommendButton, reviewButton, etcButton]
     
@@ -87,7 +49,6 @@ class QnAListViewController: UIViewController, View {
     }
     
     private lazy var floatingView = UIView().then {
-        $0.frame = view.frame
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         $0.alpha = 0
         $0.isHidden = true
@@ -284,7 +245,11 @@ class QnAListViewController: UIViewController, View {
             .map { $0.isFloatingButtonTap }
             .skip(1)
             .bind(with: self, onNext: { owner, isTap in
-                owner.showAnimation(isTap)
+                owner.showFloatingButtonAnimation(
+                    floatingButton: owner.floatingButton,
+                    stackView: owner.floatingStackView,
+                    backgroundView: owner.floatingView,
+                    isTap: isTap)
             })
             .disposed(by: disposeBag)
         
@@ -321,6 +286,7 @@ class QnAListViewController: UIViewController, View {
         // header 숨기기
         reactor.state
             .map { $0.isSearch }
+            .skip(1)
             .distinctUntilChanged()
             .bind(with: self) { owner, isSearch in
                 owner.collectionView.collectionViewLayout = owner.configureInitCollectionLayout(isSearch)
@@ -330,11 +296,15 @@ class QnAListViewController: UIViewController, View {
                     let newOffset = CGPoint(x: 0, y: 0)
                     owner.collectionView.setContentOffset(newOffset, animated: false)
                     // collectionview bottom이 키보드 레이아웃에 따를 경우 collectionview item 변경이 바로 적용 안 되고 드래그 해야 적용 돼 검색 상태에 따라 업데이트
-                    owner.collectionView.snp.updateConstraints { make in
+                    owner.collectionView.snp.remakeConstraints { make in
+                        make.leading.trailing.equalToSuperview()
+                        make.top.equalTo(owner.searchBar.snp.bottom)
                         make.bottom.equalToSuperview()
                     }
                 } else {
-                    owner.collectionView.snp.updateConstraints { make in
+                    owner.collectionView.snp.remakeConstraints { make in
+                        make.leading.trailing.equalToSuperview()
+                        make.top.equalTo(owner.searchBar.snp.bottom)
                         make.bottom.equalTo(owner.view.keyboardLayoutGuide.snp.top)
                     }
                 }
@@ -410,37 +380,6 @@ extension QnAListViewController {
                 self.bindHeader(header)
                 return header
             default: return UICollectionReusableView()
-            }
-        }
-    }
-    
-    private func showAnimation(_ isTap: Bool) {
-        floatingButton.isSelected = isTap
-        //버튼, 뷰 숨기기
-        if !isTap {
-            UIView.animate(withDuration: 0.3) {
-                self.floatingStackView.alpha = 0
-                self.floatingStackView.isHidden = true
-                self.view.layoutIfNeeded()
-            }
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.floatingView.alpha = 0
-            }) { _ in
-                self.floatingView.isHidden = true
-            }
-        }
-        // 버튼, 뷰 보이기
-        else {
-            self.floatingView.isHidden = false
-            UIView.animate(withDuration: 0.3, animations: {
-                self.floatingView.alpha = 1
-            })
-            
-            UIView.animate(withDuration: 0.3) {
-                self.floatingStackView.alpha = 1
-                self.floatingStackView.isHidden = false
-                self.view.layoutIfNeeded()
             }
         }
     }

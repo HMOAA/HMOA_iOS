@@ -191,6 +191,7 @@ extension ChangeProfileImageViewController {
                     return text
                 }
             }
+            .observe(on: MainScheduler.instance)
             .bind(with: self, onNext: { owner, text in
                 owner.nicknameView.nicknameTextField.text = text
                 owner.nicknameView.nicknameCountLabel.text = "\(text.count)/8"

@@ -194,8 +194,9 @@ extension CommunityWriteReactor {
         return CommunityAPI.postCommunityPost(params, images: images)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
+                guard let service = self.service else { return .empty() }
                 return .concat([
-                    self.service!.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces }
+                    service.updateCommunityList(to: CategoryList(communityId: data.id, category: data.category, title: data.title)).map { _ in .setSucces }
                 ])
             }
     }

@@ -16,7 +16,13 @@ class HPediaReactor: Reactor {
     enum Action {
         case didTapDictionaryItem(Int)
         case didTapCommunityItem(Int)
+        case viewDidLoad(Bool)
         case viewWillAppear
+        case didTapFloatingButton
+        case didTapRecommendButton
+        case didTapReviewButton
+        case didTapEtcButton
+        case didTapFloatingBackView
     }
     
     struct State {
@@ -24,12 +30,20 @@ class HPediaReactor: Reactor {
         var communityItems: [CategoryList] = []
         var selectedHPedia: HpediaType? = nil
         var selectedCommunityId: Int? = nil
+        var isLogin: Bool = false
+        var selectedAddCategory: String? = nil
+        var isFloatingButtonTap: Bool = false
+        var isTapWhenNotLogin: Bool = false
     }
     
     enum Mutation {
         case setSelectedHPedia(Int?)
         case setSelectedCommunityItemId(Int?)
         case setCommunityItems([CategoryList])
+        case setIsTapFloatingButton(Bool)
+        case setSelectedAddCategory(String?)
+        case setIsLogin(Bool)
+        case setIsTapWhenNotLogin(Bool)
     }
     
     init() {
@@ -51,6 +65,37 @@ class HPediaReactor: Reactor {
             ])
         case .viewWillAppear:
             return setHpediaCommunityListItem()
+            
+        case .viewDidLoad(let isLogin):
+            return .just(.setIsLogin(isLogin))
+            
+        case .didTapFloatingButton:
+            if currentState.isLogin {
+                return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
+            } else {
+                return .concat([
+                    .just(.setIsTapWhenNotLogin(true)),
+                    .just(.setIsTapWhenNotLogin(false))
+                ])
+            }
+            
+        case .didTapRecommendButton:
+            return .concat([
+                .just(.setSelectedAddCategory("추천")),
+                .just(.setSelectedAddCategory(nil))
+            ])
+        case .didTapReviewButton:
+            return .concat([
+                .just(.setSelectedAddCategory("시향기")),
+                .just(.setSelectedAddCategory(nil))
+            ])
+        case .didTapEtcButton:
+            return .concat([
+                .just(.setSelectedAddCategory("자유")),
+                .just(.setSelectedAddCategory(nil))
+            ])
+        case .didTapFloatingBackView:
+            return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
         }
     }
     
@@ -70,6 +115,15 @@ class HPediaReactor: Reactor {
             
         case .setCommunityItems(let item):
             state.communityItems = item
+            
+        case .setIsTapFloatingButton(let isTap):
+            state.isFloatingButtonTap = isTap
+        case .setSelectedAddCategory(let category):
+            state.selectedAddCategory = category
+        case .setIsLogin(let isLogin):
+            state.isLogin = isLogin
+        case .setIsTapWhenNotLogin(let isTap):
+            state.isTapWhenNotLogin = isTap
         }
         
         return state
@@ -81,8 +135,21 @@ extension HPediaReactor {
         return CommunityAPI.fetchHPediaCategoryList()
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                return .just(.setCommunityItems(data))
+                return
+                    .concat([
+                    .just(.setCommunityItems(data)),
+                    .just(.setIsTapFloatingButton(false))
+                    ])
             }
         
+    }
+    
+    func reactorForWrite() -> CommunityWriteReactor {
+        return CommunityWriteReactor(
+            communityId: nil,
+            title: nil,
+            category: currentState.selectedAddCategory!,
+            photos: [],
+            service: nil)
     }
 }
