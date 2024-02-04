@@ -9,6 +9,22 @@ import UIKit
 
 extension UIButton {
     
+    func makeFloatingListButton(title: String) -> UIButton {
+        var config = UIButton.Configuration.plain()
+        var titleAttr = AttributedString.init(title)
+        titleAttr.font = .customFont(.pretendard, 16)
+        config.attributedTitle = titleAttr
+        config.image = UIImage(named: "floatingCircle")
+        config.imagePlacement = .leading
+        config.imagePadding = 7
+        config.titleAlignment = .leading
+        config.baseBackgroundColor = .black
+        config.baseForegroundColor = .white
+        let button = UIButton(configuration: config)
+        button.contentHorizontalAlignment = .leading
+        return button
+    }
+    
     func makeImageButton(_ image: UIImage) -> UIButton {
         let button = UIButton().then {
             $0.setImage(image, for: .normal)

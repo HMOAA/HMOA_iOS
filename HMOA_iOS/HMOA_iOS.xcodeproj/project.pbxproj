@@ -202,6 +202,7 @@
 		CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AD82AEF971800A5B717 /* DetailCommentService.swift */; };
 		CA943ADB2AF2234700A5B717 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943ADA2AF2234700A5B717 /* PhotoCell.swift */; };
 		CA943AE12AF29C6400A5B717 /* PhotoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA943AE02AF29C6400A5B717 /* PhotoSection.swift */; };
+		CA9810FC2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9810FB2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift */; };
 		CA99A6CC2B1200F20030364F /* MyLogWritedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA99A6CB2B1200F20030364F /* MyLogWritedPostViewController.swift */; };
 		CA99A6CE2B1201B10030364F /* MyLogWritedPostReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA99A6CD2B1201B10030364F /* MyLogWritedPostReactor.swift */; };
 		CA99A6D12B1216DE0030364F /* ReportAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA99A6D02B1216DE0030364F /* ReportAPI.swift */; };
@@ -211,6 +212,7 @@
 		CAA1160A2AC16ABD0063806C /* BrandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA116092AC16ABD0063806C /* BrandAPI.swift */; };
 		CAA1160C2AC16C0F0063806C /* BrandData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160B2AC16C0F0063806C /* BrandData.swift */; };
 		CAA1160E2AC2DABE0063806C /* DetailDictionaryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA1160D2AC2DABE0063806C /* DetailDictionaryReactor.swift */; };
+		CAA4245C2B6BF24D0005975D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CAA4245B2B6BF24D0005975D /* Settings.bundle */; };
 		CAA592692B048BB9003DAE51 /* UIImage++Extenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA592682B048BB9003DAE51 /* UIImage++Extenstions.swift */; };
 		CAA5926B2B049197003DAE51 /* ImagePinchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926A2B049197003DAE51 /* ImagePinchViewController.swift */; };
 		CAA5926D2B049605003DAE51 /* ImagePinchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926C2B049605003DAE51 /* ImagePinchReactor.swift */; };
@@ -458,6 +460,7 @@
 		CA943AD82AEF971800A5B717 /* DetailCommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCommentService.swift; sourceTree = "<group>"; };
 		CA943ADA2AF2234700A5B717 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		CA943AE02AF29C6400A5B717 /* PhotoSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSection.swift; sourceTree = "<group>"; };
+		CA9810FB2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults++Extenstions.swift"; sourceTree = "<group>"; };
 		CA99A6CB2B1200F20030364F /* MyLogWritedPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogWritedPostViewController.swift; sourceTree = "<group>"; };
 		CA99A6CD2B1201B10030364F /* MyLogWritedPostReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogWritedPostReactor.swift; sourceTree = "<group>"; };
 		CA99A6D02B1216DE0030364F /* ReportAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAPI.swift; sourceTree = "<group>"; };
@@ -467,6 +470,7 @@
 		CAA116092AC16ABD0063806C /* BrandAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandAPI.swift; sourceTree = "<group>"; };
 		CAA1160B2AC16C0F0063806C /* BrandData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandData.swift; sourceTree = "<group>"; };
 		CAA1160D2AC2DABE0063806C /* DetailDictionaryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDictionaryReactor.swift; sourceTree = "<group>"; };
+		CAA4245B2B6BF24D0005975D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		CAA592682B048BB9003DAE51 /* UIImage++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage++Extenstions.swift"; sourceTree = "<group>"; };
 		CAA5926A2B049197003DAE51 /* ImagePinchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePinchViewController.swift; sourceTree = "<group>"; };
 		CAA5926C2B049605003DAE51 /* ImagePinchReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePinchReactor.swift; sourceTree = "<group>"; };
@@ -721,6 +725,7 @@
 				CA3C76172B0DE06B00365FC2 /* HMOA_iOS.entitlements */,
 				2C39AA78297054CD000C6F71 /* Source */,
 				2C39AA4C297041D4000C6F71 /* Resource */,
+				CAA4245B2B6BF24D0005975D /* Settings.bundle */,
 			);
 			path = HMOA_iOS;
 			sourceTree = "<group>";
@@ -878,6 +883,7 @@
 				CA7C9C0C2AAAE06400072AB9 /* UISearchBar++Extension.swift */,
 				CA0160A42AB2FAE600D5839D /* AttributeString++Extension.swift */,
 				CAA592682B048BB9003DAE51 /* UIImage++Extenstions.swift */,
+				CA9810FB2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -2129,6 +2135,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAA4245C2B6BF24D0005975D /* Settings.bundle in Resources */,
 				2C39AA25296DB4E0000C6F71 /* LaunchScreen.storyboard in Resources */,
 				2C39AA22296DB4E0000C6F71 /* Assets.xcassets in Resources */,
 				CAC0043E2B03631C00EB2CF1 /* GoogleService-Info.plist in Resources */,
@@ -2470,6 +2477,7 @@
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
+				CA9810FC2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
