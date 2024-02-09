@@ -1,5 +1,5 @@
 //
-//  QnAPostCell.swift
+//  CommunityPostCell.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/11.
@@ -11,9 +11,9 @@ import Then
 import SnapKit
 import RxSwift
 
-class QnAPostCell: UICollectionViewCell {
+class CommunityPostCell: UICollectionViewCell {
     
-    static let identifier = "QnAPostCell"
+    static let identifier = "CommunityPostCell"
     
     //MARK: - UIComponents
     private let QLabel = UILabel().then {
@@ -163,7 +163,7 @@ class QnAPostCell: UICollectionViewCell {
     }
 }
 
-extension QnAPostCell {
+extension CommunityPostCell {
     func updateCell(_ item: CommunityDetail) {
         profileImageView.kf.setImage(with: URL(string: item.profileImgUrl))
         nicknameLabel.text = item.author

@@ -1,5 +1,5 @@
 //
-//  ImagePinchViewController.swift
+//  ImageListViewController.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 11/15/23.
@@ -16,7 +16,7 @@ import RxGesture
 import Kingfisher
 
 
-class ImagePinchViewController: UIViewController, View {
+class ImageListViewController: UIViewController, View {
 
     var disposeBag = DisposeBag()
     
@@ -67,7 +67,7 @@ class ImagePinchViewController: UIViewController, View {
         }
     }
     
-    func bind(reactor: ImagePinchReactor) {
+    func bind(reactor: ImageListReactor) {
         
         // Action
     
@@ -128,7 +128,7 @@ class ImagePinchViewController: UIViewController, View {
 
 }
 
-extension ImagePinchViewController {
+extension ImageListViewController {
     
     private func configureLayout() -> UICollectionViewCompositionalLayout {
         

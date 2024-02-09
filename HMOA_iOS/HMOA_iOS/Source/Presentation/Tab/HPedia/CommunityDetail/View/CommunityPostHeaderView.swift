@@ -1,5 +1,5 @@
 //
-//  QnAPostHeaderView.swift
+//  CommunityPostHeaderView.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/11.
@@ -10,8 +10,8 @@ import UIKit
 import Then
 import SnapKit
 
-class QnAPostHeaderView: UICollectionReusableView {
-    static let identifier = "QnAPostHeaderView"
+class CommunityPostHeaderView: UICollectionReusableView {
+    static let identifier = "CommunityPostHeaderView"
     
     //MARK: - UI Component
     let recommendLabel = UILabel().then {

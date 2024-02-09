@@ -1,5 +1,5 @@
 //
-//  QnAListViewController.swift
+//  CommunityListViewController.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/08.
@@ -15,14 +15,14 @@ import ReactorKit
 import QuartzCore
 import RxGesture
 
-class QnAListViewController: UIViewController, View {
+class CommunityListViewController: UIViewController, View {
 
     //MARK: - UI Components
     private let searchBar = UISearchBar().configureHpediaSearchBar()
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureInitCollectionLayout(false)).then {
-        $0.register(QnAListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAListHeaderView.identifier)
-        $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
+        $0.register(CommunityListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityListHeaderView.identifier)
+        $0.register(HPediaCommunityCell.self, forCellWithReuseIdentifier: HPediaCommunityCell.identifier)
     }
     
     
@@ -63,7 +63,7 @@ class QnAListViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationBarTitle(title: "Community", color: .white, isHidden: false, isScroll: false)
+        setBackItemNaviBar("Community")
         setUpUI()
         setAddView()
         setConstraints()
@@ -138,7 +138,7 @@ class QnAListViewController: UIViewController, View {
         }
     }
     
-    func bind(reactor: QNAListReactor) {
+    func bind(reactor: CommunityListReactor) {
         
         //Action
         
@@ -195,7 +195,7 @@ class QnAListViewController: UIViewController, View {
         
         //콜렉션 뷰 아이템 터치
         collectionView.rx.itemSelected
-            .map { Reactor.Action.didTapQnACell($0)}
+            .map { Reactor.Action.didTapCommunityCell($0)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -228,10 +228,10 @@ class QnAListViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, items in
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
                 
-                snapshot.appendSections([.qna])
+                snapshot.appendSections([.community])
                 
                 items.forEach {
-                    snapshot.appendItems([.qna($0)], toSection: .qna)
+                    snapshot.appendItems([.community($0)], toSection: .community)
                 }
                 
                 DispatchQueue.main.async {
@@ -253,20 +253,20 @@ class QnAListViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        //선택된 카테고리 String QnAWriteVC로 push
+        //선택된 카테고리 String CommunityWriteVC로 push
         reactor.state
             .compactMap { $0.selectedAddCategory }
             .bind(with: self, onNext: { owner, _ in
-                owner.presentQnAWriteVC(reactor)
+                owner.presentCommunityWriteVC(reactor)
             })
             .disposed(by: disposeBag)
         
-        //선택된 셀 id QnADetailVC로 push
+        //선택된 셀 id CommunityDetailVC로 push
         reactor.state
             .map { $0.selectedPostId }
             .compactMap { $0 }
             .bind(with: self, onNext: { owner, id in
-                owner.presentQnADetailVC(id, reactor)
+                owner.presentCommunityDetailVC(id, reactor)
             })
             .disposed(by: disposeBag)
         
@@ -324,7 +324,7 @@ class QnAListViewController: UIViewController, View {
         
     }
     
-    private func bindHeader(_ header: QnAListHeaderView) {
+    private func bindHeader(_ header: CommunityListHeaderView) {
         // Action
         
         // 카테고리 버튼 터치
@@ -338,7 +338,7 @@ class QnAListViewController: UIViewController, View {
     }
 }
 
-extension QnAListViewController {
+extension CommunityListViewController {
     
     private func configureInitCollectionLayout(_ isSearch: Bool) -> UICollectionViewCompositionalLayout {
         
@@ -362,8 +362,8 @@ extension QnAListViewController {
     private func configureDatasource() {
         datasource = UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
-            case .qna(let data):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HPediaQnACell.identifier, for: indexPath) as? HPediaQnACell else { return UICollectionViewCell() }
+            case .community(let data):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HPediaCommunityCell.identifier, for: indexPath) as? HPediaCommunityCell else { return UICollectionViewCell() }
                 cell.isListCell = true
                 cell.configure(data)
                 
@@ -376,7 +376,7 @@ extension QnAListViewController {
         datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
             switch indexPath.item {
             case 0:
-                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: QnAListHeaderView.identifier, for: indexPath) as? QnAListHeaderView else { return UICollectionReusableView() }
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CommunityListHeaderView.identifier, for: indexPath) as? CommunityListHeaderView else { return UICollectionReusableView() }
                 self.bindHeader(header)
                 return header
             default: return UICollectionReusableView()

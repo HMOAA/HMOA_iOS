@@ -1,5 +1,5 @@
 //
-//  QnAWriteViewController.swift
+//  CommunityWriteViewController.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/11.
@@ -14,7 +14,7 @@ import RxSwift
 import ReactorKit
 import PhotosUI
 
-class QnAWriteViewController: UIViewController, View {
+class CommunityWriteViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
     
@@ -374,7 +374,7 @@ class QnAWriteViewController: UIViewController, View {
     }
 }
 
-extension QnAWriteViewController: PHPickerViewControllerDelegate {
+extension CommunityWriteViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         

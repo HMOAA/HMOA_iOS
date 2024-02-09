@@ -1,27 +1,27 @@
 
 //
-//  QnADetailSection.swift
+//  CommunityDetailSection.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/11.
 //
 
 
-enum QnADetailSection: Hashable {
-    case qnaPost
+enum CommunityDetailSection: Hashable {
+    case post
     case comment
 }
 
-enum QnADetailSectionItem: Hashable {
-    case qnaPostCell(CommunityDetail)
+enum CommunityDetailSectionItem: Hashable {
+    case postCell(CommunityDetail)
     case commentCell(CommunityComment?)
 }
 
-extension QnADetailSectionItem {
+extension CommunityDetailSectionItem {
     
     var category: String {
         switch self {
-        case .qnaPostCell(let detail):
+        case .postCell(let detail):
             return detail.category
         default: return ""
         }

@@ -1,5 +1,5 @@
 //
-//  QnACommentHeaderView.swift
+//  CommunityCommentHeaderView.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/11.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class QnACommentHeaderView: UICollectionReusableView {
+class CommunityCommentHeaderView: UICollectionReusableView {
     // MARK: - identifier
-    static let identifier = "QnACommentHeaderView"
+    static let identifier = "CommunityCommentHeaderView"
     
     // MARK: - UI Component
     var commentLabel = UILabel().then {
