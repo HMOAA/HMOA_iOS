@@ -167,7 +167,7 @@ class OptionView: UIView, View {
                 
                 switch reactor.currentState.type {
                 case .Comment(_):
-                    if let parentVC = owner.parentVC as? QnADetailViewController {
+                    if let parentVC = owner.parentVC as? CommunityDetailViewController {
                         parentVC.presentCommentWirteViewControllerForWriter(.community(parentVC.reactor!))
                     }
                     
@@ -179,8 +179,8 @@ class OptionView: UIView, View {
                         parentVC.presentCommentWirteViewControllerForWriter(.perfumeDetail(parentVC.reactor!))
                     }
                 case .Post(_):
-                    let parentVC = owner.parentVC as! QnADetailViewController
-                    parentVC.presentQnAWriteVCForEdit(reactor: parentVC.reactor!)
+                    let parentVC = owner.parentVC as! CommunityDetailViewController
+                    parentVC.presentCommunityWriteVCForEdit(reactor: parentVC.reactor!)
                     
                 default:
                     break

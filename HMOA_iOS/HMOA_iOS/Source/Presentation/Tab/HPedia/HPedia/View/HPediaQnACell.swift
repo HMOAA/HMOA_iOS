@@ -1,5 +1,5 @@
 //
-//  HPediaQnACell.swift
+//  HPediaCommunityCell.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/04/05.
@@ -9,9 +9,9 @@ import UIKit
 
 import ReactorKit
 
-class HPediaQnACell: UICollectionViewCell{
+class HPediaCommunityCell: UICollectionViewCell{
     
-    static let identifier = "HPediaQnACell"
+    static let identifier = "HPediaCommunityCell"
     //MARK: - UI Components
     private let categoryLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 14, color: .gray2)

@@ -17,14 +17,14 @@ import Kingfisher
 class CommunityDetailViewController: UIViewController, View {
 
     //MARK: - Properties
-    private var dataSource: UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<CommunityDetailSection, CommunityDetailSectionItem>!
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         
-        $0.register(QnAPostHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier)
-        $0.register(QnACommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier)
+        $0.register(CommunityPostHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityPostHeaderView.identifier)
+        $0.register(CommunityCommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityCommentHeaderView.identifier)
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
-        $0.register(QnAPostCell.self, forCellWithReuseIdentifier: QnAPostCell.identifier)
+        $0.register(CommunityPostCell.self, forCellWithReuseIdentifier: CommunityPostCell.identifier)
         
     }
     
@@ -142,7 +142,7 @@ class CommunityDetailViewController: UIViewController, View {
         }
     }
     
-    func bind(reactor: QnADetailReactor) {
+    func bind(reactor: CommunityDetailReactor) {
         
         // Action
         commentTextView.rx
@@ -235,10 +235,10 @@ class CommunityDetailViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 
-                var snapshot = NSDiffableDataSourceSnapshot<QnADetailSection, QnADetailSectionItem>()
-                snapshot.appendSections([.qnaPost, .comment])
+                var snapshot = NSDiffableDataSourceSnapshot<CommunityDetailSection, CommunityDetailSectionItem>()
+                snapshot.appendSections([.post, .comment])
     
-                items.postItem.forEach { snapshot.appendItems([.qnaPostCell($0)], toSection: .qnaPost) }
+                items.postItem.forEach { snapshot.appendItems([.postCell($0)], toSection: .post) }
                 
                 snapshot.appendItems(items.commentItem.map { .commentCell($0) }, toSection: .comment)
                 
@@ -328,25 +328,25 @@ extension CommunityDetailViewController: UITextViewDelegate {
     }
     
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<CommunityDetailSection, CommunityDetailSectionItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {
-            case .qnaPostCell(let qnaPost):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QnAPostCell.identifier, for: indexPath) as? QnAPostCell else { return UICollectionViewCell() }
+            case .postCell(let CommunityPost):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommunityPostCell.identifier, for: indexPath) as? CommunityPostCell else { return UICollectionViewCell() }
                 
                 self.postOptionView.parentVC = self
             
-                let optionPostData = OptionPostData(id: qnaPost.id, content: qnaPost.content, title: qnaPost.title, category: qnaPost.category, isWrited: qnaPost.writed)
+                let optionPostData = OptionPostData(id: CommunityPost.id, content: CommunityPost.content, title: CommunityPost.title, category: CommunityPost.category, isWrited: CommunityPost.writed)
                 
                 cell.optionButton.rx.tap
                     .map { OptionReactor.Action.didTapOptionButton(.Post(optionPostData)) }
                     .bind(to: self.postOptionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
-                cell.updateCell(qnaPost)
-                cell.bindPhotoCollectionView(qnaPost.communityPhotos)
+                cell.updateCell(CommunityPost)
+                cell.bindPhotoCollectionView(CommunityPost.communityPhotos)
                 
-                if let url = qnaPost.myProfileImgUrl {
+                if let url = CommunityPost.myProfileImgUrl {
                     self.profileImageView.kf.setImage(with: URL(string: url))
                 }
                 
@@ -363,7 +363,7 @@ extension CommunityDetailViewController: UITextViewDelegate {
                 
                 cell.photoCollectionView.rx.itemSelected
                     .bind(with: self, onNext: { owner, indexPath in
-                        owner.presentImageListVC(indexPath, images: qnaPost.communityPhotos)
+                        owner.presentImageListVC(indexPath, images: CommunityPost.communityPhotos)
                     })
                     .disposed(by: cell.disposeBag)
                 
@@ -383,12 +383,12 @@ extension CommunityDetailViewController: UITextViewDelegate {
                         .bind(to: self.commentOptionView.reactor!.action)
                         .disposed(by: cell.disposeBag)
                     
-                    // QnADetailReactor에 indexPathRow 전달
+                    // CommunityDetailReactor에 indexPathRow 전달
                     cell.optionButton.rx.tap
                         .bind(with: self, onNext: { owner, _  in
                             guard let indexPath = owner.collectionView.indexPath(for: cell) else { return }
                             
-                            let detailAction = QnADetailReactor.Action.didTapOptionButton(indexPath.row)
+                            let detailAction = CommunityDetailReactor.Action.didTapOptionButton(indexPath.row)
                             owner.reactor?.action.onNext(detailAction)
                         })
                         .disposed(by: cell.disposeBag)
@@ -403,7 +403,7 @@ extension CommunityDetailViewController: UITextViewDelegate {
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
             switch indexPath.section {
             case 0:
-                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnAPostHeaderView.identifier, for: indexPath) as? QnAPostHeaderView else { return UICollectionReusableView() }
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityPostHeaderView.identifier, for: indexPath) as? CommunityPostHeaderView else { return UICollectionReusableView() }
                 
                 self.reactor?.state
                     .map { $0.category }
@@ -412,7 +412,7 @@ extension CommunityDetailViewController: UITextViewDelegate {
                 
                 return header
             case 1:
-                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: QnACommentHeaderView.identifier, for: indexPath) as? QnACommentHeaderView else { return UICollectionReusableView() }
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityCommentHeaderView.identifier, for: indexPath) as? CommunityCommentHeaderView else { return UICollectionReusableView() }
                 
                 self.reactor?.state
                     .map { $0.commentCount }
@@ -428,7 +428,7 @@ extension CommunityDetailViewController: UITextViewDelegate {
         }
     }
     
-    private func configureQnAPostSection() -> NSCollectionLayoutSection {
+    private func configureCommunityPostSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(268))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -445,7 +445,7 @@ extension CommunityDetailViewController: UITextViewDelegate {
     }
     
     
-    private func configureQnACommentSection() -> NSCollectionLayoutSection {
+    private func configureCommunityCommentSection() -> NSCollectionLayoutSection {
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(102))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -465,9 +465,9 @@ extension CommunityDetailViewController: UITextViewDelegate {
         return UICollectionViewCompositionalLayout { section, _ in
             switch section {
             case 0:
-                return self.configureQnAPostSection()
+                return self.configureCommunityPostSection()
             case 1:
-                return self.configureQnACommentSection()
+                return self.configureCommunityCommentSection()
             default:
                 return nil
             }

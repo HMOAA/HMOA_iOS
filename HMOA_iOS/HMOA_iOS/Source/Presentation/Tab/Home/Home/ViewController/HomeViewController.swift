@@ -57,7 +57,7 @@ class HomeViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setBrandSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
+        setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
         bind(reactor: homeReactor)
     }

@@ -24,7 +24,7 @@ class MyLogWritedPostViewController: UIViewController, View {
     private let layout = UICollectionViewFlowLayout()
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
-        $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
+        $0.register(HPediaCommunityCell.self, forCellWithReuseIdentifier: HPediaCommunityCell.identifier)
     }
     
     private lazy var noWriteView = NoLoginEmptyView(title:
@@ -104,7 +104,7 @@ class MyLogWritedPostViewController: UIViewController, View {
         // State
         reactor.state
             .map { $0.writedPostItems }
-            .bind(to: collectionView.rx.items(cellIdentifier: HPediaQnACell.identifier, cellType: HPediaQnACell.self)) { row, item, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: HPediaCommunityCell.identifier, cellType: HPediaCommunityCell.self)) { row, item, cell in
                 cell.isListCell = true
                 cell.configure(item)
             }
@@ -128,7 +128,7 @@ class MyLogWritedPostViewController: UIViewController, View {
             .map { $0.selectedId }
             .compactMap { $0 }
             .distinctUntilChanged()
-            .bind(onNext: presentQnADetailVC)
+            .bind(onNext: presentCommunityDetailVC)
             .disposed(by: disposeBag)
         
         

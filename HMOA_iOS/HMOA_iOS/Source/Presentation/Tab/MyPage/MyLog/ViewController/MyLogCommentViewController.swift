@@ -157,7 +157,7 @@ class MyLogCommentViewController: UIViewController, View {
         reactor.state
             .map { $0.communityId }
             .compactMap { $0 }
-            .bind(onNext: presentQnADetailVC)
+            .bind(onNext: presentCommunityDetailVC)
             .disposed(by: disposeBag)
     }
 }

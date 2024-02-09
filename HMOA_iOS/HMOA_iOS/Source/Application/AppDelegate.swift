@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RxKakaoSDK.initSDK(appKey: Key.KAKAO_NATIVE_APP_KEY)
         FirebaseApp.configure()
         
-        configurePushAlarm()
+        configurePushAlarm(application: application)
         
         // splash 보이는 시간
         sleep(2)
@@ -130,7 +130,7 @@ extension AppDelegate: MessagingDelegate {
 extension AppDelegate {
     
     /// pushAlram 기본 세팅
-    func configurePushAlarm() {
+    func configurePushAlarm(application: UIApplication) {
         UNUserNotificationCenter.current().delegate = self
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(

@@ -1,5 +1,5 @@
 //
-//  HPediaQnAHeaderView.swift
+//  HPediaCommunityHeaderView.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/06.
@@ -11,8 +11,8 @@ import Then
 import SnapKit
 import RxSwift
 
-class HPediaQnAHeaderView: UICollectionReusableView {
-    static let identifier = "HPediaQnAHeaderView"
+class HPediaCommunityHeaderView: UICollectionReusableView {
+    static let identifier = "HPediaCommunityHeaderView"
     //MARK: - UI Components
     let titleLabel = UILabel().then {
         $0.setLabelUI("Community", font: .pretendard, size: 20, color: .black)

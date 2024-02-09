@@ -210,7 +210,7 @@ extension CommentListViewController {
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
-                // QnADetailReactor에 indexPathRow 전달
+                // CommunityDetailReactor에 indexPathRow 전달
                 cell.optionButton.rx.tap
                     .map { CommentListReactor.Action.didTapOptionButton(comment.id) }
                     .bind(to: self.reactor!.action)
