@@ -852,13 +852,12 @@
 		2C39AA78297054CD000C6F71 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				CAD8E1622B7614D200CB78A3 /* Application */,
 				2C15DF8F2A57DFC600EAB112 /* Manager */,
 				2C4A265B29C2F6E1009F288F /* Network */,
 				2CAD963C298E693D00974500 /* CustomView */,
 				2C39AA4A2970417D000C6F71 /* Presentation */,
 				2C39AA79297054EA000C6F71 /* Extenstions */,
-				2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */,
-				2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -1949,6 +1948,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		CAD8E1622B7614D200CB78A3 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				2C39AA15296DB4DE000C6F71 /* AppDelegate.swift */,
+				2C39AA17296DB4DE000C6F71 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		CADEAE182B43F9E100BC8964 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -2683,7 +2691,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hyungyu.HMOA-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2726,7 +2734,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hyungyu.HMOA-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
