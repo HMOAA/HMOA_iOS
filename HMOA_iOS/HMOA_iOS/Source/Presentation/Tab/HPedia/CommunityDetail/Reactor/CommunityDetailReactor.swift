@@ -1,5 +1,5 @@
 //
-//  QnADetailReactor.swift
+//  CommunityDetailReactor.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/11.
@@ -10,7 +10,7 @@ import Foundation
 import ReactorKit
 import RxSwift
 
-class QnADetailReactor: Reactor {
+class CommunityDetailReactor: Reactor {
     let initialState: State
     var service: CommunityListProtocol?
     
@@ -212,7 +212,7 @@ class QnADetailReactor: Reactor {
 }
     
 
-extension QnADetailReactor {
+extension CommunityDetailReactor {
     func setUpPostSection() -> Observable<Mutation> {
         return CommunityAPI.fetchCommunityDetail(currentState.communityId)
             .catch { _ in .empty() }

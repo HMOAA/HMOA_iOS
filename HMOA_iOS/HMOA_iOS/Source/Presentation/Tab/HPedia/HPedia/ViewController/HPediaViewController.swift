@@ -20,9 +20,9 @@ class HPediaViewController: UIViewController, View {
     //MARK: - UIComponents
     private lazy var hPediaCollectionView = UICollectionView(frame: .zero,
                                                 collectionViewLayout: configureLayout()).then {
-        $0.register(HPediaQnAHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier)
-        $0.register(HPediaQnACell.self,
-                    forCellWithReuseIdentifier: HPediaQnACell.identifier)
+        $0.register(HPediaCommunityHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaCommunityHeaderView.identifier)
+        $0.register(HPediaCommunityCell.self,
+                    forCellWithReuseIdentifier: HPediaCommunityCell.identifier)
         $0.register(HPediaDictionaryCell.self,
                     forCellWithReuseIdentifier: HPediaDictionaryCell.identifier)
     }
@@ -214,11 +214,11 @@ class HPediaViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, item in
                 
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
-                snapshot.appendSections([.dictionary, .qna])
+                snapshot.appendSections([.dictionary, .community])
                 
                 reactor.currentState.DictionarySectionItems
                     .forEach { snapshot.appendItems([.dictionary($0)], toSection: .dictionary) }
-                item.forEach { snapshot.appendItems([.qna($0)], toSection: .qna) }
+                item.forEach { snapshot.appendItems([.community($0)], toSection: .community) }
                 
                 DispatchQueue.main.async {
                     owner.datasource.apply(snapshot)
@@ -226,11 +226,11 @@ class HPediaViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        //선택된 카테고리 String QnAWriteVC로 push
+        //선택된 카테고리 String CommunityWriteVC로 push
         reactor.state
             .compactMap { $0.selectedAddCategory }
             .bind(with: self, onNext: { owner, _ in
-                owner.presentQnAWriteVC(reactor)
+                owner.presentCommunityWriteVC(reactor)
             })
             .disposed(by: disposeBag)
         
@@ -248,7 +248,7 @@ class HPediaViewController: UIViewController, View {
             .map { $0.selectedCommunityId }
             .compactMap { $0 }
             .bind(with: self, onNext: { owner, id in
-                owner.presentQnADetailVC(id)
+                owner.presentCommunityDetailVC(id)
             })
             .disposed(by: disposeBag)
         
@@ -286,10 +286,10 @@ extension HPediaViewController {
     private func configureDatasource () {
         datasource = UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>(collectionView: hPediaCollectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
-            case .qna(let data):
+            case .community(let data):
                 guard let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HPediaQnACell.identifier,
-                    for: indexPath) as? HPediaQnACell
+                    withReuseIdentifier: HPediaCommunityCell.identifier,
+                    for: indexPath) as? HPediaCommunityCell
                 else { return UICollectionViewCell() }
                 
                 cell.isListCell = false
@@ -312,7 +312,7 @@ extension HPediaViewController {
         datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
             switch indexPath.section {
             case 0:
-                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier, for: indexPath) as? HPediaQnAHeaderView else { return UICollectionReusableView() }
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaCommunityHeaderView.identifier, for: indexPath) as? HPediaCommunityHeaderView else { return UICollectionReusableView() }
                 
                 header.titleLabel.snp.remakeConstraints { make in
                     make.leading.equalToSuperview()
@@ -324,10 +324,10 @@ extension HPediaViewController {
                 
                 return header
             case 1:
-                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier, for: indexPath) as? HPediaQnAHeaderView else { return UICollectionReusableView() }
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaCommunityHeaderView.identifier, for: indexPath) as? HPediaCommunityHeaderView else { return UICollectionReusableView() }
                 
                 header.allButton.rx.tap
-                    .bind(onNext: self.presentQnAListVC)
+                    .bind(onNext: self.presentCommunityListVC)
                     .disposed(by: header.disposeBag)
                 
                 return header
@@ -365,7 +365,7 @@ extension HPediaViewController {
         return section
     }
     
-    private func HPediaQnACellLayout() -> NSCollectionLayoutSection {
+    private func HPediaCommunityCellLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .absolute(70))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -398,7 +398,7 @@ extension HPediaViewController {
             case 0:
                 return self.HPediaHPediaDictionaryCellLayout()
             default:
-                return self.HPediaQnACellLayout()
+                return self.HPediaCommunityCellLayout()
             }
         }
     }

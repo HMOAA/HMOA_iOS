@@ -86,7 +86,7 @@ class UserInformationViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationBarTitle(title: "회원가입", color: .white, isHidden: false)
+        setBackItemNaviBar("2/2")
         setUpUI()
         setAddView()
         setUpConstraints()

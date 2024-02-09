@@ -53,7 +53,7 @@ class NicknameViewController: UIViewController, View {
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = .white
-        setNavigationBarTitle(title: "1/2", color: .white, isHidden: false, isScroll: false)
+        setBackItemNaviBar("1/2")
     }
     
     private func setAddView() {
