@@ -27,15 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RxKakaoSDK.initSDK(appKey: Key.KAKAO_NATIVE_APP_KEY)
         FirebaseApp.configure()
         
-        UNUserNotificationCenter.current().delegate = self
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: { _, _ in }
-        )
-        application.registerForRemoteNotifications()
-        Messaging.messaging().isAutoInitEnabled = true
-        Messaging.messaging().delegate = self
+        configurePushAlarm()
+        
+        // splash 보이는 시간
         sleep(2)
         
         return true
@@ -112,12 +106,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
 
+    /// 스위즐링 NO시, APNs등록, 토큰값가져옴
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
     
+    // TODO: - 홈 화면 알림 테스트 해보기
+    /// 앱화면 보고있는중에 푸시올 때
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.list, .banner])
+        completionHandler([.list, .banner, .badge, .sound])
     }
     
 }
@@ -128,5 +125,22 @@ extension AppDelegate: MessagingDelegate {
         print("fcmToken: \(fcmToken)")
         LoginManager.shared.fcmTokenSubject.onNext(fcmToken)
     }
+}
+
+extension AppDelegate {
+    
+    /// pushAlram 기본 세팅
+    func configurePushAlarm() {
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+        )
+        application.registerForRemoteNotifications()
+        Messaging.messaging().isAutoInitEnabled = true
+        Messaging.messaging().delegate = self
+    }
+    
 }
 

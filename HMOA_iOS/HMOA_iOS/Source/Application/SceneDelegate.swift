@@ -28,11 +28,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         
         if let url = URLContexts.first?.url {
+            // 카카오 링크
             if (AuthApi.isKakaoTalkLoginUrl(url)) {
                 _ = AuthController.rx.handleOpenUrl(url: url)
             }
-            
-            else if ((url.scheme?.contains("com.googleusercontent.apps")) != nil) {  //구글 링크인지
+            // 구글 링크
+            else if ((url.scheme?.contains("com.googleusercontent.apps")) != nil) {
                 GIDSignIn.sharedInstance.handle(url)
             }
             
@@ -50,6 +51,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        // App -> 아이폰 설정 알림 On/Off -> 앱으로 돌아왔을 때 푸쉬 알림 설정 여부 체크
+        
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
                 let isPushEnabled = settings.authorizationStatus == .authorized
@@ -81,9 +84,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 extension SceneDelegate {
-    //로그인 기록에 따른 첫 뷰컨트롤러 설정
+    
+    // 로그인 기록에 따른 첫 뷰컨트롤러 설정
     func setFirstViewController() {
         PretendardKit.register()
+        
         let loginManager: LoginManager = LoginManager.shared
         if let token = KeychainManager.read() {
             print("start \(token)")
