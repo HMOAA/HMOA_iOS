@@ -9,7 +9,7 @@ import Foundation
 import ReactorKit
 import RxSwift
 
-class ImagePinchReactor: Reactor {
+class ImageListReactor: Reactor {
     
     var initialState: State
     

@@ -1,5 +1,5 @@
 //
-//  QNAListReactor.swift
+//  CommunityListReactor.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/09.
@@ -8,7 +8,7 @@
 import ReactorKit
 import RxSwift
 
-class QNAListReactor: Reactor {
+class CommunityListReactor: Reactor {
     
     let initialState: State
     let service: CommunityListService
@@ -20,7 +20,7 @@ class QNAListReactor: Reactor {
         case didTapRecommendButton
         case didTapReviewButton
         case didTapEtcButton
-        case didTapQnACell(IndexPath)
+        case didTapCommunityCell(IndexPath)
         case didChangedSearchText(String)
         case didTapCategoryButton(String)
         case willDisplayCell(Int)
@@ -109,7 +109,7 @@ class QNAListReactor: Reactor {
                 .just(.setSelectedAddCategory("자유")),
                 .just(.setSelectedAddCategory(nil))
             ])
-        case .didTapQnACell(let indexPath):
+        case .didTapCommunityCell(let indexPath):
             return .concat([
                 .just(.setSelectedPostId(indexPath)),
                 .just(.setSelectedPostId(nil))
@@ -199,7 +199,7 @@ class QNAListReactor: Reactor {
     }
 }
 
-extension QNAListReactor {
+extension CommunityListReactor {
     func setCommunityListItem(_ category: String, _ page: Int) -> Observable<Mutation> {
         
         var loadedPage = currentState.loadedListPage
@@ -271,8 +271,8 @@ extension QNAListReactor {
             service: service)
     }
     
-    func reactorForDetail() -> QnADetailReactor {
-        return QnADetailReactor(
+    func reactorForDetail() -> CommunityDetailReactor {
+        return CommunityDetailReactor(
             currentState.selectedPostId!,
             service
         )

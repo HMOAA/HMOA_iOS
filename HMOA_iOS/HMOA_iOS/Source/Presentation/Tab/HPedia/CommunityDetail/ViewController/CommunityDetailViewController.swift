@@ -1,5 +1,5 @@
 //
-//  QnADetailViewController.swift
+//  CommunityDetailViewController.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/11.
@@ -14,7 +14,7 @@ import RxSwift
 import ReactorKit
 import Kingfisher
 
-class QnADetailViewController: UIViewController, View {
+class CommunityDetailViewController: UIViewController, View {
 
     //MARK: - Properties
     private var dataSource: UICollectionViewDiffableDataSource<QnADetailSection, QnADetailSectionItem>!
@@ -72,7 +72,7 @@ class QnADetailViewController: UIViewController, View {
         setUpUI()
         setAddView()
         setConstraints()
-        setNavigationBarTitle(title: "Community", color: .white, isHidden: false)
+        setBackItemNaviBar("Community")
         configureDataSource()
     }
 
@@ -314,7 +314,7 @@ class QnADetailViewController: UIViewController, View {
     }
 }
 
-extension QnADetailViewController: UITextViewDelegate {
+extension CommunityDetailViewController: UITextViewDelegate {
 
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         let isLogin = reactor!.currentState.isLogin
@@ -363,7 +363,7 @@ extension QnADetailViewController: UITextViewDelegate {
                 
                 cell.photoCollectionView.rx.itemSelected
                     .bind(with: self, onNext: { owner, indexPath in
-                        owner.presentImagePinchVC(indexPath, images: qnaPost.communityPhotos)
+                        owner.presentImageListVC(indexPath, images: qnaPost.communityPhotos)
                     })
                     .disposed(by: cell.disposeBag)
                 

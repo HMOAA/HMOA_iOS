@@ -1,5 +1,5 @@
 //
-//  QnAListHeaderView.swift
+//  CommunityListHeaderView.swift
 //  HMOA_iOS
 //
 //  Created by 정지훈 on 2023/09/08.
@@ -11,9 +11,9 @@ import Then
 import SnapKit
 import TagListView
 
-class QnAListHeaderView: UICollectionReusableView {
+class CommunityListHeaderView: UICollectionReusableView {
     
-    static let identifier = "QnAListHeaderView"
+    static let identifier = "CommunityListHeaderView"
     
     //MARK: - UI Components
     let tagListView = TagListView(frame: .zero).then {
@@ -63,7 +63,7 @@ class QnAListHeaderView: UICollectionReusableView {
     }
 }
 
-extension QnAListHeaderView: TagListViewDelegate {
+extension CommunityListHeaderView: TagListViewDelegate {
     
     //태그 리스트 selected 설정
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {

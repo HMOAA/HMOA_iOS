@@ -11,9 +11,9 @@ import Then
 import SnapKit
 import Kingfisher
 
-class QnAPostPhotoCell: UICollectionViewCell {
+class CommunityPostPhotoCell: UICollectionViewCell {
     
-    static let identifier = "QnAPostPhotoCell"
+    static let identifier = "CommunityPostPhotoCell"
     
     let imageView = UIImageView()
     
