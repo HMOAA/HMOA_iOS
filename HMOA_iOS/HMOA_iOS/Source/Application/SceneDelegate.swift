@@ -86,28 +86,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
     
     // 로그인 기록에 따른 첫 뷰컨트롤러 설정
+    
     func setFirstViewController() {
         PretendardKit.register()
-        
         let loginManager: LoginManager = LoginManager.shared
-        if let token = KeychainManager.read() {
-            print("start \(token)")
-            let vc = AppTabbarController()
-            window?.rootViewController = vc
-            loginManager.tokenSubject.onNext(token)
-            DispatchQueue.main.async {
-                vc.checkTutorialRun()
+        let token = KeychainManager.read()
+        if UserDefaults.isFirstLaunch() {
+            if let token = token {
+                KeychainManager.delete()
             }
-            
-        } else {
             let vc = LoginViewController()
             vc.reactor = LoginReactor(.first)
             window?.rootViewController = vc
             DispatchQueue.main.async {
                 vc.checkTutorialRun()
             }
+        } else {
+            if let token = token {
+                print("start \(token)")
+                let vc = AppTabbarController()
+                window?.rootViewController = vc
+                loginManager.tokenSubject.onNext(token)
+                DispatchQueue.main.async {
+                    vc.checkTutorialRun()
+                }
+            } else {
+                let vc = LoginViewController()
+                vc.reactor = LoginReactor(.first)
+                window?.rootViewController = vc
+                DispatchQueue.main.async {
+                    vc.checkTutorialRun()
+                }
+            }
         }
-        
     }
 }
 
