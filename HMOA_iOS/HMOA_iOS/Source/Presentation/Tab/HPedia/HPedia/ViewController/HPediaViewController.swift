@@ -147,6 +147,7 @@ class HPediaViewController: UIViewController, View {
         
         // Action
         rx.viewWillAppear
+            .delay(.milliseconds(300), scheduler: MainScheduler.instance)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
