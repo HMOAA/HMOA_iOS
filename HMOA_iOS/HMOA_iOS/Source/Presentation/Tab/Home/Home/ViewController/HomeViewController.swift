@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import ReactorKit
-import Hero
 
 
 class HomeViewController: UIViewController, View {
@@ -26,17 +25,6 @@ class HomeViewController: UIViewController, View {
     
     // MARK: - UI Component
     private lazy var homeView = HomeView()
-    
-//    private lazy var indicatorImageView = UIImageView().then {
-//        $0.contentMode = .scaleAspectFit
-//        $0.animationRepeatCount = 0
-//        $0.animationDuration = 2
-//        $0.animationImages = [
-//            UIImage(named: "indicator1")!,
-//            UIImage(named: "indicator2")!,
-//            UIImage(named: "indicator3")!
-//        ]
-//    }
     
     private let bellButton = UIButton().then {
         $0.setImage(UIImage(named: "bellOn"), for: .selected)
@@ -60,6 +48,7 @@ class HomeViewController: UIViewController, View {
         setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
         bind(reactor: homeReactor)
+        navigationController?.delegate = self
     }
 }
 
@@ -265,7 +254,6 @@ extension HomeViewController {
     
     private func configureUI() {
         view.backgroundColor = UIColor.white
-        self.hero.isEnabled = true
         homeView.collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
@@ -291,4 +279,31 @@ extension HomeViewController: UICollectionViewDelegate {
             }
         }
     }
+}
+
+extension HomeViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if shouldUseCustomAnimation(forOperation: operation, fromVC: fromVC, toVC: toVC) {
+            let animationController = CustomNavigationAnimation()
+            animationController.pushing = (operation == .push)
+            
+            return animationController
+        } else {
+            // nil을 반환하면 기본 애니메이션 사용
+            return nil
+        }
+    }
+    
+    private func shouldUseCustomAnimation(forOperation operation: UINavigationController.Operation, fromVC: UIViewController, toVC: UIViewController) -> Bool {
+        // Push 동작: HomeViewController에서 BrandSearchViewController로 이동
+        if operation == .push && fromVC is HomeViewController && toVC is BrandSearchViewController {
+            return true
+        }
+        // Pop 동작: BrandSearchViewController에서 HomeViewController로 돌아감
+        else if operation == .pop && fromVC is BrandSearchViewController && toVC is HomeViewController {
+            return true
+        }
+        return false
+    }
+
 }
