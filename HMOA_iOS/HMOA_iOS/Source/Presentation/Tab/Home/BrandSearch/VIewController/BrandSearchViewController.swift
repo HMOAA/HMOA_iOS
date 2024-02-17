@@ -50,10 +50,6 @@ class BrandSearchViewController: UIViewController, View {
         configureUI()
         configureSearchNavigationBar(backButton, searchBar: searchBar)
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.hero.isEnabled = false
-    }
 }
 
 extension BrandSearchViewController {

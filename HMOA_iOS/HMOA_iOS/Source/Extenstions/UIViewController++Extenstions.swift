@@ -222,6 +222,7 @@ extension UIViewController {
     /// BrandSearchDetailVC로 push
     func presentBrandDetailViewController(_ brandId: Int) {
         let brandDetailVC = BrandDetailViewController()
+        self.navigationController?.hero.isEnabled = false
         brandDetailVC.reactor = BrandDetailReactor(brandId, BrandDetailService())
         self.navigationController?.pushViewController(brandDetailVC, animated: true)
     }
