@@ -44,6 +44,10 @@ class SearchViewController: UIViewController, View {
         configureUI()
         configureSearchNavigationBar(backButton, searchBar: searchBar)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        view.endEditing(true)
+    }
 }
 
 extension SearchViewController {

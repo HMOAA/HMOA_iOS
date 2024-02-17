@@ -11,7 +11,6 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
-import Hero
 
 class BrandSearchViewController: UIViewController, View {
     typealias Reactor = BrandSearchReactor
