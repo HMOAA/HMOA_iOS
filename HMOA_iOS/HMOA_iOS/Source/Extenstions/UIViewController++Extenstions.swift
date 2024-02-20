@@ -52,7 +52,6 @@ extension UIViewController {
         
     /// community Image DetailVC로 전환
     func presentImageListVC(_ indexPath: IndexPath, images: [CommunityPhoto]) {
-        print("asdf")
         let vc = ImageListViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.reactor = ImageListReactor(indexPath.row, images)
