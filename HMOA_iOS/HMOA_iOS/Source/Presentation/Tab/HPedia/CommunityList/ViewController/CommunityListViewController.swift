@@ -57,7 +57,7 @@ class CommunityListViewController: UIViewController, View {
     
     //MARK: - Properties
     var disposeBag = DisposeBag()
-    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>!
+    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>?
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -138,9 +138,11 @@ class CommunityListViewController: UIViewController, View {
         }
     }
     
+    // MARK: - Bind
+    
     func bind(reactor: CommunityListReactor) {
         
-        //Action
+        // MARK: - Action
         
         // WillDisplayCell
         collectionView.rx.willDisplayCell
@@ -218,7 +220,7 @@ class CommunityListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        //State
+        // MARK: - State
         
         //collectionView Binding
         reactor.state
@@ -226,6 +228,7 @@ class CommunityListViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
+                guard let datasource = owner.datasource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
                 
                 snapshot.appendSections([.community])
@@ -234,9 +237,7 @@ class CommunityListViewController: UIViewController, View {
                     snapshot.appendItems([.community($0)], toSection: .community)
                 }
                 
-                DispatchQueue.main.async {
-                    owner.datasource.apply(snapshot, animatingDifferences: false)
-                }
+                datasource.apply(snapshot, animatingDifferences: false)
             })
             .disposed(by: disposeBag)
         
@@ -244,7 +245,8 @@ class CommunityListViewController: UIViewController, View {
         reactor.state
             .map { $0.isFloatingButtonTap }
             .skip(1)
-            .bind(with: self, onNext: { owner, isTap in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isTap in
                 owner.showFloatingButtonAnimation(
                     floatingButton: owner.floatingButton,
                     stackView: owner.floatingStackView,
@@ -256,6 +258,7 @@ class CommunityListViewController: UIViewController, View {
         //선택된 카테고리 String CommunityWriteVC로 push
         reactor.state
             .compactMap { $0.selectedAddCategory }
+            .observe(on: MainScheduler.instance)
             .bind(with: self, onNext: { owner, _ in
                 owner.presentCommunityWriteVC(reactor)
             })
@@ -265,7 +268,8 @@ class CommunityListViewController: UIViewController, View {
         reactor.state
             .map { $0.selectedPostId }
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, id in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, id in
                 owner.presentCommunityDetailVC(id, reactor)
             })
             .disposed(by: disposeBag)
@@ -275,7 +279,8 @@ class CommunityListViewController: UIViewController, View {
             .map { $0.isTapWhenNotLogin }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentAlertVC(
                     title: "로그인 후 이용가능한 서비스입니다",
                     content: "입력하신 내용을 다시 확인해주세요",
@@ -288,7 +293,8 @@ class CommunityListViewController: UIViewController, View {
             .map { $0.isSearch }
             .skip(1)
             .distinctUntilChanged()
-            .bind(with: self) { owner, isSearch in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isSearch in
                 owner.collectionView.collectionViewLayout = owner.configureInitCollectionLayout(isSearch)
                 
                 // header 보이게 collectinoview 이동
@@ -308,7 +314,7 @@ class CommunityListViewController: UIViewController, View {
                         make.bottom.equalTo(owner.view.keyboardLayoutGuide.snp.top)
                     }
                 }
-            }
+            })
             .disposed(by: disposeBag)
         
         // 검색 버튼 누를 시 키보드 숨기기
@@ -316,11 +322,11 @@ class CommunityListViewController: UIViewController, View {
             .map { $0.isHiddenKeyboard }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, _ in
-                DispatchQueue.main.async {
-                    owner.searchBar.resignFirstResponder()
-                }
-            }.disposed(by: disposeBag)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -373,7 +379,7 @@ extension CommunityListViewController {
             }
         })
         
-        datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
+        datasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             switch indexPath.item {
             case 0:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CommunityListHeaderView.identifier, for: indexPath) as? CommunityListHeaderView else { return UICollectionReusableView() }

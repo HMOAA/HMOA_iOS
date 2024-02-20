@@ -67,9 +67,8 @@ class HPediaViewController: UIViewController, View {
     }
     
     //MARK: - Properties
-    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>!
+    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>?
     var disposeBag = DisposeBag()
-    private let reactor = HPediaReactor()
     
     
     //MARK: - LifeCycle
@@ -80,7 +79,6 @@ class HPediaViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDatasource()
-        bind(reactor: reactor)
         
     }
     
@@ -145,7 +143,8 @@ class HPediaViewController: UIViewController, View {
     
     func bind(reactor: HPediaReactor) {
         
-        // Action
+        // MARK: - Action
+        
         rx.viewWillAppear
             .delay(.milliseconds(300), scheduler: MainScheduler.instance)
             .map { _ in Reactor.Action.viewWillAppear }
@@ -205,7 +204,7 @@ class HPediaViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         
-        // State
+        // MARK: - State
         
         // collectionView binding
         reactor.state
@@ -213,7 +212,7 @@ class HPediaViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
-                
+                guard let datasource = owner.datasource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
                 snapshot.appendSections([.dictionary, .community])
                 
@@ -221,16 +220,16 @@ class HPediaViewController: UIViewController, View {
                     .forEach { snapshot.appendItems([.dictionary($0)], toSection: .dictionary) }
                 item.forEach { snapshot.appendItems([.community($0)], toSection: .community) }
                 
-                DispatchQueue.main.async {
-                    owner.datasource.apply(snapshot)
-                }
+                datasource.apply(snapshot)
+            
             })
             .disposed(by: disposeBag)
         
         //선택된 카테고리 String CommunityWriteVC로 push
         reactor.state
             .compactMap { $0.selectedAddCategory }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentCommunityWriteVC(reactor)
             })
             .disposed(by: disposeBag)
@@ -239,16 +238,18 @@ class HPediaViewController: UIViewController, View {
         reactor.state
             .map { $0.selectedHPedia }
             .compactMap { $0 }
-            .bind(with: self) { owner, type in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, type in
                 owner.presentDictionaryViewController(type)
-            }
+            })
             .disposed(by: disposeBag)
         
         // Community DetailVC로 id Push
         reactor.state
             .map { $0.selectedCommunityId }
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, id in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, id in
                 owner.presentCommunityDetailVC(id)
             })
             .disposed(by: disposeBag)
@@ -257,7 +258,8 @@ class HPediaViewController: UIViewController, View {
         reactor.state
             .map { $0.isFloatingButtonTap }
             .skip(1)
-            .bind(with: self, onNext: { owner, isTap in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isTap in
                 owner.showFloatingButtonAnimation(
                     floatingButton: owner.floatingButton,
                     stackView: owner.floatingStackView,
@@ -271,7 +273,8 @@ class HPediaViewController: UIViewController, View {
             .map { $0.isTapWhenNotLogin }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentAlertVC(
                     title: "로그인 후 이용가능한 서비스입니다",
                     content: "입력하신 내용을 다시 확인해주세요",
@@ -310,7 +313,7 @@ extension HPediaViewController {
             }
         })
         
-        datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
+        datasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             switch indexPath.section {
             case 0:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaCommunityHeaderView.identifier, for: indexPath) as? HPediaCommunityHeaderView else { return UICollectionReusableView() }

@@ -18,7 +18,8 @@ import Kingfisher
 
 class ImageListViewController: UIViewController, View {
 
-    var disposeBag = DisposeBag()
+    
+    // MARK: - UIComponents
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         $0.backgroundColor = .black
@@ -29,11 +30,14 @@ class ImageListViewController: UIViewController, View {
         $0.setImage(UIImage(named: "x"), for: .normal)
     }
     
-    private var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>!
+    // MARK: - Properties
     
+    private var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>!
+    var disposeBag = DisposeBag()
+    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         setUpUI()
         setAddView()
@@ -67,9 +71,11 @@ class ImageListViewController: UIViewController, View {
         }
     }
     
+    // MARK: - Bind
+    
     func bind(reactor: ImageListReactor) {
         
-        // Action
+        // MARK: - Action
     
         // xButton 터치
         xButton.rx.tap
@@ -85,7 +91,7 @@ class ImageListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // State
+        // MARK: - State
         
         // collectionView Binding
         reactor.state
@@ -117,10 +123,9 @@ class ImageListViewController: UIViewController, View {
         reactor.state
             .map { $0.selectedRow }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
             .bind(with: self) { owner, row in
-                DispatchQueue.main.async {
-                    owner.collectionView.scrollToItem(at: IndexPath(row: row, section: 0), at: .centeredHorizontally, animated: false)
-                }
+                owner.collectionView.scrollToItem(at: IndexPath(row: row, section: 0), at: .centeredHorizontally, animated: false)
             }
             .disposed(by: disposeBag)
         

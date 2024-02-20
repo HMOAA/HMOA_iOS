@@ -16,8 +16,6 @@ import PhotosUI
 
 class CommunityWriteViewController: UIViewController, View {
     
-    var disposeBag = DisposeBag()
-    
     //MARK: - UI Components
     
     private let scrollView = UIScrollView().then {
@@ -96,9 +94,13 @@ class CommunityWriteViewController: UIViewController, View {
         $0.alignment = .center
     }
     
+    // MARK: - Properties
+    
     private var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>!
+    var disposeBag = DisposeBag()
     
     //MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -213,15 +215,17 @@ class CommunityWriteViewController: UIViewController, View {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
+    // MARK: - Bind
     func bind(reactor: CommunityWriteReactor) {
-        // Action
+        
+        // MARK: - Action
         
         // ViewDidLoad
         Observable.just(())
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-    
+        
         // 확인 버튼 클릭
         okButton.rx.tap
             .map { Reactor.Action.didTapOkButton }
@@ -255,12 +259,13 @@ class CommunityWriteViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // State
+        // MARK: - State
         
         // 댓글 내용에 따른 색상 변화
         reactor.state
             .map { $0.content }
-            .bind(with: self, onNext: { owner, content in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, content in
                 owner.textView.text = content
                 owner.textView.textColor =
                 content == "내용을 입력해주세요" ? .customColor(.gray3) : .black
@@ -285,7 +290,8 @@ class CommunityWriteViewController: UIViewController, View {
                     return text
                 }
             }
-            .bind(with: self, onNext: { owner, text in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, text in
                 owner.titleTextField.text = text
                 owner.titleCountLabel.text = "\(text.count)/20"
             })
@@ -294,14 +300,15 @@ class CommunityWriteViewController: UIViewController, View {
         // ok버튼 enable 설정
         reactor.state
             .map { $0.okButtonEnable }
-            .bind(with: self) { owner, isEnable in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isEnable in
                 owner.okButton.isEnabled = isEnable
                 if isEnable {
                     owner.okButton.setTitleColor(.black, for: .normal)
                 } else {
                     owner.okButton.setTitleColor(.customColor(.gray3), for: .normal)
                 }
-            }
+            })
             .disposed(by: disposeBag)
         
         // 앨범 창 열기
@@ -309,7 +316,8 @@ class CommunityWriteViewController: UIViewController, View {
             .map { $0.isPresentToAlbum }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 let selectionLimit = 6 - reactor.currentState.photoCount
                 if selectionLimit == 0 {
                     owner.showAlert(title: "HMOA",
@@ -326,7 +334,7 @@ class CommunityWriteViewController: UIViewController, View {
                     owner.view.endEditing(true)
                     owner.present(pickerVC, animated: true)
                 }
-            }
+            })
             .disposed(by: disposeBag)
         
         // 선택된 이미지 바인딩
@@ -343,16 +351,17 @@ class CommunityWriteViewController: UIViewController, View {
                 DispatchQueue.main.async {
                     owner.datasource.apply(snapshot, animatingDifferences: false)
                 }
-                
-            }.disposed(by: disposeBag)
+            }
+            .disposed(by: disposeBag)
         
         // pagecontrol 설정
         reactor.state
             .map { $0.photoCount }
-            .bind(with: self) { owner, count in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, count in
                 owner.pageControl.isHidden = false
                 owner.pageControl.numberOfPages = count
-            }
+            })
             .disposed(by: disposeBag)
         
         // 마지막 아이템 제거 시 그 전 아이템으로 이동
@@ -360,17 +369,15 @@ class CommunityWriteViewController: UIViewController, View {
             .map { $0.isDeletedLast }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, isDeleted in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isDeleted in
                 let page = reactor.currentState.photoCount
                 if page > 0 {
-                    DispatchQueue.main.async {
-                        let targetIndexPath = IndexPath(row: page - 1, section: 0)
-                        owner.collectionView.scrollToItem(at: targetIndexPath, at: .right, animated: false)
-                    }
+                    let targetIndexPath = IndexPath(row: page - 1, section: 0)
+                    owner.collectionView.scrollToItem(at: targetIndexPath, at: .right, animated: false)
                 }
-            }
+            })
             .disposed(by: disposeBag)
-        
     }
 }
 
