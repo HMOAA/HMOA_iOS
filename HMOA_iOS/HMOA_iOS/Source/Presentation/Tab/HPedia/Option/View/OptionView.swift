@@ -15,6 +15,7 @@ import ReactorKit
 
 class OptionView: UIView, View {
     
+    // MARK: - UI Components
     private lazy var tableView = UITableView(frame: .zero, style: .plain).then {
         $0.isScrollEnabled = false
         $0.layer.cornerRadius = 15
@@ -37,8 +38,9 @@ class OptionView: UIView, View {
     
     private lazy var backgroundTapGesture = UITapGestureRecognizer()
     
-    var parentVC: UIViewController? = nil
+    // MARK: - Properties
     
+    var parentVC: UIViewController? = nil
     var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
@@ -55,6 +57,7 @@ class OptionView: UIView, View {
     
     
     //MARK: - SetUp
+    
     private func setUpUI() {
         self.isHidden = true
         backgroundView.addGestureRecognizer(backgroundTapGesture)
@@ -97,9 +100,11 @@ class OptionView: UIView, View {
         
     }
     
+    // MARK: - Bind
+    
     func bind(reactor: OptionReactor) {
         
-        // Action
+        // MARK: - Action
         
         cancleButton.rx.tap
             .map { Reactor.Action.didTapCancleButton }
@@ -121,12 +126,13 @@ class OptionView: UIView, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // State
+        // MARK: - State
         
         // tableView binding
         reactor.state
             .map { $0.options }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(to: tableView.rx.items(cellIdentifier: OptionCell.identifer, cellType: OptionCell.self)) { index, item, cell in
                 cell.updateCell(content: item)
             }
@@ -137,7 +143,8 @@ class OptionView: UIView, View {
             .map { $0.options.count }
             .distinctUntilChanged()
             .filter { $0 != 0}
-            .bind(with: self) { owner, count in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner,count in
                 owner.tableView.snp.updateConstraints { make in
                     make.height.equalTo(count * 60)
                 }
@@ -147,7 +154,7 @@ class OptionView: UIView, View {
                     make.height.equalTo(height)
                     make.bottom.equalToSuperview().offset(height - 32)
                 }
-            }
+            })
             .disposed(by: disposeBag)
         
         
@@ -155,6 +162,7 @@ class OptionView: UIView, View {
         reactor.state
             .map { $0.isHiddenOptionView }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(onNext: showAnimation)
             .disposed(by: disposeBag)
         
@@ -162,9 +170,9 @@ class OptionView: UIView, View {
         reactor.state
             .map { $0.isTapEdit }
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 // 댓글 수정
-                
                 switch reactor.currentState.type {
                 case .Comment(_):
                     if let parentVC = owner.parentVC as? CommunityDetailViewController {
@@ -185,13 +193,16 @@ class OptionView: UIView, View {
                 default:
                     break
                 }
-            }.disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
         
+        // 신고 버튼 터치
         reactor.state
             .map { $0.isTapReport }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 switch reactor.currentState.type {
                 case .Comment(_):
                     if let parentVC = owner.parentVC {
@@ -218,22 +229,24 @@ class OptionView: UIView, View {
                 default:
                     break
                 }
-            }
+            })
             .disposed(by: disposeBag)
         
         
+        // 신고하기
         reactor.state
             .map { $0.isReport }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 if let parentVC = owner.parentVC {
                     parentVC.showAlert(
                         title: "신고 완료",
                         message: "신고 처리 되었습니다.",
                         buttonTitle1: "확인")
                 }
-            }
+            })
             .disposed(by: disposeBag)
     }
 

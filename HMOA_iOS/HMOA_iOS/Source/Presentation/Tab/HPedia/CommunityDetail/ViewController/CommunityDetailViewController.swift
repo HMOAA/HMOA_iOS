@@ -17,7 +17,7 @@ import Kingfisher
 class CommunityDetailViewController: UIViewController, View {
 
     //MARK: - Properties
-    private var dataSource: UICollectionViewDiffableDataSource<CommunityDetailSection, CommunityDetailSectionItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<CommunityDetailSection, CommunityDetailSectionItem>?
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         
@@ -142,9 +142,12 @@ class CommunityDetailViewController: UIViewController, View {
         }
     }
     
+    // MARK: - Bind
+    
     func bind(reactor: CommunityDetailReactor) {
         
-        // Action
+        // MARK: - Action
+        
         commentTextView.rx
             .setDelegate(self)
             .disposed(by: disposeBag)
@@ -225,7 +228,7 @@ class CommunityDetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // State
+        // MARK: - State
         
         //colectionView binding
         reactor.state
@@ -234,17 +237,15 @@ class CommunityDetailViewController: UIViewController, View {
             .filter { !$0.postItem.isEmpty }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                
+                guard let datasource = owner.dataSource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<CommunityDetailSection, CommunityDetailSectionItem>()
                 snapshot.appendSections([.post, .comment])
-    
+                
                 items.postItem.forEach { snapshot.appendItems([.postCell($0)], toSection: .post) }
                 
                 snapshot.appendItems(items.commentItem.map { .commentCell($0) }, toSection: .comment)
                 
-                DispatchQueue.main.async {
-                    owner.dataSource.apply(snapshot)
-                }
+                datasource.apply(snapshot)
             })
             .disposed(by: disposeBag)
         
@@ -253,9 +254,11 @@ class CommunityDetailViewController: UIViewController, View {
             .map { $0.isBeginEditing }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.commentTextView.text = ""
-            }.disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
         
         // 텍스트 뷰 높이에 따라 commentWrite뷰 높이 변경
         reactor.state
@@ -265,15 +268,14 @@ class CommunityDetailViewController: UIViewController, View {
                 return contentSize.height + 13
             }
             .distinctUntilChanged()
-            .filter { $0 < 100}
-            .bind(with: self) { owner, height in
-                DispatchQueue.main.async {
+            .filter { $0 < 100 }
+                .asDriver(onErrorRecover: { _ in return .empty() })
+                .drive(with: self, onNext: { owner, height in
                     owner.commentWriteView.snp.updateConstraints { make in
                         make.height.equalTo(height)
                     }
                     owner.commentTextView.alignCenterYText()
-                }
-            }
+                })
             .disposed(by: disposeBag)
         
         // 댓글 입력 시 키보드 내리기
@@ -281,7 +283,8 @@ class CommunityDetailViewController: UIViewController, View {
             .map { $0.isEndEditing }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.commentTextView.text = "댓글을 입력하세요"
                 owner.view.endEditing(true)
             })
@@ -293,6 +296,7 @@ class CommunityDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: popViewController)
             .disposed(by: disposeBag)
         
@@ -300,6 +304,7 @@ class CommunityDetailViewController: UIViewController, View {
         reactor.state
             .map { $0.writeButtonEnable }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(to: commentWriteButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
@@ -307,7 +312,8 @@ class CommunityDetailViewController: UIViewController, View {
             .map { $0.selectedComment }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, communityComment in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, communityComment in
                 owner.presentCommentDetailViewController(nil, communityComment)
             })
             .disposed(by: disposeBag)
@@ -354,6 +360,7 @@ extension CommunityDetailViewController: UITextViewDelegate {
                 self.reactor?.state
                     .map { $0.photoItem }
                     .distinctUntilChanged()
+                    .observe(on: MainScheduler.instance)
                     .bind(to: cell.photoCollectionView.rx.items(cellIdentifier: PhotoCell.identifier, cellType: PhotoCell.self)) { row, item, cell in
                         cell.isZoomEnabled = false
                         cell.imageView.kf.setImage(with: URL(string: item.photoUrl))
@@ -400,7 +407,7 @@ extension CommunityDetailViewController: UITextViewDelegate {
             
         })
         
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             switch indexPath.section {
             case 0:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityPostHeaderView.identifier, for: indexPath) as? CommunityPostHeaderView else { return UICollectionReusableView() }
