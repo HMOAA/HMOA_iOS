@@ -117,6 +117,7 @@ class MyLogWritedPostViewController: UIViewController, View {
         
         reactor.state
             .map { $0.writedPostItems.isEmpty }
+            .skip(1)
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, isEmpty in
