@@ -278,7 +278,7 @@ extension MyPageViewController {
                 if self.alarmSwitch.isOn {
                     PushAlarmAPI.deleteFcmToken()
                         .bind(onNext: { _ in })
-                        .disposed(by: self.disposeBag)
+                        .disposed(by:  self.disposeBag)
                 }
             })
             
