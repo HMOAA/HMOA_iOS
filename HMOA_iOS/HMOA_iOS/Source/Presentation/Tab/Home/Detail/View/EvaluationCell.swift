@@ -368,6 +368,8 @@ class EvaluationCell: UICollectionViewCell, View {
         }
     }
     
+    // MARK: - Bind
+    
     func bind(reactor: EvaluationReactor) {
         // Action
         
@@ -421,9 +423,10 @@ class EvaluationCell: UICollectionViewCell, View {
             .map { $0.weather }
             .compactMap { $0 }
             .map { [$0.spring, $0.summer, $0.autumn, $0.winter] }
-            .bind(with: self) { owner, values in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, values in
                 owner.setVerticalButtonBackgroundColor(owner.seasonButtons, values)
-            }
+            })
             .disposed(by: disposeBag)
         
         // gender 평가 값 binding
@@ -431,15 +434,17 @@ class EvaluationCell: UICollectionViewCell, View {
             .map { $0.gender }
             .compactMap { $0 }
             .map { [$0.man, $0.neuter, $0.woman]}
-            .bind(with: self) { owner, values in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner,values in
                 owner.setVerticalButtonBackgroundColor(owner.sexButtons, values)
-            }
+            })
             .disposed(by: disposeBag)
         
         // 슬라이더 10 단위로 맞추기
         reactor.state
             .map { $0.sliderStep }
             .skip(1)
+            .observe(on: MainScheduler.instance)
             .bind(to: ageSlider.rx.value)
             .disposed(by: disposeBag)
         
@@ -448,7 +453,8 @@ class EvaluationCell: UICollectionViewCell, View {
             .map { $0.sliderStep }
             .skip(1)
             .distinctUntilChanged()
-            .bind(with: self) { owner, value in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, value in
                 if value != 0 {
                     let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
                     feedbackGenerator.impactOccurred()
@@ -460,13 +466,14 @@ class EvaluationCell: UICollectionViewCell, View {
                     owner.dragLabel.isHidden = false
                     owner.averageAgeLabel.text = ""
                 }
-            }
+            })
             .disposed(by: disposeBag)
         
         // age 평가 값 binding
         reactor.state
             .map { $0.age }
             .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: setAgeSliderColor)
             .disposed(by: disposeBag)
         
@@ -476,13 +483,14 @@ class EvaluationCell: UICollectionViewCell, View {
             .map { $0.isTapAgeReset }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.ageSlider.isHidden = false
                 owner.averageAgeLabel.text = ""
                 owner.ageSlider.value = 0
                 owner.evaluatedAgeView.isHidden = true
                 owner.ageResetButton.isHidden = true
-            }
+            })
             .disposed(by: disposeBag)
         
     }
