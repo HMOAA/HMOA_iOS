@@ -96,7 +96,7 @@ class CommunityWriteViewController: UIViewController, View {
     
     // MARK: - Properties
     
-    private var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>!
+    private var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>?
     var disposeBag = DisposeBag()
     
     //MARK: - LifeCycle
@@ -104,12 +104,12 @@ class CommunityWriteViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureDatasource()
         setOkCancleNavigationBar(okButton: okButton, cancleButton: cancleButton, titleLabel: titleNaviLabel)
         setUpUI()
         setAddView()
         setConstraints()
         setNotificationKeyboard()
-        configureDatasource()
         
     }
     
@@ -341,15 +341,16 @@ class CommunityWriteViewController: UIViewController, View {
         reactor.state
             .map { $0.images }
             .distinctUntilChanged()
+            .delay(.milliseconds(300), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, item in
+                guard let datasource = owner.datasource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<PhotoSection, PhotoSectionItem>()
                 snapshot.appendSections([.photo])
                 
                 item.forEach { snapshot.appendItems([.photoCell($0, nil)], toSection: .photo) }
-                
                 DispatchQueue.main.async {
-                    owner.datasource.apply(snapshot, animatingDifferences: false)
+                    datasource.apply(snapshot, animatingDifferences: false)
                 }
             }
             .disposed(by: disposeBag)
