@@ -190,7 +190,7 @@ class HomeViewController: UIViewController, View {
 }
 
 // MARK: - Datasource
-w
+
 extension HomeViewController {
     
     private func configureCollectionViewDataSource() {

@@ -71,9 +71,12 @@ class MyLogWritedPostViewController: UIViewController, View {
         }
     }
     
+    // MARK: - Bind
+    
     func bind(reactor: MyLogWritedPostReactor) {
         
-        // Action
+        // MARK: - Action
+        
         Observable.just(())
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
@@ -101,9 +104,11 @@ class MyLogWritedPostViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         
-        // State
+        // MARK: - State
+        
         reactor.state
             .map { $0.writedPostItems }
+            .observe(on: MainScheduler.instance)
             .bind(to: collectionView.rx.items(cellIdentifier: HPediaCommunityCell.identifier, cellType: HPediaCommunityCell.self)) { row, item, cell in
                 cell.isListCell = true
                 cell.configure(item)
@@ -113,7 +118,8 @@ class MyLogWritedPostViewController: UIViewController, View {
         reactor.state
             .map { $0.writedPostItems.isEmpty }
             .distinctUntilChanged()
-            .bind(with: self, onNext: { owner, isEmpty in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isEmpty in
                 if isEmpty {
                     owner.noWriteView.isHidden = false
                     owner.collectionView.isHidden = true
@@ -128,6 +134,7 @@ class MyLogWritedPostViewController: UIViewController, View {
             .map { $0.selectedId }
             .compactMap { $0 }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(onNext: presentCommunityDetailVC)
             .disposed(by: disposeBag)
         
