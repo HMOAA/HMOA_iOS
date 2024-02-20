@@ -171,7 +171,8 @@ class LikeViewController: UIViewController, View {
             .map { $0.selectedPerfumeId }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, id in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, id in
                 owner.presentDatailViewController(id)
             })
             .disposed(by: disposeBag)
@@ -180,7 +181,8 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.isHiddenNoLikeView }
             .distinctUntilChanged()
-            .bind(with: self, onNext: { owner, isHidden in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isHidden in
                 if let isHidden = isHidden {
                     owner.noLikeView.isHidden = isHidden
                     if reactor.currentState.isSelectedCard {
@@ -200,13 +202,14 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.isDeletedLast }
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 let row = reactor.currentState.currentRow
                 if row > 0 {
                     let targetIndexPath = IndexPath(row: row - 1, section: 0)
                     owner.cardCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
                 }
-            }
+            })
             .disposed(by: disposeBag)
       
     }
