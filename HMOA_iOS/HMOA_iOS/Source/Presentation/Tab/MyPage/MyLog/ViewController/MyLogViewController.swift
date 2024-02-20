@@ -50,7 +50,8 @@ class MyLogViewController: UIViewController, View {
     
     func bind(reactor: MyLogReactor) {
         
-        // Action
+        // MARK: - Acticon
+        
         tableView.rx.itemSelected
             .map { Reactor.Action.didTapCell($0.row) }
             .bind(to: reactor.action)
@@ -60,9 +61,12 @@ class MyLogViewController: UIViewController, View {
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
+        // MARK: - State
+        
         // TableView Binding
         reactor.state
             .map { $0.item }
+            .observe(on: MainScheduler.instance)
             .bind(to: tableView.rx.items(cellIdentifier: MyPageCell.identifier, cellType: MyPageCell.self)) { indexPath, item, cell in
                 
                 cell.contentView.layer.addBorder([.bottom], color: .customColor(.gray2), width: 2)
@@ -72,6 +76,7 @@ class MyLogViewController: UIViewController, View {
         reactor.state
             .map { $0.selectedRow }
             .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: presentNextVC)
             .disposed(by: disposeBag)
     }
