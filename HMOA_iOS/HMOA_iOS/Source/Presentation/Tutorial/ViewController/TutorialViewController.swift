@@ -40,6 +40,8 @@ class TutorialViewController: UIPageViewController {
         bind()
     }
     
+    //MARK: - SetUp
+
     private func setUpPage() {
         let firstPage = TutorialContentViewController(
             title: """
@@ -90,7 +92,6 @@ class TutorialViewController: UIPageViewController {
         pages = [firstPage, secondPage, thirdPage, fourthPage]
     }
     
-    //MARK: - SetUp
     private func setUpUI() {
         view.addSubview(pageControl)
         view.addSubview(xButton)
