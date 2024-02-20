@@ -20,7 +20,7 @@ class BrandDetailViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     // MARK: - UI Component
-    private var dataSource: UICollectionViewDiffableDataSource<BrandDetailSection, BrandDetailSectionItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<BrandDetailSection, BrandDetailSectionItem>?
     
     private lazy var layout = UICollectionViewFlowLayout()
     
@@ -80,28 +80,29 @@ extension BrandDetailViewController {
             .map { $0.section }
             .asDriver(onErrorRecover: { _ in return .empty()} )
             .drive(with: self, onNext: { owner, sections in
+                guard let datasource = owner.dataSource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<BrandDetailSection, BrandDetailSectionItem>()
                 snapshot.appendSections(sections)
                 sections.forEach { section in
                     snapshot.appendItems(section.items, toSection: section)
                 }
                 
-                DispatchQueue.main.async {
-                    owner.dataSource.apply(snapshot, animatingDifferences: false)
-                }
+                datasource.apply(snapshot, animatingDifferences: false)
             }).disposed(by: disposeBag)
         
         // NavigationBar title 설정
         reactor.state
             .map { $0.brand?.brandName ?? "" }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(onNext: setBackHomeRightNaviBar)
             .disposed(by: disposeBag)
         
         // 향수 디테일 페이지로 이동
         reactor.state
             .compactMap { $0.presentPerfumeId }
-            .bind(with: self, onNext: { owner, id in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, id in
                 owner.presentDatailViewController(id, reactor.service)
             })
             .disposed(by: disposeBag)
@@ -122,6 +123,7 @@ extension BrandDetailViewController {
         reactor.state
             .compactMap { $0.brand }
             .map { $0.brandName }
+            .observe(on: MainScheduler.instance)
             .bind(to: headerView.koreanLabel.rx.text)
             .disposed(by: headerView.disposeBag)
         
@@ -129,21 +131,24 @@ extension BrandDetailViewController {
         reactor.state
             .compactMap { $0.brand }
             .map { URL(string: $0.brandImageUrl) }
-            .bind(onNext: { url in
+        
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, url in
                 headerView.brandImageView.kf.setImage(with: url)
             })
             .disposed(by: headerView.disposeBag)
-        
         // 브랜드 영어 이름 바인딩
         reactor.state
             .compactMap { $0.brand }
             .map { $0.englishName }
+            .observe(on: MainScheduler.instance)
             .bind(to: headerView.englishLabel.rx.text)
             .disposed(by: headerView.disposeBag)
         
         // 향수 좋아요순 색 변경
         reactor.state
             .map { $0.isTapLiked }
+            .observe(on: MainScheduler.instance)
             .bind(to: headerView.sortButton.rx.isSelected)
             .disposed(by: headerView.disposeBag)
     }
@@ -177,7 +182,7 @@ extension BrandDetailViewController {
             }
             
         })
-        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView in
+        dataSource?.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView in
             
             switch indexPath.section {
             case 0:

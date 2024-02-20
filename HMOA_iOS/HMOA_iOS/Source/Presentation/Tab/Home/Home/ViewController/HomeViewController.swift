@@ -13,15 +13,7 @@ import ReactorKit
 
 class HomeViewController: UIViewController, View {
     
-    // MARK: ViewModel
     
-    var homeReactor = HomeViewReactor()
-    
-    // MARK: Properties
-    private var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>!
-    var disposeBag = DisposeBag()
-    
-    private let loginManager = LoginManager.shared
     
     // MARK: - UI Component
     private lazy var homeView = HomeView()
@@ -37,9 +29,11 @@ class HomeViewController: UIViewController, View {
         }
     }
     
-    private  var headerViewReactor: HomeHeaderReactor!
-    
-    //MARK: - Init
+    // MARK: Properties
+    private var datasource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>?
+    var disposeBag = DisposeBag()
+    private var headerViewReactor: HomeHeaderReactor?
+    private let loginManager = LoginManager.shared
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -47,18 +41,27 @@ class HomeViewController: UIViewController, View {
         configureUI()
         setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
-        bind(reactor: homeReactor)
         navigationController?.delegate = self
     }
-}
+    
+    private func configureUI() {
+        view.backgroundColor = UIColor.white
+        homeView.collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        [homeView] .forEach { view.addSubview($0) }
 
-// MARK: - Functions
-extension HomeViewController {
+        homeView.snp.makeConstraints {
+            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+        }
+    }
     
     // MARK: - Bind
     
     func bind(reactor: HomeViewReactor) {
-
+        
         // MARK: - Action
         
         // viewDidLoad
@@ -66,6 +69,8 @@ extension HomeViewController {
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        // TODO: - 인앱 알림 기능 추가 시 수정
         
         loginManager.isPushAlarmAuthorization
             .map { Reactor.Action.settingAlarmAuthorization($0) }
@@ -89,6 +94,7 @@ extension HomeViewController {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
+        // 벨 버튼 터치
         bellButton.rx.tap
             .map { Reactor.Action.didTapBellButton }
             .bind(to: reactor.action)
@@ -101,25 +107,23 @@ extension HomeViewController {
             .map { $0.sections }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
-                
                 var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
                 snapshot.appendSections(sections)
-                        
+                
                 sections.forEach { section in
                     snapshot.appendItems(section.items, toSection: section)
                 }
-    
-                DispatchQueue.main.async {
-                    owner.dataSource.apply(snapshot)
-                }
                 
+                guard let datasource = owner.datasource else { return }
+                datasource.apply(snapshot)
             }).disposed(by: disposeBag)
-
+        
         // 향수 디테일 페이지로 이동
         reactor.state
             .map { $0.selectedPerfumeId }
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, id in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, id in
                 owner.presentDatailViewController(id)
             })
             .disposed(by: disposeBag)
@@ -129,7 +133,8 @@ extension HomeViewController {
             .map { $0.isPushAlarm }
             .compactMap { $0 }
             .distinctUntilChanged()
-            .bind(with: self, onNext: { owner, isPush in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isPush in
                 guard let isLogin = reactor.currentState.isLogin else { return }
                 if isLogin {
                     owner.bellButton.isSelected = isPush
@@ -137,12 +142,15 @@ extension HomeViewController {
             })
             .disposed(by: disposeBag)
         
+        // TODO: - 인앱 알림 기능 후 수정 예정
+        
         // 벨 터치 이벤트
         reactor.state
             .map { $0.isTapBell }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
                 guard let isLogin = reactor.currentState.isLogin else { return }
                 if isLogin {
                     // 앱 알람 권한 설정 이동
@@ -151,15 +159,12 @@ extension HomeViewController {
                     }
                     // 유져 셋팅 알람 설정
                     if reactor.currentState.isPushAlarm ?? false {
-                        DispatchQueue.main.async {
-                            owner.loginManager.isUserSettingAlarm.onNext(false)
-                            reactor.action.onNext(.deleteFcmToken)
-                        }
+                        owner.loginManager.isUserSettingAlarm.onNext(false)
+                        reactor.action.onNext(.deleteFcmToken)
+                        
                     } else {
-                        DispatchQueue.main.async {
-                            owner.loginManager.isUserSettingAlarm.onNext(true)
-                            reactor.action.onNext(.postFcmToken)
-                        }
+                        owner.loginManager.isUserSettingAlarm.onNext(true)
+                        reactor.action.onNext(.postFcmToken)
                     }
                 } else {
                     owner.presentAlertVC(
@@ -167,27 +172,29 @@ extension HomeViewController {
                         content: "입력하신 내용을 다시 확인해주세요",
                         buttonTitle: "로그인 하러가기 ")
                 }
-            }
+            })
             .disposed(by: disposeBag)
-        
     }
     
     private func bindHeader(reactor: HomeHeaderReactor) {
         
-        // MARK: - Action
-        
-        // MARK: - State
-        
+        // 전체보기 페이지 이동
         reactor.state
             .map { $0.isPersentMoreVC }
             .distinctUntilChanged()
             .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: presentTotalPerfumeViewController)
             .disposed(by: disposeBag)
     }
+}
+
+// MARK: - Datasource
+w
+extension HomeViewController {
     
     private func configureCollectionViewDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem> (collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, item in
+        datasource = UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem> (collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, item in
             
             switch item {
             case .topCell(let data, _):
@@ -224,11 +231,11 @@ extension HomeViewController {
             }
         })
         
-        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+        datasource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
             
             var header = UICollectionReusableView()
             
-            guard let section = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
+            guard let section = self.datasource?.snapshot().sectionIdentifiers[indexPath.section]
             else { return header }
             
             switch section {
@@ -251,20 +258,6 @@ extension HomeViewController {
             }
         }
     }
-    
-    private func configureUI() {
-        view.backgroundColor = UIColor.white
-        homeView.collectionView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
-        
-        [homeView] .forEach { view.addSubview($0) }
-
-        homeView.snp.makeConstraints {
-            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
-        }
-    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -274,12 +267,14 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
                 
         if indexPath.section == 1 && indexPath.row == 1 {
-            if !homeReactor.currentState.isPaging {
-                homeReactor.action.onNext(.scrollCollectionView)
+            if !(reactor?.currentState.isPaging)! {
+                reactor?.action.onNext(.scrollCollectionView)
             }
         }
     }
 }
+
+// MARK: - Navigation Delegate
 
 extension HomeViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

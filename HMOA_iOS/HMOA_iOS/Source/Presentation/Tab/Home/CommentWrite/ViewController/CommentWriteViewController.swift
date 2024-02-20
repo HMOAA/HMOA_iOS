@@ -107,11 +107,11 @@ extension CommentWriteViewController {
             .map { $0.isEndEditing }
             .distinctUntilChanged()
             .filter { $0 }
-            .map { _ in }
-            .bind(onNext: {
-                if self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    self.textView.text = "해당 제품에 대한 의견을 남겨주세요"
-                    self.textView.textColor = .customColor(.gray3)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                if owner.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    owner.textView.text = "해당 제품에 대한 의견을 남겨주세요"
+                    owner.textView.textColor = .customColor(.gray3)
                 }
             })
             .disposed(by: disposeBag)
@@ -119,16 +119,18 @@ extension CommentWriteViewController {
         // 댓글 내용에 따른 색상 변화
         reactor.state
             .map { $0.content }
-            .bind(onNext: {
-                self.textView.textColor =
-                $0 == "해당 제품에 대한 의견을 남겨주세요" ? .customColor(.gray3) : .black
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, content in
+                owner.textView.textColor =
+                content == "해당 제품에 대한 의견을 남겨주세요" ? .customColor(.gray3) : .black
                 
-                self.textView.text = $0
+                owner.textView.text = content
             })
             .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.content }
+            .observe(on: MainScheduler.instance)
             .bind(to: textView.rx.text)
             .disposed(by: disposeBag)
     }
