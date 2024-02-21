@@ -59,18 +59,30 @@ extension AppTabbarController {
         
         delegate = self
         
+        
+        let homeVC = HomeViewController()
+        homeVC.reactor = HomeViewReactor()
+        
+        let hpediaVC = HPediaViewController()
+        hpediaVC.reactor = HPediaReactor()
+        
+        let likeVC = LikeViewController()
+        likeVC.reactor = LikeReactor()
+        
         let myPageReactor = MyPageReactor(service: UserService())
+        let myPageVC = MyPageViewController(reactor: myPageReactor)
         
-        let homeVC = UINavigationController(
-            rootViewController: HomeViewController()),
-        hPediaVC = UINavigationController(
-            rootViewController: HPediaViewController()),
-        likeVC = UINavigationController(
-            rootViewController: LikeViewController()),
-        myPageVC = UINavigationController(
-            rootViewController: MyPageViewController(reactor: myPageReactor))
+        let homeNVC = UINavigationController(
+            rootViewController: homeVC),
+        hPediaNVC = UINavigationController(
+            rootViewController: hpediaVC),
+        likeNVC = UINavigationController(
+            rootViewController: likeVC),
+        myPageNVC = UINavigationController(
+            rootViewController: myPageVC)
         
-        viewControllers = [homeVC, hPediaVC, likeVC, myPageVC]
+        
+        viewControllers = [homeNVC, hPediaNVC, likeNVC, myPageNVC]
         
         self.selectedIndex = 0
         view.backgroundColor = .white
@@ -82,10 +94,10 @@ extension AppTabbarController {
         tabBar.layer.masksToBounds = true
         tabBar.layer.addBorder([.top], color: .customColor(.gray1), width: 1)
         
-        homeVC.tabBarItem = homeTab
-        hPediaVC.tabBarItem = hPediaTab
-        likeVC.tabBarItem = likeTab
-        myPageVC.tabBarItem = myPageTab
+        homeNVC.tabBarItem = homeTab
+        hPediaNVC.tabBarItem = hPediaTab
+        likeNVC.tabBarItem = likeTab
+        myPageNVC.tabBarItem = myPageTab
         
     }
 }

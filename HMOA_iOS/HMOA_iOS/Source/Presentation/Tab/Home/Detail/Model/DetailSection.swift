@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RxDataSources
 
 enum DetailSection {
     case top(DetailSectionItem)

@@ -22,6 +22,7 @@ class ChoiceYearViewController: UIViewController, View {
     let yearList = Year().year
 
     // MARK: - UIComponents
+    
     private let xButton = UIButton().then {
         $0.setImage(UIImage(named: "x"), for: .normal)
     }
@@ -50,6 +51,7 @@ class ChoiceYearViewController: UIViewController, View {
     }
     
     // MARK: - LifeCycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -137,14 +139,15 @@ class ChoiceYearViewController: UIViewController, View {
             .map { $0.isDismiss }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.dismiss(animated: true)
             }).disposed(by: disposeBag)
         
     }
 }
 
-
+// MARK: - PickerView
 
 extension ChoiceYearViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     

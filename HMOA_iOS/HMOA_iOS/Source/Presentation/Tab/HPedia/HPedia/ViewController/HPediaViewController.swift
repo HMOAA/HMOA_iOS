@@ -20,9 +20,9 @@ class HPediaViewController: UIViewController, View {
     //MARK: - UIComponents
     private lazy var hPediaCollectionView = UICollectionView(frame: .zero,
                                                 collectionViewLayout: configureLayout()).then {
-        $0.register(HPediaQnAHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier)
-        $0.register(HPediaQnACell.self,
-                    forCellWithReuseIdentifier: HPediaQnACell.identifier)
+        $0.register(HPediaCommunityHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaCommunityHeaderView.identifier)
+        $0.register(HPediaCommunityCell.self,
+                    forCellWithReuseIdentifier: HPediaCommunityCell.identifier)
         $0.register(HPediaDictionaryCell.self,
                     forCellWithReuseIdentifier: HPediaDictionaryCell.identifier)
     }
@@ -67,9 +67,8 @@ class HPediaViewController: UIViewController, View {
     }
     
     //MARK: - Properties
-    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>!
+    private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>?
     var disposeBag = DisposeBag()
-    private let reactor = HPediaReactor()
     
     
     //MARK: - LifeCycle
@@ -80,7 +79,6 @@ class HPediaViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDatasource()
-        bind(reactor: reactor)
         
     }
     
@@ -88,10 +86,17 @@ class HPediaViewController: UIViewController, View {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        if let tabBarController = tabBarController {
-            tabBarController.view.addSubview(floatingView)
-            tabBarController.view.addSubview(floatingButton)
-            tabBarController.view.addSubview(floatingStackView)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            [
+                floatingView,
+                floatingButton,
+                floatingStackView
+            ]   .forEach { window.addSubview($0) }
+            
+            floatingView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
             
             floatingButton.snp.makeConstraints { make in
                 make.trailing.equalToSuperview().inset(12)
@@ -104,10 +109,6 @@ class HPediaViewController: UIViewController, View {
                 make.width.equalTo(135)
                 make.height.equalTo(137)
                 make.bottom.equalTo(floatingButton.snp.top).offset(-8)
-            }
-            
-            floatingView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
             }
         }
     }
@@ -145,8 +146,10 @@ class HPediaViewController: UIViewController, View {
     
     func bind(reactor: HPediaReactor) {
         
-        // Action
+        // MARK: - Action
+        
         rx.viewWillAppear
+            .delay(.milliseconds(300), scheduler: MainScheduler.instance)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -204,7 +207,7 @@ class HPediaViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         
-        // State
+        // MARK: - State
         
         // collectionView binding
         reactor.state
@@ -212,25 +215,25 @@ class HPediaViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
-                
+                guard let datasource = owner.datasource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
-                snapshot.appendSections([.dictionary, .qna])
+                snapshot.appendSections([.dictionary, .community])
                 
                 reactor.currentState.DictionarySectionItems
                     .forEach { snapshot.appendItems([.dictionary($0)], toSection: .dictionary) }
-                item.forEach { snapshot.appendItems([.qna($0)], toSection: .qna) }
+                item.forEach { snapshot.appendItems([.community($0)], toSection: .community) }
                 
-                DispatchQueue.main.async {
-                    owner.datasource.apply(snapshot)
-                }
+                datasource.apply(snapshot)
+            
             })
             .disposed(by: disposeBag)
         
-        //선택된 카테고리 String QnAWriteVC로 push
+        //선택된 카테고리 String CommunityWriteVC로 push
         reactor.state
             .compactMap { $0.selectedAddCategory }
-            .bind(with: self, onNext: { owner, _ in
-                owner.presentQnAWriteVC(reactor)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentCommunityWriteVC(reactor)
             })
             .disposed(by: disposeBag)
         
@@ -238,17 +241,19 @@ class HPediaViewController: UIViewController, View {
         reactor.state
             .map { $0.selectedHPedia }
             .compactMap { $0 }
-            .bind(with: self) { owner, type in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, type in
                 owner.presentDictionaryViewController(type)
-            }
+            })
             .disposed(by: disposeBag)
         
         // Community DetailVC로 id Push
         reactor.state
             .map { $0.selectedCommunityId }
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, id in
-                owner.presentQnADetailVC(id)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, id in
+                owner.presentCommunityDetailVC(id)
             })
             .disposed(by: disposeBag)
         
@@ -256,7 +261,8 @@ class HPediaViewController: UIViewController, View {
         reactor.state
             .map { $0.isFloatingButtonTap }
             .skip(1)
-            .bind(with: self, onNext: { owner, isTap in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isTap in
                 owner.showFloatingButtonAnimation(
                     floatingButton: owner.floatingButton,
                     stackView: owner.floatingStackView,
@@ -270,7 +276,8 @@ class HPediaViewController: UIViewController, View {
             .map { $0.isTapWhenNotLogin }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentAlertVC(
                     title: "로그인 후 이용가능한 서비스입니다",
                     content: "입력하신 내용을 다시 확인해주세요",
@@ -286,10 +293,10 @@ extension HPediaViewController {
     private func configureDatasource () {
         datasource = UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>(collectionView: hPediaCollectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
-            case .qna(let data):
+            case .community(let data):
                 guard let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HPediaQnACell.identifier,
-                    for: indexPath) as? HPediaQnACell
+                    withReuseIdentifier: HPediaCommunityCell.identifier,
+                    for: indexPath) as? HPediaCommunityCell
                 else { return UICollectionViewCell() }
                 
                 cell.isListCell = false
@@ -309,10 +316,10 @@ extension HPediaViewController {
             }
         })
         
-        datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
+        datasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             switch indexPath.section {
             case 0:
-                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier, for: indexPath) as? HPediaQnAHeaderView else { return UICollectionReusableView() }
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaCommunityHeaderView.identifier, for: indexPath) as? HPediaCommunityHeaderView else { return UICollectionReusableView() }
                 
                 header.titleLabel.snp.remakeConstraints { make in
                     make.leading.equalToSuperview()
@@ -324,10 +331,10 @@ extension HPediaViewController {
                 
                 return header
             case 1:
-                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaQnAHeaderView.identifier, for: indexPath) as? HPediaQnAHeaderView else { return UICollectionReusableView() }
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaCommunityHeaderView.identifier, for: indexPath) as? HPediaCommunityHeaderView else { return UICollectionReusableView() }
                 
                 header.allButton.rx.tap
-                    .bind(onNext: self.presentQnAListVC)
+                    .bind(onNext: self.presentCommunityListVC)
                     .disposed(by: header.disposeBag)
                 
                 return header
@@ -365,7 +372,7 @@ extension HPediaViewController {
         return section
     }
     
-    private func HPediaQnACellLayout() -> NSCollectionLayoutSection {
+    private func HPediaCommunityCellLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .absolute(70))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -398,7 +405,7 @@ extension HPediaViewController {
             case 0:
                 return self.HPediaHPediaDictionaryCellLayout()
             default:
-                return self.HPediaQnACellLayout()
+                return self.HPediaCommunityCellLayout()
             }
         }
     }

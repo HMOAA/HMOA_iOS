@@ -13,16 +13,13 @@ import RxCocoa
 import RxSwift
 
 
-class HomeFirstCell: UICollectionViewCell, View {
-    
-    typealias Reactor = HomeCellReactor
+class HomeFirstCell: UICollectionViewCell{
 
     // MARK: - identifier
     
     static let identifier = "HomeFirstCell"
     
     // MARK: - Properties
-    var disposeBag = DisposeBag()
 
     private lazy var perfumeImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
@@ -55,24 +52,6 @@ class HomeFirstCell: UICollectionViewCell, View {
 // MARK: - Functions
 
 extension HomeFirstCell {
-    
-    func bind(reactor: HomeCellReactor) {
-        
-        // 향수 브랜드 label 바인딩
-        reactor.state
-            .map { $0.title }
-            .bind(to: perfumeBrandLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        // 향수 imageView 바인딩
-        reactor.state
-            .map { $0.image }
-            .map { URL(string: $0) }
-            .bind(onNext: {
-                self.perfumeImageView.kf.setImage(with: $0)
-            })
-            .disposed(by: disposeBag)
-    }
     
     private func configureUI() {
         [

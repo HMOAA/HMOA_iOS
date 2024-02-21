@@ -5,7 +5,6 @@ target 'HMOA_iOS' do
   # Comment the next line if you don't want to use dynamic frameworks
   pod 'RxSwift'
   pod 'RxCocoa'
-  pod 'RxDataSources'
   pod 'RxAppState'
   pod 'ReactorKit'
   pod 'SnapKit'
@@ -24,7 +23,6 @@ target 'HMOA_iOS' do
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
   pod 'FirebaseMessaging'
-  pod 'Hero'
   use_frameworks!
 
   # Pods for HMOA_iOS

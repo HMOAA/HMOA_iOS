@@ -11,13 +11,12 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
-import Hero
 
 class BrandSearchViewController: UIViewController, View {
     typealias Reactor = BrandSearchReactor
 
     // MARK: - Properties
-    private var dataSource: UICollectionViewDiffableDataSource<BrandListSection, BrandCell>!
+    private var dataSource: UICollectionViewDiffableDataSource<BrandListSection, BrandCell>?
     
     var disposeBag = DisposeBag()
     
@@ -50,10 +49,6 @@ class BrandSearchViewController: UIViewController, View {
         configureUI()
         configureSearchNavigationBar(backButton, searchBar: searchBar)
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.hero.isEnabled = false
-    }
 }
 
 extension BrandSearchViewController {
@@ -77,7 +72,7 @@ extension BrandSearchViewController {
         // 브랜드 Cell 클릭
         collectionView.rx.itemSelected
             .map {
-                let item = self.dataSource.itemIdentifier(for: $0)
+                let item = self.dataSource?.itemIdentifier(for: $0)
                 switch item {
                 case .BrandItem(let brand):
                     return brand
@@ -104,6 +99,7 @@ extension BrandSearchViewController {
             .map { $0.sections }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
+                guard let datasource = owner.dataSource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<BrandListSection, BrandCell>()
                 snapshot.appendSections(sections)
                 
@@ -111,9 +107,7 @@ extension BrandSearchViewController {
                     snapshot.appendItems(section.items, toSection: section)
                 }
                 
-                DispatchQueue.main.async {
-                    owner.dataSource.apply(snapshot)
-                }
+                datasource.apply(snapshot)
             })
             .disposed(by: disposeBag)
         
@@ -122,7 +116,8 @@ extension BrandSearchViewController {
             .map { $0.isPopVC }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner,  _ in
                 owner.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
@@ -132,8 +127,9 @@ extension BrandSearchViewController {
             .map { $0.selectedItem }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: {
-                self.presentBrandDetailViewController($0.brandId)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, item in
+                owner.presentBrandDetailViewController(item.brandId)
             })
             .disposed(by: disposeBag)
         
@@ -171,7 +167,7 @@ extension BrandSearchViewController {
             
         })
         
-        dataSource.supplementaryViewProvider = { (collectionview, kind, indexPath) -> UICollectionReusableView in
+        dataSource?.supplementaryViewProvider = { (collectionview, kind, indexPath) -> UICollectionReusableView in
             
             guard let header = collectionview.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandListHeaderView.identifier, for: indexPath) as? BrandListHeaderView else { return UICollectionReusableView() }
             

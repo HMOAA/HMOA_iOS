@@ -36,7 +36,7 @@ class MyPageViewController: UIViewController, View {
                                        buttonHidden: false
                                   )
 
-    private var dataSource: UITableViewDiffableDataSource<MyPageSection, MyPageSectionItem>!
+    private var dataSource: UITableViewDiffableDataSource<MyPageSection, MyPageSectionItem>?
     
     init(reactor: MyPageReactor) {
         self.reactor = reactor
@@ -51,7 +51,7 @@ class MyPageViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setNavigationBarTitle(title: "마이페이지", color: UIColor.white, isHidden: true)
+        setNavigationBarTitle("마이페이지")
         bind(reactor: reactor)
     }
 }
@@ -84,7 +84,8 @@ extension MyPageViewController {
         
         //로그인 상태에 따른 뷰 보여주기
         loginManger.isLogin
-            .bind(with: self, onNext: { owner, isLogin in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isLogin in
                 owner.setFirstView(isLogin)
             })
             .disposed(by: disposeBag)
@@ -94,7 +95,8 @@ extension MyPageViewController {
             .map { $0.isTapGoLoginButton }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentInAppLoginVC()
             })
             .disposed(by: disposeBag)
@@ -104,6 +106,7 @@ extension MyPageViewController {
             .map { $0.sections }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, sections in
+                guard let datasource = owner.dataSource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<MyPageSection, MyPageSectionItem>()
                 
                 snapshot.appendSections(sections)
@@ -111,9 +114,7 @@ extension MyPageViewController {
                     snapshot.appendItems(section.items, toSection: section)
                 }
                 
-                DispatchQueue.main.async {
-                    owner.dataSource.apply(snapshot, animatingDifferences: false)
-                }
+                datasource.apply(snapshot, animatingDifferences: false)
             }).disposed(by: disposeBag)
         
         // cell 클릭 시 화면 전환
@@ -121,6 +122,7 @@ extension MyPageViewController {
             .map { $0.presentVC }
             .distinctUntilChanged()
             .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: presentNextVC)
             .disposed(by: disposeBag)
         
@@ -129,11 +131,12 @@ extension MyPageViewController {
             .map { $0.isDelete }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 KeychainManager.delete()
                 owner.loginManger.tokenSubject.onNext(nil)
                 owner.presentInAppLoginVC()
-            }
+            })
             .disposed(by: disposeBag)
     }
     
@@ -189,6 +192,7 @@ extension MyPageViewController {
                     .map { $0.isSetOnSwitch }
                     .compactMap { $0 }
                     .distinctUntilChanged()
+                    .observe(on: MainScheduler.instance)
                     .bind(to: self.alarmSwitch.rx.isOn)
                     .disposed(by: cell.disposeBag)
                 
@@ -197,15 +201,14 @@ extension MyPageViewController {
                     .skip(1)
                     .compactMap { $0 }
                     .distinctUntilChanged()
+                    .observe(on: MainScheduler.asyncInstance)
                     .bind(with: self) { owner, isOn in
                         if isOn && owner.reactor.currentState.isPushSetting {
                             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                             
                         }
-                        DispatchQueue.main.async {
-                            owner.loginManger.isUserSettingAlarm.onNext(isOn)
-                            owner.reactor.action.onNext(.networkingFcmTokenAPI(isOn))
-                        }
+                        owner.loginManger.isUserSettingAlarm.onNext(isOn)
+                        owner.reactor.action.onNext(.networkingFcmTokenAPI(isOn))
                     }
                     .disposed(by: cell.disposeBag)
                 
@@ -272,14 +275,14 @@ extension MyPageViewController {
                       buttonTitle1: "아니요",
                       buttonTitle2: "네",
                       action2: {
-                self.presentInAppLoginVC()
-                KeychainManager.delete()
-                self.loginManger.tokenSubject.onNext(nil)
                 if self.alarmSwitch.isOn {
                     PushAlarmAPI.deleteFcmToken()
                         .bind(onNext: { _ in })
-                        .disposed(by: self.disposeBag)
+                        .disposed(by:  self.disposeBag)
                 }
+                self.presentInAppLoginVC()
+                KeychainManager.delete()
+                self.loginManger.tokenSubject.onNext(nil)
             })
             
         case .deleteAccount:

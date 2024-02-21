@@ -62,9 +62,11 @@ class DictionaryViewController: UIViewController, View {
         }
     }
 
+    // MARK: - Bind
+    
     func bind(reactor: DictionaryReactor) {
         
-        // Action
+        // MARK: - Action
         
         // ViewDidLoad
         Observable.just(())
@@ -103,11 +105,12 @@ class DictionaryViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         
-        // State
+        // MARK: - State
         
         //collectionView binding
         reactor.state
             .map { $0.items }
+            .observe(on: MainScheduler.instance)
             .bind(to: tableView.rx.items(cellIdentifier: DictionaryCell.identifier, cellType: DictionaryCell.self)) { index, item, cell in
                 cell.selectionStyle = .none
                 cell.updateCell(item)
@@ -123,7 +126,8 @@ class DictionaryViewController: UIViewController, View {
         reactor.state
             .map { $0.selectedId }
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, id in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, id in
                 owner.presentDetailDictionaryVC(reactor.currentState.type, id)
             })
             .disposed(by: disposeBag)

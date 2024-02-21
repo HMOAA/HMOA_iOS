@@ -15,11 +15,10 @@ import ReactorKit
 class LikeViewController: UIViewController, View {
     
     //MARK: - Property
-    private let reactor = LikeReactor()
     var disposeBag = DisposeBag()
     
-    private var cardDatasource: UICollectionViewDiffableDataSource<LikeSection, Like>!
-    private var listDatasource: UICollectionViewDiffableDataSource<LikeSection, Like>!
+    private var cardDatasource: UICollectionViewDiffableDataSource<LikeSection, Like>?
+    private var listDatasource: UICollectionViewDiffableDataSource<LikeSection, Like>?
 
     
     private lazy var cardCollectionView = UICollectionView(frame: .zero,
@@ -64,14 +63,11 @@ class LikeViewController: UIViewController, View {
         
         configureCardDataSource()
         configureListDataSource()
-        
-        bind(reactor: reactor)
     }
     
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = UIColor.white
-        setNavigationColor()
         setNavigationBarTitle("저장")
     }
     
@@ -154,7 +150,7 @@ class LikeViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, item in
-
+                
                 var cardSnapshot = NSDiffableDataSourceSnapshot<LikeSection, Like>()
                 cardSnapshot.appendSections([.main])
                 cardSnapshot.appendItems(item, toSection: .main)
@@ -163,10 +159,10 @@ class LikeViewController: UIViewController, View {
                 listSnapshot.appendSections([.main])
                 listSnapshot.appendItems(item, toSection: .main)
                 
-                DispatchQueue.main.async {
-                    owner.cardDatasource.apply(cardSnapshot, animatingDifferences: true)
-                    owner.listDatasource.apply(listSnapshot, animatingDifferences: true)
-                }
+                guard let cardDatasource = owner.cardDatasource,
+                      let listDatasource = owner.listDatasource else { return }
+                cardDatasource.apply(cardSnapshot, animatingDifferences: true)
+                listDatasource.apply(listSnapshot, animatingDifferences: true)
             })
             .disposed(by: disposeBag)
 
@@ -175,7 +171,8 @@ class LikeViewController: UIViewController, View {
             .map { $0.selectedPerfumeId }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, id in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, id in
                 owner.presentDatailViewController(id)
             })
             .disposed(by: disposeBag)
@@ -184,7 +181,8 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.isHiddenNoLikeView }
             .distinctUntilChanged()
-            .bind(with: self, onNext: { owner, isHidden in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isHidden in
                 if let isHidden = isHidden {
                     owner.noLikeView.isHidden = isHidden
                     if reactor.currentState.isSelectedCard {
@@ -204,13 +202,14 @@ class LikeViewController: UIViewController, View {
         reactor.state
             .map { $0.isDeletedLast }
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 let row = reactor.currentState.currentRow
                 if row > 0 {
                     let targetIndexPath = IndexPath(row: row - 1, section: 0)
                     owner.cardCollectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: true)
                 }
-            }
+            })
             .disposed(by: disposeBag)
       
     }
@@ -220,22 +219,22 @@ class LikeViewController: UIViewController, View {
         //카드버튼 터치 이벤트
         headerView.cardButton.rx.tap
             .map { LikeReactor.Action.didTapCardButton }
-            .bind(to: self.reactor.action)
+            .bind(to: self.reactor!.action)
             .disposed(by: headerView.disposeBag)
         
         headerView.listButton.rx.tap
             .map { LikeReactor.Action.didTapListButton }
-            .bind(to: self.reactor.action)
+            .bind(to: self.reactor!.action)
             .disposed(by: headerView.disposeBag)
         
-        reactor.state
+        reactor?.state
             .map { $0.isSelectedList }
             .distinctUntilChanged()
             .bind(to: headerView.listButton.rx.isSelected, cardCollectionView.rx.isHidden)
             .disposed(by: headerView.disposeBag)
         
         //listCollectionView 보여주기
-        reactor.state
+        reactor?.state
             .map { $0.isSelectedCard }
             .distinctUntilChanged()
             .bind(to: headerView.cardButton.rx.isSelected, listCollectionView.rx.isHidden)
@@ -253,7 +252,7 @@ extension LikeViewController {
     
             cell.xButton.rx.tap
                 .map { Reactor.Action.didTapXButton }
-                .bind(to: self.reactor.action)
+                .bind(to: self.reactor!.action)
                 .disposed(by: cell.disposeBag)
                     
             
@@ -261,7 +260,7 @@ extension LikeViewController {
             return cell
         })
         
-        cardDatasource.supplementaryViewProvider = { collectionView, kind, indexPath in
+        cardDatasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             self.configureHeader(collectionView, kind, indexPath)
         }
     }
@@ -275,7 +274,7 @@ extension LikeViewController {
             return cell
         })
         
-        listDatasource.supplementaryViewProvider = { collectionView, kind, indexPath in
+        listDatasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             self.configureHeader(collectionView, kind, indexPath)
         }
     }
@@ -295,7 +294,7 @@ extension LikeViewController {
         section.visibleItemsInvalidationHandler = { items, contentOffset, environment in
             let currentPage = Int((contentOffset.x / environment.container.contentSize.width).rounded(.up))
             
-            self.reactor.action.onNext(.didChangeCurrentPage(currentPage))
+            self.reactor!.action.onNext(.didChangeCurrentPage(currentPage))
         }
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .topTrailing)

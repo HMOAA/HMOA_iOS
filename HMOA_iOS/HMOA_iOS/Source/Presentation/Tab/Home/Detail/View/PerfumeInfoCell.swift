@@ -44,9 +44,6 @@ class PerfumeInfoCell: UICollectionViewCell {
 
 extension PerfumeInfoCell {
     
-    // MARK: - Bind
-    
-    
     func configureUI() {
         [   perfumeInfoView ] .forEach { addSubview($0) }
         

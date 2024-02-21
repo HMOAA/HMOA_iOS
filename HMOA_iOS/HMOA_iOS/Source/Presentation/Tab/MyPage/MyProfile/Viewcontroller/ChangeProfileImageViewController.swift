@@ -17,7 +17,7 @@ import PhotosUI
 class ChangeProfileImageViewController: UIViewController, View {
 
     // MARK: - UI Component
-    typealias Reactor = ChangeProfileImageReactor
+    
     var disposeBag = DisposeBag()
     
     private lazy var changeProfileImageButton: UIButton = UIButton().then {
@@ -48,7 +48,8 @@ class ChangeProfileImageViewController: UIViewController, View {
         
         return label
     }()
-    // MARK: - life cycle
+    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setBackItemNaviBar("프로필 수정")
@@ -71,7 +72,7 @@ extension ChangeProfileImageViewController {
     
     func bind(reactor: ChangeProfileImageReactor) {
         
-        // action
+        // MARK: - Action
         
         // 사진 선택 버튼 클릭
         changeProfileImageButton.rx.tap
@@ -104,50 +105,45 @@ extension ChangeProfileImageViewController {
             .disposed(by: disposeBag)
         
         
-        // State
+        // MARK: - State
         
         //닉네임 캡션 라벨 변경
         reactor.state
             .map { $0.isDuplicate }
             .compactMap { $0 }
-            .bind(with: self) { owner, isDuplicate in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isDuplicate in
                 owner.view.endEditing(true)
                 owner.changeCaptionLabelColor(isDuplicate)
-            }.disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
         
         //버튼 enable 상태 변경
         reactor.state
             .map { $0.isEnable }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: { isEnable in
-                DispatchQueue.main.async {
+                .asDriver(onErrorRecover: { _ in .empty() })
+                .drive(with: self, onNext: { owner,isEnable in
                     self.changeNextButtonEnable(isEnable)
-                }
-            }).disposed(by: disposeBag)
+                })
+                .disposed(by: disposeBag)
         
         //return 터치 시 키보드 내리기
         reactor.state
             .map { $0.isTapReturn }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 self.nicknameView.nicknameTextField.resignFirstResponder()
             }).disposed(by: disposeBag)
         
-        // 이전 화면으로 pop
-        reactor.state
-            .map { $0.nicknameResponse }
-            .distinctUntilChanged()
-            .filter { $0 != nil }
-            .map { _ in }
-            .bind(onNext: popViewController)
-            .disposed(by: disposeBag)
-            
         // 기존 닉네임 바인딩
         reactor.state
             .map { $0.currentNickname }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(to: nicknameView.nicknameTextField.rx.text)
             .disposed(by: disposeBag)
 
@@ -155,6 +151,7 @@ extension ChangeProfileImageViewController {
         reactor.state
             .map { $0.profileImage }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(to: changeProfileImageButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
@@ -164,8 +161,9 @@ extension ChangeProfileImageViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
-            .bind(onNext: {
-                self.present(self.pickerView, animated: true)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.present(owner.pickerView, animated: true)
             })
             .disposed(by: disposeBag)
             
@@ -174,8 +172,9 @@ extension ChangeProfileImageViewController {
             .map { $0.isDismiss }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
-                self.navigationController?.popViewController(animated: true)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -191,8 +190,8 @@ extension ChangeProfileImageViewController {
                     return text
                 }
             }
-            .observe(on: MainScheduler.instance)
-            .bind(with: self, onNext: { owner, text in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, text in
                 owner.nicknameView.nicknameTextField.text = text
                 owner.nicknameView.nicknameCountLabel.text = "\(text.count)/8"
             })

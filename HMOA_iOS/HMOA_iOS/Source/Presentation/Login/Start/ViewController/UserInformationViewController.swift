@@ -16,6 +16,7 @@ import ReactorKit
 class UserInformationViewController: UIViewController, View {
     
     //MARK: - UIComponents
+    
     private let titleLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.text = """
@@ -62,6 +63,7 @@ class UserInformationViewController: UIViewController, View {
     }
     
     //MARK: Properties
+    
     private var reactor: UserInformationReactor
     var disposeBag = DisposeBag()
     private let loginManager = LoginManager.shared
@@ -71,6 +73,7 @@ class UserInformationViewController: UIViewController, View {
     private var subscription: Disposable?
     
     //MARK: - Init
+    
     init(nickname: String = "", reactor: UserInformationReactor) {
         //닉네임 페이지에서 닉네임 받아오기
         self.reactor = reactor
@@ -83,14 +86,15 @@ class UserInformationViewController: UIViewController, View {
     }
     
     //MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationBarTitle(title: "회원가입", color: .white, isHidden: false)
+        setBackItemNaviBar("2/2")
         setUpUI()
         setAddView()
         setUpConstraints()
-        bind(reactor: self.reactor)
+        bind(reactor: reactor)
     }
     
     override func viewDidLayoutSubviews() {
@@ -191,6 +195,7 @@ class UserInformationViewController: UIViewController, View {
     }
     
     //MARK: - Bind
+    
     func bind(reactor: UserInformationReactor) {
         //Input
         
@@ -225,7 +230,8 @@ class UserInformationViewController: UIViewController, View {
             .map { $0.isPresentChoiceYearVC }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 let yearVC = owner.presentSelectYear()
                 owner.present(yearVC, animated: true)
             }).disposed(by: disposeBag)
@@ -234,6 +240,7 @@ class UserInformationViewController: UIViewController, View {
         reactor.state
             .map { $0.isCheckedWoman }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(to: self.womanButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -241,6 +248,7 @@ class UserInformationViewController: UIViewController, View {
         reactor.state
             .map { $0.isCheckedMan }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(to: self.manButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -249,7 +257,8 @@ class UserInformationViewController: UIViewController, View {
             .map { $0.selectedYear }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, year in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, year in
                 owner.selectLabel.text = year
                 owner.updateUIYearLabel(year)
             }).disposed(by: disposeBag)
@@ -258,7 +267,8 @@ class UserInformationViewController: UIViewController, View {
         reactor.state
             .map { $0.isStartEnable }
             .distinctUntilChanged()
-            .bind(with: self, onNext: { owner, isStart in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isStart in
                 owner.setEnableStartButton(isStart)
             }).disposed(by: disposeBag)
         
@@ -270,19 +280,19 @@ class UserInformationViewController: UIViewController, View {
             loginManager.loginStateSubject,
             loginManager.tokenSubject
         )
-            .bind(with: self, onNext: { owner, login in
-                guard var token = login.2 else { return }
-                DispatchQueue.main.async {
-                    owner.presentTabBar(login.1)
-                    owner.loginManager.isLogin.onNext(true)
-                    token.existedMember = true
-                    owner.loginManager.tokenSubject.onNext(token)
-                    KeychainManager.create(token: token)
-                }
-            })
+        .asDriver(onErrorRecover: { _ in .empty() })
+        .drive(with: self, onNext: { owner, login in
+            guard var token = login.2 else { return }
+            owner.presentTabBar(login.1)
+            owner.loginManager.isLogin.onNext(true)
+            token.existedMember = true
+            owner.loginManager.tokenSubject.onNext(token)
+            KeychainManager.create(token: token)
+        })
     }
     
     //MARK: - UpdateUI
+    
     private func updateUIYearLabel(_ year: String) {
         if year == "선택" {
             selectLabel.textColor = .customColor(.gray3)

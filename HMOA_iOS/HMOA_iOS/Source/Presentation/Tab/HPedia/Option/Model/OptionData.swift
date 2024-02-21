@@ -10,7 +10,7 @@ import Foundation
 import ReactorKit
 
 enum CommentReactorType {
-    case community(QnADetailReactor)
+    case community(CommunityDetailReactor)
     case perfumeDetail(DetailViewReactor)
     case commentList(CommentListReactor)
     

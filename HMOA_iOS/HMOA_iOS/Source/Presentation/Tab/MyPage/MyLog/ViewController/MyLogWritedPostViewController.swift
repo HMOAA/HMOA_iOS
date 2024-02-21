@@ -24,7 +24,7 @@ class MyLogWritedPostViewController: UIViewController, View {
     private let layout = UICollectionViewFlowLayout()
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
-        $0.register(HPediaQnACell.self, forCellWithReuseIdentifier: HPediaQnACell.identifier)
+        $0.register(HPediaCommunityCell.self, forCellWithReuseIdentifier: HPediaCommunityCell.identifier)
     }
     
     private lazy var noWriteView = NoLoginEmptyView(title:
@@ -71,9 +71,12 @@ class MyLogWritedPostViewController: UIViewController, View {
         }
     }
     
+    // MARK: - Bind
+    
     func bind(reactor: MyLogWritedPostReactor) {
         
-        // Action
+        // MARK: - Action
+        
         Observable.just(())
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
@@ -101,10 +104,12 @@ class MyLogWritedPostViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         
-        // State
+        // MARK: - State
+        
         reactor.state
             .map { $0.writedPostItems }
-            .bind(to: collectionView.rx.items(cellIdentifier: HPediaQnACell.identifier, cellType: HPediaQnACell.self)) { row, item, cell in
+            .observe(on: MainScheduler.instance)
+            .bind(to: collectionView.rx.items(cellIdentifier: HPediaCommunityCell.identifier, cellType: HPediaCommunityCell.self)) { row, item, cell in
                 cell.isListCell = true
                 cell.configure(item)
             }
@@ -112,8 +117,10 @@ class MyLogWritedPostViewController: UIViewController, View {
         
         reactor.state
             .map { $0.writedPostItems.isEmpty }
+            .skip(1)
             .distinctUntilChanged()
-            .bind(with: self, onNext: { owner, isEmpty in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isEmpty in
                 if isEmpty {
                     owner.noWriteView.isHidden = false
                     owner.collectionView.isHidden = true
@@ -128,7 +135,8 @@ class MyLogWritedPostViewController: UIViewController, View {
             .map { $0.selectedId }
             .compactMap { $0 }
             .distinctUntilChanged()
-            .bind(onNext: presentQnADetailVC)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: presentCommunityDetailVC)
             .disposed(by: disposeBag)
         
         

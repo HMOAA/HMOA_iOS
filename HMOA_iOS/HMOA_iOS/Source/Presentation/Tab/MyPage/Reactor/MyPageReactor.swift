@@ -245,7 +245,15 @@ extension MyPageReactor {
     }
     
     func deleteMember() -> Observable<Mutation> {
-        return MemberAPI.deleteMember()
+        
+        var observables: [Observable<Mutation>] = []
+        
+        if self.currentState.isOnSwitch ?? true {
+            let deleteFCMToken = PushAlarmAPI.deleteFcmToken().map { _ in Mutation.success }
+            observables.append(deleteFCMToken)
+        }
+        
+        let deleteMember = MemberAPI.deleteMember()
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 return .concat([
@@ -253,6 +261,10 @@ extension MyPageReactor {
                     .just(.setIsDelete(false))
                 ])
             }
+        
+        observables.append(deleteMember)
+        
+        return .merge(observables)
     }
     
     func reactorForMyProfile() -> ChangeProfileImageReactor {
