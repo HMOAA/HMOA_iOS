@@ -58,6 +58,7 @@ class CommunityPostCell: UICollectionViewCell {
     }
     
     private lazy var pageControl = UIPageControl().then {
+        $0.isEnabled = false
         $0.isHidden = true
     }
     
