@@ -82,6 +82,7 @@ class CommunityWriteViewController: UIViewController, View {
     }
     
     private lazy var pageControl = UIPageControl().then {
+        $0.isEnabled = false
         $0.pageIndicatorTintColor = .customColor(.gray2)
         $0.currentPageIndicatorTintColor = .customColor(.gray4)
         $0.isHidden = true
