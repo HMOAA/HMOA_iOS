@@ -9,10 +9,11 @@ import UIKit
 import SnapKit
 import Then
 
-import Hero
-
 extension UIViewController {
     
+    // MARK: - Push or Present VC
+    
+    /// 튜토리얼 페이지 전환 여부
     func checkTutorialRun() {
         let isTutorial = UserDefaults.standard.bool(forKey: "Tutorial")
         if !isTutorial {
@@ -22,29 +23,7 @@ extension UIViewController {
         }
     }
     
-    func showAlert(title: String,
-                   message: String,
-                   buttonTitle1: String,
-                   buttonTitle2: String? = nil,
-                   action1: (() -> Void)? = nil,
-                   action2: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let button1 = UIAlertAction(title: buttonTitle1, style: .default, handler: { _ in
-            action1?()
-        })
-        alert.addAction(button1)
-        
-        if let buttonTitle2 = buttonTitle2 {
-            let button2 = UIAlertAction(title: buttonTitle2, style: .cancel, handler: { _ in
-                action2?()
-            })
-            alert.addAction(button2)
-        }
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
+    /// 탭바에서 로그인 VC로 present
     func presentInAppLoginVC() {
         let loginVC = LoginViewController()
         loginVC.modalPresentationStyle = .fullScreen
@@ -52,6 +31,7 @@ extension UIViewController {
         self.present(loginVC, animated: true)
     }
     
+    /// 로그인 시작VC로 present
     func presentLoginStartVC() {
         let vc = LoginStartViewController()
         let nvController = UINavigationController(rootViewController: vc)
@@ -59,6 +39,7 @@ extension UIViewController {
         self.present(nvController, animated: true)
     }
     
+    /// 탭바로 present
     func presentTabBar(_ state: LoginState) {
         switch state {
         case .first:
@@ -69,69 +50,76 @@ extension UIViewController {
         }
     }
         
-        
-    func presentImagePinchVC(_ indexPath: IndexPath, images: [CommunityPhoto]) {
-        let vc = ImagePinchViewController()
+    /// community Image DetailVC로 전환
+    func presentImageListVC(_ indexPath: IndexPath, images: [CommunityPhoto]) {
+        let vc = ImageListViewController()
         vc.modalPresentationStyle = .fullScreen
-        vc.reactor = ImagePinchReactor(indexPath.row, images)
+        vc.reactor = ImageListReactor(indexPath.row, images)
         self.present(vc, animated: true)
     }
     
+    /// CustomAlertVC로 present
     func presentAlertVC(title: String, content: String, buttonTitle: String) {
         let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle)
         alertVC.modalPresentationStyle = .overFullScreen
         self.present(alertVC, animated: false)
     }
     
-    // list -> detail
-    func presentQnADetailVC(_ id: Int, _ reactor: QNAListReactor) {
-        let qnaDetailVC = QnADetailViewController()
+    /// communityListVC -> communityDetailVC
+    func presentCommunityDetailVC(_ id: Int, _ reactor: CommunityListReactor) {
+        let CommunityDetailVC = CommunityDetailViewController()
         let detailReactor = reactor.reactorForDetail()
         
-        qnaDetailVC.reactor = detailReactor
-        qnaDetailVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(qnaDetailVC, animated: true)
+        CommunityDetailVC.reactor = detailReactor
+        CommunityDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(CommunityDetailVC, animated: true)
     }
 
-    // hpedia, writedPost -> detail
-    func presentQnADetailVC(_ id: Int) {
-        let qnaDetailVC = QnADetailViewController()
-        let detailReactor = QnADetailReactor(id, CommunityListService())
+    /// hpediaHomeVC, writedPostVC -> communityDetailVC
+    func presentCommunityDetailVC(_ id: Int) {
+        let CommunityDetailVC = CommunityDetailViewController()
+        let detailReactor = CommunityDetailReactor(id, CommunityListService())
         
-        qnaDetailVC.reactor = detailReactor
-        qnaDetailVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(qnaDetailVC, animated: true)
+        CommunityDetailVC.reactor = detailReactor
+        CommunityDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(CommunityDetailVC, animated: true)
     }
-    func presentQnAWriteVCForEdit(reactor: QnADetailReactor) {
-        let qnaWriteVC = QnAWriteViewController()
+    
+    /// communityDetailVC -> communityWriteVC (When Edit)
+    func presentCommunityWriteVCForEdit(reactor: CommunityDetailReactor) {
+        let CommunityWriteVC = CommunityWriteViewController()
         let reactor = reactor.reactorForPostEdit()
-        qnaWriteVC.reactor = reactor
-        qnaWriteVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(qnaWriteVC, animated: true)
+        CommunityWriteVC.reactor = reactor
+        CommunityWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(CommunityWriteVC, animated: true)
     }
     
-    func presentQnAWriteVC(_ reactor: QNAListReactor) {
-        let qnaWriteVC = QnAWriteViewController()
+    /// communityListVC -> communityWriteVC (When Write)
+    func presentCommunityWriteVC(_ reactor: CommunityListReactor) {
+        let CommunityWriteVC = CommunityWriteViewController()
         let reactor = reactor.reactorForWrite()
-        qnaWriteVC.reactor = reactor
-        qnaWriteVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(qnaWriteVC, animated: true)
+        CommunityWriteVC.reactor = reactor
+        CommunityWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(CommunityWriteVC, animated: true)
     }
     
-    func presentQnAWriteVC(_ reactor: HPediaReactor) {
-        let qnaWriteVC = QnAWriteViewController()
+    /// HPediaMainVC -> communityWriteVC (When Wrrite)
+    func presentCommunityWriteVC(_ reactor: HPediaReactor) {
+        let CommunityWriteVC = CommunityWriteViewController()
         let reactor = reactor.reactorForWrite()
-        qnaWriteVC.reactor = reactor
-        qnaWriteVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(qnaWriteVC, animated: true)
+        CommunityWriteVC.reactor = reactor
+        CommunityWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(CommunityWriteVC, animated: true)
     }
     
-    func presentQnAListVC() {
-        let qnaListVC = QnAListViewController()
-        qnaListVC.reactor = QNAListReactor(service: CommunityListService())
-        self.navigationController?.pushViewController(qnaListVC, animated: true)
+    /// CommunityListVC로 push
+    func presentCommunityListVC() {
+        let CommunityListVC = CommunityListViewController()
+        CommunityListVC.reactor = CommunityListReactor(service: CommunityListService())
+        self.navigationController?.pushViewController(CommunityListVC, animated: true)
     }
     
+    /// DetailDictionaryVC로 push
     func presentDetailDictionaryVC(_ type: HpediaType, _ id: Int) {
         let detailDictionaryVC = DetailDictionaryViewController()
         let reactor = DetailDictionaryReactor(type, id)
@@ -139,6 +127,7 @@ extension UIViewController {
         self.navigationController?.pushViewController(detailDictionaryVC, animated: true)
     }
     
+    /// HPediaDictionaryVC로 push
     func presentDictionaryViewController(_ type: HpediaType) {
         let dictionaryVC = DictionaryViewController()
         let reactor = DictionaryReactor(type: type)
@@ -146,6 +135,7 @@ extension UIViewController {
         self.navigationController?.pushViewController(dictionaryVC, animated: true)
     }
     
+    /// PerfumeDetailVC로 push
     func presentDatailViewController(_ id: Int, _ service: BrandDetailService? = nil) {
         let reactor = DetailViewReactor(perfumeId: id, service: service)
         let detailVC = DetailViewController()
@@ -154,6 +144,7 @@ extension UIViewController {
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
+    /// CommentListVC로 push
     func presentCommentViewContorller(_ id: Int) {
         let commentVC = CommentListViewController()
         commentVC.reactor = CommentListReactor(id, service: DetailCommentService())
@@ -161,6 +152,7 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentVC, animated: true)
     }
     
+    /// SearchVC로 push
     func presentSearchViewController() {
         let searchVC = SearchViewController()
         searchVC.reactor = SearchReactor(service: BrandDetailService())
@@ -168,6 +160,7 @@ extension UIViewController {
         self.navigationController?.pushViewController(searchVC, animated: true)
     }
     
+    /// CommentDetailVC로 push
     func presentCommentDetailViewController(_ comment: Comment?, _ communityCommet: CommunityComment?, _ service: DetailCommentService? = nil) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
@@ -175,6 +168,7 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
+    /// CommentWriteVC로 push
     func presentCommentWriteViewController(_ reactorType: CommentReactorType) {
         let commentWriteVC = CommentWriteViewController()
         
@@ -193,6 +187,7 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
+    /// CommunityListVC로 push (수정일 때)
     func presentCommentWirteViewControllerForWriter(_ reactorType: CommentReactorType) {
         
         let commentWriteVC = CommentWriteViewController()
@@ -213,34 +208,30 @@ extension UIViewController {
         self.navigationController?.pushViewController(commentWriteVC, animated: true)
     }
     
+    /// BrandSearchVC로 push
     func presentBrandSearchViewController() {
         let brandSearchVC = BrandSearchViewController()
         brandSearchVC.reactor = BrandSearchReactor()
-        self.navigationController?.hero.isEnabled = true
-        self.navigationController?.hero.navigationAnimationType = .selectBy(presenting: .push(direction: .right), dismissing: .push(direction: .left))
         self.navigationController?.pushViewController(brandSearchVC, animated: true)
     }
     
+    /// BrandSearchDetailVC로 push
     func presentBrandDetailViewController(_ brandId: Int) {
         let brandDetailVC = BrandDetailViewController()
         brandDetailVC.reactor = BrandDetailReactor(brandId, BrandDetailService())
         self.navigationController?.pushViewController(brandDetailVC, animated: true)
     }
     
+    /// TotalPerfumeVC로 push
     func presentTotalPerfumeViewController(_ listType: Int) {
         let totalPerfumeVC = TotalPerfumeViewController()
         totalPerfumeVC.reactor = TotalPerfumeReactor(listType)
         self.navigationController?.pushViewController(totalPerfumeVC, animated: true)
     }
     
-    func presentAppTabBarController() {
-        let tabBar = AppTabbarController()
-        tabBar.modalPresentationStyle = .fullScreen
-        self.view.window?.rootViewController = tabBar
-        self.present(tabBar, animated: true)
-        self.view.window?.rootViewController?.dismiss(animated: false)
-    }
+    // MARK: Configure NavigationBar
     
+    /// 확인 버튼, 취소 버튼 navigation bar
     func setOkCancleNavigationBar(okButton: UIButton, cancleButton: UIButton, titleLabel: UILabel) {
         
         okButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
@@ -252,16 +243,8 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [okButtonItem]
     }
     
-    func setNavigationColor() {
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .white
-
-        self.navigationController?.navigationBar.standardAppearance = appearance
-        self.navigationController?.navigationBar.compactAppearance = appearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    }
-    
-    func setBrandSearchBellNaviBar(_ title: String, bellButton: UIBarButtonItem) {
+    /// Set HomeVC NavigatioinBar
+    func setSearchBellNaviBar(_ title: String, bellButton: UIBarButtonItem) {
         let titleLabel = UILabel().then {
             $0.text = title
             $0.font = .customFont(.pretendard_medium, 20)
@@ -278,6 +261,7 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [bellButton, searchButton]
     }
     
+    /// BackButton만 있는 NavigationBar
     func setBackItemNaviBar(_ title: String) {
         let titleLabel = UILabel().then {
             $0.text = title
@@ -291,24 +275,7 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItems = [backButton]
     }
     
-    func setBackHomeSearchNaviBar(_ title: String) {
-        let titleLabel = UILabel().then {
-            $0.text = title
-            $0.font = .customFont(.pretendard_medium, 20)
-            $0.textColor = .black
-        }
-        
-        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
-        
-        let homeButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "homeNavi")
-        
-        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
-        
-        self.navigationItem.titleView = titleLabel
-        self.navigationItem.leftBarButtonItems = [backButton, spacerItem(15), homeButton]
-        self.navigationItem.rightBarButtonItems = [searchButton]
-    }
-    
+    /// Back버튼, Home버튼 NavigationBar
     func setBackHomeRightNaviBar(_ title: String) {
         let titleLabel = UILabel().then {
             $0.text = title
@@ -316,17 +283,23 @@ extension UIViewController {
             $0.textColor = .black
         }
         
-        setNavigationColor()
-        
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
         
         let homeButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "homeNavi")
 
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+        
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
         self.navigationItem.rightBarButtonItems = [homeButton]
     }
     
+    /// NavigationBarTitle 설정
     func setNavigationBarTitle(_ title: String) {
         let titleLabel = UILabel().then {
             $0.text = title
@@ -337,71 +310,7 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
     }
     
-    func setNavigationBarTitle(title: String, color: UIColor, isHidden: Bool, isScroll: Bool = true) {
-        
-        if !isHidden {
-            let backButton = UIBarButtonItem(
-                image: UIImage(named: "backButton"),
-                style: .done,
-                target: self,
-                action: #selector(popViewController))
-           
-            backButton.tintColor = .black
-            
-            self.navigationItem.leftBarButtonItems = [backButton]
-        }
-        
-        self.setNavigationBarTitle(title)
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = color
-
-        self.navigationController?.navigationBar.standardAppearance = appearance
-        self.navigationController?.navigationBar.compactAppearance = appearance
-        
-        //로그인 navigationBar에서도 함수를 쓰기 위해 기존 코드에 영향이 안가게 처리 해놨습니다.
-        if isScroll {
-            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        }
-
-    }
-    
-    @objc func popViewController() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func goToHome() {
-        self.navigationController?.popToRootViewController(animated: true)
-    }
-    
-    @objc func goToSearch() {
-        presentSearchViewController()
-    }
-    
-    @objc func goToBrand() {
-        presentBrandSearchViewController()
-    }
-    
-    func spacerItem(_ width: Int) -> UIBarButtonItem {
-        let spacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        
-        spacer.width = CGFloat(width)
-        return spacer
-    }
-    
-    func setBottomBorder(_ sender: AnyObject, width: CGFloat, height: CGFloat, color: Colors = .gray2) {
-        let border = CALayer()
-        if sender is UITextField {
-            border.frame = CGRect(x: 0, y: height -  1, width: width - 16, height: 1)
-        } else if sender is UIView {
-            border.frame = CGRect(x: 0, y: height -  1, width: width, height: 1)
-        }
-        border.borderColor = UIColor.customColor(color).cgColor
-        border.borderWidth = 1
-        sender.layer.addSublayer(border)
-        sender.layer.masksToBounds = true
-    }
-    
+    /// search NavigationBar 설정
     func configureSearchNavigationBar(_ backButton: UIButton?, searchBar: UISearchBar) {
         var barBackButton: UIButton
         
@@ -420,12 +329,52 @@ extension UIViewController {
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
-
+        
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.compactAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
+
+    // MARK: - objc Function
     
+    /// popVC
+    @objc func popViewController() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    /// RootVC까지 pop
+    @objc func goToHome() {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    /// searchViewController로 push
+    @objc func goToSearch() {
+        presentSearchViewController()
+    }
+    
+    /// brandSearchViewController로 push
+    @objc func goToBrand() {
+        presentBrandSearchViewController()
+    }
+    
+    // MARK: - UI Function
+    
+    /// 아래 선 설정
+    func setBottomBorder(_ sender: AnyObject, width: CGFloat, height: CGFloat, color: Colors = .gray2) {
+        let border = CALayer()
+        if sender is UITextField {
+            border.frame = CGRect(x: 0, y: height -  1, width: width - 16, height: 1)
+        } else if sender is UIView {
+            border.frame = CGRect(x: 0, y: height -  1, width: width, height: 1)
+        }
+        border.borderColor = UIColor.customColor(color).cgColor
+        border.borderWidth = 1
+        sender.layer.addSublayer(border)
+        sender.layer.masksToBounds = true
+    }
+    
+    
+    /// floatingButton animation 설정
     func showFloatingButtonAnimation(floatingButton: UIButton, stackView: UIStackView, backgroundView: UIView, isTap: Bool) {
         floatingButton.isSelected = isTap
         //버튼, 뷰 숨기기
@@ -456,4 +405,36 @@ extension UIViewController {
             }
         }
     }
+    
+    /// Alert 보여주기
+    /// - Parameters:
+    ///   - title: Alert 제목: String
+    ///   - message: Alert 내용: String
+    ///   - buttonTitle1: Alert 버튼1 title: String
+    ///   - buttonTitle2: Alert 버튼2 title: String? = nil
+    ///   - action1: 버튼 1 액션: (() -> Void)? = nil
+    ///   - action2: 버튼 2 액션: (() -> Void)? = nil
+    func showAlert(title: String,
+                   message: String,
+                   buttonTitle1: String,
+                   buttonTitle2: String? = nil,
+                   action1: (() -> Void)? = nil,
+                   action2: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let button1 = UIAlertAction(title: buttonTitle1, style: .default, handler: { _ in
+            action1?()
+        })
+        alert.addAction(button1)
+        
+        if let buttonTitle2 = buttonTitle2 {
+            let button2 = UIAlertAction(title: buttonTitle2, style: .cancel, handler: { _ in
+                action2?()
+            })
+            alert.addAction(button2)
+        }
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }

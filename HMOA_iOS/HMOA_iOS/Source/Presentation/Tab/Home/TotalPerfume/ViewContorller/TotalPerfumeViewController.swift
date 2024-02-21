@@ -17,7 +17,7 @@ class TotalPerfumeViewController: UIViewController, View {
     
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    private var dataSource: UICollectionViewDiffableDataSource<TotalPerfumeSection, TotalPerfumeSectionItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<TotalPerfumeSection, TotalPerfumeSectionItem>?
     // MARK: - UI Component
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(BrandDetailCollectionViewCell.self, forCellWithReuseIdentifier: BrandDetailCollectionViewCell.identifier)
@@ -27,7 +27,7 @@ class TotalPerfumeViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        self.setBackItemNaviBar("전체보기")
+        setBackItemNaviBar("전체보기")
     }
 }
 
@@ -43,7 +43,7 @@ extension TotalPerfumeViewController {
         //collectionView - item 클릭
         collectionView.rx.itemSelected
             .map { indexPath in
-                let item = self.dataSource.itemIdentifier(for: indexPath)
+                let item = self.dataSource?.itemIdentifier(for: indexPath)
                 switch item {
                 case .perfumeList(let perfume):
                     return perfume
@@ -63,6 +63,7 @@ extension TotalPerfumeViewController {
             .map { $0.sections }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
+                guard let datasource = owner.dataSource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<TotalPerfumeSection, TotalPerfumeSectionItem>()
                 
                 snapshot.appendSections(sections)
@@ -70,9 +71,7 @@ extension TotalPerfumeViewController {
                     snapshot.appendItems(section.items, toSection: section)
                 }
                 
-                DispatchQueue.main.async {
-                    owner.dataSource.apply(snapshot)
-                }
+                datasource.apply(snapshot)
             }).disposed(by: disposeBag)
         
         // item 클릭 시 향수 상세 화면으로 이동
@@ -80,7 +79,8 @@ extension TotalPerfumeViewController {
             .map { $0.selectedItem }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, perfume in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner,  perfume in
                 owner.presentDatailViewController(perfume.perfumeId)
             })
             .disposed(by: disposeBag)

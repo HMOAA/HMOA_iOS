@@ -17,7 +17,6 @@ class LoginReactor: NSObject, Reactor {
     private let appleLoginResultSubject = PublishSubject<String?>()
     let disposeBag = DisposeBag()
     
-    //유저 액션
     enum Action {
         case didTapGoogleLoginButton
         case didTapAppleLoginButton
@@ -25,8 +24,7 @@ class LoginReactor: NSObject, Reactor {
         case didTapNoLoginButton
         case didTapXButton
     }
-    
-    //상태 변화
+
     enum Mutation {
         case setPresentTabBar(Bool)
         case setPushStartVC(Bool)
@@ -36,7 +34,6 @@ class LoginReactor: NSObject, Reactor {
         case setAppleToken(Token?)
     }
     
-    //현재 뷰 상태
     struct State {
         var isSignInGoogle: Bool = false
         var isPushStartVC: Bool = false

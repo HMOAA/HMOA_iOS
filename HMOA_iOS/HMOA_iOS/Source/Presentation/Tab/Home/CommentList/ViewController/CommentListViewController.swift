@@ -20,8 +20,6 @@ class CommentListViewController: UIViewController, View {
     private var dataSource: UICollectionViewDiffableDataSource<CommentSection, CommentSectionItem>?
     
     var disposeBag = DisposeBag()
-    
-    
 
     // MARK: - UI Component
     
@@ -46,6 +44,7 @@ class CommentListViewController: UIViewController, View {
         super.viewDidLoad()
         configureUI()
         configureCollectionViewDataSource()
+        setBackItemNaviBar("댓글")
     }
 }
 
@@ -110,12 +109,10 @@ extension CommentListViewController {
                 guard let dataSource = owner.dataSource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<CommentSection, CommentSectionItem>()
                 snapshot.appendSections([.comment])
-            
+                
                 item.forEach { snapshot.appendItems([.commentCell($0)]) }
                 
-                DispatchQueue.main.async {
-                    dataSource.apply(snapshot, animatingDifferences: false)
-                }
+                dataSource.apply(snapshot, animatingDifferences: false)
             }).disposed(by: disposeBag)
         
         // 댓글 디테일 페이지로 이동
@@ -123,7 +120,8 @@ extension CommentListViewController {
             .map { $0.selectedComment }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, comment in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, comment in
                 owner.presentCommentDetailViewController(comment, nil, reactor.service)
             })
             .disposed(by: disposeBag)
@@ -133,15 +131,10 @@ extension CommentListViewController {
             .map { $0.isPresentCommentWriteVC }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentCommentWriteViewController(.commentList(reactor))
             })
-            .disposed(by: disposeBag)
-        
-        // 내비게이션 타이틀 설정
-        reactor.state
-            .map { $0.navigationTitle }
-            .bind(onNext: setBackItemNaviBar)
             .disposed(by: disposeBag)
         
         // 로그인 안되있을 시 present
@@ -149,7 +142,8 @@ extension CommentListViewController {
             .map { $0.isTapWhenNotLogin }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentAlertVC(
                     title: "로그인 후 이용가능한 서비스입니다",
                     content: "입력하신 내용을 다시 확인해주세요",
@@ -181,13 +175,15 @@ extension CommentListViewController {
             .map { $0.commentCount }
             .distinctUntilChanged()
             .map { "+" + String($0) }
+            .observe(on: MainScheduler.instance)
             .bind(to: header.commentCountLabel.rx.text )
             .disposed(by: disposeBag)
         
         reactor?.state
             .map { $0.sortType }
             .map { $0 == "Latest" }
-            .bind(onNext: { isLatest in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isLatest in
                 header.recentSortButton.isSelected = isLatest
                 header.likeSortButton.isSelected = !isLatest
             })
@@ -210,7 +206,7 @@ extension CommentListViewController {
                     .bind(to: self.optionView.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
-                // QnADetailReactor에 indexPathRow 전달
+                // CommunityDetailReactor에 indexPathRow 전달
                 cell.optionButton.rx.tap
                     .map { CommentListReactor.Action.didTapOptionButton(comment.id) }
                     .bind(to: self.reactor!.action)

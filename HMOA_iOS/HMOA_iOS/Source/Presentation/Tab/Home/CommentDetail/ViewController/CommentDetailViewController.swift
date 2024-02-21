@@ -122,7 +122,8 @@ extension CommentDetailViewController {
         reactor.state
             .map { $0.comment }
             .compactMap { $0 }
-            .bind(with: self) { owner, comment in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, comment in
                 owner.userImageView.kf.setImage(with: URL(string: comment.profileImg))
                 owner.dateLabel.text = comment.createAt
                 owner.contentLabel.text = comment.content
@@ -131,27 +132,29 @@ extension CommentDetailViewController {
                 
                 owner.userMarkImageView.isHidden = !comment.writed
                 //owner.view.setNeedsUpdateConstraints()
-            }
+            })
             .disposed(by: disposeBag)
         
         // communityComment 바인딩
         reactor.state
             .map { $0.communityCommet }
             .compactMap { $0 }
-            .bind(with: self) { owner, comment in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, comment in
                 owner.userImageView.kf.setImage(with: URL(string: comment.profileImg))
                 owner.dateLabel.text = comment.time
                 owner.contentLabel.text = comment.content
                 owner.userNameLabel.text = comment.author
                 owner.commentLikeButton.isHidden = true
                 owner.userMarkImageView.isHidden = !comment.writed
-            }
+            })
             .disposed(by: disposeBag)
         
         // 좋아요 여부
         reactor.state
             .map { $0.isLiked }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(to: commentLikeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -160,7 +163,8 @@ extension CommentDetailViewController {
             .map { $0.isTapWhenNotLogin }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentAlertVC(
                     title: "로그인 후 이용가능한 서비스입니다",
                     content: "입력하신 내용을 다시 확인해주세요",

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RxDataSources
 
 enum BrandListSection {
     case first([BrandCell]) // ㄱ
