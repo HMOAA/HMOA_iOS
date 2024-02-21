@@ -13,6 +13,7 @@ class LoginViewController: UIViewController, View {
     
 
     //MARK: - UIComponents
+    
     private let titleImageView = UIImageView().then {
         $0.image = UIImage(named: "logo_EG")
     }
@@ -38,10 +39,13 @@ class LoginViewController: UIViewController, View {
         $0.setImage(UIImage(named: "x"), for: .normal)
     }
     
+    // MARK: - Properties
+    
     var disposeBag = DisposeBag()
     private let loginManager = LoginManager.shared
     
     //MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,6 +60,7 @@ class LoginViewController: UIViewController, View {
     }
     
     //MARK: - SetUp
+    
     private func setUpUI() {
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
@@ -115,10 +120,10 @@ class LoginViewController: UIViewController, View {
     }
     
     //MARK: - Bind
+    
     func bind(reactor: LoginReactor) {
         
-        //MARK: - Actiong
-        //Input
+        //MARK: - Action
         
         //애플 로그인 버튼 터치
         appleLoginButton.rx.tap
@@ -139,14 +144,13 @@ class LoginViewController: UIViewController, View {
         
         //MARK: - State
         
-        //Output
-        
         //메인 탭바로 이동
         reactor.state
             .map { $0.isPresentTabBar }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentTabBar(reactor.currentState.loginState)
             }).disposed(by: disposeBag)
         
@@ -155,7 +159,8 @@ class LoginViewController: UIViewController, View {
             .map { $0.isPushStartVC }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentLoginStartVC()
             }).disposed(by: disposeBag)
         
@@ -173,7 +178,8 @@ class LoginViewController: UIViewController, View {
         reactor.state
             .compactMap { $0.kakaoToken }
             .distinctUntilChanged()
-            .bind(with: self, onNext: { owner, token in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, token in
                 owner.checkPreviousSignIn(token)
             }).disposed(by: disposeBag)
         
@@ -181,7 +187,8 @@ class LoginViewController: UIViewController, View {
         reactor.state
             .compactMap { $0.appleToken }
             .distinctUntilChanged()
-            .bind(with: self) { owner, token in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self) { owner, token in
                 owner.checkPreviousSignIn(token)
             }.disposed(by: disposeBag)
             
@@ -204,7 +211,8 @@ class LoginViewController: UIViewController, View {
             .map { $0.isDismiss }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self) { owner, _ in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self) { owner, _ in
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
@@ -231,7 +239,8 @@ extension LoginViewController {
             let params = ["token": token]
             
             LoginAPI.postAccessToken(params: params, .google)
-                .bind(with: self, onNext: { owner, token in
+                .asDriver(onErrorRecover: { _ in .empty() })
+                .drive(with: self, onNext: { owner, token in
                     owner.checkPreviousSignIn(token)
                 }).disposed(by: self.disposeBag)
         }

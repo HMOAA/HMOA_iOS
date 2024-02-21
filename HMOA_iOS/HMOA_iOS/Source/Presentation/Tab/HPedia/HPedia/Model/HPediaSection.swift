@@ -9,10 +9,10 @@ import Foundation
 
 enum HPediaSection: Hashable {
     case dictionary
-    case qna
+    case community
 }
 
 enum HPediaSectionItem: Hashable {
     case dictionary(HPediaDictionaryData)
-    case qna(CategoryList)
+    case community(CategoryList)
 }

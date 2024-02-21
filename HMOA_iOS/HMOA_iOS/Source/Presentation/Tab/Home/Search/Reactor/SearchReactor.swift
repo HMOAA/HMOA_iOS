@@ -174,7 +174,7 @@ class SearchReactor: Reactor {
                 perfumeId: perfume.perfumeId,
                 perfumeImageUrl: perfume.perfumeImgUrl,
                 perfumeName: perfume.perfumeName)
-            var perfumes = state.resultProduct
+            let perfumes = state.resultProduct
             for i in 0..<perfumes.count {
                 if perfumes[i].perfumeId == searchPerfume.perfumeId {
                     state.resultProduct[i].isHeart = searchPerfume.isHeart

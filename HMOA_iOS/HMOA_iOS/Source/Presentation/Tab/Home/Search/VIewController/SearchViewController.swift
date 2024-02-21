@@ -49,7 +49,8 @@ class SearchViewController: UIViewController, View {
 extension SearchViewController {
     
     
-    // MARK: - Binding
+    // MARK: - Bind
+    
     func bind(reactor: SearchReactor) {
         // MARK: - Action
         
@@ -134,6 +135,7 @@ extension SearchViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: self.popViewController)
             .disposed(by: disposeBag)
         
@@ -143,6 +145,7 @@ extension SearchViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: { self.changeViewController(self.listVC) })
             .disposed(by: disposeBag)
         
@@ -152,9 +155,10 @@ extension SearchViewController {
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
-            .bind(onNext: {
-                self.searchBar.endEditing(false)
-                self.changeViewController(self.ResultVC)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.searchBar.endEditing(false)
+                owner.changeViewController(self.ResultVC)
             })
             .disposed(by: disposeBag)
 
@@ -162,6 +166,7 @@ extension SearchViewController {
         reactor.state
             .map { $0.resultProduct }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(to: self.ResultVC.collectionView.rx.items(
                 cellIdentifier: SearchResultCollectionViewCell.identifier, cellType: SearchResultCollectionViewCell.self)) { index, item, cell in
                     cell.updateCell(item)
@@ -172,6 +177,7 @@ extension SearchViewController {
         reactor.state
             .map { $0.lists }
             .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
             .bind(to: self.listVC.tableView.rx.items(
                 cellIdentifier: SearchListTableViewCell.identifier,
                 cellType: SearchListTableViewCell.self)) { index, item, cell in
@@ -183,8 +189,9 @@ extension SearchViewController {
         reactor.state
             .map { $0.prePage }
             .distinctUntilChanged()
-            .bind(onNext: {
-                switch $0 {
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, prePage in
+                switch prePage {
                 case 2:
                     self.removeChiledViewController(self.listVC)
                 case 3:
@@ -227,8 +234,6 @@ extension SearchViewController {
     private func configureUI() {
         
         view.backgroundColor = .white
-        
-        
         
         listVC.tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
