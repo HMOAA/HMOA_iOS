@@ -86,10 +86,17 @@ class HPediaViewController: UIViewController, View {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        if let tabBarController = tabBarController {
-            tabBarController.view.addSubview(floatingView)
-            tabBarController.view.addSubview(floatingButton)
-            tabBarController.view.addSubview(floatingStackView)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            [
+                floatingView,
+                floatingButton,
+                floatingStackView
+            ]   .forEach { window.addSubview($0) }
+            
+            floatingView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
             
             floatingButton.snp.makeConstraints { make in
                 make.trailing.equalToSuperview().inset(12)
@@ -102,10 +109,6 @@ class HPediaViewController: UIViewController, View {
                 make.width.equalTo(135)
                 make.height.equalTo(137)
                 make.bottom.equalTo(floatingButton.snp.top).offset(-8)
-            }
-            
-            floatingView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
             }
         }
     }
