@@ -37,7 +37,7 @@ class DetailDictionaryViewController: UIViewController, View {
         $0.setLabelUI("", font: .pretendard, size: 16, color: .black)
     }
     
-    //MARK: - Init
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,6 +83,8 @@ class DetailDictionaryViewController: UIViewController, View {
         }
     }
     
+    // MARK: - Bind
+    
     func bind(reactor: DetailDictionaryReactor) {
         
         Observable.just(())
@@ -98,18 +100,20 @@ class DetailDictionaryViewController: UIViewController, View {
         reactor.state
             .map { $0.item }
             .compactMap { $0 }
-            .bind(with: self) { owner, item in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, item in
                 owner.titleKoreanLabel.text = ": \(item.title)"
                 owner.titleEnglishLabel.text = item.subTitle
                 owner.contentLabel.text = item.content
-            }
+            })
             .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.type }
-            .bind(with: self) { owner, type in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, type in
                 if type == .brand { owner.explainLabel.isHidden = true }
-            }
+            })
             .disposed(by: disposeBag)
     }
     

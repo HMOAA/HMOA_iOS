@@ -14,12 +14,12 @@ import RxSwift
 import ReactorKit
 
 class NicknameViewController: UIViewController, View {
-    //MARK: - Property
+    
+    //MARK: - Properties
     
     private lazy var nicknameView = NicknameView("다음")
     
     var disposeBag = DisposeBag()
-    typealias Reactor = NicknameReactor
     
     //MARK: - Init
     init(reactor: NicknameReactor) {
@@ -31,7 +31,8 @@ class NicknameViewController: UIViewController, View {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - LifeCycle
+    //MARK: - LifeCycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,9 +52,10 @@ class NicknameViewController: UIViewController, View {
     }
     
     //MARK: - SetUp
+    
     private func setUpUI() {
         view.backgroundColor = .white
-        setNavigationBarTitle(title: "1/2", color: .white, isHidden: false, isScroll: false)
+        setBackItemNaviBar("1/2")
     }
     
     private func setAddView() {
@@ -69,7 +71,8 @@ class NicknameViewController: UIViewController, View {
 
     
     //MARK: - Bind
-    func bind(reactor: Reactor) {
+    
+    func bind(reactor: NicknameReactor) {
         //Input
         
         // 닉네임 textfiled 입력 이벤트
@@ -101,8 +104,9 @@ class NicknameViewController: UIViewController, View {
         reactor.state
             .map { $0.isDuplicate }
             .compactMap { $0 }
-            .bind(onNext: {
-                self.changeCaptionLabelColor($0)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isDuplicate in
+                owner.changeCaptionLabelColor(isDuplicate)
             }).disposed(by: disposeBag)
         
         //버튼 enable 상태 변경
@@ -110,8 +114,9 @@ class NicknameViewController: UIViewController, View {
             .map { $0.isEnable }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(onNext: { isEnable in
-                self.changeNextButtonEnable(isEnable)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isEnable in
+                owner.changeNextButtonEnable(isEnable)
             }).disposed(by: disposeBag)
         
         //return 터치 시 키보드 내리기
@@ -119,8 +124,9 @@ class NicknameViewController: UIViewController, View {
             .map { $0.isTapReturn }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
-                self.nicknameView.nicknameTextField.resignFirstResponder()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.view.endEditing(true)
             }).disposed(by: disposeBag)
         
         //연도 VC로 화면 전환
@@ -128,9 +134,10 @@ class NicknameViewController: UIViewController, View {
             .map { $0.isPushNextVC }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(onNext: { _ in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 let vc = UserInformationViewController(nickname: reactor.currentState.nickname!, reactor: UserInformationReactor(service: UserYearService()))
-                self.navigationController?.pushViewController(vc,animated: true)
+                owner.navigationController?.pushViewController(vc,animated: true)
             }).disposed(by: disposeBag)
         
         // 닉네임 길이 제한
@@ -145,7 +152,8 @@ class NicknameViewController: UIViewController, View {
                     return text
                 }
             }
-            .bind(with: self, onNext: { owner, text in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, text in
                 owner.nicknameView.nicknameTextField.text = text
                 owner.nicknameView.nicknameCountLabel.text = "\(text.count)/8"
             })

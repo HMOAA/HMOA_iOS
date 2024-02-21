@@ -17,11 +17,8 @@ class DetailViewController: UIViewController, View {
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
-    
     private var dataSource: UICollectionViewDiffableDataSource<DetailSection, DetailSectionItem>?
-
     private let detailView = DetailView()
-    
     private let bottomView = DetailBottomView()
     
     private lazy var optionView = OptionView().then {
@@ -112,9 +109,8 @@ extension DetailViewController {
                     snapshot.appendItems(section.items, toSection: section)
                 }
                 
-                DispatchQueue.main.async {
-                    dataSource.apply(snapshot)
-                }
+                dataSource.apply(snapshot)
+                
             }).disposed(by: disposeBag)
         
         // 댓글 전체 보기 페이지로 이동
@@ -122,6 +118,7 @@ extension DetailViewController {
             .map { $0.persentCommentPerfumeId }
             .distinctUntilChanged()
             .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: presentCommentViewContorller)
             .disposed(by: disposeBag)
         
@@ -130,7 +127,8 @@ extension DetailViewController {
             .map { $0.presentComment }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext:{ owner, comment in owner.presentCommentDetailViewController(comment, nil, nil)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, comment in owner.presentCommentDetailViewController(comment, nil, nil)
             })
             .disposed(by: disposeBag)
         
@@ -139,7 +137,8 @@ extension DetailViewController {
             .map { $0.presentPerfumeId }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, id in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, id in
                 owner.presentDatailViewController(id)
             })
             .disposed(by: disposeBag)
@@ -149,7 +148,8 @@ extension DetailViewController {
             .map { $0.isPresentCommentWirteVC }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentCommentWriteViewController(.perfumeDetail(reactor))
             })
             .disposed(by: disposeBag)
@@ -159,6 +159,7 @@ extension DetailViewController {
             .map { $0.isLiked }
             .distinctUntilChanged()
             .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
             .bind(to: bottomView.likeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
@@ -167,7 +168,8 @@ extension DetailViewController {
             .map { $0.isTapWhenNotLogin }
             .distinctUntilChanged()
             .filter { $0 }
-            .bind(with: self, onNext: { owner, _ in
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
                 owner.presentAlertVC(title: "로그인 후 이용가능한 서비스입니다",
                                      content: "입력하신 내용을 다시 확인해주세요",
                                      buttonTitle: "로그인 하러가기 ")
@@ -177,6 +179,7 @@ extension DetailViewController {
         // 백, 홈 네비게이션 타이틀 설정
         reactor.state
             .map { $0.brandName }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: setBackHomeRightNaviBar)
             .disposed(by: disposeBag)
         
@@ -185,7 +188,8 @@ extension DetailViewController {
     private func bindHeader(_ header: CommentHeaderView) {
         reactor?.state
             .map { "+\($0.commentCount)" }
-            .bind(to: header.countLabel.rx.text)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(header.countLabel.rx.text)
             .disposed(by: disposeBag)
 
     }
@@ -206,6 +210,7 @@ extension DetailViewController {
             .map { $0.presentBrandId }
             .distinctUntilChanged()
             .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: presentBrandDetailViewController)
             .disposed(by: cell.disposeBag)
         
@@ -215,6 +220,7 @@ extension DetailViewController {
             .skip(1)
             .distinctUntilChanged()
             .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
             .bind(onNext: { isLiked in
                 cell.perfumeInfoView.perfumeLikeImageView.image = !isLiked ? UIImage(named: "heart") : UIImage(named: "heart_fill")
             })
@@ -225,6 +231,7 @@ extension DetailViewController {
             .compactMap { $0.likeCount }
             .skip(1)
             .map { "\($0)" }
+            .observe(on: MainScheduler.instance)
             .bind(to: cell.perfumeInfoView.perfumeLikeCountLabel.rx.text)
             .disposed(by: disposeBag)
     }
@@ -295,8 +302,6 @@ extension DetailViewController: UICollectionViewDelegate {
             case .commentCell(let comment):
                 guard let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.identifier, for: indexPath) as? CommentCell else { return UICollectionViewCell() }
                 
-                
-                
                 if let comment = comment {
                     let optionData = OptionCommentData(id: comment.id, content: comment.content, isWrited: comment.writed, isCommunity: false)
                     commentCell.optionButton.rx.tap
@@ -311,8 +316,6 @@ extension DetailViewController: UICollectionViewDelegate {
                 }
                 commentCell.updateCell(comment)
     
-                    
-                
                 return commentCell
                 
             case .similarCell(let similar):
@@ -320,7 +323,6 @@ extension DetailViewController: UICollectionViewDelegate {
                 
                 similarCell.updateUI(similar)
                 return similarCell
-                
             }
         })
         

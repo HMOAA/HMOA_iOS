@@ -63,7 +63,6 @@ class PerfumeInfoView: UIView {
         $0.text = "테이스팅 노트"
     }
     
-    //TODO: singleNoteView 만들기
     lazy var topNote = TastingNoteView()
     
     lazy var heartNote = TastingNoteView()

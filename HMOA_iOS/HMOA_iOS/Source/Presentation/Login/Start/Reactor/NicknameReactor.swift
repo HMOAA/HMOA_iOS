@@ -6,7 +6,6 @@
 //
 
 import ReactorKit
-import RxCocoa
 
 class NicknameReactor: Reactor {
     

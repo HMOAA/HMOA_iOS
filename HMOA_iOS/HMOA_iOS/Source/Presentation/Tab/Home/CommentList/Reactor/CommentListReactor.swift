@@ -45,7 +45,6 @@ class CommentListReactor: Reactor {
         var selectedComment: Comment? = nil
         var isPresentCommentWriteVC: Int? = nil
         var sortType: String = ""
-        var navigationTitle: String = "댓글"
         var loadedPage: Set<Int> = []
         var selectedCommentId: Int? = nil
         var isLogin: Bool = false

@@ -15,6 +15,7 @@ import RxCocoa
 class LoginStartViewController: UIViewController {
 
     // MARK: - UIComponents
+    
     private let welcomLabel = UILabel().then {
         $0.setLabelUI("환영합니다", font: .pretendard_medium, size: 30, color: .black)
     }
@@ -40,6 +41,7 @@ class LoginStartViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
+    // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -49,9 +51,11 @@ class LoginStartViewController: UIViewController {
     }
     
     //MARK: - SetUp
+    
     private func setUpUI() {
         view.backgroundColor = .white
     }
+    
     private func setAddView() {
         [welcomLabel,
          explainLabel,
@@ -76,6 +80,8 @@ class LoginStartViewController: UIViewController {
             make.bottom.equalToSuperview()
         }
     }
+    
+    // MARK: - Bind
     
     private func bind() {
         nextButton.rx.tap

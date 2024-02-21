@@ -17,6 +17,7 @@ class TutorialViewController: UIPageViewController {
     // MARK: - UIComponents
     private var pages = [UIViewController]()
     private let pageControl = UIPageControl().then {
+        $0.isEnabled = false
         $0.pageIndicatorTintColor = #colorLiteral(red: 0.8797428012, green: 0.8797428012, blue: 0.8797428012, alpha: 1)
         $0.currentPageIndicatorTintColor = .black
         $0.numberOfPages = 4
@@ -39,6 +40,8 @@ class TutorialViewController: UIPageViewController {
         bind()
     }
     
+    //MARK: - SetUp
+
     private func setUpPage() {
         let firstPage = TutorialContentViewController(
             title: """
@@ -89,7 +92,6 @@ class TutorialViewController: UIPageViewController {
         pages = [firstPage, secondPage, thirdPage, fourthPage]
     }
     
-    //MARK: - SetUp
     private func setUpUI() {
         view.addSubview(pageControl)
         view.addSubview(xButton)

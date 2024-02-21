@@ -37,7 +37,7 @@ class MyLogCommentViewController: UIViewController, View {
         $0.isHidden = true
     }
     
-    private var datasource: UICollectionViewDiffableDataSource<MyLogCommentSection, MyLogCommentSectionItem>!
+    private var datasource: UICollectionViewDiffableDataSource<MyLogCommentSection, MyLogCommentSectionItem>?
     
     var disposeBag = DisposeBag()
     
@@ -74,9 +74,11 @@ class MyLogCommentViewController: UIViewController, View {
         
     }
     
+    // MARK: - Bind
+    
     func bind(reactor: MyLogCommentReactor) {
         
-        // Action
+        // MARK: - Action
         
         // viewDidLoad
         Observable.just(())
@@ -108,7 +110,7 @@ class MyLogCommentViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // State
+        // MARK: - State
         
         // colectionView binding
         reactor.state
@@ -116,6 +118,7 @@ class MyLogCommentViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, items in
+                guard let datasource = owner.datasource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<MyLogCommentSection, MyLogCommentSectionItem>()
                 if case .liked(_) = reactor.currentState.commentType {
                     if items.perfume.isEmpty {
@@ -131,9 +134,7 @@ class MyLogCommentViewController: UIViewController, View {
                 items.perfume.forEach { snapshot.appendItems([.perfume($0)]) }
                 items.community.forEach { snapshot.appendItems([.community($0)]) }
                 
-                DispatchQueue.main.async {
-                    owner.datasource.apply(snapshot, animatingDifferences: false)
-                }
+                datasource.apply(snapshot, animatingDifferences: false)
             }
             .disposed(by: disposeBag)
         
@@ -148,7 +149,8 @@ class MyLogCommentViewController: UIViewController, View {
         reactor.state
             .map { $0.perfumeId }
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, id in
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, id in
                 owner.presentDatailViewController(id)
             })
             .disposed(by: disposeBag)
@@ -157,7 +159,8 @@ class MyLogCommentViewController: UIViewController, View {
         reactor.state
             .map { $0.communityId }
             .compactMap { $0 }
-            .bind(onNext: presentQnADetailVC)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: presentCommunityDetailVC)
             .disposed(by: disposeBag)
     }
 }
@@ -194,7 +197,7 @@ extension MyLogCommentViewController: UICollectionViewDelegateFlowLayout {
             return cell
         })
         
-        datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
+        datasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             
             if self.reactor?.currentState.commentType == .liked(nil) {
                 return nil
