@@ -183,6 +183,8 @@
 		CA6C48632B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6C48622B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift */; };
 		CA6CA1122AFF780300535B0D /* CommunityPostPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6CA1112AFF780300535B0D /* CommunityPostPhotoCell.swift */; };
 		CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6D99E729C4932A000E80CF /* ListSecton.swift */; };
+		CA6FADF42B87462D008BCEF7 /* MagazineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6FADF32B87462D008BCEF7 /* MagazineViewController.swift */; };
+		CA6FADF62B87465B008BCEF7 /* MagazineReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6FADF52B87465B008BCEF7 /* MagazineReactor.swift */; };
 		CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */; };
 		CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640112AA864630053076B /* DictionaryViewController.swift */; };
 		CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7640132AA864750053076B /* DictionaryReactor.swift */; };
@@ -441,6 +443,8 @@
 		CA6C48622B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalPerfumeAPI.swift; sourceTree = "<group>"; };
 		CA6CA1112AFF780300535B0D /* CommunityPostPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityPostPhotoCell.swift; sourceTree = "<group>"; };
 		CA6D99E729C4932A000E80CF /* ListSecton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSecton.swift; sourceTree = "<group>"; };
+		CA6FADF32B87462D008BCEF7 /* MagazineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineViewController.swift; sourceTree = "<group>"; };
+		CA6FADF52B87465B008BCEF7 /* MagazineReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineReactor.swift; sourceTree = "<group>"; };
 		CA76400A2AA84F620053076B /* HPediaQnAHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaQnAHeaderView.swift; sourceTree = "<group>"; };
 		CA7640112AA864630053076B /* DictionaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewController.swift; sourceTree = "<group>"; };
 		CA7640132AA864750053076B /* DictionaryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryReactor.swift; sourceTree = "<group>"; };
@@ -776,6 +780,7 @@
 		2C39AA4D29704215000C6F71 /* Tab */ = {
 			isa = PBXGroup;
 			children = (
+				CA6FADF02B874606008BCEF7 /* Magazine */,
 				2C60F22929BA12E300595EF4 /* HPedia */,
 				2C39AA5229704292000C6F71 /* Like */,
 				2C39AA512970426E000C6F71 /* MyPage */,
@@ -1695,6 +1700,31 @@
 			path = TotalPerfume;
 			sourceTree = "<group>";
 		};
+		CA6FADF02B874606008BCEF7 /* Magazine */ = {
+			isa = PBXGroup;
+			children = (
+				CA6FADF22B874612008BCEF7 /* Reactor */,
+				CA6FADF12B87460D008BCEF7 /* Viewcontroller */,
+			);
+			path = Magazine;
+			sourceTree = "<group>";
+		};
+		CA6FADF12B87460D008BCEF7 /* Viewcontroller */ = {
+			isa = PBXGroup;
+			children = (
+				CA6FADF32B87462D008BCEF7 /* MagazineViewController.swift */,
+			);
+			path = Viewcontroller;
+			sourceTree = "<group>";
+		};
+		CA6FADF22B874612008BCEF7 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				CA6FADF52B87465B008BCEF7 /* MagazineReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
 		CA76400C2AA8643A0053076B /* Dictionary */ = {
 			isa = PBXGroup;
 			children = (
@@ -2305,6 +2335,7 @@
 				2C4CDC4129C770D900676163 /* BrandDetailCollectionViewCell.swift in Sources */,
 				2CA7F69529D2E8DB0022E7FD /* TotalPerfumeViewController.swift in Sources */,
 				2CAD9641298E6F6200974500 /* TagListView++Extenstions.swift in Sources */,
+				CA6FADF42B87462D008BCEF7 /* MagazineViewController.swift in Sources */,
 				2C1BD6BE29978EDD0059A43D /* BrandView.swift in Sources */,
 				CA7C9C0D2AAAE06400072AB9 /* UISearchBar++Extension.swift in Sources */,
 				2CAD9639298E4C1D00974500 /* PerfumeInfoView.swift in Sources */,
@@ -2385,6 +2416,7 @@
 				CA1067DD29D6D39A009A7245 /* ChangeSexReactor.swift in Sources */,
 				CA1067D929D6C9A7009A7245 /* ChangeYearReactor.swift in Sources */,
 				2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */,
+				CA6FADF62B87465B008BCEF7 /* MagazineReactor.swift in Sources */,
 				CA39D5652B0B35F900694677 /* MyLogCommentViewController.swift in Sources */,
 				CA7C9C112AAAFB9300072AB9 /* CommunityListHeaderView.swift in Sources */,
 				CA7C9C0B2AAADF8500072AB9 /* CommunityListViewController.swift in Sources */,
