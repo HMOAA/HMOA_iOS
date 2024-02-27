@@ -9,11 +9,22 @@ import UIKit
 
 import RxCocoa
 import ReactorKit
+import UIKit
 
 class MagazineViewController: UIViewController, View {
 
+    enum MagazineSection: Hashable {
+        case main
+    }
+    
+    private lazy var magazineCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
+        $0.register(MagazineMainCell.self, forCellWithReuseIdentifier: MagazineMainCell.identifier)
+    }
     
     // MARK: - Properties
+    private var dataSource: UICollectionViewDiffableDataSource<MagazineSection, MagazineItem>!
+    
+    var sections = [MagazineSection]()
     
     var disposeBag = DisposeBag()
     
@@ -23,6 +34,9 @@ class MagazineViewController: UIViewController, View {
         super.viewDidLoad()
 
         view.backgroundColor = .white
+        view.addSubview(magazineCollectionView)
+        setConstraints()
+        configureDataSource()
     }
     
     
@@ -30,5 +44,55 @@ class MagazineViewController: UIViewController, View {
     
     func bind(reactor: MagazineReactor) {
         
+    }
+    
+    private func setConstraints() {
+        magazineCollectionView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+    func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            let section = self.sections[sectionIndex]
+            switch section {
+            case .main:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 4, bottom: 22, trailing: 4)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .estimated(450))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .groupPagingCentered
+                
+                return section
+            }
+        }
+        return layout
+    }
+    
+    func configureDataSource() {
+        // MARK: Data Source Initialization
+        dataSource = .init(collectionView: magazineCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            let section = self.sections[indexPath.section]
+            switch section {
+            case .main:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineMainCell.identifier, for: indexPath) as! MagazineMainCell
+                cell.configureCell(item.magazine!)
+                
+                return cell
+            }
+        })
+        
+        // MARK: Snapshot Definition
+        var snapshot = NSDiffableDataSourceSnapshot<MagazineSection, MagazineItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(MagazineItem.mainMagazines, toSection: .main)
+        
+        sections = snapshot.sectionIdentifiers
+        dataSource.apply(snapshot)
     }
 }
