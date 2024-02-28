@@ -48,14 +48,22 @@ class MagazineTopReviewCell: UICollectionViewCell {
         $0.lineBreakMode = .byCharWrapping
     }
     
+    private let profileImageSize: CGFloat = 20
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        setUI()
         setAddView()
         setConstraint()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setUI() {
+        profileImageView.layer.cornerRadius = profileImageSize / 2
     }
     
     private func setAddView() {
@@ -93,7 +101,7 @@ class MagazineTopReviewCell: UICollectionViewCell {
         }
         
         profileImageView.snp.makeConstraints { make in
-            make.height.width.equalTo(20)
+            make.height.width.equalTo(profileImageSize)
         }
         
         nicknameLabel.snp.makeConstraints { make in
