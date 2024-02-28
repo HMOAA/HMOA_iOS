@@ -11,5 +11,5 @@ struct TopReview: Hashable {
     let title: String
     let userName: String
     let content: String
-    let userImage = UIColor.black
+    let userImage = UIColor.random
 }
