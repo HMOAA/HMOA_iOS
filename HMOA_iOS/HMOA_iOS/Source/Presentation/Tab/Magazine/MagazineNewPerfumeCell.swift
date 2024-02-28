@@ -45,23 +45,23 @@ class MagazineNewPerfumeCell: UICollectionViewCell {
     
     private func setConstraints() {
         imageView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
             make.width.height.equalTo(155)
         }
         
         brandLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(12)
-            make.left.right.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
         }
         
         perfumeNameLabel.snp.makeConstraints { make in
             make.top.equalTo(brandLabel.snp.bottom).offset(6)
-            make.left.right.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
         }
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(perfumeNameLabel.snp.bottom).offset(8)
-            make.left.right.equalToSuperview()
+            make.left.trailing.equalToSuperview()
         }
     }
     

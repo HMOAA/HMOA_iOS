@@ -1364,8 +1364,8 @@
 			children = (
 				C95A2BA52B8CAC6D00268E36 /* MagazineItem.swift */,
 				C92365B92B8D73D900F0B17A /* Magazine.swift */,
-				C95A2BA72B8CACA000268E36 /* TopReview.swift */,
 				C95A2BA92B8CACBA00268E36 /* NewPerfume.swift */,
+				C95A2BA72B8CACA000268E36 /* TopReview.swift */,
 				C92365BB2B8D74AD00F0B17A /* MagazineHeader.swift */,
 			);
 			path = Model;
