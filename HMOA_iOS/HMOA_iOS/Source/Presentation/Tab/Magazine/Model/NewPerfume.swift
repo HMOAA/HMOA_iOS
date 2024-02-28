@@ -12,6 +12,11 @@ struct NewPerfume: Hashable {
     let brand: String
     let releaseDate: String
     
-    // 임시 - 향수 이미지로 변경
-    let color = UIColor.black
+    let color = UIColor.random
+    
+    init(name: String, brand: String, releaseDate: String) {
+        self.name = name
+        self.brand = brand
+        self.releaseDate = releaseDate
+    }
 }

@@ -54,7 +54,7 @@ class MagazineMainCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setAddView() {
+    private func setAddView() {
         addSubview(coverImage)
         
         titleStackView.addArrangedSubview(sloganLabel)
@@ -66,7 +66,7 @@ class MagazineMainCell: UICollectionViewCell {
         coverImage.addSubview(labelStackView)
     }
     
-    fileprivate func setConstraints() {
+    private func setConstraints() {
         coverImage.snp.makeConstraints { make in
             make.top.bottom.leading.trailing.equalToSuperview()
             make.height.equalTo(coverImage.snp.width).multipliedBy(1.15)
