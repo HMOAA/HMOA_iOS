@@ -8,7 +8,6 @@
 import UIKit
 
 struct Magazine: Hashable {
-    // MARK: 표지 내용
     let slogan: String
     let perfumeName: String
     let description: String
