@@ -18,12 +18,7 @@ class MagazineTopReviewCell: UICollectionViewCell {
         $0.layer.borderWidth = 1
     }
     
-    private let reviewContentStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 0
-        $0.distribution = .equalSpacing
-        $0.alignment = .fill
-    }
+    private let reviewContentStackView = UIView()
     
     private let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 16, color: .black)
@@ -64,16 +59,15 @@ class MagazineTopReviewCell: UICollectionViewCell {
     
     private func setUI() {
         profileImageView.layer.cornerRadius = profileImageSize / 2
-        layer.borderWidth = 1
-        self.clipsToBounds = true
     }
     
     private func setAddView() {
-        [profileImageView, nicknameLabel].forEach { userStackView.addArrangedSubview($0)
+        [profileImageView, nicknameLabel].forEach { 
+            userStackView.addArrangedSubview($0)
         }
         
         [titleLabel, userStackView, contentLabel].forEach {
-            reviewContentStackView.addArrangedSubview($0)
+            reviewContentStackView.addSubview($0)
         }
         
         cardView.addSubview(reviewContentStackView)
