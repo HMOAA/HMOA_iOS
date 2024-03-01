@@ -14,7 +14,11 @@ class MagazineMainCell: UICollectionViewCell {
     static let identifier = "MagazineMainCell"
     
     // MARK: UI Components
-    private let coverImage = UIImageView()
+    private let coverImageView = UIImageView()
+    
+    private let label = UILabel().then {
+        $0.setLabelUI("Hello", font: .pretendard, size: 24, color: .blue)
+    }
     
     private let titleStackView = UIStackView().then {
         $0.axis = .vertical
@@ -41,6 +45,7 @@ class MagazineMainCell: UICollectionViewCell {
     private let descriptionLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .white)
         $0.numberOfLines = 0
+        $0.lineBreakMode = .byWordWrapping
     }
     
     override init(frame: CGRect) {
@@ -55,21 +60,20 @@ class MagazineMainCell: UICollectionViewCell {
     }
     
     private func setAddView() {
-        addSubview(coverImage)
+        [sloganLabel, perfumeNameLabel].forEach { titleStackView.addArrangedSubview($0) }
         
-        titleStackView.addArrangedSubview(sloganLabel)
-        titleStackView.addArrangedSubview(perfumeNameLabel)
+        [titleStackView, descriptionLabel].forEach{ labelStackView.addArrangedSubview($0)}
         
-        labelStackView.addArrangedSubview(titleStackView)
-        labelStackView.addArrangedSubview(descriptionLabel)
+        coverImageView.addSubview(labelStackView)
         
-        coverImage.addSubview(labelStackView)
+        addSubview(coverImageView)
+        addSubview(label)
     }
     
     private func setConstraints() {
-        coverImage.snp.makeConstraints { make in
+        coverImageView.snp.makeConstraints { make in
             make.top.bottom.leading.trailing.equalToSuperview()
-            make.height.equalTo(coverImage.snp.width).multipliedBy(1.15)
+            make.height.equalTo(coverImageView.snp.width).multipliedBy(1.15)
         }
         
         labelStackView.snp.makeConstraints { make in
@@ -79,7 +83,7 @@ class MagazineMainCell: UICollectionViewCell {
     }
     
     func configureCell(_ magazine: Magazine) {
-        coverImage.backgroundColor = magazine.coverImage
+        coverImageView.backgroundColor = magazine.coverImage
         sloganLabel.text = magazine.slogan
         perfumeNameLabel.text = magazine.perfumeName
         descriptionLabel.text = magazine.description

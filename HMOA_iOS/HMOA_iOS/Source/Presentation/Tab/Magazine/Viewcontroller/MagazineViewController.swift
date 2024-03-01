@@ -17,12 +17,14 @@ class MagazineViewController: UIViewController, View {
         case main
         case newPerfume
         case topReview
+        case allMagazine
     }
     
     private lazy var magazineCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
         $0.register(MagazineMainCell.self, forCellWithReuseIdentifier: MagazineMainCell.identifier)
         $0.register(MagazineNewPerfumeCell.self, forCellWithReuseIdentifier: MagazineNewPerfumeCell.identifier)
         $0.register(MagazineTopReviewCell.self, forCellWithReuseIdentifier: MagazineTopReviewCell.identifier)
+        $0.register(MagazineAllCell.self, forCellWithReuseIdentifier: MagazineAllCell.identifier)
     }
     
     // MARK: - Properties
@@ -59,16 +61,16 @@ class MagazineViewController: UIViewController, View {
     
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            let availableLayoutWidth = layoutEnvironment.container.effectiveContentSize.width
+            let centerImageWidth = availableLayoutWidth * 0.92
+            let centerImageHeight = centerImageWidth / 328 * 376
+            
             let section = self.sections[sectionIndex]
             switch section {
             case .main:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 22, trailing: 0)
-                
-                let groupWidth = layoutEnvironment.container.effectiveContentSize.width
-                let centerImageWidth = groupWidth * 0.92
-                let centerImageHeight = centerImageWidth / 328 * 376
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .estimated(centerImageHeight))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -97,13 +99,26 @@ class MagazineViewController: UIViewController, View {
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(296), heightDimension: .estimated(206))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(296), heightDimension: .absolute(206))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
                 section.contentInsets = NSDirectionalEdgeInsets(top: 32, leading: 16, bottom: 20, trailing: 16)
                 section.interGroupSpacing = 8
+                
+                return section
+                
+            case .allMagazine:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(466))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 20, trailing: 16)
+                section.interGroupSpacing = 56
                 
                 return section
             }
@@ -133,15 +148,22 @@ class MagazineViewController: UIViewController, View {
                 cell.configureCell(item.topReview!)
                 
                 return cell
+                
+            case .allMagazine:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineAllCell.identifier, for: indexPath) as! MagazineAllCell
+                cell.configureCell(item.magazine!)
+                
+                return cell
             }
         })
         
         // MARK: Snapshot Definition
         var snapshot = NSDiffableDataSourceSnapshot<MagazineSection, MagazineItem>()
-        snapshot.appendSections([.main, .newPerfume, .topReview])
+        snapshot.appendSections([.main, .newPerfume, .topReview, .allMagazine])
         snapshot.appendItems(MagazineItem.mainMagazines, toSection: .main)
         snapshot.appendItems(MagazineItem.newPerfumes, toSection: .newPerfume)
         snapshot.appendItems(MagazineItem.top10Reviews, toSection: .topReview)
+        snapshot.appendItems(MagazineItem.magazines, toSection: .allMagazine)
         
         sections = snapshot.sectionIdentifiers
         dataSource.apply(snapshot)

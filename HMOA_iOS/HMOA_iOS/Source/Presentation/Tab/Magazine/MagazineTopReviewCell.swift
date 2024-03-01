@@ -64,6 +64,8 @@ class MagazineTopReviewCell: UICollectionViewCell {
     
     private func setUI() {
         profileImageView.layer.cornerRadius = profileImageSize / 2
+        layer.borderWidth = 1
+        self.clipsToBounds = true
     }
     
     private func setAddView() {
@@ -82,7 +84,6 @@ class MagazineTopReviewCell: UICollectionViewCell {
     private func setConstraint() {
         cardView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(206)
         }
         
         reviewContentStackView.snp.makeConstraints { make in
