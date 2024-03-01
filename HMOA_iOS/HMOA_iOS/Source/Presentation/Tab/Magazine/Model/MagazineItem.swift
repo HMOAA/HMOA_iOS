@@ -57,4 +57,10 @@ enum MagazineItem: Hashable {
         .topReview(TopReview(title: "에르메스 머스크 시향기", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다.")),
         .topReview(TopReview(title: "에르메스 머스크 시향기", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다."))
     ]
+    
+    static let magazines: [MagazineItem] = [
+        .magazine(Magazine(slogan: "시들지 않는 아름다움,", perfumeName: "샤넬 오드 롱 코롱", description: "일상 생활에 쉽게 통합할 수 있는 5가지 핵심 습관을 소개합니다." ,longDescription: "여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다.")),
+        .magazine(Magazine(slogan: "로맨틱한 장미향의 끝,", perfumeName: "디올 로즈 앤 로지스", description: "일상 생활에 쉽게 통합할 수 있는 5가지 핵심 습관을 소개합니다." ,longDescription: "여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다.")),
+        .magazine(Magazine(slogan: "꿀과 이끼의 오묘한 조화,", perfumeName: "탬버린즈 카모", description: "일상 생활에 쉽게 통합할 수 있는 5가지 핵심 습관을 소개합니다." ,longDescription: "여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다."))
+    ]
 }
