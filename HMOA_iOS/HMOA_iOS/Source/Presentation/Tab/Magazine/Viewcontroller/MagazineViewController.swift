@@ -14,7 +14,7 @@ import UIKit
 class MagazineViewController: UIViewController, View {
 
     enum MagazineSection: Hashable {
-        case main
+        case mainBanner
         case newPerfume
         case topReview
         case allMagazine
@@ -75,7 +75,7 @@ class MagazineViewController: UIViewController, View {
             
             let section = self.sections[sectionIndex]
             switch section {
-            case .main:
+            case .mainBanner:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(centerImageHeight))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
@@ -142,7 +142,7 @@ class MagazineViewController: UIViewController, View {
         dataSource = .init(collectionView: magazineCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
             let section = self.sections[indexPath.section]
             switch section {
-            case .main:
+            case .mainBanner:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineMainCell.identifier, for: indexPath) as! MagazineMainCell
                 cell.configureCell(item.magazine!)
                 
@@ -201,8 +201,8 @@ class MagazineViewController: UIViewController, View {
         
         // MARK: Snapshot Definition
         var snapshot = NSDiffableDataSourceSnapshot<MagazineSection, MagazineItem>()
-        snapshot.appendSections([.main, .newPerfume, .topReview, .allMagazine])
-        snapshot.appendItems(MagazineItem.mainMagazines, toSection: .main)
+        snapshot.appendSections([.mainBanner, .newPerfume, .topReview, .allMagazine])
+        snapshot.appendItems(MagazineItem.mainMagazines, toSection: .mainBanner)
         snapshot.appendItems(MagazineItem.newPerfumes, toSection: .newPerfume)
         snapshot.appendItems(MagazineItem.top10Reviews, toSection: .topReview)
         snapshot.appendItems(MagazineItem.magazines, toSection: .allMagazine)
