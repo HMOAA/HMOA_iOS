@@ -116,7 +116,6 @@
 		AB23E901B87DB21E0AD3EE9E /* Pods_HMOA_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EF530D1388C4C2875F8EE0 /* Pods_HMOA_iOS.framework */; };
 		BD240A63088951625093488F /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0FD9ADF549034177344999 /* Pods_HMOA_iOSTests.framework */; };
 		C92365BA2B8D73D900F0B17A /* Magazine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92365B92B8D73D900F0B17A /* Magazine.swift */; };
-		C92365BC2B8D74AD00F0B17A /* MagazineHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92365BB2B8D74AD00F0B17A /* MagazineHeader.swift */; };
 		C95A2B992B8C711A00268E36 /* MagazineMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2B982B8C711A00268E36 /* MagazineMainCell.swift */; };
 		C95A2B9B2B8C713300268E36 /* MagazineNewPerfumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2B9A2B8C713300268E36 /* MagazineNewPerfumeCell.swift */; };
 		C95A2B9D2B8C714500268E36 /* MagazineTopReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2B9C2B8C714500268E36 /* MagazineTopReviewCell.swift */; };
@@ -390,7 +389,6 @@
 		A3EB8DD627D12411C89F845C /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		A9236CE65DC97E570FED2954 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C92365B92B8D73D900F0B17A /* Magazine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magazine.swift; sourceTree = "<group>"; };
-		C92365BB2B8D74AD00F0B17A /* MagazineHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineHeader.swift; sourceTree = "<group>"; };
 		C95A2B982B8C711A00268E36 /* MagazineMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineMainCell.swift; sourceTree = "<group>"; };
 		C95A2B9A2B8C713300268E36 /* MagazineNewPerfumeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineNewPerfumeCell.swift; sourceTree = "<group>"; };
 		C95A2B9C2B8C714500268E36 /* MagazineTopReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineTopReviewCell.swift; sourceTree = "<group>"; };
@@ -1366,7 +1364,6 @@
 				C92365B92B8D73D900F0B17A /* Magazine.swift */,
 				C95A2BA92B8CACBA00268E36 /* NewPerfume.swift */,
 				C95A2BA72B8CACA000268E36 /* TopReview.swift */,
-				C92365BB2B8D74AD00F0B17A /* MagazineHeader.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2540,7 +2537,6 @@
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
 				C95A2BA82B8CACA000268E36 /* TopReview.swift in Sources */,
 				2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */,
-				C92365BC2B8D74AD00F0B17A /* MagazineHeader.swift in Sources */,
 				2CA155B02A039AD100D7B0C0 /* MemberAddress.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
