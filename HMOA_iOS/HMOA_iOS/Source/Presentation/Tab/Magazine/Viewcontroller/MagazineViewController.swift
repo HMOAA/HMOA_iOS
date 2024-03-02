@@ -20,11 +20,17 @@ class MagazineViewController: UIViewController, View {
         case allMagazine
     }
     
+    enum SupplementaryViewKind {
+        static let header = "magazineHeader"
+    }
+    
     private lazy var magazineCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
         $0.register(MagazineMainCell.self, forCellWithReuseIdentifier: MagazineMainCell.identifier)
         $0.register(MagazineNewPerfumeCell.self, forCellWithReuseIdentifier: MagazineNewPerfumeCell.identifier)
         $0.register(MagazineTopReviewCell.self, forCellWithReuseIdentifier: MagazineTopReviewCell.identifier)
         $0.register(MagazineAllCell.self, forCellWithReuseIdentifier: MagazineAllCell.identifier)
+        
+        $0.register(MagazineHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.header, withReuseIdentifier: MagazineHeaderView.identifier)
     }
     
     // MARK: - Properties
@@ -45,7 +51,6 @@ class MagazineViewController: UIViewController, View {
         configureDataSource()
     }
     
-    
     // MARK: - Bind
     
     func bind(reactor: MagazineReactor) {
@@ -65,24 +70,27 @@ class MagazineViewController: UIViewController, View {
             let centerImageWidth = availableLayoutWidth * 0.92
             let centerImageHeight = centerImageWidth / 328 * 376
             
+            let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(60))
+            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.header, alignment: .top)
+            
             let section = self.sections[sectionIndex]
             switch section {
             case .main:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(centerImageHeight))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 22, trailing: 0)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .estimated(centerImageHeight))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 54, trailing: 0)
                 section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.interGroupSpacing = 8
                 
                 return section
                 
             case .newPerfume:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(219))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(155), heightDimension: .estimated(219))
@@ -90,13 +98,14 @@ class MagazineViewController: UIViewController, View {
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
-                section.contentInsets = NSDirectionalEdgeInsets(top: 32, leading: 16, bottom: 20, trailing: 16)
+                section.boundarySupplementaryItems = [headerItem]
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 52, trailing: 16)
                 section.interGroupSpacing = 8
                 
                 return section
                 
             case .topReview:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(193))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(296), heightDimension: .estimated(193))
@@ -104,20 +113,22 @@ class MagazineViewController: UIViewController, View {
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
-                section.contentInsets = NSDirectionalEdgeInsets(top: 32, leading: 16, bottom: 20, trailing: 16)
+                section.boundarySupplementaryItems = [headerItem]
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 52, trailing: 16)
                 section.interGroupSpacing = 8
                 
                 return section
                 
             case .allMagazine:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(466))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(466))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 32, leading: 16, bottom: 20, trailing: 16)
+                section.boundarySupplementaryItems = [headerItem]
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 52, trailing: 16)
                 section.interGroupSpacing = 56
                 
                 return section
@@ -156,6 +167,37 @@ class MagazineViewController: UIViewController, View {
                 return cell
             }
         })
+        
+        // MARK: Supplementary View Provider
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+            switch kind {
+            case SupplementaryViewKind.header:
+                let section = self.sections[indexPath.section]
+                let sectionTitle: String
+                let sectionDescription: String
+                switch section {
+                case .newPerfume:
+                    sectionTitle = "출시향수"
+                    sectionDescription = "새롭게 출시된 향수를 확인해보세요."
+                case .topReview:
+                    sectionTitle = "TOP 10 시향기"
+                    sectionDescription = "리뷰로 느껴보는 향수"
+                case .allMagazine:
+                    sectionTitle = "HMOA\nNEWS / 매거진"
+                    sectionDescription = "향모아가 전하는 향수 트렌드 이슈"
+                default:
+                    return nil
+                }
+                
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: SupplementaryViewKind.header, withReuseIdentifier: MagazineHeaderView.identifier, for: indexPath) as! MagazineHeaderView
+                headerView.configureHeader(sectionTitle, sectionDescription)
+                
+                return headerView
+                
+            default:
+                return nil
+            }
+        }
         
         // MARK: Snapshot Definition
         var snapshot = NSDiffableDataSourceSnapshot<MagazineSection, MagazineItem>()
