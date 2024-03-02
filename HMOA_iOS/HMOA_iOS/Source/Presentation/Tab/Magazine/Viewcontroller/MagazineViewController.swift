@@ -51,6 +51,12 @@ class MagazineViewController: UIViewController, View {
         configureDataSource()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     // MARK: - Bind
     
     func bind(reactor: MagazineReactor) {
