@@ -54,7 +54,23 @@ class MagazineViewController: UIViewController, View {
     
     func bind(reactor: MagazineReactor) {
         // MARK: Action
-        self.rx.viewDidLoad
+        
+        // magazine item 터치
+        magazineCollectionView.rx.itemSelected
+            .map { Reactor.Action.didSelectMagazineItem($0) }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        // MARK: Snapshot
+        
+        // MARK: State
+        reactor.state.map { $0.selectedItem }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .subscribe(onNext: { [weak self] magazine in
+                self?.navigateToDetailViewController(with: magazine)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setUI() {
@@ -228,3 +244,13 @@ class MagazineViewController: UIViewController, View {
         dataSource.apply(snapshot)
     }
 }
+
+extension MagazineViewController {
+    private func navigateToDetailViewController(with magazine: MagazineItem) {
+        let detailViewController = MagazineDetailViewController()
+        detailViewController.magazine = magazine
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+}
+
+
