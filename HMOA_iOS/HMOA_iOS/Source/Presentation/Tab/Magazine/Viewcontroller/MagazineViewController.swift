@@ -35,7 +35,7 @@ class MagazineViewController: UIViewController, View {
     // MARK: - Properties
     private var dataSource: UICollectionViewDiffableDataSource<MagazineSection, MagazineItem>!
     
-    var sections = [MagazineSection]()
+    private var sections = [MagazineSection]()
     
     var disposeBag = DisposeBag()
     
@@ -53,7 +53,8 @@ class MagazineViewController: UIViewController, View {
     // MARK: - Bind
     
     func bind(reactor: MagazineReactor) {
-        
+        // MARK: Action
+        self.rx.viewDidLoad
     }
     
     private func setUI() {
@@ -74,7 +75,7 @@ class MagazineViewController: UIViewController, View {
         }
     }
     
-    func createLayout() -> UICollectionViewLayout {
+    private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             let availableLayoutWidth = layoutEnvironment.container.effectiveContentSize.width
             let centerImageWidth = availableLayoutWidth * 0.92
@@ -153,7 +154,7 @@ class MagazineViewController: UIViewController, View {
         return layout
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         // MARK: Data Source Initialization
         dataSource = .init(collectionView: magazineCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
             let section = self.sections[indexPath.section]
