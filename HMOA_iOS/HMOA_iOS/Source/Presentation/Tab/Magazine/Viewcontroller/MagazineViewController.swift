@@ -6,10 +6,8 @@
 //
 
 import UIKit
-
 import RxCocoa
 import ReactorKit
-import UIKit
 
 class MagazineViewController: UIViewController, View {
 
@@ -22,6 +20,7 @@ class MagazineViewController: UIViewController, View {
     
     enum SupplementaryViewKind {
         static let header = "magazineHeader"
+        static let bannerBackground = "magazineBannerBackground"
     }
     
     private lazy var magazineCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
@@ -45,16 +44,10 @@ class MagazineViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
         view.addSubview(magazineCollectionView)
+        setUI()
         setConstraints()
         configureDataSource()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     // MARK: - Bind
@@ -63,10 +56,21 @@ class MagazineViewController: UIViewController, View {
         
     }
     
+    private func setUI() {
+        title = "Magazine"
+        self.navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        self.navigationController?.view.backgroundColor = .clear
+        
+        magazineCollectionView.contentInsetAdjustmentBehavior = .never
+        view.backgroundColor = .white
+    }
+    
     private func setConstraints() {
         magazineCollectionView.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -82,6 +86,8 @@ class MagazineViewController: UIViewController, View {
             let section = self.sections[sectionIndex]
             switch section {
             case .mainBanner:
+                let backgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: SupplementaryViewKind.bannerBackground)
+                
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(centerImageHeight))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
@@ -89,9 +95,10 @@ class MagazineViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 54, trailing: 0)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 115, leading: 0, bottom: 54, trailing: 0)
                 section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.interGroupSpacing = 8
+                section.decorationItems = [backgroundDecoration]
                 
                 return section
                 
@@ -140,6 +147,9 @@ class MagazineViewController: UIViewController, View {
                 return section
             }
         }
+        
+        layout.register(BackgroundDecorationView.self, forDecorationViewOfKind: SupplementaryViewKind.bannerBackground)
+        
         return layout
     }
     

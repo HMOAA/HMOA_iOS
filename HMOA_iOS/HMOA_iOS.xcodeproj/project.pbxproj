@@ -115,6 +115,7 @@
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
 		AB23E901B87DB21E0AD3EE9E /* Pods_HMOA_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EF530D1388C4C2875F8EE0 /* Pods_HMOA_iOS.framework */; };
 		BD240A63088951625093488F /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0FD9ADF549034177344999 /* Pods_HMOA_iOSTests.framework */; };
+		C90F16A22B92F48E008016E8 /* BackgroundDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90F16A12B92F48E008016E8 /* BackgroundDecorationView.swift */; };
 		C92365BA2B8D73D900F0B17A /* Magazine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92365B92B8D73D900F0B17A /* Magazine.swift */; };
 		C95A2B992B8C711A00268E36 /* MagazineMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2B982B8C711A00268E36 /* MagazineMainCell.swift */; };
 		C95A2B9B2B8C713300268E36 /* MagazineNewPerfumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2B9A2B8C713300268E36 /* MagazineNewPerfumeCell.swift */; };
@@ -388,6 +389,7 @@
 		81376DBCAA25BF692C8287A2 /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A3EB8DD627D12411C89F845C /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		A9236CE65DC97E570FED2954 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C90F16A12B92F48E008016E8 /* BackgroundDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundDecorationView.swift; sourceTree = "<group>"; };
 		C92365B92B8D73D900F0B17A /* Magazine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magazine.swift; sourceTree = "<group>"; };
 		C95A2B982B8C711A00268E36 /* MagazineMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineMainCell.swift; sourceTree = "<group>"; };
 		C95A2B9A2B8C713300268E36 /* MagazineNewPerfumeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineNewPerfumeCell.swift; sourceTree = "<group>"; };
@@ -1357,6 +1359,15 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		C90F16A32B92F4AB008016E8 /* Supplementary View */ = {
+			isa = PBXGroup;
+			children = (
+				C95A2BA02B8C721800268E36 /* MagazineHeaderView.swift */,
+				C90F16A12B92F48E008016E8 /* BackgroundDecorationView.swift */,
+			);
+			path = "Supplementary View";
+			sourceTree = "<group>";
+		};
 		C95A2BA22B8C99A200268E36 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1375,7 +1386,6 @@
 				C95A2B9A2B8C713300268E36 /* MagazineNewPerfumeCell.swift */,
 				C95A2B9C2B8C714500268E36 /* MagazineTopReviewCell.swift */,
 				C95A2B9E2B8C717C00268E36 /* MagazineAllCell.swift */,
-				C95A2BA02B8C721800268E36 /* MagazineHeaderView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1758,6 +1768,7 @@
 			children = (
 				C95A2BA22B8C99A200268E36 /* Model */,
 				C9D0CB982B89C1CD0033524B /* View */,
+				C90F16A32B92F4AB008016E8 /* Supplementary View */,
 				CA6FADF22B874612008BCEF7 /* Reactor */,
 				CA6FADF12B87460D008BCEF7 /* Viewcontroller */,
 			);
@@ -2507,6 +2518,7 @@
 				2C4CDC3F29C770D900676163 /* BrandDetailSection.swift in Sources */,
 				CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */,
 				CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */,
+				C90F16A22B92F48E008016E8 /* BackgroundDecorationView.swift in Sources */,
 				2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */,
 				CA76401A2AA86C5E0053076B /* HpediaData.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
