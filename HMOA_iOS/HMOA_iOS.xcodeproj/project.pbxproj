@@ -126,6 +126,7 @@
 		C95A2BA82B8CACA000268E36 /* TopReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2BA72B8CACA000268E36 /* TopReview.swift */; };
 		C95A2BAA2B8CACBA00268E36 /* NewPerfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2BA92B8CACBA00268E36 /* NewPerfume.swift */; };
 		C9A575A92B941796003406F5 /* MagazineDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A575A82B941796003406F5 /* MagazineDetailViewController.swift */; };
+		C9A575AC2B95A884003406F5 /* MagazineDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A575AB2B95A884003406F5 /* MagazineDetailReactor.swift */; };
 		C9FBCA3D2B8798E800CAC0C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */; };
 		C9FBCA3E2B8798E800CAC0C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */; };
 		C9FBCA3F2B8798E800CAC0C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */; };
@@ -401,6 +402,7 @@
 		C95A2BA72B8CACA000268E36 /* TopReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopReview.swift; sourceTree = "<group>"; };
 		C95A2BA92B8CACBA00268E36 /* NewPerfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPerfume.swift; sourceTree = "<group>"; };
 		C9A575A82B941796003406F5 /* MagazineDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailViewController.swift; sourceTree = "<group>"; };
+		C9A575AB2B95A884003406F5 /* MagazineDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailReactor.swift; sourceTree = "<group>"; };
 		C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C9FBCA412B87991F00CAC0C3 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
@@ -1417,6 +1419,7 @@
 		C9A575A72B94173D003406F5 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				C9A575AB2B95A884003406F5 /* MagazineDetailReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -2605,6 +2608,7 @@
 				2CA155B02A039AD100D7B0C0 /* MemberAddress.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
+				C9A575AC2B95A884003406F5 /* MagazineDetailReactor.swift in Sources */,
 				CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */,
 				2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */,
 				2CD023512A07AEBC00459801 /* NicknameView.swift in Sources */,

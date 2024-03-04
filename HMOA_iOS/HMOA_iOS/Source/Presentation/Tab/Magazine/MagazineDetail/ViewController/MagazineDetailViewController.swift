@@ -12,7 +12,6 @@ import ReactorKit
 class MagazineDetailViewController: UIViewController {
     
     // MARK: - Properties
-    var magazine: MagazineItem!
     
     // MARK: - LifeCycle
 
@@ -21,5 +20,18 @@ class MagazineDetailViewController: UIViewController {
     }
     
     // MARK: - Configure Layout
-
+    private func setAddView() {
+        
+    }
+    
+    private func setConstraints() {
+        
+    }
+    
+    // MARK: - Bind
+    func bind(reactor: MagazineDetailReactor) {
+        // MARK: - Action
+        
+        // MARK: - State
+    }
 }

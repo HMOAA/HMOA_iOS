@@ -1,8 +1,8 @@
 //
-//  MagazineReactor.swift
+//  MagazineDetailReactor.swift
 //  HMOA_iOS
 //
-//  Created by 정지훈 on 2/22/24.
+//  Created by 곽다은 on 3/4/24.
 //
 
 import Foundation
@@ -10,18 +10,18 @@ import Foundation
 import ReactorKit
 import RxSwift
 
-class MagazineReactor: Reactor {
+class MagazineDetailReactor: Reactor {
     
     enum Action {
-        case didSelectMagazineItem(IndexPath)
+        
     }
     
     enum Mutation {
-        case navigateToDetail(MagazineItem)
+        
     }
     
     struct State {
-        var selectedMagazine: MagazineItem?
+        
     }
     
     let initialState: State
@@ -32,18 +32,14 @@ class MagazineReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .didSelectMagazineItem(let indexPath):
             
-            let magazine = MagazineItem.mainMagazines[indexPath.item]
-            return Observable.just(.navigateToDetail(magazine))
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
-        case .navigateToDetail(let magazine):
-            state.selectedMagazine = magazine
+            
         }
         return state
     }
