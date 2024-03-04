@@ -57,6 +57,10 @@ class MagazineViewController: UIViewController, View {
         
         // magazine item 터치
         magazineCollectionView.rx.itemSelected
+            .filter { indexPath in
+                let section = self.sections[indexPath.section]
+                return section == .mainBanner || section == .allMagazine
+            }
             .map { Reactor.Action.didSelectMagazineItem($0) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
@@ -64,11 +68,12 @@ class MagazineViewController: UIViewController, View {
         // MARK: Snapshot
         
         // MARK: State
-        reactor.state.map { $0.selectedItem }
-            .distinctUntilChanged()
+        // MagazineDetailVC로 push
+        reactor.state
+            .map { $0.selectedMagazine }
             .compactMap { $0 }
-            .subscribe(onNext: { [weak self] magazine in
-                self?.navigateToDetailViewController(with: magazine)
+            .subscribe(onNext: { magazine in
+                self.navigateToDetailViewController(with: magazine)
             })
             .disposed(by: disposeBag)
     }
@@ -248,7 +253,6 @@ class MagazineViewController: UIViewController, View {
 extension MagazineViewController {
     private func navigateToDetailViewController(with magazine: MagazineItem) {
         let detailViewController = MagazineDetailViewController()
-        detailViewController.magazine = magazine
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
