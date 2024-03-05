@@ -40,6 +40,10 @@ class MagazineDetailCell: UICollectionViewCell {
         $0.setLabelUI("12,345", font: .pretendard, size: 12, color: .gray3)
     }
     
+    private let coverImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -52,7 +56,7 @@ class MagazineDetailCell: UICollectionViewCell {
     }
     
     private func setAddView() {
-        [sloganLabel, perfumeNameLabel, dateLabel, viewCountStackView].forEach { addSubview($0) }
+        [sloganLabel, perfumeNameLabel, dateLabel, viewCountStackView, coverImageView].forEach { addSubview($0) }
         
         [viewCountImageView, viewCountLabel].forEach { viewCountStackView.addArrangedSubview($0) }
     }
@@ -78,6 +82,11 @@ class MagazineDetailCell: UICollectionViewCell {
             make.leading.equalToSuperview().inset(17)
         }
         
+        coverImageView.snp.makeConstraints { make in
+            make.top.equalTo(viewCountStackView.snp.bottom).offset(20)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(coverImageView.snp.width).multipliedBy(452.0 / 360.0)
+        }
         
     }
     
@@ -86,5 +95,6 @@ class MagazineDetailCell: UICollectionViewCell {
         sloganLabel.text = magazine.slogan
         perfumeNameLabel.text = magazine.perfumeName
         dateLabel.text = magazine.releaseDate
+        coverImageView.backgroundColor = .random
     }
 }
