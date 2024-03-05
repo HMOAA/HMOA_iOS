@@ -53,8 +53,7 @@ class MagazineDetailViewController: UIViewController {
     
     private func setConstraints() {
         magazineDetailCollectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
-        }
+            make.top.leading.trailing.bottom.equalToSuperview()        }
     }
     
     private func createLayout() -> UICollectionViewLayout {
@@ -62,10 +61,10 @@ class MagazineDetailViewController: UIViewController {
             let section = self.sections[sectionIndex]
             switch section {
             case .magazineContent:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(90))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(900))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(90))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(900))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
