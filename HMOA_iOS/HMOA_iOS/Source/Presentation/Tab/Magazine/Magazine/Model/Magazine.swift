@@ -12,14 +12,20 @@ struct Magazine: Hashable {
     let perfumeName: String
     let description: String
     let longDescription: String
+    let releaseDate: String
+    let content: String
+    let liked: Bool
     
     let coverImage = UIColor.random
     
-    init(slogan: String, perfumeName: String, description: String, longDescription: String) {
+    init(slogan: String, perfumeName: String, description: String, longDescription: String, releaseDate: String, content: String, liked: Bool) {
         self.slogan = slogan
         self.perfumeName = perfumeName
         self.description = description
         self.longDescription = longDescription
+        self.releaseDate = releaseDate
+        self.content = content
+        self.liked = liked
     }
 }
 

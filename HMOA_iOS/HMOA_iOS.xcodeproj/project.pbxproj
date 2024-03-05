@@ -127,6 +127,7 @@
 		C95A2BAA2B8CACBA00268E36 /* NewPerfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2BA92B8CACBA00268E36 /* NewPerfume.swift */; };
 		C9A575A92B941796003406F5 /* MagazineDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A575A82B941796003406F5 /* MagazineDetailViewController.swift */; };
 		C9A575AC2B95A884003406F5 /* MagazineDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A575AB2B95A884003406F5 /* MagazineDetailReactor.swift */; };
+		C9A575AE2B96AF0E003406F5 /* MagazineDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A575AD2B96AF0D003406F5 /* MagazineDetailCell.swift */; };
 		C9FBCA3D2B8798E800CAC0C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */; };
 		C9FBCA3E2B8798E800CAC0C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */; };
 		C9FBCA3F2B8798E800CAC0C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */; };
@@ -403,6 +404,7 @@
 		C95A2BA92B8CACBA00268E36 /* NewPerfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPerfume.swift; sourceTree = "<group>"; };
 		C9A575A82B941796003406F5 /* MagazineDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailViewController.swift; sourceTree = "<group>"; };
 		C9A575AB2B95A884003406F5 /* MagazineDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailReactor.swift; sourceTree = "<group>"; };
+		C9A575AD2B96AF0D003406F5 /* MagazineDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailCell.swift; sourceTree = "<group>"; };
 		C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C9FBCA412B87991F00CAC0C3 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
@@ -1404,6 +1406,7 @@
 		C9A575A52B941707003406F5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C9A575AD2B96AF0D003406F5 /* MagazineDetailCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2438,6 +2441,7 @@
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				2C4CDC4329C770D900676163 /* BrandDetailViewController.swift in Sources */,
 				CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */,
+				C9A575AE2B96AF0E003406F5 /* MagazineDetailCell.swift in Sources */,
 				2CA155A42A03921000D7B0C0 /* MemberAPI.swift in Sources */,
 				CA943AD32AE685CF00A5B717 /* CommunityListService.swift in Sources */,
 				CAF19B9C2A625D1300374038 /* SearchAPI.swift in Sources */,
