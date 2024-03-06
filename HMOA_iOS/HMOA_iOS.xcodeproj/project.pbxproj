@@ -798,7 +798,6 @@
 			isa = PBXGroup;
 			children = (
 				C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */,
-				CA914492297E854700762BC0 /* Font */,
 				2C39AA7629704C2F000C6F71 /* Info.plist */,
 				2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */,
 				2C39AA21296DB4E0000C6F71 /* Assets.xcassets */,
@@ -2000,13 +1999,6 @@
 				CA91448C297E75C700762BC0 /* LoginViewController.swift */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		CA914492297E854700762BC0 /* Font */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Font;
 			sourceTree = "<group>";
 		};
 		CA943AD12AE685B900A5B717 /* Service */ = {
