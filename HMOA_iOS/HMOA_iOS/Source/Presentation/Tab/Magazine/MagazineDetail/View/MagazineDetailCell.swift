@@ -34,6 +34,7 @@ class MagazineDetailCell: UICollectionViewCell {
     
     private let viewCountImageView = UIImageView().then {
         $0.image = UIImage(named: "viewCount")
+        $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
     private let viewCountLabel = UILabel().then {
@@ -42,6 +43,12 @@ class MagazineDetailCell: UICollectionViewCell {
     
     private let coverImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
+    }
+    
+    private let descriptionLabel = UILabel().then {
+        $0.setLabelUI("" , font: .pretendard, size: 14, color: .gray3)
+        $0.lineBreakMode = .byCharWrapping
+        $0.numberOfLines = 0
     }
     
     override init(frame: CGRect) {
@@ -56,7 +63,8 @@ class MagazineDetailCell: UICollectionViewCell {
     }
     
     private func setAddView() {
-        [sloganLabel, perfumeNameLabel, dateLabel, viewCountStackView, coverImageView].forEach { addSubview($0) }
+        [sloganLabel, perfumeNameLabel, dateLabel,
+         viewCountStackView, coverImageView, descriptionLabel].forEach { addSubview($0) }
         
         [viewCountImageView, viewCountLabel].forEach { viewCountStackView.addArrangedSubview($0) }
     }
@@ -64,37 +72,43 @@ class MagazineDetailCell: UICollectionViewCell {
     private func setConstraints() {
         sloganLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.equalToSuperview().inset(17)
+            make.leading.trailing.equalToSuperview().inset(17)
         }
         
         perfumeNameLabel.snp.makeConstraints { make in
             make.top.equalTo(sloganLabel.snp.bottom)
-            make.leading.equalToSuperview().inset(17)
+            make.leading.trailing.equalToSuperview().inset(17)
         }
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(perfumeNameLabel.snp.bottom).offset(16)
-            make.leading.equalToSuperview().inset(17)
+            make.leading.trailing.equalToSuperview().inset(17)
         }
         
         viewCountStackView.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom).offset(52)
-            make.leading.equalToSuperview().inset(17)
+            make.leading.trailing.equalToSuperview().inset(17)
         }
         
         coverImageView.snp.makeConstraints { make in
             make.top.equalTo(viewCountStackView.snp.bottom).offset(20)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(coverImageView.snp.width).multipliedBy(452.0 / 360.0)
+        }
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(coverImageView.snp.bottom).offset(44)
+            make.leading.trailing.equalToSuperview().inset(15)
+            make.bottom.equalToSuperview()
         }
         
     }
     
-    // TODO: 전달받은 magazine 할당하기
     func configureCell(_ magazine: Magazine) {
         sloganLabel.text = magazine.slogan
         perfumeNameLabel.text = magazine.perfumeName
         dateLabel.text = magazine.releaseDate
         coverImageView.backgroundColor = .random
+        descriptionLabel.text = magazine.longDescription
     }
 }
