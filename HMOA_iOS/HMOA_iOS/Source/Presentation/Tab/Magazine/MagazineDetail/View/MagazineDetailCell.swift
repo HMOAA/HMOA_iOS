@@ -13,50 +13,62 @@ class MagazineDetailCell: UICollectionViewCell {
     
     static let identifier = "MagazineDetailCell"
     
+    // 화면 스케일에 따른 1픽셀 라인 높이 계산
     let lineHeight: CGFloat = 1 / UIScreen.main.scale
     
-    // MARK: UI Components
+    // MARK: - UI Components
+    
+    // 슬로건 라벨
     private let sloganLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 24, color: .black)
     }
     
+    // 향수 이름 라벨
     private let perfumeNameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 24, color: .black)
     }
     
+    // 발행 날짜 라벨
     private let dateLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .gray3)
     }
     
+    // 조회수를 표시하기 위한 스택 뷰
     private let viewCountStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 5
         $0.alignment = .center
     }
     
+    // 조회수 아이콘 이미지 뷰
     private let viewCountImageView = UIImageView().then {
         $0.image = UIImage(named: "viewCount")
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
+    // 조회수 라벨
     private let viewCountLabel = UILabel().then {
         $0.setLabelUI("12,345", font: .pretendard, size: 12, color: .gray3)
     }
     
+    // 표지 이미지 뷰
     private let coverImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
     }
     
+    // 설명 라벨
     private let descriptionLabel = UILabel().then {
         $0.setLabelUI("" , font: .pretendard, size: 14, color: .gray3)
         $0.lineBreakMode = .byCharWrapping
         $0.numberOfLines = 0
     }
     
+    // 첫 번째 구분선
     private let separatorLine1 = UIView().then {
         $0.backgroundColor = .customColor(.gray1)
     }
     
+    // 본문 내용 라벨
     private let contentLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
         $0.lineBreakMode = .byCharWrapping
@@ -65,10 +77,12 @@ class MagazineDetailCell: UICollectionViewCell {
     
     // TODO: TagView 추가
     
+    // 두 번째 구분선
     private let separatorLine2 = UIView().then {
         $0.backgroundColor = .customColor(.gray1)
     }
     
+    // 좋아요 스택 뷰
     private let likeStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 55
@@ -76,10 +90,12 @@ class MagazineDetailCell: UICollectionViewCell {
         $0.distribution = .equalSpacing
     }
     
+    // 좋아요 여부 라벨
     private let likeAskingLabel = UILabel().then {
         $0.setLabelUI("매거진이 유용한 정보였다면", font: .pretendard, size: 16, color: .black)
     }
     
+    // (좋아요 버튼 + 좋아요 수 라벨) 스택 뷰
     private let likeButtomStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
@@ -87,18 +103,22 @@ class MagazineDetailCell: UICollectionViewCell {
         $0.distribution = .equalSpacing
     }
     
+    // 좋아요 버튼
     private let likeButton = UIButton().then {
         $0.setImage(UIImage(named: "thumbsUp"), for: .normal)
     }
     
+    // 좋아요 수 라벨
     private let likeCountLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .gray2)
     }
     
+    // 세 번째 구분선
     private let separatorLine3 = UIView().then {
         $0.backgroundColor = .customColor(.gray1)
     }
     
+    // 초기화
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -110,15 +130,16 @@ class MagazineDetailCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Setup Methods
+    
     private func setAddView() {
         [sloganLabel, perfumeNameLabel, dateLabel, viewCountStackView,
          coverImageView, descriptionLabel, separatorLine1, contentLabel,
          separatorLine2, likeStackView, separatorLine3].forEach { addSubview($0) }
         
+        // 스택 뷰
         [viewCountImageView, viewCountLabel].forEach { viewCountStackView.addArrangedSubview($0) }
-        
         [likeAskingLabel, likeButtomStackView].forEach { likeStackView.addArrangedSubview($0) }
-        
         [likeButton, likeCountLabel].forEach { likeButtomStackView.addArrangedSubview($0) }
     }
     
