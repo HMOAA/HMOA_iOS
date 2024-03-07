@@ -66,8 +66,7 @@ class MagazineLatestCell: UICollectionViewCell {
         
         titleStackView.snp.makeConstraints { make in
             make.top.equalTo(coverImageView.snp.bottom).offset(12)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().inset(50)
+            make.leading.bottom.trailing.equalToSuperview()
         }
     }
     

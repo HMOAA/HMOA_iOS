@@ -117,7 +117,7 @@ class MagazineViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 115, leading: 0, bottom: 54, trailing: 0)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 115, leading: 0, bottom: 22, trailing: 0)
                 section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.interGroupSpacing = 8
                 section.decorationItems = [backgroundDecoration]
@@ -134,7 +134,7 @@ class MagazineViewController: UIViewController, View {
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
                 section.boundarySupplementaryItems = [headerItem]
-                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 52, trailing: 16)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16)
                 section.interGroupSpacing = 8
                 
                 return section
@@ -149,7 +149,7 @@ class MagazineViewController: UIViewController, View {
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
                 section.boundarySupplementaryItems = [headerItem]
-                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 52, trailing: 16)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16)
                 section.interGroupSpacing = 8
                 
                 return section
@@ -163,7 +163,7 @@ class MagazineViewController: UIViewController, View {
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.boundarySupplementaryItems = [headerItem]
-                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 52, trailing: 16)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 56, trailing: 16)
                 section.interGroupSpacing = 56
                 
                 return section

@@ -98,7 +98,7 @@ class MagazineDetailViewController: UIViewController {
                 section.orthogonalScrollingBehavior = .continuous
                 section.boundarySupplementaryItems = [headerItem]
                 section.decorationItems = [backgroundDecoration]
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 50, trailing: 16)
                 section.interGroupSpacing = 8
                 
                 return section
