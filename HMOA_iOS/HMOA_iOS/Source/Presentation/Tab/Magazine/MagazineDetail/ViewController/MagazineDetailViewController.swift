@@ -10,7 +10,7 @@ import RxCocoa
 import ReactorKit
 import SnapKit
 
-class MagazineDetailViewController: UIViewController {
+class MagazineDetailViewController: UIViewController, View {
     
     enum MagazineDetailSection: Hashable {
         case magazineContent
@@ -54,7 +54,11 @@ class MagazineDetailViewController: UIViewController {
         
         
         // MARK: - State
-        
+        reactor.state
+            .map{ _ in "" }
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: setBackShareRightNaviBar)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure Layout
