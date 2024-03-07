@@ -68,12 +68,13 @@ class MagazineViewController: UIViewController, View {
         // MARK: Snapshot
         
         // MARK: State
+        
         // MagazineDetailVC로 push
         reactor.state
             .map { $0.selectedMagazine }
-            .compactMap { $0 }
-            .subscribe(onNext: { magazine in
-                self.navigateToDetailViewController(with: magazine)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentMagazineDetailViewController()
             })
             .disposed(by: disposeBag)
     }
@@ -247,13 +248,6 @@ class MagazineViewController: UIViewController, View {
         
         sections = snapshot.sectionIdentifiers
         dataSource.apply(snapshot)
-    }
-}
-
-extension MagazineViewController {
-    private func navigateToDetailViewController(with magazine: MagazineItem) {
-        let detailViewController = MagazineDetailViewController()
-        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
