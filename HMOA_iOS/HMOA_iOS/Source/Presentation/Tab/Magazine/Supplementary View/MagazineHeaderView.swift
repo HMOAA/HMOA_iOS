@@ -47,20 +47,16 @@ class MagazineHeaderView: UICollectionReusableView {
     }
     
     private func setAddViews() {
-        [titleLabel, descriptionLabel].forEach{
-            stackView.addArrangedSubview($0)
-        }
+        [titleLabel, descriptionLabel].forEach{ stackView.addArrangedSubview($0) }
         
-        [stackView].forEach{
-            addSubview($0)
-        }
+        [stackView].forEach{ addSubview($0) }
     }
     
     private func setConstraints() {
         stackView.snp.makeConstraints { make in
-            make.top.leading.bottom.trailing.equalToSuperview()
+            make.top.equalToSuperview().inset(32)
+            make.leading.bottom.trailing.equalToSuperview()
         }
-        
     }
     
     func configureHeader(_ title: String, _ description: String) {
