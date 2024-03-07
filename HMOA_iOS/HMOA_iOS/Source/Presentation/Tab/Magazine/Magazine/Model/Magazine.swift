@@ -15,10 +15,11 @@ struct Magazine: Hashable {
     let releaseDate: String
     let content: String
     let liked: Bool
+    let likeCount: Int
     
     let coverImage = UIColor.random
     
-    init(slogan: String, perfumeName: String, description: String, longDescription: String, releaseDate: String, content: String, liked: Bool) {
+    init(slogan: String, perfumeName: String, description: String, longDescription: String, releaseDate: String, content: String, liked: Bool, likeCount: Int) {
         self.slogan = slogan
         self.perfumeName = perfumeName
         self.description = description
@@ -26,6 +27,7 @@ struct Magazine: Hashable {
         self.releaseDate = releaseDate
         self.content = content
         self.liked = liked
+        self.likeCount = likeCount
     }
 }
 
