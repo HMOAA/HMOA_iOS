@@ -201,6 +201,7 @@ class MagazineDetailCell: UICollectionViewCell {
         separatorLine3.snp.makeConstraints { make in
             make.top.equalTo(likeStackView.snp.bottom).offset(57)
             make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(lineHeight)
             make.bottom.equalToSuperview().inset(5)
         }
         

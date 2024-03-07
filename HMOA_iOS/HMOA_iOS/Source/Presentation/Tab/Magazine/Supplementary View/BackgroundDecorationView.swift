@@ -14,11 +14,7 @@ class BackgroundDecorationView: UICollectionReusableView {
     static let identifier = "BackgroundDecorationView"
     
     private let backgroundView = UIView().then {
-        $0.backgroundColor = .random
-    }
-    
-    private let blankSpaceView = UIView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = .customColor(.gray4)
     }
     
     override init(frame: CGRect) {
@@ -38,20 +34,12 @@ class BackgroundDecorationView: UICollectionReusableView {
     }
     
     private func setAddView() {
-        [backgroundView, blankSpaceView].forEach {
-            addSubview($0)
-        }
+        [backgroundView].forEach { addSubview($0) }
     }
     
     private func setConstraints() {
         backgroundView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-        }
-        
-        blankSpaceView.snp.makeConstraints { make in
-            make.top.equalTo(backgroundView.snp.bottom)
-            make.bottom.leading.trailing.equalToSuperview()
-            make.height.equalTo(32)
+            make.top.leading.trailing.bottom.equalToSuperview()
         }
     }
 }
