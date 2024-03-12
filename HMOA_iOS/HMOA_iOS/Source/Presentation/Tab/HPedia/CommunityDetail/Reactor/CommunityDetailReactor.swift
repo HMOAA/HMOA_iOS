@@ -182,6 +182,7 @@ class CommunityDetailReactor: Reactor {
         case .editCommunityPost(let detail):
             state.postItem = [detail]
             state.photoItem = detail.communityPhotos
+            state.content = detail.content
             state.communityItems.postItem = [detail]
             
         case .setPhotoItem(let item):
