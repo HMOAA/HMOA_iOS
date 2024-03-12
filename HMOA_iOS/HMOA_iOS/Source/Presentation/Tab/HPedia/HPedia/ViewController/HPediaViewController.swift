@@ -332,7 +332,10 @@ extension HPediaViewController {
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HPediaCommunityHeaderView.identifier, for: indexPath) as? HPediaCommunityHeaderView else { return UICollectionReusableView() }
                 
                 header.allButton.rx.tap
-                    .bind(onNext: self.presentCommunityListVC)
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, _ in
+                        owner.presentCommunityListVC(owner.reactor!)
+                    })
                     .disposed(by: header.disposeBag)
                 
                 return header

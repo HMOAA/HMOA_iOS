@@ -11,7 +11,7 @@ import RxSwift
 class CommunityListReactor: Reactor {
     
     let initialState: State
-    let service: CommunityListService
+    let service: CommunityListProtocol
     
     enum Action {
         case viewWillAppear
@@ -68,7 +68,7 @@ class CommunityListReactor: Reactor {
         var isHiddenKeyboard: Bool = false
     }
     
-    init(service: CommunityListService) {
+    init(service: CommunityListProtocol) {
         initialState = State()
         self.service = service
     }

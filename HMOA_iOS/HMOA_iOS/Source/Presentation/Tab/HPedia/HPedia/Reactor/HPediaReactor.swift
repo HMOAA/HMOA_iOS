@@ -191,4 +191,8 @@ extension HPediaReactor {
     func reactorForDetail() -> CommunityDetailReactor {
         return CommunityDetailReactor(currentState.selectedCommunityId!, service)
     }
+    
+    func reactorForCommunityList() -> CommunityListReactor {
+        return CommunityListReactor(service: service)
+    }
 }

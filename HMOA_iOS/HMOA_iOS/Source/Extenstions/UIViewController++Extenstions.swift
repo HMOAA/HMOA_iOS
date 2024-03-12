@@ -123,9 +123,10 @@ extension UIViewController {
     }
     
     /// CommunityListVC로 push
-    func presentCommunityListVC() {
+    func presentCommunityListVC(_ reactor: HPediaReactor) {
         let CommunityListVC = CommunityListViewController()
-        CommunityListVC.reactor = CommunityListReactor(service: CommunityListService())
+        let reactor = reactor.reactorForCommunityList()
+        CommunityListVC.reactor = reactor
         self.navigationController?.pushViewController(CommunityListVC, animated: true)
     }
     
