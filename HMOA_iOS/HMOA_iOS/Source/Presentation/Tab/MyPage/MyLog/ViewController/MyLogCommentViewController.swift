@@ -186,13 +186,9 @@ extension MyLogCommentViewController: UICollectionViewDelegateFlowLayout {
             }
             
             switch item {
-            case .perfume(let comment), .liked(let comment):
-                cell.updateCell(comment)
-            case .community(let comment):
-                cell.updateCommunityComment(comment)
+            case .perfume(let comment), .liked(let comment), .community(let comment):
+                cell.updateForMyLogComment(comment!)
             }
-            
-            cell.updateForMyLogComment()
             
             return cell
         })
