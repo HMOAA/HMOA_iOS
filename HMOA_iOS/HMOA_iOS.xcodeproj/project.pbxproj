@@ -232,6 +232,7 @@
 		CAF19B9C2A625D1300374038 /* SearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19B9B2A625D1300374038 /* SearchAPI.swift */; };
 		CAF19B9E2A625D2100374038 /* SearchAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19B9D2A625D2100374038 /* SearchAddress.swift */; };
 		CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19BA22A625F7600374038 /* SearchPerfume.swift */; };
+		CAF5335E2BA046F700A7B8B2 /* MyLogComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF5335D2BA046F700A7B8B2 /* MyLogComment.swift */; };
 		CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450729AB7DC300ACF2C1 /* YearModel.swift */; };
 		CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */; };
 		CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */; };
@@ -492,6 +493,7 @@
 		CAF19B9B2A625D1300374038 /* SearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPI.swift; sourceTree = "<group>"; };
 		CAF19B9D2A625D2100374038 /* SearchAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddress.swift; sourceTree = "<group>"; };
 		CAF19BA22A625F7600374038 /* SearchPerfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPerfume.swift; sourceTree = "<group>"; };
+		CAF5335D2BA046F700A7B8B2 /* MyLogComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogComment.swift; sourceTree = "<group>"; };
 		CAFA450729AB7DC300ACF2C1 /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
 		CAFA450929AB7DEA00ACF2C1 /* ChoiceYearViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceYearViewController.swift; sourceTree = "<group>"; };
 		CAFB9F3F29B5C67B0009654C /* LoginReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginReactor.swift; sourceTree = "<group>"; };
@@ -1661,6 +1663,7 @@
 			isa = PBXGroup;
 			children = (
 				CA39D56B2B0B3A9C00694677 /* MyLogCommentSection.swift */,
+				CAF5335D2BA046F700A7B8B2 /* MyLogComment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2435,6 +2438,7 @@
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
 				CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */,
 				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
+				CAF5335E2BA046F700A7B8B2 /* MyLogComment.swift in Sources */,
 				2CA155B82A05368000D7B0C0 /* MyProfileReactor.swift in Sources */,
 				CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,

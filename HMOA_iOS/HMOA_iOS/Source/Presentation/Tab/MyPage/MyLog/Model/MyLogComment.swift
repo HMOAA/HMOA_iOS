@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct MyLogComment: Codable, Hashable {
+    let content, createAt: String
+    var heartCount: Int
+    let id: Int
+    var liked: Bool
+    let nickname: String?
+    let parentId: Int
+    let profileImg: String
+    let writed: Bool
+}

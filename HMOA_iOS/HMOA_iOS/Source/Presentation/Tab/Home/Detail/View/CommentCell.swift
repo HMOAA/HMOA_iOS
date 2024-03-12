@@ -122,8 +122,19 @@ extension CommentCell {
         } else { communityNoCommentLabel.isHidden = false }
     }
     
-    func updateForMyLogComment() {
+    func updateForMyLogComment(_ item: MyLogComment) {
         optionButton.isHidden = true
+        commentLikeButton.isSelected = item.liked
+        userImageView.kf.setImage(with: URL(string: item.profileImg))
+        userNameLabel.text = item.nickname
+        contentLabel.text = item.content
+        commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
+        subView.isHidden = false
+        noCommentLabel.isHidden = true
+        commentLikeButton.isHidden = false
+        dateLabel.text = item.createAt
+        userMarkImageView.isHidden = !item.writed
+        
         commentLikeButton.snp.remakeConstraints { make in
             make.top.equalToSuperview().inset(14)
             make.trailing.equalToSuperview().inset(14)
