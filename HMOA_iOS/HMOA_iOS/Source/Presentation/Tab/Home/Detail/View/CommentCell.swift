@@ -69,7 +69,7 @@ class CommentCell: UICollectionViewCell {
     }
     
     lazy var optionButton = UIButton().then {
-        $0.setImage(UIImage(named: "verticalOption"), for: .normal)
+        $0.setImage(UIImage(named: "commentOption"), for: .normal)
     }
     
     
@@ -114,11 +114,11 @@ extension CommentCell {
             userImageView.kf.setImage(with: URL(string: item.profileImg))
             userNameLabel.text = item.author
             contentLabel.text = item.content
-            commentLikeButton.isHidden = true
             subView.isHidden = false
             communityNoCommentLabel.isHidden = true
             dateLabel.text = item.time
             userMarkImageView.isHidden = !item.writed
+            commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
         } else { communityNoCommentLabel.isHidden = false }
     }
     
@@ -134,12 +134,6 @@ extension CommentCell {
         commentLikeButton.isHidden = false
         dateLabel.text = item.createAt
         userMarkImageView.isHidden = !item.writed
-        
-        commentLikeButton.snp.remakeConstraints { make in
-            make.top.equalToSuperview().inset(14)
-            make.trailing.equalToSuperview().inset(14)
-            make.height.equalTo(20)
-        }
     }
     
     private func configureUI() {
@@ -195,14 +189,14 @@ extension CommentCell {
         }
         
         optionButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(15.2)
-            make.trailing.equalToSuperview().inset(13)
-            make.width.equalTo(10)
+            make.trailing.equalToSuperview().inset(7.2)
+            make.bottom.equalToSuperview().inset(8.2)
+            make.height.equalTo(20)
         }
         
         commentLikeButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(14)
-            $0.trailing.equalTo(optionButton.snp.leading).offset(-10)
+            $0.trailing.equalToSuperview().inset(10)
             $0.height.equalTo(20)
         }
         

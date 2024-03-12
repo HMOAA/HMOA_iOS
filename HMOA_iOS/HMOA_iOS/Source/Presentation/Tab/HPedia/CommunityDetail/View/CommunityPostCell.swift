@@ -16,6 +16,7 @@ class CommunityPostCell: UICollectionViewCell {
     static let identifier = "CommunityPostCell"
     
     //MARK: - UIComponents
+    
     private let QLabel = UILabel().then {
         $0.setLabelUI("Q", font: .pretendard_bold, size: 26, color: .black)
     }
@@ -60,6 +61,10 @@ class CommunityPostCell: UICollectionViewCell {
     private lazy var pageControl = UIPageControl().then {
         $0.isEnabled = false
         $0.isHidden = true
+    }
+    
+    private let likeButton = UIButton().then {
+        $0.makeLikeButton()
     }
     
     var disposeBag = DisposeBag()
@@ -118,7 +123,8 @@ class CommunityPostCell: UICollectionViewCell {
             contentLabel,
             optionButton,
             photoCollectionView,
-            pageControl
+            pageControl,
+            likeButton
         ]   .forEach { addSubview($0) }
     }
     
@@ -161,6 +167,10 @@ class CommunityPostCell: UICollectionViewCell {
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.bottom.lessThanOrEqualToSuperview().inset(48)
         }
+        
+        likeButton.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview().inset(16)
+        }
     }
 }
 
@@ -172,6 +182,8 @@ extension CommunityPostCell {
         titleLabel.text = item.title
         contentLabel.text = item.content
         userMarkImageView.isHidden = !item.writed
+        likeButton.isSelected = item.liked
+        likeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(item.heartCount)", size: 12, font: .pretendard_light)
     }
     
    func bindPhotoCollectionView(_ photos: [CommunityPhoto]) {
