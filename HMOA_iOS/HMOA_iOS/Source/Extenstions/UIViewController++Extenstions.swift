@@ -75,10 +75,20 @@ extension UIViewController {
         self.navigationController?.pushViewController(CommunityDetailVC, animated: true)
     }
 
-    /// hpediaHomeVC, writedPostVC -> communityDetailVC
+    /// writedPostVC -> communityDetailVC
     func presentCommunityDetailVC(_ id: Int) {
         let CommunityDetailVC = CommunityDetailViewController()
         let detailReactor = CommunityDetailReactor(id, CommunityListService())
+        
+        CommunityDetailVC.reactor = detailReactor
+        CommunityDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(CommunityDetailVC, animated: true)
+    }
+    
+    // hpediaHomeVC -> communityDetailVC
+    func presentCommunityDetailVC(reactor: HPediaReactor) {
+        let CommunityDetailVC = CommunityDetailViewController()
+        let detailReactor = reactor.reactorForDetail()
         
         CommunityDetailVC.reactor = detailReactor
         CommunityDetailVC.hidesBottomBarWhenPushed = true

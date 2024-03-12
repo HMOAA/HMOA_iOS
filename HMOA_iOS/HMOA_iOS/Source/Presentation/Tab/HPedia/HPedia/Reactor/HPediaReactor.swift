@@ -11,7 +11,9 @@ import ReactorKit
 import RxSwift
 
 class HPediaReactor: Reactor {
+    
     var initialState: State
+    let service: CommunityListProtocol
     
     enum Action {
         case didTapDictionaryItem(Int)
@@ -44,10 +46,14 @@ class HPediaReactor: Reactor {
         case setSelectedAddCategory(String?)
         case setIsLogin(Bool)
         case setIsTapWhenNotLogin(Bool)
+        case addCommunityPost(CategoryList)
+        case deleteCommunityPost(CategoryList)
+        case editCommunityPost(CategoryList)
     }
     
-    init() {
+    init(service: CommunityListProtocol) {
         initialState = State()
+        self.service = service
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -64,10 +70,13 @@ class HPediaReactor: Reactor {
                 .just(.setSelectedCommunityItemId(nil))
             ])
         case .viewWillAppear:
-            return setHpediaCommunityListItem()
+            return .just(.setIsTapFloatingButton(false))
             
         case .viewDidLoad(let isLogin):
-            return .just(.setIsLogin(isLogin))
+            return .concat([
+                .just(.setIsLogin(isLogin)),
+                setHpediaCommunityListItem()
+            ])
             
         case .didTapFloatingButton:
             if currentState.isLogin {
@@ -118,30 +127,56 @@ class HPediaReactor: Reactor {
             
         case .setIsTapFloatingButton(let isTap):
             state.isFloatingButtonTap = isTap
+            
         case .setSelectedAddCategory(let category):
             state.selectedAddCategory = category
+            
         case .setIsLogin(let isLogin):
             state.isLogin = isLogin
+            
         case .setIsTapWhenNotLogin(let isTap):
             state.isTapWhenNotLogin = isTap
+            
+        case .editCommunityPost(let community):
+            if let index = state.communityItems.firstIndex(where: { $0.communityId == community.communityId }) {
+                state.communityItems[index] = community
+            }
+            
+        case .addCommunityPost(let community):
+            state.communityItems.insert(community, at: 0)
+            
+        case .deleteCommunityPost(let community):
+            state.communityItems.removeAll { $0.communityId == community.communityId }
         }
         
         return state
     }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let eventMutation = service.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .addCommunityList(let community):
+                return .just(.addCommunityPost(community))
+            case .deleteCommunityList(let community):
+                return .just(.deleteCommunityPost(community))
+            case .editCommunityList(let community):
+                return .just(.editCommunityPost(community))
+            default: return .empty()
+            }
+        }
+        
+        return .merge(eventMutation, mutation)
+    }
 }
 
 extension HPediaReactor {
+    
     func setHpediaCommunityListItem() -> Observable<Mutation> {
         return CommunityAPI.fetchHPediaCategoryList()
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                return
-                    .concat([
-                    .just(.setCommunityItems(data)),
-                    .just(.setIsTapFloatingButton(false))
-                    ])
+                return .just(.setCommunityItems(data))
             }
-        
     }
     
     func reactorForWrite() -> CommunityWriteReactor {
@@ -150,6 +185,10 @@ extension HPediaReactor {
             title: nil,
             category: currentState.selectedAddCategory!,
             photos: [],
-            service: nil)
+            service: service)
+    }
+    
+    func reactorForDetail() -> CommunityDetailReactor {
+        return CommunityDetailReactor(currentState.selectedCommunityId!, service)
     }
 }
