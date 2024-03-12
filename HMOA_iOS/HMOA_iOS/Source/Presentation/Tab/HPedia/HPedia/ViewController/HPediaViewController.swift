@@ -149,12 +149,11 @@ class HPediaViewController: UIViewController, View {
         // MARK: - Action
         
         rx.viewWillAppear
-            .delay(.milliseconds(300), scheduler: MainScheduler.instance)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // ViewDidLoad
+        // setIsLogin
         LoginManager.shared.isLogin
             .map { Reactor.Action.viewDidLoad($0) }
             .bind(to: reactor.action)
@@ -218,7 +217,6 @@ class HPediaViewController: UIViewController, View {
                 guard let datasource = owner.datasource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<HPediaSection, HPediaSectionItem>()
                 snapshot.appendSections([.dictionary, .community])
-                
                 reactor.currentState.DictionarySectionItems
                     .forEach { snapshot.appendItems([.dictionary($0)], toSection: .dictionary) }
                 item.forEach { snapshot.appendItems([.community($0)], toSection: .community) }
@@ -247,13 +245,13 @@ class HPediaViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        // Community DetailVC로 id Push
+        // Community DetailVC로 push
         reactor.state
             .map { $0.selectedCommunityId }
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, id in
-                owner.presentCommunityDetailVC(id)
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentCommunityDetailVC(reactor: owner.reactor!)
             })
             .disposed(by: disposeBag)
         
