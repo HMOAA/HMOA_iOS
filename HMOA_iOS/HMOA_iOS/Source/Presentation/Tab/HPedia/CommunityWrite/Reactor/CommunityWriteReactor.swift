@@ -196,11 +196,11 @@ extension CommunityWriteReactor {
             .flatMap { data -> Observable<Mutation> in
                 guard let service = self.service else { return .empty() }
                 return .concat([
-                    service.updateCommunityList(to: CategoryList(
+                    service.addCommunityList(to: CategoryList(
                         communityId: data.id,
                         category: data.category,
                         title: data.title,
-                        commentCount: nil,
+                        commentCount: 0,
                         heartCount: 0,
                         liked: false
                     )).map { _ in .setSucces }
@@ -234,7 +234,7 @@ extension CommunityWriteReactor {
                         communityId: data.id,
                         category: data.category,
                         title: data.title,
-                        commentCount: 0,
+                        commentCount: nil,
                         heartCount: data.heartCount,
                         liked: data.liked
                         

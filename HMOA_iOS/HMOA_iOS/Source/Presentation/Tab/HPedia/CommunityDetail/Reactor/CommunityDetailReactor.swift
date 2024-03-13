@@ -33,7 +33,7 @@ class CommunityDetailReactor: Reactor {
         case setPhotoItem([CommunityPhoto])
         case setCategory(String)
         case setCommentCount(Int)
-        case setContent(String)
+        case setCommentContent(String)
         case setIsBegenEditing(Bool)
         case setComment(CommunityComment)
         case setSelectedCommentRow(Int?)
@@ -46,6 +46,7 @@ class CommunityDetailReactor: Reactor {
         case setSelectedComment(Int?)
         case setPostLike(Bool)
         case setPostLikeCount(Int)
+        case setPostContent(String)
     }
     
     struct State {
@@ -55,7 +56,7 @@ class CommunityDetailReactor: Reactor {
         var photoItem: [CommunityPhoto] = []
         var commentCount: Int? = nil
         var isBeginEditing: Bool = false
-        var content: String = ""
+        var commentContent: String = ""
         var selectedCommentRow: Int? = nil
         var isEndEditing: Bool = false
         var category: String = ""
@@ -67,6 +68,7 @@ class CommunityDetailReactor: Reactor {
         var selectedComment: CommunityComment? = nil
         var isLiked: Bool = false
         var likeCount: Int? = nil
+        var postContent: String = ""
     }
     
     init(_ id: Int, _ service: CommunityListProtocol?) {
@@ -90,10 +92,10 @@ class CommunityDetailReactor: Reactor {
             ])
             
         case .didChangeTextViewEditing(let content):
-            return .just(.setContent(content))
+            return .just(.setCommentContent(content))
             
         case .didTapCommentWriteButton:
-            if currentState.content != "댓글을 입력하세요" {
+            if currentState.commentContent != "댓글을 입력하세요" {
                 return setPostComment()
             } else { return .empty() }
             
@@ -134,8 +136,8 @@ class CommunityDetailReactor: Reactor {
             }
             state.commentCount = count
             
-        case .setContent(let content):
-            state.content = content
+        case .setCommentContent(let content):
+            state.commentContent = content
             if content.isEmpty {
                 state.writeButtonEnable = false }
             else {
@@ -190,7 +192,7 @@ class CommunityDetailReactor: Reactor {
         case .editCommunityPost(let detail):
             state.postItem = [detail]
             state.photoItem = detail.communityPhotos
-            state.content = detail.content
+            state.postContent = detail.content
             state.communityItems.postItem = [detail]
             
         case .setPhotoItem(let item):
@@ -208,6 +210,9 @@ class CommunityDetailReactor: Reactor {
             
         case .setPostLikeCount(let count):
             state.likeCount = count
+            
+        case .setPostContent(let content):
+            state.postContent = content
         }
         return state
     }
@@ -237,7 +242,7 @@ extension CommunityDetailReactor {
                     .just(.setCategory(data.category)),
                     .just(.setPostItem([data])),
                     .just(.setPhotoItem(data.communityPhotos)),
-                    .just(.setContent(data.content)),
+                    .just(.setPostContent(data.content)),
                     .just(.setPostLike(data.liked)),
                     .just(.setPostLikeCount(data.heartCount))
                 ])
@@ -270,7 +275,7 @@ extension CommunityDetailReactor {
     }
     
     func setPostComment() -> Observable<Mutation> {
-        let param = [ "content": currentState.content ]
+        let param = [ "content": currentState.commentContent ]
         return CommunityAPI.postCommunityComment(currentState.communityId, param)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
@@ -354,7 +359,7 @@ extension CommunityDetailReactor {
 
         return CommunityWriteReactor(
             communityId: currentState.communityId,
-            content: currentState.content,
+            content: currentState.postContent,
             title: currentState.postItem[0].title,
             category: currentState.category,
             photos: currentState.photoItem,
