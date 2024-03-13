@@ -111,7 +111,7 @@ class MagazineTopReviewCell: UICollectionViewCell {
     
     func configureCell(_ topReview: TopReview) {
         titleLabel.text = topReview.title
-        profileImageView.backgroundColor = topReview.userImage
+        profileImageView.backgroundColor = .random
         nicknameLabel.text = topReview.userName
         contentLabel.text = topReview.content
     }

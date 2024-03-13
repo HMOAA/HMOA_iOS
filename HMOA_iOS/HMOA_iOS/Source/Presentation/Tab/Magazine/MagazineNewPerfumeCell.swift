@@ -66,7 +66,7 @@ class MagazineNewPerfumeCell: UICollectionViewCell {
     }
     
     func configureCell(_ newPerfume: NewPerfume) {
-        imageView.backgroundColor = newPerfume.color
+        imageView.backgroundColor = .random
         brandLabel.text = newPerfume.brand
         perfumeNameLabel.text = newPerfume.name
         dateLabel.text = newPerfume.releaseDate
