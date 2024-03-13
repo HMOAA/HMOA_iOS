@@ -11,10 +11,9 @@ import RxSwift
 enum CommunityListUserEvent {
     case addCommunityList(CategoryList)
     case deleteCommunityList(CategoryList)
-    case editCommunityList(CategoryList)
+    case updateCommunityList(CategoryList)
     case editCommunityComment(CommunityComment)
     case editCommunityDetail(CommunityDetail)
-    case updateCommunityPostLike(CategoryList)
 }
 
 protocol CommunityListProtocol {
@@ -24,13 +23,11 @@ protocol CommunityListProtocol {
     
     func deleteCommunityList(to communityList: CategoryList) -> Observable<CategoryList>
     
-    func editCommunityList(to communityList: CategoryList) -> Observable<CategoryList>
+    func addCommunityList(to communityList: CategoryList) -> Observable<CategoryList>
     
     func editCommunityComment(to comment: CommunityComment) -> Observable<CommunityComment>
     
     func editCommunityDetail(to detail: CommunityDetail) -> Observable<CommunityDetail>
-    
-    func updateCommunityPostLike(to communityList: CategoryList) -> Observable<CategoryList>
     
 }
 
@@ -53,18 +50,13 @@ class CommunityListService: CommunityListProtocol {
         return .just(communityList)
     }
     
-    func editCommunityList(to communityList: CategoryList) -> Observable<CategoryList> {
-        event.onNext(.editCommunityList(communityList))
-        return .just(communityList)
-    }
-    
     func updateCommunityList(to communityList: CategoryList) -> Observable<CategoryList> {
-        event.onNext(.addCommunityList(communityList))
+        event.onNext(.updateCommunityList(communityList))
         return .just(communityList)
     }
     
-    func updateCommunityPostLike(to communityList: CategoryList) -> Observable<CategoryList> {
-        event.onNext(.updateCommunityPostLike(communityList))
+    func addCommunityList(to communityList: CategoryList) -> Observable<CategoryList> {
+        event.onNext(.addCommunityList(communityList))
         return .just(communityList)
     }
 }

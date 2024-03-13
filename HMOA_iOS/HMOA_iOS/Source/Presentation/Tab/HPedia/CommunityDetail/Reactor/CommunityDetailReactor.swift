@@ -312,7 +312,7 @@ extension CommunityDetailReactor {
                     communityPost.liked = true
                     communityPost.heartCount = self.currentState.likeCount! + 1
                     guard let service = self.service else { return .just(.setPostLike(true)) }
-                    return service.updateCommunityPostLike(to: CategoryList(
+                    return service.updateCommunityList(to: CategoryList(
                         communityId: communityPost.id,
                         category: communityPost.category,
                         title: communityPost.title,
@@ -333,7 +333,7 @@ extension CommunityDetailReactor {
                     communityPost.liked = false
                     communityPost.heartCount = self.currentState.likeCount! - 1
                     guard let service = self.service else { return .just(.setPostLike(false)) }
-                    return service.updateCommunityPostLike(to: CategoryList(
+                    return service.updateCommunityList(to: CategoryList(
                         communityId: communityPost.id,
                         category: communityPost.category,
                         title: communityPost.title,

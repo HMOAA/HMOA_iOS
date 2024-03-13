@@ -182,8 +182,6 @@ extension CommunityPostCell {
         titleLabel.text = item.title
         contentLabel.text = item.content
         userMarkImageView.isHidden = !item.writed
-//        likeButton.isSelected = item.liked
-//        likeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(item.heartCount)", size: 12, font: .pretendard_light)
     }
     
    func bindPhotoCollectionView(_ photos: [CommunityPhoto]) {
