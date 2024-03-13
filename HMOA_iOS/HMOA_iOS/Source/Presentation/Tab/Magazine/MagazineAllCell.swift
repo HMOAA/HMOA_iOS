@@ -78,7 +78,7 @@ class MagazineAllCell: UICollectionViewCell {
     }
     
     func configureCell(_ magazine: Magazine) {
-        coverImageView.backgroundColor = magazine.coverImage
+        coverImageView.backgroundColor = .random
         sloganLabel.text = magazine.slogan
         perfumeNameLabel.text = magazine.perfumeName
         longDescriptionLabel.text = magazine.longDescription

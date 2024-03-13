@@ -8,6 +8,7 @@
 import UIKit
 import RxCocoa
 import ReactorKit
+import RxSwift
 
 class MagazineViewController: UIViewController, View {
 
@@ -57,17 +58,53 @@ class MagazineViewController: UIViewController, View {
         
         // magazine item 터치
         magazineCollectionView.rx.itemSelected
-            .filter { indexPath in
-                let section = self.sections[indexPath.section]
-                return section == .mainBanner || section == .allMagazine
-            }
-            .map { Reactor.Action.didSelectMagazineItem($0) }
+            .filter { $0.section == 0 || $0.section == 3 }
+            .map { Reactor.Action.didTapMagazineCell($0) }
             .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-        
-        // MARK: Snapshot
+            .disposed(by: disposeBag)
         
         // MARK: State
+        
+        // MainBannerItems 변화 감지
+        reactor.state
+            .map { $0.mainBannerItems }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] items in
+                guard let dataSource = self?.dataSource else { return }
+                self?.updateSnapshot(forSection: .mainBanner, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        // NewPerfumeItems 변화 감지
+        reactor.state
+            .map { $0.newPerfumeItems }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] items in
+                guard let dataSource = self?.dataSource else { return }
+                self?.updateSnapshot(forSection: .newPerfume, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        // TopReviewItems 변화 감지
+        reactor.state
+            .map { $0.topReviewItems }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] items in
+                guard let dataSource = self?.dataSource else { return }
+                
+                self?.updateSnapshot(forSection: .topReview, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        // AllMagazineItems 변화 감지
+        reactor.state
+            .map { $0.allMagazineItems }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] items in
+                guard let dataSource = self?.dataSource else { return }
+                self?.updateSnapshot(forSection: .allMagazine, withItems: items)
+            })
+            .disposed(by: disposeBag)
         
         // MagazineDetailVC로 push
         reactor.state
@@ -238,16 +275,26 @@ class MagazineViewController: UIViewController, View {
             }
         }
         
-        // MARK: Snapshot Definition
-        var snapshot = NSDiffableDataSourceSnapshot<MagazineSection, MagazineItem>()
-        snapshot.appendSections([.mainBanner, .newPerfume, .topReview, .allMagazine])
-        snapshot.appendItems(MagazineItem.mainMagazines, toSection: .mainBanner)
-        snapshot.appendItems(MagazineItem.newPerfumes, toSection: .newPerfume)
-        snapshot.appendItems(MagazineItem.top10Reviews, toSection: .topReview)
-        snapshot.appendItems(MagazineItem.magazines, toSection: .allMagazine)
+        // MARK: Initial Snapshot
+        var initialSnapshot = NSDiffableDataSourceSnapshot<MagazineSection, MagazineItem>()
+        initialSnapshot.appendSections([.mainBanner, .newPerfume, .topReview, .allMagazine])
         
-        sections = snapshot.sectionIdentifiers
-        dataSource.apply(snapshot)
+        initialSnapshot.appendItems(MagazineItem.mainMagazines, toSection: .mainBanner)
+        initialSnapshot.appendItems(MagazineItem.newPerfumes, toSection: .newPerfume)
+        initialSnapshot.appendItems(MagazineItem.top10Reviews, toSection: .topReview)
+        initialSnapshot.appendItems(MagazineItem.magazines, toSection: .allMagazine)
+        
+        sections = initialSnapshot.sectionIdentifiers
+        dataSource.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: MagazineSection, withItems items: [MagazineItem]) {
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 

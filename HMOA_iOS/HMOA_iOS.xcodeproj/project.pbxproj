@@ -116,19 +116,19 @@
 		AB23E901B87DB21E0AD3EE9E /* Pods_HMOA_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EF530D1388C4C2875F8EE0 /* Pods_HMOA_iOS.framework */; };
 		BD240A63088951625093488F /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0FD9ADF549034177344999 /* Pods_HMOA_iOSTests.framework */; };
 		C90F16A22B92F48E008016E8 /* BackgroundDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90F16A12B92F48E008016E8 /* BackgroundDecorationView.swift */; };
-		C92365BA2B8D73D900F0B17A /* Magazine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92365B92B8D73D900F0B17A /* Magazine.swift */; };
 		C95A2B992B8C711A00268E36 /* MagazineMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2B982B8C711A00268E36 /* MagazineMainCell.swift */; };
 		C95A2B9B2B8C713300268E36 /* MagazineNewPerfumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2B9A2B8C713300268E36 /* MagazineNewPerfumeCell.swift */; };
 		C95A2B9D2B8C714500268E36 /* MagazineTopReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2B9C2B8C714500268E36 /* MagazineTopReviewCell.swift */; };
 		C95A2B9F2B8C717C00268E36 /* MagazineAllCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2B9E2B8C717C00268E36 /* MagazineAllCell.swift */; };
 		C95A2BA12B8C721800268E36 /* MagazineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2BA02B8C721800268E36 /* MagazineHeaderView.swift */; };
 		C95A2BA62B8CAC6D00268E36 /* MagazineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2BA52B8CAC6D00268E36 /* MagazineItem.swift */; };
-		C95A2BA82B8CACA000268E36 /* TopReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2BA72B8CACA000268E36 /* TopReview.swift */; };
-		C95A2BAA2B8CACBA00268E36 /* NewPerfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95A2BA92B8CACBA00268E36 /* NewPerfume.swift */; };
 		C9A575A92B941796003406F5 /* MagazineDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A575A82B941796003406F5 /* MagazineDetailViewController.swift */; };
 		C9A575AC2B95A884003406F5 /* MagazineDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A575AB2B95A884003406F5 /* MagazineDetailReactor.swift */; };
 		C9A575AE2B96AF0E003406F5 /* MagazineDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A575AD2B96AF0D003406F5 /* MagazineDetailCell.swift */; };
 		C9A5ACA32B998F61004CD406 /* MagazineDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A5ACA22B998F61004CD406 /* MagazineDetailHeaderView.swift */; };
+		C9A8D0862B9F0DD800FD927C /* MagazineAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8D0852B9F0DD800FD927C /* MagazineAPI.swift */; };
+		C9A8D0882B9F0DEA00FD927C /* MagazineAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8D0872B9F0DEA00FD927C /* MagazineAddress.swift */; };
+		C9A8D08B2B9F0FC400FD927C /* MagazineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8D08A2B9F0FC400FD927C /* MagazineModel.swift */; };
 		C9EFB2B92B99830E00B64C31 /* MagazineLatestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EFB2B82B99830E00B64C31 /* MagazineLatestCell.swift */; };
 		C9FBCA3D2B8798E800CAC0C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */; };
 		C9FBCA3E2B8798E800CAC0C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */; };
@@ -395,19 +395,19 @@
 		A3EB8DD627D12411C89F845C /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		A9236CE65DC97E570FED2954 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C90F16A12B92F48E008016E8 /* BackgroundDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundDecorationView.swift; sourceTree = "<group>"; };
-		C92365B92B8D73D900F0B17A /* Magazine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magazine.swift; sourceTree = "<group>"; };
 		C95A2B982B8C711A00268E36 /* MagazineMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineMainCell.swift; sourceTree = "<group>"; };
 		C95A2B9A2B8C713300268E36 /* MagazineNewPerfumeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineNewPerfumeCell.swift; sourceTree = "<group>"; };
 		C95A2B9C2B8C714500268E36 /* MagazineTopReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineTopReviewCell.swift; sourceTree = "<group>"; };
 		C95A2B9E2B8C717C00268E36 /* MagazineAllCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineAllCell.swift; sourceTree = "<group>"; };
 		C95A2BA02B8C721800268E36 /* MagazineHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineHeaderView.swift; sourceTree = "<group>"; };
 		C95A2BA52B8CAC6D00268E36 /* MagazineItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineItem.swift; sourceTree = "<group>"; };
-		C95A2BA72B8CACA000268E36 /* TopReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopReview.swift; sourceTree = "<group>"; };
-		C95A2BA92B8CACBA00268E36 /* NewPerfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPerfume.swift; sourceTree = "<group>"; };
 		C9A575A82B941796003406F5 /* MagazineDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailViewController.swift; sourceTree = "<group>"; };
 		C9A575AB2B95A884003406F5 /* MagazineDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailReactor.swift; sourceTree = "<group>"; };
 		C9A575AD2B96AF0D003406F5 /* MagazineDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailCell.swift; sourceTree = "<group>"; };
 		C9A5ACA22B998F61004CD406 /* MagazineDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailHeaderView.swift; sourceTree = "<group>"; };
+		C9A8D0852B9F0DD800FD927C /* MagazineAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineAPI.swift; sourceTree = "<group>"; };
+		C9A8D0872B9F0DEA00FD927C /* MagazineAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineAddress.swift; sourceTree = "<group>"; };
+		C9A8D08A2B9F0FC400FD927C /* MagazineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineModel.swift; sourceTree = "<group>"; };
 		C9EFB2B82B99830E00B64C31 /* MagazineLatestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineLatestCell.swift; sourceTree = "<group>"; };
 		C9FBCA3C2B8798E800CAC0C3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C9FBCA412B87991F00CAC0C3 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
@@ -1203,6 +1203,7 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				C9A8D0842B9F0DC600FD927C /* Magazine */,
 				CA5E872B2B2AECEB006DD2FA /* PushAlarm */,
 				CA99A6CF2B1216D60030364F /* Report */,
 				CAFE2F1F2B0F429A00054E22 /* HPedia */,
@@ -1381,9 +1382,6 @@
 			isa = PBXGroup;
 			children = (
 				C95A2BA52B8CAC6D00268E36 /* MagazineItem.swift */,
-				C92365B92B8D73D900F0B17A /* Magazine.swift */,
-				C95A2BA92B8CACBA00268E36 /* NewPerfume.swift */,
-				C95A2BA72B8CACA000268E36 /* TopReview.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1449,6 +1447,24 @@
 				C9A5ACA22B998F61004CD406 /* MagazineDetailHeaderView.swift */,
 			);
 			path = SupplementaryView;
+			sourceTree = "<group>";
+		};
+		C9A8D0842B9F0DC600FD927C /* Magazine */ = {
+			isa = PBXGroup;
+			children = (
+				C9A8D0892B9F0F1C00FD927C /* Model */,
+				C9A8D0852B9F0DD800FD927C /* MagazineAPI.swift */,
+				C9A8D0872B9F0DEA00FD927C /* MagazineAddress.swift */,
+			);
+			path = Magazine;
+			sourceTree = "<group>";
+		};
+		C9A8D0892B9F0F1C00FD927C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C9A8D08A2B9F0FC400FD927C /* MagazineModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		C9D0CB982B89C1CD0033524B /* View */ = {
@@ -2472,6 +2488,7 @@
 				CAA5926D2B049605003DAE51 /* ImageListReactor.swift in Sources */,
 				2C39AA5E2970470E000C6F71 /* AppTabbarController.swift in Sources */,
 				2C04246629A39C30009CF0FE /* HomeSection.swift in Sources */,
+				C9A8D0882B9F0DEA00FD927C /* MagazineAddress.swift in Sources */,
 				2C464E5029CDB26400A07658 /* MyPageSeparatorLineView.swift in Sources */,
 				CA22389F2AAF515F00452A31 /* CommunityDetailReactor.swift in Sources */,
 				2C464E4E29CDB1C300A07658 /* UserInfo.swift in Sources */,
@@ -2518,6 +2535,7 @@
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				CA4744862ADA718500003584 /* MyLogReactor.swift in Sources */,
+				C9A8D08B2B9F0FC400FD927C /* MagazineModel.swift in Sources */,
 				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
 				CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */,
 				CA5E872D2B2AED07006DD2FA /* PushAlarmAPI.swift in Sources */,
@@ -2556,7 +2574,6 @@
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */,
 				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
-				C92365BA2B8D73D900F0B17A /* Magazine.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */,
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
@@ -2574,10 +2591,10 @@
 				2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */,
 				CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */,
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
+				C9A8D0862B9F0DD800FD927C /* MagazineAPI.swift in Sources */,
 				CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */,
 				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
 				2CA155B82A05368000D7B0C0 /* MyProfileReactor.swift in Sources */,
-				C95A2BAA2B8CACBA00268E36 /* NewPerfume.swift in Sources */,
 				CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageUserCell.swift in Sources */,
@@ -2615,7 +2632,6 @@
 				CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */,
 				CAFE2F1E2B0F414700054E22 /* HpediaType.swift in Sources */,
 				2C4DD3742976E1A70027CE40 /* HomeView.swift in Sources */,
-				C95A2BA82B8CACA000268E36 /* TopReview.swift in Sources */,
 				2C464E5929CDDC8500A07658 /* MyLogViewController.swift in Sources */,
 				2CA155B02A039AD100D7B0C0 /* MemberAddress.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,

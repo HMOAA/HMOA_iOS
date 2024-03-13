@@ -13,18 +13,22 @@ import RxSwift
 class MagazineReactor: Reactor {
     
     enum Action {
-        case didSelectMagazineItem(IndexPath)
+        case didTapMagazineCell(IndexPath)
     }
     
     enum Mutation {
-        case navigateToDetail(MagazineItem)
+        case navigateToMagazineDetail(MagazineItem)
     }
     
     struct State {
-        var selectedMagazine: MagazineItem?
+        var mainBannerItems: [MagazineItem] = []
+        var newPerfumeItems: [MagazineItem] = []
+        var topReviewItems: [MagazineItem] = []
+        var allMagazineItems: [MagazineItem] = []
+        var selectedMagazine: MagazineItem? = nil
     }
     
-    let initialState: State
+    var initialState: State = State()
     
     init() {
         self.initialState = State()
@@ -32,17 +36,16 @@ class MagazineReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .didSelectMagazineItem(let indexPath):
-            
+        case .didTapMagazineCell(let indexPath):
             let magazine = MagazineItem.mainMagazines[indexPath.item]
-            return Observable.just(.navigateToDetail(magazine))
+            return Observable.just(.navigateToMagazineDetail(magazine))
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
-        case .navigateToDetail(let magazine):
+        case .navigateToMagazineDetail(let magazine):
             state.selectedMagazine = magazine
         }
         return state
