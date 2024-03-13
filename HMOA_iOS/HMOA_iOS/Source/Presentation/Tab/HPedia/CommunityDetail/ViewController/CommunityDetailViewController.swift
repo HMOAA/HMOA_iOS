@@ -262,7 +262,7 @@ class CommunityDetailViewController: UIViewController, View {
         
         // 텍스트 뷰 높이에 따라 commentWrite뷰 높이 변경
         reactor.state
-            .map { $0.content }
+            .map { $0.commentContent }
             .map { _ in
                 let contentSize = self.commentTextView.sizeThatFits(CGSize(width: self.commentTextView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
                 return contentSize.height + 13
