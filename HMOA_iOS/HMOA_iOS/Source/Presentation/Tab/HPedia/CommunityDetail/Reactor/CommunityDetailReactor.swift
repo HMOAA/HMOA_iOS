@@ -24,6 +24,7 @@ class CommunityDetailReactor: Reactor {
         case willDisplayCell(Int)
         case viewDidLoad(Bool)
         case didTapCommentCell(Int)
+        case didTapLikeButton
     }
     
     enum Mutation {
@@ -43,6 +44,8 @@ class CommunityDetailReactor: Reactor {
         case editCommunityPost(CommunityDetail)
         case setIsLogin(Bool)
         case setSelectedComment(Int?)
+        case setPostLike(Bool)
+        case setPostLikeCount(Int)
     }
     
     struct State {
@@ -62,6 +65,8 @@ class CommunityDetailReactor: Reactor {
         var writeButtonEnable: Bool = false
         var isLogin: Bool = false
         var selectedComment: CommunityComment? = nil
+        var isLiked: Bool = false
+        var likeCount: Int? = nil
     }
     
     init(_ id: Int, _ service: CommunityListProtocol?) {
@@ -112,6 +117,9 @@ class CommunityDetailReactor: Reactor {
                 .just(.setSelectedComment(row)),
                 .just(.setSelectedComment(nil))
             ])
+            
+        case .didTapLikeButton:
+            return setPostLike()
         }
     }
     
@@ -194,6 +202,12 @@ class CommunityDetailReactor: Reactor {
         case .setSelectedComment(let row):
             guard let row = row else { return state }
             state.selectedComment = state.commentItem[row]
+            
+        case .setPostLike(let isLiked):
+            state.isLiked = isLiked
+            
+        case .setPostLikeCount(let count):
+            state.likeCount = count
         }
         return state
     }
@@ -214,6 +228,7 @@ class CommunityDetailReactor: Reactor {
     
 
 extension CommunityDetailReactor {
+    
     func setUpPostSection() -> Observable<Mutation> {
         return CommunityAPI.fetchCommunityDetail(currentState.communityId)
             .catch { _ in .empty() }
@@ -222,7 +237,9 @@ extension CommunityDetailReactor {
                     .just(.setCategory(data.category)),
                     .just(.setPostItem([data])),
                     .just(.setPhotoItem(data.communityPhotos)),
-                    .just(.setContent(data.content))
+                    .just(.setContent(data.content)),
+                    .just(.setPostLike(data.liked)),
+                    .just(.setPostLikeCount(data.heartCount))
                 ])
             }
     }
@@ -284,6 +301,53 @@ extension CommunityDetailReactor {
             .just(.setSelectedCommentRow(nil)),
             .just(.setCommentCount(currentState.commentCount! - 1))
         ])
+    }
+    
+    func setPostLike() -> Observable<Mutation> {
+        var communityPost = currentState.postItem.first!
+        if !currentState.isLiked {
+            return CommunityAPI.putCommunityPostLike(id: communityPost.id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    communityPost.liked = true
+                    communityPost.heartCount = self.currentState.likeCount! + 1
+                    guard let service = self.service else { return .just(.setPostLike(true)) }
+                    return service.updateCommunityPostLike(to: CategoryList(
+                        communityId: communityPost.id,
+                        category: communityPost.category,
+                        title: communityPost.title,
+                        commentCount: self.currentState.commentCount,
+                        heartCount: communityPost.heartCount,
+                        liked: communityPost.liked))
+                    .flatMap { _ -> Observable<Mutation> in
+                        return .concat([
+                            .just(.setPostLike(true)),
+                            .just(.setPostLikeCount(communityPost.heartCount))
+                        ])
+                    }
+                }
+        } else {
+            return CommunityAPI.deleteCommunityPostLike(id: communityPost.id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    communityPost.liked = false
+                    communityPost.heartCount = self.currentState.likeCount! - 1
+                    guard let service = self.service else { return .just(.setPostLike(false)) }
+                    return service.updateCommunityPostLike(to: CategoryList(
+                        communityId: communityPost.id,
+                        category: communityPost.category,
+                        title: communityPost.title,
+                        commentCount: self.currentState.commentCount,
+                        heartCount: communityPost.heartCount,
+                        liked: communityPost.liked))
+                    .flatMap { _ -> Observable<Mutation> in
+                        return .concat([
+                            .just(.setPostLike(false)),
+                            .just(.setPostLikeCount(communityPost.heartCount))
+                        ])
+                    }
+                }
+        }
     }
     
     func reactorForPostEdit() -> CommunityWriteReactor {

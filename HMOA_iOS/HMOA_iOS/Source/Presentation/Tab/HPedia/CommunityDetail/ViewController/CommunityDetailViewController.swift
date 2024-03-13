@@ -356,6 +356,11 @@ extension CommunityDetailViewController: UITextViewDelegate {
                     self.profileImageView.kf.setImage(with: URL(string: url))
                 }
                 
+                cell.likeButton.rx.tap
+                    .map { CommunityDetailReactor.Action.didTapLikeButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
+                
                 
                 self.reactor?.state
                     .map { $0.photoItem }
@@ -366,6 +371,23 @@ extension CommunityDetailViewController: UITextViewDelegate {
                         cell.imageView.kf.setImage(with: URL(string: item.photoUrl))
                         
                     }
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor?.state
+                    .map { $0.isLiked }
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, isLiked in
+                        cell.likeButton.isSelected = isLiked
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor?.state
+                    .map { $0.likeCount }
+                    .compactMap { $0 }
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, count in
+                        cell.likeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(count)", size: 12, font: .pretendard_light)
+                    })
                     .disposed(by: cell.disposeBag)
                 
                 cell.photoCollectionView.rx.itemSelected
