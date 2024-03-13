@@ -20,8 +20,8 @@ struct CommunityDetail: Hashable, Codable {
     let myProfileImgUrl: String?
     let time: String
     let writed: Bool
-    let heartCount: Int
-    let liked: Bool
+    var heartCount: Int
+    var liked: Bool
 }
 
 struct CommunityPhoto: Hashable, Codable {
