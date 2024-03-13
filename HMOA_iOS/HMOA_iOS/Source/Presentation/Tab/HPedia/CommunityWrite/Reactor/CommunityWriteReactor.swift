@@ -200,7 +200,7 @@ extension CommunityWriteReactor {
                         communityId: data.id,
                         category: data.category,
                         title: data.title,
-                        commentCount: 0,
+                        commentCount: nil,
                         heartCount: 0,
                         liked: false
                     )).map { _ in .setSucces }
@@ -230,11 +230,11 @@ extension CommunityWriteReactor {
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 return .concat([
-                    self.service!.editCommunityList(to: CategoryList(
+                    self.service!.updateCommunityList(to: CategoryList(
                         communityId: data.id,
                         category: data.category,
                         title: data.title,
-                        commentCount: nil,
+                        commentCount: 0,
                         heartCount: data.heartCount,
                         liked: data.liked
                         

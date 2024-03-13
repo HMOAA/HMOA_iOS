@@ -48,7 +48,7 @@ class HPediaReactor: Reactor {
         case setIsTapWhenNotLogin(Bool)
         case addCommunityPost(CategoryList)
         case deleteCommunityPost(CategoryList)
-        case editCommunityPost(CategoryList)
+        case updateCommunityPost(CategoryList)
     }
     
     init(service: CommunityListProtocol) {
@@ -137,7 +137,7 @@ class HPediaReactor: Reactor {
         case .setIsTapWhenNotLogin(let isTap):
             state.isTapWhenNotLogin = isTap
             
-        case .editCommunityPost(let community):
+        case .updateCommunityPost(let community):
             if let index = state.communityItems.firstIndex(where: { $0.communityId == community.communityId }) {
                 state.communityItems[index] = community
             }
@@ -159,8 +159,8 @@ class HPediaReactor: Reactor {
                 return .just(.addCommunityPost(community))
             case .deleteCommunityList(let community):
                 return .just(.deleteCommunityPost(community))
-            case .editCommunityList(let community):
-                return .just(.editCommunityPost(community))
+            case .updateCommunityList(let community):
+                return .just(.updateCommunityPost(community))
             default: return .empty()
             }
         }

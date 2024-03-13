@@ -38,7 +38,7 @@ class CommunityListReactor: Reactor {
         case setLoadedListPage(Set<Int>)
         case setLoadedSearchPage(Int)
         case setSelectedCategory(String)
-        case editCommunityList(CategoryList)
+        case updateCommunityList(CategoryList)
         case addCommunityList(CategoryList)
         case deleteCommunityList(CategoryList)
         case setIsLogin(Bool)
@@ -160,7 +160,7 @@ class CommunityListReactor: Reactor {
             state.loadedListPage = loadedPage
         case .setSelectedCategory(let category):
             state.selectedCategory = category
-        case .editCommunityList(let community):
+        case .updateCommunityList(let community):
             if let index = state.listItems.firstIndex(where: { $0.communityId == community.communityId }) {
                 state.listItems[index] = community
             }
@@ -189,8 +189,8 @@ class CommunityListReactor: Reactor {
                 return .just(.addCommunityList(community))
             case .deleteCommunityList(let community):
                 return .just(.deleteCommunityList(community))
-            case .editCommunityList(let community):
-                return .just(.editCommunityList(community))
+            case .updateCommunityList(let community):
+                return .just(.updateCommunityList(community))
             default: return .empty()
             }
         }
