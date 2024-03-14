@@ -172,10 +172,13 @@ extension UIViewController {
     }
     
     /// CommentDetailVC로 push
-    func presentCommentDetailViewController(_ comment: Comment?, _ communityCommet: CommunityComment?, _ service: DetailCommentService? = nil) {
+    func presentCommentDetailViewController(comment: Comment?, communityCommet: CommunityComment?, perfumeService: DetailCommentServiceProtocol?, communityService: CommunityListProtocol?) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor(comment, communityCommet, service)
+        commentDetailVC.reactor = CommentDetailReactor(comment: comment,
+                                                       communityComment: communityCommet,
+                                                       perfumeService: perfumeService,
+                                                       communityService: communityService)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     

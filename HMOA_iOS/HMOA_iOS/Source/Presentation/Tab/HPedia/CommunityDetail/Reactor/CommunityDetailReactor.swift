@@ -40,7 +40,7 @@ class CommunityDetailReactor: Reactor {
         case setIsEndEditing(Bool)
         case setIsDeleted(Bool)
         case setLoadedPage(Int)
-        case editComment(CommunityComment)
+        case updateCommunityComment(CommunityComment)
         case editCommunityPost(CommunityDetail)
         case setIsLogin(Bool)
         case setSelectedComment(Int?)
@@ -184,9 +184,10 @@ class CommunityDetailReactor: Reactor {
             state.commentItem = item
             state.communityItems.commentItem = item
             
-        case .editComment(let comment):
+        case .updateCommunityComment(let comment):
             if let index = state.commentItem.firstIndex(where: { $0?.commentId == comment.commentId }) {
                 state.communityItems.commentItem[index] = comment
+                state.commentItem[index] = comment
             }
             
         case .editCommunityPost(let detail):
@@ -202,7 +203,11 @@ class CommunityDetailReactor: Reactor {
             state.isLogin = isLogin
             
         case .setSelectedComment(let row):
-            guard let row = row else { return state }
+            guard let row = row
+            else {
+                state.selectedComment = nil
+                return state
+            }
             state.selectedComment = state.commentItem[row]
             
         case .setPostLike(let isLiked):
@@ -220,8 +225,8 @@ class CommunityDetailReactor: Reactor {
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         let eventMutation = service?.event.flatMap { event -> Observable<Mutation> in
             switch event {
-            case .editCommunityComment(let comment):
-                return .just(.editComment(comment))
+            case .updateCommunityComment(let comment):
+                return .just(.updateCommunityComment(comment))
             case .editCommunityDetail(let detail):
                 return .just(.editCommunityPost(detail))
             default: return .empty()
@@ -264,7 +269,7 @@ extension CommunityDetailReactor {
                     !commentItem.contains(where: { $0?.commentId == newComment.commentId })
                 }
                 commentItem.append(contentsOf: newComments)
-
+                
                 
                 return .concat([
                     .just(.setCommentItem(commentItem)),
@@ -279,20 +284,24 @@ extension CommunityDetailReactor {
         return CommunityAPI.postCommunityComment(currentState.communityId, param)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                
                 let commentItem = self.currentState.commentItem
+                var mutations: [Observable<Mutation>] = []
                 if !commentItem.contains(where: { $0?.commentId == data.commentId }) {
-                    return .concat([
-                        .just(.setComment(data)),
-                        .just(.setIsEndEditing(true)),
-                        .just(.setIsEndEditing(false))
-                    ])
-                } else {
-                    return .concat([
-                        .just(.setIsEndEditing(true)),
-                        .just(.setIsEndEditing(false))
-                    ])
+                    mutations.append(.just(.setComment(data)))
                 }
+                mutations.append(.just(.setIsEndEditing(true)))
+                mutations.append(.just(.setIsEndEditing(false)))
+                
+                guard let service = self.service else { return .empty() }
+                
+                return service.updateCommunityList(to: CategoryList(
+                    communityId: self.currentState.communityId,
+                    category: self.currentState.category,
+                    title: self.currentState.postItem.first!.title,
+                    commentCount: self.currentState.commentCount! + 1,
+                    heartCount: self.currentState.likeCount!,
+                    liked: self.currentState.isLiked))
+                .flatMap { _ -> Observable<Mutation> in .merge(mutations) }
             }
     }
     
@@ -301,11 +310,20 @@ extension CommunityDetailReactor {
         var commentItem = currentState.commentItem
         commentItem.remove(at: row)
         
-        return .concat([
-            .just(.setCommentItem(commentItem)),
-            .just(.setSelectedCommentRow(nil)),
-            .just(.setCommentCount(currentState.commentCount! - 1))
-        ])
+        return self.service!.updateCommunityList(to: CategoryList(
+            communityId: self.currentState.communityId,
+            category: self.currentState.category,
+            title: self.currentState.postItem.first!.title,
+            commentCount: self.currentState.commentCount! - 1,
+            heartCount: self.currentState.likeCount!,
+            liked: self.currentState.isLiked))
+        .flatMap { _ -> Observable<Mutation> in
+            return .concat([
+                .just(.setCommentItem(commentItem)),
+                .just(.setSelectedCommentRow(nil)),
+                .just(.setCommentCount(self.currentState.commentCount! - 1))
+            ])
+        }
     }
     
     func setPostLike() -> Observable<Mutation> {

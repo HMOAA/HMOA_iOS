@@ -155,7 +155,7 @@ extension CommentWriteReactor {
             .catch { _ in .empty() }
             .flatMap { comment -> Observable<Mutation> in
                 return .concat([
-                    self.communityService!.editCommunityComment(to: comment)
+                    self.communityService!.updateCommunityComment(to: comment)
                         .map { _ in .setIsPopVC(true) },
                     .just(.setIsPopVC(false))
                 ])

@@ -263,6 +263,7 @@ class CommunityDetailViewController: UIViewController, View {
         // 텍스트 뷰 높이에 따라 commentWrite뷰 높이 변경
         reactor.state
             .map { $0.commentContent }
+            .skip(1)
             .map { _ in
                 let contentSize = self.commentTextView.sizeThatFits(CGSize(width: self.commentTextView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
                 return contentSize.height + 13
@@ -310,11 +311,14 @@ class CommunityDetailViewController: UIViewController, View {
         
         reactor.state
             .map { $0.selectedComment }
-            .distinctUntilChanged()
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, communityComment in
-                owner.presentCommentDetailViewController(nil, communityComment)
+                owner.presentCommentDetailViewController(
+                    comment: nil,
+                    communityCommet: communityComment,
+                    perfumeService: nil,
+                    communityService: reactor.service)
             })
             .disposed(by: disposeBag)
     }
