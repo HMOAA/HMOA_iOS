@@ -54,7 +54,7 @@ struct CommunityComment: Codable, Hashable {
     let communityId: Int?
     let content, profileImg, time: String
     let writed: Bool
-    let heartCount: Int
-    let liked: Bool
+    var heartCount: Int
+    var liked: Bool
 }
 

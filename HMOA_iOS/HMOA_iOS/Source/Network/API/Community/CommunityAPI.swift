@@ -181,6 +181,26 @@ final class CommunityAPI {
             data: nil,
             model: Response.self)
     }
+    
+    /// community 댓글 좋아요
+    /// - Parameter id: 게시글 id
+    static func putCommunityCommentLike(id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: CommunityAddress.putOrDeleteCommunityCommentLike(("\(id)")).url,
+            method: .put,
+            data: nil,
+            model: Response.self)
+    }
+    
+    /// community 댓글 좋아요 삭제
+    /// - Parameter id: 게시글 id
+    static func deleteCommunityCommentLike(id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: CommunityAddress.putOrDeleteCommunityCommentLike(("\(id)")).url,
+            method: .delete,
+            data: nil,
+            model: Response.self)
+    }
 }
     
 
