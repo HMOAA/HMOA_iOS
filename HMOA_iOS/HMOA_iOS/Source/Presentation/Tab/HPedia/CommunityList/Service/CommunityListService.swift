@@ -12,7 +12,7 @@ enum CommunityListUserEvent {
     case addCommunityList(CategoryList)
     case deleteCommunityList(CategoryList)
     case updateCommunityList(CategoryList)
-    case editCommunityComment(CommunityComment)
+    case updateCommunityComment(CommunityComment)
     case editCommunityDetail(CommunityDetail)
 }
 
@@ -25,7 +25,7 @@ protocol CommunityListProtocol {
     
     func addCommunityList(to communityList: CategoryList) -> Observable<CategoryList>
     
-    func editCommunityComment(to comment: CommunityComment) -> Observable<CommunityComment>
+    func updateCommunityComment(to comment: CommunityComment) -> Observable<CommunityComment>
     
     func editCommunityDetail(to detail: CommunityDetail) -> Observable<CommunityDetail>
     
@@ -40,8 +40,8 @@ class CommunityListService: CommunityListProtocol {
         return .just(detail)
     }
     
-    func editCommunityComment(to comment: CommunityComment) -> Observable<CommunityComment> {
-        event.onNext(.editCommunityComment(comment))
+    func updateCommunityComment(to comment: CommunityComment) -> Observable<CommunityComment> {
+        event.onNext(.updateCommunityComment(comment))
         return .just(comment)
     }
     
