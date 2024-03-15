@@ -90,12 +90,12 @@ class CommunityPostCell: UICollectionViewCell {
         
         if userMarkImageView.isHidden {
             dayLabel.snp.makeConstraints {
-                $0.centerY.equalTo(profileImageView)
-                $0.leading.equalTo(nicknameLabel.snp.trailing).offset(2)
+                $0.bottom.equalTo(nicknameLabel.snp.bottom)
+                $0.leading.equalTo(nicknameLabel.snp.trailing).offset(7)
             }
         } else {
             dayLabel.snp.makeConstraints {
-                $0.centerY.equalTo(profileImageView)
+                $0.bottom.equalTo(nicknameLabel.snp.bottom)
                 $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
             }
         }
@@ -109,7 +109,7 @@ class CommunityPostCell: UICollectionViewCell {
     private func setUpUI() {
         layer.borderWidth = 1
         layer.borderColor = UIColor.customColor(.gray2).cgColor
-        layer.cornerRadius = 10
+        layer.cornerRadius = 3
     }
     
     private func setAddView() {

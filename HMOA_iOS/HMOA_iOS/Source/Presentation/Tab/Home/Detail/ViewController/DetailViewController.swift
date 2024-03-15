@@ -128,7 +128,12 @@ extension DetailViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, comment in owner.presentCommentDetailViewController(comment, nil, nil)
+            .drive(with: self, onNext: { owner, comment in 
+                owner.presentCommentDetailViewController(
+                    comment: comment,
+                    communityCommet: nil,
+                    perfumeService: nil,
+                    communityService: nil)
             })
             .disposed(by: disposeBag)
         

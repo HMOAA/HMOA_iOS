@@ -86,12 +86,12 @@ class CommentDetailViewController: UIViewController, View {
         super.viewDidLayoutSubviews()
         if userMarkImageView.isHidden {
             dateLabel.snp.makeConstraints {
-                $0.centerY.equalTo(userImageView)
-                $0.leading.equalTo(userNameLabel.snp.trailing).offset(2)
+                $0.bottom.equalTo(userNameLabel.snp.bottom)
+                $0.leading.equalTo(userNameLabel.snp.trailing).offset(7)
             }
         } else {
             dateLabel.snp.makeConstraints {
-                $0.centerY.equalTo(userImageView)
+                $0.bottom.equalTo(userNameLabel.snp.bottom)
                 $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
             }
         }
