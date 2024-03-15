@@ -40,7 +40,7 @@ class HPediaCommunityCell: UICollectionViewCell{
             if !isListCell {
                 layer.borderWidth = 1
                 layer.borderColor = UIColor.customColor(.gray2).cgColor
-                layer.cornerRadius = 10
+                layer.cornerRadius = 3
             } else {
                 layer.addBorder([.bottom], color: .customColor(.gray2), width: 1)
             }

@@ -19,7 +19,7 @@ class CommentCell: UICollectionViewCell {
     
     // MARK: - Properties
     private lazy var subView = UIView().then {
-        $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = 3
         $0.isHidden = true
         $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
         $0.layer.borderWidth = 1
@@ -118,6 +118,7 @@ extension CommentCell {
             communityNoCommentLabel.isHidden = true
             dateLabel.text = item.time
             userMarkImageView.isHidden = !item.writed
+            commentLikeButton.isSelected = item.liked
             commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
         } else { communityNoCommentLabel.isHidden = false }
     }
@@ -190,13 +191,13 @@ extension CommentCell {
         
         optionButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(7.2)
-            make.bottom.equalToSuperview().inset(8.2)
+            make.bottom.equalToSuperview().inset(7.2)
             make.height.equalTo(20)
         }
         
         commentLikeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(14)
-            $0.trailing.equalToSuperview().inset(10)
+            $0.top.equalToSuperview().inset(10)
+            $0.trailing.equalToSuperview().inset(12)
             $0.height.equalTo(20)
         }
         
@@ -206,12 +207,12 @@ extension CommentCell {
         
         if userMarkImageView.isHidden {
             dateLabel.snp.remakeConstraints {
-                $0.centerY.equalTo(userImageView)
-                $0.leading.equalTo(userNameLabel.snp.trailing).offset(2)
+                $0.bottom.equalTo(userNameLabel.snp.bottom)
+                $0.leading.equalTo(userNameLabel.snp.trailing).offset(7)
             }
         } else {
             dateLabel.snp.remakeConstraints {
-                $0.centerY.equalTo(userImageView)
+                $0.bottom.equalTo(userNameLabel.snp.bottom)
                 $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
             }
         }

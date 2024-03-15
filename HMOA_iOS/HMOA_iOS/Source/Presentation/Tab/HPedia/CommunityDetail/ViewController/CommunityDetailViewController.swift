@@ -245,6 +245,7 @@ class CommunityDetailViewController: UIViewController, View {
                 
                 snapshot.appendItems(items.commentItem.map { .commentCell($0) }, toSection: .comment)
                 
+                
                 datasource.apply(snapshot)
             })
             .disposed(by: disposeBag)
@@ -487,10 +488,11 @@ extension CommunityDetailViewController: UITextViewDelegate {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(20)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-        sectionHeader.contentInsets = .init(top: 0, leading: 0, bottom: 12, trailing: 0)
+        
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 8
         section.boundarySupplementaryItems = [sectionHeader]
+        section.contentInsets = .init(top: 0, leading: 0, bottom: 21, trailing: 0)
         return section
     }
     
