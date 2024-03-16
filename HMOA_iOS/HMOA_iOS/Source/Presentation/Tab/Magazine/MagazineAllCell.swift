@@ -73,7 +73,7 @@ class MagazineAllCell: UICollectionViewCell {
         }
         
         stackView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     

@@ -73,6 +73,7 @@ class MagazineMainCell: UICollectionViewCell {
     private func setConstraints() {
         coverImageView.snp.makeConstraints { make in
             make.top.bottom.leading.trailing.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         labelStackView.snp.makeConstraints { make in
