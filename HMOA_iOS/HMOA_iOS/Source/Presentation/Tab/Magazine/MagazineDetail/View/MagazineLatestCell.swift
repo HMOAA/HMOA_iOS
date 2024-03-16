@@ -27,8 +27,6 @@ class MagazineLatestCell: UICollectionViewCell {
     
     // 슬로건 라벨
     private let sloganLabel = UILabel().then {
-        
-        // TODO: 베경 추가 후 white로 변경
         $0.setLabelUI("", font: .pretendard, size: 12, color: .white)
     }
     

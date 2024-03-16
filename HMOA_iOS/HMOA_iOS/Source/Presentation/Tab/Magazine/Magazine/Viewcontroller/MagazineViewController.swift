@@ -11,13 +11,6 @@ import ReactorKit
 import RxSwift
 
 class MagazineViewController: UIViewController, View {
-
-    enum MagazineSection: Hashable {
-        case mainBanner
-        case newPerfume
-        case topReview
-        case allMagazine
-    }
     
     enum SupplementaryViewKind {
         static let header = "magazineHeader"
@@ -34,7 +27,7 @@ class MagazineViewController: UIViewController, View {
     }
     
     // MARK: - Properties
-    private var dataSource: UICollectionViewDiffableDataSource<MagazineSection, MagazineItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<MagazineSection, MagazineItem>?
     
     private var sections = [MagazineSection]()
     
@@ -70,7 +63,6 @@ class MagazineViewController: UIViewController, View {
             .map { $0.mainBannerItems }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] items in
-                guard let dataSource = self?.dataSource else { return }
                 self?.updateSnapshot(forSection: .mainBanner, withItems: items)
             })
             .disposed(by: disposeBag)
@@ -80,7 +72,6 @@ class MagazineViewController: UIViewController, View {
             .map { $0.newPerfumeItems }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] items in
-                guard let dataSource = self?.dataSource else { return }
                 self?.updateSnapshot(forSection: .newPerfume, withItems: items)
             })
             .disposed(by: disposeBag)
@@ -90,8 +81,6 @@ class MagazineViewController: UIViewController, View {
             .map { $0.topReviewItems }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] items in
-                guard let dataSource = self?.dataSource else { return }
-                
                 self?.updateSnapshot(forSection: .topReview, withItems: items)
             })
             .disposed(by: disposeBag)
@@ -101,7 +90,6 @@ class MagazineViewController: UIViewController, View {
             .map { $0.allMagazineItems }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] items in
-                guard let dataSource = self?.dataSource else { return }
                 self?.updateSnapshot(forSection: .allMagazine, withItems: items)
             })
             .disposed(by: disposeBag)
@@ -130,7 +118,7 @@ class MagazineViewController: UIViewController, View {
     
     private func setConstraints() {
         magazineCollectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     
@@ -245,7 +233,7 @@ class MagazineViewController: UIViewController, View {
         })
         
         // MARK: Supplementary View Provider
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
             switch kind {
             case SupplementaryViewKind.header:
                 let section = self.sections[indexPath.section]
@@ -285,10 +273,11 @@ class MagazineViewController: UIViewController, View {
         initialSnapshot.appendItems(MagazineItem.magazines, toSection: .allMagazine)
         
         sections = initialSnapshot.sectionIdentifiers
-        dataSource.apply(initialSnapshot, animatingDifferences: false)
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
     
     private func updateSnapshot(forSection section: MagazineSection, withItems items: [MagazineItem]) {
+        guard let dataSource = self.dataSource else { return }
         
         var snapshot = dataSource.snapshot()
         

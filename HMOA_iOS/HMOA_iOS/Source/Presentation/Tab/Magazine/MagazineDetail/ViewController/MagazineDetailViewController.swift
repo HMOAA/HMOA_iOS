@@ -12,11 +12,6 @@ import SnapKit
 
 class MagazineDetailViewController: UIViewController, View {
     
-    enum MagazineDetailSection: Hashable {
-        case magazineContent
-        case latestMagazine
-    }
-    
     enum SupplementaryViewKind {
         static let header = "magazineDetailHeader"
         static let background = "magazineDetailBackground"
@@ -31,7 +26,7 @@ class MagazineDetailViewController: UIViewController, View {
         $0.register(MagazineDetailHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.header, withReuseIdentifier: MagazineDetailHeaderView.identifier)
     }
     
-    private var dataSource: UICollectionViewDiffableDataSource<MagazineDetailSection, MagazineItem>!
+    private var dataSource: UICollectionViewDiffableDataSource<MagazineDetailSection, MagazineItem>?
     
     private var sections = [MagazineDetailSection]()
     
@@ -65,7 +60,7 @@ class MagazineDetailViewController: UIViewController, View {
     
     private func setConstraints() {
         magazineDetailCollectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     
@@ -134,7 +129,7 @@ class MagazineDetailViewController: UIViewController, View {
         })
         
         // MARK: Supplementary View Provider
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
             switch kind {
             case SupplementaryViewKind.header:
                 let section = self.sections[indexPath.section]
@@ -164,6 +159,6 @@ class MagazineDetailViewController: UIViewController, View {
         snapshot.appendItems(MagazineItem.mainMagazines, toSection: .latestMagazine)
         
         sections = snapshot.sectionIdentifiers
-        dataSource.apply(snapshot)
+        dataSource?.apply(snapshot)
     }
 }

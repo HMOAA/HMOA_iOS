@@ -28,7 +28,7 @@ class MagazineReactor: Reactor {
         var selectedMagazine: MagazineItem? = nil
     }
     
-    var initialState: State = State()
+    var initialState: State
     
     init() {
         self.initialState = State()

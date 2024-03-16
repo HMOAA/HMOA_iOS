@@ -133,9 +133,19 @@ class MagazineDetailCell: UICollectionViewCell {
     // MARK: - Setup Methods
     
     private func setAddView() {
-        [sloganLabel, perfumeNameLabel, dateLabel, viewCountStackView,
-         coverImageView, descriptionLabel, separatorLine1, contentLabel,
-         separatorLine2, likeStackView, separatorLine3].forEach { addSubview($0) }
+        [
+            sloganLabel,
+            perfumeNameLabel,
+            dateLabel,
+            viewCountStackView,
+            coverImageView,
+            descriptionLabel,
+            separatorLine1,
+            contentLabel,
+            separatorLine2,
+            likeStackView,
+            separatorLine3
+        ].forEach { addSubview($0) }
         
         // 스택 뷰
         [viewCountImageView, viewCountLabel].forEach { viewCountStackView.addArrangedSubview($0) }
