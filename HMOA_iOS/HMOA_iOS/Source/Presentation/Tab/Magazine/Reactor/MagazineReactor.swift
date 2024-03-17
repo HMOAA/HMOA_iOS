@@ -1,8 +1,8 @@
 //
-//  MagazineDetailReactor.swift
+//  MagazineReactor.swift
 //  HMOA_iOS
 //
-//  Created by 곽다은 on 3/4/24.
+//  Created by 정지훈 on 2/22/24.
 //
 
 import Foundation
@@ -10,7 +10,8 @@ import Foundation
 import ReactorKit
 import RxSwift
 
-class MagazineDetailReactor: Reactor {
+class MagazineReactor: Reactor {
+    var initialState: State
     
     enum Action {
         
@@ -24,10 +25,8 @@ class MagazineDetailReactor: Reactor {
         
     }
     
-    let initialState: State
-    
     init() {
-        self.initialState = State()
+        initialState = State()
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -41,6 +40,7 @@ class MagazineDetailReactor: Reactor {
         switch mutation {
             
         }
+        
         return state
     }
 }
