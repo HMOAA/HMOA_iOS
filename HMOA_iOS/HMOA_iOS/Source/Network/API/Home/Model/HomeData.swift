@@ -27,3 +27,6 @@ struct RecommendPerfume: Codable, Hashable{
 
 
 typealias HomeSecondData = [RecommendPerfumeList]
+
+
+
