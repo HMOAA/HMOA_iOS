@@ -12,11 +12,6 @@ import RxSwift
 
 class MagazineViewController: UIViewController, View {
     
-    enum SupplementaryViewKind {
-        static let header = "magazineHeader"
-        static let bannerBackground = "magazineBannerBackground"
-    }
-    
     private lazy var magazineCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
         $0.register(MagazineMainCell.self, forCellWithReuseIdentifier: MagazineMainCell.identifier)
         $0.register(MagazineNewPerfumeCell.self, forCellWithReuseIdentifier: MagazineNewPerfumeCell.identifier)
@@ -134,7 +129,7 @@ class MagazineViewController: UIViewController, View {
             let section = self.sections[sectionIndex]
             switch section {
             case .mainBanner:
-                let backgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: SupplementaryViewKind.bannerBackground)
+                let backgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: SupplementaryViewKind.background)
                 
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(centerImageHeight))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -196,7 +191,7 @@ class MagazineViewController: UIViewController, View {
             }
         }
         
-        layout.register(BackgroundDecorationView.self, forDecorationViewOfKind: SupplementaryViewKind.bannerBackground)
+        layout.register(BackgroundDecorationView.self, forDecorationViewOfKind: SupplementaryViewKind.background)
         
         return layout
     }
