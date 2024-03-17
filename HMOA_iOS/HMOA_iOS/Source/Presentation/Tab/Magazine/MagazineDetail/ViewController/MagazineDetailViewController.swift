@@ -12,11 +12,6 @@ import SnapKit
 
 class MagazineDetailViewController: UIViewController, View {
     
-    enum SupplementaryViewKind {
-        static let header = "magazineDetailHeader"
-        static let background = "magazineDetailBackground"
-    }
-    
     // MARK: - Properties
     
     private lazy var magazineDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
