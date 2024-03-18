@@ -22,8 +22,8 @@ class MyLogCommentReactor: Reactor {
     }
     
     enum Mutation {
-        case setPerfumeItem([Comment])
-        case setCommunityItem([CommunityComment])
+        case setPerfumeItem([MyLogComment])
+        case setCommunityItem([MyLogComment])
         case setCommentType(MyLogCommentSectionItem)
         case setLoadedPage(Set<Int>)
         case setPerfumeId(Int?)
@@ -31,8 +31,8 @@ class MyLogCommentReactor: Reactor {
     }
     
     struct State {
-        var perfumeItem: [Comment] = []
-        var communityItem: [CommunityComment] = []
+        var perfumeItem: [MyLogComment] = []
+        var communityItem: [MyLogComment] = []
         var items: MyLogCommentData = MyLogCommentData(perfume: [], community: [])
         var commentType: MyLogCommentSectionItem
         var page: Int = 0
@@ -51,7 +51,7 @@ class MyLogCommentReactor: Reactor {
         switch action {
         case .viewDidLoad:
             switch currentState.commentType {
-            case .liked(_):
+            case .liked:
                 return setLikedPerfumeComment(0, [])
             default: return setWritedPerfumeCommentList(0, [])
             }
@@ -76,12 +76,12 @@ class MyLogCommentReactor: Reactor {
             switch currentState.commentType {
             case .perfume(_), .liked(_):
                 return .concat([
-                    .just(.setPerfumeId(currentState.perfumeItem[row].perfumeId)),
+                    .just(.setPerfumeId(currentState.perfumeItem[row].parentId)),
                     .just(.setPerfumeId(nil))
                 ])
             case .community(_):
                 return .concat([
-                    .just(.setCommunityId(currentState.communityItem[row].communityId)),
+                    .just(.setCommunityId(currentState.communityItem[row].parentId)),
                     .just(.setCommunityId(nil))
                 ])
             }

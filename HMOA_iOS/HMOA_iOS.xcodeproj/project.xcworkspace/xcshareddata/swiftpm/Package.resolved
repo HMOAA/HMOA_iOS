@@ -1,32 +1,69 @@
 {
+  "originHash" : "17ad9c1b9344646ba7987bf9895fd5665d055e04b39c551c26234393538683d7",
   "pins" : [
     {
-      "identity" : "errorkit",
+      "identity" : "alamofire",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jaemyeong/ErrorKit.git",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "4510255a5254f8f8f26b2d9ada4afc03a7c49b1a",
-        "version" : "0.1.14"
+        "revision" : "723fa5a6c65812aec4a0d7cc432ee198883b6e00",
+        "version" : "5.9.0"
       }
     },
     {
-      "identity" : "pretendard",
+      "identity" : "kakao-ios-sdk",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jaemyeong/Pretendard.git",
+      "location" : "https://github.com/kakao/kakao-ios-sdk.git",
       "state" : {
-        "revision" : "b0ca1773eb0559abcfaa1298caa14fea79d7072a",
-        "version" : "0.2.5"
+        "revision" : "39640d334d2766209a1afe618bc102046969220e",
+        "version" : "2.21.0"
       }
     },
     {
-      "identity" : "swift-log",
+      "identity" : "kakao-ios-sdk-rx",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-log.git",
+      "location" : "https://github.com/kakao/kakao-ios-sdk-rx",
       "state" : {
-        "revision" : "32e8d724467f8fe623624570367e3d50c5638e46",
-        "version" : "1.5.2"
+        "revision" : "190957a04b9fe6c36690381b3ca97efe13cafddb",
+        "version" : "2.21.0"
+      }
+    },
+    {
+      "identity" : "ohhttpstubs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AliSoftware/OHHTTPStubs.git",
+      "state" : {
+        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
+        "version" : "9.1.0"
+      }
+    },
+    {
+      "identity" : "pretendardkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wookeon/PretendardKit.git",
+      "state" : {
+        "revision" : "d8362d8ecee86c297f2784fa453037136914bc2c",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "rxalamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RxSwiftCommunity/RxAlamofire.git",
+      "state" : {
+        "revision" : "9535b58695b91fb67f56d58d6fd0c76462d7743a",
+        "version" : "6.1.2"
+      }
+    },
+    {
+      "identity" : "rxswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactiveX/RxSwift.git",
+      "state" : {
+        "revision" : "9dcaa4b333db437b0fbfaf453fad29069044a8b4",
+        "version" : "6.6.0"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

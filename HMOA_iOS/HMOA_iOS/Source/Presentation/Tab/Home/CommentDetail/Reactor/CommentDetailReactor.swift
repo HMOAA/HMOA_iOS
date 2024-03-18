@@ -12,7 +12,8 @@ import UIKit
 class CommentDetailReactor: Reactor {
     
     var initialState: State
-    let service: DetailCommentServiceProtocol?
+    let perfumeService: DetailCommentServiceProtocol?
+    let communityService: CommunityListProtocol?
     
     enum Action {
         case didTapLikeButton
@@ -35,10 +36,12 @@ class CommentDetailReactor: Reactor {
         var isTapWhenNotLogin: Bool = false
     }
     
-    init(_ comment: Comment?, _ communityComment: CommunityComment?, _ service: DetailCommentServiceProtocol?) {
+    init(comment: Comment?, communityComment: CommunityComment?, perfumeService: DetailCommentServiceProtocol?, communityService: CommunityListProtocol?) {
         
-        initialState = State(comment: comment, communityCommet: communityComment, isLiked: comment?.liked ?? false)
-        self.service = service
+        initialState = State(comment: comment, communityCommet: communityComment, isLiked: comment?.liked ?? false || communityComment?.liked ?? false)
+        
+        self.perfumeService = perfumeService
+        self.communityService = communityService
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -64,8 +67,16 @@ class CommentDetailReactor: Reactor {
         switch mutation {
         case .setCommentLike(let isLike):
             state.isLiked = isLike
-            let heartCount = state.comment!.heartCount
-            state.comment?.heartCount = isLike ? heartCount + 1 : heartCount - 1
+            if var perfumeComment = state.comment {
+                let heartCount = perfumeComment.heartCount
+                perfumeComment.heartCount = isLike ? heartCount + 1 : heartCount - 1
+                state.comment = perfumeComment
+            } else {
+                var communityCommet = state.communityCommet!
+                let heartCount = communityCommet.heartCount
+                communityCommet.heartCount = isLike ? heartCount + 1 : heartCount - 1
+                state.communityCommet = communityCommet
+            }
             
         case .setCommentContent(let comment):
             state.content = comment
@@ -84,27 +95,52 @@ class CommentDetailReactor: Reactor {
 extension CommentDetailReactor {
     
     func setCommentLike() -> Observable<Mutation> {
-        var comment = currentState.comment!
-        if !currentState.isLiked {
-            return CommentAPI.putCommentLike(comment.id)
-                .catch { _ in .empty() }
-                .flatMap { _ -> Observable<Mutation> in
-                    comment.liked = true
-                    comment.heartCount += 1
-                    guard let service = self.service else { return .just(.setCommentLike(true)) }
-                    return service.setCommentLike(to: comment)
-                        .map { _ in .setCommentLike(true) }
-                }
+        
+        if var comment = currentState.comment {
+            if !currentState.isLiked {
+                return CommentAPI.putCommentLike(comment.id)
+                    .catch { _ in .empty() }
+                    .flatMap { _ -> Observable<Mutation> in
+                        comment.liked = true
+                        comment.heartCount += 1
+                        guard let service = self.perfumeService else { return .just(.setCommentLike(true)) }
+                        return service.setCommentLike(to: comment)
+                            .map { _ in .setCommentLike(true) }
+                    }
+            } else {
+                return CommentAPI.deleteCommentLike(currentState.comment!.id)
+                    .catch { _ in .empty() }
+                    .flatMap { _ -> Observable<Mutation> in
+                        comment.liked = false
+                        comment.heartCount -= 1
+                        guard let service = self.perfumeService else { return .just(.setCommentLike(false)) }
+                        return service.setCommentLike(to: comment)
+                            .map { _ in .setCommentLike(false) }
+                    }
+            }
         } else {
-            return CommentAPI.deleteCommentLike(currentState.comment!.id)
-                .catch { _ in .empty() }
-                .flatMap { _ -> Observable<Mutation> in
-                    comment.liked = false
-                    comment.heartCount -= 1
-                    guard let service = self.service else { return .just(.setCommentLike(false)) }
-                    return service.setCommentLike(to: comment)
-                        .map { _ in .setCommentLike(false) }
-                }
+            var comment = currentState.communityCommet!
+            if !currentState.isLiked {
+                return CommunityAPI.putCommunityCommentLike(id: comment.commentId!)
+                    .catch { _ in .empty() }
+                    .flatMap { _ -> Observable<Mutation> in
+                        comment.liked = true
+                        comment.heartCount += 1
+                        guard let service = self.communityService else { return .just(.setCommentLike(true)) }
+                        return service.updateCommunityComment(to: comment)
+                            .map { _ in .setCommentLike(true) }
+                    }
+            } else {
+                return CommunityAPI.deleteCommunityCommentLike(id: comment.commentId!)
+                    .catch { _ in .empty() }
+                    .flatMap { _ -> Observable<Mutation> in
+                        comment.liked = false
+                        comment.heartCount -= 1
+                        guard let service = self.communityService else { return .just(.setCommentLike(false)) }
+                        return service.updateCommunityComment(to: comment)
+                            .map { _ in .setCommentLike(false) }
+                    }
+            }
         }
     }
 }

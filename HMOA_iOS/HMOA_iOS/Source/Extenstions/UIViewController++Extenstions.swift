@@ -75,10 +75,20 @@ extension UIViewController {
         self.navigationController?.pushViewController(CommunityDetailVC, animated: true)
     }
 
-    /// hpediaHomeVC, writedPostVC -> communityDetailVC
+    /// writedPostVC -> communityDetailVC
     func presentCommunityDetailVC(_ id: Int) {
         let CommunityDetailVC = CommunityDetailViewController()
         let detailReactor = CommunityDetailReactor(id, CommunityListService())
+        
+        CommunityDetailVC.reactor = detailReactor
+        CommunityDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(CommunityDetailVC, animated: true)
+    }
+    
+    // hpediaHomeVC -> communityDetailVC
+    func presentCommunityDetailVC(reactor: HPediaReactor) {
+        let CommunityDetailVC = CommunityDetailViewController()
+        let detailReactor = reactor.reactorForDetail()
         
         CommunityDetailVC.reactor = detailReactor
         CommunityDetailVC.hidesBottomBarWhenPushed = true
@@ -113,9 +123,10 @@ extension UIViewController {
     }
     
     /// CommunityListVC로 push
-    func presentCommunityListVC() {
+    func presentCommunityListVC(_ reactor: HPediaReactor) {
         let CommunityListVC = CommunityListViewController()
-        CommunityListVC.reactor = CommunityListReactor(service: CommunityListService())
+        let reactor = reactor.reactorForCommunityList()
+        CommunityListVC.reactor = reactor
         self.navigationController?.pushViewController(CommunityListVC, animated: true)
     }
     
@@ -161,10 +172,13 @@ extension UIViewController {
     }
     
     /// CommentDetailVC로 push
-    func presentCommentDetailViewController(_ comment: Comment?, _ communityCommet: CommunityComment?, _ service: DetailCommentService? = nil) {
+    func presentCommentDetailViewController(comment: Comment?, communityCommet: CommunityComment?, perfumeService: DetailCommentServiceProtocol?, communityService: CommunityListProtocol?) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor(comment, communityCommet, service)
+        commentDetailVC.reactor = CommentDetailReactor(comment: comment,
+                                                       communityComment: communityCommet,
+                                                       perfumeService: perfumeService,
+                                                       communityService: communityService)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
