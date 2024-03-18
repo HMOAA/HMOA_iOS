@@ -16,6 +16,8 @@ enum CommunityAddress {
     case editOrDeleteComment(String)
     case putOrDeleteCommunityPost(String)
     case fetchHpediaHome
+    case putOrDeleteCommunityPostLike(String)
+    case putOrDeleteCommunityCommentLike(String)
 }
 
 extension CommunityAddress {
@@ -37,7 +39,10 @@ extension CommunityAddress {
             return "community/\(id)"
         case .fetchHpediaHome:
             return "community/home"
-            
+        case .putOrDeleteCommunityPostLike(let id):
+            return "community/\(id)/like"
+        case .putOrDeleteCommunityCommentLike(let id):
+            return "community/comment/\(id)/like"
         }
     }
 }

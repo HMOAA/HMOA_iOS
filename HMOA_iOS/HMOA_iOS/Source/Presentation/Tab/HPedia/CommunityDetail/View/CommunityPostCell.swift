@@ -16,6 +16,7 @@ class CommunityPostCell: UICollectionViewCell {
     static let identifier = "CommunityPostCell"
     
     //MARK: - UIComponents
+    
     private let QLabel = UILabel().then {
         $0.setLabelUI("Q", font: .pretendard_bold, size: 26, color: .black)
     }
@@ -62,6 +63,10 @@ class CommunityPostCell: UICollectionViewCell {
         $0.isHidden = true
     }
     
+    let likeButton = UIButton().then {
+        $0.makeLikeButton()
+    }
+    
     var disposeBag = DisposeBag()
     
     //MARK: - Init
@@ -85,12 +90,12 @@ class CommunityPostCell: UICollectionViewCell {
         
         if userMarkImageView.isHidden {
             dayLabel.snp.makeConstraints {
-                $0.centerY.equalTo(profileImageView)
-                $0.leading.equalTo(nicknameLabel.snp.trailing).offset(2)
+                $0.bottom.equalTo(nicknameLabel.snp.bottom)
+                $0.leading.equalTo(nicknameLabel.snp.trailing).offset(7)
             }
         } else {
             dayLabel.snp.makeConstraints {
-                $0.centerY.equalTo(profileImageView)
+                $0.bottom.equalTo(nicknameLabel.snp.bottom)
                 $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
             }
         }
@@ -104,7 +109,7 @@ class CommunityPostCell: UICollectionViewCell {
     private func setUpUI() {
         layer.borderWidth = 1
         layer.borderColor = UIColor.customColor(.gray2).cgColor
-        layer.cornerRadius = 10
+        layer.cornerRadius = 3
     }
     
     private func setAddView() {
@@ -118,7 +123,8 @@ class CommunityPostCell: UICollectionViewCell {
             contentLabel,
             optionButton,
             photoCollectionView,
-            pageControl
+            pageControl,
+            likeButton
         ]   .forEach { addSubview($0) }
     }
     
@@ -160,6 +166,10 @@ class CommunityPostCell: UICollectionViewCell {
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.bottom.lessThanOrEqualToSuperview().inset(48)
+        }
+        
+        likeButton.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview().inset(16)
         }
     }
 }

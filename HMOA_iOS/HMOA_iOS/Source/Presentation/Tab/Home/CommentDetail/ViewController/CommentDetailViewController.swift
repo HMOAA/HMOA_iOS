@@ -86,12 +86,12 @@ class CommentDetailViewController: UIViewController, View {
         super.viewDidLayoutSubviews()
         if userMarkImageView.isHidden {
             dateLabel.snp.makeConstraints {
-                $0.centerY.equalTo(userImageView)
-                $0.leading.equalTo(userNameLabel.snp.trailing).offset(2)
+                $0.bottom.equalTo(userNameLabel.snp.bottom)
+                $0.leading.equalTo(userNameLabel.snp.trailing).offset(7)
             }
         } else {
             dateLabel.snp.makeConstraints {
-                $0.centerY.equalTo(userImageView)
+                $0.bottom.equalTo(userNameLabel.snp.bottom)
                 $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
             }
         }
@@ -131,7 +131,6 @@ extension CommentDetailViewController {
                 owner.commentLikeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(comment.heartCount)", size: 12, font: .pretendard_light)
                 
                 owner.userMarkImageView.isHidden = !comment.writed
-                //owner.view.setNeedsUpdateConstraints()
             })
             .disposed(by: disposeBag)
         
@@ -145,8 +144,8 @@ extension CommentDetailViewController {
                 owner.dateLabel.text = comment.time
                 owner.contentLabel.text = comment.content
                 owner.userNameLabel.text = comment.author
-                owner.commentLikeButton.isHidden = true
                 owner.userMarkImageView.isHidden = !comment.writed
+                owner.commentLikeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(comment.heartCount)", size: 12, font: .pretendard_light)
             })
             .disposed(by: disposeBag)
         

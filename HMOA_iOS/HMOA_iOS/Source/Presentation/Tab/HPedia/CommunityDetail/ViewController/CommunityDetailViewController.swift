@@ -245,6 +245,7 @@ class CommunityDetailViewController: UIViewController, View {
                 
                 snapshot.appendItems(items.commentItem.map { .commentCell($0) }, toSection: .comment)
                 
+                
                 datasource.apply(snapshot)
             })
             .disposed(by: disposeBag)
@@ -262,7 +263,8 @@ class CommunityDetailViewController: UIViewController, View {
         
         // 텍스트 뷰 높이에 따라 commentWrite뷰 높이 변경
         reactor.state
-            .map { $0.content }
+            .map { $0.commentContent }
+            .skip(1)
             .map { _ in
                 let contentSize = self.commentTextView.sizeThatFits(CGSize(width: self.commentTextView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
                 return contentSize.height + 13
@@ -310,11 +312,14 @@ class CommunityDetailViewController: UIViewController, View {
         
         reactor.state
             .map { $0.selectedComment }
-            .distinctUntilChanged()
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, communityComment in
-                owner.presentCommentDetailViewController(nil, communityComment)
+                owner.presentCommentDetailViewController(
+                    comment: nil,
+                    communityCommet: communityComment,
+                    perfumeService: nil,
+                    communityService: reactor.service)
             })
             .disposed(by: disposeBag)
     }
@@ -356,6 +361,11 @@ extension CommunityDetailViewController: UITextViewDelegate {
                     self.profileImageView.kf.setImage(with: URL(string: url))
                 }
                 
+                cell.likeButton.rx.tap
+                    .map { CommunityDetailReactor.Action.didTapLikeButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
+                
                 
                 self.reactor?.state
                     .map { $0.photoItem }
@@ -366,6 +376,23 @@ extension CommunityDetailViewController: UITextViewDelegate {
                         cell.imageView.kf.setImage(with: URL(string: item.photoUrl))
                         
                     }
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor?.state
+                    .map { $0.isLiked }
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, isLiked in
+                        cell.likeButton.isSelected = isLiked
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor?.state
+                    .map { $0.likeCount }
+                    .compactMap { $0 }
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, count in
+                        cell.likeButton.configuration?.attributedTitle = AttributedString().setButtonAttirbuteString(text: "\(count)", size: 12, font: .pretendard_light)
+                    })
                     .disposed(by: cell.disposeBag)
                 
                 cell.photoCollectionView.rx.itemSelected
@@ -460,11 +487,14 @@ extension CommunityDetailViewController: UITextViewDelegate {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(102))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(20)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-        sectionHeader.contentInsets = .init(top: 0, leading: 0, bottom: 12, trailing: 0)
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(41)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        sectionHeader.contentInsets = .init(top: 0, leading: 0, bottom: 21, trailing: 0)
+        
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 8
         section.boundarySupplementaryItems = [sectionHeader]
+        section.contentInsets = .init(top: 0, leading: 0, bottom: 21, trailing: 0)
+        
         return section
     }
     

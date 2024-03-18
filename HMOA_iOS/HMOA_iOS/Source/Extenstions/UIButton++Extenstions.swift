@@ -54,6 +54,24 @@ extension UIButton {
         self.backgroundColor = .customColor(.gray1)
     }
     
+    func makeCommentButton() {
+        var buttonConfig = UIButton.Configuration.plain()
+
+        buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 4.6, leading: 6, bottom: 4.6, trailing: 8)
+        buttonConfig.imagePadding = 4
+        buttonConfig.baseBackgroundColor = .customColor(.gray1)
+        
+        
+        let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .regular, scale: .default)
+        let normalImage = UIImage(named: "commentIcon", in: .none, with: config)
+        
+        self.configuration = buttonConfig
+        self.setImage(normalImage, for: .normal)
+        self.tintColor = .black
+        self.layer.cornerRadius = 10
+        self.backgroundColor = .customColor(.gray1)
+    }
+    
     func makeCategoryButton(_ title: String) {
         
         var selectedConfig = UIButton.Configuration.plain()

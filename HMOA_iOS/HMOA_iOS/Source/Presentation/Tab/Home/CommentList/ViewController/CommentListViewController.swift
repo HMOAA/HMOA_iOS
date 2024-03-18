@@ -122,7 +122,11 @@ extension CommentListViewController {
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, comment in
-                owner.presentCommentDetailViewController(comment, nil, reactor.service)
+                owner.presentCommentDetailViewController(
+                    comment: comment,
+                    communityCommet: nil,
+                    perfumeService: reactor.service,
+                    communityService: nil)
             })
             .disposed(by: disposeBag)
         

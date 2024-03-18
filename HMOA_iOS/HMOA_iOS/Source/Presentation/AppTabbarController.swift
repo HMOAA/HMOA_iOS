@@ -64,7 +64,7 @@ extension AppTabbarController {
         homeVC.reactor = HomeViewReactor()
         
         let hpediaVC = HPediaViewController()
-        hpediaVC.reactor = HPediaReactor()
+        hpediaVC.reactor = HPediaReactor(service: CommunityListService())
         
         let magazineVC = MagazineViewController()
         magazineVC.reactor = MagazineReactor()
