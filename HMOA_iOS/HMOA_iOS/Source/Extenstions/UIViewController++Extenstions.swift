@@ -243,6 +243,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(totalPerfumeVC, animated: true)
     }
     
+    /// MagazineDetailVC로 push
+        func presentMagazineDetailViewController() {
+            let magazineDetailVC = MagazineDetailViewController()
+            magazineDetailVC.reactor = MagazineDetailReactor()
+            self.navigationController?.pushViewController(magazineDetailVC, animated: true)
+        }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
@@ -313,6 +320,30 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [homeButton]
     }
     
+    /// Back 버튼, Share 버튼 NavigationBar
+        func setBackShareRightNaviBar(_ title: String) {
+            let titleLabel = UILabel().then {
+                $0.text = title
+                $0.font = .customFont(.pretendard_medium, 20)
+                $0.textColor = .black
+            }
+
+            let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+
+            let shareButton = self.navigationItem.makeImageButtonItem(self, action: #selector(shareMagazine), imageName: "share")
+
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = .white
+
+            self.navigationController?.navigationBar.standardAppearance = appearance
+            self.navigationController?.navigationBar.compactAppearance = appearance
+            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
+            self.navigationItem.titleView = titleLabel
+            self.navigationItem.leftBarButtonItems = [backButton]
+            self.navigationItem.rightBarButtonItems = [shareButton]
+        }
+    
     /// NavigationBarTitle 설정
     func setNavigationBarTitle(_ title: String) {
         let titleLabel = UILabel().then {
@@ -369,6 +400,11 @@ extension UIViewController {
     /// brandSearchViewController로 push
     @objc func goToBrand() {
         presentBrandSearchViewController()
+    }
+    
+    /// Magazine 공유
+    @objc func shareMagazine() {
+        
     }
     
     // MARK: - UI Function
