@@ -49,6 +49,7 @@ class MagazineContentsHeaderCell: UICollectionViewCell {
         }
     }
     
-    func configureCell(_ magazine: Magazine) {
+    func configureCell(_ content: MagazineContents) {
+        headerLabel.text = content.data
     }
 }

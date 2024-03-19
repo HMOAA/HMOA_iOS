@@ -79,7 +79,9 @@ class MagazineInfoCell: UICollectionViewCell {
         }
     }
     
-    func configureCell(_ magazine: Magazine) {
-        
+    func configureCell(_ magazineInfo: MagazineInfo) {
+        titleLabel.text = magazineInfo.title
+        dateLabel.text = magazineInfo.releasedDate
+        viewCountLabel.text = String(magazineInfo.viewCount)
     }
 }

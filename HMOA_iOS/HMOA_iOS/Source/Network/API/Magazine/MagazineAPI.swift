@@ -8,6 +8,7 @@
 import RxSwift
 
 final class MagazineAPI {
+    // Magazine
     static func fetchMagazineList(_ query: [String: Any]) -> Observable<[MagazineItem]> {
         return networking(
             urlStr: MagazineAddress.fetchMagazines.url,
@@ -33,5 +34,15 @@ final class MagazineAPI {
             data: nil,
             model: [MagazineItem].self,
             query: query)
+    }
+    
+    // MagazineDetail
+    static func fetchMagazineDetail(_ id: Int) -> Observable<MagazineDetail> {
+        return networking(
+            urlStr: MagazineAddress.fetchMagazineDetail.url + "\(id)",
+            method: .get,
+            data: nil,
+            model: MagazineDetail.self
+        )
     }
 }

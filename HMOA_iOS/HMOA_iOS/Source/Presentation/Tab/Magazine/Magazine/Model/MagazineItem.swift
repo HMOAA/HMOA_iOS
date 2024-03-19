@@ -14,13 +14,6 @@ enum MagazineSection: Hashable {
     case allMagazine
 }
 
-enum MagazineDetailSection: Hashable {
-    case title
-    case content
-    case like
-    case latestMagazine
-}
-
 enum MagazineItem: Hashable, Codable {
     case magazine(Magazine)
     case newPerfume(NewPerfume)
