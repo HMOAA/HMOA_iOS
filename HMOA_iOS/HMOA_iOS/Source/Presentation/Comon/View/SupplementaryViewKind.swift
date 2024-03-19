@@ -8,4 +8,5 @@
 enum SupplementaryViewKind {
     static let header = "header"
     static let background = "background"
+    static let bottomLine = "bottomLine"
 }

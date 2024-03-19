@@ -23,6 +23,7 @@ class MagazineDetailViewController: UIViewController, View {
         $0.register(MagazineLatestCell.self, forCellWithReuseIdentifier: MagazineLatestCell.identifier)
         
         $0.register(MagazineDetailHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.header, withReuseIdentifier: MagazineDetailHeaderView.identifier)
+        $0.register(MagazineDetailLineView.self, forSupplementaryViewOfKind: SupplementaryViewKind.bottomLine, withReuseIdentifier: MagazineDetailLineView.identifier)
     }
     
     private var dataSource: UICollectionViewDiffableDataSource<MagazineDetailSection, MagazineDetailItem>?
@@ -66,8 +67,13 @@ class MagazineDetailViewController: UIViewController, View {
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
+            // header 보조 뷰
             let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
             let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.header, alignment: .top)
+            
+            // bottomLine 보조 뷰
+            let lineItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
+            let bottomLineItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: lineItemSize, elementKind: SupplementaryViewKind.bottomLine, alignment: .bottom)
             
             let section = self.sections[sectionIndex]
             switch section {
@@ -79,7 +85,8 @@ class MagazineDetailViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 36, leading: 17, bottom: 48, trailing: 17)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 36, leading: 16, bottom: 43, trailing: 16)
+                section.boundarySupplementaryItems = [bottomLineItem]
                 
                 return section
                 
@@ -91,19 +98,22 @@ class MagazineDetailViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 48, leading: 16, bottom: 48, trailing: 16)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 43, leading: 16, bottom: 43, trailing: 16)
+                section.boundarySupplementaryItems = [bottomLineItem]
                 
                 return section
                 
             case .like:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 36)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 63, leading: 40, bottom: 57, trailing: 52)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 60, leading: 16, bottom: 54, trailing: 16)
+                section.boundarySupplementaryItems = [bottomLineItem]
                 
                 return section
                 
@@ -195,10 +205,17 @@ class MagazineDetailViewController: UIViewController, View {
                 default:
                     return nil
                 }
+                
                 let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: SupplementaryViewKind.header, withReuseIdentifier: MagazineDetailHeaderView.identifier, for: indexPath) as! MagazineDetailHeaderView
                 headerView.configureHeader(sectionTitle)
                 
                 return headerView
+                
+            case SupplementaryViewKind.bottomLine:
+                let lineView = collectionView.dequeueReusableSupplementaryView(ofKind: SupplementaryViewKind.bottomLine, withReuseIdentifier: MagazineDetailLineView.identifier, for: indexPath) as! MagazineDetailLineView
+                lineView.setColor(.customColor(.gray1))
+                
+                return lineView
                 
             default:
                 return nil
