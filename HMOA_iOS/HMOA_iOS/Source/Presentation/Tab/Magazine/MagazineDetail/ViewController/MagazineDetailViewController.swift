@@ -79,6 +79,7 @@ class MagazineDetailViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 36, leading: 17, bottom: 48, trailing: 17)
                 
                 return section
                 
@@ -90,7 +91,7 @@ class MagazineDetailViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 36, leading: 0, bottom: 4, trailing: 0)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 48, leading: 16, bottom: 48, trailing: 16)
                 
                 return section
                 
@@ -102,6 +103,7 @@ class MagazineDetailViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 63, leading: 40, bottom: 57, trailing: 52)
                 
                 return section
                 

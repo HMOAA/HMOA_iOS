@@ -20,7 +20,7 @@ class MagazineInfoCell: UICollectionViewCell {
     
     // 발행 날짜 라벨
     private let dateLabel = UILabel().then {
-        $0.setLabelUI("2024", font: .pretendard, size: 14, color: .gray3)
+        $0.setLabelUI("2024", font: .pretendard_medium, size: 14, color: .gray3)
     }
     
     // 조회수를 표시하기 위한 스택 뷰
@@ -38,7 +38,7 @@ class MagazineInfoCell: UICollectionViewCell {
     
     // 조회수 라벨
     private let viewCountLabel = UILabel().then {
-        $0.setLabelUI("12,345", font: .pretendard, size: 12, color: .gray3)
+        $0.setLabelUI("12,345", font: .pretendard_medium, size: 12, color: .gray3)
     }
     
     override init(frame: CGRect) {
@@ -63,19 +63,17 @@ class MagazineInfoCell: UICollectionViewCell {
     
     private func setConstraints() {
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(17)
+            make.top.leading.trailing.equalToSuperview()
         }
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(17)
+            make.leading.trailing.equalToSuperview()
         }
         
         viewCountStackView.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom).offset(52)
-            make.leading.trailing.equalToSuperview().inset(17)
-            make.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     

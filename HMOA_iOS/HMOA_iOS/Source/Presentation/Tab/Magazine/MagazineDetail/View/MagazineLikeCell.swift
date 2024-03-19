@@ -25,7 +25,7 @@ class MagazineLikeCell: UICollectionViewCell {
     
     // 좋아요 여부 라벨
     private let likeAskingLabel = UILabel().then {
-        $0.setLabelUI("매거진이 유용한 정보였다면", font: .pretendard, size: 16, color: .black)
+        $0.setLabelUI("매거진이 유용한 정보였다면", font: .pretendard_medium, size: 16, color: .black)
     }
     
     // (좋아요 버튼 + 좋아요 수 라벨) 스택 뷰
@@ -43,7 +43,7 @@ class MagazineLikeCell: UICollectionViewCell {
     
     // 좋아요 수 라벨
     private let likeCountLabel = UILabel().then {
-        $0.setLabelUI("12,304", font: .pretendard, size: 14, color: .gray2)
+        $0.setLabelUI("12,304", font: .pretendard_medium, size: 14, color: .gray2)
     }
     
     // 초기화
