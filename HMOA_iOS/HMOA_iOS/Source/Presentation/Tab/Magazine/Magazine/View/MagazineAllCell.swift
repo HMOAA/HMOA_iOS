@@ -79,8 +79,8 @@ class MagazineAllCell: UICollectionViewCell {
     
     func configureCell(_ magazine: Magazine) {
         coverImageView.backgroundColor = .random
-        sloganLabel.text = magazine.slogan
-        perfumeNameLabel.text = magazine.perfumeName
-        longDescriptionLabel.text = magazine.longDescription
+        sloganLabel.text = "시들지 않는 아름다움,"
+        perfumeNameLabel.text = "샤넬 오드 롱 코롱"
+        longDescriptionLabel.text = "여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다."
     }
 }

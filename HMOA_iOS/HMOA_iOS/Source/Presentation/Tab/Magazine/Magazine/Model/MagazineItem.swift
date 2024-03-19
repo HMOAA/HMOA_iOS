@@ -15,7 +15,9 @@ enum MagazineSection: Hashable {
 }
 
 enum MagazineDetailSection: Hashable {
-    case magazineContent
+    case title
+    case content
+    case like
     case latestMagazine
 }
 
