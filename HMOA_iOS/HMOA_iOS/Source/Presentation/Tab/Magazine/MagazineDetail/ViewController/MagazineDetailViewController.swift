@@ -15,7 +15,11 @@ class MagazineDetailViewController: UIViewController, View {
     // MARK: - Properties
     
     private lazy var magazineDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
-        $0.register(MagazineDetailCell.self, forCellWithReuseIdentifier: MagazineDetailCell.identifier)
+        $0.register(MagazineInfoCell.self, forCellWithReuseIdentifier: MagazineInfoCell.identifier)
+        $0.register(MagazineContentsHeaderCell.self, forCellWithReuseIdentifier: MagazineContentsHeaderCell.identifier)
+        $0.register(MagazineContentCell.self, forCellWithReuseIdentifier: MagazineContentCell.identifier)
+        $0.register(MagazineContentsImageCell.self, forCellWithReuseIdentifier: MagazineContentsImageCell.identifier)
+        $0.register(MagazineLikeCell.self, forCellWithReuseIdentifier: MagazineLikeCell.identifier)
         $0.register(MagazineLatestCell.self, forCellWithReuseIdentifier: MagazineLatestCell.identifier)
         
         $0.register(MagazineDetailHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.header, withReuseIdentifier: MagazineDetailHeaderView.identifier)
@@ -67,7 +71,18 @@ class MagazineDetailViewController: UIViewController, View {
             
             let section = self.sections[sectionIndex]
             switch section {
-            case .magazineContent:
+            case .title:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
+                
+                return section
+                
+            case .content:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1500))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
@@ -76,6 +91,17 @@ class MagazineDetailViewController: UIViewController, View {
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.contentInsets = NSDirectionalEdgeInsets(top: 36, leading: 0, bottom: 4, trailing: 0)
+                
+                return section
+                
+            case .like:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
                 
                 return section
                 
@@ -109,8 +135,20 @@ class MagazineDetailViewController: UIViewController, View {
         dataSource = .init(collectionView: magazineDetailCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
             let section = self.sections[indexPath.section]
             switch section {
-            case .magazineContent:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineDetailCell.identifier, for: indexPath) as! MagazineDetailCell
+            case .title:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineInfoCell.identifier, for: indexPath) as! MagazineInfoCell
+                cell.configureCell(item.magazine!)
+                
+                return cell
+                
+            case .content:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineContentCell.identifier, for: indexPath) as! MagazineContentCell
+                cell.configureCell(item.magazine!)
+                
+                return cell
+                
+            case .like:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineLikeCell.identifier, for: indexPath) as! MagazineLikeCell
                 cell.configureCell(item.magazine!)
                 
                 return cell
@@ -145,12 +183,14 @@ class MagazineDetailViewController: UIViewController, View {
             }
         }
         
-        // MARK: Snapshot Definition
+        // MARK: Initial Snapshot
         var snapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineItem>()
-        snapshot.appendSections([.magazineContent, .latestMagazine])
+        snapshot.appendSections([.title ,.content, .like, .latestMagazine])
         
         // TODO: 선택한 매거진을 표시하도록 변경
-        snapshot.appendItems([MagazineItem.magazines[0]], toSection: .magazineContent)
+        snapshot.appendItems([MagazineItem.magazines[0]], toSection: .title)
+        snapshot.appendItems([MagazineItem.magazines[1]], toSection: .content)
+        snapshot.appendItems([MagazineItem.magazines[2]], toSection: .like)
         snapshot.appendItems(MagazineItem.mainMagazines, toSection: .latestMagazine)
         
         sections = snapshot.sectionIdentifiers
