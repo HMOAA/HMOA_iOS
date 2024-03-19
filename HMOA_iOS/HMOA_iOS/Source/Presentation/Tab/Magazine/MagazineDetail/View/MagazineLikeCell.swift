@@ -76,7 +76,7 @@ class MagazineLikeCell: UICollectionViewCell {
         
     }
     
-    func configureCell(_ magazine: Magazine) {
-        
+    func configureCell(_ magazine: MagazineLike) {
+        likeCountLabel.text = String(magazine.likeCount)
     }
 }

@@ -43,9 +43,11 @@ class MagazineContentsImageCell: UICollectionViewCell {
     private func setConstraints() {
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+            make.height.equalTo(300)
         }
     }
     
-    func configureCell(_ magazine: Magazine) {
+    func configureCell(_ content: MagazineContents) {
+        imageView.backgroundColor = .random
     }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 
+// Magazine
 struct Magazine: Hashable, Codable {
     let id: Int
     let slogan: String
@@ -31,4 +32,29 @@ struct NewPerfume: Hashable, Codable {
     let name: String
     let brand: String
     let releaseDate: String
+}
+
+// MagazineDetail
+
+struct MagazineDetail: Hashable, Codable {
+    let title: String
+    let releasedDate: String
+    let contents: [MagazineContent]
+    let tags: [String]
+    let viewCount: Int
+    let likeCount: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case releasedDate = "createdAt"
+        case contents
+        case tags
+        case viewCount
+        case likeCount
+    }
+    
+    struct MagazineContent: Hashable, Codable {
+        let type: String
+        let data: String
+    }
 }

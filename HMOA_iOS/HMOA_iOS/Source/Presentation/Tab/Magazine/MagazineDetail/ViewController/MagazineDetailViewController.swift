@@ -25,7 +25,7 @@ class MagazineDetailViewController: UIViewController, View {
         $0.register(MagazineDetailHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.header, withReuseIdentifier: MagazineDetailHeaderView.identifier)
     }
     
-    private var dataSource: UICollectionViewDiffableDataSource<MagazineDetailSection, MagazineItem>?
+    private var dataSource: UICollectionViewDiffableDataSource<MagazineDetailSection, MagazineDetailItem>?
     
     private var sections = [MagazineDetailSection]()
     
@@ -87,7 +87,7 @@ class MagazineDetailViewController: UIViewController, View {
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1500))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.contentInsets = NSDirectionalEdgeInsets(top: 36, leading: 0, bottom: 4, trailing: 0)
@@ -137,25 +137,45 @@ class MagazineDetailViewController: UIViewController, View {
             switch section {
             case .title:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineInfoCell.identifier, for: indexPath) as! MagazineInfoCell
-                cell.configureCell(item.magazine!)
+                cell.configureCell(item.info!)
                 
                 return cell
                 
             case .content:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineContentCell.identifier, for: indexPath) as! MagazineContentCell
-                cell.configureCell(item.magazine!)
+                guard let type = item.contents?.type else { return nil }
                 
-                return cell
+                switch type {
+                case "header":
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineContentsHeaderCell.identifier, for: indexPath) as! MagazineContentsHeaderCell
+                    cell.configureCell(item.contents!)
+                    
+                    return cell
+                    
+                case "content":
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineContentCell.identifier, for: indexPath) as! MagazineContentCell
+                    cell.configureCell(item.contents!)
+                    
+                    return cell
+                    
+                case "image":
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineContentsImageCell.identifier, for: indexPath) as! MagazineContentsImageCell
+                    cell.configureCell(item.contents!)
+                    
+                    return cell
+                    
+                default:
+                    return nil
+                }
                 
             case .like:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineLikeCell.identifier, for: indexPath) as! MagazineLikeCell
-                cell.configureCell(item.magazine!)
+                cell.configureCell(item.like!)
                 
                 return cell
                 
             case .latestMagazine:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineLatestCell.identifier, for: indexPath) as! MagazineLatestCell
-                cell.configureCell(item.magazine!)
+                cell.configureCell(item.magazineRecommend!)
                 
                 return cell
             }
@@ -184,14 +204,14 @@ class MagazineDetailViewController: UIViewController, View {
         }
         
         // MARK: Initial Snapshot
-        var snapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineItem>()
-        snapshot.appendSections([.title ,.content, .like, .latestMagazine])
+        var snapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineDetailItem>()
+        snapshot.appendSections([.title, .content, .like, .latestMagazine])
         
         // TODO: 선택한 매거진을 표시하도록 변경
-        snapshot.appendItems([MagazineItem.magazines[0]], toSection: .title)
-        snapshot.appendItems([MagazineItem.magazines[1]], toSection: .content)
-        snapshot.appendItems([MagazineItem.magazines[2]], toSection: .like)
-        snapshot.appendItems(MagazineItem.mainMagazines, toSection: .latestMagazine)
+        snapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
+        snapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
+        snapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
+        snapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .latestMagazine)
         
         sections = snapshot.sectionIdentifiers
         dataSource?.apply(snapshot)
