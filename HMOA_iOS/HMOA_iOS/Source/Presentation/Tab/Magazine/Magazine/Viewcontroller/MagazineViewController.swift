@@ -57,8 +57,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.mainBannerItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .mainBanner, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                self.updateSnapshot(forSection: .mainBanner, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -66,8 +67,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.newPerfumeItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .newPerfume, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                self.updateSnapshot(forSection: .newPerfume, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -75,8 +77,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.topReviewItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .topReview, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                self.updateSnapshot(forSection: .topReview, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -84,8 +87,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.allMagazineItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .allMagazine, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                self.updateSnapshot(forSection: .allMagazine, withItems: items)
             })
             .disposed(by: disposeBag)
         

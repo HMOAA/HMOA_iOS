@@ -49,6 +49,49 @@ class MagazineDetailViewController: UIViewController, View {
         
         
         // MARK: - State
+        
+        // infoItem 변화 감지
+        reactor.state
+            .map { $0.infoItems }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                self.updateSnapshot(forSection: .title, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        // contentItems 변화 감지
+        reactor.state
+            .map { $0.contentItems }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                self.updateSnapshot(forSection: .content, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        // likeItems 변화 감지
+        reactor.state
+            .map { $0.likeItems }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                self.updateSnapshot(forSection: .like, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        // otherMagazineItems 변화 감지
+        reactor.state
+            .map { $0.otherMagazineItems }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                self.updateSnapshot(forSection: .latestMagazine, withItems: items)
+            })
+            .disposed(by: disposeBag)
+            
+        
+        // Navigation Bar
         reactor.state
             .map{ _ in "" }
             .observe(on: MainScheduler.instance)
@@ -223,16 +266,26 @@ class MagazineDetailViewController: UIViewController, View {
         }
         
         // MARK: Initial Snapshot
-        var snapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineDetailItem>()
-        snapshot.appendSections([.title, .content, .like, .latestMagazine])
+        var initialSnapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineDetailItem>()
+        initialSnapshot.appendSections([.title, .content, .like, .latestMagazine])
         
         // TODO: 선택한 매거진을 표시하도록 변경
-        snapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
-        snapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
-        snapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
-        snapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .latestMagazine)
+        initialSnapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
+        initialSnapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
+        initialSnapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
+        initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .latestMagazine)
         
-        sections = snapshot.sectionIdentifiers
-        dataSource?.apply(snapshot)
+        sections = initialSnapshot.sectionIdentifiers
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: MagazineDetailSection, withItems items: [MagazineDetailItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }

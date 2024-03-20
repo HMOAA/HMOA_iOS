@@ -21,7 +21,10 @@ class MagazineDetailReactor: Reactor {
     }
     
     struct State {
-        
+        var infoItems: [MagazineDetailItem] = []
+        var contentItems: [MagazineDetailItem] = []
+        var likeItems: [MagazineDetailItem] = []
+        var otherMagazineItems: [MagazineDetailItem] = []
     }
     
     let initialState: State
