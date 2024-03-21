@@ -37,12 +37,12 @@ final class MagazineAPI {
     }
     
     // MagazineDetail
-    static func fetchMagazineDetail(_ id: Int) -> Observable<MagazineDetail> {
+    static func fetchMagazineDetail(_ id: Int) -> Observable<MagazineDetailResponse> {
         return networking(
-            urlStr: MagazineAddress.fetchMagazineDetail.url + "\(id)",
+            urlStr: MagazineAddress.fetchMagazineDetail(id).url,
             method: .get,
             data: nil,
-            model: MagazineDetail.self
+            model: MagazineDetailResponse.self
         )
     }
 }

@@ -47,6 +47,11 @@ class MagazineDetailViewController: UIViewController, View {
     func bind(reactor: MagazineDetailReactor) {
         // MARK: - Action
         
+        // viewDidLoad
+        rx.viewDidLoad
+            .map { _ in Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: - State
         
@@ -57,6 +62,7 @@ class MagazineDetailViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 self.updateSnapshot(forSection: .title, withItems: items)
+                
             })
             .disposed(by: disposeBag)
         
@@ -270,10 +276,10 @@ class MagazineDetailViewController: UIViewController, View {
         initialSnapshot.appendSections([.title, .content, .like, .latestMagazine])
         
         // TODO: 선택한 매거진을 표시하도록 변경
-        initialSnapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
-        initialSnapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
-        initialSnapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
-        initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .latestMagazine)
+//        initialSnapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
+//        initialSnapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
+//        initialSnapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
+//        initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .latestMagazine)
         
         sections = initialSnapshot.sectionIdentifiers
         dataSource?.apply(initialSnapshot, animatingDifferences: false)

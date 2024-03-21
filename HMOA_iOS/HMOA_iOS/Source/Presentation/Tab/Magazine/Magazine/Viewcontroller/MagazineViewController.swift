@@ -98,7 +98,8 @@ class MagazineViewController: UIViewController, View {
             .map { $0.selectedMagazine }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentMagazineDetailViewController()
+                // TODO: magazineID 반영
+                owner.presentMagazineDetailViewController(1)
             })
             .disposed(by: disposeBag)
     }

@@ -11,7 +11,7 @@ enum MagazineAddress {
     case fetchMagazines
     case fetchNewPerfumes
     case fetchTopReviews
-    case fetchMagazineDetail
+    case fetchMagazineDetail(Int)
     
     var url: String {
         switch self {
@@ -21,8 +21,8 @@ enum MagazineAddress {
             return ""
         case .fetchTopReviews:
             return ""
-        case .fetchMagazineDetail:
-            return "magazine/"
+        case .fetchMagazineDetail(let id):
+            return "magazine/\(id)"
         }
     }
 }
