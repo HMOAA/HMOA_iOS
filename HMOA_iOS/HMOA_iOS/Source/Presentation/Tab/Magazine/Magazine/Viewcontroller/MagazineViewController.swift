@@ -37,6 +37,13 @@ class MagazineViewController: UIViewController, View {
         setUI()
         setConstraints()
         configureDataSource()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setNavigationBar()
     }
     
     // MARK: - Bind
@@ -105,13 +112,6 @@ class MagazineViewController: UIViewController, View {
     }
     
     private func setUI() {
-        title = "Magazine"
-        self.navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
-            NSAttributedString.Key.foregroundColor: UIColor.white
-        ]
-        self.navigationController?.view.backgroundColor = .clear
-        
         magazineCollectionView.contentInsetAdjustmentBehavior = .never
         view.backgroundColor = .white
     }
@@ -288,3 +288,19 @@ class MagazineViewController: UIViewController, View {
 }
 
 
+extension MagazineViewController {
+    private func setNavigationBar() {
+        title = "Magazine"
+        
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.backgroundColor = .clear
+        scrollEdgeAppearance.shadowColor = .clear
+        scrollEdgeAppearance.backgroundEffect = nil
+        scrollEdgeAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+    }
+}
