@@ -38,6 +38,7 @@ class MagazineDetailViewController: UIViewController, View {
         super.viewDidLoad()
         
         view.addSubview(magazineDetailCollectionView)
+        setBackShareRightNaviBar("")
         setConstraints()
         configureDataSource()
     }
@@ -94,14 +95,6 @@ class MagazineDetailViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, items in
                 self.updateSnapshot(forSection: .latestMagazine, withItems: items)
             })
-            .disposed(by: disposeBag)
-            
-        
-        // Navigation Bar
-        reactor.state
-            .map{ _ in "" }
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: setBackShareRightNaviBar)
             .disposed(by: disposeBag)
     }
     

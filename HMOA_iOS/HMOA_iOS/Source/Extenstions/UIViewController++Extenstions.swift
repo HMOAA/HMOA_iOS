@@ -320,6 +320,30 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [homeButton]
     }
     
+    /// 투명 NavigationBar
+    func setClearNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        self.navigationItem.titleView = titleLabel
+        
+
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.backgroundColor = .clear
+        scrollEdgeAppearance.shadowColor = .clear
+        scrollEdgeAppearance.backgroundEffect = nil
+        scrollEdgeAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        
+        
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+    }
+    
     /// Back 버튼, Share 버튼 NavigationBar
         func setBackShareRightNaviBar(_ title: String) {
             let titleLabel = UILabel().then {
@@ -332,12 +356,12 @@ extension UIViewController {
 
             let shareButton = self.navigationItem.makeImageButtonItem(self, action: #selector(shareMagazine), imageName: "share")
 
-            let appearance = UINavigationBarAppearance()
-            appearance.backgroundColor = .white
+            let scrollEdgeAppearance = UINavigationBarAppearance()
+            scrollEdgeAppearance.backgroundColor = .white
+            scrollEdgeAppearance.shadowColor = .clear
 
-            self.navigationController?.navigationBar.standardAppearance = appearance
-            self.navigationController?.navigationBar.compactAppearance = appearance
-            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+            self.navigationController?.view.backgroundColor = .white
 
             self.navigationItem.titleView = titleLabel
             self.navigationItem.leftBarButtonItems = [backButton]
