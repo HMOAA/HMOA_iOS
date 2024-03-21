@@ -244,11 +244,11 @@ extension UIViewController {
     }
     
     /// MagazineDetailVC로 push
-        func presentMagazineDetailViewController() {
-            let magazineDetailVC = MagazineDetailViewController()
-            magazineDetailVC.reactor = MagazineDetailReactor()
-            self.navigationController?.pushViewController(magazineDetailVC, animated: true)
-        }
+    func presentMagazineDetailViewController(_ id: Int) {
+        let magazineDetailVC = MagazineDetailViewController()
+        magazineDetailVC.reactor = MagazineDetailReactor(id)
+        self.navigationController?.pushViewController(magazineDetailVC, animated: true)
+    }
     
     // MARK: Configure NavigationBar
     

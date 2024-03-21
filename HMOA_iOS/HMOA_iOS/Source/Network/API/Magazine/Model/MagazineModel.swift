@@ -36,7 +36,7 @@ struct NewPerfume: Hashable, Codable {
 
 // MagazineDetail
 
-struct MagazineDetail: Hashable, Codable {
+struct MagazineDetailResponse: Hashable, Codable {
     let title: String
     let releasedDate: String
     let contents: [MagazineContent]
@@ -46,7 +46,7 @@ struct MagazineDetail: Hashable, Codable {
     
     enum CodingKeys: String, CodingKey {
         case title
-        case releasedDate = "createdAt"
+        case releasedDate = "createAt"
         case contents
         case tags
         case viewCount
@@ -58,3 +58,19 @@ struct MagazineDetail: Hashable, Codable {
         let data: String
     }
 }
+
+struct MagazineInfo: Hashable, Codable {
+    let title: String
+    let releasedDate: String
+    let viewCount: Int
+}
+
+struct MagazineContents: Hashable, Codable {
+    let type: String
+    let data: String
+}
+
+struct MagazineLike: Hashable, Codable {
+    let likeCount: Int
+}
+
