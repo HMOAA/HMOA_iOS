@@ -48,7 +48,7 @@ class MagazineContentCell: UICollectionViewCell {
         }
     }
     
-    func configureCell(_ content: MagazineContents) {
+    func configureCell(_ content: MagazineContent) {
         contentLabel.text = content.data
     }
 }

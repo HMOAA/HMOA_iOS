@@ -65,7 +65,7 @@ struct MagazineInfo: Hashable, Codable {
     let viewCount: Int
 }
 
-struct MagazineContents: Hashable, Codable {
+struct MagazineContent: Hashable, Codable {
     let type: String
     let data: String
 }
