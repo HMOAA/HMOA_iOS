@@ -13,12 +13,12 @@ import RxSwift
 class MagazineDetailReactor: Reactor {
     
     enum Action {
-        // TODO: viewDidLoad case 작성 후 각 섹션 setUp method 호출
         case viewDidLoad
     }
     
     enum Mutation {
         case setInfoItem(MagazineDetailItem)
+        case setContentItem([MagazineDetailItem])
     }
     
     struct State {
@@ -40,7 +40,8 @@ class MagazineDetailReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return .concat([
-                setUpMagazineInfoSection()
+                setUpMagazineInfoSection(),
+                setUpMagazineContentSection()
             ])
         }
     }
@@ -49,8 +50,10 @@ class MagazineDetailReactor: Reactor {
         var state = state
         switch mutation {
         case .setInfoItem(let item):
-            state.infoItems.append(item)
-            
+            state.infoItems = [item]
+
+        case .setContentItem(let item):
+            state.contentItems = item
         }
         return state
     }
@@ -65,10 +68,29 @@ extension MagazineDetailReactor {
                 let title = magazineDetailData.title
                 let releasedDate = magazineDetailData.releasedDate
                 let viewCount = magazineDetailData.viewCount
-                let infoData = MagazineInfo(title: title, releasedDate: releasedDate, viewCount: viewCount)
+                
+                let magazineInfo = MagazineInfo(title: title, releasedDate: releasedDate, viewCount: viewCount)
+                let infoData = MagazineDetailItem.info(magazineInfo)
                 
                 return .concat([
-                    .just(.setInfoItem(.info(infoData)))
+                    .just(.setInfoItem(infoData))
+                ])
+            }
+    }
+    
+    func setUpMagazineContentSection() -> Observable<Mutation> {
+        return MagazineAPI.fetchMagazineDetail(currentState.magazineID)
+            .catch { _ in .empty() }
+            .flatMap { magazineDetailData -> Observable<Mutation> in
+                
+                let magazineContents = magazineDetailData.contents // [MagazineContent]
+                let contentsData = magazineContents.map {
+                    let content = MagazineContent(type: $0.type, data: $0.data)
+                    return MagazineDetailItem.magazineContent(content)
+                }
+                
+                return .concat([
+                    .just(.setContentItem(contentsData))
                 ])
             }
     }

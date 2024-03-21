@@ -47,7 +47,7 @@ class MagazineContentsImageCell: UICollectionViewCell {
         }
     }
     
-    func configureCell(_ content: MagazineContents) {
+    func configureCell(_ content: MagazineContent) {
         imageView.backgroundColor = .random
     }
 }

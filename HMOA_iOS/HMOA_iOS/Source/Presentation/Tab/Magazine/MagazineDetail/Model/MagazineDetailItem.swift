@@ -16,7 +16,7 @@ enum MagazineDetailSection: Hashable {
 
 enum MagazineDetailItem: Hashable, Codable {
     case info(MagazineInfo)
-    case magazineContent(MagazineContents)
+    case magazineContent(MagazineContent)
     case like(MagazineLike)
     case magazineRecommend(Magazine)
 }
@@ -30,7 +30,7 @@ extension MagazineDetailItem {
         }
     }
     
-    var contents: MagazineContents? {
+    var contents: MagazineContent? {
         if case .magazineContent(let magazineContent) = self {
             return magazineContent
         } else {
@@ -58,10 +58,10 @@ extension MagazineDetailItem {
     static let magazineInfo: MagazineDetailItem = .info(MagazineInfo(title: "제목 샘플", releasedDate: "날짜 샘플", viewCount: 123456))
     
     static let magazineContents: [MagazineDetailItem] = [
-        .magazineContent(MagazineContents(type: "header", data: "헤더")),
-        .magazineContent(MagazineContents(type: "content", data: "내용")),
-        .magazineContent(MagazineContents(type: "image", data: "이미지")),
-        .magazineContent(MagazineContents(type: "content", data: "내용2"))
+        .magazineContent(MagazineContent(type: "header", data: "헤더")),
+        .magazineContent(MagazineContent(type: "content", data: "내용")),
+        .magazineContent(MagazineContent(type: "image", data: "이미지")),
+        .magazineContent(MagazineContent(type: "content", data: "내용2"))
     ]
     
     static let magazineLike: MagazineDetailItem = .like(MagazineLike(likeCount: 1234))

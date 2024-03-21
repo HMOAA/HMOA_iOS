@@ -279,7 +279,7 @@ class MagazineDetailViewController: UIViewController, View {
 //        initialSnapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
 //        initialSnapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
 //        initialSnapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
-//        initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .latestMagazine)
+        initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .latestMagazine)
         
         sections = initialSnapshot.sectionIdentifiers
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
