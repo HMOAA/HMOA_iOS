@@ -40,11 +40,7 @@ class MagazineDetailReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return .concat([
-                setUpMagazineInfoSection(),
-                setUpMagazineContentSection(),
-                setUpMagazineLikeSection()
-            ])
+            return setUpMagazineDetail()
         }
     }
     
@@ -65,11 +61,11 @@ class MagazineDetailReactor: Reactor {
 }
 
 extension MagazineDetailReactor {
-    func setUpMagazineInfoSection() -> Observable<Mutation> {
+    func setUpMagazineDetail() -> Observable<Mutation> {
         return MagazineAPI.fetchMagazineDetail(currentState.magazineID)
             .catch { _ in .empty() }
             .flatMap { magazineDetailData -> Observable<Mutation> in
-                
+                // info section item
                 let title = magazineDetailData.title
                 let releasedDate = magazineDetailData.releasedDate
                 let viewCount = magazineDetailData.viewCount
@@ -77,34 +73,22 @@ extension MagazineDetailReactor {
                 let magazineInfo = MagazineInfo(title: title, releasedDate: releasedDate, viewCount: viewCount)
                 let infoData = MagazineDetailItem.info(magazineInfo)
                 
-                return .just(.setInfoItem([infoData]))
-            }
-    }
-    
-    func setUpMagazineContentSection() -> Observable<Mutation> {
-        return MagazineAPI.fetchMagazineDetail(currentState.magazineID)
-            .catch { _ in .empty() }
-            .flatMap { magazineDetailData -> Observable<Mutation> in
-                
+                // content section item
                 let magazineContents = magazineDetailData.contents // [MagazineContent]
                 let contentsData = magazineContents.map {
                     let content = MagazineContent(type: $0.type, data: $0.data)
                     return MagazineDetailItem.magazineContent(content)
                 }
                 
-                return .just(.setContentItem(contentsData))
-            }
-    }
-    
-    func setUpMagazineLikeSection() -> Observable<Mutation> {
-        return MagazineAPI.fetchMagazineDetail(currentState.magazineID)
-            .catch { _ in .empty() }
-            .flatMap { magazineDetailData -> Observable<Mutation> in
-                
+                // like section item
                 let likeCount = magazineDetailData.likeCount
                 let likeData = MagazineDetailItem.like(MagazineLike(likeCount: likeCount))
                 
-                return .just(.setLikeItem([likeData]))
+                return .concat([
+                    .just(.setInfoItem([infoData])),
+                    .just(.setContentItem(contentsData)),
+                    .just(.setLikeItem([likeData]))
+                ])
             }
     }
 }
