@@ -19,6 +19,7 @@ class MagazineDetailViewController: UIViewController, View {
         $0.register(MagazineContentsHeaderCell.self, forCellWithReuseIdentifier: MagazineContentsHeaderCell.identifier)
         $0.register(MagazineContentCell.self, forCellWithReuseIdentifier: MagazineContentCell.identifier)
         $0.register(MagazineContentsImageCell.self, forCellWithReuseIdentifier: MagazineContentsImageCell.identifier)
+        $0.register(MagazineTagCell.self, forCellWithReuseIdentifier: MagazineTagCell.identifier)
         $0.register(MagazineLikeCell.self, forCellWithReuseIdentifier: MagazineLikeCell.identifier)
         $0.register(MagazineLatestCell.self, forCellWithReuseIdentifier: MagazineLatestCell.identifier)
         
@@ -87,6 +88,16 @@ class MagazineDetailViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        // TagItems 변화 감지
+        reactor.state
+            .map { $0.tagItems }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                self.updateSnapshot(forSection: .tags, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
         // otherMagazineItems 변화 감지
         reactor.state
             .map { $0.otherMagazineItems }
@@ -140,7 +151,21 @@ class MagazineDetailViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 43, leading: 16, bottom: 43, trailing: 16)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 43, leading: 16, bottom: 48, trailing: 16)
+                
+                return section
+                
+            case .tags:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(60), heightDimension: .absolute(28))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(28))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                group.interItemSpacing = .fixed(8)
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 8
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 43, trailing: 16)
                 section.boundarySupplementaryItems = [bottomLineItem]
                 
                 return section
@@ -221,6 +246,12 @@ class MagazineDetailViewController: UIViewController, View {
                     return nil
                 }
                 
+            case .tags:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineTagCell.identifier, for: indexPath) as! MagazineTagCell
+                cell.configureCell(item.tag!)
+                
+                return cell
+                
             case .like:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineLikeCell.identifier, for: indexPath) as! MagazineLikeCell
                 cell.configureCell(item.like!)
@@ -266,11 +297,12 @@ class MagazineDetailViewController: UIViewController, View {
         
         // MARK: Initial Snapshot
         var initialSnapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineDetailItem>()
-        initialSnapshot.appendSections([.title, .content, .like, .latestMagazine])
+        initialSnapshot.appendSections([.title, .content, .tags, .like, .latestMagazine])
         
         // TODO: 선택한 매거진을 표시하도록 변경
 //        initialSnapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
 //        initialSnapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
+//        initialSnapshot.appendItems(MagazineDetailItem.magazineTags, toSection: .tags)
 //        initialSnapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
         initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .latestMagazine)
         

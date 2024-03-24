@@ -19,12 +19,14 @@ class MagazineDetailReactor: Reactor {
     enum Mutation {
         case setInfoItem([MagazineDetailItem])
         case setContentItem([MagazineDetailItem])
+        case setTagItem([MagazineDetailItem])
         case setLikeItem([MagazineDetailItem])
     }
     
     struct State {
         var infoItems: [MagazineDetailItem] = []
         var contentItems: [MagazineDetailItem] = []
+        var tagItems: [MagazineDetailItem] = []
         var likeItems: [MagazineDetailItem] = []
         var otherMagazineItems: [MagazineDetailItem] = []
         
@@ -53,6 +55,9 @@ class MagazineDetailReactor: Reactor {
         case .setContentItem(let item):
             state.contentItems = item
             
+        case .setTagItem(let item):
+            state.tagItems = item
+            
         case .setLikeItem(let item):
             state.likeItems = item
         }
@@ -80,6 +85,13 @@ extension MagazineDetailReactor {
                     return MagazineDetailItem.magazineContent(content)
                 }
                 
+                // tag section item
+                let magazineTags = magazineDetailData.tags
+                let tagsData = magazineTags.map {
+                    let tag = MagazineTag(tag: $0)
+                    return MagazineDetailItem.magazineTag(tag)
+                }
+                
                 // like section item
                 let likeCount = magazineDetailData.likeCount
                 let likeData = MagazineDetailItem.like(MagazineLike(likeCount: likeCount))
@@ -87,6 +99,7 @@ extension MagazineDetailReactor {
                 return .concat([
                     .just(.setInfoItem([infoData])),
                     .just(.setContentItem(contentsData)),
+                    .just(.setTagItem(tagsData)),
                     .just(.setLikeItem([likeData]))
                 ])
             }

@@ -119,6 +119,7 @@
 		C904BFA22BA95CF000B28494 /* MagazineLikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */; };
 		C904BFA42BA9616200B28494 /* MagazineContentsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */; };
 		C904BFA62BA9617E00B28494 /* MagazineContentsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA52BA9617E00B28494 /* MagazineContentsImageCell.swift */; };
+		C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */; };
 		C96CD7382BA88010005C9856 /* MagazineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD71E2BA88010005C9856 /* MagazineItem.swift */; };
 		C96CD7392BA88010005C9856 /* MagazineReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7202BA88010005C9856 /* MagazineReactor.swift */; };
 		C96CD73A2BA88010005C9856 /* BackgroundDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7222BA88010005C9856 /* BackgroundDecorationView.swift */; };
@@ -402,6 +403,7 @@
 		C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineLikeCell.swift; sourceTree = "<group>"; };
 		C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineContentsHeaderCell.swift; sourceTree = "<group>"; };
 		C904BFA52BA9617E00B28494 /* MagazineContentsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineContentsImageCell.swift; sourceTree = "<group>"; };
+		C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineTagCell.swift; sourceTree = "<group>"; };
 		C96CD71E2BA88010005C9856 /* MagazineItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineItem.swift; sourceTree = "<group>"; };
 		C96CD7202BA88010005C9856 /* MagazineReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineReactor.swift; sourceTree = "<group>"; };
 		C96CD7222BA88010005C9856 /* BackgroundDecorationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundDecorationView.swift; sourceTree = "<group>"; };
@@ -1471,6 +1473,7 @@
 				C96CD7302BA88010005C9856 /* SupplementaryView */,
 				C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */,
 				C904BFA72BA9646F00B28494 /* ContentsCell */,
+				C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */,
 				C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */,
 				C96CD7322BA88010005C9856 /* MagazineLatestCell.swift */,
 			);
@@ -2581,6 +2584,7 @@
 				CA219C4A2AA1C635003FB215 /* LikeHeaderView.swift in Sources */,
 				CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */,
 				2CA7F69A29D2FBE70022E7FD /* TotalPerfumeReactor.swift in Sources */,
+				C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* FirstDetail.swift in Sources */,
 				2C4CDC4B29C770D900676163 /* BrandSearchViewController.swift in Sources */,
 				CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */,

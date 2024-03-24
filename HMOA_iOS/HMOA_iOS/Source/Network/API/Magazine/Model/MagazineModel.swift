@@ -35,7 +35,6 @@ struct NewPerfume: Hashable, Codable {
 }
 
 // MagazineDetail
-
 struct MagazineDetailResponse: Hashable, Codable {
     let title: String
     let releasedDate: String
@@ -68,6 +67,10 @@ struct MagazineInfo: Hashable, Codable {
 struct MagazineContent: Hashable, Codable {
     let type: String
     let data: String
+}
+
+struct MagazineTag: Hashable, Codable {
+    let tag: String
 }
 
 struct MagazineLike: Hashable, Codable {
