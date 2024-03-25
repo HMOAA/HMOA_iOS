@@ -78,7 +78,7 @@ extension MagazineDetailReactor {
                 let magazineInfo = MagazineInfo(title: title, releasedDate: releasedDate, viewCount: viewCount)
                 let infoData = MagazineDetailItem.info(magazineInfo)
                 
-                // content section item
+                // magazineContents section item
                 let magazineContents = magazineDetailData.contents // [MagazineContent]
                 let contentsData = magazineContents.map {
                     let content = MagazineContent(type: $0.type, data: $0.data)
