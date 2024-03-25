@@ -16,6 +16,9 @@ class MagazineInfoCell: UICollectionViewCell {
     // 향수 이름 라벨
     private let titleLabel = UILabel().then {
         $0.setLabelUI("제목", font: .pretendard_bold, size: 24, color: .black)
+        $0.numberOfLines = 0
+        $0.lineBreakMode = .byWordWrapping
+        $0.setLineSpacing(lineSpacing: 3)
     }
     
     // 발행 날짜 라벨

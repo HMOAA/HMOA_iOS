@@ -152,6 +152,7 @@ class MagazineDetailViewController: UIViewController, View {
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.contentInsets = NSDirectionalEdgeInsets(top: 43, leading: 16, bottom: 48, trailing: 16)
+                section.interGroupSpacing = 20
                 
                 return section
                 
@@ -317,6 +318,6 @@ class MagazineDetailViewController: UIViewController, View {
         
         snapshot.appendItems(items, toSection: section)
         
-        dataSource.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
