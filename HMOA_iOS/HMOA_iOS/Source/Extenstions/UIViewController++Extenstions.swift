@@ -247,6 +247,7 @@ extension UIViewController {
     func presentMagazineDetailViewController(_ id: Int) {
         let magazineDetailVC = MagazineDetailViewController()
         magazineDetailVC.reactor = MagazineDetailReactor(id)
+        magazineDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(magazineDetailVC, animated: true)
     }
     
