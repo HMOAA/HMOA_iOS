@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 class MagazineContentsImageCell: UICollectionViewCell {
     
@@ -48,6 +49,6 @@ class MagazineContentsImageCell: UICollectionViewCell {
     }
     
     func configureCell(_ content: MagazineContent) {
-        imageView.backgroundColor = .random
+        imageView.kf.setImage(with: URL(string: content.data))
     }
 }
