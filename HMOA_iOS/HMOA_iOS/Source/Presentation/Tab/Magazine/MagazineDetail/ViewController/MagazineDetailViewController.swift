@@ -50,8 +50,8 @@ class MagazineDetailViewController: UIViewController, View {
         // MARK: - Action
         
         // viewDidLoad
-        rx.viewDidLoad
-            .map { _ in Reactor.Action.viewDidLoad }
+        LoginManager.shared.isLogin
+            .map { Reactor.Action.viewDidLoad($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
