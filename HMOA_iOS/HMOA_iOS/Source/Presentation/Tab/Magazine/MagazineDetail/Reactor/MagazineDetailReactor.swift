@@ -13,7 +13,7 @@ import RxSwift
 class MagazineDetailReactor: Reactor {
     
     enum Action {
-        case viewDidLoad
+        case viewDidLoad(Bool)
     }
     
     enum Mutation {
@@ -21,6 +21,8 @@ class MagazineDetailReactor: Reactor {
         case setContentItem([MagazineDetailItem])
         case setTagItem([MagazineDetailItem])
         case setLikeItem([MagazineDetailItem])
+        
+        case setIsLogin(Bool)
     }
     
     struct State {
@@ -31,6 +33,8 @@ class MagazineDetailReactor: Reactor {
         var otherMagazineItems: [MagazineDetailItem] = []
         
         var magazineID: Int
+        var isLogin: Bool = false
+        var isLiked: Bool = false
     }
     
     let initialState: State
@@ -41,8 +45,11 @@ class MagazineDetailReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
-            return setUpMagazineDetail()
+        case .viewDidLoad(let isLogin):
+            return .concat([
+                setUpMagazineDetail(),
+                .just(.setIsLogin(isLogin))
+            ])
         }
     }
     
@@ -60,6 +67,9 @@ class MagazineDetailReactor: Reactor {
             
         case .setLikeItem(let item):
             state.likeItems = item
+            
+        case .setIsLogin(let isLogin):
+            state.isLiked = isLogin
         }
         return state
     }
