@@ -20,13 +20,12 @@ class MagazineContentsImageCell: UICollectionViewCell {
     // MARK: - UI Components
     
     private let imageView = UIImageView().then {
-        $0.backgroundColor = .random
+        $0.contentMode = .scaleAspectFit
     }
     
     // 초기화
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setAddView()
         setConstraints()
     }
@@ -43,7 +42,7 @@ class MagazineContentsImageCell: UICollectionViewCell {
     
     private func setConstraints() {
         imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(300)
         }
     }
