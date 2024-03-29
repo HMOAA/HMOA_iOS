@@ -8,7 +8,7 @@
 import Foundation
 
 enum MagazineDetailSection: Hashable {
-    case title
+    case info
     case content
     case tags
     case like
@@ -65,7 +65,7 @@ extension MagazineDetailItem {
     }
     
     // initial snapshot items
-    static let magazineInfo: MagazineDetailItem = .info(MagazineInfo(title: "제목 샘플", releasedDate: "날짜 샘플", viewCount: 123456))
+//    static let magazineInfo: MagazineDetailItem = .info(MagazineInfo(title: "제목 샘플", releasedDate: "날짜 샘플", viewCount: 123456))
     
     static let magazineContents: [MagazineDetailItem] = [
         .magazineContent(MagazineContent(type: "header", data: "헤더")),
