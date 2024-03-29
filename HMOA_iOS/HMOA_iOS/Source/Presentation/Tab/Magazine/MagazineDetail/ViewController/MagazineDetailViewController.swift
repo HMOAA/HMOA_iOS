@@ -63,7 +63,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .title, withItems: items)
+                self.updateSnapshot(forSection: .info, withItems: items)
                 
             })
             .disposed(by: disposeBag)
@@ -130,7 +130,7 @@ class MagazineDetailViewController: UIViewController, View {
             
             let section = self.sections[sectionIndex]
             switch section {
-            case .title:
+            case .info:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
@@ -138,7 +138,7 @@ class MagazineDetailViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 36, leading: 16, bottom: 43, trailing: 16)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 36, leading: 0, bottom: 43, trailing: 0)
                 section.boundarySupplementaryItems = [bottomLineItem]
                 
                 return section
@@ -215,7 +215,7 @@ class MagazineDetailViewController: UIViewController, View {
         dataSource = .init(collectionView: magazineDetailCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
             let section = self.sections[indexPath.section]
             switch section {
-            case .title:
+            case .info:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineInfoCell.identifier, for: indexPath) as! MagazineInfoCell
                 cell.configureCell(item.info!)
                 
@@ -298,7 +298,7 @@ class MagazineDetailViewController: UIViewController, View {
         
         // MARK: Initial Snapshot
         var initialSnapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineDetailItem>()
-        initialSnapshot.appendSections([.title, .content, .tags, .like, .latestMagazine])
+        initialSnapshot.appendSections([.info, .content, .tags, .like, .latestMagazine])
         
         // TODO: 선택한 매거진을 표시하도록 변경
 //        initialSnapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)

@@ -84,8 +84,10 @@ extension MagazineDetailReactor {
                 let title = magazineDetailData.title
                 let releasedDate = magazineDetailData.releasedDate
                 let viewCount = magazineDetailData.viewCount
+                let previewImage = magazineDetailData.previewImage
+                let description = magazineDetailData.description
                 
-                let magazineInfo = MagazineInfo(title: title, releasedDate: releasedDate, viewCount: viewCount)
+                let magazineInfo = MagazineInfo(title: title, releasedDate: releasedDate, viewCount: viewCount, previewImageURL: previewImage, description: description)
                 let infoData = MagazineDetailItem.info(magazineInfo)
                 
                 // magazineContents section item
