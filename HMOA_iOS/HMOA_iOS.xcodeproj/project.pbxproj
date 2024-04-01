@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A8B28A8E5D83F9174B75E30 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 070528EA56D7A5095B7F491F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 		2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246029A37F7B009CF0FE /* HomeViewReactor.swift */; };
 		2C04246629A39C30009CF0FE /* HomeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246529A39C30009CF0FE /* HomeSection.swift */; };
 		2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04246829A3A992009CF0FE /* SearchViewController.swift */; };
@@ -113,8 +112,7 @@
 		2CD023632A092A5200459801 /* UserYearService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023622A092A5200459801 /* UserYearService.swift */; };
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
-		AB23E901B87DB21E0AD3EE9E /* Pods_HMOA_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EF530D1388C4C2875F8EE0 /* Pods_HMOA_iOS.framework */; };
-		BD240A63088951625093488F /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0FD9ADF549034177344999 /* Pods_HMOA_iOSTests.framework */; };
+		45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 		C96CD7382BA88010005C9856 /* MagazineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD71E2BA88010005C9856 /* MagazineItem.swift */; };
 		C96CD7392BA88010005C9856 /* MagazineReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7202BA88010005C9856 /* MagazineReactor.swift */; };
 		C96CD73A2BA88010005C9856 /* BackgroundDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7222BA88010005C9856 /* BackgroundDecorationView.swift */; };
@@ -133,8 +131,6 @@
 		C96CD74D2BA8803D005C9856 /* MagazineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7482BA8803D005C9856 /* MagazineModel.swift */; };
 		C96CD74E2BA8803D005C9856 /* MagazineAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD74A2BA8803D005C9856 /* MagazineAddress.swift */; };
 		C96CD74F2BA8803D005C9856 /* MagazineAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */; };
-		C96CD7512BA8804E005C9856 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C96CD7502BA8804E005C9856 /* GoogleService-Info.plist */; };
-		C96CD7542BA88065005C9856 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7532BA88065005C9856 /* IgnoerData.swift */; };
 		CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */; };
 		CA0027C72B2C60F8001DEAE3 /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */; };
 		CA0160962AB0B11100D5839D /* SecondDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0160952AB0B11100D5839D /* SecondDetail.swift */; };
@@ -245,6 +241,8 @@
 		CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD1EC102A7A60CF003B21FD /* EvaluationHeaderView.swift */; };
 		CAD1EC132A812491003B21FD /* NoLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD1EC122A812490003B21FD /* NoLoginView.swift */; };
 		CAE5F2A029F1109800BAF313 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE5F29F29F1109800BAF313 /* Response.swift */; };
+		CAF177072BB584EE00A8F66E /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF177062BB584EE00A8F66E /* IgnoerData.swift */; };
+		CAF177092BB58BAF00A8F66E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAF177082BB58BAF00A8F66E /* GoogleService-Info.plist */; };
 		CAF19B9C2A625D1300374038 /* SearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19B9B2A625D1300374038 /* SearchAPI.swift */; };
 		CAF19B9E2A625D2100374038 /* SearchAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19B9D2A625D2100374038 /* SearchAddress.swift */; };
 		CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF19BA22A625F7600374038 /* SearchPerfume.swift */; };
@@ -255,6 +253,8 @@
 		CAFE2F1E2B0F414700054E22 /* HpediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F1D2B0F414700054E22 /* HpediaType.swift */; };
 		CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F202B0F42FD00054E22 /* HPediaAPI.swift */; };
 		CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F222B0F431000054E22 /* HPediaAddress.swift */; };
+		E7450E84FE42AFB39EE55A0F /* Pods_HMOA_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */; };
+		E93FF92B43DB4A2914DF2E8D /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -275,8 +275,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04EF530D1388C4C2875F8EE0 /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		070528EA56D7A5095B7F491F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS_HMOA_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS_HMOA_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C0E120ACBE9C120092E40F1 /* Pods-HMOA_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		2C04246029A37F7B009CF0FE /* HomeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewReactor.swift; sourceTree = "<group>"; };
 		2C04246529A39C30009CF0FE /* HomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSection.swift; sourceTree = "<group>"; };
 		2C04246829A3A992009CF0FE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -350,7 +350,6 @@
 		2C4DEECC299BBF7500DE9778 /* UINavigationItem++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem++Extenstions.swift"; sourceTree = "<group>"; };
 		2C60F21F29BA0F4000595EF4 /* Int++Extenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int++Extenstions.swift"; sourceTree = "<group>"; };
 		2C60F22B29BA130300595EF4 /* HPediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaViewController.swift; sourceTree = "<group>"; };
-		2C6913A89C7B82E4F43C3C68 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2C6DAD0A29A76F0D003F0E98 /* SearchReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReactor.swift; sourceTree = "<group>"; };
 		2C700DE729C1A84F00DDEF77 /* HomeHeaderReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderReactor.swift; sourceTree = "<group>"; };
 		2C710EEC29798172006BE23B /* HomeFirstCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFirstCell.swift; sourceTree = "<group>"; };
@@ -387,11 +386,12 @@
 		2CD023622A092A5200459801 /* UserYearService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserYearService.swift; sourceTree = "<group>"; };
 		2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageViewController.swift; sourceTree = "<group>"; };
 		2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageReactor.swift; sourceTree = "<group>"; };
-		425397FD375A5BBC0467122C /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		5F2F7FD0EC7BFCCCE6E5914D /* Pods-HMOA_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		81376DBCAA25BF692C8287A2 /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A3EB8DD627D12411C89F845C /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
-		A9236CE65DC97E570FED2954 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		393A47CC39A71B2381BFBC08 /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		59041DCDAB0A9293B4DF2388 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D16E21B4472CA2FFE94A0DB /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96CD71E2BA88010005C9856 /* MagazineItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineItem.swift; sourceTree = "<group>"; };
 		C96CD7202BA88010005C9856 /* MagazineReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineReactor.swift; sourceTree = "<group>"; };
 		C96CD7222BA88010005C9856 /* BackgroundDecorationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundDecorationView.swift; sourceTree = "<group>"; };
@@ -410,8 +410,6 @@
 		C96CD7482BA8803D005C9856 /* MagazineModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineModel.swift; sourceTree = "<group>"; };
 		C96CD74A2BA8803D005C9856 /* MagazineAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineAddress.swift; sourceTree = "<group>"; };
 		C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineAPI.swift; sourceTree = "<group>"; };
-		C96CD7502BA8804E005C9856 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C96CD7532BA88065005C9856 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
 		CA0160952AB0B11100D5839D /* SecondDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondDetail.swift; sourceTree = "<group>"; };
@@ -522,6 +520,8 @@
 		CAD1EC102A7A60CF003B21FD /* EvaluationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationHeaderView.swift; sourceTree = "<group>"; };
 		CAD1EC122A812490003B21FD /* NoLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoLoginView.swift; sourceTree = "<group>"; };
 		CAE5F29F29F1109800BAF313 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		CAF177062BB584EE00A8F66E /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
+		CAF177082BB58BAF00A8F66E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CAF19B9B2A625D1300374038 /* SearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPI.swift; sourceTree = "<group>"; };
 		CAF19B9D2A625D2100374038 /* SearchAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddress.swift; sourceTree = "<group>"; };
 		CAF19BA22A625F7600374038 /* SearchPerfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPerfume.swift; sourceTree = "<group>"; };
@@ -532,7 +532,7 @@
 		CAFE2F1D2B0F414700054E22 /* HpediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpediaType.swift; sourceTree = "<group>"; };
 		CAFE2F202B0F42FD00054E22 /* HPediaAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaAPI.swift; sourceTree = "<group>"; };
 		CAFE2F222B0F431000054E22 /* HPediaAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaAddress.swift; sourceTree = "<group>"; };
-		CE0FD9ADF549034177344999 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB046C8870182D3E4D31B012 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -541,7 +541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA4C68FF2AFCFC2E0039FB0E /* PretendardKit in Frameworks */,
-				AB23E901B87DB21E0AD3EE9E /* Pods_HMOA_iOS.framework in Frameworks */,
+				E7450E84FE42AFB39EE55A0F /* Pods_HMOA_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,7 +549,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD240A63088951625093488F /* Pods_HMOA_iOSTests.framework in Frameworks */,
+				E93FF92B43DB4A2914DF2E8D /* Pods_HMOA_iOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,34 +557,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A8B28A8E5D83F9174B75E30 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */,
+				45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		118AF3D4D66D908BD331D438 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */,
+				025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */,
+				7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1A58281E02322D714CA8DDA3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2C6913A89C7B82E4F43C3C68 /* Pods-HMOA_iOS.debug.xcconfig */,
-				A3EB8DD627D12411C89F845C /* Pods-HMOA_iOS.release.xcconfig */,
-				425397FD375A5BBC0467122C /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */,
-				A9236CE65DC97E570FED2954 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */,
-				81376DBCAA25BF692C8287A2 /* Pods-HMOA_iOSTests.debug.xcconfig */,
-				5F2F7FD0EC7BFCCCE6E5914D /* Pods-HMOA_iOSTests.release.xcconfig */,
+				4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */,
+				5D16E21B4472CA2FFE94A0DB /* Pods-HMOA_iOS.release.xcconfig */,
+				59041DCDAB0A9293B4DF2388 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */,
+				DB046C8870182D3E4D31B012 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */,
+				393A47CC39A71B2381BFBC08 /* Pods-HMOA_iOSTests.debug.xcconfig */,
+				1C0E120ACBE9C120092E40F1 /* Pods-HMOA_iOSTests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		1ACBF45BDF60C6CED6D93292 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				04EF530D1388C4C2875F8EE0 /* Pods_HMOA_iOS.framework */,
-				070528EA56D7A5095B7F491F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */,
-				CE0FD9ADF549034177344999 /* Pods_HMOA_iOSTests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		2C04245F29A37F5C009CF0FE /* Reactor */ = {
@@ -744,7 +744,7 @@
 				2C39AA38296DB4E0000C6F71 /* HMOA_iOSUITests */,
 				2C39AA13296DB4DE000C6F71 /* Products */,
 				1A58281E02322D714CA8DDA3 /* Pods */,
-				1ACBF45BDF60C6CED6D93292 /* Frameworks */,
+				118AF3D4D66D908BD331D438 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -801,7 +801,7 @@
 		2C39AA4C297041D4000C6F71 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				C96CD7502BA8804E005C9856 /* GoogleService-Info.plist */,
+				CAF177082BB58BAF00A8F66E /* GoogleService-Info.plist */,
 				2C39AA7629704C2F000C6F71 /* Info.plist */,
 				2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */,
 				2C39AA21296DB4E0000C6F71 /* Assets.xcassets */,
@@ -1500,7 +1500,7 @@
 		C96CD7522BA8805B005C9856 /* Key */ = {
 			isa = PBXGroup;
 			children = (
-				C96CD7532BA88065005C9856 /* IgnoerData.swift */,
+				CAF177062BB584EE00A8F66E /* IgnoerData.swift */,
 			);
 			path = Key;
 			sourceTree = "<group>";
@@ -2179,11 +2179,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C39AA3F296DB4E0000C6F71 /* Build configuration list for PBXNativeTarget "HMOA_iOS" */;
 			buildPhases = (
-				B861C5622BD9618E72E0C5EA /* [CP] Check Pods Manifest.lock */,
+				7D33EDD468C6D04CA392EF8B /* [CP] Check Pods Manifest.lock */,
 				2C39AA0E296DB4DE000C6F71 /* Sources */,
 				2C39AA0F296DB4DE000C6F71 /* Frameworks */,
 				2C39AA10296DB4DE000C6F71 /* Resources */,
-				EB7BFC04AB01B44B4323111B /* [CP] Embed Pods Frameworks */,
+				9E32903A323B59B3F631685C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2201,7 +2201,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C39AA42296DB4E0000C6F71 /* Build configuration list for PBXNativeTarget "HMOA_iOSTests" */;
 			buildPhases = (
-				B81AEF78FF1DB1B080B7524B /* [CP] Check Pods Manifest.lock */,
+				FA632667C507A2167EDCF6D3 /* [CP] Check Pods Manifest.lock */,
 				2C39AA27296DB4E0000C6F71 /* Sources */,
 				2C39AA28296DB4E0000C6F71 /* Frameworks */,
 				2C39AA29296DB4E0000C6F71 /* Resources */,
@@ -2220,11 +2220,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C39AA45296DB4E0000C6F71 /* Build configuration list for PBXNativeTarget "HMOA_iOSUITests" */;
 			buildPhases = (
-				AF2B01207C629DBCDB62CD85 /* [CP] Check Pods Manifest.lock */,
+				5CB3DF19D039883685E8612F /* [CP] Check Pods Manifest.lock */,
 				2C39AA31296DB4E0000C6F71 /* Sources */,
 				2C39AA32296DB4E0000C6F71 /* Frameworks */,
 				2C39AA33296DB4E0000C6F71 /* Resources */,
-				118FA7CBAFEDF9D0F728B0C5 /* [CP] Embed Pods Frameworks */,
+				3071B3149461C19A09F02D54 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2289,7 +2289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAA4245C2B6BF24D0005975D /* Settings.bundle in Resources */,
-				C96CD7512BA8804E005C9856 /* GoogleService-Info.plist in Resources */,
+				CAF177092BB58BAF00A8F66E /* GoogleService-Info.plist in Resources */,
 				2C39AA25296DB4E0000C6F71 /* LaunchScreen.storyboard in Resources */,
 				2C39AA22296DB4E0000C6F71 /* Assets.xcassets in Resources */,
 			);
@@ -2312,7 +2312,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		118FA7CBAFEDF9D0F728B0C5 /* [CP] Embed Pods Frameworks */ = {
+		3071B3149461C19A09F02D54 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2329,7 +2329,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AF2B01207C629DBCDB62CD85 /* [CP] Check Pods Manifest.lock */ = {
+		5CB3DF19D039883685E8612F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2351,29 +2351,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B81AEF78FF1DB1B080B7524B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HMOA_iOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B861C5622BD9618E72E0C5EA /* [CP] Check Pods Manifest.lock */ = {
+		7D33EDD468C6D04CA392EF8B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2395,7 +2373,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EB7BFC04AB01B44B4323111B /* [CP] Embed Pods Frameworks */ = {
+		9E32903A323B59B3F631685C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2410,6 +2388,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA632667C507A2167EDCF6D3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HMOA_iOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2644,12 +2644,12 @@
 				CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */,
 				CA943AD62AEF93E900A5B717 /* OptionData.swift in Sources */,
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,
+				CAF177072BB584EE00A8F66E /* IgnoerData.swift in Sources */,
 				CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */,
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
 				CA9810FC2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift in Sources */,
-				C96CD7542BA88065005C9856 /* IgnoerData.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
@@ -2827,7 +2827,7 @@
 		};
 		2C39AA40296DB4E0000C6F71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C6913A89C7B82E4F43C3C68 /* Pods-HMOA_iOS.debug.xcconfig */;
+			baseConfigurationReference = 4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
@@ -2873,7 +2873,7 @@
 		};
 		2C39AA41296DB4E0000C6F71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3EB8DD627D12411C89F845C /* Pods-HMOA_iOS.release.xcconfig */;
+			baseConfigurationReference = 5D16E21B4472CA2FFE94A0DB /* Pods-HMOA_iOS.release.xcconfig */;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
@@ -2921,7 +2921,7 @@
 		};
 		2C39AA43296DB4E0000C6F71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 81376DBCAA25BF692C8287A2 /* Pods-HMOA_iOSTests.debug.xcconfig */;
+			baseConfigurationReference = 393A47CC39A71B2381BFBC08 /* Pods-HMOA_iOSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2941,7 +2941,7 @@
 		};
 		2C39AA44296DB4E0000C6F71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F2F7FD0EC7BFCCCE6E5914D /* Pods-HMOA_iOSTests.release.xcconfig */;
+			baseConfigurationReference = 1C0E120ACBE9C120092E40F1 /* Pods-HMOA_iOSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2961,7 +2961,7 @@
 		};
 		2C39AA46296DB4E0000C6F71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 425397FD375A5BBC0467122C /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */;
+			baseConfigurationReference = 59041DCDAB0A9293B4DF2388 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
@@ -2979,7 +2979,7 @@
 		};
 		2C39AA47296DB4E0000C6F71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A9236CE65DC97E570FED2954 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */;
+			baseConfigurationReference = DB046C8870182D3E4D31B012 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
