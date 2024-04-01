@@ -262,6 +262,19 @@ class MagazineDetailViewController: UIViewController, View {
                     .disposed(by: cell.disposeBag)
                 
                 self.reactor?.state
+                    .map { $0.isTapWhenNotLogin }
+                    .distinctUntilChanged()
+                    .filter { $0 }
+                    .bind(with: self, onNext: { owner, _ in
+                        owner.presentAlertVC(
+                            title: "로그인 후 이용가능한 서비스입니다",
+                            content: "입력하신 내용을 다시 확인해주세요",
+                            buttonTitle: "로그인 하러가기"
+                        )
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor?.state
                     .map { $0.isLiked }
                     .asDriver(onErrorRecover: { _ in .empty() })
                     .drive(with: self, onNext: { owner, isLiked in

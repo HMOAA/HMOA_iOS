@@ -26,6 +26,7 @@ class MagazineDetailReactor: Reactor {
         case setIsLogin(Bool)
         case setMagazineLike(Bool)
         case setMagazineLikeCount(Int)
+        case setIsTap(Bool)
     }
     
     struct State {
@@ -39,6 +40,7 @@ class MagazineDetailReactor: Reactor {
         var isLogin: Bool = false
         var isLiked: Bool = true
         var likeCount: Int? = nil
+        var isTapWhenNotLogin: Bool = false
     }
     
     let initialState: State
@@ -82,6 +84,9 @@ class MagazineDetailReactor: Reactor {
             
         case .setMagazineLikeCount(let count):
             state.likeCount = count
+            
+        case .setIsTap(let isTap):
+            state.isTapWhenNotLogin = isTap
         }
         return state
     }
@@ -136,6 +141,12 @@ extension MagazineDetailReactor {
     
     func setMagazineLike() -> Observable<Mutation> {
         var magazineLike = currentState.likeItems.first!.like!
+        
+        guard currentState.isLogin else {
+            return .concat([
+                .just(.setIsTap(true)),
+                .just(.setIsTap(false))
+            ]) }
         
         if !currentState.isLiked {
             return MagazineAPI.putMagazineLike(id: magazineLike.id)
