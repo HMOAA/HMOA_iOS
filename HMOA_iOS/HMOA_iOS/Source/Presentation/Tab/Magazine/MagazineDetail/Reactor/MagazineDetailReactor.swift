@@ -14,6 +14,7 @@ class MagazineDetailReactor: Reactor {
     
     enum Action {
         case viewDidLoad(Bool)
+        case didTapLikeButton
     }
     
     enum Mutation {
@@ -23,6 +24,8 @@ class MagazineDetailReactor: Reactor {
         case setLikeItem([MagazineDetailItem])
         
         case setIsLogin(Bool)
+        case setMagazineLike(Bool)
+        case setMagazineLikeCount(Int)
     }
     
     struct State {
@@ -34,7 +37,8 @@ class MagazineDetailReactor: Reactor {
         
         var magazineID: Int
         var isLogin: Bool = false
-        var isLiked: Bool = false
+        var isLiked: Bool = true
+        var likeCount: Int? = nil
     }
     
     let initialState: State
@@ -50,6 +54,8 @@ class MagazineDetailReactor: Reactor {
                 setUpMagazineDetail(),
                 .just(.setIsLogin(isLogin))
             ])
+        case .didTapLikeButton:
+            return setMagazineLike()
         }
     }
     
@@ -69,7 +75,13 @@ class MagazineDetailReactor: Reactor {
             state.likeItems = item
             
         case .setIsLogin(let isLogin):
-            state.isLiked = isLogin
+            state.isLogin = isLogin
+            
+        case .setMagazineLike(let isLiked):
+            state.isLiked = isLiked
+            
+        case .setMagazineLikeCount(let count):
+            state.likeCount = count
         }
         return state
     }
@@ -80,6 +92,7 @@ extension MagazineDetailReactor {
         return MagazineAPI.fetchMagazineDetail(currentState.magazineID)
             .catch { _ in .empty() }
             .flatMap { magazineDetailData -> Observable<Mutation> in
+                
                 // info section item
                 let title = magazineDetailData.title
                 let releasedDate = magazineDetailData.releasedDate
@@ -105,15 +118,49 @@ extension MagazineDetailReactor {
                 }
                 
                 // like section item
+                let magazineID = magazineDetailData.magazineID
+                let isLiked = magazineDetailData.liked
                 let likeCount = magazineDetailData.likeCount
-                let likeData = MagazineDetailItem.like(MagazineLike(likeCount: likeCount))
+                let likeData = MagazineDetailItem.like(MagazineLike(id: magazineID ,isLiked: isLiked ,likeCount: likeCount))
                 
                 return .concat([
                     .just(.setInfoItem([infoData])),
                     .just(.setContentItem(contentsData)),
                     .just(.setTagItem(tagsData)),
-                    .just(.setLikeItem([likeData]))
+                    .just(.setLikeItem([likeData])),
+                    .just(.setMagazineLike(isLiked)),
+                    .just(.setMagazineLikeCount(likeCount))
                 ])
             }
+    }
+    
+    func setMagazineLike() -> Observable<Mutation> {
+        var magazineLike = currentState.likeItems.first!.like!
+        
+        if !currentState.isLiked {
+            return MagazineAPI.putMagazineLike(id: magazineLike.id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    magazineLike.isLiked = true
+                    magazineLike.likeCount = self.currentState.likeCount! + 1
+                    
+                    return .concat([
+                        .just(.setMagazineLike(true)),
+                        .just(.setMagazineLikeCount(magazineLike.likeCount))
+                    ])
+                }
+        } else {
+            return MagazineAPI.deleteMagazineLike(id: currentState.magazineID)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    magazineLike.isLiked = false
+                    magazineLike.likeCount = self.currentState.likeCount! - 1
+                    
+                    return .concat([
+                        .just(.setMagazineLike(false)),
+                        .just(.setMagazineLikeCount(magazineLike.likeCount))
+                    ])
+                }
+        }
     }
 }

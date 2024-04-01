@@ -255,6 +255,30 @@ class MagazineDetailViewController: UIViewController, View {
                 
             case .like:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineLikeCell.identifier, for: indexPath) as! MagazineLikeCell
+                
+                cell.likeButton.rx.tap
+                    .map { Reactor.Action.didTapLikeButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor?.state
+                    .map { $0.isLiked }
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, isLiked in
+                        cell.likeButton.isSelected = isLiked
+                        cell.likeCountLabel.textColor = isLiked ? .black : UIColor.customColor(.gray2)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor?.state
+                    .map { $0.likeCount }
+                    .compactMap { $0 }
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, count in
+                        cell.likeCountLabel.text = String(count)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
                 cell.configureCell(item.like!)
                 
                 return cell

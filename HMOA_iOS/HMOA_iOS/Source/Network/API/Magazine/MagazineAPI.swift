@@ -45,4 +45,22 @@ final class MagazineAPI {
             model: MagazineDetailResponse.self
         )
     }
+    
+    static func putMagazineLike(id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: MagazineAddress.putDeleteMagazineLike(id).url,
+            method: .put,
+            data: nil,
+            model: Response.self
+        )
+    }
+    
+    static func deleteMagazineLike(id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: MagazineAddress.putDeleteMagazineLike(id).url,
+            method: .delete,
+            data: nil,
+            model: Response.self
+        )
+    }
 }
