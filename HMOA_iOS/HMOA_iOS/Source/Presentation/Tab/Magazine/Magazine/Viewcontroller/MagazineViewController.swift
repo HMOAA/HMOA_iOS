@@ -106,7 +106,7 @@ class MagazineViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, _ in
                 // TODO: magazineID 반영
-                owner.presentMagazineDetailViewController(1)
+                owner.presentMagazineDetailViewController(9)
             })
             .disposed(by: disposeBag)
     }

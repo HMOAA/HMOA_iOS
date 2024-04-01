@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 class MagazineLikeCell: UICollectionViewCell {
     
@@ -37,14 +38,20 @@ class MagazineLikeCell: UICollectionViewCell {
     }
     
     // 좋아요 버튼
-    private let likeButton = UIButton().then {
-        $0.setImage(UIImage(named: "thumbsUp"), for: .normal)
+    let likeButton = UIButton().then {
+        let thumbsUp = UIImage(named: "thumbsUp")! as UIImage
+        let thumbsUpBlack = thumbsUp.imageWithColor(color: .black)
+        
+        $0.setImage(thumbsUp, for: .normal)
+        $0.setImage(thumbsUpBlack, for: .selected)
     }
     
     // 좋아요 수 라벨
-    private let likeCountLabel = UILabel().then {
+    let likeCountLabel = UILabel().then {
         $0.setLabelUI("12,304", font: .pretendard_medium, size: 14, color: .gray2)
     }
+    
+    var disposeBag = DisposeBag()
     
     // 초기화
     override init(frame: CGRect) {
@@ -69,14 +76,14 @@ class MagazineLikeCell: UICollectionViewCell {
     }
     
     private func setConstraints() {
-        
         likeStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
     }
     
     func configureCell(_ magazine: MagazineLike) {
         likeCountLabel.text = String(magazine.likeCount)
+        likeCountLabel.textColor = magazine.isLiked ? .black : UIColor.customColor(.gray2)
+        likeButton.isSelected = magazine.isLiked
     }
 }
