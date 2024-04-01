@@ -47,6 +47,7 @@ class CommunityDetailReactor: Reactor {
         case setPostLike(Bool)
         case setPostLikeCount(Int)
         case setPostContent(String)
+        case setIsPresentAlertVC(Bool)
     }
     
     struct State {
@@ -69,6 +70,7 @@ class CommunityDetailReactor: Reactor {
         var isLiked: Bool = false
         var likeCount: Int? = nil
         var postContent: String = ""
+        var isPresentAlertVC: Bool = false
     }
     
     init(_ id: Int, _ service: CommunityListProtocol?) {
@@ -218,6 +220,9 @@ class CommunityDetailReactor: Reactor {
             
         case .setPostContent(let content):
             state.postContent = content
+            
+        case .setIsPresentAlertVC(let isPresent):
+            state.isPresentAlertVC = isPresent
         }
         return state
     }
@@ -328,6 +333,14 @@ extension CommunityDetailReactor {
     
     func setPostLike() -> Observable<Mutation> {
         var communityPost = currentState.postItem.first!
+        
+        if !currentState.isLogin {
+            return .concat([
+                .just(.setIsPresentAlertVC(true)),
+                .just(.setIsPresentAlertVC(false))
+            ])
+        }
+        
         if !currentState.isLiked {
             return CommunityAPI.putCommunityPostLike(id: communityPost.id)
                 .catch { _ in .empty() }
