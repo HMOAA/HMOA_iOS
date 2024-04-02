@@ -150,17 +150,17 @@ extension MagazineDetailReactor {
         return MagazineAPI.fetchMagazineList(query)
             .catch { _ in .empty() }
             .flatMap { magazineListData -> Observable<Mutation> in
-                
-                let listData = magazineListData.map {
-                    let magazine = Magazine(
-                        magazineID: $0.magazineID,
-                        title: $0.title,
-                        description: $0.description,
-                        previewImageURL: $0.previewImageURL
-                    )
-                    return MagazineDetailItem.magazineList(magazine)
-                }
-                
+                let listData = magazineListData
+                    .filter { $0.magazineID != self.currentState.magazineID }
+                    .map { magazineData in
+                        let magazine = Magazine(
+                            magazineID: magazineData.magazineID,
+                            title: magazineData.title,
+                            description: magazineData.description,
+                            previewImageURL: magazineData.previewImageURL
+                        )
+                        return MagazineDetailItem.magazineList(magazine)
+                    }
                 return .just(.setOtherMagazineItem(listData))
             }
     }

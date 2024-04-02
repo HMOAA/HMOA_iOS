@@ -298,7 +298,7 @@ class MagazineDetailViewController: UIViewController, View {
                 
             case .magazineList:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineListCell.identifier, for: indexPath) as! MagazineListCell
-                cell.configureCell(item.magazineRecommend!)
+                cell.configureCell(item.anotherMagazine!)
                 
                 return cell
             }

@@ -56,7 +56,7 @@ extension MagazineDetailItem {
         }
     }
     
-    var magazineRecommend: Magazine? {
+    var anotherMagazine: Magazine? {
         if case .magazineList(let magazine) = self {
             return magazine
         } else {
