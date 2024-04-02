@@ -21,7 +21,7 @@ class MagazineDetailViewController: UIViewController, View {
         $0.register(MagazineContentsImageCell.self, forCellWithReuseIdentifier: MagazineContentsImageCell.identifier)
         $0.register(MagazineTagCell.self, forCellWithReuseIdentifier: MagazineTagCell.identifier)
         $0.register(MagazineLikeCell.self, forCellWithReuseIdentifier: MagazineLikeCell.identifier)
-        $0.register(MagazineLatestCell.self, forCellWithReuseIdentifier: MagazineLatestCell.identifier)
+        $0.register(MagazineListCell.self, forCellWithReuseIdentifier: MagazineListCell.identifier)
         
         $0.register(MagazineDetailHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.header, withReuseIdentifier: MagazineDetailHeaderView.identifier)
         $0.register(MagazineDetailLineView.self, forSupplementaryViewOfKind: SupplementaryViewKind.bottomLine, withReuseIdentifier: MagazineDetailLineView.identifier)
@@ -104,7 +104,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .latestMagazine, withItems: items)
+                self.updateSnapshot(forSection: .magazineList, withItems: items)
             })
             .disposed(by: disposeBag)
     }
@@ -185,13 +185,13 @@ class MagazineDetailViewController: UIViewController, View {
                 
                 return section
                 
-            case .latestMagazine:
+            case .magazineList:
                 let backgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: SupplementaryViewKind.background)
                 
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(200))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(132), heightDimension: .estimated(300))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(132), heightDimension: .estimated(200))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
@@ -296,8 +296,8 @@ class MagazineDetailViewController: UIViewController, View {
                 
                 return cell
                 
-            case .latestMagazine:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineLatestCell.identifier, for: indexPath) as! MagazineLatestCell
+            case .magazineList:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MagazineListCell.identifier, for: indexPath) as! MagazineListCell
                 cell.configureCell(item.magazineRecommend!)
                 
                 return cell
@@ -311,7 +311,7 @@ class MagazineDetailViewController: UIViewController, View {
                 let section = self.sections[indexPath.section]
                 let sectionTitle: String
                 switch section {
-                case .latestMagazine:
+                case .magazineList:
                     sectionTitle = "최신 매거진"
                 default:
                     return nil
@@ -335,14 +335,14 @@ class MagazineDetailViewController: UIViewController, View {
         
         // MARK: Initial Snapshot
         var initialSnapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineDetailItem>()
-        initialSnapshot.appendSections([.info, .content, .tags, .like, .latestMagazine])
+        initialSnapshot.appendSections([.info, .content, .tags, .like, .magazineList])
         
         // TODO: 선택한 매거진을 표시하도록 변경
 //        initialSnapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
 //        initialSnapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
 //        initialSnapshot.appendItems(MagazineDetailItem.magazineTags, toSection: .tags)
 //        initialSnapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
-        initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .latestMagazine)
+//        initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .magazineList)
         
         sections = initialSnapshot.sectionIdentifiers
         dataSource?.apply(initialSnapshot, animatingDifferences: false)

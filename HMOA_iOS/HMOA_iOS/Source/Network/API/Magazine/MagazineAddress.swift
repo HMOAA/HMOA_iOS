@@ -17,7 +17,7 @@ enum MagazineAddress {
     var url: String {
         switch self {
         case .fetchMagazines:
-            return ""
+            return "magazine/list"
         case .fetchNewPerfumes:
             return ""
         case .fetchTopReviews:

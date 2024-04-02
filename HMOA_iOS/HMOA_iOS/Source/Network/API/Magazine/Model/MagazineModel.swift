@@ -7,17 +7,18 @@
 
 import UIKit
 
-// Magazine
 struct Magazine: Hashable, Codable {
-    let id: Int
-    let slogan: String
-    let perfumeName: String
+    let magazineID: Int
+    let title: String
     let description: String
-    let longDescription: String
-    let releaseDate: String
-    let content: String
-    let liked: Bool
-    let likeCount: Int
+    let previewImageURL: String
+    
+    enum CodingKeys: String, CodingKey {
+        case magazineID = "magazineId"
+        case title
+        case description = "preview"
+        case previewImageURL = "previewImgUrl"
+    }
 }
 
 struct TopReview: Hashable, Codable {
@@ -34,7 +35,6 @@ struct NewPerfume: Hashable, Codable {
     let releaseDate: String
 }
 
-// MagazineDetail
 struct MagazineDetailResponse: Hashable, Codable {
     let magazineID: Int
     let title: String
@@ -83,4 +83,3 @@ struct MagazineLike: Hashable, Codable {
     var isLiked: Bool
     var likeCount: Int
 }
-

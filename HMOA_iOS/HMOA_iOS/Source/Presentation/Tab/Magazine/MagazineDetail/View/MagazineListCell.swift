@@ -9,36 +9,30 @@ import UIKit
 import SnapKit
 import Then
 
-class MagazineLatestCell: UICollectionViewCell {
+class MagazineListCell: UICollectionViewCell {
     
-    static let identifier = "MagazineLatestCell"
+    static let identifier = "MagazineListCell"
     
     // MARK: - UI Components
     
     // 표지 이미지 뷰
-    private let coverImageView = UIImageView()
-    
-    // 제목 스택 뷰
-    private let titleStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 0
-        $0.alignment = .leading
+    private let coverImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     
-    // 슬로건 라벨
-    private let sloganLabel = UILabel().then {
+    // 제목 라벨
+    private let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 12, color: .white)
-    }
-    
-    // 향수 이름 라벨
-    private let perfumeNameLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 12, color: .white)
+        $0.numberOfLines = 0
+        $0.lineBreakMode = .byCharWrapping
     }
     
     // 초기화
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        layer.borderWidth = 1
         setAddView()
         setConstraints()
     }
@@ -50,9 +44,7 @@ class MagazineLatestCell: UICollectionViewCell {
     // MARK: - Setup Methods
     
     private func setAddView() {
-        [coverImageView, titleStackView].forEach { addSubview($0) }
-        
-        [sloganLabel, perfumeNameLabel].forEach { titleStackView.addArrangedSubview($0) }
+        [coverImageView, titleLabel].forEach { addSubview($0) }
     }
     
     private func setConstraints() {
@@ -62,15 +54,14 @@ class MagazineLatestCell: UICollectionViewCell {
             make.height.equalTo(coverImageView.snp.width).multipliedBy(184.0 / 132.0)
         }
         
-        titleStackView.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalTo(coverImageView.snp.bottom).offset(12)
             make.leading.bottom.trailing.equalToSuperview()
         }
     }
     
     func configureCell(_ magazine: Magazine) {
-        coverImageView.backgroundColor = .random
-        sloganLabel.text = magazine.slogan
-        perfumeNameLabel.text = magazine.perfumeName
+        titleLabel.text = magazine.title
+        coverImageView.kf.setImage(with: URL(string: magazine.previewImageURL))
     }
 }

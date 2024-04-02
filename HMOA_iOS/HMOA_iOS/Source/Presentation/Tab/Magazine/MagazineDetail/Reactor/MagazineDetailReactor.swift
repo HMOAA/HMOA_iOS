@@ -22,6 +22,7 @@ class MagazineDetailReactor: Reactor {
         case setContentItem([MagazineDetailItem])
         case setTagItem([MagazineDetailItem])
         case setLikeItem([MagazineDetailItem])
+        case setOtherMagazineItem([MagazineDetailItem])
         
         case setIsLogin(Bool)
         case setMagazineLike(Bool)
@@ -54,6 +55,7 @@ class MagazineDetailReactor: Reactor {
         case .viewDidLoad(let isLogin):
             return .concat([
                 setUpMagazineDetail(),
+                setUpMagazineList(0),
                 .just(.setIsLogin(isLogin))
             ])
         case .didTapLikeButton:
@@ -75,6 +77,9 @@ class MagazineDetailReactor: Reactor {
             
         case .setLikeItem(let item):
             state.likeItems = item
+            
+        case .setOtherMagazineItem(let item):
+            state.otherMagazineItems = item
             
         case .setIsLogin(let isLogin):
             state.isLogin = isLogin
@@ -136,6 +141,27 @@ extension MagazineDetailReactor {
                     .just(.setMagazineLike(isLiked)),
                     .just(.setMagazineLikeCount(likeCount))
                 ])
+            }
+    }
+    
+    func setUpMagazineList(_ page: Int) -> Observable<Mutation> {
+        let query: [String: Any] = ["page": page]
+        
+        return MagazineAPI.fetchMagazineList(query)
+            .catch { _ in .empty() }
+            .flatMap { magazineListData -> Observable<Mutation> in
+                
+                let listData = magazineListData.map {
+                    let magazine = Magazine(
+                        magazineID: $0.magazineID,
+                        title: $0.title,
+                        description: $0.description,
+                        previewImageURL: $0.previewImageURL
+                    )
+                    return MagazineDetailItem.magazineList(magazine)
+                }
+                
+                return .just(.setOtherMagazineItem(listData))
             }
     }
     
