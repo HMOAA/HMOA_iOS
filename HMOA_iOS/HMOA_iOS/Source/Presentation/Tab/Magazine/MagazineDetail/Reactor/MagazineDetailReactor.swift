@@ -15,6 +15,7 @@ class MagazineDetailReactor: Reactor {
     enum Action {
         case viewDidLoad(Bool)
         case didTapLikeButton
+        case didTapMagazineCell(IndexPath)
     }
     
     enum Mutation {
@@ -28,6 +29,7 @@ class MagazineDetailReactor: Reactor {
         case setMagazineLike(Bool)
         case setMagazineLikeCount(Int)
         case setIsTap(Bool)
+        case setSelectedMagazineID(IndexPath?)
     }
     
     struct State {
@@ -42,6 +44,7 @@ class MagazineDetailReactor: Reactor {
         var isLiked: Bool = true
         var likeCount: Int? = nil
         var isTapWhenNotLogin: Bool = false
+        var selectedMagazineID: Int? = nil
     }
     
     let initialState: State
@@ -60,6 +63,11 @@ class MagazineDetailReactor: Reactor {
             ])
         case .didTapLikeButton:
             return setMagazineLike()
+        case.didTapMagazineCell(let indexPath):
+            return .concat([
+                .just(.setSelectedMagazineID(indexPath)),
+                .just(.setSelectedMagazineID(nil))
+            ])
         }
     }
     
@@ -92,6 +100,13 @@ class MagazineDetailReactor: Reactor {
             
         case .setIsTap(let isTap):
             state.isTapWhenNotLogin = isTap
+            
+        case .setSelectedMagazineID(let indexPath):
+            guard let indexPath = indexPath else {
+                state.selectedMagazineID = nil
+                return state
+            }
+            state.selectedMagazineID = currentState.otherMagazineItems[indexPath.row].anotherMagazine?.magazineID
         }
         return state
     }
