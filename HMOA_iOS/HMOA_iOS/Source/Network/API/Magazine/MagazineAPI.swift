@@ -9,12 +9,12 @@ import RxSwift
 
 final class MagazineAPI {
     // Magazine
-    static func fetchMagazineList(_ query: [String: Any]) -> Observable<[MagazineItem]> {
+    static func fetchMagazineList(_ query: [String: Any]) -> Observable<[Magazine]> {
         return networking(
             urlStr: MagazineAddress.fetchMagazines.url,
             method: .get,
             data: nil,
-            model: [MagazineItem].self,
+            model: [Magazine].self,
             query: query)
     }
     

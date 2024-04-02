@@ -132,7 +132,7 @@
 		C96CD7412BA88010005C9856 /* MagazineDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD72D2BA88010005C9856 /* MagazineDetailReactor.swift */; };
 		C96CD7422BA88010005C9856 /* MagazineDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD72F2BA88010005C9856 /* MagazineDetailHeaderView.swift */; };
 		C96CD7432BA88010005C9856 /* MagazineContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7312BA88010005C9856 /* MagazineContentCell.swift */; };
-		C96CD7442BA88010005C9856 /* MagazineLatestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7322BA88010005C9856 /* MagazineLatestCell.swift */; };
+		C96CD7442BA88010005C9856 /* MagazineListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7322BA88010005C9856 /* MagazineListCell.swift */; };
 		C96CD7452BA88010005C9856 /* MagazineDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7342BA88010005C9856 /* MagazineDetailViewController.swift */; };
 		C96CD7472BA8802E005C9856 /* SupplementaryViewKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7462BA8802E005C9856 /* SupplementaryViewKind.swift */; };
 		C96CD74D2BA8803D005C9856 /* MagazineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7482BA8803D005C9856 /* MagazineModel.swift */; };
@@ -416,7 +416,7 @@
 		C96CD72D2BA88010005C9856 /* MagazineDetailReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineDetailReactor.swift; sourceTree = "<group>"; };
 		C96CD72F2BA88010005C9856 /* MagazineDetailHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineDetailHeaderView.swift; sourceTree = "<group>"; };
 		C96CD7312BA88010005C9856 /* MagazineContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineContentCell.swift; sourceTree = "<group>"; };
-		C96CD7322BA88010005C9856 /* MagazineLatestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineLatestCell.swift; sourceTree = "<group>"; };
+		C96CD7322BA88010005C9856 /* MagazineListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineListCell.swift; sourceTree = "<group>"; };
 		C96CD7342BA88010005C9856 /* MagazineDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineDetailViewController.swift; sourceTree = "<group>"; };
 		C96CD7462BA8802E005C9856 /* SupplementaryViewKind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupplementaryViewKind.swift; sourceTree = "<group>"; };
 		C96CD7482BA8803D005C9856 /* MagazineModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineModel.swift; sourceTree = "<group>"; };
@@ -1475,7 +1475,7 @@
 				C904BFA72BA9646F00B28494 /* ContentsCell */,
 				C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */,
 				C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */,
-				C96CD7322BA88010005C9856 /* MagazineLatestCell.swift */,
+				C96CD7322BA88010005C9856 /* MagazineListCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2476,7 +2476,7 @@
 				CA5DB81929EAA6F500BE0F79 /* LoginModel.swift in Sources */,
 				2C4041CE29ACD94D009247E7 /* SearchBarContainerView.swift in Sources */,
 				CAA1160A2AC16ABD0063806C /* BrandAPI.swift in Sources */,
-				C96CD7442BA88010005C9856 /* MagazineLatestCell.swift in Sources */,
+				C96CD7442BA88010005C9856 /* MagazineListCell.swift in Sources */,
 				CA0027C72B2C60F8001DEAE3 /* TutorialContentViewController.swift in Sources */,
 				C96CD73C2BA88010005C9856 /* MagazineAllCell.swift in Sources */,
 				CAF19B9E2A625D2100374038 /* SearchAddress.swift in Sources */,
