@@ -55,6 +55,13 @@ class MagazineDetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 최신 매거진 item 터치
+        magazineDetailCollectionView.rx.itemSelected
+            .filter { $0.section == 4 }
+            .map { Reactor.Action.didTapMagazineCell($0)}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - State
         
         // infoItem 변화 감지
@@ -106,6 +113,14 @@ class MagazineDetailViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, items in
                 self.updateSnapshot(forSection: .magazineList, withItems: items)
             })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.selectedMagazineID }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self) { owner, id in
+                owner.presentMagazineDetailViewController(id)
+            }
             .disposed(by: disposeBag)
     }
     
