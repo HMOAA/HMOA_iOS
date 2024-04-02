@@ -324,7 +324,7 @@ class MagazineDetailViewController: UIViewController, View {
                 
             case SupplementaryViewKind.bottomLine:
                 let lineView = collectionView.dequeueReusableSupplementaryView(ofKind: SupplementaryViewKind.bottomLine, withReuseIdentifier: MagazineDetailLineView.identifier, for: indexPath) as! MagazineDetailLineView
-                lineView.setColor(.customColor(.gray1))
+                lineView.setColor(.customColor(.gray2))
                 
                 return lineView
                 
