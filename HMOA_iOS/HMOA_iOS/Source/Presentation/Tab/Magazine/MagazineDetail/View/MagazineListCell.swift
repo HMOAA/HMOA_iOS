@@ -32,7 +32,6 @@ class MagazineListCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        layer.borderWidth = 1
         setAddView()
         setConstraints()
     }
