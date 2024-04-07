@@ -429,7 +429,20 @@ extension UIViewController {
     
     /// Magazine 공유
     @objc func shareMagazine() {
+        // TODO: url
+        let activityViewController = UIActivityViewController(activityItems: ["url"], applicationActivities: nil)
         
+        activityViewController.excludedActivityTypes = [.addToReadingList, .assignToContact, .saveToCameraRoll, .markupAsPDF]
+        
+//        activityViewController.completionWithItemsHandler = { (activity, success, items, error) in
+//            if success {
+//                
+//            } else {
+//                
+//            }
+//        }
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
     // MARK: - UI Function

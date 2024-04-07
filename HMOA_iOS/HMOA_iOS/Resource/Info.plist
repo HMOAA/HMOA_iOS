@@ -20,7 +20,12 @@
 				<string>kakao008fccb5318ed3276c65e7091a0a8f16</string>
 			</array>
 		</dict>
-		<dict/>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array/>
+		</dict>
 	</array>
 	<key>GIDClientID</key>
 	<string>788055646907-v9chjefcdm4vs2p5c6utgvmutbp0lrv4.apps.googleusercontent.com</string>
