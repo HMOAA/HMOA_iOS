@@ -122,7 +122,7 @@ extension MagazineDetailReactor {
                 let title = magazineDetailData.title
                 let releasedDate = magazineDetailData.releasedDate
                 let viewCount = magazineDetailData.viewCount
-                let previewImage = magazineDetailData.previewImage
+                let previewImage = magazineDetailData.previewImageURL
                 let description = magazineDetailData.description
                 
                 let magazineInfo = MagazineInfo(title: title, releasedDate: releasedDate, viewCount: viewCount, previewImageURL: previewImage, description: description)
