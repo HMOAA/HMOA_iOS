@@ -39,7 +39,7 @@ struct MagazineDetailResponse: Hashable, Codable {
     let magazineID: Int
     let title: String
     let releasedDate: String
-    let previewImage: String
+    let previewImageURL: String
     let description: String
     let contents: [MagazineContent]
     let tags: [String]
@@ -52,7 +52,7 @@ struct MagazineDetailResponse: Hashable, Codable {
         case title
         case releasedDate = "createAt"
         case description = "preview"
-        case previewImage = "previewImgUrl"
+        case previewImageURL = "previewImgUrl"
         case contents
         case tags
         case viewCount
