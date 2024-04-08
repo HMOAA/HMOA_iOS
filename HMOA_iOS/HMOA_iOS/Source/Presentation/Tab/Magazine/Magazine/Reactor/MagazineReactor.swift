@@ -13,11 +13,13 @@ import RxSwift
 class MagazineReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
         case didTapMagazineCell(IndexPath)
     }
     
     enum Mutation {
-        case navigateToMagazineDetail(MagazineItem)
+        case setMagazineBannerItem([MagazineItem])
+        case setSelectedMagazineID(IndexPath?)
     }
     
     struct State {
@@ -25,7 +27,7 @@ class MagazineReactor: Reactor {
         var newPerfumeItems: [MagazineItem] = []
         var topReviewItems: [MagazineItem] = []
         var allMagazineItems: [MagazineItem] = []
-        var selectedMagazine: MagazineItem? = nil
+        var selectedMagazineID: Int? = nil
     }
     
     var initialState: State
@@ -36,18 +38,53 @@ class MagazineReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return .concat([
+                setUpMagazineList(0)
+            ])
         case .didTapMagazineCell(let indexPath):
             let magazine = MagazineItem.mainMagazines[indexPath.item]
-            return Observable.just(.navigateToMagazineDetail(magazine))
+            return .concat([
+                .just(.setSelectedMagazineID(indexPath)),
+                .just(.setSelectedMagazineID(nil))
+            ])
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
-        case .navigateToMagazineDetail(let magazine):
-            state.selectedMagazine = magazine
+        case .setMagazineBannerItem(let item):
+            state.mainBannerItems = item
+        case .setSelectedMagazineID(let indexPath):
+            guard let indexPath = indexPath else {
+                state.selectedMagazineID = nil
+                return state
+            }
+            state.selectedMagazineID = currentState.mainBannerItems[indexPath.row].magazine?.magazineID
         }
         return state
+    }
+}
+
+extension MagazineReactor {
+    func setUpMagazineList(_ page: Int) -> Observable<Mutation> {
+        let query: [String: Any] = ["page": page]
+        
+        return MagazineAPI.fetchMagazineList(query)
+            .catch { _ in .empty() }
+            .flatMap { magazineListData -> Observable<Mutation> in
+                let listData = magazineListData
+                    .map { magazineData in
+                        let magazine = Magazine(
+                            magazineID: magazineData.magazineID,
+                            title: magazineData.title,
+                            description: magazineData.description,
+                            previewImageURL: magazineData.previewImageURL
+                        )
+                        return MagazineItem.magazine(magazine)
+                    }
+                return .just(.setMagazineBannerItem(listData))
+            }
     }
 }

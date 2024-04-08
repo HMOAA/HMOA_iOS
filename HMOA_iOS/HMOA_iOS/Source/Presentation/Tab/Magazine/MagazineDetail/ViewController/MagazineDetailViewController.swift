@@ -126,6 +126,7 @@ class MagazineDetailViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        // 다른 매거진DetailVC로 push
         reactor.state
             .compactMap { $0.selectedMagazineID }
             .asDriver(onErrorRecover: { _ in return .empty() })
