@@ -8,23 +8,20 @@
 import UIKit
 import Then
 import SnapKit
+import Kingfisher
 
 class MagazineMainCell: UICollectionViewCell {
     
     static let identifier = "MagazineMainCell"
     
     // MARK: UI Components
-    private let coverImageView = UIImageView()
+    private let coverImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+    }
     
     private let label = UILabel().then {
         $0.setLabelUI("Hello", font: .pretendard, size: 24, color: .blue)
-    }
-    
-    private let titleStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 0
-        $0.distribution = .equalSpacing
-        $0.alignment = .fill
     }
     
     private let labelStackView = UIStackView().then {
@@ -34,12 +31,10 @@ class MagazineMainCell: UICollectionViewCell {
         $0.alignment = .fill
     }
     
-    private let sloganLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 24, color: .white)
-    }
-    
-    private let perfumeNameLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 24, color: .white)
+        $0.numberOfLines = 0
+        $0.lineBreakMode = .byCharWrapping
     }
     
     private let descriptionLabel = UILabel().then {
@@ -60,9 +55,7 @@ class MagazineMainCell: UICollectionViewCell {
     }
     
     private func setAddView() {
-        [sloganLabel, perfumeNameLabel].forEach { titleStackView.addArrangedSubview($0) }
-        
-        [titleStackView, descriptionLabel].forEach{ labelStackView.addArrangedSubview($0)}
+        [titleLabel, descriptionLabel].forEach{ labelStackView.addArrangedSubview($0)}
         
         coverImageView.addSubview(labelStackView)
         
@@ -72,8 +65,8 @@ class MagazineMainCell: UICollectionViewCell {
     
     private func setConstraints() {
         coverImageView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview()
-            make.edges.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(coverImageView.snp.width).multipliedBy(376.0 / 328.0)
         }
         
         labelStackView.snp.makeConstraints { make in
@@ -83,9 +76,8 @@ class MagazineMainCell: UICollectionViewCell {
     }
     
     func configureCell(_ magazine: Magazine) {
-        coverImageView.backgroundColor = .random
-        sloganLabel.text = "시들지 않는 아름다움,"
-        perfumeNameLabel.text = "샤넬 오드 롱 코롱"
-        descriptionLabel.text = "일상 생활에 쉽게 통합할 수 있는 5가지 핵심 습관을 소개합니다."
+        coverImageView.kf.setImage(with: URL(string: magazine.previewImageURL))
+        titleLabel.text = magazine.title
+        descriptionLabel.text = magazine.description
     }
 }

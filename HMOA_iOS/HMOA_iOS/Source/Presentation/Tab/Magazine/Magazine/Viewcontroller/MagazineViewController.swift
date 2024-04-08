@@ -50,6 +50,12 @@ class MagazineViewController: UIViewController, View {
     func bind(reactor: MagazineReactor) {
         // MARK: Action
         
+        // viewDidLoad
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // magazine item 터치
         magazineCollectionView.rx.itemSelected
             .filter { $0.section == 0 || $0.section == 3 }
@@ -101,12 +107,11 @@ class MagazineViewController: UIViewController, View {
         
         // MagazineDetailVC로 push
         reactor.state
-            .map { $0.selectedMagazine }
+            .compactMap { $0.selectedMagazineID }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, _ in
-                // TODO: magazineID 반영
-                owner.presentMagazineDetailViewController(9)
-            })
+            .drive(with: self) { owner, id in
+                owner.presentMagazineDetailViewController(id)
+            }
             .disposed(by: disposeBag)
     }
     
@@ -266,7 +271,7 @@ class MagazineViewController: UIViewController, View {
         var initialSnapshot = NSDiffableDataSourceSnapshot<MagazineSection, MagazineItem>()
         initialSnapshot.appendSections([.mainBanner, .newPerfume, .topReview, .allMagazine])
         
-        initialSnapshot.appendItems(MagazineItem.mainMagazines, toSection: .mainBanner)
+//        initialSnapshot.appendItems(MagazineItem.mainMagazines, toSection: .mainBanner)
         initialSnapshot.appendItems(MagazineItem.newPerfumes, toSection: .newPerfume)
         initialSnapshot.appendItems(MagazineItem.top10Reviews, toSection: .topReview)
         initialSnapshot.appendItems(MagazineItem.magazines, toSection: .allMagazine)
