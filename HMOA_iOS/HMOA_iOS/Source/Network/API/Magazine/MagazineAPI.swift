@@ -27,13 +27,12 @@ final class MagazineAPI {
             query: query)
     }
     
-    static func fetchTopReviewList(_ query: [String: Any]) -> Observable<[MagazineItem]> {
+    static func fetchTopReviewList() -> Observable<[TopReview]> {
         return networking(
             urlStr: MagazineAddress.fetchTopReviews.url,
             method: .get,
             data: nil,
-            model: [MagazineItem].self,
-            query: query)
+            model: [TopReview].self)
     }
     
     // MagazineDetail

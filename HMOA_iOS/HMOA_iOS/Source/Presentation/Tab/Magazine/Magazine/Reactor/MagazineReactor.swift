@@ -19,6 +19,7 @@ class MagazineReactor: Reactor {
     
     enum Mutation {
         case setMagazineBannerItem([MagazineItem])
+        case setTopReviewItem([MagazineItem])
         case setSelectedMagazineID(IndexPath?)
     }
     
@@ -28,6 +29,7 @@ class MagazineReactor: Reactor {
         var topReviewItems: [MagazineItem] = []
         var allMagazineItems: [MagazineItem] = []
         var selectedMagazineID: Int? = nil
+        var selectedCommunityID: Int? = nil
     }
     
     var initialState: State
@@ -40,7 +42,8 @@ class MagazineReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return .concat([
-                setUpMagazineList(0)
+                setUpMagazineList(0),
+                setUpTopReviewList()
             ])
         case .didTapMagazineCell(let indexPath):
             let magazine = MagazineItem.mainMagazines[indexPath.item]
@@ -56,12 +59,16 @@ class MagazineReactor: Reactor {
         switch mutation {
         case .setMagazineBannerItem(let item):
             state.mainBannerItems = item
+            
         case .setSelectedMagazineID(let indexPath):
             guard let indexPath = indexPath else {
                 state.selectedMagazineID = nil
                 return state
             }
             state.selectedMagazineID = currentState.mainBannerItems[indexPath.row].magazine?.magazineID
+            
+        case .setTopReviewItem(let item):
+            state.topReviewItems = item
         }
         return state
     }
@@ -85,6 +92,25 @@ extension MagazineReactor {
                         return MagazineItem.magazine(magazine)
                     }
                 return .just(.setMagazineBannerItem(listData))
+            }
+    }
+    
+    func setUpTopReviewList() -> Observable<Mutation> {
+        return MagazineAPI.fetchTopReviewList()
+            .catch { _ in .empty() }
+            .flatMap { topReviewListData -> Observable<Mutation> in
+                let listData = topReviewListData
+                    .map { topReviewListData in
+                        let topReview = TopReview(
+                            communityID: topReviewListData.communityID,
+                            title: topReviewListData.title,
+                            userImageURL: topReviewListData.userImageURL,
+                            userName: topReviewListData.userName,
+                            content: topReviewListData.content
+                        )
+                        return MagazineItem.topReview(topReview)
+                    }
+                return .just(.setTopReviewItem(listData))
             }
     }
 }

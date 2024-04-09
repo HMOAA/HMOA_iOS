@@ -22,10 +22,19 @@ struct Magazine: Hashable, Codable {
 }
 
 struct TopReview: Hashable, Codable {
-    let id: Int
+    let communityID: Int
     let title: String
+    let userImageURL: String
     let userName: String
     let content: String
+    
+    enum CodingKeys: String, CodingKey {
+        case communityID = "communityId"
+        case title
+        case userImageURL = "profileImg"
+        case userName = "nickname"
+        case content
+    }
 }
 
 struct NewPerfume: Hashable, Codable {
