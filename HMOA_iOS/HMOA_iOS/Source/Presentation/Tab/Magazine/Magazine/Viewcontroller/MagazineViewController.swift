@@ -170,14 +170,14 @@ class MagazineViewController: UIViewController, View {
                 return section
                 
             case .topReview:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(193))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(296), heightDimension: .estimated(206))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(296), heightDimension: .estimated(193))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(296), heightDimension: .estimated(206))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuous
+                section.orthogonalScrollingBehavior = .groupPaging
                 section.boundarySupplementaryItems = [headerItem]
                 section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16)
                 section.interGroupSpacing = 8
@@ -273,7 +273,7 @@ class MagazineViewController: UIViewController, View {
         
 //        initialSnapshot.appendItems(MagazineItem.mainMagazines, toSection: .mainBanner)
         initialSnapshot.appendItems(MagazineItem.newPerfumes, toSection: .newPerfume)
-        initialSnapshot.appendItems(MagazineItem.top10Reviews, toSection: .topReview)
+//        initialSnapshot.appendItems(MagazineItem.top10Reviews, toSection: .topReview)
         initialSnapshot.appendItems(MagazineItem.magazines, toSection: .allMagazine)
         
         sections = initialSnapshot.sectionIdentifiers

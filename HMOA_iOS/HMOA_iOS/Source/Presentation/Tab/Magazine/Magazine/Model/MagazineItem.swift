@@ -62,11 +62,11 @@ extension MagazineItem {
     ]
     
     static let top10Reviews: [MagazineItem] = [
-        .topReview(TopReview(id: 1,title: "에르메스 머스크 시향기", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다.")),
-        .topReview(TopReview(id: 2,title: "에르메스 머스크 시향기", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다.")),
-        .topReview(TopReview(id: 3,title: "에르메스 머스크 시향기", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다.")),
-        .topReview(TopReview(id: 4,title: "에르메스 머스크 시향기", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다.")),
-        .topReview(TopReview(id: 5,title: "에르메스 머스크 시향기", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다."))
+        .topReview(TopReview(communityID: 1,title: "에르메스 머스크 시향기", userImageURL: "url", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다.")),
+        .topReview(TopReview(communityID: 2,title: "에르메스 머스크 시향기", userImageURL: "url", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다.")),
+        .topReview(TopReview(communityID: 3,title: "에르메스 머스크 시향기", userImageURL: "url", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다.")),
+        .topReview(TopReview(communityID: 4,title: "에르메스 머스크 시향기", userImageURL: "url", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다.")),
+        .topReview(TopReview(communityID: 5,title: "에르메스 머스크 시향기", userImageURL: "url", userName: "닉넴", content: "이 향수에선 전체적으로 굉장히 자연적인 향기를 느낄 수 있었다. 처음의 시트러스함 제외하곤 그 뒤로는 계속 그러했는데, \"마치 여름날, 강변에 잘 조성된 산책로를 걸으면 맡을 수 있을 것 같은 향들\"이었기 때문이다."))
     ]
     
     static let magazines: [MagazineItem] = [

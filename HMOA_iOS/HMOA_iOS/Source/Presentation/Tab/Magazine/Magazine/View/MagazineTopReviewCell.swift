@@ -8,15 +8,11 @@
 import UIKit
 import Then
 import SnapKit
+import Kingfisher
 
 class MagazineTopReviewCell: UICollectionViewCell {
     
     static let identifier = "MagazineTopReviewCell"
-    
-    private let cardView = UIView().then {
-        $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
-        $0.layer.borderWidth = 1
-    }
     
     private let reviewContentStackView = UIView()
     
@@ -31,19 +27,24 @@ class MagazineTopReviewCell: UICollectionViewCell {
         $0.alignment = .fill
     }
     
-    private let profileImageView = UIImageView()
+    private let profileImageView = UIImageView().then {
+        $0.clipsToBounds = true
+    }
     
     private let nicknameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 12, color: .gray3)
     }
     
+    private let contentContainer = UIView()
+    
     private let contentLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
-        $0.numberOfLines = 0
+        $0.setLabelUI("내용", font: .pretendard, size: 14, color: .black)
+        $0.numberOfLines = 5
         $0.lineBreakMode = .byCharWrapping
+        $0.setTextWithLineHeight(text: $0.text, lineHeight: 20)
     }
     
-    private let profileImageSize: CGFloat = 20
+    private let profileImageWidth: CGFloat = 20
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,7 +59,9 @@ class MagazineTopReviewCell: UICollectionViewCell {
     }
     
     private func setUI() {
-        profileImageView.layer.cornerRadius = profileImageSize / 2
+        profileImageView.layer.cornerRadius = profileImageWidth / 2
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.customColor(.gray2).cgColor
     }
     
     private func setAddView() {
@@ -66,20 +69,16 @@ class MagazineTopReviewCell: UICollectionViewCell {
             userStackView.addArrangedSubview($0)
         }
         
-        [titleLabel, userStackView, contentLabel].forEach {
+        contentContainer.addSubview(contentLabel)
+        
+        [titleLabel, userStackView, contentContainer].forEach {
             reviewContentStackView.addSubview($0)
         }
         
-        cardView.addSubview(reviewContentStackView)
-        
-        addSubview(cardView)
+        addSubview(reviewContentStackView)
     }
     
     private func setConstraint() {
-        cardView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-        }
-        
         reviewContentStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(24)
             make.leading.trailing.bottom.equalToSuperview().inset(20)
@@ -96,23 +95,30 @@ class MagazineTopReviewCell: UICollectionViewCell {
         }
         
         profileImageView.snp.makeConstraints { make in
-            make.height.width.equalTo(profileImageSize)
+            make.height.width.equalTo(profileImageWidth)
         }
         
         nicknameLabel.snp.makeConstraints { make in
             make.leading.equalTo(profileImageView.snp.trailing).offset(6)
         }
         
-        contentLabel.snp.makeConstraints { make in
+        contentContainer.snp.makeConstraints { make in
             make.top.equalTo(userStackView.snp.bottom).offset(16)
-            make.left.right.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(100)
+        }
+        
+        contentLabel.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
         }
     }
     
     func configureCell(_ topReview: TopReview) {
         titleLabel.text = topReview.title
-        profileImageView.backgroundColor = .random
+        profileImageView.kf.setImage(with: URL(string: topReview.userImageURL))
         nicknameLabel.text = topReview.userName
         contentLabel.text = topReview.content
+        
+        print(layer.frame.height)
     }
 }
