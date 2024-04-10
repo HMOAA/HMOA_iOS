@@ -303,7 +303,7 @@ class MagazineViewController: UIViewController, View {
         
         snapshot.appendItems(items, toSection: section)
         
-        dataSource.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
