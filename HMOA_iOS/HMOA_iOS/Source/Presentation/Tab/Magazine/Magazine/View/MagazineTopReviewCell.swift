@@ -118,7 +118,5 @@ class MagazineTopReviewCell: UICollectionViewCell {
         profileImageView.kf.setImage(with: URL(string: topReview.userImageURL))
         nicknameLabel.text = topReview.userName
         contentLabel.text = topReview.content
-        
-        print(layer.frame.height)
     }
 }

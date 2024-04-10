@@ -15,12 +15,14 @@ class MagazineReactor: Reactor {
     enum Action {
         case viewDidLoad
         case didTapMagazineCell(IndexPath)
+        case didTapTopReviewCell(IndexPath)
     }
     
     enum Mutation {
         case setMagazineBannerItem([MagazineItem])
         case setTopReviewItem([MagazineItem])
         case setSelectedMagazineID(IndexPath?)
+        case setSelectedTopReviewID(IndexPath?)
     }
     
     struct State {
@@ -45,11 +47,17 @@ class MagazineReactor: Reactor {
                 setUpMagazineList(0),
                 setUpTopReviewList()
             ])
+            
         case .didTapMagazineCell(let indexPath):
-            let magazine = MagazineItem.mainMagazines[indexPath.item]
             return .concat([
                 .just(.setSelectedMagazineID(indexPath)),
                 .just(.setSelectedMagazineID(nil))
+            ])
+            
+        case .didTapTopReviewCell(let indexPath):
+            return .concat([
+                .just(.setSelectedTopReviewID(indexPath)),
+                .just(.setSelectedTopReviewID(nil))
             ])
         }
     }
@@ -60,15 +68,22 @@ class MagazineReactor: Reactor {
         case .setMagazineBannerItem(let item):
             state.mainBannerItems = item
             
+        case .setTopReviewItem(let item):
+            state.topReviewItems = item
+            
         case .setSelectedMagazineID(let indexPath):
             guard let indexPath = indexPath else {
                 state.selectedMagazineID = nil
                 return state
             }
             state.selectedMagazineID = currentState.mainBannerItems[indexPath.row].magazine?.magazineID
-            
-        case .setTopReviewItem(let item):
-            state.topReviewItems = item
+         
+        case .setSelectedTopReviewID(let indexPath):
+            guard let indexPath = indexPath else {
+                state.selectedCommunityID = nil
+                return state
+            }
+            state.selectedCommunityID = currentState.topReviewItems[indexPath.row].topReview?.communityID
         }
         return state
     }

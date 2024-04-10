@@ -63,6 +63,13 @@ class MagazineViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // top review item 터치
+        magazineCollectionView.rx.itemSelected
+            .filter { $0.section == 2 }
+            .map { Reactor.Action.didTapTopReviewCell($0) }
+            .bind(to: reactor.action )
+            .disposed(by: disposeBag)
+        
         // MARK: State
         
         // MainBannerItems 변화 감지
@@ -111,6 +118,15 @@ class MagazineViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self) { owner, id in
                 owner.presentMagazineDetailViewController(id)
+            }
+            .disposed(by: disposeBag)
+        
+        // CommunityDetailVC로 push
+        reactor.state
+            .compactMap { $0.selectedCommunityID }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self) { owner, id in
+                owner.presentCommunityDetailVC(id)
             }
             .disposed(by: disposeBag)
     }
