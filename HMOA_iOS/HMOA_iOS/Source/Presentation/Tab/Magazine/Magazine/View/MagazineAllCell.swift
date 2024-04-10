@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 class MagazineAllCell: UICollectionViewCell {
     
@@ -20,27 +21,23 @@ class MagazineAllCell: UICollectionViewCell {
         $0.alignment = .fill
     }
     
-    private let titleStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 0
-        $0.distribution = .equalSpacing
-        $0.alignment = .fill
+    private let coverImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     
-    private let coverImageView = UIImageView()
-    
-    private let sloganLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
-    }
-    
-    private let perfumeNameLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
+        $0.numberOfLines = 0
+        $0.lineBreakMode = .byWordWrapping
+        $0.setTextWithLineHeight(text: "제목", lineHeight: 24)
     }
     
     private let longDescriptionLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
+        $0.setTextWithLineHeight(text: "소개", lineHeight: 22)
     }
     
     override init(frame: CGRect) {
@@ -55,11 +52,7 @@ class MagazineAllCell: UICollectionViewCell {
     }
     
     private func setAddView() {
-        [sloganLabel, perfumeNameLabel].forEach {
-            titleStackView.addArrangedSubview($0)
-        }
-        
-        [coverImageView, titleStackView, longDescriptionLabel].forEach {
+        [coverImageView, titleLabel, longDescriptionLabel].forEach {
             stackView.addArrangedSubview($0)
         }
         
@@ -78,9 +71,8 @@ class MagazineAllCell: UICollectionViewCell {
     }
     
     func configureCell(_ magazine: Magazine) {
-        coverImageView.backgroundColor = .random
-        sloganLabel.text = "시들지 않는 아름다움,"
-        perfumeNameLabel.text = "샤넬 오드 롱 코롱"
-        longDescriptionLabel.text = "여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다."
+        coverImageView.kf.setImage(with: URL(string: magazine.previewImageURL))
+        titleLabel.text = magazine.title
+        longDescriptionLabel.text = magazine.description
     }
 }

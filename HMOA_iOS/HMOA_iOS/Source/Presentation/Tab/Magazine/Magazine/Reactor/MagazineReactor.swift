@@ -16,13 +16,20 @@ class MagazineReactor: Reactor {
         case viewDidLoad
         case didTapMagazineCell(IndexPath)
         case didTapTopReviewCell(IndexPath)
+        
+//         TODO: 매거진 수가 증가함에 따라 하단 끝에 닿을 때 pagination 구현
+//        case didScrollLimit
     }
     
     enum Mutation {
         case setMagazineBannerItem([MagazineItem])
         case setTopReviewItem([MagazineItem])
+        case setAllMagazineItem([MagazineItem])
         case setSelectedMagazineID(IndexPath?)
         case setSelectedTopReviewID(IndexPath?)
+        
+//         TODO: pagination
+//        case setMagazineListPage(Int)
     }
     
     struct State {
@@ -32,6 +39,7 @@ class MagazineReactor: Reactor {
         var allMagazineItems: [MagazineItem] = []
         var selectedMagazineID: Int? = nil
         var selectedCommunityID: Int? = nil
+        var magazineListPage: Int = 1
     }
     
     var initialState: State
@@ -44,8 +52,9 @@ class MagazineReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return .concat([
-                setUpMagazineList(0),
-                setUpTopReviewList()
+                setUpMagazineBannerList(),
+                setUpTopReviewList(),
+                setUpALLMagazineList()
             ])
             
         case .didTapMagazineCell(let indexPath):
@@ -59,6 +68,11 @@ class MagazineReactor: Reactor {
                 .just(.setSelectedTopReviewID(indexPath)),
                 .just(.setSelectedTopReviewID(nil))
             ])
+            
+//             TODO: pagination
+//        case .didScrollLimit:
+//            let nextPage = currentState.magazineListPage + 1
+//            return .just(.setMagazineListPage(nextPage))
         }
     }
     
@@ -71,12 +85,17 @@ class MagazineReactor: Reactor {
         case .setTopReviewItem(let item):
             state.topReviewItems = item
             
+        case .setAllMagazineItem(let item):
+            state.allMagazineItems += item
+            
         case .setSelectedMagazineID(let indexPath):
             guard let indexPath = indexPath else {
                 state.selectedMagazineID = nil
                 return state
             }
-            state.selectedMagazineID = currentState.mainBannerItems[indexPath.row].magazine?.magazineID
+            
+            let section = indexPath.section == 0 ? currentState.mainBannerItems : currentState.allMagazineItems
+            state.selectedMagazineID = section[indexPath.row].magazine?.magazineID
          
         case .setSelectedTopReviewID(let indexPath):
             guard let indexPath = indexPath else {
@@ -84,14 +103,18 @@ class MagazineReactor: Reactor {
                 return state
             }
             state.selectedCommunityID = currentState.topReviewItems[indexPath.row].topReview?.communityID
+          
+//         TODO: pagination
+//        case .setMagazineListPage(let page):
+//            state.magazineListPage = page
         }
         return state
     }
 }
 
 extension MagazineReactor {
-    func setUpMagazineList(_ page: Int) -> Observable<Mutation> {
-        let query: [String: Any] = ["page": page]
+    func setUpMagazineBannerList() -> Observable<Mutation> {
+        let query: [String: Any] = ["page": 0]
         
         return MagazineAPI.fetchMagazineList(query)
             .catch { _ in .empty() }
@@ -126,6 +149,26 @@ extension MagazineReactor {
                         return MagazineItem.topReview(topReview)
                     }
                 return .just(.setTopReviewItem(listData))
+            }
+    }
+    
+    func setUpALLMagazineList() -> Observable<Mutation> {
+        let query: [String: Any] = ["page": currentState.magazineListPage]
+        
+        return MagazineAPI.fetchMagazineList(query)
+            .catch { _ in .empty() }
+            .flatMap { magazineListData -> Observable<Mutation> in
+                let listData = magazineListData
+                    .map { magazineData in
+                        let magazine = Magazine(
+                            magazineID: magazineData.magazineID,
+                            title: magazineData.title,
+                            description: magazineData.description,
+                            previewImageURL: magazineData.previewImageURL
+                        )
+                        return MagazineItem.magazine(magazine)
+                    }
+                return .just(.setAllMagazineItem(listData))
             }
     }
 }
