@@ -39,7 +39,7 @@ class MagazineDetailViewController: UIViewController, View {
         super.viewDidLoad()
         
         view.addSubview(magazineDetailCollectionView)
-        setBackShareRightNaviBar("")
+        setBackItemNaviBar("")
         setConstraints()
         configureDataSource()
     }
