@@ -37,7 +37,6 @@ class MagazineViewController: UIViewController, View {
         setUI()
         setConstraints()
         configureDataSource()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
