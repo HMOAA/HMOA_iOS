@@ -66,7 +66,7 @@ class MagazineViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .mainBanner, withItems: items)
+                owner.updateSnapshot(forSection: .mainBanner, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -76,7 +76,7 @@ class MagazineViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .newPerfume, withItems: items)
+                owner.updateSnapshot(forSection: .newPerfume, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -86,7 +86,7 @@ class MagazineViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .topReview, withItems: items)
+                owner.updateSnapshot(forSection: .topReview, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -96,7 +96,7 @@ class MagazineViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .allMagazine, withItems: items)
+                owner.updateSnapshot(forSection: .allMagazine, withItems: items)
             })
             .disposed(by: disposeBag)
         
