@@ -15,6 +15,7 @@ class MagazineDetailReactor: Reactor {
     enum Action {
         case viewDidLoad(Bool)
         case didTapLikeButton
+        case loadMagazineList
         case didTapMagazineCell(IndexPath)
     }
     
@@ -58,11 +59,15 @@ class MagazineDetailReactor: Reactor {
         case .viewDidLoad(let isLogin):
             return .concat([
                 setUpMagazineDetail(),
-                setUpMagazineList(0),
                 .just(.setIsLogin(isLogin))
             ])
+            
         case .didTapLikeButton:
             return setMagazineLike()
+            
+        case .loadMagazineList:
+                    return setUpMagazineList(0)
+            
         case.didTapMagazineCell(let indexPath):
             return .concat([
                 .just(.setSelectedMagazineID(indexPath)),

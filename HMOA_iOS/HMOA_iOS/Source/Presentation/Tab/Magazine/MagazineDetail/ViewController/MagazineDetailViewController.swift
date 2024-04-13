@@ -55,6 +55,17 @@ class MagazineDetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // content section의 마지막 아이템이 나타나면 magazineList Load
+        magazineDetailCollectionView.rx.willDisplayCell
+            .filter { cellInfo in
+                let sectionIndex = self.sections.firstIndex(of: .content)!
+                let isLastItem = cellInfo.at.item == self.magazineDetailCollectionView.numberOfItems(inSection: sectionIndex) - 1
+                return cellInfo.at.section == sectionIndex && isLastItem
+            }
+            .map { _ in Reactor.Action.loadMagazineList }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // 최신 매거진 item 터치
         magazineDetailCollectionView.rx.itemSelected
             .filter { $0.section == 4 }
