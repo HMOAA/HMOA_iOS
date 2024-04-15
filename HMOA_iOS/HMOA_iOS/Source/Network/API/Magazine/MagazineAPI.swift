@@ -8,12 +8,13 @@
 import RxSwift
 
 final class MagazineAPI {
-    static func fetchMagazineList(_ query: [String: Any]) -> Observable<[MagazineItem]> {
+    // Magazine
+    static func fetchMagazineList(_ query: [String: Any]) -> Observable<[Magazine]> {
         return networking(
             urlStr: MagazineAddress.fetchMagazines.url,
             method: .get,
             data: nil,
-            model: [MagazineItem].self,
+            model: [Magazine].self,
             query: query)
     }
     
@@ -33,5 +34,33 @@ final class MagazineAPI {
             data: nil,
             model: [MagazineItem].self,
             query: query)
+    }
+    
+    // MagazineDetail
+    static func fetchMagazineDetail(_ id: Int) -> Observable<MagazineDetailResponse> {
+        return networking(
+            urlStr: MagazineAddress.fetchMagazineDetail(id).url,
+            method: .get,
+            data: nil,
+            model: MagazineDetailResponse.self
+        )
+    }
+    
+    static func putMagazineLike(id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: MagazineAddress.putDeleteMagazineLike(id).url,
+            method: .put,
+            data: nil,
+            model: Response.self
+        )
+    }
+    
+    static func deleteMagazineLike(id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: MagazineAddress.putDeleteMagazineLike(id).url,
+            method: .delete,
+            data: nil,
+            model: Response.self
+        )
     }
 }

@@ -8,15 +8,17 @@
 import UIKit
 
 struct Magazine: Hashable, Codable {
-    let id: Int
-    let slogan: String
-    let perfumeName: String
+    let magazineID: Int
+    let title: String
     let description: String
-    let longDescription: String
-    let releaseDate: String
-    let content: String
-    let liked: Bool
-    let likeCount: Int
+    let previewImageURL: String
+    
+    enum CodingKeys: String, CodingKey {
+        case magazineID = "magazineId"
+        case title
+        case description = "preview"
+        case previewImageURL = "previewImgUrl"
+    }
 }
 
 struct TopReview: Hashable, Codable {
@@ -31,4 +33,53 @@ struct NewPerfume: Hashable, Codable {
     let name: String
     let brand: String
     let releaseDate: String
+}
+
+struct MagazineDetailResponse: Hashable, Codable {
+    let magazineID: Int
+    let title: String
+    let releasedDate: String
+    let previewImageURL: String
+    let description: String
+    let contents: [MagazineContent]
+    let tags: [String]
+    let viewCount: Int
+    let likeCount: Int
+    let liked: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case magazineID = "magazineId"
+        case title
+        case releasedDate = "createAt"
+        case description = "preview"
+        case previewImageURL = "previewImgUrl"
+        case contents
+        case tags
+        case viewCount
+        case likeCount
+        case liked
+    }
+}
+
+struct MagazineInfo: Hashable, Codable {
+    let title: String
+    let releasedDate: String
+    let viewCount: Int
+    let previewImageURL: String
+    let description: String
+}
+
+struct MagazineContent: Hashable, Codable {
+    let type: String
+    let data: String
+}
+
+struct MagazineTag: Hashable, Codable {
+    let tag: String
+}
+
+struct MagazineLike: Hashable, Codable {
+    let id: Int
+    var isLiked: Bool
+    var likeCount: Int
 }
