@@ -46,12 +46,28 @@ class MagazineMainCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setGradientLayer()
         setAddView()
         setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setGradientLayer() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = layer.bounds
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        
+        let colors: [CGColor] = [
+            UIColor.clear.cgColor,
+            UIColor.black.withAlphaComponent(0.8).cgColor
+        ]
+        gradientLayer.colors = colors
+        
+        coverImageView.layer.addSublayer(gradientLayer)
     }
     
     private func setAddView() {
