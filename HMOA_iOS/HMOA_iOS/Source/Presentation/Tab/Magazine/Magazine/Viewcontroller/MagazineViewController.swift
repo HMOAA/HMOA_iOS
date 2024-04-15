@@ -39,6 +39,12 @@ class MagazineViewController: UIViewController, View {
         configureDataSource()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setNavigationBar()
+    }
+    
     // MARK: - Bind
     
     func bind(reactor: MagazineReactor) {
@@ -57,8 +63,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.mainBannerItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .mainBanner, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .mainBanner, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -66,8 +73,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.newPerfumeItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .newPerfume, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .newPerfume, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -75,8 +83,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.topReviewItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .topReview, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .topReview, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -84,8 +93,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.allMagazineItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .allMagazine, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .allMagazine, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -94,19 +104,13 @@ class MagazineViewController: UIViewController, View {
             .map { $0.selectedMagazine }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentMagazineDetailViewController()
+                // TODO: magazineID 반영
+                owner.presentMagazineDetailViewController(9)
             })
             .disposed(by: disposeBag)
     }
     
     private func setUI() {
-        title = "Magazine"
-        self.navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
-            NSAttributedString.Key.foregroundColor: UIColor.white
-        ]
-        self.navigationController?.view.backgroundColor = .clear
-        
         magazineCollectionView.contentInsetAdjustmentBehavior = .never
         view.backgroundColor = .white
     }
@@ -283,3 +287,19 @@ class MagazineViewController: UIViewController, View {
 }
 
 
+extension MagazineViewController {
+    private func setNavigationBar() {
+        title = "Magazine"
+        
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.backgroundColor = .clear
+        scrollEdgeAppearance.shadowColor = .clear
+        scrollEdgeAppearance.backgroundEffect = nil
+        scrollEdgeAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+    }
+}

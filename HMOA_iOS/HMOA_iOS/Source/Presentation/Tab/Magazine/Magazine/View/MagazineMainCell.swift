@@ -84,8 +84,8 @@ class MagazineMainCell: UICollectionViewCell {
     
     func configureCell(_ magazine: Magazine) {
         coverImageView.backgroundColor = .random
-        sloganLabel.text = magazine.slogan
-        perfumeNameLabel.text = magazine.perfumeName
-        descriptionLabel.text = magazine.description
+        sloganLabel.text = "시들지 않는 아름다움,"
+        perfumeNameLabel.text = "샤넬 오드 롱 코롱"
+        descriptionLabel.text = "일상 생활에 쉽게 통합할 수 있는 5가지 핵심 습관을 소개합니다."
     }
 }
