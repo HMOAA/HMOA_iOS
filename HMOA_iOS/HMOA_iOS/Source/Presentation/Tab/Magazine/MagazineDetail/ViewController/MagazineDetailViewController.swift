@@ -81,7 +81,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .info, withItems: items)
+                owner.updateSnapshot(forSection: .info, withItems: items)
                 
             })
             .disposed(by: disposeBag)
@@ -92,7 +92,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .content, withItems: items)
+                owner.updateSnapshot(forSection: .content, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -102,7 +102,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .like, withItems: items)
+                owner.updateSnapshot(forSection: .like, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -112,7 +112,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .tags, withItems: items)
+                owner.updateSnapshot(forSection: .tags, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -122,7 +122,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .magazineList, withItems: items)
+                owner.updateSnapshot(forSection: .magazineList, withItems: items)
             })
             .disposed(by: disposeBag)
         
