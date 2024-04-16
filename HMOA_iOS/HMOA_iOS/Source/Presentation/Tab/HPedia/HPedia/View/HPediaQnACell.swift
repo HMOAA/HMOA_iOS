@@ -24,13 +24,11 @@ class HPediaCommunityCell: UICollectionViewCell{
     }
     
     private let likeButton = UIButton().then {
-        $0.makeLikeButton()
-        $0.isEnabled = true
+        $0.makeHeartButton()
     }
     
     private let commentButton = UIButton().then {
         $0.makeCommentButton()
-        $0.isEnabled = true
     }
     
     // MARK: - Properties
