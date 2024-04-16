@@ -228,7 +228,7 @@ extension DetailViewController {
             .compactMap { $0 }
             .observe(on: MainScheduler.instance)
             .bind(onNext: { isLiked in
-                cell.perfumeInfoView.perfumeLikeImageView.image = !isLiked ? UIImage(named: "heart") : UIImage(named: "heart_fill")
+                cell.perfumeInfoView.perfumeLikeImageView.image = !isLiked ? UIImage(named: "emptyHeart") : UIImage(named: "heart")
             })
             .disposed(by: disposeBag)
         

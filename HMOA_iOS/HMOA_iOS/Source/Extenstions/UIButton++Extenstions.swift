@@ -34,7 +34,7 @@ extension UIButton {
         return button
     }
     
-    func makeLikeButton() {
+    func makeHeartButton() {
         var buttonConfig = UIButton.Configuration.plain()
 
         buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 4.6, leading: 6, bottom: 4.6, trailing: 8)
@@ -43,8 +43,8 @@ extension UIButton {
         
         
         let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .regular, scale: .default)
-        let normalImage = UIImage(named: "heart", in: .none, with: config)
-        let selectedImage = UIImage(named: "heart_fill", in: .none, with: config)
+        let normalImage = UIImage(named: "emptyHeart", in: .none, with: config)
+        let selectedImage = UIImage(named: "heart", in: .none, with: config)
         
         self.configuration = buttonConfig
         self.setImage(normalImage, for: .normal)
@@ -52,6 +52,22 @@ extension UIButton {
         self.tintColor = .black
         self.layer.cornerRadius = 10
         self.backgroundColor = .customColor(.gray1)
+    }
+    
+    func makeLikeButton() {
+        var buttonConfig = UIButton.Configuration.plain()
+        
+        buttonConfig.imagePadding = 5
+        buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        buttonConfig.baseBackgroundColor = .white
+        
+        let normalImage = UIImage(named: "like")
+        let selectedImage = normalImage?.withTintColor(.customColor(.red))
+        
+        self.configuration = buttonConfig
+        self.setImage(normalImage, for: .normal)
+        self.setImage(selectedImage, for: .selected)
+        self.tintColor = .black
     }
     
     func makeCommentButton() {
