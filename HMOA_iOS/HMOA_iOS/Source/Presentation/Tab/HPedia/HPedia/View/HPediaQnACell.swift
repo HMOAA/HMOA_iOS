@@ -80,7 +80,7 @@ class HPediaCommunityCell: UICollectionViewCell{
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
+            make.trailing.leading.equalToSuperview().inset(16)
             make.top.equalTo(categoryLabel.snp.bottom).offset(8)
         }
         
