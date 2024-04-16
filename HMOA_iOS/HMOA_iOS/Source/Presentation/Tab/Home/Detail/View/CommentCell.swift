@@ -181,7 +181,7 @@ extension CommentCell {
     
         noCommentLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(20)
         }
         
         communityNoCommentLabel.snp.makeConstraints { make in
