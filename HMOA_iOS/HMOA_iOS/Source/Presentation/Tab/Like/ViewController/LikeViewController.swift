@@ -68,7 +68,7 @@ class LikeViewController: UIViewController, View {
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = UIColor.white
-        setNavigationBarTitle("저장")
+        setBackItemNaviBar("나의 향수")
     }
     
     private func setAddView() {
