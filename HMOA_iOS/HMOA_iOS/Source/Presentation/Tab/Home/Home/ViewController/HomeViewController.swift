@@ -29,6 +29,17 @@ class HomeViewController: UIViewController, View {
         }
     }
     
+    lazy var indicatorImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.animationRepeatCount = 0
+        $0.animationDuration = 0.3
+        $0.animationImages = [
+            UIImage(named: "indicator1")!,
+            UIImage(named: "indicator2")!,
+            UIImage(named: "indicator3")!
+        ]
+    }
+    
     // MARK: Properties
     private var datasource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>?
     var disposeBag = DisposeBag()
@@ -49,13 +60,20 @@ class HomeViewController: UIViewController, View {
         homeView.collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        [homeView] .forEach { view.addSubview($0) }
-
+        [homeView, indicatorImageView] .forEach { view.addSubview($0) }
+        
         homeView.snp.makeConstraints {
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
         }
+        
+        indicatorImageView.snp.makeConstraints { make in
+            make.centerY.centerX.equalToSuperview()
+            make.width.height.equalTo(110)
+        }
+        
+        indicatorImageView.startAnimating()
     }
     
     // MARK: - Bind
@@ -107,6 +125,7 @@ class HomeViewController: UIViewController, View {
             .map { $0.sections }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
+                owner.indicatorImageView.stopAnimating()
                 var snapshot = NSDiffableDataSourceSnapshot<HomeSection, HomeSectionItem>()
                 snapshot.appendSections(sections)
                 

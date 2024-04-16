@@ -192,7 +192,8 @@ extension DetailViewController {
     
     private func bindHeader(_ header: CommentHeaderView) {
         reactor?.state
-            .map { "+\($0.commentCount)" }
+            .map { $0.commentCount}
+            .map { $0 == 0 ? "\($0)" : "+\($0)" }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(header.countLabel.rx.text)
             .disposed(by: disposeBag)
@@ -351,8 +352,18 @@ extension DetailViewController: UICollectionViewDelegate {
             }
             
             if kind == UICollectionView.elementKindSectionFooter {
+                
                 guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
-            
+                
+                self.reactor?.state
+                    .map { $0.commentCount == 0}
+                    .distinctUntilChanged()
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, isZero in
+                        commentFooter.isHidden = isZero
+                    })
+                    .disposed(by: commentFooter.disposeBag)
+                
                 
                 commentFooter.moreButton.rx.tap
                     .map { Reactor.Action.didTapMoreButton }
