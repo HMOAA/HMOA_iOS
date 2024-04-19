@@ -21,6 +21,22 @@ struct Magazine: Hashable, Codable {
     }
 }
 
+struct NewPerfume: Hashable, Codable {
+    let perfumeID: Int
+    let name: String
+    let brand: String
+    let releaseDate: String
+    let perfumeImageURL: String
+    
+    enum CodingKeys: String, CodingKey {
+        case perfumeID = "perfumeId"
+        case name = "perfumeName"
+        case brand = "brandName"
+        case releaseDate = "relaseDate"
+        case perfumeImageURL = "perfumeImgUrl"
+    }
+}
+
 struct TopReview: Hashable, Codable {
     let communityID: Int
     let title: String
@@ -35,13 +51,6 @@ struct TopReview: Hashable, Codable {
         case userName = "nickname"
         case content
     }
-}
-
-struct NewPerfume: Hashable, Codable {
-    let id: Int
-    let name: String
-    let brand: String
-    let releaseDate: String
 }
 
 struct MagazineDetailResponse: Hashable, Codable {

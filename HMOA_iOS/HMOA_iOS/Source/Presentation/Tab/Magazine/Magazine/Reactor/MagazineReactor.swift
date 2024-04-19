@@ -24,6 +24,7 @@ class MagazineReactor: Reactor {
     
     enum Mutation {
         case setMagazineBannerItem([MagazineItem])
+        case setNewPerfumeItem([MagazineItem])
         case setTopReviewItem([MagazineItem])
         case setAllMagazineItem([MagazineItem])
         case setCenteredMagazineImageURL(Int)
@@ -56,6 +57,7 @@ class MagazineReactor: Reactor {
         case .viewDidLoad:
             return .concat([
                 setUpMagazineBannerList(),
+                setUpNewPerfumeList(),
                 setUpTopReviewList(),
                 setUpALLMagazineList()
             ])
@@ -87,6 +89,9 @@ class MagazineReactor: Reactor {
         switch mutation {
         case .setMagazineBannerItem(let item):
             state.mainBannerItems = item
+            
+        case .setNewPerfumeItem(let item):
+            state.newPerfumeItems = item
             
         case .setTopReviewItem(let item):
             state.topReviewItems = item
@@ -139,6 +144,26 @@ extension MagazineReactor {
                         return MagazineItem.magazine(magazine)
                     }
                 return .just(.setMagazineBannerItem(listData))
+            }
+    }
+    
+    func setUpNewPerfumeList() -> Observable<Mutation> {
+        return MagazineAPI.fetchNewPerfumeList()
+            .catch { _ in .empty() }
+            .flatMap { newPerfumeListData -> Observable<Mutation> in
+                print(newPerfumeListData)
+                let listData = newPerfumeListData
+                    .map { newPerfumeData in
+                        let newPerfume = NewPerfume(
+                            perfumeID: newPerfumeData.perfumeID,
+                            name: newPerfumeData.name,
+                            brand: newPerfumeData.brand,
+                            releaseDate: newPerfumeData.releaseDate,
+                            perfumeImageURL: newPerfumeData.perfumeImageURL
+                        )
+                        return MagazineItem.newPerfume(newPerfume)
+                    }
+                return .just(.setNewPerfumeItem(listData))
             }
     }
     
