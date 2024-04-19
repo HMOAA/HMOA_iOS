@@ -58,7 +58,7 @@ class MagazineMainCell: UICollectionViewCell {
     private func setGradientLayer() {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = layer.bounds
-        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.3)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
         
         let colors: [CGColor] = [
