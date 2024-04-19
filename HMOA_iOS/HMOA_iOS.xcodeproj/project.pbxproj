@@ -140,6 +140,8 @@
 		C96CD74F2BA8803D005C9856 /* MagazineAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */; };
 		C96CD7512BA8804E005C9856 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C96CD7502BA8804E005C9856 /* GoogleService-Info.plist */; };
 		C96CD7542BA88065005C9856 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7532BA88065005C9856 /* IgnoerData.swift */; };
+		C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */; };
+		C98970DE2BD24CB100FFD68E /* MagazineBannerImageURLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98970DD2BD24CB100FFD68E /* MagazineBannerImageURLManager.swift */; };
 		C99E7B692BA96DE200F359BC /* MagazineDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */; };
 		C99E7B6B2BA9F0B500F359BC /* MagazineDetailLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */; };
 		CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */; };
@@ -424,6 +426,8 @@
 		C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineAPI.swift; sourceTree = "<group>"; };
 		C96CD7502BA8804E005C9856 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C96CD7532BA88065005C9856 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
+		C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification++Extensions.swift"; sourceTree = "<group>"; };
+		C98970DD2BD24CB100FFD68E /* MagazineBannerImageURLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineBannerImageURLManager.swift; sourceTree = "<group>"; };
 		C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailItem.swift; sourceTree = "<group>"; };
 		C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailLineView.swift; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
@@ -746,6 +750,7 @@
 				CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */,
 				CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */,
 				2C15DF902A57DFE000EAB112 /* CoreGraphicManager.swift */,
+				C98970DD2BD24CB100FFD68E /* MagazineBannerImageURLManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -934,6 +939,7 @@
 				CA0160A42AB2FAE600D5839D /* AttributeString++Extension.swift */,
 				CAA592682B048BB9003DAE51 /* UIImage++Extenstions.swift */,
 				CA9810FB2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift */,
+				C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -2591,6 +2597,7 @@
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				CAD1EC132A812491003B21FD /* NoLoginView.swift in Sources */,
+				C98970DE2BD24CB100FFD68E /* MagazineBannerImageURLManager.swift in Sources */,
 				CA01609D2AB2E46000D5839D /* EvaluationAddress.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */,
@@ -2692,6 +2699,7 @@
 				CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
 				CA9810FC2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift in Sources */,
+				C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */,
 				C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */,
 				C96CD7542BA88065005C9856 /* IgnoerData.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,

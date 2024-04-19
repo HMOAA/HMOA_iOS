@@ -14,6 +14,7 @@ class MagazineReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case currentPageChanged(Int)
         case didTapMagazineCell(IndexPath)
         case didTapTopReviewCell(IndexPath)
         
@@ -25,6 +26,7 @@ class MagazineReactor: Reactor {
         case setMagazineBannerItem([MagazineItem])
         case setTopReviewItem([MagazineItem])
         case setAllMagazineItem([MagazineItem])
+        case setCenteredMagazineImageURL(Int)
         case setSelectedMagazineID(IndexPath?)
         case setSelectedTopReviewID(IndexPath?)
         
@@ -37,6 +39,7 @@ class MagazineReactor: Reactor {
         var newPerfumeItems: [MagazineItem] = []
         var topReviewItems: [MagazineItem] = []
         var allMagazineItems: [MagazineItem] = []
+        var centeredMagazineImageURL: String? = nil
         var selectedMagazineID: Int? = nil
         var selectedCommunityID: Int? = nil
         var magazineListPage: Int = 1
@@ -56,6 +59,9 @@ class MagazineReactor: Reactor {
                 setUpTopReviewList(),
                 setUpALLMagazineList()
             ])
+            
+        case .currentPageChanged(let pageIndex):
+            return .just(Mutation.setCenteredMagazineImageURL(pageIndex))
             
         case .didTapMagazineCell(let indexPath):
             return .concat([
@@ -87,6 +93,9 @@ class MagazineReactor: Reactor {
             
         case .setAllMagazineItem(let item):
             state.allMagazineItems += item
+            
+        case .setCenteredMagazineImageURL(let pageIndex):
+            state.centeredMagazineImageURL = state.mainBannerItems[pageIndex].magazine!.previewImageURL
             
         case .setSelectedMagazineID(let indexPath):
             guard let indexPath = indexPath else {

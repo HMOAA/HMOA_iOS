@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 import RxCocoa
 import ReactorKit
 import RxSwift
@@ -26,6 +27,8 @@ class MagazineViewController: UIViewController, View {
     
     private var sections = [MagazineSection]()
     
+    private let currentPageSubject = PublishSubject<Int>()
+    
     var disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
@@ -33,7 +36,7 @@ class MagazineViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(magazineCollectionView)
+        setAddView()
         setUI()
         setConstraints()
         configureDataSource()
@@ -112,6 +115,25 @@ class MagazineViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        // mainBanner center page 감지
+        currentPageSubject
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(onNext: { page in
+                self.reactor?.action.onNext(.currentPageChanged(page))
+            })
+            .disposed(by: disposeBag)
+            
+        // center magazine의 이미지를 배경에 반영
+        reactor.state
+            .compactMap { $0.centeredMagazineImageURL}
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self) { owner, url in
+                MagazineBannerImageURLManager.shared.imageURL = url
+            }
+            .disposed(by: disposeBag)
+        
         // MagazineDetailVC로 push
         reactor.state
             .compactMap { $0.selectedMagazineID }
@@ -131,8 +153,13 @@ class MagazineViewController: UIViewController, View {
             .disposed(by: disposeBag)
     }
     
+    private func setAddView() {
+        view.addSubview(magazineCollectionView)
+    }
+    
     private func setUI() {
         magazineCollectionView.contentInsetAdjustmentBehavior = .never
+        magazineCollectionView.backgroundColor = .clear
         view.backgroundColor = .white
     }
     
@@ -151,12 +178,16 @@ class MagazineViewController: UIViewController, View {
             let section = self.sections[sectionIndex]
             switch section {
             case .mainBanner:
-                let backgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: SupplementaryViewKind.background)
+                let availableLayoutWidth = layoutEnvironment.container.effectiveContentSize.width
+                let centerImageWidth = availableLayoutWidth * 0.92
+                let centerImageHeight = centerImageWidth / 328 * 376
                 
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(400))
+                let backgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: SupplementaryViewKind.magazineBackground)
+                
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(centerImageHeight))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .estimated(400))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .absolute(centerImageHeight))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
@@ -164,6 +195,10 @@ class MagazineViewController: UIViewController, View {
                 section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.interGroupSpacing = 8
                 section.decorationItems = [backgroundDecoration]
+                section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
+                    let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
+                    self.currentPageSubject.onNext(currentPage)
+                }
                 
                 return section
                 
@@ -213,7 +248,7 @@ class MagazineViewController: UIViewController, View {
             }
         }
         
-        layout.register(BackgroundDecorationView.self, forDecorationViewOfKind: SupplementaryViewKind.background)
+        layout.register(BackgroundDecorationView.self, forDecorationViewOfKind: SupplementaryViewKind.magazineBackground)
         
         return layout
     }
