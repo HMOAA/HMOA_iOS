@@ -41,6 +41,7 @@ class BackgroundDecorationView: UICollectionReusableView {
     @objc private func updateImageFromNotification() {
         if let url = MagazineBannerImageURLManager.shared.imageURL {
             backgroundView.kf.setImage(with: URL(string: url))
+            setDarkLayer()
         }
     }
     
@@ -56,5 +57,13 @@ class BackgroundDecorationView: UICollectionReusableView {
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    private func setDarkLayer() {
+        let darkLayer = CALayer()
+        darkLayer.frame = layer.bounds
+        darkLayer.backgroundColor = UIColor.black.withAlphaComponent(0.65).cgColor
+        
+        backgroundView.layer.sublayers = [darkLayer]
     }
 }
