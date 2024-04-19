@@ -54,11 +54,11 @@ extension MagazineItem {
     ]
     
     static let newPerfumes: [MagazineItem] = [
-        .newPerfume(NewPerfume(id: 1,name: "이더 시스 오드 드 퍼퓸", brand: "이솝", releaseDate: "2024.02.12")),
-        .newPerfume(NewPerfume(id: 2,name: "카모", brand: "탬버린즈", releaseDate: "2024.02.12")),
-        .newPerfume(NewPerfume(id: 3,name: "오드 롱 코롱", brand: "샤넬", releaseDate: "2024.02.12")),
-        .newPerfume(NewPerfume(id: 4,name: "오드 롱 코롱", brand: "샤넬", releaseDate: "2024.02.12")),
-        .newPerfume(NewPerfume(id: 5,name: "오드 롱 코롱", brand: "샤넬", releaseDate: "2024.02.12"))
+        .newPerfume(NewPerfume(perfumeID: 1, name: "이더 시스 오드 드 퍼퓸", brand: "이솝", releaseDate: "2024.02.12", perfumeImageURL: "https://hmoa-perfume.s3.ap-northeast-2.amazonaws.com/%EB%8F%84%20%EC%86%90%20%EC%98%A4%20%EB%93%9C%20%EB%9A%9C%EC%99%88%EB%A0%9B/perfume-70/aa806ac9-16ac-4d86-8e90-1a99997e345f.png")),
+        .newPerfume(NewPerfume(perfumeID: 2,name: "카모", brand: "탬버린즈", releaseDate: "2024.02.12", perfumeImageURL: "https://hmoa-perfume.s3.ap-northeast-2.amazonaws.com/%EB%8F%84%20%EC%86%90%20%EC%98%A4%20%EB%93%9C%20%EB%9A%9C%EC%99%88%EB%A0%9B/perfume-70/aa806ac9-16ac-4d86-8e90-1a99997e345f.png")),
+        .newPerfume(NewPerfume(perfumeID: 3,name: "오드 롱 코롱", brand: "샤넬", releaseDate: "2024.02.12", perfumeImageURL: "https://hmoa-perfume.s3.ap-northeast-2.amazonaws.com/%EB%8F%84%20%EC%86%90%20%EC%98%A4%20%EB%93%9C%20%EB%9A%9C%EC%99%88%EB%A0%9B/perfume-70/aa806ac9-16ac-4d86-8e90-1a99997e345f.png")),
+        .newPerfume(NewPerfume(perfumeID: 4,name: "오드 롱 코롱", brand: "샤넬", releaseDate: "2024.02.12", perfumeImageURL: "https://hmoa-perfume.s3.ap-northeast-2.amazonaws.com/%EB%8F%84%20%EC%86%90%20%EC%98%A4%20%EB%93%9C%20%EB%9A%9C%EC%99%88%EB%A0%9B/perfume-70/aa806ac9-16ac-4d86-8e90-1a99997e345f.png")),
+        .newPerfume(NewPerfume(perfumeID: 5,name: "오드 롱 코롱", brand: "샤넬", releaseDate: "2024.02.12", perfumeImageURL: "https://hmoa-perfume.s3.ap-northeast-2.amazonaws.com/%EB%8F%84%20%EC%86%90%20%EC%98%A4%20%EB%93%9C%20%EB%9A%9C%EC%99%88%EB%A0%9B/perfume-70/aa806ac9-16ac-4d86-8e90-1a99997e345f.png"))
     ]
     
     static let top10Reviews: [MagazineItem] = [

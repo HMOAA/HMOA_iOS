@@ -320,7 +320,7 @@ class MagazineViewController: UIViewController, View {
         initialSnapshot.appendSections([.mainBanner, .newPerfume, .topReview, .allMagazine])
         
 //        initialSnapshot.appendItems(MagazineItem.mainMagazines, toSection: .mainBanner)
-        initialSnapshot.appendItems(MagazineItem.newPerfumes, toSection: .newPerfume)
+//        initialSnapshot.appendItems(MagazineItem.newPerfumes, toSection: .newPerfume)
 //        initialSnapshot.appendItems(MagazineItem.top10Reviews, toSection: .topReview)
 //        initialSnapshot.appendItems(MagazineItem.magazines, toSection: .allMagazine)
         

@@ -8,6 +8,7 @@
 import UIKit
 import Then
 import SnapKit
+import Kingfisher
 
 class MagazineNewPerfumeCell: UICollectionViewCell {
     
@@ -67,7 +68,7 @@ class MagazineNewPerfumeCell: UICollectionViewCell {
     }
     
     func configureCell(_ newPerfume: NewPerfume) {
-        imageView.backgroundColor = .random
+        imageView.kf.setImage(with: URL(string: newPerfume.perfumeImageURL))
         brandLabel.text = newPerfume.brand
         perfumeNameLabel.text = newPerfume.name
         dateLabel.text = newPerfume.releaseDate

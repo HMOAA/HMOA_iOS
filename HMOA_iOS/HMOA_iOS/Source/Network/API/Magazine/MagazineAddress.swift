@@ -19,7 +19,7 @@ enum MagazineAddress {
         case .fetchMagazines:
             return "magazine/list"
         case .fetchNewPerfumes:
-            return ""
+            return "perfume/recentPerfume"
         case .fetchTopReviews:
             return "magazine/tastingComment"
         case .fetchMagazineDetail(let id):
