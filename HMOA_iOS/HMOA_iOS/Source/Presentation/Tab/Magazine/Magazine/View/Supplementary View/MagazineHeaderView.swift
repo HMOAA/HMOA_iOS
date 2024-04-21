@@ -21,7 +21,7 @@ class MagazineHeaderView: UICollectionReusableView {
     }
     
     let titleLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
+        $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
         $0.numberOfLines = 0
     }
     

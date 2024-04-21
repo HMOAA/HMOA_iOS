@@ -19,10 +19,10 @@ class MagazineContentCell: UICollectionViewCell {
     // MARK: - UI Components
     
     private let contentLabel = UILabel().then {
-        $0.setLabelUI("콘텐츠", font: .pretendard, size: 14, color: .black)
+        $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
         $0.lineBreakMode = .byCharWrapping
         $0.numberOfLines = 0
-        $0.setLineSpacing(lineSpacing: 10)
+        $0.setTextWithLineHeight(text: "contents", lineHeight: 24)
     }
     
     // 초기화

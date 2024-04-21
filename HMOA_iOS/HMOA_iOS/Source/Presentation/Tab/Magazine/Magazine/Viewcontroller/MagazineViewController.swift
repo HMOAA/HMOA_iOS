@@ -349,10 +349,13 @@ extension MagazineViewController {
         scrollEdgeAppearance.shadowColor = .clear
         scrollEdgeAppearance.backgroundEffect = nil
         scrollEdgeAppearance.titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard, 20),
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        self.navigationController?.navigationBar.standardAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard, 20)
+        ]
     }
 }
