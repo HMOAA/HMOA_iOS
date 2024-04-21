@@ -16,6 +16,7 @@ class MagazineReactor: Reactor {
         case viewDidLoad
         case currentPageChanged(Int)
         case didTapMagazineCell(IndexPath)
+        case didTapNewPerfuleCell(IndexPath)
         case didTapTopReviewCell(IndexPath)
         
 //         TODO: 매거진 수가 증가함에 따라 하단 끝에 닿을 때 pagination 구현
@@ -29,6 +30,7 @@ class MagazineReactor: Reactor {
         case setAllMagazineItem([MagazineItem])
         case setCenteredMagazineImageURL(Int)
         case setSelectedMagazineID(IndexPath?)
+        case setSelectedNewPerfumeID(IndexPath?)
         case setSelectedTopReviewID(IndexPath?)
         
 //         TODO: pagination
@@ -42,6 +44,7 @@ class MagazineReactor: Reactor {
         var allMagazineItems: [MagazineItem] = []
         var centeredMagazineImageURL: String? = nil
         var selectedMagazineID: Int? = nil
+        var selectedNewPerfumeID: Int? = nil
         var selectedCommunityID: Int? = nil
         var magazineListPage: Int = 1
     }
@@ -69,6 +72,12 @@ class MagazineReactor: Reactor {
             return .concat([
                 .just(.setSelectedMagazineID(indexPath)),
                 .just(.setSelectedMagazineID(nil))
+            ])
+            
+        case .didTapNewPerfuleCell(let indexPath):
+            return .concat([
+                .just(.setSelectedNewPerfumeID(indexPath)),
+                .just(.setSelectedNewPerfumeID(nil))
             ])
             
         case .didTapTopReviewCell(let indexPath):
@@ -110,6 +119,13 @@ class MagazineReactor: Reactor {
             
             let section = indexPath.section == 0 ? currentState.mainBannerItems : currentState.allMagazineItems
             state.selectedMagazineID = section[indexPath.row].magazine?.magazineID
+            
+        case .setSelectedNewPerfumeID(let indexPath):
+            guard let indexPath = indexPath else {
+                state.selectedNewPerfumeID = nil
+                return state
+            }
+            state.selectedNewPerfumeID = currentState.newPerfumeItems[indexPath.row].newPerfume?.perfumeID
          
         case .setSelectedTopReviewID(let indexPath):
             guard let indexPath = indexPath else {

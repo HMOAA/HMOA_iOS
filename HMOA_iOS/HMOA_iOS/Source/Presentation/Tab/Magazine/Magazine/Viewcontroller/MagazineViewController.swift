@@ -66,6 +66,12 @@ class MagazineViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        magazineCollectionView.rx.itemSelected
+            .filter { $0.section == 1 }
+            .map { Reactor.Action.didTapNewPerfuleCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // top review item 터치
         magazineCollectionView.rx.itemSelected
             .filter { $0.section == 2 }
@@ -140,6 +146,14 @@ class MagazineViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self) { owner, id in
                 owner.presentMagazineDetailViewController(id)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.selectedNewPerfumeID }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self) { owner, id in
+                owner.presentDatailViewController(id)
             }
             .disposed(by: disposeBag)
         
