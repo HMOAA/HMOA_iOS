@@ -59,6 +59,19 @@ class MagazineViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // allMagazine 마지막 아이템이 나타나면 다음 페이지 로드
+        magazineCollectionView.rx.willDisplayCell
+            .filter { cellInfo in
+                let sectionIndex = self.sections.firstIndex(of: .allMagazine)!
+                let isLastItem = cellInfo.at.item == self.magazineCollectionView.numberOfItems(inSection: sectionIndex) - 1
+                return cellInfo.at.section == sectionIndex && isLastItem
+            }
+            .map { _ in 
+                print(reactor.currentState.currentMagazineListPage)
+                return Reactor.Action.loadMagazineListNextPage }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // magazine item 터치
         magazineCollectionView.rx.itemSelected
             .filter { $0.section == 0 || $0.section == 3 }
@@ -66,6 +79,7 @@ class MagazineViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // new perfume item 터치
         magazineCollectionView.rx.itemSelected
             .filter { $0.section == 1 }
             .map { Reactor.Action.didTapNewPerfuleCell($0) }
