@@ -14,13 +14,11 @@ class MagazineReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case loadMagazineListNextPage
         case currentPageChanged(Int)
         case didTapMagazineCell(IndexPath)
         case didTapNewPerfuleCell(IndexPath)
         case didTapTopReviewCell(IndexPath)
-        
-//         TODO: 매거진 수가 증가함에 따라 하단 끝에 닿을 때 pagination 구현
-//        case didScrollLimit
     }
     
     enum Mutation {
@@ -32,9 +30,7 @@ class MagazineReactor: Reactor {
         case setSelectedMagazineID(IndexPath?)
         case setSelectedNewPerfumeID(IndexPath?)
         case setSelectedTopReviewID(IndexPath?)
-        
-//         TODO: pagination
-//        case setMagazineListPage(Int)
+        case setCurrentMagazineListPage(Int)
     }
     
     struct State {
@@ -46,7 +42,7 @@ class MagazineReactor: Reactor {
         var selectedMagazineID: Int? = nil
         var selectedNewPerfumeID: Int? = nil
         var selectedCommunityID: Int? = nil
-        var magazineListPage: Int = 1
+        var currentMagazineListPage: Int = 1
     }
     
     var initialState: State
@@ -63,6 +59,13 @@ class MagazineReactor: Reactor {
                 setUpNewPerfumeList(),
                 setUpTopReviewList(),
                 setUpALLMagazineList()
+            ])
+            
+        case .loadMagazineListNextPage:
+            let nextPage = currentState.currentMagazineListPage + 1
+            return .concat([
+                setUpALLMagazineList(),
+                .just(.setCurrentMagazineListPage(nextPage))
             ])
             
         case .currentPageChanged(let pageIndex):
@@ -85,11 +88,6 @@ class MagazineReactor: Reactor {
                 .just(.setSelectedTopReviewID(indexPath)),
                 .just(.setSelectedTopReviewID(nil))
             ])
-            
-//             TODO: pagination
-//        case .didScrollLimit:
-//            let nextPage = currentState.magazineListPage + 1
-//            return .just(.setMagazineListPage(nextPage))
         }
     }
     
@@ -134,9 +132,8 @@ class MagazineReactor: Reactor {
             }
             state.selectedCommunityID = currentState.topReviewItems[indexPath.row].topReview?.communityID
           
-//         TODO: pagination
-//        case .setMagazineListPage(let page):
-//            state.magazineListPage = page
+        case .setCurrentMagazineListPage(let page):
+            state.currentMagazineListPage = page
         }
         return state
     }
@@ -203,7 +200,8 @@ extension MagazineReactor {
     }
     
     func setUpALLMagazineList() -> Observable<Mutation> {
-        let query: [String: Any] = ["page": currentState.magazineListPage]
+        let query: [String: Any] = ["page": currentState.currentMagazineListPage]
+        let nextPage = currentState.currentMagazineListPage + 1
         
         return MagazineAPI.fetchMagazineList(query)
             .catch { _ in .empty() }
@@ -218,7 +216,10 @@ extension MagazineReactor {
                         )
                         return MagazineItem.magazine(magazine)
                     }
-                return .just(.setAllMagazineItem(listData))
+                return .concat([
+                    .just(.setAllMagazineItem(listData)),
+                    .just(.setCurrentMagazineListPage(nextPage))
+                ])
             }
     }
 }
