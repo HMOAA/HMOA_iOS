@@ -23,9 +23,10 @@ class MagazineListCell: UICollectionViewCell {
     
     // 제목 라벨
     private let titleLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 12, color: .white)
+        $0.setLabelUI("", font: .pretendard_bold, size: 12, color: .white)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
+        $0.setTextWithLineHeight(text: "title", lineHeight: 14)
     }
     
     // 초기화

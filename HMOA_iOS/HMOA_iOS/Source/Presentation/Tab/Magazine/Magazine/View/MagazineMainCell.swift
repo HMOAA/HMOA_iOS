@@ -20,10 +20,6 @@ class MagazineMainCell: UICollectionViewCell {
         $0.clipsToBounds = true
     }
     
-    private let label = UILabel().then {
-        $0.setLabelUI("Hello", font: .pretendard, size: 24, color: .blue)
-    }
-    
     private let labelStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
@@ -35,12 +31,14 @@ class MagazineMainCell: UICollectionViewCell {
         $0.setLabelUI("", font: .pretendard_bold, size: 24, color: .white)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
+        $0.setTextWithLineHeight(text: "title", lineHeight: 27)
     }
     
     private let descriptionLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .white)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byWordWrapping
+        $0.setTextWithLineHeight(text: "description", lineHeight: 20)
     }
     
     override init(frame: CGRect) {
@@ -76,7 +74,6 @@ class MagazineMainCell: UICollectionViewCell {
         coverImageView.addSubview(labelStackView)
         
         addSubview(coverImageView)
-        addSubview(label)
     }
     
     private func setConstraints() {

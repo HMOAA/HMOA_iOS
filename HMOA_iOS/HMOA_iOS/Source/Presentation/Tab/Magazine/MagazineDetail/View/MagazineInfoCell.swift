@@ -15,15 +15,15 @@ class MagazineInfoCell: UICollectionViewCell {
     
     // 향수 이름 라벨
     private let titleLabel = UILabel().then {
-        $0.setLabelUI("제목", font: .pretendard_bold, size: 24, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 24, color: .black)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byWordWrapping
-        $0.setLineSpacing(lineSpacing: 3)
+        $0.setTextWithLineHeight(text: "title", lineHeight: 27)
     }
     
     // 발행 날짜 라벨
     private let dateLabel = UILabel().then {
-        $0.setLabelUI("2024", font: .pretendard_medium, size: 14, color: .gray3)
+        $0.setLabelUI("date", font: .pretendard_medium, size: 14, color: .gray3)
     }
     
     // 조회수를 표시하기 위한 스택 뷰
@@ -41,7 +41,9 @@ class MagazineInfoCell: UICollectionViewCell {
     
     // 조회수 라벨
     private let viewCountLabel = UILabel().then {
-        $0.setLabelUI("12,345", font: .pretendard_medium, size: 12, color: .gray3)
+        
+        $0.setLabelUI("12345", font: .pretendard_medium, size: 12, color: .gray3)
+        
     }
     
     // 프리뷰 이미지 뷰
@@ -52,10 +54,10 @@ class MagazineInfoCell: UICollectionViewCell {
     
     // 매거진 소개 라벨
     private let descriptionLabel = UILabel().then {
-        $0.setLabelUI("매거진 내용 소개", font: .pretendard, size: 14, color: .gray3)
+        $0.setLabelUI("", font: .pretendard, size: 14, color: .gray3)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
-        $0.setLineSpacing(lineSpacing: 8)
+        $0.setTextWithLineHeight(text: "desc", lineHeight: 22)
     }
     
     override init(frame: CGRect) {
@@ -108,9 +110,13 @@ class MagazineInfoCell: UICollectionViewCell {
     }
     
     func configureCell(_ magazineInfo: MagazineInfo) {
+        let formatter = NumberFormatter().then {
+            $0.numberStyle = .decimal
+        }
+        
         titleLabel.text = magazineInfo.title
         dateLabel.text = magazineInfo.releasedDate
-        viewCountLabel.text = String(magazineInfo.viewCount)
+        viewCountLabel.text = formatter.string(from: NSNumber(integerLiteral: magazineInfo.viewCount))
         previewImageView.kf.setImage(with: URL(string: magazineInfo.previewImageURL))
         descriptionLabel.text = magazineInfo.description
     }
