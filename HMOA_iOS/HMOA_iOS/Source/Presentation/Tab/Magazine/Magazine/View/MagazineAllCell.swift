@@ -28,14 +28,14 @@ class MagazineAllCell: UICollectionViewCell {
     
     private let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
-        $0.numberOfLines = 0
+        $0.numberOfLines = 2
         $0.lineBreakMode = .byWordWrapping
         $0.setTextWithLineHeight(text: "제목", lineHeight: 24)
     }
     
     private let longDescriptionLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
-        $0.numberOfLines = 0
+        $0.numberOfLines = 3
         $0.lineBreakMode = .byCharWrapping
         $0.setTextWithLineHeight(text: "소개", lineHeight: 22)
     }

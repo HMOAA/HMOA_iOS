@@ -163,6 +163,7 @@ class MagazineViewController: UIViewController, View {
             }
             .disposed(by: disposeBag)
         
+        // DetailVC로 push
         reactor.state
             .compactMap { $0.selectedNewPerfumeID }
             .asDriver(onErrorRecover: { _ in return .empty() })
@@ -199,20 +200,19 @@ class MagazineViewController: UIViewController, View {
     
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            let availableLayoutWidth = layoutEnvironment.container.effectiveContentSize.width
+            let centerImageWidth = availableLayoutWidth * 0.92
+            let centerImageHeight = centerImageWidth / 328 * 376
             
-            let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(60))
+            let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(80))
             let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.header, alignment: .top)
             
             let section = self.sections[sectionIndex]
             switch section {
             case .mainBanner:
-                let availableLayoutWidth = layoutEnvironment.container.effectiveContentSize.width
-                let centerImageWidth = availableLayoutWidth * 0.92
-                let centerImageHeight = centerImageWidth / 328 * 376
-                
                 let backgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: SupplementaryViewKind.magazineBackground)
                 
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(centerImageHeight))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .absolute(centerImageHeight))
@@ -221,20 +221,37 @@ class MagazineViewController: UIViewController, View {
                 let section = NSCollectionLayoutSection(group: group)
                 section.contentInsets = NSDirectionalEdgeInsets(top: 115, leading: 0, bottom: 22, trailing: 0)
                 section.orthogonalScrollingBehavior = .groupPagingCentered
-                section.interGroupSpacing = 8
+                section.interGroupSpacing = 4
                 section.decorationItems = [backgroundDecoration]
                 section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
                     let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
                     self.currentPageSubject.onNext(currentPage)
+                    
+                    let cellItems = visibleItems.filter {
+                        $0.representedElementKind != SupplementaryViewKind.magazineBackground
+                    }
+                    cellItems.forEach { item in
+                        let frame = item.frame
+                        let rect = CGRect(
+                            x: offset.x,
+                            y: offset.y,
+                            width: env.container.contentSize.width,
+                            height: frame.height
+                        )
+                        let inter = rect.intersection(frame)
+                        let percent: CGFloat = inter.width / frame.width
+                        let scale = 0.95 + (0.05 * percent)
+                        item.transform = CGAffineTransform(scaleX: 0.98, y: scale)
+                    }
                 }
                 
                 return section
                 
             case .newPerfume:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(219))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(155), heightDimension: .estimated(219))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(155), heightDimension: .absolute(213))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
@@ -246,10 +263,10 @@ class MagazineViewController: UIViewController, View {
                 return section
                 
             case .topReview:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(296), heightDimension: .estimated(206))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(296), heightDimension: .estimated(206))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(296), heightDimension: .absolute(206))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
@@ -261,10 +278,13 @@ class MagazineViewController: UIViewController, View {
                 return section
                 
             case .allMagazine:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(466))
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(110))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.header, alignment: .top)
+                
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(466))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(centerImageWidth * 1.4))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)

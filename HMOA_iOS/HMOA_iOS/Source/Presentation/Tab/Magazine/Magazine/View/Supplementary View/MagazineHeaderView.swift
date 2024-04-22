@@ -40,13 +40,6 @@ class MagazineHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        let attributes = super.preferredLayoutAttributesFitting(layoutAttributes)
-        let size = systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        attributes.frame.size.height = size.height
-        return attributes
-    }
-    
     private func setAddViews() {
         [titleLabel, descriptionLabel].forEach{ stackView.addArrangedSubview($0) }
         

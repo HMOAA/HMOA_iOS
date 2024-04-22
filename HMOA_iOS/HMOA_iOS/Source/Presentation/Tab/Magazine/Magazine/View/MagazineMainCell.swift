@@ -78,8 +78,7 @@ class MagazineMainCell: UICollectionViewCell {
     
     private func setConstraints() {
         coverImageView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(coverImageView.snp.width).multipliedBy(376.0 / 328.0)
+            make.edges.equalToSuperview()
         }
         
         labelStackView.snp.makeConstraints { make in
