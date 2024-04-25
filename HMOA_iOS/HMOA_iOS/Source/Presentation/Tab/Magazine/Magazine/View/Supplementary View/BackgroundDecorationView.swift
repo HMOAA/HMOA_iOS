@@ -23,8 +23,7 @@ class BackgroundDecorationView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateImageFromNotification), name: .updateBackgroundImage, object: nil)
-        
+        addNotificationObserver()
         setUI()
         setAddView()
         setConstraints()
@@ -36,13 +35,6 @@ class BackgroundDecorationView: UICollectionReusableView {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-    
-    @objc private func updateImageFromNotification() {
-        if let url = MagazineBannerImageURLManager.shared.imageURL {
-            backgroundView.kf.setImage(with: URL(string: url))
-            setDarkLayer()
-        }
     }
     
     private func setUI() {
@@ -57,6 +49,16 @@ class BackgroundDecorationView: UICollectionReusableView {
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    private func addNotificationObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateImageFromNotification), name: .updateBackgroundImage, object: nil)
+    }
+    
+    @objc private func updateImageFromNotification(_ notification: Notification) {
+        let url = notification.object as! String
+        backgroundView.kf.setImage(with: URL(string: url))
+        setDarkLayer()
     }
     
     private func setDarkLayer() {
