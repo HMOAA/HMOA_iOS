@@ -35,8 +35,6 @@ class MagazineTopReviewCell: UICollectionViewCell {
         $0.setLabelUI("", font: .pretendard, size: 12, color: .gray3)
     }
     
-    private let contentContainer = UIView()
-    
     private let contentLabel = UILabel().then {
         $0.setLabelUI("내용", font: .pretendard, size: 14, color: .black)
         $0.numberOfLines = 5
@@ -69,9 +67,7 @@ class MagazineTopReviewCell: UICollectionViewCell {
             userStackView.addArrangedSubview($0)
         }
         
-        contentContainer.addSubview(contentLabel)
-        
-        [titleLabel, userStackView, contentContainer].forEach {
+        [titleLabel, userStackView, contentLabel].forEach {
             reviewContentStackView.addSubview($0)
         }
         
@@ -102,14 +98,10 @@ class MagazineTopReviewCell: UICollectionViewCell {
             make.leading.equalTo(profileImageView.snp.trailing).offset(6)
         }
         
-        contentContainer.snp.makeConstraints { make in
-            make.top.equalTo(userStackView.snp.bottom).offset(16)
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(100)
-        }
-        
         contentLabel.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalTo(userStackView.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview()
+            make.height.lessThanOrEqualTo(100)
         }
     }
     
