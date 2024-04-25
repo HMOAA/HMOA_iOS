@@ -43,6 +43,9 @@ extension UILabel {
                 style.maximumLineHeight = lineHeight
                 style.minimumLineHeight = lineHeight
                 
+                style.lineBreakMode = .byTruncatingTail
+                style.alignment = .natural
+                
                 let attributes: [NSAttributedString.Key: Any] = [
                     .paragraphStyle: style,
                     .baselineOffset: (lineHeight - font.lineHeight) / 4

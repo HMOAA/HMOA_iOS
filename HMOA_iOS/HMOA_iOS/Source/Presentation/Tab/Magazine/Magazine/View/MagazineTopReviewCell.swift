@@ -36,10 +36,9 @@ class MagazineTopReviewCell: UICollectionViewCell {
     }
     
     private let contentLabel = UILabel().then {
-        $0.setLabelUI("내용", font: .pretendard, size: 14, color: .black)
+        $0.setLabelUI("내용", font: .pretendard, size: 13, color: .black)
         $0.numberOfLines = 5
-        $0.lineBreakMode = .byCharWrapping
-        $0.setTextWithLineHeight(text: $0.text, lineHeight: 20)
+        $0.setTextWithLineHeight(text: $0.text, lineHeight: 19)
     }
     
     private let profileImageWidth: CGFloat = 20
