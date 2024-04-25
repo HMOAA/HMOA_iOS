@@ -149,9 +149,9 @@ class MagazineViewController: UIViewController, View {
             .compactMap { $0.centeredMagazineImageURL}
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self) { owner, url in
-                MagazineBannerImageURLManager.shared.imageURL = url
-            }
+            .drive(onNext: { url in
+                NotificationCenter.default.post(name: Notification.Name("updateBackgroundImage"), object: url)
+            })
             .disposed(by: disposeBag)
         
         // MagazineDetailVC로 push
