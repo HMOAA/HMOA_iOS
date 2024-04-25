@@ -364,13 +364,6 @@ class MagazineDetailViewController: UIViewController, View {
         var initialSnapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineDetailItem>()
         initialSnapshot.appendSections([.info, .content, .tags, .like, .magazineList])
         
-        // TODO: 선택한 매거진을 표시하도록 변경
-//        initialSnapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
-//        initialSnapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
-//        initialSnapshot.appendItems(MagazineDetailItem.magazineTags, toSection: .tags)
-//        initialSnapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
-//        initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .magazineList)
-        
         sections = initialSnapshot.sectionIdentifiers
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
