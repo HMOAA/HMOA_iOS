@@ -140,6 +140,12 @@ extension CommentCell {
         commentLikeButton.isHidden = false
         dateLabel.text = item.createAt
         userMarkImageView.isHidden = !item.writed
+        
+        commentLikeButton.snp.remakeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.centerY.equalTo(commentLikeButton)
+            make.height.equalTo(20)
+        }
     }
     
     private func configureUI() {
