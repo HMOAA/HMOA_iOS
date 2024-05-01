@@ -105,6 +105,7 @@ extension CommentDetailViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 향수 댓글 옵션 버튼
         reactor.state
             .map { $0.optionCommentData}
             .compactMap { $0 }
@@ -175,6 +176,7 @@ extension CommentDetailViewController {
             })
             .disposed(by: disposeBag)
         
+        // 댓글 삭제시 popVC
         reactor.state
             .map { $0.isDeleteComment }
             .filter { $0 }
@@ -183,7 +185,6 @@ extension CommentDetailViewController {
                 owner.popViewController()
             })
             .disposed(by: disposeBag)
-            
     }
         
     private func configureUI() {
