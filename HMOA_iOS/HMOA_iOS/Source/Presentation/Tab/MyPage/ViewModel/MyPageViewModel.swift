@@ -37,7 +37,7 @@ enum MyPageType: String, CaseIterable {
         case .policy:
             return "개인정보 처리방침"
         case .version:
-            return "버전정보 1.0.3"
+            return "버전정보 1.0.4"
         case .inquireAccount:
             return "1대1 문의"
         case .logout:
