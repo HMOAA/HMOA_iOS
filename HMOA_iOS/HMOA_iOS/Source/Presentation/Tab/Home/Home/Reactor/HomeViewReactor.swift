@@ -12,6 +12,7 @@ final class HomeViewReactor: Reactor {
     
     var initialState: State
     
+    // TODO: - 알림 버튼 기능 API 적용 후 수정
     enum Action {
         case viewDidLoad
         case itemSelected(IndexPath)

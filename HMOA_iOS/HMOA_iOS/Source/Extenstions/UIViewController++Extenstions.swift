@@ -264,6 +264,7 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [okButtonItem]
     }
     
+    // TODO: - 알림 API 구현 후 수정
     /// Set HomeVC NavigatioinBar
     func setSearchBellNaviBar(_ title: String, bellButton: UIBarButtonItem) {
         let titleLabel = UILabel().then {
@@ -280,6 +281,23 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [brandButton]
         self.navigationItem.rightBarButtonItems = [bellButton, searchButton]
+    }
+    
+    func setSearchBellNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let brandButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToBrand), imageName: "homeMenu")
+        
+        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
+
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [brandButton]
+        self.navigationItem.rightBarButtonItems = [searchButton]
     }
     
     /// BackButton만 있는 NavigationBar
