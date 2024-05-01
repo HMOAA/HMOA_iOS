@@ -49,6 +49,7 @@ class CommunityDetailReactor: Reactor {
         case setPostLikeCount(Int)
         case setPostContent(String)
         case setIsPresentAlertVC(Bool)
+        case deleteComment(Int)
     }
     
     struct State {
@@ -227,6 +228,10 @@ class CommunityDetailReactor: Reactor {
             
         case .setIsPresentAlertVC(let isPresent):
             state.isPresentAlertVC = isPresent
+            
+        case .deleteComment(let id):
+            state.commentItem.removeAll(where: { $0?.commentId == id})
+            state.communityItems.commentItem.removeAll(where: { $0?.commentId == id})
         }
         return state
     }
@@ -238,6 +243,8 @@ class CommunityDetailReactor: Reactor {
                 return .just(.updateCommunityComment(comment))
             case .editCommunityDetail(let detail):
                 return .just(.editCommunityPost(detail))
+            case .deleteComment(let id):
+                return .just(.deleteComment(id))
             default: return .empty()
             }
         } ?? .empty()
