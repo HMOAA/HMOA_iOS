@@ -18,6 +18,8 @@ class CommentDetailReactor: Reactor {
     enum Action {
         case didTapLikeButton
         case viewDidLoad(Bool)
+        case didTapOptionButton
+        case didDeleteComment
     }
     
     enum Mutation {
@@ -25,6 +27,9 @@ class CommentDetailReactor: Reactor {
         case setCommentContent(String)
         case setIsLogin(Bool)
         case setIsTapWhenNotLogin(Bool)
+        case setOptionCommentData(OptionCommentData?)
+        case updateComment(Comment)
+        case setIsDeleteComment(Bool)
     }
     
     struct State {
@@ -34,6 +39,8 @@ class CommentDetailReactor: Reactor {
         var content: String = ""
         var isLogin: Bool = false
         var isTapWhenNotLogin: Bool = false
+        var optionCommentData: OptionCommentData? = nil
+        var isDeleteComment: Bool = false
     }
     
     init(comment: Comment?, communityComment: CommunityComment?, perfumeService: DetailCommentServiceProtocol?, communityService: CommunityListProtocol?) {
@@ -58,6 +65,20 @@ class CommentDetailReactor: Reactor {
             
         case .viewDidLoad(let isLogin):
             return .just(.setIsLogin(isLogin))
+            
+        case .didTapOptionButton:
+            let commnet = currentState.comment!
+            let optionCommentData = OptionCommentData(id: commnet.id, content: commnet.content, isWrited: commnet.writed, isCommunity: false)
+            
+            return .concat([
+                .just(.setOptionCommentData(optionCommentData)),
+                .just(.setOptionCommentData(nil))
+            ])
+            
+        case .didDeleteComment:
+            guard let service = self.perfumeService else { return .just(.setCommentLike(true)) }
+            return service.deleteComment(to: currentState.comment!.id)
+                .map { _ in .setIsDeleteComment(true)}
         }
     }
     
@@ -86,9 +107,29 @@ class CommentDetailReactor: Reactor {
             
         case .setIsTapWhenNotLogin(let isTap):
             state.isTapWhenNotLogin = isTap
+            
+        case .setOptionCommentData(let data):
+            state.optionCommentData = data
+            
+        case .setIsDeleteComment(let isDelete):
+            state.isDeleteComment = isDelete
+            
+        case .updateComment(let comment):
+            state.comment = comment
         }
         
         return state
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let eventMutation = perfumeService?.event.flatMap { event -> Observable<Mutation> in
+            switch event {
+            case .updateComment(let comment):
+                return .just(.updateComment(comment))
+            default: return .empty()
+            }
+        } ?? .empty()
+        return .merge(mutation, eventMutation)
     }
 }
 
@@ -143,4 +184,16 @@ extension CommentDetailReactor {
             }
         }
     }
+    
+    func reactorForCommentEdit() -> CommentWriteReactor {
+        let comment = currentState.comment!
+        return CommentWriteReactor(
+            perfumeId: comment.perfumeId,
+            isWrite: comment.writed,
+            content: comment.content,
+            commentId: comment.id,
+            isCommunity: false,
+            commentService: perfumeService)
+    }
 }
+

@@ -216,6 +216,9 @@ extension UIViewController {
             
         case .perfumeDetail(let reactor):
             commentWriteReactor = reactor.reactorForCommentEdit()
+            
+        case .commentDetail(let reactor):
+            commentWriteReactor = reactor.reactorForCommentEdit()
         }
         commentWriteVC.reactor = commentWriteReactor
         commentWriteVC.hidesBottomBarWhenPushed = true

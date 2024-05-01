@@ -12,6 +12,7 @@ import RxSwift
 enum DetailCommentEvent{
     case updateComment(Comment)
     case addComment(Comment)
+    case deleteComment(Int)
 }
 
 protocol DetailCommentServiceProtocol {
@@ -19,6 +20,7 @@ protocol DetailCommentServiceProtocol {
     
     func addComment(to comment: Comment) -> Observable<Comment>
     func updateComment(to comment: Comment) -> Observable<Comment>
+    func deleteComment(to id: Int) -> Observable<Int>
 }
 
 class DetailCommentService: DetailCommentServiceProtocol {
@@ -33,5 +35,10 @@ class DetailCommentService: DetailCommentServiceProtocol {
     func updateComment(to comment: Comment) -> Observable<Comment> {
         event.onNext(.updateComment(comment))
         return .just(comment)
+    }
+    
+    func deleteComment(to id: Int) -> Observable<Int> {
+        event.onNext(.deleteComment(id))
+        return .just(id)
     }
 }
