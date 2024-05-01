@@ -64,16 +64,13 @@ class CommunityWriteViewController: UIViewController, View {
         $0.isScrollEnabled = false
     }
     
-    private let addImageButton = UIBarButtonItem(
-        image: UIImage(named: "addImageButton"),
-        style: .plain,
-        target: nil,
-        action: nil)
+    private let addImageButton = UIButton().then {
+        $0.setImage(UIImage(named: "addImageButton"), for: .normal)
+    }
     
-    private lazy var toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 34)).then {
+    private lazy var addImageView = UIToolbar().then {
         $0.tintColor = .black
         $0.sizeToFit()
-        $0.items = [addImageButton]
     }
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
@@ -140,7 +137,6 @@ class CommunityWriteViewController: UIViewController, View {
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = .white
-        textView.inputAccessoryView = toolBar
     }
     
     private func setAddView() {
@@ -159,8 +155,14 @@ class CommunityWriteViewController: UIViewController, View {
             stackView
         ].forEach { scrollView.addSubview($0) }
         
-        view.addSubview(titleView)
-        view.addSubview(scrollView)
+        addImageView.addSubview(addImageButton)
+        
+        [
+            titleView,
+            scrollView,
+            addImageView
+        ]   .forEach { view.addSubview($0) }
+        
     }
     
     private func setConstraints() {
@@ -207,6 +209,18 @@ class CommunityWriteViewController: UIViewController, View {
         collectionView.snp.makeConstraints { make in
             make.width.equalTo(300)
             make.height.equalTo(300)
+        }
+        
+        addImageView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+            make.height.equalTo(34)
+        }
+        
+        addImageButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(11)
+            make.top.equalToSuperview().inset(6)
+            make.bottom.equalToSuperview().inset(4)
         }
         
         
