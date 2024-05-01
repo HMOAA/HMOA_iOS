@@ -21,7 +21,7 @@ class MagazineHeaderView: UICollectionReusableView {
     }
     
     let titleLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
+        $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
         $0.numberOfLines = 0
     }
     
@@ -38,13 +38,6 @@ class MagazineHeaderView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        let attributes = super.preferredLayoutAttributesFitting(layoutAttributes)
-        let size = systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        attributes.frame.size.height = size.height
-        return attributes
     }
     
     private func setAddViews() {
