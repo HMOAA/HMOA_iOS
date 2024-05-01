@@ -8,23 +8,16 @@
 import UIKit
 import Then
 import SnapKit
+import Kingfisher
 
 class MagazineMainCell: UICollectionViewCell {
     
     static let identifier = "MagazineMainCell"
     
     // MARK: UI Components
-    private let coverImageView = UIImageView()
-    
-    private let label = UILabel().then {
-        $0.setLabelUI("Hello", font: .pretendard, size: 24, color: .blue)
-    }
-    
-    private let titleStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 0
-        $0.distribution = .equalSpacing
-        $0.alignment = .fill
+    private let coverImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     
     private let labelStackView = UIStackView().then {
@@ -34,23 +27,24 @@ class MagazineMainCell: UICollectionViewCell {
         $0.alignment = .fill
     }
     
-    private let sloganLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 24, color: .white)
-    }
-    
-    private let perfumeNameLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 24, color: .white)
+        $0.numberOfLines = 0
+        $0.lineBreakMode = .byCharWrapping
+        $0.setTextWithLineHeight(text: "title", lineHeight: 27)
     }
     
     private let descriptionLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .white)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byWordWrapping
+        $0.setTextWithLineHeight(text: "description", lineHeight: 20)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setGradientLayer()
         setAddView()
         setConstraints()
     }
@@ -59,20 +53,31 @@ class MagazineMainCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setAddView() {
-        [sloganLabel, perfumeNameLabel].forEach { titleStackView.addArrangedSubview($0) }
+    private func setGradientLayer() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = layer.bounds
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.3)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
         
-        [titleStackView, descriptionLabel].forEach{ labelStackView.addArrangedSubview($0)}
+        let colors: [CGColor] = [
+            UIColor.clear.cgColor,
+            UIColor.black.withAlphaComponent(0.8).cgColor
+        ]
+        gradientLayer.colors = colors
+        
+        coverImageView.layer.addSublayer(gradientLayer)
+    }
+    
+    private func setAddView() {
+        [titleLabel, descriptionLabel].forEach{ labelStackView.addArrangedSubview($0)}
         
         coverImageView.addSubview(labelStackView)
         
         addSubview(coverImageView)
-        addSubview(label)
     }
     
     private func setConstraints() {
         coverImageView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview()
             make.edges.equalToSuperview()
         }
         
@@ -83,9 +88,8 @@ class MagazineMainCell: UICollectionViewCell {
     }
     
     func configureCell(_ magazine: Magazine) {
-        coverImageView.backgroundColor = .random
-        sloganLabel.text = magazine.slogan
-        perfumeNameLabel.text = magazine.perfumeName
+        coverImageView.kf.setImage(with: URL(string: magazine.previewImageURL))
+        titleLabel.text = magazine.title
         descriptionLabel.text = magazine.description
     }
 }

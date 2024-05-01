@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 class MagazineAllCell: UICollectionViewCell {
     
@@ -20,27 +21,23 @@ class MagazineAllCell: UICollectionViewCell {
         $0.alignment = .fill
     }
     
-    private let titleStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 0
-        $0.distribution = .equalSpacing
-        $0.alignment = .fill
+    private let coverImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     
-    private let coverImageView = UIImageView()
-    
-    private let sloganLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
-    }
-    
-    private let perfumeNameLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
+        $0.numberOfLines = 2
+        $0.lineBreakMode = .byWordWrapping
+        $0.setTextWithLineHeight(text: "제목", lineHeight: 24)
     }
     
     private let longDescriptionLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
-        $0.numberOfLines = 0
+        $0.numberOfLines = 3
         $0.lineBreakMode = .byCharWrapping
+        $0.setTextWithLineHeight(text: "소개", lineHeight: 22)
     }
     
     override init(frame: CGRect) {
@@ -55,11 +52,7 @@ class MagazineAllCell: UICollectionViewCell {
     }
     
     private func setAddView() {
-        [sloganLabel, perfumeNameLabel].forEach {
-            titleStackView.addArrangedSubview($0)
-        }
-        
-        [coverImageView, titleStackView, longDescriptionLabel].forEach {
+        [coverImageView, titleLabel, longDescriptionLabel].forEach {
             stackView.addArrangedSubview($0)
         }
         
@@ -78,9 +71,8 @@ class MagazineAllCell: UICollectionViewCell {
     }
     
     func configureCell(_ magazine: Magazine) {
-        coverImageView.backgroundColor = .random
-        sloganLabel.text = magazine.slogan
-        perfumeNameLabel.text = magazine.perfumeName
-        longDescriptionLabel.text = magazine.longDescription
+        coverImageView.kf.setImage(with: URL(string: magazine.previewImageURL))
+        titleLabel.text = magazine.title
+        longDescriptionLabel.text = magazine.description
     }
 }

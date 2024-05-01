@@ -247,11 +247,12 @@ extension UIViewController {
     }
     
     /// MagazineDetailVC로 push
-        func presentMagazineDetailViewController() {
-            let magazineDetailVC = MagazineDetailViewController()
-            magazineDetailVC.reactor = MagazineDetailReactor()
-            self.navigationController?.pushViewController(magazineDetailVC, animated: true)
-        }
+    func presentMagazineDetailViewController(_ id: Int) {
+        let magazineDetailVC = MagazineDetailViewController()
+        magazineDetailVC.reactor = MagazineDetailReactor(id)
+        magazineDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(magazineDetailVC, animated: true)
+    }
     
     // MARK: Configure NavigationBar
     
@@ -341,6 +342,30 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [homeButton]
     }
     
+    /// 투명 NavigationBar
+    func setClearNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        self.navigationItem.titleView = titleLabel
+        
+
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.backgroundColor = .clear
+        scrollEdgeAppearance.shadowColor = .clear
+        scrollEdgeAppearance.backgroundEffect = nil
+        scrollEdgeAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        
+        
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+    }
+    
     /// Back 버튼, Share 버튼 NavigationBar
         func setBackShareRightNaviBar(_ title: String) {
             let titleLabel = UILabel().then {
@@ -353,12 +378,12 @@ extension UIViewController {
 
             let shareButton = self.navigationItem.makeImageButtonItem(self, action: #selector(shareMagazine), imageName: "share")
 
-            let appearance = UINavigationBarAppearance()
-            appearance.backgroundColor = .white
+            let scrollEdgeAppearance = UINavigationBarAppearance()
+            scrollEdgeAppearance.backgroundColor = .white
+            scrollEdgeAppearance.shadowColor = .clear
 
-            self.navigationController?.navigationBar.standardAppearance = appearance
-            self.navigationController?.navigationBar.compactAppearance = appearance
-            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+            self.navigationController?.view.backgroundColor = .white
 
             self.navigationItem.titleView = titleLabel
             self.navigationItem.leftBarButtonItems = [backButton]
@@ -425,7 +450,20 @@ extension UIViewController {
     
     /// Magazine 공유
     @objc func shareMagazine() {
-        
+        // TODO: 링크 생성 서비스 유료 계약 후 구현
+//        let activityViewController = UIActivityViewController(activityItems: ["url"], applicationActivities: nil)
+//        
+//        activityViewController.excludedActivityTypes = [.addToReadingList, .assignToContact, .saveToCameraRoll, .markupAsPDF]
+//        
+//        activityViewController.completionWithItemsHandler = { (activity, success, items, error) in
+//            if success {
+//                
+//            } else {
+//                
+//            }
+//        }
+//        
+//        self.present(activityViewController, animated: true, completion: nil)
     }
     
     // MARK: - UI Function

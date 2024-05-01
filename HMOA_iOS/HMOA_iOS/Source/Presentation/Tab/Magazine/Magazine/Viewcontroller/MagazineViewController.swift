@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 import RxCocoa
 import ReactorKit
 import RxSwift
@@ -26,6 +27,8 @@ class MagazineViewController: UIViewController, View {
     
     private var sections = [MagazineSection]()
     
+    private let currentPageSubject = PublishSubject<Int>()
+    
     var disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
@@ -33,16 +36,41 @@ class MagazineViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(magazineCollectionView)
+        setAddView()
         setUI()
         setConstraints()
         configureDataSource()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setNavigationBar()
     }
     
     // MARK: - Bind
     
     func bind(reactor: MagazineReactor) {
         // MARK: Action
+        
+        // viewDidLoad
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // allMagazine 마지막 아이템이 나타나면 다음 페이지 로드
+        magazineCollectionView.rx.willDisplayCell
+            .filter { cellInfo in
+                let sectionIndex = self.sections.firstIndex(of: .allMagazine)!
+                let isLastItem = cellInfo.at.item == self.magazineCollectionView.numberOfItems(inSection: sectionIndex) - 1
+                return cellInfo.at.section == sectionIndex && isLastItem
+            }
+            .map { _ in 
+                print(reactor.currentState.currentMagazineListPage)
+                return Reactor.Action.loadMagazineListNextPage }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // magazine item 터치
         magazineCollectionView.rx.itemSelected
@@ -51,14 +79,29 @@ class MagazineViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // new perfume item 터치
+        magazineCollectionView.rx.itemSelected
+            .filter { $0.section == 1 }
+            .map { Reactor.Action.didTapNewPerfuleCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // top review item 터치
+        magazineCollectionView.rx.itemSelected
+            .filter { $0.section == 2 }
+            .map { Reactor.Action.didTapTopReviewCell($0) }
+            .bind(to: reactor.action )
+            .disposed(by: disposeBag)
+        
         // MARK: State
         
         // MainBannerItems 변화 감지
         reactor.state
             .map { $0.mainBannerItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .mainBanner, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .mainBanner, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -66,8 +109,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.newPerfumeItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .newPerfume, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .newPerfume, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -75,8 +119,9 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.topReviewItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .topReview, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .topReview, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -84,30 +129,66 @@ class MagazineViewController: UIViewController, View {
         reactor.state
             .map { $0.allMagazineItems }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] items in
-                self?.updateSnapshot(forSection: .allMagazine, withItems: items)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .allMagazine, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        // mainBanner center page 감지
+        currentPageSubject
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(onNext: { page in
+                self.reactor?.action.onNext(.currentPageChanged(page))
+            })
+            .disposed(by: disposeBag)
+            
+        // center magazine의 이미지를 배경에 반영
+        reactor.state
+            .compactMap { $0.centeredMagazineImageURL}
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(onNext: { url in
+                NotificationCenter.default.post(name: Notification.Name("updateBackgroundImage"), object: url)
             })
             .disposed(by: disposeBag)
         
         // MagazineDetailVC로 push
         reactor.state
-            .map { $0.selectedMagazine }
+            .compactMap { $0.selectedMagazineID }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, _ in
-                owner.presentMagazineDetailViewController()
-            })
+            .drive(with: self) { owner, id in
+                owner.presentMagazineDetailViewController(id)
+            }
+            .disposed(by: disposeBag)
+        
+        // DetailVC로 push
+        reactor.state
+            .compactMap { $0.selectedNewPerfumeID }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self) { owner, id in
+                owner.presentDatailViewController(id)
+            }
+            .disposed(by: disposeBag)
+        
+        // CommunityDetailVC로 push
+        reactor.state
+            .compactMap { $0.selectedCommunityID }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self) { owner, id in
+                owner.presentCommunityDetailVC(id)
+            }
             .disposed(by: disposeBag)
     }
     
+    private func setAddView() {
+        view.addSubview(magazineCollectionView)
+    }
+    
     private func setUI() {
-        title = "Magazine"
-        self.navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
-            NSAttributedString.Key.foregroundColor: UIColor.white
-        ]
-        self.navigationController?.view.backgroundColor = .clear
-        
         magazineCollectionView.contentInsetAdjustmentBehavior = .never
+        magazineCollectionView.backgroundColor = .clear
         view.backgroundColor = .white
     }
     
@@ -123,33 +204,54 @@ class MagazineViewController: UIViewController, View {
             let centerImageWidth = availableLayoutWidth * 0.92
             let centerImageHeight = centerImageWidth / 328 * 376
             
-            let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(60))
+            let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(80))
             let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.header, alignment: .top)
             
             let section = self.sections[sectionIndex]
             switch section {
             case .mainBanner:
-                let backgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: SupplementaryViewKind.background)
+                let backgroundDecoration = NSCollectionLayoutDecorationItem.background(elementKind: SupplementaryViewKind.magazineBackground)
                 
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(centerImageHeight))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .estimated(centerImageHeight))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .absolute(centerImageHeight))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.contentInsets = NSDirectionalEdgeInsets(top: 115, leading: 0, bottom: 22, trailing: 0)
                 section.orthogonalScrollingBehavior = .groupPagingCentered
-                section.interGroupSpacing = 8
+                section.interGroupSpacing = 4
                 section.decorationItems = [backgroundDecoration]
+                section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
+                    let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
+                    self.currentPageSubject.onNext(currentPage)
+                    
+                    let cellItems = visibleItems.filter {
+                        $0.representedElementKind != SupplementaryViewKind.magazineBackground
+                    }
+                    cellItems.forEach { item in
+                        let frame = item.frame
+                        let rect = CGRect(
+                            x: offset.x,
+                            y: offset.y,
+                            width: env.container.contentSize.width,
+                            height: frame.height
+                        )
+                        let inter = rect.intersection(frame)
+                        let percent: CGFloat = inter.width / frame.width
+                        let scale = 0.95 + (0.05 * percent)
+                        item.transform = CGAffineTransform(scaleX: 0.98, y: scale)
+                    }
+                }
                 
                 return section
                 
             case .newPerfume:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(219))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(155), heightDimension: .estimated(219))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(155), heightDimension: .absolute(213))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
@@ -161,14 +263,14 @@ class MagazineViewController: UIViewController, View {
                 return section
                 
             case .topReview:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(193))
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(296), heightDimension: .estimated(193))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(296), heightDimension: .absolute(206))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuous
+                section.orthogonalScrollingBehavior = .groupPaging
                 section.boundarySupplementaryItems = [headerItem]
                 section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16)
                 section.interGroupSpacing = 8
@@ -176,10 +278,13 @@ class MagazineViewController: UIViewController, View {
                 return section
                 
             case .allMagazine:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(466))
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(110))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.header, alignment: .top)
+                
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(466))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(centerImageWidth * 1.4))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
@@ -191,7 +296,7 @@ class MagazineViewController: UIViewController, View {
             }
         }
         
-        layout.register(BackgroundDecorationView.self, forDecorationViewOfKind: SupplementaryViewKind.background)
+        layout.register(BackgroundDecorationView.self, forDecorationViewOfKind: SupplementaryViewKind.magazineBackground)
         
         return layout
     }
@@ -262,12 +367,7 @@ class MagazineViewController: UIViewController, View {
         // MARK: Initial Snapshot
         var initialSnapshot = NSDiffableDataSourceSnapshot<MagazineSection, MagazineItem>()
         initialSnapshot.appendSections([.mainBanner, .newPerfume, .topReview, .allMagazine])
-        
-        initialSnapshot.appendItems(MagazineItem.mainMagazines, toSection: .mainBanner)
-        initialSnapshot.appendItems(MagazineItem.newPerfumes, toSection: .newPerfume)
-        initialSnapshot.appendItems(MagazineItem.top10Reviews, toSection: .topReview)
-        initialSnapshot.appendItems(MagazineItem.magazines, toSection: .allMagazine)
-        
+
         sections = initialSnapshot.sectionIdentifiers
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
@@ -279,8 +379,27 @@ class MagazineViewController: UIViewController, View {
         
         snapshot.appendItems(items, toSection: section)
         
-        dataSource.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
 
+extension MagazineViewController {
+    private func setNavigationBar() {
+        title = "Magazine"
+        
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.backgroundColor = .clear
+        scrollEdgeAppearance.shadowColor = .clear
+        scrollEdgeAppearance.backgroundEffect = nil
+        scrollEdgeAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        self.navigationController?.navigationBar.standardAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard, 20)
+        ]
+    }
+}
