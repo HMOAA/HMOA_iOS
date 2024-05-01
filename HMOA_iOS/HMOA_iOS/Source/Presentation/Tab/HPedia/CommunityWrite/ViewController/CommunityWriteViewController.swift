@@ -64,13 +64,17 @@ class CommunityWriteViewController: UIViewController, View {
         $0.isScrollEnabled = false
     }
     
-    private let addImageButton = UIButton().then {
-        $0.setImage(UIImage(named: "addImageButton"), for: .normal)
-    }
+    private let addImageButton = UIBarButtonItem(
+        image: UIImage(named: "addImageButton"),
+        style: .plain,
+        target: nil,
+        action: nil)
     
     private lazy var addImageView = UIToolbar().then {
         $0.tintColor = .black
+        $0.backgroundColor = #colorLiteral(red: 0.8534707427, green: 0.8671818376, blue: 0.8862800002, alpha: 1)
         $0.sizeToFit()
+        $0.items = [addImageButton]
     }
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
@@ -155,7 +159,6 @@ class CommunityWriteViewController: UIViewController, View {
             stackView
         ].forEach { scrollView.addSubview($0) }
         
-        addImageView.addSubview(addImageButton)
         
         [
             titleView,
@@ -215,12 +218,6 @@ class CommunityWriteViewController: UIViewController, View {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             make.height.equalTo(34)
-        }
-        
-        addImageButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(11)
-            make.top.equalToSuperview().inset(6)
-            make.bottom.equalToSuperview().inset(4)
         }
         
         
