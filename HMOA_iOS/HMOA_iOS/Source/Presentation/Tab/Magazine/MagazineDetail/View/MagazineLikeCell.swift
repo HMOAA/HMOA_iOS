@@ -82,7 +82,11 @@ class MagazineLikeCell: UICollectionViewCell {
     }
     
     func configureCell(_ magazine: MagazineLike) {
-        likeCountLabel.text = String(magazine.likeCount)
+        let formatter = NumberFormatter().then {
+            $0.numberStyle = .decimal
+        }
+        
+        likeCountLabel.text = formatter.string(from: NSNumber(integerLiteral: magazine.likeCount))
         likeCountLabel.textColor = magazine.isLiked ? .black : UIColor.customColor(.gray2)
         likeButton.isSelected = magazine.isLiked
     }

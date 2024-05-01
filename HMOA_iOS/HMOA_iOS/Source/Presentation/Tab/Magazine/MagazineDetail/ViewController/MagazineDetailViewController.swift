@@ -39,7 +39,7 @@ class MagazineDetailViewController: UIViewController, View {
         super.viewDidLoad()
         
         view.addSubview(magazineDetailCollectionView)
-        setBackShareRightNaviBar("")
+        setBackItemNaviBar("")
         setConstraints()
         configureDataSource()
     }
@@ -81,7 +81,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .info, withItems: items)
+                owner.updateSnapshot(forSection: .info, withItems: items)
                 
             })
             .disposed(by: disposeBag)
@@ -92,7 +92,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .content, withItems: items)
+                owner.updateSnapshot(forSection: .content, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -102,7 +102,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .like, withItems: items)
+                owner.updateSnapshot(forSection: .like, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -112,7 +112,7 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .tags, withItems: items)
+                owner.updateSnapshot(forSection: .tags, withItems: items)
             })
             .disposed(by: disposeBag)
         
@@ -122,10 +122,11 @@ class MagazineDetailViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updateSnapshot(forSection: .magazineList, withItems: items)
+                owner.updateSnapshot(forSection: .magazineList, withItems: items)
             })
             .disposed(by: disposeBag)
         
+        // 다른 매거진DetailVC로 push
         reactor.state
             .compactMap { $0.selectedMagazineID }
             .asDriver(onErrorRecover: { _ in return .empty() })
@@ -362,13 +363,6 @@ class MagazineDetailViewController: UIViewController, View {
         // MARK: Initial Snapshot
         var initialSnapshot = NSDiffableDataSourceSnapshot<MagazineDetailSection, MagazineDetailItem>()
         initialSnapshot.appendSections([.info, .content, .tags, .like, .magazineList])
-        
-        // TODO: 선택한 매거진을 표시하도록 변경
-//        initialSnapshot.appendItems([MagazineDetailItem.magazineInfo], toSection: .title)
-//        initialSnapshot.appendItems(MagazineDetailItem.magazineContents, toSection: .content)
-//        initialSnapshot.appendItems(MagazineDetailItem.magazineTags, toSection: .tags)
-//        initialSnapshot.appendItems([MagazineDetailItem.magazineLike], toSection: .like)
-//        initialSnapshot.appendItems(MagazineDetailItem.otherMagazines, toSection: .magazineList)
         
         sections = initialSnapshot.sectionIdentifiers
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
