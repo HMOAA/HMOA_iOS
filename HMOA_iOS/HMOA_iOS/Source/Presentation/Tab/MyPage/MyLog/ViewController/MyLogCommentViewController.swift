@@ -24,7 +24,7 @@ class MyLogCommentViewController: UIViewController, View {
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
     }
     
-    private lazy var noLikedView = NoLoginEmptyView(title:
+    let noLikedView = NoLoginEmptyView(title:
                                                 """
                                                 좋아요를 누른 댓글이
                                                 없습니다
@@ -33,7 +33,20 @@ class MyLogCommentViewController: UIViewController, View {
                                                 """
                                                 좋아하는 향수에 좋아요를 눌러주세요
                                                 """,
-                                            buttonHidden:  true).then {
+                                            buttonHidden: true).then {
+        $0.isHidden = true
+    }
+    
+    let noWritedCommentView = NoLoginEmptyView(title:
+                                                """
+                                                작성한 댓글이
+                                                없습니다
+                                                """,
+                                             subTitle:
+                                                """
+                                                좋아하는 향수에 댓글을 작성해주세요
+                                                """,
+                                            buttonHidden: true).then {
         $0.isHidden = true
     }
     
@@ -58,7 +71,8 @@ class MyLogCommentViewController: UIViewController, View {
     private func setAddView() {
         [
             collectionView,
-            noLikedView
+            noLikedView,
+            noWritedCommentView
         ]   .forEach { view.addSubview($0) }
     }
     
@@ -69,6 +83,10 @@ class MyLogCommentViewController: UIViewController, View {
         }
         
         noLikedView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        noWritedCommentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
@@ -118,10 +136,11 @@ class MyLogCommentViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, items in
-                guard let datasource = owner.datasource else { return }
-                var snapshot = NSDiffableDataSourceSnapshot<MyLogCommentSection, MyLogCommentSectionItem>()
+                
                 if case .liked(_) = reactor.currentState.commentType {
-                    if items.perfume.isEmpty {
+                    print("asdf22")
+                    print(items.perfume.isEmpty && items.community.isEmpty)
+                    if items.perfume.isEmpty && items.community.isEmpty {
                         owner.noLikedView.isHidden = false
                         owner.collectionView.isHidden = true
                     } else {
@@ -129,6 +148,21 @@ class MyLogCommentViewController: UIViewController, View {
                         owner.collectionView.isHidden = false
                     }
                 }
+                
+                if case .perfume(_) = reactor.currentState.commentType {
+                    print("asdf")
+                    print(items.perfume.isEmpty && items.community.isEmpty)
+                    if items.perfume.isEmpty && items.community.isEmpty {
+                        owner.noWritedCommentView.isHidden = false
+                        owner.collectionView.isHidden = true
+                    } else {
+                        owner.noWritedCommentView.isHidden = true
+                        owner.collectionView.isHidden = false
+                    }
+                }
+                
+                guard let datasource = owner.datasource else { return }
+                var snapshot = NSDiffableDataSourceSnapshot<MyLogCommentSection, MyLogCommentSectionItem>()
                 snapshot.appendSections([.comment])
                 
                 items.perfume.forEach { snapshot.appendItems([.perfume($0)]) }
@@ -171,11 +205,7 @@ extension MyLogCommentViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if reactor?.currentState.commentType == .liked(nil) {
-            return .zero
-            } else {
-                return CGSize(width: view.frame.width, height: 44)
-            }
+        return CGSize(width: view.frame.width, height: 44)
     }
     
     private func configureDatasource() {
@@ -194,10 +224,6 @@ extension MyLogCommentViewController: UICollectionViewDelegateFlowLayout {
         })
         
         datasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
-            
-            if self.reactor?.currentState.commentType == .liked(nil) {
-                return nil
-            }
             
             switch indexPath.section {
             case 0:

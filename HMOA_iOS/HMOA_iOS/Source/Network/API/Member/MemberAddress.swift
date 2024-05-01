@@ -15,7 +15,8 @@ enum MemberAddress {
     case patchJoin
     case member
     case uploadImage
-    case fetchLikedComment
+    case fetchLikedPerfumeComment
+    case fetchLikedCommunityComment
     case fetchPerfumeComment
     case fetchCommunityComment
     case fetchWritedPost
@@ -39,8 +40,10 @@ extension MemberAddress {
             return "member"
         case .uploadImage:
             return "member/profile-photo"
-        case .fetchLikedComment:
-            return "member/hearts"
+        case .fetchLikedPerfumeComment:
+            return "member/perfumeHearts"
+        case .fetchLikedCommunityComment:
+            return "member/communityHearts"
         case .fetchCommunityComment:
             return "member/communityComments"
         case .fetchPerfumeComment:
