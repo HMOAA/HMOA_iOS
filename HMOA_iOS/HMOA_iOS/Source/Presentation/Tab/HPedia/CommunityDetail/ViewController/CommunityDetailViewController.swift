@@ -247,7 +247,7 @@ class CommunityDetailViewController: UIViewController, View {
                 snapshot.appendItems(items.commentItem.map { .commentCell($0) }, toSection: .comment)
                 
                 
-                datasource.apply(snapshot)
+                datasource.apply(snapshot, animatingDifferences: false)
             })
             .disposed(by: disposeBag)
         
@@ -440,6 +440,11 @@ extension CommunityDetailViewController: UITextViewDelegate {
                             let detailAction = CommunityDetailReactor.Action.didTapOptionButton(indexPath.row)
                             owner.reactor?.action.onNext(detailAction)
                         })
+                        .disposed(by: cell.disposeBag)
+                    
+                    cell.commentLikeButton.rx.tap
+                        .map { CommunityDetailReactor.Action.didTapCommentLikeButton(comment.commentId!) }
+                        .bind(to: self.reactor!.action)
                         .disposed(by: cell.disposeBag)
                 }
                 
