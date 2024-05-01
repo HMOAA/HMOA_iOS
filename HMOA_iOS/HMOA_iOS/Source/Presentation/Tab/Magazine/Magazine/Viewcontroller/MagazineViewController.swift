@@ -229,6 +229,7 @@ class MagazineViewController: UIViewController, View {
         
         // MARK: Supplementary View Provider
         dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+            print(kind)
             switch kind {
             case SupplementaryViewKind.header:
                 let section = self.sections[indexPath.section]

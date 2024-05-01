@@ -104,7 +104,7 @@ extension CommentDetailReactor {
                         comment.liked = true
                         comment.heartCount += 1
                         guard let service = self.perfumeService else { return .just(.setCommentLike(true)) }
-                        return service.setCommentLike(to: comment)
+                        return service.updateComment(to: comment)
                             .map { _ in .setCommentLike(true) }
                     }
             } else {
@@ -114,7 +114,7 @@ extension CommentDetailReactor {
                         comment.liked = false
                         comment.heartCount -= 1
                         guard let service = self.perfumeService else { return .just(.setCommentLike(false)) }
-                        return service.setCommentLike(to: comment)
+                        return service.updateComment(to: comment)
                             .map { _ in .setCommentLike(false) }
                     }
             }

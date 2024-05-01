@@ -11,17 +11,16 @@ enum MyPageType: String, CaseIterable {
     case myProfile = "00"
     
     case myPerfume = "20"
-    
-    case myLog = "30"
-    case myInformation = "31"
+    case myLog = "21"
+    case myInformation = "22"
      
-    case terms = "40"
-    case policy = "41"
-    case version = "42"
+    case terms = "30"
+    case policy = "31"
+    case version = "32"
     
-    case inquireAccount = "50"
-    case logout = "51"
-    case deleteAccount = "52"
+    case inquireAccount = "40"
+    case logout = "41"
+    case deleteAccount = "42"
 
     var title: String {
         switch self {

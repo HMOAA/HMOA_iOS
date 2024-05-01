@@ -21,6 +21,7 @@ class CommentListReactor: Reactor {
         case didTapRecentSortButton
         case didTapOptionButton(Int)
         case didDeleteComment
+        case didTapLikeButton(Int)
     }
     
     enum Mutation {
@@ -32,10 +33,9 @@ class CommentListReactor: Reactor {
         case setLoadedPage(Int)
         case setSelectedCommentId(Int?)
         case addComment(Comment)
-        case editComment(Comment)
+        case updateComment(Comment)
         case setIsLogin(Bool)
         case setIsTapWhenNotLogin(Bool)
-        case setIsLike(Comment)
     }
     
     struct State {
@@ -103,6 +103,9 @@ class CommentListReactor: Reactor {
             
         case .didDeleteComment:
             return deleteCommentInSection()
+            
+        case .didTapLikeButton(let id):
+            return setCommentLike(id: id)
         }
     }
     
@@ -141,7 +144,7 @@ class CommentListReactor: Reactor {
             if state.sortType == "Latest" {
                 state.commentItems.insert(comment, at: 0)
             } else { state.commentItems.append(comment) }
-        case .editComment(let comment):
+        case .updateComment(let comment):
             if let index = state.commentItems.firstIndex(where: { $0.id == comment.id }) {
                 state.commentItems[index] = comment
             }
@@ -152,7 +155,7 @@ class CommentListReactor: Reactor {
         case .setIsTapWhenNotLogin(let isTap):
             state.isTapWhenNotLogin = isTap
             
-        case .setIsLike(let comment):
+        case .updateComment(let comment):
             if let index = state.commentItems.firstIndex(where: { $0.id == comment.id }) {
                 state.commentItems[index] = comment
             }
@@ -166,10 +169,8 @@ class CommentListReactor: Reactor {
             switch event {
             case .addComment(let comment):
                 return .just(.addComment(comment))
-            case .editComment(let comment):
-                return .just(.editComment(comment))
-            case .setCommentLike(let isLike):
-                return .just(.setIsLike(isLike))
+            case .updateComment(let comment):
+                return .just(.updateComment(comment))
             }
         }
         return .merge(eventMutation, mutation)
@@ -217,6 +218,37 @@ extension CommentListReactor {
             .just(.setSelectedCommentId(nil)),
             .just(.setCommentCount(currentState.commentCount - 1))
         ])
+    }
+    
+    func setCommentLike(id: Int) -> Observable<Mutation> {
+        
+//        if !currentState.isLogin {
+//            return .concat([
+//                .just(.setIsTap(true)),
+//                .just(.setIsTap(false))
+//            ])
+//        }
+        var comment = currentState.commentItems
+            .filter { $0.id == id }
+            .first!
+        
+        if !comment.liked {
+            return CommentAPI.putCommentLike(id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    comment.liked = true
+                    comment.heartCount += 1
+                    return .just(.updateComment(comment))
+                }
+        } else {
+            return CommentAPI.deleteCommentLike(id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    comment.liked = false
+                    comment.heartCount -= 1
+                    return .just(.updateComment(comment))
+                }
+        }
     }
     
     func reactorForEdit() -> CommentWriteReactor {
