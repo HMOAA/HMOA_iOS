@@ -239,18 +239,20 @@ extension MyPageViewController {
             changeProfileVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(changeProfileVC, animated: true)
             
+        case .myPerfume:
+            let likeVC = LikeViewController()
+            let reactor = LikeReactor()
+            likeVC.reactor = reactor
+            self.navigationController?.pushViewController(likeVC, animated: true)
+            
         case .myLog:
             let myLogVC = MyLogViewController()
             myLogVC.reactor = MyLogReactor()
-            
-            myLogVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(myLogVC, animated: true)
             
         case .myInformation:
             let myInformationReactor = self.reactor.reactorForMyInformation()
             let myInformationVC = MyProfileViewController(reactor: myInformationReactor)
-
-            myInformationVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(myInformationVC, animated: true)
         case .terms:
             UIApplication.shared.open(URL(string: "https://doc-hosting.flycricket.io/hyangmoa-terms-of-use/a176b58e-ad02-4c9c-8336-ead769d56449/terms")!)

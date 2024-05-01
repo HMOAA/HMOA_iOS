@@ -24,13 +24,11 @@ class HPediaCommunityCell: UICollectionViewCell{
     }
     
     private let likeButton = UIButton().then {
-        $0.makeLikeButton()
-        $0.isEnabled = true
+        $0.makeHeartButton()
     }
     
     private let commentButton = UIButton().then {
         $0.makeCommentButton()
-        $0.isEnabled = true
     }
     
     // MARK: - Properties
@@ -82,7 +80,7 @@ class HPediaCommunityCell: UICollectionViewCell{
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
+            make.trailing.leading.equalToSuperview().inset(16)
             make.top.equalTo(categoryLabel.snp.bottom).offset(8)
         }
         

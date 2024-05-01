@@ -19,10 +19,7 @@ class CommentCell: UICollectionViewCell {
     
     // MARK: - Properties
     private lazy var subView = UIView().then {
-        $0.layer.cornerRadius = 3
         $0.isHidden = true
-        $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
-        $0.layer.borderWidth = 1
     }
     
     private lazy var userImageView = UIImageView().then {
@@ -84,6 +81,15 @@ class CommentCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        subView.layer.addBorder([.bottom], color: UIColor.customColor(.gray2), width: 1)
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
+    }
 }
 
 
@@ -99,7 +105,6 @@ extension CommentCell {
             commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
             subView.isHidden = false
             noCommentLabel.isHidden = true
-            commentLikeButton.isHidden = false
             dateLabel.text = item.createAt
             userMarkImageView.isHidden = !item.writed
             
@@ -135,6 +140,12 @@ extension CommentCell {
         commentLikeButton.isHidden = false
         dateLabel.text = item.createAt
         userMarkImageView.isHidden = !item.writed
+        
+        commentLikeButton.snp.remakeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.centerY.equalTo(commentLikeButton)
+            make.height.equalTo(20)
+        }
     }
     
     private func configureUI() {
@@ -181,7 +192,7 @@ extension CommentCell {
     
         noCommentLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(20)
         }
         
         communityNoCommentLabel.snp.makeConstraints { make in
@@ -190,14 +201,14 @@ extension CommentCell {
         }
         
         optionButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(7.2)
-            make.bottom.equalToSuperview().inset(7.2)
+            make.trailing.equalToSuperview()
+            make.centerY.equalTo(commentLikeButton)
             make.height.equalTo(20)
         }
         
         commentLikeButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(10)
-            $0.trailing.equalToSuperview().inset(12)
+            $0.trailing.equalTo(optionButton.snp.leading).offset(-8)
             $0.height.equalTo(20)
         }
         
@@ -218,7 +229,7 @@ extension CommentCell {
         }
     }
     
-    private func setLikeButtonText(_ text: String) -> AttributedString {
+    func setLikeButtonText(_ text: String) -> AttributedString {
         var attri = AttributedString.init(text)
         attri.font = .customFont(.pretendard_light, 12)
         

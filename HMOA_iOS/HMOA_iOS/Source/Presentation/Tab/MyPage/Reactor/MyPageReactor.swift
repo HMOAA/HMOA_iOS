@@ -199,6 +199,7 @@ extension MyPageReactor {
     
     static func setUpOtherSection() -> [MyPageSection] {
         let second = [
+            MyPageType.myPerfume.title,
             MyPageType.myLog.title,
             MyPageType.myInformation.title
             ]   .map { MyPageSectionItem.otherCell($0) }

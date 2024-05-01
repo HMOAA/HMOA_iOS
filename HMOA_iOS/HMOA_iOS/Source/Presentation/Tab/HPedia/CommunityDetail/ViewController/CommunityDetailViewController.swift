@@ -17,6 +17,7 @@ import Kingfisher
 class CommunityDetailViewController: UIViewController, View {
 
     //MARK: - Properties
+    
     private var dataSource: UICollectionViewDiffableDataSource<CommunityDetailSection, CommunityDetailSectionItem>?
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
@@ -246,7 +247,7 @@ class CommunityDetailViewController: UIViewController, View {
                 snapshot.appendItems(items.commentItem.map { .commentCell($0) }, toSection: .comment)
                 
                 
-                datasource.apply(snapshot)
+                datasource.apply(snapshot, animatingDifferences: false)
             })
             .disposed(by: disposeBag)
         
@@ -320,6 +321,20 @@ class CommunityDetailViewController: UIViewController, View {
                     communityCommet: communityComment,
                     perfumeService: nil,
                     communityService: reactor.service)
+            })
+            .disposed(by: disposeBag)
+        
+        // 비 로그인 시 alert 띄우기
+        reactor.state
+            .map { $0.isPresentAlertVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(
+                    title: "로그인 후 이용가능한 서비스입니다",
+                    content: "입력하신 내용을 다시 확인해주세요",
+                    buttonTitle: "로그인 하러가기")
             })
             .disposed(by: disposeBag)
     }
@@ -425,6 +440,11 @@ extension CommunityDetailViewController: UITextViewDelegate {
                             let detailAction = CommunityDetailReactor.Action.didTapOptionButton(indexPath.row)
                             owner.reactor?.action.onNext(detailAction)
                         })
+                        .disposed(by: cell.disposeBag)
+                    
+                    cell.commentLikeButton.rx.tap
+                        .map { CommunityDetailReactor.Action.didTapCommentLikeButton(comment.commentId!) }
+                        .bind(to: self.reactor!.action)
                         .disposed(by: cell.disposeBag)
                 }
                 

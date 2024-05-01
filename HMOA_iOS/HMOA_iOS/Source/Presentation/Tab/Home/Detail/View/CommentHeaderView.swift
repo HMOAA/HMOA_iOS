@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 class CommentHeaderView: UICollectionReusableView {
 
@@ -24,7 +25,6 @@ class CommentHeaderView: UICollectionReusableView {
     
     let countLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard_light, 14)
-        $0.text = "+565"
     }
     
     // MARK: - init
@@ -37,6 +37,7 @@ class CommentHeaderView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
 // MARK: - Functions

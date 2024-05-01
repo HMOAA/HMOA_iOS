@@ -73,7 +73,7 @@ class NoLoginEmptyView: UIView {
     private func setConstraints() {
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(126)
+            make.top.equalTo(safeAreaLayoutGuide).offset(66)
             make.leading.equalToSuperview().inset(16)
         }
         
