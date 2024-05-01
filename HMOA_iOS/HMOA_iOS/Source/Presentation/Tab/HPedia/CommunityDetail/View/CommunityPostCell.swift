@@ -64,7 +64,21 @@ class CommunityPostCell: UICollectionViewCell {
     }
     
     let likeButton = UIButton().then {
-        $0.makeLikeButton()
+        var buttonConfig = UIButton.Configuration.plain()
+        
+        buttonConfig.imagePadding = 5
+        
+        buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        buttonConfig.baseBackgroundColor = .white
+        
+        let normalImage = UIImage(named: "like")?.resize(targetSize: .init(width: 20, height: 20))
+        let selectedImage = normalImage?.withTintColor(.customColor(.red))
+        
+        $0.configuration = buttonConfig
+        $0.setImage(normalImage, for: .normal)
+        $0.setImage(selectedImage, for: .selected)
+        $0.backgroundColor = .white
+        $0.tintColor = .black
     }
     
     var disposeBag = DisposeBag()
@@ -82,7 +96,7 @@ class CommunityPostCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        setUpUI()
+        layer.addBorder([.bottom], color: UIColor.customColor(.gray2), width: 1)
     }
     
     override func updateConstraints() {
@@ -106,11 +120,6 @@ class CommunityPostCell: UICollectionViewCell {
     }
     
     //MARK: - SetUp
-    private func setUpUI() {
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.customColor(.gray2).cgColor
-        layer.cornerRadius = 3
-    }
     
     private func setAddView() {
         [

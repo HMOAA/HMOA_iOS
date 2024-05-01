@@ -216,6 +216,11 @@ extension CommentListViewController {
                     .bind(to: self.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
+                cell.commentLikeButton.rx.tap
+                    .map { CommentListReactor.Action.didTapLikeButton(comment.id) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
+                
                 cell.updateCell(comment)
                 return cell
             }

@@ -52,15 +52,30 @@ class MyLogCommentReactor: Reactor {
         case .viewDidLoad:
             switch currentState.commentType {
             case .liked:
-                return setLikedPerfumeComment(0, [])
-            default: return setWritedPerfumeCommentList(0, [])
+                return setLikedPerfumeCommentList(0, [])
+            default:
+                return setWritedPerfumeCommentList(0, [])
             }
             
         case .didTapPerfumeTab:
-            return setWritedPerfumeCommentList(0, [])
+            switch currentState.commentType {
+            case .liked:
+                return setLikedPerfumeCommentList(0, [])
+            case .perfume:
+                return setWritedPerfumeCommentList(0, [])
+            default:
+                return .empty()
+            }
             
         case .didTapCommunityTab:
-            return setWritedCommunityCommentList(0, [])
+            switch currentState.commentType {
+            case .liked:
+                return setLikedCommunityCommentList(0, [])
+            case .perfume:
+                return setWritedCommunityCommentList(0, [])
+            default:
+                return .empty()
+            }
             
         case .willDisplayCell(let page):
             switch currentState.commentType {
@@ -69,12 +84,28 @@ class MyLogCommentReactor: Reactor {
             case .community(_):
                 return setWritedCommunityCommentList(page, currentState.loadedPage)
             case .liked(_):
-                return setLikedPerfumeComment(page, currentState.loadedPage)
+                if currentState.communityItem.isEmpty {
+                    return setLikedPerfumeCommentList(page, currentState.loadedPage)
+                } else {
+                    return setLikedCommunityCommentList(page, currentState.loadedPage)
+                }
             }
             
         case .didSelectedCell(let row):
             switch currentState.commentType {
-            case .perfume(_), .liked(_):
+            case .liked(_):
+                if currentState.perfumeItem.isEmpty {
+                    return .concat([
+                        .just(.setCommunityId(currentState.communityItem[row].parentId)),
+                        .just(.setCommunityId(nil))
+                    ])
+                } else {
+                    return .concat([
+                        .just(.setPerfumeId(currentState.perfumeItem[row].parentId)),
+                        .just(.setPerfumeId(nil))
+                    ])
+                }
+            case .perfume(_):
                 return .concat([
                     .just(.setPerfumeId(currentState.perfumeItem[row].parentId)),
                     .just(.setPerfumeId(nil))
@@ -170,10 +201,10 @@ extension MyLogCommentReactor {
             }
     }
     
-    func setLikedPerfumeComment(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
+    func setLikedPerfumeCommentList(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
         
         if loadedPage.contains(page) { return .empty() }
-        return MemberAPI.fetchLikedComments(["page": page])
+        return MemberAPI.fetchLikedPerfumeComments(["page": page])
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
 
@@ -185,6 +216,26 @@ extension MyLogCommentReactor {
                 return .concat([
                     .just(.setPerfumeItem(item)),
                     .just(.setCommunityItem([])),
+                    .just(.setLoadedPage(loadedPage))
+                ])
+            }
+    }
+    
+    func setLikedCommunityCommentList(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
+        
+        if loadedPage.contains(page) { return .empty() }
+        return MemberAPI.fetchLikedCommunityComments(["page": page])
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+
+                var item = self.currentState.communityItem
+                item.append(contentsOf: data)
+                var loadedPage = self.currentState.loadedPage
+                loadedPage.insert(page)
+                
+                return .concat([
+                    .just(.setPerfumeItem([])),
+                    .just(.setCommunityItem(item)),
                     .just(.setLoadedPage(loadedPage))
                 ])
             }

@@ -115,11 +115,23 @@ final class MemberAPI {
     }
     
     
-    /// 좋아요한 댓글 불러오기
+    /// 좋아요한 향수 댓글 불러오기
     /// - Parameter query: [Page: Int]
-    static func fetchLikedComments(_ query: [String: Int]) -> Observable<[MyLogComment]> {
+    static func fetchLikedPerfumeComments(_ query: [String: Int]) -> Observable<[MyLogComment]> {
         return networking(
-            urlStr: MemberAddress.fetchLikedComment.url,
+            urlStr: MemberAddress.fetchLikedPerfumeComment.url,
+            method: .get,
+            data: nil,
+            model: [MyLogComment].self,
+            query: query
+        )
+    }
+    
+    /// 좋아요한 커뮤니티 댓글 불러오기
+    /// - Parameter query: [Page: Int]
+    static func fetchLikedCommunityComments(_ query: [String: Int]) -> Observable<[MyLogComment]> {
+        return networking(
+            urlStr: MemberAddress.fetchLikedCommunityComment.url,
             method: .get,
             data: nil,
             model: [MyLogComment].self,

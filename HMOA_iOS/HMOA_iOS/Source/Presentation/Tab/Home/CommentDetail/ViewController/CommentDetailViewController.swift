@@ -46,32 +46,16 @@ class CommentDetailViewController: UIViewController, View {
     }
     
     private lazy var commentLikeButton = UIButton().then {
-        
-        var buttonConfig = UIButton.Configuration.plain()
-
-        buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 4.6, leading: 6, bottom: 4.6, trailing: 8)
-        buttonConfig.imagePadding = 4
-        buttonConfig.baseBackgroundColor = .customColor(.gray1)
-        
-        
-        let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .regular, scale: .default)
-        let normalImage = UIImage(named: "heart", in: .none, with: config)
-        let selectedImage = UIImage(named: "heart_fill", in: .none, with: config)
-        
-        $0.configuration = buttonConfig
-        $0.setImage(normalImage, for: .normal)
-        $0.setImage(selectedImage, for: .selected)
-        $0.tintColor = .black
-        $0.layer.cornerRadius = 10
-        $0.backgroundColor = .customColor(.gray1)
+        $0.makeLikeButton()
     }
     
-    private lazy var changeButton = UIButton().then {
-        $0.isHidden = true
-        $0.titleLabel?.font = .customFont(.pretendard, 16)
-        $0.setTitle("수정", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.tintColor = .black
+    private let optionButton = UIButton().then {
+        $0.setImage(UIImage(named: "commentOption"), for: .normal)
+    }
+    
+    private lazy var optionView = OptionView().then {
+        $0.reactor = OptionReactor()
+        $0.parentVC = self
     }
     
     // MARK: - Lifecycle
@@ -79,7 +63,6 @@ class CommentDetailViewController: UIViewController, View {
         super.viewDidLoad()
         setBackItemNaviBar("댓글")
         configureUI()
-        configureNavigationBar()
     }
     
     override func viewDidLayoutSubviews() {
@@ -113,6 +96,28 @@ extension CommentDetailViewController {
         // 댓글 좋아요 버튼 클릭
         commentLikeButton.rx.tap
             .map { Reactor.Action.didTapLikeButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 옵션 버튼 터치
+        optionButton.rx.tap
+            .map { Reactor.Action.didTapOptionButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 향수 댓글 옵션 버튼
+        reactor.state
+            .map { $0.optionCommentData}
+            .compactMap { $0 }
+            .map { OptionReactor.Action.didTapOptionButton(.Comment($0)) }
+            .bind(to: optionView.reactor!.action)
+            .disposed(by: disposeBag)
+        
+        // 옵션 삭제 버튼 터치
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .filter { $0 }
+            .map { _ in Reactor.Action.didDeleteComment }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -171,7 +176,15 @@ extension CommentDetailViewController {
             })
             .disposed(by: disposeBag)
         
-       
+        // 댓글 삭제시 popVC
+        reactor.state
+            .map { $0.isDeleteComment }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.popViewController()
+            })
+            .disposed(by: disposeBag)
     }
         
     private func configureUI() {
@@ -183,7 +196,9 @@ extension CommentDetailViewController {
             contentLabel,
             userMarkImageView,
             dateLabel,
-            commentLikeButton
+            commentLikeButton,
+            optionButton,
+            optionView
         ]   .forEach { view.addSubview($0) }
         
         userImageView.snp.makeConstraints {
@@ -207,17 +222,21 @@ extension CommentDetailViewController {
             $0.leading.trailing.equalToSuperview().inset(32)
         }
         
-        commentLikeButton.snp.makeConstraints {
+        optionButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(16)
             $0.centerY.equalTo(userImageView)
-            $0.trailing.equalToSuperview().inset(32)
             $0.height.equalTo(20)
         }
-
-    }
-    
-    private func configureNavigationBar() {
-        let changeButtonItem = UIBarButtonItem(customView: changeButton)
         
-        self.navigationItem.rightBarButtonItem = changeButtonItem
+        commentLikeButton.snp.makeConstraints {
+            $0.centerY.equalTo(userImageView)
+            $0.trailing.equalTo(optionButton.snp.leading).offset(-8)
+            $0.height.equalTo(20)
+        }
+        
+        optionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
     }
 }

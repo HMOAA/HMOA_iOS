@@ -25,6 +25,7 @@ class CommunityDetailReactor: Reactor {
         case viewDidLoad(Bool)
         case didTapCommentCell(Int)
         case didTapLikeButton
+        case didTapCommentLikeButton(Int)
     }
     
     enum Mutation {
@@ -47,6 +48,8 @@ class CommunityDetailReactor: Reactor {
         case setPostLike(Bool)
         case setPostLikeCount(Int)
         case setPostContent(String)
+        case setIsPresentAlertVC(Bool)
+        case deleteComment(Int)
     }
     
     struct State {
@@ -69,6 +72,7 @@ class CommunityDetailReactor: Reactor {
         var isLiked: Bool = false
         var likeCount: Int? = nil
         var postContent: String = ""
+        var isPresentAlertVC: Bool = false
     }
     
     init(_ id: Int, _ service: CommunityListProtocol?) {
@@ -122,6 +126,9 @@ class CommunityDetailReactor: Reactor {
             
         case .didTapLikeButton:
             return setPostLike()
+            
+        case .didTapCommentLikeButton(let id):
+            return setCommentLike(id: id)
         }
     }
     
@@ -218,6 +225,13 @@ class CommunityDetailReactor: Reactor {
             
         case .setPostContent(let content):
             state.postContent = content
+            
+        case .setIsPresentAlertVC(let isPresent):
+            state.isPresentAlertVC = isPresent
+            
+        case .deleteComment(let id):
+            state.commentItem.removeAll(where: { $0?.commentId == id})
+            state.communityItems.commentItem.removeAll(where: { $0?.commentId == id})
         }
         return state
     }
@@ -229,6 +243,8 @@ class CommunityDetailReactor: Reactor {
                 return .just(.updateCommunityComment(comment))
             case .editCommunityDetail(let detail):
                 return .just(.editCommunityPost(detail))
+            case .deleteComment(let id):
+                return .just(.deleteComment(id))
             default: return .empty()
             }
         } ?? .empty()
@@ -328,6 +344,14 @@ extension CommunityDetailReactor {
     
     func setPostLike() -> Observable<Mutation> {
         var communityPost = currentState.postItem.first!
+        
+        if !currentState.isLogin {
+            return .concat([
+                .just(.setIsPresentAlertVC(true)),
+                .just(.setIsPresentAlertVC(false))
+            ])
+        }
+        
         if !currentState.isLiked {
             return CommunityAPI.putCommunityPostLike(id: communityPost.id)
                 .catch { _ in .empty() }
@@ -369,6 +393,38 @@ extension CommunityDetailReactor {
                             .just(.setPostLikeCount(communityPost.heartCount))
                         ])
                     }
+                }
+        }
+    }
+    
+    func setCommentLike(id: Int) -> Observable<Mutation> {
+        
+        if !currentState.isLogin {
+            return .concat([
+                .just(.setIsPresentAlertVC(true)),
+                .just(.setIsPresentAlertVC(false))
+            ])
+        }
+        var comment = currentState.commentItem
+            .compactMap { $0 }
+            .filter { $0.commentId == id }
+            .first!
+        
+        if !comment.liked {
+            return CommunityAPI.putCommunityCommentLike(id: id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    comment.liked = true
+                    comment.heartCount += 1
+                    return .just(.updateCommunityComment(comment))
+                }
+        } else {
+            return CommunityAPI.deleteCommunityCommentLike(id: id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    comment.liked = false
+                    comment.heartCount -= 1
+                    return .just(.updateCommunityComment(comment))
                 }
         }
     }

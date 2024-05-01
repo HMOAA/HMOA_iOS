@@ -186,6 +186,10 @@ class OptionView: UIView, View {
                     if let parentVC = owner.parentVC as? DetailViewController {
                         parentVC.presentCommentWirteViewControllerForWriter(.perfumeDetail(parentVC.reactor!))
                     }
+                    
+                    if let parentVC = owner.parentVC as? CommentDetailViewController {
+                        parentVC.presentCommentWirteViewControllerForWriter(.commentDetail(parentVC.reactor!))
+                    }
                 case .Post(_):
                     let parentVC = owner.parentVC as! CommunityDetailViewController
                     parentVC.presentCommunityWriteVCForEdit(reactor: parentVC.reactor!)

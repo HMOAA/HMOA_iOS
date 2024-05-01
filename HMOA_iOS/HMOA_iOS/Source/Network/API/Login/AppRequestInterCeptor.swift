@@ -11,16 +11,24 @@ import RxSwift
 
 final class AppRequestInterceptor: RequestInterceptor {
     
+    private let disposeBag = DisposeBag()  // RxSwift의 메모리 관리를 위한 Dispose Bag
+    
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-        guard let token = try? LoginManager.shared.tokenSubject.value() else{
-            completion(.success(urlRequest))
-            return
-        }
-        
-        var urlRequest = urlRequest
-        urlRequest.setValue(token.authToken, forHTTPHeaderField: "X-AUTH-TOKEN")
-        completion(.success(urlRequest))
-        print(" adpat \(urlRequest)")
+        // tokenSubject에서 토큰을 비동기적으로 가져오기
+        LoginManager.shared.tokenSubject
+            .take(1)  // 첫 번째 값을 가져오고 구독을 종료
+            .subscribe(onNext: { token in
+                var urlRequest = urlRequest
+                if let authToken = token?.authToken {
+                    urlRequest.setValue(authToken, forHTTPHeaderField: "X-AUTH-TOKEN")
+                }
+                print(" adpat \(urlRequest)")
+                completion(.success(urlRequest))
+            }, onError: { error in
+                print("Error fetching token: \(error)")
+                completion(.failure(error))
+            })
+            .disposed(by: disposeBag)
     }
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
