@@ -21,18 +21,36 @@ struct Magazine: Hashable, Codable {
     }
 }
 
-struct TopReview: Hashable, Codable {
-    let id: Int
-    let title: String
-    let userName: String
-    let content: String
-}
-
 struct NewPerfume: Hashable, Codable {
-    let id: Int
+    let perfumeID: Int
     let name: String
     let brand: String
     let releaseDate: String
+    let perfumeImageURL: String
+    
+    enum CodingKeys: String, CodingKey {
+        case perfumeID = "perfumeId"
+        case name = "perfumeName"
+        case brand = "brandName"
+        case releaseDate = "relaseDate"
+        case perfumeImageURL = "perfumeImgUrl"
+    }
+}
+
+struct TopReview: Hashable, Codable {
+    let communityID: Int
+    let title: String
+    let userImageURL: String
+    let userName: String
+    let content: String
+    
+    enum CodingKeys: String, CodingKey {
+        case communityID = "communityId"
+        case title
+        case userImageURL = "profileImg"
+        case userName = "nickname"
+        case content
+    }
 }
 
 struct MagazineDetailResponse: Hashable, Codable {

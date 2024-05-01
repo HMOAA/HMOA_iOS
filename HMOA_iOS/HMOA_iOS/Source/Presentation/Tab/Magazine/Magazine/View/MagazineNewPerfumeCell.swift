@@ -8,12 +8,19 @@
 import UIKit
 import Then
 import SnapKit
+import Kingfisher
 
 class MagazineNewPerfumeCell: UICollectionViewCell {
     
     static let identifier = "MagazineNewPerfumeCell"
     
-    private let imageView = UIImageView()
+    private let imageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
+    
+    private let imageBackgroundView = UIView().then {
+        $0.backgroundColor = #colorLiteral(red: 0.850980401, green: 0.850980401, blue: 0.850980401, alpha: 1)
+    }
     
     private let brandLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 10, color: .gray3 )
@@ -39,19 +46,23 @@ class MagazineNewPerfumeCell: UICollectionViewCell {
     }
     
     private func setAddView() {
-        [imageView, brandLabel, perfumeNameLabel, dateLabel].forEach {
-            addSubview($0)
-        }
+        imageBackgroundView.addSubview(imageView)
+        [imageBackgroundView, brandLabel, perfumeNameLabel, dateLabel].forEach { addSubview($0) }
     }
     
     private func setConstraints() {
-        imageView.snp.makeConstraints { make in
+        imageBackgroundView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.width.height.equalTo(155)
         }
         
+        imageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.equalTo(111.57)
+        }
+        
         brandLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(12)
+            make.top.equalTo(imageBackgroundView.snp.bottom).offset(12)
             make.leading.trailing.equalToSuperview()
         }
         
@@ -67,7 +78,7 @@ class MagazineNewPerfumeCell: UICollectionViewCell {
     }
     
     func configureCell(_ newPerfume: NewPerfume) {
-        imageView.backgroundColor = .random
+        imageView.kf.setImage(with: URL(string: newPerfume.perfumeImageURL))
         brandLabel.text = newPerfume.brand
         perfumeNameLabel.text = newPerfume.name
         dateLabel.text = newPerfume.releaseDate

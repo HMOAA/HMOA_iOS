@@ -18,22 +18,20 @@ final class MagazineAPI {
             query: query)
     }
     
-    static func fetchNewPerfumeList(_ query: [String: Any]) -> Observable<[MagazineItem]> {
+    static func fetchNewPerfumeList() -> Observable<[NewPerfume]> {
         return networking(
             urlStr: MagazineAddress.fetchNewPerfumes.url,
             method: .get,
             data: nil,
-            model: [MagazineItem].self,
-            query: query)
+            model: [NewPerfume].self)
     }
     
-    static func fetchTopReviewList(_ query: [String: Any]) -> Observable<[MagazineItem]> {
+    static func fetchTopReviewList() -> Observable<[TopReview]> {
         return networking(
             urlStr: MagazineAddress.fetchTopReviews.url,
             method: .get,
             data: nil,
-            model: [MagazineItem].self,
-            query: query)
+            model: [TopReview].self)
     }
     
     // MagazineDetail
