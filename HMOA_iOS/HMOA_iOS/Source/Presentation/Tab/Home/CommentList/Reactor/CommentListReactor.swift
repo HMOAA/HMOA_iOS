@@ -36,6 +36,7 @@ class CommentListReactor: Reactor {
         case updateComment(Comment)
         case setIsLogin(Bool)
         case setIsTapWhenNotLogin(Bool)
+        case deleteComment(Int)
     }
     
     struct State {
@@ -159,6 +160,9 @@ class CommentListReactor: Reactor {
             if let index = state.commentItems.firstIndex(where: { $0.id == comment.id }) {
                 state.commentItems[index] = comment
             }
+            
+        case .deleteComment(let id):
+            state.commentItems.removeAll { $0.id == id }
         }
         
         return state
@@ -171,6 +175,8 @@ class CommentListReactor: Reactor {
                 return .just(.addComment(comment))
             case .updateComment(let comment):
                 return .just(.updateComment(comment))
+            case .deleteComment(let id):
+                return .just(.deleteComment(id))
             }
         }
         return .merge(eventMutation, mutation)

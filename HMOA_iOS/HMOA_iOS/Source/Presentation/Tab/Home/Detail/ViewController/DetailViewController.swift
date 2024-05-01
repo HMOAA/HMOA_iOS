@@ -132,7 +132,7 @@ extension DetailViewController {
                 owner.presentCommentDetailViewController(
                     comment: comment,
                     communityCommet: nil,
-                    perfumeService: nil,
+                    perfumeService: DetailCommentService(),
                     communityService: nil)
             })
             .disposed(by: disposeBag)

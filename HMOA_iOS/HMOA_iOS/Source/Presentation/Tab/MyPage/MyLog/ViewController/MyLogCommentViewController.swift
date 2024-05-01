@@ -138,7 +138,6 @@ class MyLogCommentViewController: UIViewController, View {
             .drive(with: self) { owner, items in
                 
                 if case .liked(_) = reactor.currentState.commentType {
-                    print("asdf22")
                     print(items.perfume.isEmpty && items.community.isEmpty)
                     if items.perfume.isEmpty && items.community.isEmpty {
                         owner.noLikedView.isHidden = false
@@ -150,7 +149,6 @@ class MyLogCommentViewController: UIViewController, View {
                 }
                 
                 if case .perfume(_) = reactor.currentState.commentType {
-                    print("asdf")
                     print(items.perfume.isEmpty && items.community.isEmpty)
                     if items.perfume.isEmpty && items.community.isEmpty {
                         owner.noWritedCommentView.isHidden = false
