@@ -193,6 +193,7 @@ extension DetailViewController {
     private func bindHeader(_ header: CommentHeaderView) {
         reactor?.state
             .map { $0.commentCount}
+            .compactMap { $0 }
             .map { $0 == 0 ? "\($0)" : "+\($0)" }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(header.countLabel.rx.text)

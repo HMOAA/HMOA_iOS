@@ -54,7 +54,7 @@ final class DetailViewReactor: Reactor {
         var presentBrandId: Int? = nil
         var perfumeId: Int
         var isLiked: Bool? = nil
-        var commentCount: Int = 0
+        var commentCount: Int? = nil
         var isPaging: Bool = false
         var isLogin: Bool = false
         var isTapWhenNotLogin: Bool = false
