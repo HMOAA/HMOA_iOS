@@ -222,12 +222,12 @@ extension CommentListReactor {
     
     func setCommentLike(id: Int) -> Observable<Mutation> {
         
-//        if !currentState.isLogin {
-//            return .concat([
-//                .just(.setIsTap(true)),
-//                .just(.setIsTap(false))
-//            ])
-//        }
+        if !currentState.isLogin {
+            return .concat([
+                .just(.setIsTapWhenNotLogin(true)),
+                .just(.setIsTapWhenNotLogin(false))
+            ])
+        }
         var comment = currentState.commentItems
             .filter { $0.id == id }
             .first!
