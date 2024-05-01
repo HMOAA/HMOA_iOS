@@ -25,6 +25,7 @@ class CommunityDetailReactor: Reactor {
         case viewDidLoad(Bool)
         case didTapCommentCell(Int)
         case didTapLikeButton
+        case didTapCommentLikeButton(Int)
     }
     
     enum Mutation {
@@ -124,6 +125,9 @@ class CommunityDetailReactor: Reactor {
             
         case .didTapLikeButton:
             return setPostLike()
+            
+        case .didTapCommentLikeButton(let id):
+            return setCommentLike(id: id)
         }
     }
     
@@ -382,6 +386,38 @@ extension CommunityDetailReactor {
                             .just(.setPostLikeCount(communityPost.heartCount))
                         ])
                     }
+                }
+        }
+    }
+    
+    func setCommentLike(id: Int) -> Observable<Mutation> {
+        
+        if !currentState.isLogin {
+            return .concat([
+                .just(.setIsPresentAlertVC(true)),
+                .just(.setIsPresentAlertVC(false))
+            ])
+        }
+        var comment = currentState.commentItem
+            .compactMap { $0 }
+            .filter { $0.commentId == id }
+            .first!
+        
+        if !comment.liked {
+            return CommunityAPI.putCommunityCommentLike(id: id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    comment.liked = true
+                    comment.heartCount += 1
+                    return .just(.updateCommunityComment(comment))
+                }
+        } else {
+            return CommunityAPI.deleteCommunityCommentLike(id: id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    comment.liked = false
+                    comment.heartCount -= 1
+                    return .just(.updateCommunityComment(comment))
                 }
         }
     }
