@@ -24,7 +24,7 @@ final class DetailViewReactor: Reactor {
         case didTapSimillarCell(Int)
         case didTapOptionButton(Int)
         case didDeleteComment
-
+        case didTapCommentLikeButton(Int)
     }
     
     enum Mutation {
@@ -42,6 +42,7 @@ final class DetailViewReactor: Reactor {
         case setLikeCount(Int?)
         case setSelectedCommentRow(Int)
         case setBrandName(String)
+        case updateComment(Comment)
     }
     
     struct State {
@@ -122,6 +123,9 @@ final class DetailViewReactor: Reactor {
             
         case .didTapOptionButton(let row):
             return .just(.setSelectedCommentRow(row))
+            
+        case .didTapCommentLikeButton(let id):
+            return setCommentLike(id: id)
         }
     }
     
@@ -170,6 +174,13 @@ final class DetailViewReactor: Reactor {
             
         case .setBrandName(let name):
             state.brandName = name
+            
+        case .updateComment(let comment):
+            if let index = currentState.sections[2].items.firstIndex(where: { $0.comment?.id == comment.id}) {
+                var newItems = currentState.sections[2].items
+                newItems[index] = .commentCell(comment)
+                state.sections[2] = .comment(newItems)
+            }
         }
         
         return state
@@ -303,6 +314,39 @@ extension DetailViewReactor {
                 .just(.setIsTap(true)),
                 .just(.setIsTap(false))
             ])
+        }
+    }
+    
+    func setCommentLike(id: Int) -> Observable<Mutation> {
+        
+        if !currentState.isLogin {
+            return .concat([
+                .just(.setIsTap(true)),
+                .just(.setIsTap(false))
+            ])
+        }
+        var comment = currentState.sections[2].items
+            .map { $0.comment }
+            .compactMap { $0 }
+            .filter { $0.id == id }
+            .first!
+        
+        if !comment.liked {
+            return CommentAPI.putCommentLike(id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    comment.liked = true
+                    comment.heartCount += 1
+                    return .just(.updateComment(comment))
+                }
+        } else {
+            return CommentAPI.deleteCommentLike(id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    comment.liked = false
+                    comment.heartCount -= 1
+                    return .just(.updateComment(comment))
+                }
         }
     }
     

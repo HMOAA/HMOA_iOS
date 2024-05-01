@@ -109,7 +109,7 @@ extension DetailViewController {
                     snapshot.appendItems(section.items, toSection: section)
                 }
                 
-                dataSource.apply(snapshot)
+                dataSource.apply(snapshot,animatingDifferences: false)
                 
             }).disposed(by: disposeBag)
         
@@ -319,7 +319,14 @@ extension DetailViewController: UICollectionViewDelegate {
                         .map { DetailViewReactor.Action.didTapOptionButton(indexPath.row) }
                         .bind(to: self.reactor!.action)
                         .disposed(by: self.disposeBag)
+                    
+                    commentCell.commentLikeButton.rx.tap
+                        .throttle(RxTimeInterval.seconds(1), latest: false, scheduler: MainScheduler.instance)
+                        .map { DetailViewReactor.Action.didTapCommentLikeButton(comment.id) }
+                        .bind(to: self.reactor!.action)
+                        .disposed(by: commentCell.disposeBag)
                 }
+                
                 commentCell.updateCell(comment)
     
                 return commentCell

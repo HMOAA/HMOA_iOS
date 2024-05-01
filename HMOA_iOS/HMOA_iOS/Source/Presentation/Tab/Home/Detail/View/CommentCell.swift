@@ -86,6 +86,10 @@ class CommentCell: UICollectionViewCell {
         super.layoutSubviews()
         subView.layer.addBorder([.bottom], color: UIColor.customColor(.gray2), width: 1)
     }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
+    }
 }
 
 
@@ -219,7 +223,7 @@ extension CommentCell {
         }
     }
     
-    private func setLikeButtonText(_ text: String) -> AttributedString {
+    func setLikeButtonText(_ text: String) -> AttributedString {
         var attri = AttributedString.init(text)
         attri.font = .customFont(.pretendard_light, 12)
         

@@ -46,24 +46,7 @@ class CommentDetailViewController: UIViewController, View {
     }
     
     private lazy var commentLikeButton = UIButton().then {
-        
-        var buttonConfig = UIButton.Configuration.plain()
-
-        buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 4.6, leading: 6, bottom: 4.6, trailing: 8)
-        buttonConfig.imagePadding = 4
-        buttonConfig.baseBackgroundColor = .customColor(.gray1)
-        
-        
-        let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .regular, scale: .default)
-        let normalImage = UIImage(named: "heart", in: .none, with: config)
-        let selectedImage = UIImage(named: "heart_fill", in: .none, with: config)
-        
-        $0.configuration = buttonConfig
-        $0.setImage(normalImage, for: .normal)
-        $0.setImage(selectedImage, for: .selected)
-        $0.tintColor = .black
-        $0.layer.cornerRadius = 10
-        $0.backgroundColor = .customColor(.gray1)
+        $0.makeLikeButton()
     }
     
     private lazy var changeButton = UIButton().then {
