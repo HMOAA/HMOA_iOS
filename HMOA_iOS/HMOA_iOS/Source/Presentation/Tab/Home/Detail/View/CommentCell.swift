@@ -125,7 +125,10 @@ extension CommentCell {
             userMarkImageView.isHidden = !item.writed
             commentLikeButton.isSelected = item.liked
             commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
-        } else { communityNoCommentLabel.isHidden = false }
+        } else {
+            communityNoCommentLabel.isHidden = false
+            subView.isHidden = true
+        }
     }
     
     func updateForMyLogComment(_ item: MyLogComment) {

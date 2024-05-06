@@ -244,10 +244,10 @@ class CommunityDetailViewController: UIViewController, View {
                 
                 items.postItem.forEach { snapshot.appendItems([.postCell($0)], toSection: .post) }
                 
-                snapshot.appendItems(items.commentItem.map { .commentCell($0) }, toSection: .comment)
+                items.commentItem.forEach { snapshot.appendItems([.commentCell($0)], toSection: .comment) }
                 
                 
-                datasource.apply(snapshot, animatingDifferences: false)
+                datasource.apply(snapshot, animatingDifferences: true)
             })
             .disposed(by: disposeBag)
         
@@ -435,8 +435,6 @@ extension CommunityDetailViewController: UITextViewDelegate {
                     // CommunityDetailReactor에 indexPathRow 전달
                     cell.optionButton.rx.tap
                         .bind(with: self, onNext: { owner, _  in
-                            guard let indexPath = owner.collectionView.indexPath(for: cell) else { return }
-                            
                             let detailAction = CommunityDetailReactor.Action.didTapOptionButton(indexPath.row)
                             owner.reactor?.action.onNext(detailAction)
                         })
