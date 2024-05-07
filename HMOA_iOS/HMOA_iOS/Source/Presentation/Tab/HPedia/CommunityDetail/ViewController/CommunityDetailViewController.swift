@@ -247,7 +247,7 @@ class CommunityDetailViewController: UIViewController, View {
                 items.commentItem.forEach { snapshot.appendItems([.commentCell($0)], toSection: .comment) }
                 
                 
-                datasource.apply(snapshot, animatingDifferences: true)
+                datasource.apply(snapshot, animatingDifferences: false)
             })
             .disposed(by: disposeBag)
         
