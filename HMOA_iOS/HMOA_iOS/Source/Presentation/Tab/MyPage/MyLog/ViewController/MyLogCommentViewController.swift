@@ -25,17 +25,16 @@ class MyLogCommentViewController: UIViewController, View {
     }
     
     let noLikedView = NoLoginEmptyView(title:
-                                                """
-                                                좋아요를 누른 댓글이
-                                                없습니다
-                                                """,
-                                             subTitle:
-                                                """
-                                                좋아하는 향수에 좋아요를 눌러주세요
-                                                """,
-                                            buttonHidden: true).then {
-        $0.isHidden = true
-    }
+                                            """
+                                            좋아요를 누른 댓글이
+                                            없습니다
+                                            """,
+                                       subTitle:
+                                            """
+                                            좋아하는 향수에 좋아요를 눌러주세요
+                                            """,
+                                       buttonHidden: true)
+        .then { $0.isHidden = true }
     
     let noWritedCommentView = NoLoginEmptyView(title:
                                                 """
@@ -46,9 +45,8 @@ class MyLogCommentViewController: UIViewController, View {
                                                 """
                                                 좋아하는 향수에 댓글을 작성해주세요
                                                 """,
-                                            buttonHidden: true).then {
-        $0.isHidden = true
-    }
+                                            buttonHidden: true)
+        .then { $0.isHidden = true }
     
     private var datasource: UICollectionViewDiffableDataSource<MyLogCommentSection, MyLogCommentSectionItem>?
     
@@ -108,17 +106,10 @@ class MyLogCommentViewController: UIViewController, View {
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        // WillDisplayCell
-        collectionView.rx.willDisplayCell
-            .map {
-                let currentItem = $0.at.item
-                if (currentItem + 1) % 10 == 0 && currentItem != 0 {
-                    return currentItem / 10 + 1
-                }
-                return nil
-            }
-            .compactMap { $0 }
-            .map { Reactor.Action.willDisplayCell($0) }
+        // PrefetchItems
+        collectionView.rx.prefetchItems
+            .compactMap(\.last?.item)
+            .map { Reactor.Action.prefetchItems($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -132,14 +123,12 @@ class MyLogCommentViewController: UIViewController, View {
         
         // colectionView binding
         reactor.state
+            .skip(1)
             .map { $0.items }
-            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, items in
-                
-                if case .liked(_) = reactor.currentState.commentType {
-                    print(items.perfume.isEmpty && items.community.isEmpty)
-                    if items.perfume.isEmpty && items.community.isEmpty {
+                if case .liked = reactor.currentState.commentType {
+                    if reactor.currentState.perfumeItem.isEmpty && reactor.currentState.communityItem.isEmpty {
                         owner.noLikedView.isHidden = false
                         owner.collectionView.isHidden = true
                     } else {
@@ -148,23 +137,10 @@ class MyLogCommentViewController: UIViewController, View {
                     }
                 }
                 
-                if case .perfume(_) = reactor.currentState.commentType {
-                    print(items.perfume.isEmpty && items.community.isEmpty)
-                    if items.perfume.isEmpty && items.community.isEmpty {
-                        owner.noWritedCommentView.isHidden = false
-                        owner.collectionView.isHidden = true
-                    } else {
-                        owner.noWritedCommentView.isHidden = true
-                        owner.collectionView.isHidden = false
-                    }
-                }
-                
                 guard let datasource = owner.datasource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<MyLogCommentSection, MyLogCommentSectionItem>()
                 snapshot.appendSections([.comment])
-                
-                items.perfume.forEach { snapshot.appendItems([.perfume($0)]) }
-                items.community.forEach { snapshot.appendItems([.community($0)]) }
+                items.forEach { snapshot.appendItems([.commentCell($0)]) }
                 
                 datasource.apply(snapshot, animatingDifferences: false)
             }
@@ -214,7 +190,7 @@ extension MyLogCommentViewController: UICollectionViewDelegateFlowLayout {
             }
             
             switch item {
-            case .perfume(let comment), .liked(let comment), .community(let comment):
+            case .commentCell(let comment):
                 cell.updateForMyLogComment(comment!)
             }
             

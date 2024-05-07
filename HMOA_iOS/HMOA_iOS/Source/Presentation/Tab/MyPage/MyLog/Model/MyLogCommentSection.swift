@@ -13,13 +13,10 @@ enum MyLogCommentSection: Hashable {
 }
 
 enum MyLogCommentSectionItem: Hashable {
-    case liked(MyLogComment?)
-    case perfume(MyLogComment?)
-    case community(MyLogComment?)
+    case commentCell(MyLogComment?)
 }
 
-struct MyLogCommentData: Equatable {
-    var perfume: [MyLogComment]
-    var community: [MyLogComment]
+enum MyLogCommentType: Hashable {
+    case liked
+    case writed
 }
-
