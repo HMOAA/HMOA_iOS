@@ -24,7 +24,6 @@ class MyLogCommentReactor: Reactor {
     enum Mutation {
         case setPerfumeItem([MyLogComment])
         case setCommunityItem([MyLogComment])
-        case setCommentType(MyLogCommentSectionItem)
         case setCurrentPerfumePage(Int)
         case setCurrentCommunityPage(Int)
         case setPerfumeId(Int?)
@@ -87,7 +86,19 @@ class MyLogCommentReactor: Reactor {
                     )
                 }
             case .writed:
-                break
+                if currentState.isPerfume {
+                    return setWritedPerfumeCommentList(
+                        currentPage: currentState.currentPerfumePage,
+                        items: currentState.perfumeItem,
+                        row: row
+                    )
+                } else {
+                    return setWritedCommunityCommentList(
+                        currentPage: currentState.currentCommunityPage,
+                        items: currentState.communityItem,
+                        row: row
+                    )
+                }
             }
             
         case .didSelectedCell(let row):
@@ -104,10 +115,6 @@ class MyLogCommentReactor: Reactor {
             
         case .setCommunityItem(let item):
             state.communityItem = item
-            
-        case .setCommentType(let type):
-            // todo
-            return state
             
         case .setCurrentPerfumePage(let page):
             state.currentPerfumePage = page
@@ -129,47 +136,43 @@ class MyLogCommentReactor: Reactor {
 }
 
 extension MyLogCommentReactor {
-    //    func setWritedPerfumeCommentList(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
-    //        
-    //        if loadedPage.contains(page) { return .empty() }
-    //        
-    //        return MemberAPI.fetchPerfumeComments(["page": page])
-    //            .catch { _ in .empty() }
-    //            .flatMap { data -> Observable<Mutation> in
-    //                var item = self.currentState.perfumeItem
-    //                item.append(contentsOf: data)
-    //                
-    //                return .concat([
-    //                    .just(.setPerfumeItem(item)),
-    //                    .just(.setCommunityItem([])),
-    //                    .just(.setLoadedPage(loadedPage)),
-    //                    .just(.setCommentType(.perfume(nil)))
-    //                ])
-    //            }
-    //    }
-    //    
-    //    func setWritedCommunityCommentList(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
-    //        
-    //        if loadedPage.contains(page) { return .empty() }
-    //        
-    //        return MemberAPI.fetchCommunityComments(["page": page])
-    //            .catch { _ in .empty() }
-    //            .flatMap { data -> Observable<Mutation> in
-    //                
-    //                var item = self.currentState.communityItem
-    //                item.append(contentsOf: data)
-    //                
-    //                return .concat([
-    //                    .just(.setCommunityItem(item)),
-    //                    .just(.setPerfumeItem([])),
-    //                    .just(.setLoadedPage(loadedPage)),
-    //                    .just(.setCommentType(.community(nil)))
-    //                ])
-    //            }
-    //    }
+    func setWritedPerfumeCommentList(currentPage: Int, items: [MyLogComment], row: Int) -> Observable<Mutation> {
+        if items.count - 1 == row || currentPage == -1 {
+            let newPage = currentPage + 1
+            return MemberAPI.fetchPerfumeComments(["page": newPage])
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    var item = self.currentState.perfumeItem
+                    item.append(contentsOf: data)
+                    
+                    return .concat([
+                        .just(.setPerfumeItem(item)),
+                        .just(.setCurrentPerfumePage(newPage))
+                    ])
+                }
+        } else { return .empty() }
+    }
+        
+    func setWritedCommunityCommentList(currentPage: Int, items: [MyLogComment], row: Int) -> Observable<Mutation> {
+        if items.count - 1 == row || currentPage == -1 {
+            let newPage = currentPage + 1
+            
+            return MemberAPI.fetchCommunityComments(["page": newPage])
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    var item = self.currentState.communityItem
+                    item.append(contentsOf: data)
+                    
+                    return .concat([
+                        .just(.setCommunityItem(item)),
+                        .just(.setCurrentCommunityPage(newPage))
+                    ])
+                }
+        } else { return .empty() }
+    }
     
     func setLikedPerfumeCommentList(currentPage: Int, items: [MyLogComment], row: Int) -> Observable<Mutation> {
-        if items.count - 1 == row || currentPage == -1{
+        if items.count - 1 == row || currentPage == -1 {
             let newPage = currentPage + 1
             return MemberAPI.fetchLikedPerfumeComments(["page": newPage])
                 .catch { _ in .empty() }
