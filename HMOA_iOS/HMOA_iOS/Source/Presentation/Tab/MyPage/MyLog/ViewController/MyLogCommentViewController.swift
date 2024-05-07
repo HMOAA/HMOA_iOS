@@ -22,6 +22,7 @@ class MyLogCommentViewController: UIViewController, View {
         $0.alwaysBounceVertical = true
         $0.register(MyLogCommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MyLogCommentHeaderView.identifier)
         $0.register(CommentCell.self, forCellWithReuseIdentifier: CommentCell.identifier)
+        $0.isHidden = true
     }
     
     let noLikedView = NoLoginEmptyView(title:
@@ -123,8 +124,8 @@ class MyLogCommentViewController: UIViewController, View {
         
         // colectionView binding
         reactor.state
-            .skip(1)
             .map { $0.items }
+            .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self) { owner, items in
                 guard let datasource = owner.datasource else { return }
@@ -134,6 +135,26 @@ class MyLogCommentViewController: UIViewController, View {
                 
                 datasource.apply(snapshot, animatingDifferences: false)
             }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isHiddenNoWritedView }
+            .skip(1)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .map { ($0, self.noWritedCommentView) }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: showNoView)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isHiddenNoLikeView }
+            .skip(1)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .map { ($0, self.noLikedView) }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: showNoView)
             .disposed(by: disposeBag)
         
         
@@ -147,10 +168,9 @@ class MyLogCommentViewController: UIViewController, View {
         reactor.state
             .map { $0.perfumeId }
             .compactMap { $0 }
+            .map { ($0, nil) }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(with: self, onNext: { owner, id in
-                owner.presentDatailViewController(id)
-            })
+            .drive(onNext: presentDatailViewController)
             .disposed(by: disposeBag)
         
         // 커뮤니티 게시글로 push
@@ -211,4 +231,11 @@ extension MyLogCommentViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 
+}
+
+extension MyLogCommentViewController {
+    func showNoView(isHidden: Bool, view: UIView) {
+        view.isHidden = isHidden
+        collectionView.isHidden = !isHidden
+    }
 }
