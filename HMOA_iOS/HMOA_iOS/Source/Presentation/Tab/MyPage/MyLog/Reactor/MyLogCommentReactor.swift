@@ -102,9 +102,18 @@ class MyLogCommentReactor: Reactor {
             }
             
         case .didSelectedCell(let row):
-            break
+            if currentState.isPerfume {
+                return .concat([
+                    .just(.setPerfumeId(currentState.perfumeItem[row].parentId)),
+                    .just(.setPerfumeId(nil))
+                ])
+            } else {
+                return .concat([
+                    .just(.setCommunityId(currentState.communityItem[row].parentId)),
+                    .just(.setCommunityId(nil))
+                ])
+            }
         }
-        return .empty()
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
