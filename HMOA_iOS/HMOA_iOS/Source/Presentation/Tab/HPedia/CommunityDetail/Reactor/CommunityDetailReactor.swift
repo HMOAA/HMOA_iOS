@@ -232,6 +232,11 @@ class CommunityDetailReactor: Reactor {
         case .deleteComment(let id):
             state.commentItem.removeAll(where: { $0?.commentId == id})
             state.communityItems.commentItem.removeAll(where: { $0?.commentId == id})
+            state.commentCount! -= 1
+            if state.commentCount == 0 {
+                state.commentItem = [nil]
+                state.communityItems.commentItem = [nil]
+            }
         }
         return state
     }
@@ -325,7 +330,6 @@ extension CommunityDetailReactor {
         guard let row = currentState.selectedCommentRow else { return .empty() }
         var commentItem = currentState.commentItem
         commentItem.remove(at: row)
-        
         return self.service!.updateCommunityList(to: CategoryList(
             communityId: self.currentState.communityId,
             category: self.currentState.category,
