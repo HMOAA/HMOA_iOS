@@ -139,7 +139,6 @@ class MyLogCommentViewController: UIViewController, View {
         
         reactor.state
             .map { $0.isHiddenNoWritedView }
-            .skip(1)
             .distinctUntilChanged()
             .compactMap { $0 }
             .map { ($0, self.noWritedCommentView) }
@@ -149,7 +148,6 @@ class MyLogCommentViewController: UIViewController, View {
         
         reactor.state
             .map { $0.isHiddenNoLikeView }
-            .skip(1)
             .distinctUntilChanged()
             .compactMap { $0 }
             .map { ($0, self.noLikedView) }
