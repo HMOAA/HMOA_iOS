@@ -109,7 +109,7 @@ extension DetailViewController {
                     snapshot.appendItems(section.items, toSection: section)
                 }
                 
-                dataSource.apply(snapshot)
+                dataSource.apply(snapshot,animatingDifferences: false)
                 
             }).disposed(by: disposeBag)
         
@@ -128,7 +128,12 @@ extension DetailViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, comment in owner.presentCommentDetailViewController(comment, nil, nil)
+            .drive(with: self, onNext: { owner, comment in 
+                owner.presentCommentDetailViewController(
+                    comment: comment,
+                    communityCommet: nil,
+                    perfumeService: DetailCommentService(),
+                    communityService: nil)
             })
             .disposed(by: disposeBag)
         
@@ -187,7 +192,9 @@ extension DetailViewController {
     
     private func bindHeader(_ header: CommentHeaderView) {
         reactor?.state
-            .map { "+\($0.commentCount)" }
+            .map { $0.commentCount}
+            .compactMap { $0 }
+            .map { $0 == 0 ? "\($0)" : "+\($0)" }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(header.countLabel.rx.text)
             .disposed(by: disposeBag)
@@ -222,7 +229,7 @@ extension DetailViewController {
             .compactMap { $0 }
             .observe(on: MainScheduler.instance)
             .bind(onNext: { isLiked in
-                cell.perfumeInfoView.perfumeLikeImageView.image = !isLiked ? UIImage(named: "heart") : UIImage(named: "heart_fill")
+                cell.perfumeInfoView.perfumeLikeImageView.image = !isLiked ? UIImage(named: "emptyHeart") : UIImage(named: "heart")
             })
             .disposed(by: disposeBag)
         
@@ -313,7 +320,14 @@ extension DetailViewController: UICollectionViewDelegate {
                         .map { DetailViewReactor.Action.didTapOptionButton(indexPath.row) }
                         .bind(to: self.reactor!.action)
                         .disposed(by: self.disposeBag)
+                    
+                    commentCell.commentLikeButton.rx.tap
+                        .throttle(RxTimeInterval.seconds(1), latest: false, scheduler: MainScheduler.instance)
+                        .map { DetailViewReactor.Action.didTapCommentLikeButton(comment.id) }
+                        .bind(to: self.reactor!.action)
+                        .disposed(by: commentCell.disposeBag)
                 }
+                
                 commentCell.updateCell(comment)
     
                 return commentCell
@@ -346,8 +360,18 @@ extension DetailViewController: UICollectionViewDelegate {
             }
             
             if kind == UICollectionView.elementKindSectionFooter {
+                
                 guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
-            
+                
+                self.reactor?.state
+                    .map { $0.commentCount == 0}
+                    .distinctUntilChanged()
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, isZero in
+                        commentFooter.isHidden = isZero
+                    })
+                    .disposed(by: commentFooter.disposeBag)
+                
                 
                 commentFooter.moreButton.rx.tap
                     .map { Reactor.Action.didTapMoreButton }

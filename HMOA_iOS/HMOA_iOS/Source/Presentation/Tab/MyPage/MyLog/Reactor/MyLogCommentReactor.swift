@@ -17,71 +17,100 @@ class MyLogCommentReactor: Reactor {
         case viewDidLoad
         case didTapPerfumeTab
         case didTapCommunityTab
-        case willDisplayCell(Int)
+        case prefetchItems(Int)
         case didSelectedCell(Int)
     }
     
     enum Mutation {
-        case setPerfumeItem([Comment])
-        case setCommunityItem([CommunityComment])
-        case setCommentType(MyLogCommentSectionItem)
-        case setLoadedPage(Set<Int>)
+        case setPerfumeItem([MyLogComment])
+        case setCommunityItem([MyLogComment])
+        case setCurrentPerfumePage(Int)
+        case setCurrentCommunityPage(Int)
         case setPerfumeId(Int?)
         case setCommunityId(Int?)
+        case setIsPerfume(Bool)
     }
     
     struct State {
-        var perfumeItem: [Comment] = []
-        var communityItem: [CommunityComment] = []
-        var items: MyLogCommentData = MyLogCommentData(perfume: [], community: [])
-        var commentType: MyLogCommentSectionItem
-        var page: Int = 0
-        var loadedPage: Set<Int> = []
+        var perfumeItem: [MyLogComment]? = nil
+        var communityItem: [MyLogComment]? = nil
+        var items: [MyLogComment]? {
+            if isPerfume {
+                return perfumeItem
+            } else {
+                return communityItem
+            }
+        }
+        var commentType: MyLogCommentType
+        var currentPerfumePage: Int = -1
+        var currentCommunityPage: Int = -1
         var navigationTitle: String
         var perfumeId: Int? = nil
         var communityId: Int? = nil
-        var selectedRow: Int? = nil
+        var isPerfume: Bool = true
+        var isHiddenNoWritedView: Bool? = nil
+        var isHiddenNoLikeView: Bool? = nil
     }
     
-    init(type: MyLogCommentSectionItem, title: String) {
+    init(type: MyLogCommentType, title: String) {
         initialState = State(commentType: type, navigationTitle: title)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            switch currentState.commentType {
-            case .liked(_):
-                return setLikedPerfumeComment(0, [])
-            default: return setWritedPerfumeCommentList(0, [])
-            }
+            return .concat(
+                setLikedPerfumeCommentList(currentPage: -1, items: [], row: 0),
+                setLikedCommunityCommentList(currentPage: -1, items: [], row: 0)
+            )
             
         case .didTapPerfumeTab:
-            return setWritedPerfumeCommentList(0, [])
+            return .just(.setIsPerfume(true))
             
         case .didTapCommunityTab:
-            return setWritedCommunityCommentList(0, [])
+            return .just(.setIsPerfume(false))
             
-        case .willDisplayCell(let page):
+        case .prefetchItems(let row):
             switch currentState.commentType {
-            case .perfume(_):
-                return setWritedPerfumeCommentList(page, currentState.loadedPage)
-            case .community(_):
-                return setWritedCommunityCommentList(page, currentState.loadedPage)
-            case .liked(_):
-                return setLikedPerfumeComment(page, currentState.loadedPage)
+            case .liked:
+                if currentState.isPerfume {
+                    return setLikedPerfumeCommentList(
+                        currentPage: currentState.currentPerfumePage,
+                        items: currentState.perfumeItem,
+                        row: row
+                    )
+                } else {
+                    return setLikedCommunityCommentList(
+                        currentPage: currentState.currentCommunityPage,
+                        items: currentState.communityItem,
+                        row: row
+                    )
+                }
+            case .writed:
+                if currentState.isPerfume {
+                    return setWritedPerfumeCommentList(
+                        currentPage: currentState.currentPerfumePage,
+                        items: currentState.perfumeItem,
+                        row: row
+                    )
+                } else {
+                    return setWritedCommunityCommentList(
+                        currentPage: currentState.currentCommunityPage,
+                        items: currentState.communityItem,
+                        row: row
+                    )
+                }
             }
             
         case .didSelectedCell(let row):
-            switch currentState.commentType {
-            case .perfume(_), .liked(_):
+            if currentState.isPerfume {
                 return .concat([
-                    .just(.setPerfumeId(currentState.perfumeItem[row].perfumeId)),
+                    .just(.setPerfumeId(currentState.perfumeItem?[row].parentId)),
                     .just(.setPerfumeId(nil))
                 ])
-            case .community(_):
+            } else {
                 return .concat([
-                    .just(.setCommunityId(currentState.communityItem[row].communityId)),
+                    .just(.setCommunityId(currentState.communityItem?[row].parentId)),
                     .just(.setCommunityId(nil))
                 ])
             }
@@ -93,17 +122,27 @@ class MyLogCommentReactor: Reactor {
         switch mutation {
         case .setPerfumeItem(let item):
             state.perfumeItem = item
-            state.items.perfume = item
+            switch state.commentType {
+            case .liked:
+                state.isHiddenNoLikeView = setIsHiddenNoView(state: state)
+            case .writed:
+                state.isHiddenNoWritedView = setIsHiddenNoView(state: state)
+            }
             
         case .setCommunityItem(let item):
             state.communityItem = item
-            state.items.community = item
+            switch state.commentType {
+            case .liked:
+                state.isHiddenNoLikeView = setIsHiddenNoView(state: state)
+            case .writed:
+                state.isHiddenNoWritedView = setIsHiddenNoView(state: state)
+            }
             
-        case .setCommentType(let type):
-            state.commentType = type
+        case .setCurrentPerfumePage(let page):
+            state.currentPerfumePage = page
             
-        case .setLoadedPage(let page):
-            state.loadedPage = page
+        case .setCurrentCommunityPage(let page):
+            state.currentCommunityPage = page
             
         case .setPerfumeId(let id):
             state.perfumeId = id
@@ -111,82 +150,87 @@ class MyLogCommentReactor: Reactor {
         case .setCommunityId(let id):
             state.communityId = id
             
+        case .setIsPerfume(let isPerfume):
+            state.isPerfume = isPerfume
         }
         return state
     }
 }
 
 extension MyLogCommentReactor {
-    func setWritedPerfumeCommentList(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
-        
-        if loadedPage.contains(page) { return .empty() }
-        
-        return MemberAPI.fetchPerfumeComments(["page": page])
-            .catch { _ in .empty() }
-            .flatMap { data -> Observable<Mutation> in
-                var item = self.currentState.perfumeItem
-                item.append(contentsOf: data)
-                
-                var loadedPage: Set<Int>
-                if page == 0 { loadedPage = [0] }
-                else {
-                    loadedPage = self.currentState.loadedPage
-                    loadedPage.insert(page)
+    func setWritedPerfumeCommentList(currentPage: Int, items: [MyLogComment]?, row: Int) -> Observable<Mutation> {
+        var items = items ?? []
+        if items.count - 1 == row || currentPage == -1 {
+            let newPage = currentPage + 1
+            return MemberAPI.fetchPerfumeComments(["page": newPage])
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    items.append(contentsOf: data)
+                    
+                    return .concat([
+                        .just(.setPerfumeItem(items)),
+                        .just(.setCurrentPerfumePage(newPage))
+                    ])
                 }
-                
-                return .concat([
-                    .just(.setPerfumeItem(item)),
-                    .just(.setCommunityItem([])),
-                    .just(.setLoadedPage(loadedPage)),
-                    .just(.setCommentType(.perfume(nil)))
-                ])
-            }
+        } else { return .empty() }
+    }
+        
+    func setWritedCommunityCommentList(currentPage: Int, items: [MyLogComment]?, row: Int) -> Observable<Mutation> {
+        var items = items ?? []
+        if items.count - 1 == row || currentPage == -1 {
+            let newPage = currentPage + 1
+            
+            return MemberAPI.fetchCommunityComments(["page": newPage])
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    items.append(contentsOf: data)
+                    
+                    return .concat([
+                        .just(.setCommunityItem(items)),
+                        .just(.setCurrentCommunityPage(newPage))
+                    ])
+                }
+        } else { return .empty() }
     }
     
-    func setWritedCommunityCommentList(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
-        
-        if loadedPage.contains(page) { return .empty() }
-        
-        return MemberAPI.fetchCommunityComments(["page": page])
-            .catch { _ in .empty() }
-            .flatMap { data -> Observable<Mutation> in
-                
-                var item = self.currentState.communityItem
-                item.append(contentsOf: data)
-                
-                var loadedPage: Set<Int>
-                if page == 0 { loadedPage = [0] }
-                else {
-                    loadedPage = self.currentState.loadedPage
-                    loadedPage.insert(page)
+    func setLikedPerfumeCommentList(currentPage: Int, items: [MyLogComment]?, row: Int) -> Observable<Mutation> {
+        var items = items ?? []
+        if items.count - 1 == row || currentPage == -1 {
+            let newPage = currentPage + 1
+            return MemberAPI.fetchLikedPerfumeComments(["page": newPage])
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    items.append(contentsOf: data)
+                    return .concat([
+                        .just(.setPerfumeItem(items)),
+                        .just(.setCurrentPerfumePage(newPage))
+                    ])
                 }
-                
-                return .concat([
-                    .just(.setCommunityItem(item)),
-                    .just(.setPerfumeItem([])),
-                    .just(.setLoadedPage(loadedPage)),
-                    .just(.setCommentType(.community(nil)))
-                ])
-            }
+        } else { return .empty() }
     }
     
-    func setLikedPerfumeComment(_ page: Int, _ loadedPage: Set<Int>) -> Observable<Mutation> {
-        
-        if loadedPage.contains(page) { return .empty() }
-        return MemberAPI.fetchLikedComments(["page": page])
-            .catch { _ in .empty() }
-            .flatMap { data -> Observable<Mutation> in
-
-                var item = self.currentState.perfumeItem
-                item.append(contentsOf: data)
-                var loadedPage = self.currentState.loadedPage
-                loadedPage.insert(page)
-                
-                return .concat([
-                    .just(.setPerfumeItem(item)),
-                    .just(.setCommunityItem([])),
-                    .just(.setLoadedPage(loadedPage))
-                ])
-            }
+    func setLikedCommunityCommentList(currentPage: Int, items: [MyLogComment]?, row: Int) -> Observable<Mutation> {
+        var items = items ?? []
+        if items.count - 1 == row || currentPage == -1 {
+            let newPage = currentPage + 1
+            return MemberAPI.fetchLikedCommunityComments(["page": newPage])
+                .catch { _ in .empty() }
+                .flatMap { data -> Observable<Mutation> in
+                    items.append(contentsOf: data)
+                    return .concat([
+                        .just(.setCommunityItem(items)),
+                        .just(.setCurrentCommunityPage(newPage))
+                    ])
+                }
+        } else { return .empty() }
     }
+    
+    
+    func setIsHiddenNoView(state: State) -> Bool? {
+        guard let perfumeItem = state.perfumeItem, let communityItem = state.communityItem else {
+            return nil
+        }
+        return !(perfumeItem.isEmpty && communityItem.isEmpty)
+    }
+    
 }

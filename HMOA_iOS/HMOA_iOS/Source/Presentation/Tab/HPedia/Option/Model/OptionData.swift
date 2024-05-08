@@ -13,7 +13,7 @@ enum CommentReactorType {
     case community(CommunityDetailReactor)
     case perfumeDetail(DetailViewReactor)
     case commentList(CommentListReactor)
-    
+    case commentDetail(CommentDetailReactor)
 }
 
 enum OptionType {
@@ -44,6 +44,8 @@ extension CommentReactorType {
         case .community(let reactor):
             return reactor
         case .perfumeDetail(let reactor):
+            return reactor
+        case .commentDetail(let reactor):
             return reactor
         }
     }

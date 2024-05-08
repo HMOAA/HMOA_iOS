@@ -212,7 +212,11 @@ extension OptionReactor {
                     self.service!.deleteCommunityList(to: CategoryList(
                         communityId: postData.id,
                         category: postData.category,
-                        title: postData.title))
+                        title: postData.title,
+                        commentCount: 0,
+                        heartCount: 0,
+                        liked: false
+                    ))
                     .map { _ in .delete }
                 ])
             }
