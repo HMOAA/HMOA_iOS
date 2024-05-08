@@ -11,9 +11,10 @@ import RxSwift
 enum CommunityListUserEvent {
     case addCommunityList(CategoryList)
     case deleteCommunityList(CategoryList)
-    case editCommunityList(CategoryList)
-    case editCommunityComment(CommunityComment)
+    case updateCommunityList(CategoryList)
+    case updateCommunityComment(CommunityComment)
     case editCommunityDetail(CommunityDetail)
+    case deleteComment(Int)
 }
 
 protocol CommunityListProtocol {
@@ -23,16 +24,18 @@ protocol CommunityListProtocol {
     
     func deleteCommunityList(to communityList: CategoryList) -> Observable<CategoryList>
     
-    func editCommunityList(to communityList: CategoryList) -> Observable<CategoryList>
+    func addCommunityList(to communityList: CategoryList) -> Observable<CategoryList>
     
-    func editCommunityComment(to comment: CommunityComment) -> Observable<CommunityComment>
+    func updateCommunityComment(to comment: CommunityComment) -> Observable<CommunityComment>
     
     func editCommunityDetail(to detail: CommunityDetail) -> Observable<CommunityDetail>
+    
+    func deleteComment(to id: Int) -> Observable<Int>
     
 }
 
 class CommunityListService: CommunityListProtocol {
-    
+
     let event = PublishSubject<CommunityListUserEvent>()
     
     func editCommunityDetail(to detail: CommunityDetail) -> Observable<CommunityDetail> {
@@ -40,8 +43,8 @@ class CommunityListService: CommunityListProtocol {
         return .just(detail)
     }
     
-    func editCommunityComment(to comment: CommunityComment) -> Observable<CommunityComment> {
-        event.onNext(.editCommunityComment(comment))
+    func updateCommunityComment(to comment: CommunityComment) -> Observable<CommunityComment> {
+        event.onNext(.updateCommunityComment(comment))
         return .just(comment)
     }
     
@@ -50,14 +53,19 @@ class CommunityListService: CommunityListProtocol {
         return .just(communityList)
     }
     
-    func editCommunityList(to communityList: CategoryList) -> Observable<CategoryList> {
-        event.onNext(.editCommunityList(communityList))
+    func updateCommunityList(to communityList: CategoryList) -> Observable<CategoryList> {
+        event.onNext(.updateCommunityList(communityList))
         return .just(communityList)
     }
     
-    func updateCommunityList(to communityList: CategoryList) -> Observable<CategoryList> {
+    func addCommunityList(to communityList: CategoryList) -> Observable<CategoryList> {
         event.onNext(.addCommunityList(communityList))
         return .just(communityList)
+    }
+    
+    func deleteComment(to id: Int) -> Observable<Int> {
+        event.onNext(.deleteComment(id))
+        return .just(id)
     }
 }
 

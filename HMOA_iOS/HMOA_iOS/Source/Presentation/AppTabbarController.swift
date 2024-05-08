@@ -29,10 +29,10 @@ class AppTabbarController: UITabBarController {
         return item
     }()
     
-    private let likeTab: UITabBarItem = {
+    private let magazineTab: UITabBarItem = {
        
         let item = UITabBarItem()
-        item.customTabBar(imageName: "drawer")
+        item.customTabBar(imageName: "magazine")
         
         return item
     }()
@@ -64,10 +64,10 @@ extension AppTabbarController {
         homeVC.reactor = HomeViewReactor()
         
         let hpediaVC = HPediaViewController()
-        hpediaVC.reactor = HPediaReactor()
+        hpediaVC.reactor = HPediaReactor(service: CommunityListService())
         
-        let likeVC = LikeViewController()
-        likeVC.reactor = LikeReactor()
+        let magazineVC = MagazineViewController()
+        magazineVC.reactor = MagazineReactor()
         
         let myPageReactor = MyPageReactor(service: UserService())
         let myPageVC = MyPageViewController(reactor: myPageReactor)
@@ -76,13 +76,13 @@ extension AppTabbarController {
             rootViewController: homeVC),
         hPediaNVC = UINavigationController(
             rootViewController: hpediaVC),
-        likeNVC = UINavigationController(
-            rootViewController: likeVC),
+        magazineNVC = UINavigationController(
+            rootViewController: magazineVC),
         myPageNVC = UINavigationController(
             rootViewController: myPageVC)
         
         
-        viewControllers = [homeNVC, hPediaNVC, likeNVC, myPageNVC]
+        viewControllers = [homeNVC, hPediaNVC, magazineNVC, myPageNVC]
         
         self.selectedIndex = 0
         view.backgroundColor = .white
@@ -96,7 +96,7 @@ extension AppTabbarController {
         
         homeNVC.tabBarItem = homeTab
         hPediaNVC.tabBarItem = hPediaTab
-        likeNVC.tabBarItem = likeTab
+        magazineNVC.tabBarItem = magazineTab
         myPageNVC.tabBarItem = myPageTab
         
     }
@@ -113,7 +113,7 @@ extension AppTabbarController: UITabBarControllerDelegate {
         case 1:
             item.title = "HPedia"
         case 2:
-            item.title = "Like"
+            item.title = "Magazine"
         case 3:
             item.title = "My"
         default:

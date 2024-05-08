@@ -19,10 +19,7 @@ class CommentCell: UICollectionViewCell {
     
     // MARK: - Properties
     private lazy var subView = UIView().then {
-        $0.layer.cornerRadius = 10
         $0.isHidden = true
-        $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
-        $0.layer.borderWidth = 1
     }
     
     private lazy var userImageView = UIImageView().then {
@@ -69,7 +66,7 @@ class CommentCell: UICollectionViewCell {
     }
     
     lazy var optionButton = UIButton().then {
-        $0.setImage(UIImage(named: "verticalOption"), for: .normal)
+        $0.setImage(UIImage(named: "commentOption"), for: .normal)
     }
     
     
@@ -83,6 +80,15 @@ class CommentCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        subView.layer.addBorder([.bottom], color: UIColor.customColor(.gray2), width: 1)
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
 }
 
@@ -99,7 +105,6 @@ extension CommentCell {
             commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
             subView.isHidden = false
             noCommentLabel.isHidden = true
-            commentLikeButton.isHidden = false
             dateLabel.text = item.createAt
             userMarkImageView.isHidden = !item.writed
             
@@ -114,19 +119,34 @@ extension CommentCell {
             userImageView.kf.setImage(with: URL(string: item.profileImg))
             userNameLabel.text = item.author
             contentLabel.text = item.content
-            commentLikeButton.isHidden = true
             subView.isHidden = false
             communityNoCommentLabel.isHidden = true
             dateLabel.text = item.time
             userMarkImageView.isHidden = !item.writed
-        } else { communityNoCommentLabel.isHidden = false }
+            commentLikeButton.isSelected = item.liked
+            commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
+        } else {
+            communityNoCommentLabel.isHidden = false
+            subView.isHidden = true
+        }
     }
     
-    func updateForMyLogComment() {
+    func updateForMyLogComment(_ item: MyLogComment) {
         optionButton.isHidden = true
+        commentLikeButton.isSelected = item.liked
+        userImageView.kf.setImage(with: URL(string: item.profileImg))
+        userNameLabel.text = item.nickname
+        contentLabel.text = item.content
+        commentLikeButton.configuration?.attributedTitle = self.setLikeButtonText(String(item.heartCount))
+        subView.isHidden = false
+        noCommentLabel.isHidden = true
+        commentLikeButton.isHidden = false
+        dateLabel.text = item.createAt
+        userMarkImageView.isHidden = !item.writed
+        
         commentLikeButton.snp.remakeConstraints { make in
-            make.top.equalToSuperview().inset(14)
-            make.trailing.equalToSuperview().inset(14)
+            make.trailing.equalToSuperview()
+            make.centerY.equalTo(commentLikeButton)
             make.height.equalTo(20)
         }
     }
@@ -175,7 +195,7 @@ extension CommentCell {
     
         noCommentLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(20)
         }
         
         communityNoCommentLabel.snp.makeConstraints { make in
@@ -184,14 +204,14 @@ extension CommentCell {
         }
         
         optionButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(15.2)
-            make.trailing.equalToSuperview().inset(13)
-            make.width.equalTo(10)
+            make.trailing.equalToSuperview()
+            make.centerY.equalTo(commentLikeButton)
+            make.height.equalTo(20)
         }
         
         commentLikeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(14)
-            $0.trailing.equalTo(optionButton.snp.leading).offset(-10)
+            $0.top.equalToSuperview().inset(10)
+            $0.trailing.equalTo(optionButton.snp.leading).offset(-8)
             $0.height.equalTo(20)
         }
         
@@ -201,18 +221,18 @@ extension CommentCell {
         
         if userMarkImageView.isHidden {
             dateLabel.snp.remakeConstraints {
-                $0.centerY.equalTo(userImageView)
-                $0.leading.equalTo(userNameLabel.snp.trailing).offset(2)
+                $0.bottom.equalTo(userNameLabel.snp.bottom)
+                $0.leading.equalTo(userNameLabel.snp.trailing).offset(7)
             }
         } else {
             dateLabel.snp.remakeConstraints {
-                $0.centerY.equalTo(userImageView)
+                $0.bottom.equalTo(userNameLabel.snp.bottom)
                 $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
             }
         }
     }
     
-    private func setLikeButtonText(_ text: String) -> AttributedString {
+    func setLikeButtonText(_ text: String) -> AttributedString {
         var attri = AttributedString.init(text)
         attri.font = .customFont(.pretendard_light, 12)
         

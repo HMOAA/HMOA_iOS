@@ -37,7 +37,7 @@ class BrandDetailCollectionViewCell: UICollectionViewCell {
     }
     
     private lazy var likeButton = UIButton().then {
-        $0.makeLikeButton()
+        $0.makeHeartButton()
     }
     
     // MARK: - init

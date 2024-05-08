@@ -134,10 +134,9 @@ extension CommentWriteReactor {
             .flatMap { comment -> Observable<Mutation> in
                 
                 if let service = self.commentService {
-                    
-                        print(comment)
+
                     return .concat([
-                        service.editComment(to: comment)
+                        service.updateComment(to: comment)
                             .map { _ in .setIsPopVC(true) },
                         .just(.setIsPopVC(false))
                     ])
@@ -155,7 +154,7 @@ extension CommentWriteReactor {
             .catch { _ in .empty() }
             .flatMap { comment -> Observable<Mutation> in
                 return .concat([
-                    self.communityService!.editCommunityComment(to: comment)
+                    self.communityService!.updateCommunityComment(to: comment)
                         .map { _ in .setIsPopVC(true) },
                     .just(.setIsPopVC(false))
                 ])

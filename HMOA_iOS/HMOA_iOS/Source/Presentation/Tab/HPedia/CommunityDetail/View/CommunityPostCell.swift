@@ -16,6 +16,7 @@ class CommunityPostCell: UICollectionViewCell {
     static let identifier = "CommunityPostCell"
     
     //MARK: - UIComponents
+    
     private let QLabel = UILabel().then {
         $0.setLabelUI("Q", font: .pretendard_bold, size: 26, color: .black)
     }
@@ -62,6 +63,24 @@ class CommunityPostCell: UICollectionViewCell {
         $0.isHidden = true
     }
     
+    let likeButton = UIButton().then {
+        var buttonConfig = UIButton.Configuration.plain()
+        
+        buttonConfig.imagePadding = 5
+        
+        buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        buttonConfig.baseBackgroundColor = .white
+        
+        let normalImage = UIImage(named: "like")?.resize(targetSize: .init(width: 20, height: 20))
+        let selectedImage = normalImage?.withTintColor(.customColor(.red))
+        
+        $0.configuration = buttonConfig
+        $0.setImage(normalImage, for: .normal)
+        $0.setImage(selectedImage, for: .selected)
+        $0.backgroundColor = .white
+        $0.tintColor = .black
+    }
+    
     var disposeBag = DisposeBag()
     
     //MARK: - Init
@@ -77,7 +96,7 @@ class CommunityPostCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        setUpUI()
+        layer.addBorder([.bottom], color: UIColor.customColor(.gray2), width: 1)
     }
     
     override func updateConstraints() {
@@ -85,12 +104,12 @@ class CommunityPostCell: UICollectionViewCell {
         
         if userMarkImageView.isHidden {
             dayLabel.snp.makeConstraints {
-                $0.centerY.equalTo(profileImageView)
-                $0.leading.equalTo(nicknameLabel.snp.trailing).offset(2)
+                $0.bottom.equalTo(nicknameLabel.snp.bottom)
+                $0.leading.equalTo(nicknameLabel.snp.trailing).offset(7)
             }
         } else {
             dayLabel.snp.makeConstraints {
-                $0.centerY.equalTo(profileImageView)
+                $0.bottom.equalTo(nicknameLabel.snp.bottom)
                 $0.leading.equalTo(userMarkImageView.snp.trailing).offset(2)
             }
         }
@@ -101,11 +120,6 @@ class CommunityPostCell: UICollectionViewCell {
     }
     
     //MARK: - SetUp
-    private func setUpUI() {
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.customColor(.gray2).cgColor
-        layer.cornerRadius = 10
-    }
     
     private func setAddView() {
         [
@@ -118,7 +132,8 @@ class CommunityPostCell: UICollectionViewCell {
             contentLabel,
             optionButton,
             photoCollectionView,
-            pageControl
+            pageControl,
+            likeButton
         ]   .forEach { addSubview($0) }
     }
     
@@ -160,6 +175,10 @@ class CommunityPostCell: UICollectionViewCell {
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.bottom.lessThanOrEqualToSuperview().inset(48)
+        }
+        
+        likeButton.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview().inset(16)
         }
     }
 }

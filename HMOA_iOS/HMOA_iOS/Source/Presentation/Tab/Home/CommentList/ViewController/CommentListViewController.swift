@@ -122,7 +122,11 @@ extension CommentListViewController {
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, comment in
-                owner.presentCommentDetailViewController(comment, nil, reactor.service)
+                owner.presentCommentDetailViewController(
+                    comment: comment,
+                    communityCommet: nil,
+                    perfumeService: reactor.service,
+                    communityService: nil)
             })
             .disposed(by: disposeBag)
         
@@ -211,6 +215,11 @@ extension CommentListViewController {
                     .map { CommentListReactor.Action.didTapOptionButton(comment.id) }
                     .bind(to: self.reactor!.action)
                     .disposed(by: self.disposeBag)
+                
+                cell.commentLikeButton.rx.tap
+                    .map { CommentListReactor.Action.didTapLikeButton(comment.id) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
                 
                 cell.updateCell(comment)
                 return cell

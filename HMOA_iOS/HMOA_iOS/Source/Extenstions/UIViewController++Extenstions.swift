@@ -75,10 +75,20 @@ extension UIViewController {
         self.navigationController?.pushViewController(CommunityDetailVC, animated: true)
     }
 
-    /// hpediaHomeVC, writedPostVC -> communityDetailVC
+    /// writedPostVC -> communityDetailVC
     func presentCommunityDetailVC(_ id: Int) {
         let CommunityDetailVC = CommunityDetailViewController()
         let detailReactor = CommunityDetailReactor(id, CommunityListService())
+        
+        CommunityDetailVC.reactor = detailReactor
+        CommunityDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(CommunityDetailVC, animated: true)
+    }
+    
+    // hpediaHomeVC -> communityDetailVC
+    func presentCommunityDetailVC(reactor: HPediaReactor) {
+        let CommunityDetailVC = CommunityDetailViewController()
+        let detailReactor = reactor.reactorForDetail()
         
         CommunityDetailVC.reactor = detailReactor
         CommunityDetailVC.hidesBottomBarWhenPushed = true
@@ -113,9 +123,10 @@ extension UIViewController {
     }
     
     /// CommunityListVC로 push
-    func presentCommunityListVC() {
+    func presentCommunityListVC(_ reactor: HPediaReactor) {
         let CommunityListVC = CommunityListViewController()
-        CommunityListVC.reactor = CommunityListReactor(service: CommunityListService())
+        let reactor = reactor.reactorForCommunityList()
+        CommunityListVC.reactor = reactor
         self.navigationController?.pushViewController(CommunityListVC, animated: true)
     }
     
@@ -161,10 +172,13 @@ extension UIViewController {
     }
     
     /// CommentDetailVC로 push
-    func presentCommentDetailViewController(_ comment: Comment?, _ communityCommet: CommunityComment?, _ service: DetailCommentService? = nil) {
+    func presentCommentDetailViewController(comment: Comment?, communityCommet: CommunityComment?, perfumeService: DetailCommentServiceProtocol?, communityService: CommunityListProtocol?) {
         let commentDetailVC = CommentDetailViewController()
         commentDetailVC.hidesBottomBarWhenPushed = true
-        commentDetailVC.reactor = CommentDetailReactor(comment, communityCommet, service)
+        commentDetailVC.reactor = CommentDetailReactor(comment: comment,
+                                                       communityComment: communityCommet,
+                                                       perfumeService: perfumeService,
+                                                       communityService: communityService)
         self.navigationController?.pushViewController(commentDetailVC, animated: true)
     }
     
@@ -202,6 +216,9 @@ extension UIViewController {
             
         case .perfumeDetail(let reactor):
             commentWriteReactor = reactor.reactorForCommentEdit()
+            
+        case .commentDetail(let reactor):
+            commentWriteReactor = reactor.reactorForCommentEdit()
         }
         commentWriteVC.reactor = commentWriteReactor
         commentWriteVC.hidesBottomBarWhenPushed = true
@@ -229,6 +246,14 @@ extension UIViewController {
         self.navigationController?.pushViewController(totalPerfumeVC, animated: true)
     }
     
+    /// MagazineDetailVC로 push
+    func presentMagazineDetailViewController(_ id: Int) {
+        let magazineDetailVC = MagazineDetailViewController()
+        magazineDetailVC.reactor = MagazineDetailReactor(id)
+        magazineDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(magazineDetailVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
@@ -243,6 +268,7 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [okButtonItem]
     }
     
+    // TODO: - 알림 API 구현 후 수정
     /// Set HomeVC NavigatioinBar
     func setSearchBellNaviBar(_ title: String, bellButton: UIBarButtonItem) {
         let titleLabel = UILabel().then {
@@ -259,6 +285,23 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [brandButton]
         self.navigationItem.rightBarButtonItems = [bellButton, searchButton]
+    }
+    
+    func setSearchBellNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let brandButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToBrand), imageName: "homeMenu")
+        
+        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
+
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [brandButton]
+        self.navigationItem.rightBarButtonItems = [searchButton]
     }
     
     /// BackButton만 있는 NavigationBar
@@ -298,6 +341,54 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItems = [backButton]
         self.navigationItem.rightBarButtonItems = [homeButton]
     }
+    
+    /// 투명 NavigationBar
+    func setClearNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        self.navigationItem.titleView = titleLabel
+        
+
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.backgroundColor = .clear
+        scrollEdgeAppearance.shadowColor = .clear
+        scrollEdgeAppearance.backgroundEffect = nil
+        scrollEdgeAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        
+        
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+    }
+    
+    /// Back 버튼, Share 버튼 NavigationBar
+        func setBackShareRightNaviBar(_ title: String) {
+            let titleLabel = UILabel().then {
+                $0.text = title
+                $0.font = .customFont(.pretendard_medium, 20)
+                $0.textColor = .black
+            }
+
+            let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+
+            let shareButton = self.navigationItem.makeImageButtonItem(self, action: #selector(shareMagazine), imageName: "share")
+
+            let scrollEdgeAppearance = UINavigationBarAppearance()
+            scrollEdgeAppearance.backgroundColor = .white
+            scrollEdgeAppearance.shadowColor = .clear
+
+            self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+            self.navigationController?.view.backgroundColor = .white
+
+            self.navigationItem.titleView = titleLabel
+            self.navigationItem.leftBarButtonItems = [backButton]
+            self.navigationItem.rightBarButtonItems = [shareButton]
+        }
     
     /// NavigationBarTitle 설정
     func setNavigationBarTitle(_ title: String) {
@@ -355,6 +446,24 @@ extension UIViewController {
     /// brandSearchViewController로 push
     @objc func goToBrand() {
         presentBrandSearchViewController()
+    }
+    
+    /// Magazine 공유
+    @objc func shareMagazine() {
+        // TODO: 링크 생성 서비스 유료 계약 후 구현
+//        let activityViewController = UIActivityViewController(activityItems: ["url"], applicationActivities: nil)
+//        
+//        activityViewController.excludedActivityTypes = [.addToReadingList, .assignToContact, .saveToCameraRoll, .markupAsPDF]
+//        
+//        activityViewController.completionWithItemsHandler = { (activity, success, items, error) in
+//            if success {
+//                
+//            } else {
+//                
+//            }
+//        }
+//        
+//        self.present(activityViewController, animated: true, completion: nil)
     }
     
     // MARK: - UI Function

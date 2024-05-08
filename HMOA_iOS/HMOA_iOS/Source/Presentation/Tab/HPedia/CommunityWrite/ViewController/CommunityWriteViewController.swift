@@ -70,8 +70,9 @@ class CommunityWriteViewController: UIViewController, View {
         target: nil,
         action: nil)
     
-    private lazy var toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 34)).then {
+    private lazy var addImageView = UIToolbar().then {
         $0.tintColor = .black
+        $0.backgroundColor = #colorLiteral(red: 0.8534707427, green: 0.8671818376, blue: 0.8862800002, alpha: 1)
         $0.sizeToFit()
         $0.items = [addImageButton]
     }
@@ -140,7 +141,6 @@ class CommunityWriteViewController: UIViewController, View {
     //MARK: - SetUp
     private func setUpUI() {
         view.backgroundColor = .white
-        textView.inputAccessoryView = toolBar
     }
     
     private func setAddView() {
@@ -159,8 +159,13 @@ class CommunityWriteViewController: UIViewController, View {
             stackView
         ].forEach { scrollView.addSubview($0) }
         
-        view.addSubview(titleView)
-        view.addSubview(scrollView)
+        
+        [
+            titleView,
+            scrollView,
+            addImageView
+        ]   .forEach { view.addSubview($0) }
+        
     }
     
     private func setConstraints() {
@@ -207,6 +212,12 @@ class CommunityWriteViewController: UIViewController, View {
         collectionView.snp.makeConstraints { make in
             make.width.equalTo(300)
             make.height.equalTo(300)
+        }
+        
+        addImageView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+            make.height.equalTo(34)
         }
         
         
