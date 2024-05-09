@@ -59,10 +59,18 @@ class MyLogCommentReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return .concat(
-                setLikedPerfumeCommentList(currentPage: -1, items: [], row: 0),
-                setLikedCommunityCommentList(currentPage: -1, items: [], row: 0)
-            )
+            switch currentState.commentType {
+            case .liked:
+                return .concat(
+                    setLikedPerfumeCommentList(currentPage: -1, items: [], row: 0),
+                    setLikedCommunityCommentList(currentPage: -1, items: [], row: 0)
+                )
+            case .writed:
+                return .concat(
+                    setWritedPerfumeCommentList(currentPage: -1, items: [], row: 0),
+                    setWritedCommunityCommentList(currentPage: -1, items: [], row: 0)
+                )
+            }
             
         case .didTapPerfumeTab:
             return .just(.setIsPerfume(true))
