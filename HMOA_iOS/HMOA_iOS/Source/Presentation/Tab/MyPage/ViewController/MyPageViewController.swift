@@ -53,6 +53,8 @@ class MyPageViewController: UIViewController, View {
         configureUI()
         setNavigationBarTitle("마이페이지")
         bind(reactor: reactor)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 }
 
@@ -363,3 +365,8 @@ extension MyPageViewController: UITableViewDelegate {
 }
 
 
+extension MyPageViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (navigationController?.viewControllers.count ?? 0) > 1
+    }
+}

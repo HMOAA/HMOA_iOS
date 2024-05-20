@@ -54,6 +54,9 @@ class HomeViewController: UIViewController, View {
         setSearchBellNaviBar("H  M  O  A")
         configureCollectionViewDataSource()
         navigationController?.delegate = self
+        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     private func configureUI() {
@@ -291,4 +294,10 @@ extension HomeViewController: UINavigationControllerDelegate {
         return false
     }
 
+}
+
+extension HomeViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (navigationController?.viewControllers.count ?? 0) > 1
+    }
 }
