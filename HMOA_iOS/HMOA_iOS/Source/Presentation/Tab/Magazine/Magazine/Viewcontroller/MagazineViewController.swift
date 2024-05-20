@@ -40,6 +40,8 @@ class MagazineViewController: UIViewController, View {
         setUI()
         setConstraints()
         configureDataSource()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -401,5 +403,11 @@ extension MagazineViewController {
         self.navigationController?.navigationBar.standardAppearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.customFont(.pretendard, 20)
         ]
+    }
+}
+
+extension MagazineViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (navigationController?.viewControllers.count ?? 0) > 1
     }
 }
