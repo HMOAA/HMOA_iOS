@@ -205,7 +205,6 @@ extension MyPageReactor {
             ]   .map { MyPageSectionItem.otherCell($0) }
 
         let thrid = [
-            MyPageType.terms.title,
             MyPageType.policy.title,
             MyPageType.version.title
             ]   .map { MyPageSectionItem.otherCell($0)}
