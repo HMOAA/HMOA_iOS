@@ -35,7 +35,6 @@ class MagazineViewController: UIViewController, View {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setAddView()
         setUI()
         setConstraints()
@@ -68,7 +67,7 @@ class MagazineViewController: UIViewController, View {
                 let isLastItem = cellInfo.at.item == self.magazineCollectionView.numberOfItems(inSection: sectionIndex) - 1
                 return cellInfo.at.section == sectionIndex && isLastItem
             }
-            .map { _ in 
+            .map { _ in
                 print(reactor.currentState.currentMagazineListPage)
                 return Reactor.Action.loadMagazineListNextPage }
             .bind(to: reactor.action)
