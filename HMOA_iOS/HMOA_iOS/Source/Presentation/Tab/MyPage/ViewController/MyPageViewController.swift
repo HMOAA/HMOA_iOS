@@ -53,6 +53,8 @@ class MyPageViewController: UIViewController, View {
         configureUI()
         setNavigationBarTitle("마이페이지")
         bind(reactor: reactor)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 }
 
@@ -254,10 +256,8 @@ extension MyPageViewController {
             let myInformationReactor = self.reactor.reactorForMyInformation()
             let myInformationVC = MyProfileViewController(reactor: myInformationReactor)
             self.navigationController?.pushViewController(myInformationVC, animated: true)
-        case .terms:
-            UIApplication.shared.open(URL(string: "https://doc-hosting.flycricket.io/hyangmoa-terms-of-use/a176b58e-ad02-4c9c-8336-ead769d56449/terms")!)
         case .policy:
-            UIApplication.shared.open(URL(string: "https://doc-hosting.flycricket.io/hyangmoa-privacy-policy/d84a2e60-ab07-43bb-b0b9-324725785674/privacy")!)
+            UIApplication.shared.open(URL(string: "https://atom-baritone-abe.notion.site/Hmoa-b80ec8694fc440f7a78b3a05b35ecffd?pvs=4")!)
         case .version:
             break
         case .inquireAccount:
@@ -363,3 +363,8 @@ extension MyPageViewController: UITableViewDelegate {
 }
 
 
+extension MyPageViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (navigationController?.viewControllers.count ?? 0) > 1
+    }
+}

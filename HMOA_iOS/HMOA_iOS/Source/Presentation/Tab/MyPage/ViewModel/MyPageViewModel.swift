@@ -14,9 +14,8 @@ enum MyPageType: String, CaseIterable {
     case myLog = "21"
     case myInformation = "22"
      
-    case terms = "30"
-    case policy = "31"
-    case version = "32"
+    case policy = "30"
+    case version = "31"
     
     case inquireAccount = "40"
     case logout = "41"
@@ -32,8 +31,6 @@ enum MyPageType: String, CaseIterable {
             return "내 활동"
         case .myInformation:
             return "내 정보관리"
-        case .terms:
-            return "이용 약관"
         case .policy:
             return "개인정보 처리방침"
         case .version:

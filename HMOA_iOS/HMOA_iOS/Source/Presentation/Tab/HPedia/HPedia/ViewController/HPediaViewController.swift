@@ -79,7 +79,8 @@ class HPediaViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDatasource()
-        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -409,5 +410,11 @@ extension HPediaViewController {
                 return self.HPediaCommunityCellLayout()
             }
         }
+    }
+}
+
+extension HPediaViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (navigationController?.viewControllers.count ?? 0) > 1
     }
 }
