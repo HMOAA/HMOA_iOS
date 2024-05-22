@@ -67,7 +67,6 @@ extension PerfumeInfoCell {
         perfumeInfoView.perfumeLikeCountLabel.text = "\(item.heartNum)"
         perfumeInfoView.perfumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl)!)
         perfumeInfoView.titleKoreanLabel.text = item.koreanName
-        perfumeInfoView.titleEnglishLabel.text = item.englishName
         perfumeInfoView.priceLabel.text = "₩\(numberFormatter(item.price))"
         perfumeInfoView.brandView.brandEnglishLabel.text = item.brandEnglishName
         perfumeInfoView.brandView.brandKoreanLabel.text = item.brandName
@@ -83,6 +82,7 @@ extension PerfumeInfoCell {
         case 0:
             noteViews.forEach { $0.snp.removeConstraints() }
             perfumeInfoView.tastingLabel.snp.removeConstraints()
+            perfumeInfoView.tastingLabel.isHidden = true
             
         case 1:
             let notes = [item.topNote!]
@@ -121,14 +121,13 @@ extension PerfumeInfoCell {
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview()
             $0.height.equalTo(60)
-            $0.bottom.equalToSuperview().inset(16)
         }
     }
     
     func remakeUntilHeartNoteConstants() {
         remakeTopNoteConstraints()
         noteViews[1].snp.remakeConstraints {
-            $0.top.equalTo(noteViews[0].snp.bottom)
+            $0.top.equalTo(perfumeInfoView.topNote.snp.bottom)
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview()
             $0.height.equalTo(60)
