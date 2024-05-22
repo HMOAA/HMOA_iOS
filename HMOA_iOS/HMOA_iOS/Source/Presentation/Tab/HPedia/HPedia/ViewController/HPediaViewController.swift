@@ -73,7 +73,6 @@ class HPediaViewController: UIViewController, View {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("asdf")
         setUpUI()
         setAddView()
         setConstraints()
