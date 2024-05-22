@@ -87,7 +87,7 @@ class HomeViewController: UIViewController, View {
         // MARK: - Action
         
         // viewDidLoad
-        Observable.just(())
+        rx.viewDidLoad
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
