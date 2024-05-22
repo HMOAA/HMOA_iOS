@@ -19,27 +19,27 @@ class HomeViewController: UIViewController, View {
     private lazy var homeView = HomeView()
     
     // TODO: - 알림 API 구현 후 수정
-//    private let bellButton = UIButton().then {
-//        $0.setImage(UIImage(named: "bellOn"), for: .selected)
-//        $0.setImage(UIImage(named: "bellOff"), for: .normal)
-//    }
-//    
-//    private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
-//        $0.customView?.snp.makeConstraints {
-//            $0.width.height.equalTo(30)
-//        }
-//    }
+    //    private let bellButton = UIButton().then {
+    //        $0.setImage(UIImage(named: "bellOn"), for: .selected)
+    //        $0.setImage(UIImage(named: "bellOff"), for: .normal)
+    //    }
+    //
+    //    private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
+    //        $0.customView?.snp.makeConstraints {
+    //            $0.width.height.equalTo(30)
+    //        }
+    //    }
     
-//    lazy var indicatorImageView = UIImageView().then {
-//        $0.contentMode = .scaleAspectFit
-//        $0.animationRepeatCount = 0
-//        $0.animationDuration = 0.3
-//        $0.animationImages = [
-//            UIImage(named: "indicator1")!,
-//            UIImage(named: "indicator2")!,
-//            UIImage(named: "indicator3")!
-//        ]
-//    }
+    //    lazy var indicatorImageView = UIImageView().then {
+    //        $0.contentMode = .scaleAspectFit
+    //        $0.animationRepeatCount = 0
+    //        $0.animationDuration = 0.3
+    //        $0.animationImages = [
+    //            UIImage(named: "indicator1")!,
+    //            UIImage(named: "indicator2")!,
+    //            UIImage(named: "indicator3")!
+    //        ]
+    //    }
     
     // MARK: Properties
     private var datasource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>?
