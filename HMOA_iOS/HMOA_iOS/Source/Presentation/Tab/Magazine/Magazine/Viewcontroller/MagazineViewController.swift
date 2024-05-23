@@ -220,7 +220,7 @@ class MagazineViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 115, leading: 0, bottom: 22, trailing: 0)
+                section.contentInsets = NSDirectionalEdgeInsets(top: self.topbarHeight + 8, leading: 0, bottom: 22, trailing: 0)
                 section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.interGroupSpacing = 4
                 section.decorationItems = [backgroundDecoration]
@@ -399,9 +399,14 @@ extension MagazineViewController {
         ]
         
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
-        self.navigationController?.navigationBar.standardAppearance.titleTextAttributes = [
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.customFont(.pretendard, 20)
         ]
+        
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
 }
 
