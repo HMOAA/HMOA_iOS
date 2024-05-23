@@ -191,6 +191,7 @@ class MagazineViewController: UIViewController, View {
     private func setUI() {
         magazineCollectionView.contentInsetAdjustmentBehavior = .never
         magazineCollectionView.backgroundColor = .clear
+        magazineCollectionView.isHidden = true
         view.backgroundColor = .white
     }
     
@@ -380,10 +381,11 @@ class MagazineViewController: UIViewController, View {
         
         snapshot.appendItems(items, toSection: section)
         
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: false) {
+            self.magazineCollectionView.isHidden = false
+        }
     }
 }
-
 
 extension MagazineViewController {
     private func setNavigationBar() {
