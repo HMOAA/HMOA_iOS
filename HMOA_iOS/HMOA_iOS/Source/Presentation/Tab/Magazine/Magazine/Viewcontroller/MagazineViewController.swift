@@ -68,8 +68,8 @@ class MagazineViewController: UIViewController, View {
                 return cellInfo.at.section == sectionIndex && isLastItem
             }
             .map { _ in
-                print(reactor.currentState.currentMagazineListPage)
-                return Reactor.Action.loadMagazineListNextPage }
+                return Reactor.Action.loadMagazineListNextPage
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -336,7 +336,6 @@ class MagazineViewController: UIViewController, View {
         
         // MARK: Supplementary View Provider
         dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
-            print(kind)
             switch kind {
             case SupplementaryViewKind.header:
                 let section = self.sections[indexPath.section]
