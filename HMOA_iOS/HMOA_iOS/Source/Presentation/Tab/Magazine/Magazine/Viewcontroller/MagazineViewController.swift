@@ -103,6 +103,7 @@ class MagazineViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 owner.updateSnapshot(forSection: .mainBanner, withItems: items)
+                owner.reactor?.action.onNext(.currentPageChanged(0))
             })
             .disposed(by: disposeBag)
         
