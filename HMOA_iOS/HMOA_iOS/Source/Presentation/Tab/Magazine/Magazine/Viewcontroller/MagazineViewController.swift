@@ -399,9 +399,14 @@ extension MagazineViewController {
         ]
         
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
-        self.navigationController?.navigationBar.standardAppearance.titleTextAttributes = [
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.customFont(.pretendard, 20)
         ]
+        
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
 }
 
