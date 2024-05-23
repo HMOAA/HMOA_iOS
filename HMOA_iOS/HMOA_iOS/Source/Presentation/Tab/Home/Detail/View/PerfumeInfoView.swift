@@ -36,10 +36,6 @@ class PerfumeInfoView: UIView {
         $0.font = UIFont.customFont(.pretendard_medium, 20)
     }
     
-    lazy var titleEnglishLabel = UILabel().then {
-        $0.font = UIFont.customFont(.pretendard, 12)
-    }
-    
     
     let seperatorLine1 = UIView().then {
         $0.backgroundColor = UIColor.customColor(.gray2)
@@ -100,7 +96,6 @@ extension PerfumeInfoView {
             perfumeBackgroundView,
             perfumeImageView,
             perfumeLikeView,
-            titleEnglishLabel,
             titleKoreanLabel,
             seperatorLine1,
             priceLabel,
@@ -147,13 +142,8 @@ extension PerfumeInfoView {
             $0.leading.equalToSuperview().inset(16)
         }
         
-        titleEnglishLabel.snp.makeConstraints {
-            $0.top.equalTo(titleKoreanLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
         seperatorLine1.snp.makeConstraints {
-            $0.top.equalTo(titleEnglishLabel.snp.bottom).offset(22)
+            $0.top.equalTo(titleKoreanLabel.snp.bottom).offset(22)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.width.equalTo(UIScreen.main.bounds.width - 32)
             $0.height.equalTo(1)
