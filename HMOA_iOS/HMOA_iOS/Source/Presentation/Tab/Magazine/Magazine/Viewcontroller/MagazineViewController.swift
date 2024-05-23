@@ -68,8 +68,8 @@ class MagazineViewController: UIViewController, View {
                 return cellInfo.at.section == sectionIndex && isLastItem
             }
             .map { _ in
-                print(reactor.currentState.currentMagazineListPage)
-                return Reactor.Action.loadMagazineListNextPage }
+                return Reactor.Action.loadMagazineListNextPage
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -103,6 +103,7 @@ class MagazineViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 owner.updateSnapshot(forSection: .mainBanner, withItems: items)
+                owner.reactor?.action.onNext(.currentPageChanged(0))
             })
             .disposed(by: disposeBag)
         
@@ -190,6 +191,7 @@ class MagazineViewController: UIViewController, View {
     private func setUI() {
         magazineCollectionView.contentInsetAdjustmentBehavior = .never
         magazineCollectionView.backgroundColor = .clear
+        magazineCollectionView.isHidden = true
         view.backgroundColor = .white
     }
     
@@ -335,7 +337,6 @@ class MagazineViewController: UIViewController, View {
         
         // MARK: Supplementary View Provider
         dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
-            print(kind)
             switch kind {
             case SupplementaryViewKind.header:
                 let section = self.sections[indexPath.section]
@@ -380,10 +381,11 @@ class MagazineViewController: UIViewController, View {
         
         snapshot.appendItems(items, toSection: section)
         
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: false) {
+            self.magazineCollectionView.isHidden = false
+        }
     }
 }
-
 
 extension MagazineViewController {
     private func setNavigationBar() {
