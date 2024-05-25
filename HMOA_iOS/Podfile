@@ -23,6 +23,7 @@ target 'HMOA_iOS' do
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
   pod 'FirebaseMessaging'
+  pod 'FirebaseCrashlytics'
   use_frameworks!
 
   # Pods for HMOA_iOS

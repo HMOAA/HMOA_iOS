@@ -31,11 +31,10 @@ final class LoginManager {
             }
     }
     
-    
-    
-    private init () { 
+    private init () {
         tokenSubject
-            .map { $0?.existedMember == true }
+            .compactMap { $0 }
+            .map { $0.existedMember == true }
             .bind(to: isLogin)
             .disposed(by: disposeBag)
     }

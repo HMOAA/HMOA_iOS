@@ -18,7 +18,8 @@ class HPediaReactor: Reactor {
     enum Action {
         case didTapDictionaryItem(Int)
         case didTapCommunityItem(Int)
-        case viewDidLoad(Bool)
+        case observeIsLogin(Bool)
+        case viewDidLoad
         case viewWillAppear
         case didTapFloatingButton
         case didTapRecommendButton
@@ -71,13 +72,11 @@ class HPediaReactor: Reactor {
             ])
         case .viewWillAppear:
             return .just(.setIsTapFloatingButton(false))
-            
-        case .viewDidLoad(let isLogin):
-            return .concat([
-                .just(.setIsLogin(isLogin)),
-                setHpediaCommunityListItem()
-            ])
-            
+
+        case .observeIsLogin(let isLogin):
+            return .just(.setIsLogin(isLogin))
+        case .viewDidLoad:
+            return setHpediaCommunityListItem()
         case .didTapFloatingButton:
             if currentState.isLogin {
                 return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))

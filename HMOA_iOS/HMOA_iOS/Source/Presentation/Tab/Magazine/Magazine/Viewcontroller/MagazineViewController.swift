@@ -35,11 +35,12 @@ class MagazineViewController: UIViewController, View {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setAddView()
         setUI()
         setConstraints()
         configureDataSource()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,9 +67,9 @@ class MagazineViewController: UIViewController, View {
                 let isLastItem = cellInfo.at.item == self.magazineCollectionView.numberOfItems(inSection: sectionIndex) - 1
                 return cellInfo.at.section == sectionIndex && isLastItem
             }
-            .map { _ in 
-                print(reactor.currentState.currentMagazineListPage)
-                return Reactor.Action.loadMagazineListNextPage }
+            .map { _ in
+                return Reactor.Action.loadMagazineListNextPage
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -102,6 +103,7 @@ class MagazineViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 owner.updateSnapshot(forSection: .mainBanner, withItems: items)
+                owner.reactor?.action.onNext(.currentPageChanged(0))
             })
             .disposed(by: disposeBag)
         
@@ -189,6 +191,7 @@ class MagazineViewController: UIViewController, View {
     private func setUI() {
         magazineCollectionView.contentInsetAdjustmentBehavior = .never
         magazineCollectionView.backgroundColor = .clear
+        magazineCollectionView.isHidden = true
         view.backgroundColor = .white
     }
     
@@ -219,7 +222,7 @@ class MagazineViewController: UIViewController, View {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 115, leading: 0, bottom: 22, trailing: 0)
+                section.contentInsets = NSDirectionalEdgeInsets(top: self.topbarHeight + 8, leading: 0, bottom: 22, trailing: 0)
                 section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.interGroupSpacing = 4
                 section.decorationItems = [backgroundDecoration]
@@ -334,7 +337,6 @@ class MagazineViewController: UIViewController, View {
         
         // MARK: Supplementary View Provider
         dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
-            print(kind)
             switch kind {
             case SupplementaryViewKind.header:
                 let section = self.sections[indexPath.section]
@@ -379,10 +381,11 @@ class MagazineViewController: UIViewController, View {
         
         snapshot.appendItems(items, toSection: section)
         
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: false) {
+            self.magazineCollectionView.isHidden = false
+        }
     }
 }
-
 
 extension MagazineViewController {
     private func setNavigationBar() {
@@ -398,8 +401,19 @@ extension MagazineViewController {
         ]
         
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
-        self.navigationController?.navigationBar.standardAppearance.titleTextAttributes = [
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.customFont(.pretendard, 20)
         ]
+        
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+    }
+}
+
+extension MagazineViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (navigationController?.viewControllers.count ?? 0) > 1
     }
 }
