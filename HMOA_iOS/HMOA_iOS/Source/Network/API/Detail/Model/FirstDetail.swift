@@ -11,14 +11,14 @@ struct FirstDetail: Hashable, Codable{
     let perfumeId, heartNum, brandId: Int
     let brandName, brandEnglishName: String
     let brandImgUrl: String
-    let koreanName, englishName: String
+    let koreanName: String
+    let englishName: String?
     let perfumeImageUrl: String
     let price: Int
     let volume: [Int]
     let priceVolume: Int
     let topNote, heartNote, baseNote: String?
     let notePhotos: [Int]
-    let singleNote: [String]?
     let sortType: Int
     let evaluation: Evaluation
     let liked: Bool
@@ -31,7 +31,7 @@ struct FirstDetail: Hashable, Codable{
         case koreanName, englishName, perfumeImageUrl
         case price, volume, priceVolume
         case topNote, heartNote, baseNote
-        case singleNote, sortType, liked
+        case sortType, liked
     }
     
 }

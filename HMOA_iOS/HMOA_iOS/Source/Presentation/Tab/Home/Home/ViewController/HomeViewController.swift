@@ -19,27 +19,27 @@ class HomeViewController: UIViewController, View {
     private lazy var homeView = HomeView()
     
     // TODO: - 알림 API 구현 후 수정
-//    private let bellButton = UIButton().then {
-//        $0.setImage(UIImage(named: "bellOn"), for: .selected)
-//        $0.setImage(UIImage(named: "bellOff"), for: .normal)
-//    }
-//    
-//    private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
-//        $0.customView?.snp.makeConstraints {
-//            $0.width.height.equalTo(30)
-//        }
-//    }
+    //    private let bellButton = UIButton().then {
+    //        $0.setImage(UIImage(named: "bellOn"), for: .selected)
+    //        $0.setImage(UIImage(named: "bellOff"), for: .normal)
+    //    }
+    //
+    //    private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
+    //        $0.customView?.snp.makeConstraints {
+    //            $0.width.height.equalTo(30)
+    //        }
+    //    }
     
-//    lazy var indicatorImageView = UIImageView().then {
-//        $0.contentMode = .scaleAspectFit
-//        $0.animationRepeatCount = 0
-//        $0.animationDuration = 0.3
-//        $0.animationImages = [
-//            UIImage(named: "indicator1")!,
-//            UIImage(named: "indicator2")!,
-//            UIImage(named: "indicator3")!
-//        ]
-//    }
+    //    lazy var indicatorImageView = UIImageView().then {
+    //        $0.contentMode = .scaleAspectFit
+    //        $0.animationRepeatCount = 0
+    //        $0.animationDuration = 0.3
+    //        $0.animationImages = [
+    //            UIImage(named: "indicator1")!,
+    //            UIImage(named: "indicator2")!,
+    //            UIImage(named: "indicator3")!
+    //        ]
+    //    }
     
     // MARK: Properties
     private var datasource: UICollectionViewDiffableDataSource<HomeSection, HomeSectionItem>?
@@ -54,6 +54,9 @@ class HomeViewController: UIViewController, View {
         setSearchBellNaviBar("H  M  O  A")
         configureCollectionViewDataSource()
         navigationController?.delegate = self
+        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     private func configureUI() {
@@ -84,7 +87,7 @@ class HomeViewController: UIViewController, View {
         // MARK: - Action
         
         // viewDidLoad
-        Observable.just(())
+        rx.viewDidLoad
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -291,4 +294,10 @@ extension HomeViewController: UINavigationControllerDelegate {
         return false
     }
 
+}
+
+extension HomeViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (navigationController?.viewControllers.count ?? 0) > 1
+    }
 }
