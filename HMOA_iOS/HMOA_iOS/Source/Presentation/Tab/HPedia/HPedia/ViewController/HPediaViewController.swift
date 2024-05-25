@@ -70,16 +70,15 @@ class HPediaViewController: UIViewController, View {
     private var datasource: UICollectionViewDiffableDataSource<HPediaSection, HPediaSectionItem>?
     var disposeBag = DisposeBag()
     
-    
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpUI()
         setAddView()
         setConstraints()
         configureDatasource()
-        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,7 +144,6 @@ class HPediaViewController: UIViewController, View {
     
     
     func bind(reactor: HPediaReactor) {
-        
         // MARK: - Action
         
         rx.viewWillAppear
@@ -155,7 +153,13 @@ class HPediaViewController: UIViewController, View {
         
         // setIsLogin
         LoginManager.shared.isLogin
-            .map { Reactor.Action.viewDidLoad($0) }
+            .skip(1)
+            .map { Reactor.Action.observeIsLogin($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -409,5 +413,11 @@ extension HPediaViewController {
                 return self.HPediaCommunityCellLayout()
             }
         }
+    }
+}
+
+extension HPediaViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (navigationController?.viewControllers.count ?? 0) > 1
     }
 }

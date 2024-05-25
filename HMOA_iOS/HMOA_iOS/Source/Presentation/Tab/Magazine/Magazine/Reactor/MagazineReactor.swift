@@ -107,6 +107,7 @@ class MagazineReactor: Reactor {
             state.allMagazineItems += item
             
         case .setCenteredMagazineImageURL(let pageIndex):
+            guard !state.mainBannerItems.isEmpty else { return state }
             state.centeredMagazineImageURL = state.mainBannerItems[pageIndex].magazine!.previewImageURL
             
         case .setSelectedMagazineID(let indexPath):
