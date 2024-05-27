@@ -33,8 +33,7 @@ final class LoginManager {
     
     private init () {
         tokenSubject
-            .compactMap { $0 }
-            .map { $0.existedMember == true }
+            .map { $0?.existedMember == true }
             .bind(to: isLogin)
             .disposed(by: disposeBag)
     }
