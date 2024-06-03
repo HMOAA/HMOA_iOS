@@ -39,6 +39,7 @@ class MagazineDetailViewController: UIViewController, View {
         super.viewDidLoad()
         
         view.addSubview(magazineDetailCollectionView)
+        magazineDetailCollectionView.isHidden = true
         setBackItemNaviBar("")
         setConstraints()
         configureDataSource()
@@ -375,6 +376,8 @@ class MagazineDetailViewController: UIViewController, View {
         
         snapshot.appendItems(items, toSection: section)
         
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: false) {
+            self.magazineDetailCollectionView.isHidden = false
+        }
     }
 }
