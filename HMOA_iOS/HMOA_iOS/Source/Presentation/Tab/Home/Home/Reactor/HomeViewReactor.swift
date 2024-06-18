@@ -12,26 +12,19 @@ final class HomeViewReactor: Reactor {
     
     var initialState: State
     
-    // TODO: - 알림 버튼 기능 API 적용 후 수정
     enum Action {
         case viewDidLoad
         case itemSelected(IndexPath)
         case scrollCollectionView
         case didTapBellButton
-        case settingAlarmAuthorization(Bool)
-        case settingIsUserSetting(Bool?)
         case settingIsLogin(Bool)
-        case postFcmToken
-        case deleteFcmToken
     }
     
     enum Mutation {
         case setSelectedPerfumeId(IndexPath?)
         case setSections([HomeSection])
         case setPagination(Bool)
-        case setIsPushAlarm(Bool)
         case setIsTapBell(Bool)
-        case setUserSetting(Bool?)
         case success
         case setIsLogin(Bool)
     }
@@ -40,10 +33,7 @@ final class HomeViewReactor: Reactor {
         var sections: [HomeSection] = []
         var selectedPerfumeId: Int?
         var isPaging: Bool = false
-        var isPushAlarm: Bool? = nil
         var isTapBell: Bool = false
-        var isPushSettiong: Bool = false
-        var isUserSetting: Bool? = UserDefaults.standard.object(forKey: "alarm") as? Bool
         var isLogin: Bool? = nil
     }
     
@@ -73,18 +63,6 @@ final class HomeViewReactor: Reactor {
                 .just(.setIsTapBell(false))
                 ])
             
-        case .settingAlarmAuthorization(let isPush):
-            return .just(.setIsPushAlarm(isPush))
-            
-        case .settingIsUserSetting(let setting):
-            return .just(.setUserSetting(setting))
-            
-        case .postFcmToken:
-            return postFcmToken()
-            
-        case .deleteFcmToken:
-            return deleteFcmToken()
-            
         case .settingIsLogin(let isLogin):
             return .just(.setIsLogin(isLogin))
         }
@@ -111,20 +89,8 @@ final class HomeViewReactor: Reactor {
         case .setSections(let sections):
             state.sections = sections
             
-        case .setIsPushAlarm(let isPush):
-            state.isPushSettiong = !isPush
-            
-            if let isAlarm = state.isUserSetting {
-                state.isPushAlarm = isAlarm && isPush
-            } else { state.isPushAlarm = isPush }
-            
         case .setIsTapBell(let isTap):
             state.isTapBell = isTap
-            
-        case .setUserSetting(let setting):
-            state.isUserSetting = setting
-            state.isPushAlarm = setting
-            UserDefaults.standard.set(setting, forKey: "alarm")
             
         case .success:
             break
@@ -175,20 +141,6 @@ extension HomeViewReactor {
                 }
                 return .just(.setSections(sections))
             }
-    }
-    
-    func postFcmToken() -> Observable<Mutation> {
-        guard let fcmToken = try? LoginManager.shared.fcmTokenSubject.value()! else { return .empty() }
-        return PushAlarmAPI.postFcmToken(["fcmtoken": fcmToken])
-            .catch { _ in .empty() }
-            .map { _ in .success }
-        
-    }
-    
-    func deleteFcmToken() -> Observable<Mutation> {
-        return PushAlarmAPI.deleteFcmToken()
-            .catch { _ in .empty() }
-            .map { _ in .success }
     }
 }
     
