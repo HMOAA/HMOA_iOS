@@ -136,7 +136,7 @@ class HomeViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        // 푸시 알람 권한, 유저 셋팅에 따른 ui 바인딩
+        // 푸시알림 리스트로 push
         reactor.state
             .map { $0.isTapBell }
             .compactMap { $0 }
@@ -146,6 +146,20 @@ class HomeViewController: UIViewController, View {
                 if isTap {
                     owner.presentPushAlarmViewController()
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        // 로그아웃일 때 알림리스트 보기 제한
+        reactor.state
+            .map { $0.isTapLogout }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(
+                    title: "로그인 후 이용가능한 서비스입니다",
+                    content: "입력하신 내용을 다시 확인해주세요",
+                    buttonTitle: "로그인 하러가기"
+                )
             })
             .disposed(by: disposeBag)
     }
