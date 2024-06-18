@@ -260,6 +260,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(magazineDetailVC, animated: true)
     }
     
+    /// NotificationDetailVC로 push
+    func presentPushAlarmViewController() {
+        let pushAlarmVC = PushAlarmViewController()
+        pushAlarmVC.reactor = PushAlarmReactor()
+        self.navigationController?.pushViewController(pushAlarmVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
@@ -291,23 +298,6 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [brandButton]
         self.navigationItem.rightBarButtonItems = [bellButton, searchButton]
-    }
-    
-    func setSearchBellNaviBar(_ title: String) {
-        let titleLabel = UILabel().then {
-            $0.text = title
-            $0.font = .customFont(.pretendard_medium, 20)
-            $0.textColor = .black
-        }
-        
-        let brandButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToBrand), imageName: "homeMenu")
-        
-        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
-
-        
-        self.navigationItem.titleView = titleLabel
-        self.navigationItem.leftBarButtonItems = [brandButton]
-        self.navigationItem.rightBarButtonItems = [searchButton]
     }
     
     /// BackButton만 있는 NavigationBar
@@ -452,6 +442,11 @@ extension UIViewController {
     /// brandSearchViewController로 push
     @objc func goToBrand() {
         presentBrandSearchViewController()
+    }
+    
+    /// notificationViewController로 push
+    @objc func goToNotification() {
+         presentPushAlarmViewController()
     }
     
     /// Magazine 공유
