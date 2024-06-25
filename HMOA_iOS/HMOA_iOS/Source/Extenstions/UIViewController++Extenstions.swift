@@ -338,6 +338,29 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [homeButton]
     }
     
+    /// Back버튼과 Bell 버튼 NavigationBar
+    func setBackBellNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        
+        let bellButton = self.navigationItem.makeImageButtonItem(self, action: #selector(pushAlarmSetting), imageName: "bell")
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+        appearance.shadowColor = .white
+        
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+        self.navigationItem.rightBarButtonItems = [bellButton]
+    }
+    
     /// 투명 NavigationBar
     func setClearNaviBar(_ title: String) {
         let titleLabel = UILabel().then {
@@ -465,6 +488,11 @@ extension UIViewController {
 //        }
 //        
 //        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    /// 알림 권한 요청 및 On/Off
+    @objc func pushAlarmSetting() {
+        // TODO: 알림 권한 요청 및 On/Off 기능 구현
     }
     
     // MARK: - UI Function
