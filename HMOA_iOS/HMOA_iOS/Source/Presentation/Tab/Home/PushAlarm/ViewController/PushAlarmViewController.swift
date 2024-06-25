@@ -18,16 +18,20 @@ class PushAlarmViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     // MARK: - Life Cycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .white
+        
+        setUI()
     }
     
     // MARK: - Bind
     
     func bind(reactor: PushAlarmReactor) {
         
+    }
+    
+    func setUI() {
+        view.backgroundColor = .white
+        setBackBellNaviBar("H M O A")
     }
 }
