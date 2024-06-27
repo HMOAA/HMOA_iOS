@@ -140,6 +140,8 @@
 		C96CD74F2BA8803D005C9856 /* MagazineAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */; };
 		C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */; };
 		C98E04282C2C6CE500225624 /* PushAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E04272C2C6CE500225624 /* PushAlarmCell.swift */; };
+		C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */; };
+		C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E042F2C2CE83100225624 /* PushAlarm.swift */; };
 		C99E7B692BA96DE200F359BC /* MagazineDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */; };
 		C99E7B6B2BA9F0B500F359BC /* MagazineDetailLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */; };
 		C9D161E52C1FF2550032FE78 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D161E42C1FF2550032FE78 /* IgnoerData.swift */; };
@@ -430,6 +432,8 @@
 		C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineAPI.swift; sourceTree = "<group>"; };
 		C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification++Extensions.swift"; sourceTree = "<group>"; };
 		C98E04272C2C6CE500225624 /* PushAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmCell.swift; sourceTree = "<group>"; };
+		C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmSection.swift; sourceTree = "<group>"; };
+		C98E042F2C2CE83100225624 /* PushAlarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarm.swift; sourceTree = "<group>"; };
 		C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailItem.swift; sourceTree = "<group>"; };
 		C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailLineView.swift; sourceTree = "<group>"; };
 		C9D161E42C1FF2550032FE78 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
@@ -1582,6 +1586,15 @@
 		C98E04292C2C6F1900225624 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C98E042E2C2CE82100225624 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C98E042F2C2CE83100225624 /* PushAlarm.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1945,6 +1958,7 @@
 		CA5E872B2B2AECEB006DD2FA /* PushAlarm */ = {
 			isa = PBXGroup;
 			children = (
+				C98E042E2C2CE82100225624 /* Model */,
 				CA5E872C2B2AED07006DD2FA /* PushAlarmAPI.swift */,
 				CA5E872E2B2AED12006DD2FA /* PushAlarmAddress.swift */,
 			);
@@ -2561,6 +2575,7 @@
 				C96CD7422BA88010005C9856 /* MagazineDetailHeaderView.swift in Sources */,
 				CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
+				C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */,
 				CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */,
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
@@ -2647,6 +2662,7 @@
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
+				C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */,
 				CA4744862ADA718500003584 /* MyLogReactor.swift in Sources */,
 				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
 				CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */,
