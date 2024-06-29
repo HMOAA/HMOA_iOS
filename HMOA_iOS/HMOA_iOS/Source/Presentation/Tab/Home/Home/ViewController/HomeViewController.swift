@@ -152,6 +152,7 @@ class HomeViewController: UIViewController, View {
         // 로그아웃일 때 알림리스트 보기 제한
         reactor.state
             .map { $0.isTapLogout }
+            .compactMap { $0 }
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, _ in
