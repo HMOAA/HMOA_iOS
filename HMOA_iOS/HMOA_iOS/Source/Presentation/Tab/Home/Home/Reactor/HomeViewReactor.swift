@@ -24,8 +24,8 @@ final class HomeViewReactor: Reactor {
         case setSelectedPerfumeId(IndexPath?)
         case setSections([HomeSection])
         case setPagination(Bool)
-        case setIsTapBell(Bool)
-        case setIsTapLogout(Bool)
+        case setIsTapBell(Bool?)
+        case setIsTapWhenNotLogin(Bool?)
         case success
         case setIsLogin(Bool)
     }
@@ -34,8 +34,8 @@ final class HomeViewReactor: Reactor {
         var sections: [HomeSection] = []
         var selectedPerfumeId: Int?
         var isPaging: Bool = false
-        var isTapBell: Bool = false
-        var isTapLogout: Bool = false
+        var isTapBell: Bool? = nil
+        var isTapLogout: Bool? = nil
         var isLogin: Bool = false
     }
     
@@ -60,10 +60,10 @@ final class HomeViewReactor: Reactor {
             ])
         
         case .didTapBellButton:
-            guard currentState.isLogin else {
+            if !currentState.isLogin {
                 return .concat([
-                    .just(.setIsTapLogout(true)),
-                    .just(.setIsTapLogout(false))
+                    .just(.setIsTapWhenNotLogin(true)),
+                    .just(.setIsTapWhenNotLogin(false))
                 ])
             }
             
@@ -101,7 +101,7 @@ final class HomeViewReactor: Reactor {
         case .setIsTapBell(let isTap):
             state.isTapBell = isTap
             
-        case .setIsTapLogout(let isTap):
+        case .setIsTapWhenNotLogin(let isTap):
             state.isTapLogout = isTap
             
         case .success:
