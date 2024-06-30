@@ -19,7 +19,7 @@ class PushAlarmCell: UITableViewCell {
     // MARK: - Properties
     
     private let iconImageView = UIImageView().then {
-        $0.image = UIImage(named: "pushAlramIcon")
+        $0.image = UIImage(named: "pushAlarmIcon")
     }
     
     private let infoView = UIView()
@@ -31,6 +31,7 @@ class PushAlarmCell: UITableViewCell {
     
     private let contentLabel = UILabel().then {
         $0.font = .customFont(.pretendard, 14)
+        $0.numberOfLines = 0
     }
     
     private let dateLabel = UILabel().then {
@@ -72,8 +73,8 @@ class PushAlarmCell: UITableViewCell {
         }
         
         infoView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().inset(16)
-            make.leading.equalTo(iconImageView).offset(16)
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(iconImageView.snp.trailing).offset(16)
             make.trailing.equalToSuperview().inset(16)
         }
         
@@ -82,19 +83,19 @@ class PushAlarmCell: UITableViewCell {
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(categoryLabel).offset(12)
+            make.top.equalTo(categoryLabel.snp.bottom).offset(12)
             make.leading.trailing.equalToSuperview()
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentLabel).offset(8)
+            make.top.equalTo(contentLabel.snp.bottom).offset(8)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     func configureCell() {
         categoryLabel.text = "Event"
-        contentLabel.text = "지금 향모아만의 초특가 할인 상품을 만나보세요"
+        contentLabel.text = "지금 향모아만의 초특가 할인 상품을 만나보세요 오 오 오 오 오 오 오 오 오 오 오 오"
         dateLabel.text = "10/04 14:30"
     }
 }

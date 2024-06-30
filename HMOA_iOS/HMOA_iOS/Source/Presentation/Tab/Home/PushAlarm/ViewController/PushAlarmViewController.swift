@@ -35,6 +35,7 @@ class PushAlarmViewController: UIViewController, View {
         setUI()
         setConstraints()
         configureDatasource()
+        pushAlarmTableView.delegate = self
     }
     
     // MARK: - Bind
@@ -49,6 +50,7 @@ class PushAlarmViewController: UIViewController, View {
         view.backgroundColor = .white
         setBackBellNaviBar("H M O A")
         view.addSubview(pushAlarmTableView)
+        pushAlarmTableView.separatorStyle = .none
     }
     
     private func setConstraints() {
@@ -71,6 +73,7 @@ class PushAlarmViewController: UIViewController, View {
                     for: indexPath) as! PushAlarmCell
                 
                 cell.configureCell()
+                cell.selectionStyle = .none
                 
                 return cell
             }
@@ -80,11 +83,15 @@ class PushAlarmViewController: UIViewController, View {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<PushAlarmSection, PushAlarmItem>()
         initialSnapshot.appendSections([.list])
-        initialSnapshot.appendItems([.pushAlarm(PushAlarm(ID: 1, category: "Event", content: "테스트", pushDate: "오늘", deepLink: "", isRead: false))], toSection: .list)
+        initialSnapshot.appendItems([.pushAlarm(PushAlarm(ID: 1, category: "Event", content: "테스트", pushDate: "오늘", deepLink: "", isRead: false)), .pushAlarm(PushAlarm(ID: 2, category: "Event", content: "테스트", pushDate: "오늘", deepLink: "", isRead: false))], toSection: .list)
         
         sections = initialSnapshot.sectionIdentifiers
         dataSource?.apply(initialSnapshot)
     }
 }
 
-
+extension PushAlarmViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 94
+    }
+}
