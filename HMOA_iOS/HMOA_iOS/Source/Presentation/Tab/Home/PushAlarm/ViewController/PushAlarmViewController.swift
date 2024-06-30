@@ -21,6 +21,8 @@ class PushAlarmViewController: UIViewController, View {
         $0.register(PushAlarmCell.self, forCellReuseIdentifier: PushAlarmCell.identifier)
     }
     
+    private var noAlarmBackgroundView = NoItemView(title: "알림이 없습니다", description: "")
+    
     // MARK: - Properties
     
     private var dataSource: UITableViewDiffableDataSource<PushAlarmSection, PushAlarmItem>?
@@ -33,6 +35,7 @@ class PushAlarmViewController: UIViewController, View {
         super.viewDidLoad()
         
         setUI()
+        setAddView()
         setConstraints()
         configureDatasource()
         pushAlarmTableView.delegate = self
@@ -41,7 +44,28 @@ class PushAlarmViewController: UIViewController, View {
     // MARK: - Bind
     
     func bind(reactor: PushAlarmReactor) {
+        // MARK: Action
         
+        
+        
+        // MARK: State
+        
+        reactor.state
+            .map { $0.pushAlarmItems }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                if items.isEmpty {
+                    print("items is Empty")
+                    owner.noAlarmBackgroundView.isHidden = false
+                    owner.pushAlarmTableView.isHidden = true
+                } else {
+                    print("items is not empty")
+                    owner.noAlarmBackgroundView.isHidden = true
+                    owner.pushAlarmTableView.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - SetUp
@@ -49,13 +73,23 @@ class PushAlarmViewController: UIViewController, View {
     private func setUI() {
         view.backgroundColor = .white
         setBackBellNaviBar("H M O A")
-        view.addSubview(pushAlarmTableView)
         pushAlarmTableView.separatorStyle = .none
+    }
+    
+    private func setAddView() {
+        [   noAlarmBackgroundView,
+            pushAlarmTableView
+        ].forEach { view.addSubview($0) }
     }
     
     private func setConstraints() {
         pushAlarmTableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        noAlarmBackgroundView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(164)
+            make.centerX.equalToSuperview()
         }
     }
     
@@ -83,7 +117,6 @@ class PushAlarmViewController: UIViewController, View {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<PushAlarmSection, PushAlarmItem>()
         initialSnapshot.appendSections([.list])
-        initialSnapshot.appendItems([.pushAlarm(PushAlarm(ID: 1, category: "Event", content: "테스트", pushDate: "오늘", deepLink: "", isRead: false)), .pushAlarm(PushAlarm(ID: 2, category: "Event", content: "테스트", pushDate: "오늘", deepLink: "", isRead: false))], toSection: .list)
         
         sections = initialSnapshot.sectionIdentifiers
         dataSource?.apply(initialSnapshot)
