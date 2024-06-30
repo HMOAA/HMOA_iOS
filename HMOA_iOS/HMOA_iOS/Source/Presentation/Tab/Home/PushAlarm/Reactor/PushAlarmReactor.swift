@@ -21,6 +21,7 @@ class PushAlarmReactor: Reactor {
     }
     
     struct State {
+        var pushAlarmItems: [PushAlarmItem] = []
     }
     
     init() {
