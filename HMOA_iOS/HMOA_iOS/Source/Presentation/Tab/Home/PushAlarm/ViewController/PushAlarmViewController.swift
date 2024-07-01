@@ -55,15 +55,7 @@ class PushAlarmViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                if items.isEmpty {
-                    print("items is Empty")
-                    owner.noAlarmBackgroundView.isHidden = false
-                    owner.pushAlarmTableView.isHidden = true
-                } else {
-                    print("items is not empty")
-                    owner.noAlarmBackgroundView.isHidden = true
-                    owner.pushAlarmTableView.isHidden = false
-                }
+                self.updatePushALarmTableViewIsHidden(isHidden: items.isEmpty)
             })
             .disposed(by: disposeBag)
     }
@@ -122,6 +114,17 @@ class PushAlarmViewController: UIViewController, View {
         dataSource?.apply(initialSnapshot)
     }
 }
+
+// MARK: - Function
+
+extension PushAlarmViewController {
+    private func updatePushALarmTableViewIsHidden(isHidden: Bool) {
+        noAlarmBackgroundView.isHidden = !isHidden
+        pushAlarmTableView.isHidden = isHidden
+    }
+}
+
+// MARK: - TableView Delegate
 
 extension PushAlarmViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
