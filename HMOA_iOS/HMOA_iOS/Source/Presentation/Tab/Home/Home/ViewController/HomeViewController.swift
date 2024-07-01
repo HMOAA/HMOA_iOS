@@ -140,12 +140,10 @@ class HomeViewController: UIViewController, View {
         reactor.state
             .map { $0.isTapBell }
             .compactMap { $0 }
-            .distinctUntilChanged()
+            .filter { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, isTap in
-                if isTap {
-                    owner.presentPushAlarmViewController()
-                }
+                owner.presentPushAlarmViewController()
             })
             .disposed(by: disposeBag)
         
