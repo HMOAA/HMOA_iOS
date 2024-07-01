@@ -467,11 +467,6 @@ extension UIViewController {
         presentBrandSearchViewController()
     }
     
-    /// notificationViewController로 push
-    @objc func goToNotification() {
-         presentPushAlarmViewController()
-    }
-    
     /// Magazine 공유
     @objc func shareMagazine() {
         // TODO: 링크 생성 서비스 유료 계약 후 구현
