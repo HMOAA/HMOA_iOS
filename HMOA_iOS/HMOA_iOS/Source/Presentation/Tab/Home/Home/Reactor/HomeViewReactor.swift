@@ -35,7 +35,7 @@ final class HomeViewReactor: Reactor {
         var selectedPerfumeId: Int?
         var isPaging: Bool = false
         var isTapBell: Bool? = nil
-        var isTapLogout: Bool? = nil
+        var isTapWhenNotLogin: Bool? = nil
         var isLogin: Bool = false
     }
     
@@ -102,7 +102,7 @@ final class HomeViewReactor: Reactor {
             state.isTapBell = isTap
             
         case .setIsTapWhenNotLogin(let isTap):
-            state.isTapLogout = isTap
+            state.isTapWhenNotLogin = isTap
             
         case .success:
             break
