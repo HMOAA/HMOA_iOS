@@ -18,17 +18,15 @@ class HomeViewController: UIViewController, View {
     // MARK: - UI Component
     private lazy var homeView = HomeView()
     
-    // TODO: - 알림 API 구현 후 수정
-    //    private let bellButton = UIButton().then {
-    //        $0.setImage(UIImage(named: "bellOn"), for: .selected)
-    //        $0.setImage(UIImage(named: "bellOff"), for: .normal)
-    //    }
-    //
-    //    private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
-    //        $0.customView?.snp.makeConstraints {
-    //            $0.width.height.equalTo(30)
-    //        }
-    //    }
+    private let bellButton = UIButton().then {
+        $0.setImage(UIImage(named: "bellOn"), for: .normal)
+    }
+    
+    private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
+        $0.customView?.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+        }
+    }
     
     //    lazy var indicatorImageView = UIImageView().then {
     //        $0.contentMode = .scaleAspectFit
@@ -51,7 +49,7 @@ class HomeViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setSearchBellNaviBar("H  M  O  A")
+        setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
         navigationController?.delegate = self
         
@@ -92,23 +90,10 @@ class HomeViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // TODO: - 인앱 알림 기능 추가 시 수정
-        
-        loginManager.isPushAlarmAuthorization
-            .map { Reactor.Action.settingAlarmAuthorization($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        loginManager.isUserSettingAlarm
-            .map { Reactor.Action.settingIsUserSetting($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         loginManager.isLogin
             .map { Reactor.Action.settingIsLogin($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
         
         // collectionView item 클릭
         self.homeView.collectionView.rx.itemSelected
@@ -117,10 +102,10 @@ class HomeViewController: UIViewController, View {
             .disposed(by: self.disposeBag)
         
         // 벨 버튼 터치
-//        bellButton.rx.tap
-//            .map { Reactor.Action.didTapBellButton }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
+        bellButton.rx.tap
+            .map { Reactor.Action.didTapBellButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: - State
         
@@ -151,22 +136,31 @@ class HomeViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        // 푸시 알람 권한, 유저 셋팅에 따른 ui 바인딩
-//        reactor.state
-//            .map { $0.isPushAlarm }
-//            .compactMap { $0 }
-//            .distinctUntilChanged()
-//            .asDriver(onErrorRecover: { _ in return .empty() })
-//            .drive(with: self, onNext: { owner, isPush in
-//                guard let isLogin = reactor.currentState.isLogin else { return }
-//                if isLogin {
-//                    owner.bellButton.isSelected = isPush
-//                } else { owner.bellButton.isSelected = false }
-//            })
-//            .disposed(by: disposeBag)
+        // 푸시알림 리스트로 push
+        reactor.state
+            .map { $0.isTapBell }
+            .compactMap { $0 }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isTap in
+                owner.presentPushAlarmViewController()
+            })
+            .disposed(by: disposeBag)
         
-        // TODO: - 인앱 알림 기능 후 수정 예정
-        
+        // 로그아웃일 때 알림리스트 보기 제한
+        reactor.state
+            .map { $0.isTapWhenNotLogin }
+            .compactMap { $0 }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(
+                    title: "로그인 후 이용가능한 서비스입니다",
+                    content: "입력하신 내용을 다시 확인해주세요",
+                    buttonTitle: "로그인 하러가기"
+                )
+            })
+            .disposed(by: disposeBag)
     }
     
     private func bindHeader(reactor: HomeHeaderReactor) {
