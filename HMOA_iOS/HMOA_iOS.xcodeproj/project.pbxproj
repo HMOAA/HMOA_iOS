@@ -138,6 +138,7 @@
 		C96CD74D2BA8803D005C9856 /* MagazineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7482BA8803D005C9856 /* MagazineModel.swift */; };
 		C96CD74E2BA8803D005C9856 /* MagazineAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD74A2BA8803D005C9856 /* MagazineAddress.swift */; };
 		C96CD74F2BA8803D005C9856 /* MagazineAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */; };
+		C9819D772C3302270046FE55 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9819D762C3302260046FE55 /* NoItemView.swift */; };
 		C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */; };
 		C98E04282C2C6CE500225624 /* PushAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E04272C2C6CE500225624 /* PushAlarmCell.swift */; };
 		C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */; };
@@ -430,6 +431,7 @@
 		C96CD7482BA8803D005C9856 /* MagazineModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineModel.swift; sourceTree = "<group>"; };
 		C96CD74A2BA8803D005C9856 /* MagazineAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineAddress.swift; sourceTree = "<group>"; };
 		C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineAPI.swift; sourceTree = "<group>"; };
+		C9819D762C3302260046FE55 /* NoItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
 		C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification++Extensions.swift"; sourceTree = "<group>"; };
 		C98E04272C2C6CE500225624 /* PushAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmCell.swift; sourceTree = "<group>"; };
 		C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmSection.swift; sourceTree = "<group>"; };
@@ -1385,6 +1387,7 @@
 				2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */,
 				CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */,
 				C96CD7462BA8802E005C9856 /* SupplementaryViewKind.swift */,
+				C9819D762C3302260046FE55 /* NoItemView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2660,6 +2663,7 @@
 				2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */,
 				CA2238902AAEFCC000452A31 /* CommunityWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
+				C9819D772C3302270046FE55 /* NoItemView.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */,

@@ -93,9 +93,9 @@ class PushAlarmCell: UITableViewCell {
         }
     }
     
-    func configureCell() {
-        categoryLabel.text = "Event"
-        contentLabel.text = "지금 향모아만의 초특가 할인 상품을 만나보세요 오 오 오 오 오 오 오 오 오 오 오 오"
-        dateLabel.text = "10/04 14:30"
+    func configureCell(_ pushAlarm: PushAlarm) {
+        categoryLabel.text = pushAlarm.category
+        contentLabel.text = pushAlarm.content
+        dateLabel.text = pushAlarm.pushDate
     }
 }
