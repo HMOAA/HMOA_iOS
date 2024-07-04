@@ -44,9 +44,14 @@ class PushAlarmViewController: UIViewController, View {
     // MARK: - Bind
     
     func bind(reactor: PushAlarmReactor) {
+        
         // MARK: Action
         
-        
+        // viewDidLoad
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
         
@@ -55,7 +60,8 @@ class PushAlarmViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                self.updatePushALarmTableViewIsHidden(isHidden: items.isEmpty)
+                owner.updatePushALarmTableViewIsHidden(isHidden: items.isEmpty)
+                owner.updateSnapshot(for: .list, with: items)
             })
             .disposed(by: disposeBag)
     }
@@ -66,6 +72,7 @@ class PushAlarmViewController: UIViewController, View {
         view.backgroundColor = .white
         setBackBellNaviBar("H M O A")
         pushAlarmTableView.separatorStyle = .none
+        noAlarmBackgroundView.isHidden = true
     }
     
     private func setAddView() {
@@ -98,7 +105,7 @@ class PushAlarmViewController: UIViewController, View {
                     withIdentifier: PushAlarmCell.identifier,
                     for: indexPath) as! PushAlarmCell
                 
-                cell.configureCell()
+                cell.configureCell(item.pushAlarm!)
                 cell.selectionStyle = .none
                 
                 return cell
@@ -112,6 +119,17 @@ class PushAlarmViewController: UIViewController, View {
         
         sections = initialSnapshot.sectionIdentifiers
         dataSource?.apply(initialSnapshot)
+    }
+    
+    private func updateSnapshot(for section: PushAlarmSection, with items: [PushAlarmItem]) {
+        
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 

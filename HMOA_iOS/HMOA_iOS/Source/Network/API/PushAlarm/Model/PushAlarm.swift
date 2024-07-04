@@ -7,12 +7,16 @@
 
 import Foundation
 
+struct PushAlarmResponse: Hashable, Codable {
+    let data: [PushAlarm]
+}
+
 struct PushAlarm: Codable, Hashable {
     let ID: Int
     let category: String
     let content: String
     let pushDate: String
-    let deepLink: String
+    let deeplink: String
     let isRead: Bool
     
     enum CodingKeys: String, CodingKey {
@@ -20,7 +24,7 @@ struct PushAlarm: Codable, Hashable {
         case category = "title"
         case content
         case pushDate = "createdAt"
-        case deepLink
+        case deeplink
         case isRead = "read"
     }
 }

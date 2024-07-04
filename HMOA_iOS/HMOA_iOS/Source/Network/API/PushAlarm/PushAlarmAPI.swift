@@ -28,4 +28,13 @@ final class PushAlarmAPI {
             data: nil,
             model: Response.self)
     }
+    
+    static func fetchAlarmList() -> Observable<PushAlarmResponse> {
+        return networking(
+            urlStr: PushAlarmAddress.fetchAlarmList.url,
+            method: .get,
+            data: nil,
+            model: PushAlarmResponse.self
+        )
+    }
 }
