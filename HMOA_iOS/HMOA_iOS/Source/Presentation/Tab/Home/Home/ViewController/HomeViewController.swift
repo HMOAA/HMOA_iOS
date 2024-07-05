@@ -132,7 +132,7 @@ class HomeViewController: UIViewController, View {
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, id in
-                owner.presentDatailViewController(id)
+                owner.presentDetailViewController(id)
             })
             .disposed(by: disposeBag)
         

@@ -23,6 +23,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         setFirstViewController()
         window?.makeKeyAndVisible()
+        
+        if let response = connectionOptions.notificationResponse {
+            handleNotificationResponse(response)
+        }
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -42,6 +46,36 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
     }
+    
+    func handleNotificationResponse(_ response: UNNotificationResponse) {
+        let userInfo = response.notification.request.content.userInfo
+        if let deepLink = userInfo["deepLink"] as? String, let url = URL(string: deepLink) {
+            handleDeepLink(url: url)
+        }
+    }
+    
+    func handleDeepLink(url: URL) {
+        let tabbarController = window?.rootViewController as! UITabBarController
+        let navigationController = tabbarController.selectedViewController as! UINavigationController
+        let homeVC = navigationController.viewControllers.first!
+       
+        let urlString = url.absoluteString
+        let path = urlString.replacingOccurrences(of: "hmoa://", with: "").split(separator: "/")
+        let category = String(path[0])
+        let ID = Int(String(path[1]))!
+        
+        switch category {
+        case "community":
+            homeVC.presentCommunityDetailVC(ID)
+        case "perfume_comment":
+            homeVC.presentDetailViewController(ID)
+            // TODO: 댓글 목록으로 이동
+        default:
+            print("unknown category: \(category)")
+        }
+    }
+    
+    
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

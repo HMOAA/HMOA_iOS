@@ -170,7 +170,7 @@ class MagazineViewController: UIViewController, View {
             .compactMap { $0.selectedNewPerfumeID }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self) { owner, id in
-                owner.presentDatailViewController(id)
+                owner.presentDetailViewController(id)
             }
             .disposed(by: disposeBag)
         
