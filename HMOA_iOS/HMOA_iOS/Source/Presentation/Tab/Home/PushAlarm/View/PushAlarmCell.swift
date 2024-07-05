@@ -94,6 +94,7 @@ class PushAlarmCell: UITableViewCell {
     }
     
     func configureCell(_ pushAlarm: PushAlarm) {
+        iconImageView.kf.setImage(with: URL(string: pushAlarm.senderProfileImage))
         categoryLabel.text = pushAlarm.category
         contentLabel.text = pushAlarm.content
         dateLabel.text = pushAlarm.pushDate

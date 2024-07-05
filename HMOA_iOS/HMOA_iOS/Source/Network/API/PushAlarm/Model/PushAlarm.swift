@@ -13,6 +13,7 @@ struct PushAlarmResponse: Hashable, Codable {
 
 struct PushAlarm: Codable, Hashable {
     let ID: Int
+    let senderProfileImage: String
     let category: String
     let content: String
     let pushDate: String
@@ -21,6 +22,7 @@ struct PushAlarm: Codable, Hashable {
     
     enum CodingKeys: String, CodingKey {
         case ID = "id"
+        case senderProfileImage = "senderProfileImg"
         case category = "title"
         case content
         case pushDate = "createdAt"
