@@ -56,6 +56,7 @@ extension PushAlarmReactor {
                     .map { pushAlarmData in
                         let pushAlarm = PushAlarm(
                             ID: pushAlarmData.ID,
+                            senderProfileImage: pushAlarmData.senderProfileImage,
                             category: pushAlarmData.category,
                             content: pushAlarmData.content,
                             pushDate: pushAlarmData.pushDate,
