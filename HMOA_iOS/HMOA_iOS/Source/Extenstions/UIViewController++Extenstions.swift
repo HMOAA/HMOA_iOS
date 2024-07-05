@@ -153,7 +153,7 @@ extension UIViewController {
     }
     
     /// PerfumeDetailVC로 push
-    func presentDatailViewController(_ id: Int, _ service: BrandDetailService? = nil) {
+    func presentDetailViewController(_ id: Int, _ service: BrandDetailService? = nil) {
         let reactor = DetailViewReactor(perfumeId: id, service: service)
         let detailVC = DetailViewController()
         detailVC.reactor = reactor

@@ -225,7 +225,7 @@ extension SearchViewController {
             .map { $0.selectedPerfumeId }
             .compactMap { $0 }
             .bind(with: self, onNext: { owner, id in
-                owner.presentDatailViewController(id, reactor.service)
+                owner.presentDetailViewController(id, reactor.service)
             })
             .disposed(by: disposeBag)
     }

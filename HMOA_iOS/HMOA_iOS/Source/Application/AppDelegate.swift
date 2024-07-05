@@ -104,6 +104,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// MARK: - NotificationCenterDelegate
+
 extension AppDelegate: UNUserNotificationCenterDelegate {
 
     /// 스위즐링 NO시, APNs등록, 토큰값가져옴
@@ -115,6 +117,20 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     /// 앱화면 보고있는중에 푸시올 때
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.list, .banner, .badge, .sound])
+    }
+    
+    /// 백그라운드 또는 종료 상태에서 푸시알림 올 때
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        if let deepLink = userInfo["deeplink"] as? String, let url = URL(string: deepLink) {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let sceneDelegate = windowScene.delegate as? SceneDelegate {
+                sceneDelegate.handleDeepLink(url: url)
+            }
+        }
+        
+        completionHandler()
     }
     
 }
