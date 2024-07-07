@@ -14,11 +14,12 @@ import RxKakaoSDKAuth
 import KakaoSDKAuth
 import FirebaseCore
 import FirebaseMessaging
+import RxSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var disposeBag = DisposeBag()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -119,18 +120,36 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler([.list, .banner, .badge, .sound])
     }
     
-    /// 백그라운드 또는 종료 상태에서 푸시알림 올 때
+    /// 알림 탭 시 처리
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         
+        handleDeeplink(userInfo)
+        
+        readAlarm(userInfo)
+        
+        completionHandler()
+    }
+    
+    func handleDeeplink(_ userInfo: [AnyHashable: Any]) {
         if let deepLink = userInfo["deeplink"] as? String, let url = URL(string: deepLink) {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let sceneDelegate = windowScene.delegate as? SceneDelegate {
-                sceneDelegate.handleDeepLink(url: url)
+                sceneDelegate.moveToViewController(by: url)
             }
         }
-        
-        completionHandler()
+    }
+    
+    func readAlarm(_ userInfo: [AnyHashable: Any]) {
+        if let notificationIDString = userInfo["id"] as? String,
+           let notificationID = Int(notificationIDString) {
+            PushAlarmAPI.putAlarmRead(ID: notificationID)
+                .subscribe(onNext: { response in
+                    print("Server responded successfully: \(response)")
+                }, onError: { error in
+                    print("Server response failed: \(error)")
+                }).disposed(by: disposeBag)
+        }
     }
     
 }
