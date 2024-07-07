@@ -23,10 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         setFirstViewController()
         window?.makeKeyAndVisible()
-        
-        if let response = connectionOptions.notificationResponse {
-            handleNotificationResponse(response)
-        }
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -47,19 +43,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func handleNotificationResponse(_ response: UNNotificationResponse) {
-        let userInfo = response.notification.request.content.userInfo
-        if let deepLink = userInfo["deepLink"] as? String, let url = URL(string: deepLink) {
-            handleDeepLink(url: url)
-        }
-    }
-    
-    func handleDeepLink(url: URL) {
+    func moveToViewController(by deeplink: URL) {
         let tabbarController = window?.rootViewController as! UITabBarController
         let navigationController = tabbarController.selectedViewController as! UINavigationController
         let homeVC = navigationController.viewControllers.first!
        
-        let urlString = url.absoluteString
+        let urlString = deeplink.absoluteString
         let path = urlString.replacingOccurrences(of: "hmoa://", with: "").split(separator: "/")
         let category = String(path[0])
         let ID = Int(String(path[1]))!
