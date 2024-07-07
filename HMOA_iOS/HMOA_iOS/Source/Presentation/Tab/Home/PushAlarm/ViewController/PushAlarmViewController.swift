@@ -38,7 +38,6 @@ class PushAlarmViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDatasource()
-        pushAlarmTableView.delegate = self
     }
     
     // MARK: - Bind
@@ -53,6 +52,14 @@ class PushAlarmViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        pushAlarmTableView.rx.itemSelected
+            .map { Reactor.Action.didTapAlarmCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        pushAlarmTableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         
         reactor.state
@@ -63,6 +70,16 @@ class PushAlarmViewController: UIViewController, View {
                 owner.updatePushALarmTableViewIsHidden(isHidden: items.isEmpty)
                 owner.updateSnapshot(for: .list, with: items)
             })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedAlarm }
+            .compactMap { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self) { owner, alarm in
+                let url = alarm.deeplink
+                owner.handleDeeplink(url)
+            }
             .disposed(by: disposeBag)
     }
     
@@ -139,6 +156,22 @@ extension PushAlarmViewController {
     private func updatePushALarmTableViewIsHidden(isHidden: Bool) {
         noAlarmBackgroundView.isHidden = !isHidden
         pushAlarmTableView.isHidden = isHidden
+    }
+    
+    private func handleDeeplink(_ url: String) {
+        let path = url.replacingOccurrences(of: "hmoa://", with: "").split(separator: "/")
+        let category = String(path[0])
+        let ID = Int(String(path[1]))!
+        
+        switch category {
+        case "community":
+            presentCommunityDetailVC(ID)
+        case "perfume_comment":
+            presentDetailViewController(ID)
+            // TODO: 댓글 목록으로 이동
+        default:
+            print("unknown category: \(category)")
+        }
     }
 }
 

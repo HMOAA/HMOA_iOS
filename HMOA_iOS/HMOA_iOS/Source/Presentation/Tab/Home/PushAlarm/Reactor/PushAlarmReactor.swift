@@ -14,14 +14,17 @@ class PushAlarmReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case didTapAlarmCell(IndexPath)
     }
     
     enum Mutation {
         case setPushAlarmList([PushAlarmItem])
+        case setSelectedAlarm(IndexPath?)
     }
     
     struct State {
         var pushAlarmItems: [PushAlarmItem] = []
+        var selectedAlarm: PushAlarm? = nil
     }
     
     init() {
@@ -32,6 +35,12 @@ class PushAlarmReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return setUpAlarmList()
+            
+        case .didTapAlarmCell(let indexPath):
+            return .concat([
+                .just(.setSelectedAlarm(indexPath)),
+                .just(.setSelectedAlarm(nil))
+            ])
         }
     }
     
@@ -41,6 +50,12 @@ class PushAlarmReactor: Reactor {
         switch mutation {
         case .setPushAlarmList(let items):
             state.pushAlarmItems = items
+        case .setSelectedAlarm(let indexPath):
+            guard let indexPath = indexPath else {
+                state.selectedAlarm = nil
+                return state
+            }
+            state.selectedAlarm = currentState.pushAlarmItems[indexPath.row].pushAlarm
         }
         
         return state
