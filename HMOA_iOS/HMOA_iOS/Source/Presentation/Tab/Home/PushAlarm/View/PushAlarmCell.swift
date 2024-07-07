@@ -98,5 +98,6 @@ class PushAlarmCell: UITableViewCell {
         categoryLabel.text = pushAlarm.category
         contentLabel.text = pushAlarm.content
         dateLabel.text = pushAlarm.pushDate
+        backgroundColor = pushAlarm.isRead ? .customColor(.gray1) : .white
     }
 }
