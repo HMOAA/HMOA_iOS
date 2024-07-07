@@ -37,4 +37,13 @@ final class PushAlarmAPI {
             model: PushAlarmResponse.self
         )
     }
+    
+    static func putAlarmRead(ID: Int) -> Observable<Response> {
+        return networking(
+            urlStr: PushAlarmAddress.putReadAlarm(ID).url,
+            method: .put,
+            data: nil,
+            model: Response.self
+        )
+    }
 }

@@ -20,6 +20,7 @@ class PushAlarmReactor: Reactor {
     enum Mutation {
         case setPushAlarmList([PushAlarmItem])
         case setSelectedAlarm(IndexPath?)
+        case success
     }
     
     struct State {
@@ -39,7 +40,8 @@ class PushAlarmReactor: Reactor {
         case .didTapAlarmCell(let indexPath):
             return .concat([
                 .just(.setSelectedAlarm(indexPath)),
-                .just(.setSelectedAlarm(nil))
+                .just(.setSelectedAlarm(nil)),
+                setAlarmRead(indexPath)
             ])
         }
     }
@@ -55,7 +57,12 @@ class PushAlarmReactor: Reactor {
                 state.selectedAlarm = nil
                 return state
             }
-            state.selectedAlarm = currentState.pushAlarmItems[indexPath.row].pushAlarm
+            
+            let selectedAlarm = currentState.pushAlarmItems[indexPath.row].pushAlarm
+            state.selectedAlarm = selectedAlarm
+            
+        case .success:
+            break
         }
         
         return state
@@ -82,5 +89,16 @@ extension PushAlarmReactor {
                     }
                 return .just(.setPushAlarmList(listData))
             }
+    }
+    
+    func setAlarmRead(_ indexPath: IndexPath) -> Observable<Mutation> {
+        guard let selectedAlarm = currentState.pushAlarmItems[indexPath.row].pushAlarm,
+              !selectedAlarm.isRead else {
+            return .empty()
+        }
+        
+        return PushAlarmAPI.putAlarmRead(ID: selectedAlarm.ID)
+            .catch { _ in .empty() }
+            .map { _ in .success }
     }
 }
