@@ -19,7 +19,7 @@ class HomeViewController: UIViewController, View {
     private lazy var homeView = HomeView()
     
     private let bellButton = UIButton().then {
-        $0.setImage(UIImage(named: "bellOn"), for: .normal)
+        $0.setImage(UIImage(named: "homeBell"), for: .normal)
     }
     
     private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {

@@ -339,7 +339,7 @@ extension UIViewController {
     }
     
     /// Back버튼과 Bell 버튼 NavigationBar
-    func setBackBellNaviBar(_ title: String) {
+    func setBackBellNaviBar(_ title: String, bellButton: UIBarButtonItem) {
         let titleLabel = UILabel().then {
             $0.text = title
             $0.font = .customFont(.pretendard_medium, 20)
@@ -347,8 +347,6 @@ extension UIViewController {
         }
         
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
-        
-        let bellButton = self.navigationItem.makeImageButtonItem(self, action: #selector(pushAlarmSetting), imageName: "bell")
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
