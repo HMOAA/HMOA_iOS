@@ -167,12 +167,30 @@ extension AppDelegate {
     /// pushAlram 기본 세팅
     func configurePushAlarm(application: UIApplication) {
         UNUserNotificationCenter.current().delegate = self
+        
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: { _, _ in }
+            completionHandler: { (granted: Bool, error: Error?) in
+                UserDefaults.standard.set(granted, forKey: "alarm")
+                if granted {
+                    DispatchQueue.main.async {
+                        application.registerForRemoteNotifications()
+                    }
+                }
+                
+                if let error = error {
+                    print("Request authorization failed: \(error)")
+                }
+            }
         )
-        application.registerForRemoteNotifications()
+        
+        // 알림 권한 상태 확인 및 업데이트
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            let isAuthorized = settings.authorizationStatus == .authorized
+            UserDefaults.standard.set(isAuthorized, forKey: "alarm")
+        }
+        
         Messaging.messaging().isAutoInitEnabled = true
         Messaging.messaging().delegate = self
     }
