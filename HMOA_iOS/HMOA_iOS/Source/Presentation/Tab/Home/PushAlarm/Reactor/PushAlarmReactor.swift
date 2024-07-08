@@ -15,17 +15,29 @@ class PushAlarmReactor: Reactor {
     enum Action {
         case viewDidLoad
         case didTapAlarmCell(IndexPath)
+        case didTapBellButton
+        case settingAlarmAuthorization(Bool)
+        case settingIsUserSetting(Bool?)
+        case networkingFcmTokenAPI(Bool)
     }
     
     enum Mutation {
         case setPushAlarmList([PushAlarmItem])
         case setSelectedAlarm(IndexPath?)
+        case setIsPushAlarm(Bool)
+        case setIsUserSetting(Bool?)
+        case setIsOnBellButton(Bool)
+        case setIsTapBell(Bool)
         case success
     }
     
     struct State {
         var pushAlarmItems: [PushAlarmItem] = []
         var selectedAlarm: PushAlarm? = nil
+        var isOnBellButton: Bool? = nil
+        var isPushSetting: Bool = false
+        var isUserSetting: Bool? = UserDefaults.standard.value(forKey: "alarm") as? Bool
+        var isTapBell: Bool = false
     }
     
     init() {
@@ -43,6 +55,30 @@ class PushAlarmReactor: Reactor {
                 .just(.setSelectedAlarm(nil)),
                 setAlarmRead(indexPath)
             ])
+            
+        case .didTapBellButton:
+            if currentState.isPushSetting {
+                guard let currentBellState = currentState.isOnBellButton else { return .empty() }
+                return .concat([
+                    .just(.setIsOnBellButton(!currentBellState)),
+                    saveOrDeleteFcmToken(!currentBellState)
+                ])
+            } else {
+                return .concat([
+                    .just(.setIsTapBell(true)),
+                    .just(.setIsTapBell(false))
+                ])
+            }
+            
+        case .settingAlarmAuthorization(let setting):
+            return .just(.setIsPushAlarm(setting))
+            
+        case .settingIsUserSetting(let setting):
+            guard let setting = setting else { return .empty() }
+            return .just(.setIsOnBellButton(setting))
+            
+        case .networkingFcmTokenAPI(let isOn):
+            return saveOrDeleteFcmToken(isOn)
         }
     }
     
@@ -52,6 +88,7 @@ class PushAlarmReactor: Reactor {
         switch mutation {
         case .setPushAlarmList(let items):
             state.pushAlarmItems = items
+            
         case .setSelectedAlarm(let indexPath):
             guard let indexPath = indexPath else {
                 state.selectedAlarm = nil
@@ -61,10 +98,25 @@ class PushAlarmReactor: Reactor {
             let selectedAlarm = currentState.pushAlarmItems[indexPath.row].pushAlarm
             state.selectedAlarm = selectedAlarm
             
+        case .setIsTapBell(let isTap):
+            state.isTapBell = isTap
+            
+        case .setIsOnBellButton(let isOn):
+            state.isOnBellButton = isOn
+            
+        case .setIsPushAlarm(let setting):
+            state.isPushSetting = setting
+            if !setting {
+                state.isOnBellButton = false
+            }
+            
+        case .setIsUserSetting(let setting):
+            state.isUserSetting = setting
+            
         case .success:
             break
+            
         }
-        
         return state
     }
 }
@@ -100,5 +152,20 @@ extension PushAlarmReactor {
         return PushAlarmAPI.putAlarmRead(ID: selectedAlarm.ID)
             .catch { _ in .empty() }
             .map { _ in .success }
+    }
+    
+    func saveOrDeleteFcmToken(_ isOn: Bool) -> Observable<Mutation> {
+        if isOn {
+            guard let fcmToken = try? LoginManager.shared.fcmTokenSubject.value()! else { return .empty() }
+            
+            return PushAlarmAPI.postFcmToken(["fcmtoken": fcmToken])
+                .catch { _ in .empty() }
+                .map { _ in .success }
+            
+        } else {
+            return PushAlarmAPI.deleteFcmToken()
+                .catch { _ in .empty() }
+                .map { _ in .success }
+        }
     }
 }

@@ -23,6 +23,13 @@ class PushAlarmViewController: UIViewController, View {
     
     private var noAlarmBackgroundView = NoItemView(title: "알림이 없습니다", description: "")
     
+    private var bellButton = UIButton().then {
+        $0.setImage(UIImage(named: "bellOn"), for: .selected)
+        $0.setImage(UIImage(named: "bellOff"), for: .normal)
+    }
+    
+    private lazy var bellBarButtonItem = UIBarButtonItem(customView: bellButton)
+    
     // MARK: - Properties
     
     private var dataSource: UITableViewDiffableDataSource<PushAlarmSection, PushAlarmItem>?
@@ -60,6 +67,21 @@ class PushAlarmViewController: UIViewController, View {
         pushAlarmTableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
+        LoginManager.shared.isPushAlarmAuthorization
+            .map { Reactor.Action.settingAlarmAuthorization($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        LoginManager.shared.isUserSettingAlarm
+            .map { Reactor.Action.settingIsUserSetting($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        bellButton.rx.tap
+            .map { Reactor.Action.didTapBellButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         
         reactor.state
@@ -81,13 +103,32 @@ class PushAlarmViewController: UIViewController, View {
                 owner.handleDeeplink(url)
             }
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isTapBell }
+            .filter { $0 }
+            .bind(with: self) { owner, _ in
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.isOnBellButton }
+            .distinctUntilChanged()
+            .observe(on:MainScheduler.asyncInstance)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isOn in
+                LoginManager.shared.isUserSettingAlarm.onNext(isOn)
+                self.bellButton.isSelected = isOn
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - SetUp
     
     private func setUI() {
         view.backgroundColor = .white
-        setBackBellNaviBar("H M O A")
+        setBackBellNaviBar("H M O A", bellButton: bellBarButtonItem)
         pushAlarmTableView.separatorStyle = .none
         noAlarmBackgroundView.isHidden = true
     }
