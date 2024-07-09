@@ -13,7 +13,7 @@ class PushAlarmReactor: Reactor {
     var initialState: State
     
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case didTapAlarmCell(IndexPath)
         case didTapBellButton
         case settingAlarmAuthorization(Bool)
@@ -46,7 +46,7 @@ class PushAlarmReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return setUpAlarmList()
             
         case .didTapAlarmCell(let indexPath):

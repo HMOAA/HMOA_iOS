@@ -47,6 +47,12 @@ class PushAlarmViewController: UIViewController, View {
         configureDatasource()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        reactor?.action.onNext(.viewWillAppear)
+    }
+    
     // MARK: - Bind
     
     func bind(reactor: PushAlarmReactor) {
@@ -54,8 +60,8 @@ class PushAlarmViewController: UIViewController, View {
         // MARK: Action
         
         // viewDidLoad
-        Observable.just(())
-            .map { Reactor.Action.viewDidLoad }
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -184,6 +190,8 @@ class PushAlarmViewController: UIViewController, View {
         guard let dataSource = self.dataSource else { return }
         
         var snapshot = dataSource.snapshot()
+        
+        snapshot.deleteItems(snapshot.itemIdentifiers(inSection: section))
         
         snapshot.appendItems(items, toSection: section)
         
