@@ -85,7 +85,8 @@ class HBTIViewController: UIViewController, View {
     // MARK: - Functions
     
     private func setUI() {
-        view.backgroundColor = .black
+        setClearBackNaviBar("향BTI", .white)
+        
     }
     
     private func setAddView() {
@@ -125,7 +126,7 @@ class HBTIViewController: UIViewController, View {
         buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(20)
             make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(107)
+            make.height.equalTo(1000)
         }
     }
 }
