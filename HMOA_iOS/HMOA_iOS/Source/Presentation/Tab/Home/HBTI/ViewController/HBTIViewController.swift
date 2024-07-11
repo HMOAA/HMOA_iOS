@@ -126,7 +126,7 @@ class HBTIViewController: UIViewController, View {
         buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(20)
             make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(1000)
+            make.height.equalTo(107)
         }
     }
 }
