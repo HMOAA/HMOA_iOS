@@ -1587,6 +1587,7 @@
 			isa = PBXGroup;
 			children = (
 				C96F76052C3FB35E00D44773 /* Reactor */,
+				C96F760A2C3FB44E00D44773 /* View */,
 				C96F76042C3FB35100D44773 /* ViewController */,
 			);
 			path = HBTI;
@@ -1606,6 +1607,13 @@
 				C96F76082C3FB39C00D44773 /* HBTIReactor.swift */,
 			);
 			path = Reactor;
+			sourceTree = "<group>";
+		};
+		C96F760A2C3FB44E00D44773 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		C98E04262C2C6CA300225624 /* View */ = {
