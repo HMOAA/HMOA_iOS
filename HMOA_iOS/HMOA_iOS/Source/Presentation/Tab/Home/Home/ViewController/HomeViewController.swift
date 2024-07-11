@@ -151,7 +151,6 @@ class HomeViewController: UIViewController, View {
         reactor.state
             .map { $0.isTapWhenNotLogin }
             .compactMap { $0 }
-            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, _ in
                 owner.presentAlertVC(

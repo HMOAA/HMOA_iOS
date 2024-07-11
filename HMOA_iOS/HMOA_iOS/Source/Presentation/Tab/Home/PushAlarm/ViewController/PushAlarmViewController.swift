@@ -53,7 +53,7 @@ class PushAlarmViewController: UIViewController, View {
         
         // MARK: Action
         
-        // viewDidLoad
+        // viewWillAppear
         rx.viewWillAppear
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
@@ -86,7 +86,6 @@ class PushAlarmViewController: UIViewController, View {
         
         reactor.state
             .map { $0.pushAlarmItems }
-            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 owner.updatePushALarmTableViewIsHidden(isHidden: items.isEmpty)
