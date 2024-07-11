@@ -47,12 +47,6 @@ class PushAlarmViewController: UIViewController, View {
         configureDatasource()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        reactor?.action.onNext(.viewWillAppear)
-    }
-    
     // MARK: - Bind
     
     func bind(reactor: PushAlarmReactor) {
