@@ -17,6 +17,11 @@ import Then
 class HBTIViewController: UIViewController, View {
     
     // MARK: - UI Components
+    
+    private let scrollView = UIScrollView().then{
+        $0.backgroundColor = .black
+    }
+    
     private let yourHBTIView = UIView()
     
     private let titleLabel = UILabel().then {
@@ -93,12 +98,18 @@ class HBTIViewController: UIViewController, View {
         ].forEach { buttonStackView.addArrangedSubview($0)}
         
         [yourHBTIView
-        ].forEach { view.addSubview($0) }
+        ].forEach { scrollView.addSubview($0) }
+        
+        view.addSubview(scrollView)
     }
     
     private func setConstraints() {
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         yourHBTIView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
+            make.top.bottom.equalToSuperview().inset(20)
             make.leading.trailing.equalToSuperview().inset(16)
         }
         
@@ -114,6 +125,7 @@ class HBTIViewController: UIViewController, View {
         buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(20)
             make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(107)
         }
     }
 }
