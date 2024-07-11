@@ -101,13 +101,10 @@ class PushAlarmViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.selectedAlarm }
+            .map { $0.selectedAlarmDeeplink }
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self) { owner, alarm in
-                let url = alarm.deeplink
-                owner.handleDeeplink(url)
-            }
+            .drive(onNext: handleDeeplink)
             .disposed(by: disposeBag)
         
         reactor.state
