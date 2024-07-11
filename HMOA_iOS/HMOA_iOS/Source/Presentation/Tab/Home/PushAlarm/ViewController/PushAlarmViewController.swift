@@ -212,7 +212,7 @@ extension PushAlarmViewController {
         switch category {
         case "community":
             presentCommunityDetailVC(ID)
-        case "perfume_comment":
+        case "perfume":
             presentDetailViewController(ID)
             // TODO: 댓글 목록으로 이동
         default:
