@@ -31,27 +31,16 @@ class HBTIHomeTopView: UIView {
         $0.distribution = .fillEqually
     }
     
-    private let goToSurveyButton = UIButton().then {
-        $0.setTitle("향BTI\n검사하러 가기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.masksToBounds = true
-        $0.layer.cornerRadius = 5
-        $0.setBackgroundImage(UIImage(named: "goToSurvey"), for: .normal)
-    }
+    private let goToSurveyButton = UIButton()
     
-    private let selectSpiceButton = UIButton().then {
-        $0.setTitle("향료 입력하기\n(주문 후)", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.masksToBounds = true
-        $0.layer.cornerRadius = 5
-        $0.setBackgroundImage(UIImage(named: "selectSpice"), for: .normal)
-    }
+    private let selectSpiceButton = UIButton()
     
     // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setUI()
         setAddView()
         setConstraints()
     }
@@ -61,6 +50,20 @@ class HBTIHomeTopView: UIView {
     }
     
     // MARK: - Set UI
+    
+    private func setUI() {
+        configureButton(
+            goToSurveyButton,
+            withTitle: "향BTI\n검사하러 가기",
+            imageName: "goToSurvey"
+        )
+        
+        configureButton(
+            selectSpiceButton,
+            withTitle: "향료 입력하기\n(주문 후)",
+            imageName: "selectSpice"
+        )
+    }
     
     private func setAddView() {
         [titleLabel,
@@ -87,5 +90,28 @@ class HBTIHomeTopView: UIView {
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(107)
         }
+    }
+    
+    func configureButton(_ button: UIButton, withTitle title: String, imageName: String) {
+        button.titleLabel?.numberOfLines = 0
+        button.setTitleColor(.black, for: .normal)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+        paragraphStyle.minimumLineHeight = 24
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.customFont(.pretendard_bold, 16)
+        ]
+        let attributedTitle = NSAttributedString(string: title, attributes: attributes)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        
+        button.contentHorizontalAlignment = .left
+        button.contentVerticalAlignment = .top
+        button.titleEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 0)
+        
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 5
+        button.setBackgroundImage(UIImage(named: imageName), for: .normal)
     }
 }
