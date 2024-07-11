@@ -33,7 +33,7 @@ class PushAlarmReactor: Reactor {
     
     struct State {
         var pushAlarmItems: [PushAlarmItem] = []
-        var selectedAlarm: PushAlarm? = nil
+        var selectedAlarmDeeplink: String? = nil
         var isOnBellButton: Bool? = nil
         var isPushSetting: Bool = false
         var isUserSetting: Bool? = UserDefaults.standard.value(forKey: "alarm") as? Bool
@@ -91,12 +91,12 @@ class PushAlarmReactor: Reactor {
             
         case .setSelectedAlarm(let indexPath):
             guard let indexPath = indexPath else {
-                state.selectedAlarm = nil
+                state.selectedAlarmDeeplink = nil
                 return state
             }
             
-            let selectedAlarm = currentState.pushAlarmItems[indexPath.row].pushAlarm
-            state.selectedAlarm = selectedAlarm
+            let selectedAlarmDeeplink = currentState.pushAlarmItems[indexPath.row].pushAlarm?.deeplink
+            state.selectedAlarmDeeplink = selectedAlarmDeeplink
             
         case .setIsTapBell(let isTap):
             state.isTapBell = isTap
