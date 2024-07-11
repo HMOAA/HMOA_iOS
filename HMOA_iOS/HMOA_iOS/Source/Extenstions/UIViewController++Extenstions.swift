@@ -391,6 +391,31 @@ extension UIViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
     }
     
+    func setClearBackNaviBar(_ title: String, _ titleColor: UIColor) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = titleColor
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.backgroundColor = .clear
+        scrollEdgeAppearance.shadowColor = .clear
+        scrollEdgeAppearance.backgroundEffect = nil
+        scrollEdgeAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        
+        
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+    }
+    
     /// Back 버튼, Share 버튼 NavigationBar
         func setBackShareRightNaviBar(_ title: String) {
             let titleLabel = UILabel().then {
