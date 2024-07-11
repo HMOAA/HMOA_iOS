@@ -52,11 +52,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let path = urlString.replacingOccurrences(of: "hmoa://", with: "").split(separator: "/")
         let category = String(path[0])
         let ID = Int(String(path[1]))!
-        
+        print(deeplink)
         switch category {
         case "community":
             homeVC.presentCommunityDetailVC(ID)
-        case "perfume_comment":
+        case "perfume":
             homeVC.presentDetailViewController(ID)
             // TODO: 댓글 목록으로 이동
         default:
