@@ -138,6 +138,8 @@
 		C96CD74D2BA8803D005C9856 /* MagazineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7482BA8803D005C9856 /* MagazineModel.swift */; };
 		C96CD74E2BA8803D005C9856 /* MagazineAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD74A2BA8803D005C9856 /* MagazineAddress.swift */; };
 		C96CD74F2BA8803D005C9856 /* MagazineAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */; };
+		C96F76072C3FB37600D44773 /* HBTIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F76062C3FB37600D44773 /* HBTIViewController.swift */; };
+		C96F76092C3FB39C00D44773 /* HBTIReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F76082C3FB39C00D44773 /* HBTIReactor.swift */; };
 		C9819D772C3302270046FE55 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9819D762C3302260046FE55 /* NoItemView.swift */; };
 		C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */; };
 		C98E04282C2C6CE500225624 /* PushAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E04272C2C6CE500225624 /* PushAlarmCell.swift */; };
@@ -431,6 +433,8 @@
 		C96CD7482BA8803D005C9856 /* MagazineModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineModel.swift; sourceTree = "<group>"; };
 		C96CD74A2BA8803D005C9856 /* MagazineAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineAddress.swift; sourceTree = "<group>"; };
 		C96CD74B2BA8803D005C9856 /* MagazineAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineAPI.swift; sourceTree = "<group>"; };
+		C96F76062C3FB37600D44773 /* HBTIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIViewController.swift; sourceTree = "<group>"; };
+		C96F76082C3FB39C00D44773 /* HBTIReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReactor.swift; sourceTree = "<group>"; };
 		C9819D762C3302260046FE55 /* NoItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
 		C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification++Extensions.swift"; sourceTree = "<group>"; };
 		C98E04272C2C6CE500225624 /* PushAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmCell.swift; sourceTree = "<group>"; };
@@ -853,6 +857,7 @@
 		2C39AA4E29704253000C6F71 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				C96F76032C3FB34800D44773 /* HBTI */,
 				C94EE0AA2C1FFB71005EDC95 /* PushAlarm */,
 				2CA7F69229D2E8BC0022E7FD /* TotalPerfume */,
 				2C4CDC2729C770D900676163 /* BrandDetail */,
@@ -1576,6 +1581,31 @@
 				C9D161E42C1FF2550032FE78 /* IgnoerData.swift */,
 			);
 			path = Key;
+			sourceTree = "<group>";
+		};
+		C96F76032C3FB34800D44773 /* HBTI */ = {
+			isa = PBXGroup;
+			children = (
+				C96F76052C3FB35E00D44773 /* Reactor */,
+				C96F76042C3FB35100D44773 /* ViewController */,
+			);
+			path = HBTI;
+			sourceTree = "<group>";
+		};
+		C96F76042C3FB35100D44773 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C96F76062C3FB37600D44773 /* HBTIViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		C96F76052C3FB35E00D44773 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C96F76082C3FB39C00D44773 /* HBTIReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		C98E04262C2C6CA300225624 /* View */ = {
@@ -2707,6 +2737,7 @@
 				C99E7B6B2BA9F0B500F359BC /* MagazineDetailLineView.swift in Sources */,
 				2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */,
 				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
+				C96F76072C3FB37600D44773 /* HBTIViewController.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */,
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
@@ -2787,6 +2818,7 @@
 				CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */,
 				CA943AD62AEF93E900A5B717 /* OptionData.swift in Sources */,
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,
+				C96F76092C3FB39C00D44773 /* HBTIReactor.swift in Sources */,
 				CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */,
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */,
