@@ -42,6 +42,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
     }
+    
+    func moveToViewController(by deeplink: URL) {
+        let tabbarController = window?.rootViewController as! UITabBarController
+        let navigationController = tabbarController.selectedViewController as! UINavigationController
+        let homeVC = navigationController.viewControllers.first!
+       
+        let urlString = deeplink.absoluteString
+        let path = urlString.replacingOccurrences(of: "hmoa://", with: "").split(separator: "/")
+        let category = String(path[0])
+        let ID = Int(String(path[1]))!
+        print(deeplink)
+        switch category {
+        case "community":
+            homeVC.presentCommunityDetailVC(ID)
+        case "perfume":
+            homeVC.presentDetailViewController(ID)
+            // TODO: 댓글 목록으로 이동
+        default:
+            print("unknown category: \(category)")
+        }
+    }
+    
+    
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

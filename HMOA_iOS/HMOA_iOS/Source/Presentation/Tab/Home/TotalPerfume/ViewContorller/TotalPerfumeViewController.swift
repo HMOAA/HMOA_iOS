@@ -81,7 +81,7 @@ extension TotalPerfumeViewController {
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner,  perfume in
-                owner.presentDatailViewController(perfume.perfumeId)
+                owner.presentDetailViewController(perfume.perfumeId)
             })
             .disposed(by: disposeBag)
         

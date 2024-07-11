@@ -168,7 +168,7 @@ class MyLogCommentViewController: UIViewController, View {
             .compactMap { $0 }
             .map { ($0, nil) }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: presentDatailViewController)
+            .drive(onNext: presentDetailViewController)
             .disposed(by: disposeBag)
         
         // 커뮤니티 게시글로 push

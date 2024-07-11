@@ -103,7 +103,7 @@ extension BrandDetailViewController {
             .compactMap { $0.presentPerfumeId }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, id in
-                owner.presentDatailViewController(id, reactor.service)
+                owner.presentDetailViewController(id, reactor.service)
             })
             .disposed(by: disposeBag)
         
