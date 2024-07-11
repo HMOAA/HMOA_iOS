@@ -153,7 +153,7 @@ extension UIViewController {
     }
     
     /// PerfumeDetailVC로 push
-    func presentDatailViewController(_ id: Int, _ service: BrandDetailService? = nil) {
+    func presentDetailViewController(_ id: Int, _ service: BrandDetailService? = nil) {
         let reactor = DetailViewReactor(perfumeId: id, service: service)
         let detailVC = DetailViewController()
         detailVC.reactor = reactor
@@ -260,6 +260,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(magazineDetailVC, animated: true)
     }
     
+    /// NotificationDetailVC로 push
+    func presentPushAlarmViewController() {
+        let pushAlarmVC = PushAlarmViewController()
+        pushAlarmVC.reactor = PushAlarmReactor()
+        self.navigationController?.pushViewController(pushAlarmVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
@@ -291,23 +298,6 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [brandButton]
         self.navigationItem.rightBarButtonItems = [bellButton, searchButton]
-    }
-    
-    func setSearchBellNaviBar(_ title: String) {
-        let titleLabel = UILabel().then {
-            $0.text = title
-            $0.font = .customFont(.pretendard_medium, 20)
-            $0.textColor = .black
-        }
-        
-        let brandButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToBrand), imageName: "homeMenu")
-        
-        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
-
-        
-        self.navigationItem.titleView = titleLabel
-        self.navigationItem.leftBarButtonItems = [brandButton]
-        self.navigationItem.rightBarButtonItems = [searchButton]
     }
     
     /// BackButton만 있는 NavigationBar
@@ -346,6 +336,27 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
         self.navigationItem.rightBarButtonItems = [homeButton]
+    }
+    
+    /// Back버튼과 Bell 버튼 NavigationBar
+    func setBackBellNaviBar(_ title: String, bellButton: UIBarButtonItem) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+        appearance.shadowColor = .white
+        
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+        self.navigationItem.rightBarButtonItems = [bellButton]
     }
     
     /// 투명 NavigationBar
@@ -470,6 +481,11 @@ extension UIViewController {
 //        }
 //        
 //        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    /// 알림 권한 요청 및 On/Off
+    @objc func pushAlarmSetting() {
+        // TODO: 알림 권한 요청 및 On/Off 기능 구현
     }
     
     // MARK: - UI Function

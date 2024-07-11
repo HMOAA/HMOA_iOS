@@ -10,6 +10,8 @@ import Foundation
 enum PushAlarmAddress {
     case postFcmToken
     case deleteFcmToken
+    case fetchAlarmList
+    case putReadAlarm(Int)
 }
 
 extension PushAlarmAddress {
@@ -19,6 +21,10 @@ extension PushAlarmAddress {
             return "fcm/save"
         case .deleteFcmToken:
             return "fcm/delete"
+        case .fetchAlarmList:
+            return "fcm/list"
+        case .putReadAlarm(let id):
+            return "fcm/read/\(id)"
         }
     }
 }
