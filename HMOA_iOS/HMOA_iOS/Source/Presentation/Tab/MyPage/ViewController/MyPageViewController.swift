@@ -191,14 +191,6 @@ extension MyPageViewController {
                     .disposed(by: cell.disposeBag)
                 
                 self.reactor.state
-                    .map { $0.isSetOnSwitch }
-                    .compactMap { $0 }
-                    .distinctUntilChanged()
-                    .observe(on: MainScheduler.instance)
-                    .bind(to: self.alarmSwitch.rx.isOn)
-                    .disposed(by: cell.disposeBag)
-                
-                self.reactor.state
                     .map { $0.isOnSwitch }
                     .skip(1)
                     .compactMap { $0 }
@@ -207,8 +199,8 @@ extension MyPageViewController {
                     .bind(with: self) { owner, isOn in
                         if isOn && owner.reactor.currentState.isPushSetting {
                             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                            
                         }
+                        owner.alarmSwitch.isOn = isOn
                         owner.loginManger.isUserSettingAlarm.onNext(isOn)
                         owner.reactor.action.onNext(.networkingFcmTokenAPI(isOn))
                     }

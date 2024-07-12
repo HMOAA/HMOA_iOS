@@ -56,7 +56,6 @@ class MyPageReactor: Reactor {
         var isDelete: Bool = false
         var isUserSetting: Bool? = nil
         var isOnSwitch: Bool? = nil
-        var isSetOnSwitch: Bool? = nil
         var isPushSetting: Bool = false
     }
     
@@ -162,12 +161,12 @@ class MyPageReactor: Reactor {
         case .setIsPushAlarm(let isPush):
             state.isPushSetting = !isPush
             if let isAlarm = state.isUserSetting {
-                state.isSetOnSwitch = isAlarm && isPush
-            } else { state.isSetOnSwitch = isPush }
+                state.isOnSwitch = isAlarm && isPush
+            } else { state.isOnSwitch = isPush }
             
         case .setUserSetting(let setting):
             state.isUserSetting = setting
-            state.isSetOnSwitch = setting
+            state.isOnSwitch = setting
             UserDefaults.standard.set(setting, forKey: "alarm")
             
         case .setIsOnSwitch(let isOn):
