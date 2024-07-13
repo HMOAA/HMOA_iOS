@@ -27,6 +27,7 @@ class HBTISurveyViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setUI()
     }
     
     // MARK: - Bind
@@ -41,4 +42,9 @@ class HBTISurveyViewController: UIViewController, View {
     }
     
     // MARK: - Functions
+    
+    // MARK: Set UI
+    func setUI() {
+        setBackItemNaviBar("향BTI")
+    }
 }
