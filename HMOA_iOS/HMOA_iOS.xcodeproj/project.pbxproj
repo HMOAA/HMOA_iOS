@@ -118,6 +118,8 @@
 		C904BFA42BA9616200B28494 /* MagazineContentsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */; };
 		C904BFA62BA9617E00B28494 /* MagazineContentsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA52BA9617E00B28494 /* MagazineContentsImageCell.swift */; };
 		C93BFA6D2C428E9300A5D9D2 /* IntroViewHBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */; };
+		C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */; };
+		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
 		C94EE0AF2C1FFBC9005EDC95 /* PushAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */; };
 		C94EE0B22C1FFEDD005EDC95 /* PushAlarmReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */; };
 		C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */; };
@@ -416,6 +418,8 @@
 		C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineContentsHeaderCell.swift; sourceTree = "<group>"; };
 		C904BFA52BA9617E00B28494 /* MagazineContentsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineContentsImageCell.swift; sourceTree = "<group>"; };
 		C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewHBTI.swift; sourceTree = "<group>"; };
+		C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyReactor.swift; sourceTree = "<group>"; };
+		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
 		C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmViewController.swift; sourceTree = "<group>"; };
 		C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmReactor.swift; sourceTree = "<group>"; };
 		C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineTagCell.swift; sourceTree = "<group>"; };
@@ -1430,6 +1434,39 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */ = {
+			isa = PBXGroup;
+			children = (
+				C93BFA712C4295FC00A5D9D2 /* Reactor */,
+				C93BFA732C4295FC00A5D9D2 /* View */,
+				C93BFA752C4295FC00A5D9D2 /* ViewController */,
+			);
+			path = HBTISurvey;
+			sourceTree = "<group>";
+		};
+		C93BFA712C4295FC00A5D9D2 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		C93BFA732C4295FC00A5D9D2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C93BFA752C4295FC00A5D9D2 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		C94EE0AA2C1FFB71005EDC95 /* PushAlarm */ = {
 			isa = PBXGroup;
 			children = (
@@ -1601,6 +1638,7 @@
 			isa = PBXGroup;
 			children = (
 				C96F760D2C40065600D44773 /* HBTI */,
+				C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */,
 			);
 			path = HBTI;
 			sourceTree = "<group>";
@@ -2640,6 +2678,7 @@
 				CA4744692AC7EC0E00003584 /* CommunityAPI.swift in Sources */,
 				C96CD7422BA88010005C9856 /* MagazineDetailHeaderView.swift in Sources */,
 				CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */,
+				C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */,
 				CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */,
@@ -2703,6 +2742,7 @@
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				CA01609B2AB2E45700D5839D /* EvaluationAPI.swift in Sources */,
 				CA47446D2AC7ECED00003584 /* CommunityModel.swift in Sources */,
+				C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */,
 				2CD0235E2A080D4500459801 /* MyProfileType.swift in Sources */,
 				CA6152BB2A6A8007007B04A7 /* Brand.swift in Sources */,
 				2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */,
