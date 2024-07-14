@@ -25,7 +25,7 @@ class HBTISurveyViewController: UIViewController, View {
     
     private lazy var hbtiSurveyCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: <#T##UICollectionViewLayout#>
+        collectionViewLayout: createLayout()
     )
     
     // MARK: - Properties
@@ -78,5 +78,48 @@ class HBTISurveyViewController: UIViewController, View {
             make.top.equalTo(progressBar.snp.bottom).offset(32)
             make.horizontalEdges.equalToSuperview()
         }
+    }
+    
+    // MARK: Create Layout
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let questionGroup = self.createGroup(estimatedHeight: 20)
+            
+            let answerGroup = self.createGroup(estimatedHeight: 50)
+            
+            let combinedGroupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(300)
+            )
+            let combinedGroup = NSCollectionLayoutGroup.vertical(
+                layoutSize: combinedGroupSize,
+                subitems: [questionGroup, answerGroup]
+            )
+            
+            let section = NSCollectionLayoutSection(group: combinedGroup)
+            section.orthogonalScrollingBehavior = .groupPagingCentered
+            section.interGroupSpacing = 8
+            
+            return section
+        }
+        return layout
+    }
+    
+    private func createGroup(estimatedHeight height : CGFloat) -> NSCollectionLayoutGroup {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(height)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(height)
+        )
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        return group
     }
 }
