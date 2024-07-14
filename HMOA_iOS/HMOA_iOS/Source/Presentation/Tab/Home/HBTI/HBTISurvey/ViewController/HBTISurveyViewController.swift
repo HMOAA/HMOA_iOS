@@ -7,7 +7,6 @@
 
 import UIKit
 
-import SnapKit
 import ReactorKit
 import RxCocoa
 import RxSwift
@@ -23,6 +22,11 @@ class HBTISurveyViewController: UIViewController, View {
         $0.trackTintColor = .customColor(.gray1)
         $0.progress = 0.1
     }
+    
+    private lazy var hbtiSurveyCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: <#T##UICollectionViewLayout#>
+    )
     
     // MARK: - Properties
     
@@ -52,21 +56,27 @@ class HBTISurveyViewController: UIViewController, View {
     // MARK: - Functions
     
     // MARK: Set UI
-    func setUI() {
+    private func setUI() {
         setBackItemNaviBar("향BTI")
     }
     
     // MARK: Add Views
-    func setAddView() {
-        [progressBar
+    private func setAddView() {
+        [progressBar,
+         hbtiSurveyCollectionView
         ].forEach { view.addSubview($0) }
     }
     
     // MARK: Set Constraints
-    func setConstraints() {
+    private func setConstraints() {
         progressBar.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(12)
             make.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
+        hbtiSurveyCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(progressBar.snp.bottom).offset(32)
+            make.horizontalEdges.equalToSuperview()
         }
     }
 }
