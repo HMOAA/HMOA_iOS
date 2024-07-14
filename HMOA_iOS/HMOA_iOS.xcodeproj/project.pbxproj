@@ -148,6 +148,8 @@
 		C9819D772C3302270046FE55 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9819D762C3302260046FE55 /* NoItemView.swift */; };
 		C98424592C4299E200530259 /* HBTISurveyQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */; };
 		C984245D2C429C1300530259 /* HBTISurveyAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984245C2C429C1300530259 /* HBTISurveyAnswerCell.swift */; };
+		C98424602C43D42400530259 /* HBTISurveySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984245F2C43D42400530259 /* HBTISurveySection.swift */; };
+		C98424642C43D54200530259 /* HBTIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98424632C43D54200530259 /* HBTIModel.swift */; };
 		C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */; };
 		C98E04282C2C6CE500225624 /* PushAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E04272C2C6CE500225624 /* PushAlarmCell.swift */; };
 		C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */; };
@@ -450,6 +452,8 @@
 		C9819D762C3302260046FE55 /* NoItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
 		C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyQuestionCell.swift; sourceTree = "<group>"; };
 		C984245C2C429C1300530259 /* HBTISurveyAnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyAnswerCell.swift; sourceTree = "<group>"; };
+		C984245F2C43D42400530259 /* HBTISurveySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveySection.swift; sourceTree = "<group>"; };
+		C98424632C43D54200530259 /* HBTIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIModel.swift; sourceTree = "<group>"; };
 		C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification++Extensions.swift"; sourceTree = "<group>"; };
 		C98E04272C2C6CE500225624 /* PushAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmCell.swift; sourceTree = "<group>"; };
 		C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmSection.swift; sourceTree = "<group>"; };
@@ -1252,6 +1256,7 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				C98424612C43D50200530259 /* HBTI */,
 				C96CD74C2BA8803D005C9856 /* Magazine */,
 				CA5E872B2B2AECEB006DD2FA /* PushAlarm */,
 				CA99A6CF2B1216D60030364F /* Report */,
@@ -1441,6 +1446,7 @@
 		C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */ = {
 			isa = PBXGroup;
 			children = (
+				C984245E2C43D40200530259 /* Model */,
 				C93BFA712C4295FC00A5D9D2 /* Reactor */,
 				C93BFA732C4295FC00A5D9D2 /* View */,
 				C93BFA752C4295FC00A5D9D2 /* ViewController */,
@@ -1683,6 +1689,30 @@
 				C96F76042C3FB35100D44773 /* ViewController */,
 			);
 			path = HBTI;
+			sourceTree = "<group>";
+		};
+		C984245E2C43D40200530259 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C984245F2C43D42400530259 /* HBTISurveySection.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C98424612C43D50200530259 /* HBTI */ = {
+			isa = PBXGroup;
+			children = (
+				C98424622C43D51700530259 /* Model */,
+			);
+			path = HBTI;
+			sourceTree = "<group>";
+		};
+		C98424622C43D51700530259 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C98424632C43D54200530259 /* HBTIModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		C98E04262C2C6CA300225624 /* View */ = {
@@ -2685,6 +2715,7 @@
 				C96CD7422BA88010005C9856 /* MagazineDetailHeaderView.swift in Sources */,
 				CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */,
 				C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */,
+				C98424602C43D42400530259 /* HBTISurveySection.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */,
 				CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */,
@@ -2912,6 +2943,7 @@
 				C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
 				C9D161E52C1FF2550032FE78 /* IgnoerData.swift in Sources */,
+				C98424642C43D54200530259 /* HBTIModel.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
