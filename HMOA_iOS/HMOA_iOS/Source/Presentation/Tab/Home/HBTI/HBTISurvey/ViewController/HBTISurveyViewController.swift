@@ -41,6 +41,8 @@ class HBTISurveyViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
     
+    private var dataSource: UICollectionViewDiffableDataSource<HBTISurveySection, HBTISurveyItem>?
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -49,6 +51,7 @@ class HBTISurveyViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        configureDataSource()
     }
     
     // MARK: - Bind
@@ -130,5 +133,35 @@ class HBTISurveyViewController: UIViewController, View {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         return group
+    }
+    
+    // MARK: Configure DataSource
+    private func configureDataSource() {
+        dataSource = .init(collectionView: hbtiSurveyCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            
+            switch item {
+            case .question(let question):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HBTISurveyQuestionCell.identifier,
+                    for: indexPath) as! HBTISurveyQuestionCell
+                
+                // TODO: configureCell 정의 후 호출
+                
+                return cell
+                
+            case .answer(let answer):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HBTISurveyAnswerCell.identifier,
+                    for: indexPath) as! HBTISurveyAnswerCell
+                
+                // TODO: configureCell 정의 후 호출
+                
+                return cell
+            }
+        })
+        
+        var initialSnapshot = NSDiffableDataSourceSnapshot<HBTISurveySection, HBTISurveyItem>()
+        initialSnapshot.appendSections([.question])
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
 }
