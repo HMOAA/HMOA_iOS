@@ -37,6 +37,13 @@ class HBTISurveyViewController: UIViewController, View {
         )
     }
     
+    private let nextButton = UIButton().then {
+        $0.setTitle("다음", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 15)
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.cornerRadius = 5
+    }
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -75,7 +82,8 @@ class HBTISurveyViewController: UIViewController, View {
     // MARK: Add Views
     private func setAddView() {
         [progressBar,
-         hbtiSurveyCollectionView
+         hbtiSurveyCollectionView,
+         nextButton
         ].forEach { view.addSubview($0) }
     }
     
@@ -89,6 +97,12 @@ class HBTISurveyViewController: UIViewController, View {
         hbtiSurveyCollectionView.snp.makeConstraints { make in
             make.top.equalTo(progressBar.snp.bottom).offset(32)
             make.horizontalEdges.equalToSuperview()
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(40)
+            make.height.equalTo(52)
         }
     }
     
