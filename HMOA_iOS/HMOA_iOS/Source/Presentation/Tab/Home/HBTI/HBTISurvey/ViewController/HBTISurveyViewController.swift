@@ -26,7 +26,16 @@ class HBTISurveyViewController: UIViewController, View {
     private lazy var hbtiSurveyCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
-    )
+    ).then {
+        $0.register(
+            HBTISurveyQuestionCell.self,
+            forCellWithReuseIdentifier: HBTISurveyQuestionCell.identifier
+        )
+        $0.register(
+            HBTISurveyAnswerCell.self,
+            forCellWithReuseIdentifier: HBTISurveyAnswerCell.identifier
+        )
+    }
     
     // MARK: - Properties
     
