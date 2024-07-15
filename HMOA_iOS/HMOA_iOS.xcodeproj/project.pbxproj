@@ -146,7 +146,6 @@
 		CA01609B2AB2E45700D5839D /* EvaluationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA01609A2AB2E45700D5839D /* EvaluationAPI.swift */; };
 		CA01609D2AB2E46000D5839D /* EvaluationAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA01609C2AB2E46000D5839D /* EvaluationAddress.swift */; };
 		CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0160A42AB2FAE600D5839D /* AttributeString++Extension.swift */; };
-		CA01B2732BFF5C8300A01CEA /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA01B2722BFF5C8300A01CEA /* IgnoerData.swift */; };
 		CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */; };
 		CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */; };
 		CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */; };
@@ -241,6 +240,7 @@
 		CAA5926B2B049197003DAE51 /* ImageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926A2B049197003DAE51 /* ImageListViewController.swift */; };
 		CAA5926D2B049605003DAE51 /* ImageListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA5926C2B049605003DAE51 /* ImageListReactor.swift */; };
 		CABED5512B3186E40030874F /* BrandDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABED5502B3186E40030874F /* BrandDetailService.swift */; };
+		CAC466CA2C40EA6900FA3983 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC466C92C40EA6800FA3983 /* IgnoerData.swift */; };
 		CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */; };
 		CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */; };
 		CACE2C6A2B15991100D4116A /* UITextView++Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACE2C692B15991100D4116A /* UITextView++Extension.swift */; };
@@ -433,7 +433,6 @@
 		CA01609A2AB2E45700D5839D /* EvaluationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationAPI.swift; sourceTree = "<group>"; };
 		CA01609C2AB2E46000D5839D /* EvaluationAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationAddress.swift; sourceTree = "<group>"; };
 		CA0160A42AB2FAE600D5839D /* AttributeString++Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributeString++Extension.swift"; sourceTree = "<group>"; };
-		CA01B2722BFF5C8300A01CEA /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		CA03C23D29EBED6C00FA0D2C /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		CA051CAF297FDA0F001865F5 /* UserInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationViewController.swift; sourceTree = "<group>"; };
 		CA0CBBB12A205B1900CBA58F /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
@@ -528,6 +527,7 @@
 		CAA5926A2B049197003DAE51 /* ImageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewController.swift; sourceTree = "<group>"; };
 		CAA5926C2B049605003DAE51 /* ImageListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListReactor.swift; sourceTree = "<group>"; };
 		CABED5502B3186E40030874F /* BrandDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandDetailService.swift; sourceTree = "<group>"; };
+		CAC466C92C40EA6800FA3983 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		CACAD39229C9E418001D28E1 /* LoginStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartViewController.swift; sourceTree = "<group>"; };
 		CACAD39429C9EA89001D28E1 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		CACE2C692B15991100D4116A /* UITextView++Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView++Extension.swift"; sourceTree = "<group>"; };
@@ -1532,7 +1532,7 @@
 		C96CD7522BA8805B005C9856 /* Key */ = {
 			isa = PBXGroup;
 			children = (
-				CA01B2722BFF5C8300A01CEA /* IgnoerData.swift */,
+				CAC466C92C40EA6800FA3983 /* IgnoerData.swift */,
 			);
 			path = Key;
 			sourceTree = "<group>";
@@ -2651,7 +2651,7 @@
 				CA360F3629DD643600A93873 /* HPediaGuideData.swift in Sources */,
 				2C4CDC4C29C770D900676163 /* BrandSearchReactor.swift in Sources */,
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
-				CA01B2732BFF5C8300A01CEA /* IgnoerData.swift in Sources */,
+				CAC466CA2C40EA6900FA3983 /* IgnoerData.swift in Sources */,
 				2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */,
 				CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */,
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
@@ -2930,7 +2930,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hyungyu.HMOA-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2979,7 +2979,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hyungyu.HMOA-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
