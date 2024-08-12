@@ -2,19 +2,14 @@
 //  HBTIProcessInnerView.swift
 //  HMOA_iOS
 //
-//  Created by HyoTaek on 7/30/24.
+//  Created by HyoTaek on 7/29/24.
 //
 
 import UIKit
 import SnapKit
 import Then
-import RxSwift
-import RxCocoa
 
 class HBTIProcessGuideView: UIView {
-    let nextButtonTapped = PublishRelay<Void>()
-    private let disposeBag = DisposeBag()
-    
     // MARK: - UI Components
     
     private let processFullStackView = UIStackView().then {
@@ -24,7 +19,17 @@ class HBTIProcessGuideView: UIView {
     }
     
     private var processPartStackViews: [UIStackView] = []
-    private let nextButton = UIButton()
+    
+    private let lineView = UIView().then {
+        $0.backgroundColor = UIColor.customColor(.searchBarColor)
+    }
+    
+    lazy var nextButton = UIButton().then {
+        $0.setTitle("다음", for: .normal)
+        $0.backgroundColor = .black
+        $0.layer.cornerRadius = 5
+        $0.titleLabel?.font = UIFont.customFont(.pretendard_semibold, 18)
+    }
     
     // MARK: - Init
     
@@ -43,36 +48,19 @@ class HBTIProcessGuideView: UIView {
     // MARK: - Set UI
     
     private func setUI() {
-        let items = [
-            ("향료 선택", "향BTI 검사 이후 추천하는 향료, 원하는 향료 선택\n(기격대 상이)"),
-            ("배송", "결제 후 1-2일 내 배송 완료"),
-            ("향수 추천", "시향 후 가장 좋았던 향료 선택, 향수 추천 받기")
-        ]
-        
-        for (index, item) in items.enumerated() {
-            let partStackView = createItemView(number: index + 1, title: item.0, description: item.1)
-            processPartStackViews.append(partStackView)
-        }
-        
-        makeHBTIButton(
-            nextButton,
-            withTitle: "다음",
-            withState: .normal
-        )
-        
-        bindButton()
+        createPartStackView()
     }
     
     // MARK: - Set AddView
     
     private func setAddView() {
-        [processFullStackView,
+        [
+         processFullStackView,
          nextButton
-        ].forEach { self.addSubview($0) }
+        ].forEach(self.addSubview)
         
-        processPartStackViews.forEach {
-            processFullStackView.addArrangedSubview($0)
-        }
+        processFullStackView.addSubview(lineView)
+        processPartStackViews.forEach(processFullStackView.addArrangedSubview)
     }
     
     // MARK: - Set Constraints
@@ -80,24 +68,36 @@ class HBTIProcessGuideView: UIView {
     private func setConstraints() {
         processFullStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        lineView.snp.makeConstraints {
+            $0.width.equalTo(1)
+            $0.top.equalTo(processPartStackViews.first!.snp.top).offset(10)
+            $0.bottom.equalTo(processPartStackViews.last!.snp.top)
+            $0.leading.equalTo(processPartStackViews.first!).offset(9)
         }
         
         nextButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(628)
-            $0.width.equalTo(328)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(40)
             $0.height.equalTo(52)
         }
     }
     
     // MARK: - Make PartStackView
     
+    private func createPartStackView() {
+        for data in HBTIProcessGuideData.data {
+            let partStackView = createItemView(number: data.index, title: data.title, description: data.description)
+            processPartStackViews.append(partStackView)
+        }
+    }
+    
     private func createItemView(number: Int, title: String, description: String) -> UIStackView {
         let processPartStackView = UIStackView().then {
             $0.axis = .horizontal
-            $0.spacing = 10
+            $0.spacing = 12
             $0.alignment = .top
         }
         
@@ -107,11 +107,11 @@ class HBTIProcessGuideView: UIView {
         
         let processRightStackView = UIStackView().then {
             $0.axis = .vertical
-            $0.spacing = 5
+            $0.spacing = 6
         }
         
         let numberLabel = UILabel().then {
-            $0.setLabelUI("\(number)", font: .pretendard, size: 12, color: .black)
+            $0.setLabelUI("\(number)", font: .pretendard_medium, size: 12, color: .black)
             $0.textAlignment = .center
             $0.backgroundColor = UIColor.customColor(.searchBarColor)
             $0.layer.cornerRadius = 10
@@ -128,27 +128,21 @@ class HBTIProcessGuideView: UIView {
         }
         
         processLeftStackView.addArrangedSubview(numberLabel)
-        [titleLabel, descriptionLabel].forEach { processRightStackView.addArrangedSubview($0) }
         
-        [processLeftStackView, processRightStackView].forEach { processPartStackView.addArrangedSubview($0) }
+        [
+         titleLabel,
+         descriptionLabel
+        ].forEach(processRightStackView.addArrangedSubview)
         
-        numberLabel.snp.makeConstraints { make in
-            make.width.height.equalTo(20)
+        [
+         processLeftStackView,
+         processRightStackView
+        ].forEach(processPartStackView.addArrangedSubview)
+        
+        numberLabel.snp.makeConstraints {
+            $0.width.height.equalTo(20)
         }
         
         return processPartStackView
-    }
-    
-    private func bindButton() {
-        nextButton.rx.tap
-            .bind(to: nextButtonTapped)
-            .disposed(by: disposeBag)
-    }
-    
-    func makeHBTIButton(_ button: UIButton, withTitle title: String, withState state: UIControl.State) {
-        button.setTitle(title, for: state)
-        button.setTitleColor(.white, for: state)
-        button.backgroundColor = .black
-        button.layer.cornerRadius = 5
     }
 }

@@ -10,7 +10,7 @@ import RxSwift
 class HBTIReactor: Reactor {
     
     enum Action {
-        
+   
     }
     
     enum Mutation {
@@ -28,7 +28,7 @@ class HBTIReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        
+
     }
     
     func reduce(state: State, mutation: Mutation) -> State {

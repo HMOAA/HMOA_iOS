@@ -13,49 +13,47 @@ import ReactorKit
 
 class HBTIProcessGuideViewController: UIViewController, View {
     var disposeBag = DisposeBag()
-    
-    private let hbtiProcessInnerView = HBTIProcessGuideView()
-    private let hbtiSelectionView = HBTIQuantitySelctionView()
+    private let hbtiProcessGuideView = HBTIProcessGuideView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUI()
-        setupView()
-        setupConstraints()
+        setAddView()
+        setConstraints()
     }
     
     private func setUI() {
         setClearBackNaviBar("향BTI", .black)
     }
     
-    private func setupView() {
-        [hbtiProcessInnerView
-         ].forEach {
-            view.addSubview($0)
-        }
-
+    private func setAddView() {
+        view.addSubview(hbtiProcessGuideView)
     }
     
-    private func setupConstraints() {
-        hbtiProcessInnerView.snp.makeConstraints {
+    private func setConstraints() {
+        hbtiProcessGuideView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
     
-    func bind(reactor: HBTIDetailReactor) {
-        hbtiProcessInnerView.nextButtonTapped
-            .subscribe(onNext: { [weak self] in
-                self?.showQuantitySelectionView()
+    func bind(reactor: HBTIProcessGuideReactor) {
+        // 다음 버튼 터치 이벤트
+        hbtiProcessGuideView.nextButton.rx.tap
+            .map { HBTIProcessGuideReactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                let quantityVC = HBTIQuantitySelectionViewController(reactor: HBTIQuantitySelectionReactor())
+                owner.navigationController?.pushViewController(quantityVC, animated: true)
             })
             .disposed(by: disposeBag)
+            
     }
-    
-    private func showQuantitySelectionView() {
-        let quantitySelectionView = HBTIQuantitySelctionView()
-        let quantitySelectionVC = UIViewController()
-        quantitySelectionVC.view = quantitySelectionView
-        navigationController?.pushViewController(quantitySelectionVC, animated: true)
-    }
-
 }

@@ -275,6 +275,21 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiVC, animated: true)
     }
     
+    
+    
+    
+    // MARK: 테스트 코드 작성(HBTIDetail 이동)
+    func presentHBTIDetailViewController() {
+        let hbtiDetailVC = HBTIProcessGuideViewController()
+        hbtiDetailVC.reactor = HBTIProcessGuideReactor()
+        hbtiDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiDetailVC, animated: true)
+    }
+    
+    
+    
+    
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar

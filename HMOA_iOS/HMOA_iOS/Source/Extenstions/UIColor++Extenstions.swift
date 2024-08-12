@@ -30,7 +30,7 @@ extension UIColor {
     static func customColor(_ color: Colors) -> UIColor {
         switch color {
         case .tabbarColor:
-            return #colorLiteral(red: 0.3999999464, green: 0.3999999464, blue: 0.3999999464, alpha: 1)
+            return #colorLiteral(red: 0.3999999762, green: 0.3999999762, blue: 0.3999999762, alpha: 1)
         case .searchBarColor:
             return #colorLiteral(red: 0.8509805202, green: 0.8509804606, blue: 0.8509804606, alpha: 1)
         case .labelGrayColor:

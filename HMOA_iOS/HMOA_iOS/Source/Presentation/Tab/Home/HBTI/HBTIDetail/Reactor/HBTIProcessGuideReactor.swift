@@ -10,15 +10,15 @@ import ReactorKit
 
 class HBTIProcessGuideReactor: Reactor {
     enum Action {
-        case nextButtonTapped
+        case didTapNextButton
     }
     
     enum Mutation {
-        case setShowQuantitySelection(Bool)
+        case setIsPushNextVC(Bool)
     }
     
     struct State {
-        var showQuantitySelection: Bool = false
+        var isPushNextVC: Bool = false
     }
     
     var initialState: State
@@ -29,17 +29,17 @@ class HBTIProcessGuideReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .nextButtonTapped:
-            return .just(.setShowQuantitySelection(true))
+        case .didTapNextButton:
+            return .just(.setIsPushNextVC(true))
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        var newState = state
+        var state = state
         switch mutation {
-        case .setShowQuantitySelection(let show):
-            newState.showQuantitySelection = show
+        case .setIsPushNextVC(let isPush):
+            state.isPushNextVC = isPush
         }
-        return newState
+        return state
     }
 }

@@ -48,9 +48,9 @@ class HBTIViewController: UIViewController, View {
         
         
         // MARK: State
-        
+
     }
-    
+     
     // MARK: - Functions
     
     private func setUI() {

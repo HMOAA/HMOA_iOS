@@ -112,7 +112,25 @@
 		2CD023632A092A5200459801 /* UserYearService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023622A092A5200459801 /* UserYearService.swift */; };
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
-		45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
+		3F296F942C5783D600514F51 /* HBTIProcessGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F296F932C5783D600514F51 /* HBTIProcessGuideReactor.swift */; };
+		3F296F962C5783E700514F51 /* HBTIProcessGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F296F952C5783E700514F51 /* HBTIProcessGuideViewController.swift */; };
+		3F296F982C57D22100514F51 /* HBTIQuantitySelctionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F296F972C57D22100514F51 /* HBTIQuantitySelctionView.swift */; };
+		3F296F9A2C57F6B500514F51 /* HBTIProcessGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F296F992C57F6B500514F51 /* HBTIProcessGuideView.swift */; };
+		3F382A682C5BC1F900324CBA /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F382A672C5BC1F900324CBA /* IgnoerData.swift */; };
+		3F60160C2C5918A100866993 /* HBTIQuantitySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60160B2C5918A100866993 /* HBTIQuantitySelectionViewController.swift */; };
+		3F60160E2C591AE300866993 /* HBTINotesCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60160D2C591AE300866993 /* HBTINotesCategoryView.swift */; };
+		3F6016102C591AF400866993 /* HBTINotesCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60160F2C591AF400866993 /* HBTINotesCategoryViewController.swift */; };
+		3F6016122C592D7400866993 /* HBTIQuantitySelectionReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6016112C592D7400866993 /* HBTIQuantitySelectionReactor.swift */; };
+		3F6016142C592D8500866993 /* HBTINotesCategoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6016132C592D8500866993 /* HBTINotesCategoryReactor.swift */; };
+		3FD0C9042C6717E50046386E /* HBTIProcessGuideData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0C9032C6717E50046386E /* HBTIProcessGuideData.swift */; };
+		3FD0C9062C67211F0046386E /* HBTIQuantitySelectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0C9052C67211F0046386E /* HBTIQuantitySelectionData.swift */; };
+		3FD0C9082C6729D00046386E /* HBTINotesCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0C9072C6729D00046386E /* HBTINotesCategoryData.swift */; };
+		3FD651052C61D6B200E80087 /* HBTINotesResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD651042C61D6B200E80087 /* HBTINotesResultReactor.swift */; };
+		3FD651072C61D6C100E80087 /* HBTINotesResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD651062C61D6C100E80087 /* HBTINotesResultView.swift */; };
+		3FD651092C61D6D100E80087 /* HBTINotesResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD651082C61D6D100E80087 /* HBTINotesResultViewController.swift */; };
+		80CC519AD71E4F97ED88D0C2 /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2AFBB7E947AA1C84A5C6F16 /* Pods_HMOA_iOSTests.framework */; };
+		963D3C94FA05F221684200C0 /* Pods_HMOA_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFAC1A61E4940FAEDADAF080 /* Pods_HMOA_iOS.framework */; };
+		A9FBF3A68939C6170F572AB3 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D662389389429D99C67208E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 		C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */; };
 		C904BFA22BA95CF000B28494 /* MagazineLikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */; };
 		C904BFA42BA9616200B28494 /* MagazineContentsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */; };
@@ -150,7 +168,6 @@
 		C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E042F2C2CE83100225624 /* PushAlarm.swift */; };
 		C99E7B692BA96DE200F359BC /* MagazineDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */; };
 		C99E7B6B2BA9F0B500F359BC /* MagazineDetailLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */; };
-		C9D161E52C1FF2550032FE78 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D161E42C1FF2550032FE78 /* IgnoerData.swift */; };
 		CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */; };
 		CA0027C72B2C60F8001DEAE3 /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */; };
 		CA0160962AB0B11100D5839D /* SecondDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0160952AB0B11100D5839D /* SecondDetail.swift */; };
@@ -272,8 +289,6 @@
 		CAFE2F1E2B0F414700054E22 /* HpediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F1D2B0F414700054E22 /* HpediaType.swift */; };
 		CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F202B0F42FD00054E22 /* HPediaAPI.swift */; };
 		CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFE2F222B0F431000054E22 /* HPediaAddress.swift */; };
-		E7450E84FE42AFB39EE55A0F /* Pods_HMOA_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */; };
-		E93FF92B43DB4A2914DF2E8D /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -294,9 +309,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS_HMOA_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C0E120ACBE9C120092E40F1 /* Pods-HMOA_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		21E26D795690DFD94CF3E55E /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		2C04246029A37F7B009CF0FE /* HomeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewReactor.swift; sourceTree = "<group>"; };
 		2C04246529A39C30009CF0FE /* HomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSection.swift; sourceTree = "<group>"; };
 		2C04246829A3A992009CF0FE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -406,11 +418,30 @@
 		2CD023622A092A5200459801 /* UserYearService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserYearService.swift; sourceTree = "<group>"; };
 		2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageViewController.swift; sourceTree = "<group>"; };
 		2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageReactor.swift; sourceTree = "<group>"; };
-		3192AEB7DBBC796C18F3F3DA /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3242DF2267B938558E6D105 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3F296F932C5783D600514F51 /* HBTIProcessGuideReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideReactor.swift; sourceTree = "<group>"; };
+		3F296F952C5783E700514F51 /* HBTIProcessGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideViewController.swift; sourceTree = "<group>"; };
+		3F296F972C57D22100514F51 /* HBTIQuantitySelctionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelctionView.swift; sourceTree = "<group>"; };
+		3F296F992C57F6B500514F51 /* HBTIProcessGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideView.swift; sourceTree = "<group>"; };
+		3F382A672C5BC1F900324CBA /* IgnoerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
+		3F60160B2C5918A100866993 /* HBTIQuantitySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectionViewController.swift; sourceTree = "<group>"; };
+		3F60160D2C591AE300866993 /* HBTINotesCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryView.swift; sourceTree = "<group>"; };
+		3F60160F2C591AF400866993 /* HBTINotesCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryViewController.swift; sourceTree = "<group>"; };
+		3F6016112C592D7400866993 /* HBTIQuantitySelectionReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectionReactor.swift; sourceTree = "<group>"; };
+		3F6016132C592D8500866993 /* HBTINotesCategoryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryReactor.swift; sourceTree = "<group>"; };
+		3FD0C9032C6717E50046386E /* HBTIProcessGuideData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideData.swift; sourceTree = "<group>"; };
+		3FD0C9052C67211F0046386E /* HBTIQuantitySelectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectionData.swift; sourceTree = "<group>"; };
+		3FD0C9072C6729D00046386E /* HBTINotesCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryData.swift; sourceTree = "<group>"; };
+		3FD651042C61D6B200E80087 /* HBTINotesResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultReactor.swift; sourceTree = "<group>"; };
+		3FD651062C61D6C100E80087 /* HBTINotesResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultView.swift; sourceTree = "<group>"; };
+		3FD651082C61D6D100E80087 /* HBTINotesResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultViewController.swift; sourceTree = "<group>"; };
+		4D662389389429D99C67208E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS_HMOA_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		587A8BCD4D51F8817ABD3C16 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		6CF0018A422D19F4556647F3 /* Pods-HMOA_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		7040F52802E73018D2B7F7EA /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8D2F5FDA0B2FE4FDD9B5C82F /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AEEA5D27017738962EFCA6D1 /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		B2AFBB7E947AA1C84A5C6F16 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3B08E8C588E53A74D31467F /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineInfoCell.swift; sourceTree = "<group>"; };
 		C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineLikeCell.swift; sourceTree = "<group>"; };
 		C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineContentsHeaderCell.swift; sourceTree = "<group>"; };
@@ -448,7 +479,6 @@
 		C98E042F2C2CE83100225624 /* PushAlarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarm.swift; sourceTree = "<group>"; };
 		C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailItem.swift; sourceTree = "<group>"; };
 		C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailLineView.swift; sourceTree = "<group>"; };
-		C9D161E42C1FF2550032FE78 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
 		CA0160952AB0B11100D5839D /* SecondDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondDetail.swift; sourceTree = "<group>"; };
@@ -570,7 +600,7 @@
 		CAFE2F1D2B0F414700054E22 /* HpediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpediaType.swift; sourceTree = "<group>"; };
 		CAFE2F202B0F42FD00054E22 /* HPediaAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaAPI.swift; sourceTree = "<group>"; };
 		CAFE2F222B0F431000054E22 /* HPediaAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPediaAddress.swift; sourceTree = "<group>"; };
-		DB046C8870182D3E4D31B012 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		CFAC1A61E4940FAEDADAF080 /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -579,7 +609,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA4C68FF2AFCFC2E0039FB0E /* PretendardKit in Frameworks */,
-				E7450E84FE42AFB39EE55A0F /* Pods_HMOA_iOS.framework in Frameworks */,
+				963D3C94FA05F221684200C0 /* Pods_HMOA_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,7 +617,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E93FF92B43DB4A2914DF2E8D /* Pods_HMOA_iOSTests.framework in Frameworks */,
+				80CC519AD71E4F97ED88D0C2 /* Pods_HMOA_iOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,19 +625,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */,
+				A9FBF3A68939C6170F572AB3 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		118AF3D4D66D908BD331D438 /* Frameworks */ = {
+		17E8F9E53BF926C00983C879 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */,
-				025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */,
-				7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */,
+				CFAC1A61E4940FAEDADAF080 /* Pods_HMOA_iOS.framework */,
+				4D662389389429D99C67208E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */,
+				B2AFBB7E947AA1C84A5C6F16 /* Pods_HMOA_iOSTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -615,12 +645,12 @@
 		1A58281E02322D714CA8DDA3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */,
-				DB046C8870182D3E4D31B012 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */,
-				1C0E120ACBE9C120092E40F1 /* Pods-HMOA_iOSTests.release.xcconfig */,
-				21E26D795690DFD94CF3E55E /* Pods-HMOA_iOS.release.xcconfig */,
-				C3242DF2267B938558E6D105 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */,
-				3192AEB7DBBC796C18F3F3DA /* Pods-HMOA_iOSTests.debug.xcconfig */,
+				7040F52802E73018D2B7F7EA /* Pods-HMOA_iOS.debug.xcconfig */,
+				AEEA5D27017738962EFCA6D1 /* Pods-HMOA_iOS.release.xcconfig */,
+				587A8BCD4D51F8817ABD3C16 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */,
+				B3B08E8C588E53A74D31467F /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */,
+				8D2F5FDA0B2FE4FDD9B5C82F /* Pods-HMOA_iOSTests.debug.xcconfig */,
+				6CF0018A422D19F4556647F3 /* Pods-HMOA_iOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -782,7 +812,7 @@
 				2C39AA38296DB4E0000C6F71 /* HMOA_iOSUITests */,
 				2C39AA13296DB4DE000C6F71 /* Products */,
 				1A58281E02322D714CA8DDA3 /* Pods */,
-				118AF3D4D66D908BD331D438 /* Frameworks */,
+				17E8F9E53BF926C00983C879 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1412,6 +1442,68 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		3F296F8E2C57836300514F51 /* HBTIDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3F296F8F2C57837E00514F51 /* Model */,
+				3F296F902C57838500514F51 /* Reactor */,
+				3F296F912C57838B00514F51 /* View */,
+				3F296F922C57838F00514F51 /* ViewController */,
+			);
+			path = HBTIDetail;
+			sourceTree = "<group>";
+		};
+		3F296F8F2C57837E00514F51 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3FD0C9032C6717E50046386E /* HBTIProcessGuideData.swift */,
+				3FD0C9052C67211F0046386E /* HBTIQuantitySelectionData.swift */,
+				3FD0C9072C6729D00046386E /* HBTINotesCategoryData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3F296F902C57838500514F51 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3F296F932C5783D600514F51 /* HBTIProcessGuideReactor.swift */,
+				3F6016112C592D7400866993 /* HBTIQuantitySelectionReactor.swift */,
+				3F6016132C592D8500866993 /* HBTINotesCategoryReactor.swift */,
+				3FD651042C61D6B200E80087 /* HBTINotesResultReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3F296F912C57838B00514F51 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F296F992C57F6B500514F51 /* HBTIProcessGuideView.swift */,
+				3F296F972C57D22100514F51 /* HBTIQuantitySelctionView.swift */,
+				3F60160D2C591AE300866993 /* HBTINotesCategoryView.swift */,
+				3FD651062C61D6C100E80087 /* HBTINotesResultView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F296F922C57838F00514F51 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F296F952C5783E700514F51 /* HBTIProcessGuideViewController.swift */,
+				3F60160B2C5918A100866993 /* HBTIQuantitySelectionViewController.swift */,
+				3F60160F2C591AF400866993 /* HBTINotesCategoryViewController.swift */,
+				3FD651082C61D6D100E80087 /* HBTINotesResultViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F75A37B2C53D90600C232FA /* Key */ = {
+			isa = PBXGroup;
+			children = (
+				3F382A672C5BC1F900324CBA /* IgnoerData.swift */,
+			);
+			path = Key;
+			sourceTree = "<group>";
+		};
 		C904BFA72BA9646F00B28494 /* ContentsCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1589,18 +1681,11 @@
 			path = Magazine;
 			sourceTree = "<group>";
 		};
-		C96CD7522BA8805B005C9856 /* Key */ = {
-			isa = PBXGroup;
-			children = (
-				C9D161E42C1FF2550032FE78 /* IgnoerData.swift */,
-			);
-			path = Key;
-			sourceTree = "<group>";
-		};
 		C96F76032C3FB34800D44773 /* HBTI */ = {
 			isa = PBXGroup;
 			children = (
 				C96F760D2C40065600D44773 /* HBTI */,
+				3F296F8E2C57836300514F51 /* HBTIDetail */,
 			);
 			path = HBTI;
 			sourceTree = "<group>";
@@ -2178,7 +2263,7 @@
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				C96CD7522BA8805B005C9856 /* Key */,
+				3F75A37B2C53D90600C232FA /* Key */,
 				CADEAE182B43F9E100BC8964 /* Login */,
 				CA051CAC297FD9BD001865F5 /* Start */,
 			);
@@ -2348,12 +2433,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C39AA3F296DB4E0000C6F71 /* Build configuration list for PBXNativeTarget "HMOA_iOS" */;
 			buildPhases = (
-				7D33EDD468C6D04CA392EF8B /* [CP] Check Pods Manifest.lock */,
+				D8A0FF095491B16B257C0D05 /* [CP] Check Pods Manifest.lock */,
 				2C39AA0E296DB4DE000C6F71 /* Sources */,
 				2C39AA0F296DB4DE000C6F71 /* Frameworks */,
 				2C39AA10296DB4DE000C6F71 /* Resources */,
-				9E32903A323B59B3F631685C /* [CP] Embed Pods Frameworks */,
 				CA9C96092BFDCBA9007F2A53 /* FirebaseCrashlytics */,
+				DB035343022CCDEA98665F56 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2371,7 +2456,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C39AA42296DB4E0000C6F71 /* Build configuration list for PBXNativeTarget "HMOA_iOSTests" */;
 			buildPhases = (
-				FA632667C507A2167EDCF6D3 /* [CP] Check Pods Manifest.lock */,
+				5561AC941C811467106842C8 /* [CP] Check Pods Manifest.lock */,
 				2C39AA27296DB4E0000C6F71 /* Sources */,
 				2C39AA28296DB4E0000C6F71 /* Frameworks */,
 				2C39AA29296DB4E0000C6F71 /* Resources */,
@@ -2390,11 +2475,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C39AA45296DB4E0000C6F71 /* Build configuration list for PBXNativeTarget "HMOA_iOSUITests" */;
 			buildPhases = (
-				5CB3DF19D039883685E8612F /* [CP] Check Pods Manifest.lock */,
+				4BBAF90FA1F3CF6605EE5280 /* [CP] Check Pods Manifest.lock */,
 				2C39AA31296DB4E0000C6F71 /* Sources */,
 				2C39AA32296DB4E0000C6F71 /* Frameworks */,
 				2C39AA33296DB4E0000C6F71 /* Resources */,
-				3071B3149461C19A09F02D54 /* [CP] Embed Pods Frameworks */,
+				E629EAB16054EB0C344AB5AF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2482,24 +2567,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3071B3149461C19A09F02D54 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5CB3DF19D039883685E8612F /* [CP] Check Pods Manifest.lock */ = {
+		4BBAF90FA1F3CF6605EE5280 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2521,7 +2589,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7D33EDD468C6D04CA392EF8B /* [CP] Check Pods Manifest.lock */ = {
+		5561AC941C811467106842C8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2536,28 +2604,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HMOA_iOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-HMOA_iOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9E32903A323B59B3F631685C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CA9C96092BFDCBA9007F2A53 /* FirebaseCrashlytics */ = {
@@ -2584,7 +2635,7 @@
 			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FA632667C507A2167EDCF6D3 /* [CP] Check Pods Manifest.lock */ = {
+		D8A0FF095491B16B257C0D05 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2599,11 +2650,45 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HMOA_iOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-HMOA_iOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB035343022CCDEA98665F56 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E629EAB16054EB0C344AB5AF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2639,6 +2724,7 @@
 				CAF19B9E2A625D2100374038 /* SearchAddress.swift in Sources */,
 				CA4744692AC7EC0E00003584 /* CommunityAPI.swift in Sources */,
 				C96CD7422BA88010005C9856 /* MagazineDetailHeaderView.swift in Sources */,
+				3FD651052C61D6B200E80087 /* HBTINotesResultReactor.swift in Sources */,
 				CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */,
@@ -2700,6 +2786,7 @@
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
 				CA39D5682B0B36C500694677 /* MyLogCommentHeaderView.swift in Sources */,
 				CA2238A12AAF5FFD00452A31 /* CommunityPostHeaderView.swift in Sources */,
+				3F296F942C5783D600514F51 /* HBTIProcessGuideReactor.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				CA01609B2AB2E45700D5839D /* EvaluationAPI.swift in Sources */,
 				CA47446D2AC7ECED00003584 /* CommunityModel.swift in Sources */,
@@ -2709,6 +2796,7 @@
 				C96CD74E2BA8803D005C9856 /* MagazineAddress.swift in Sources */,
 				CAA116082AC16AB40063806C /* BrandAddress.swift in Sources */,
 				CA30BC6C2B80EDB70049A463 /* CustomNavigationAnimation.swift in Sources */,
+				3F60160C2C5918A100866993 /* HBTIQuantitySelectionViewController.swift in Sources */,
 				C96CD73A2BA88010005C9856 /* BackgroundDecorationView.swift in Sources */,
 				CA943ADB2AF2234700A5B717 /* PhotoCell.swift in Sources */,
 				C96F76112C40082200D44773 /* HBTIHomeBottomView.swift in Sources */,
@@ -2722,9 +2810,12 @@
 				CA219C422A9C6D91003FB215 /* LikeAddress.swift in Sources */,
 				CA2238992AAF471400452A31 /* CommunityDetailSection.swift in Sources */,
 				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
+				3FD651092C61D6D100E80087 /* HBTINotesResultViewController.swift in Sources */,
 				CA5E872F2B2AED13006DD2FA /* PushAlarmAddress.swift in Sources */,
 				CAA5926B2B049197003DAE51 /* ImageListViewController.swift in Sources */,
 				2C15DF912A57DFE000EAB112 /* CoreGraphicManager.swift in Sources */,
+				3F296F9A2C57F6B500514F51 /* HBTIProcessGuideView.swift in Sources */,
+				3FD651072C61D6C100E80087 /* HBTINotesResultView.swift in Sources */,
 				2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */,
 				CA2238902AAEFCC000452A31 /* CommunityWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
@@ -2734,6 +2825,7 @@
 				C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */,
 				CA4744862ADA718500003584 /* MyLogReactor.swift in Sources */,
 				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
+				3F296F982C57D22100514F51 /* HBTIQuantitySelctionView.swift in Sources */,
 				CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */,
 				CA5E872D2B2AED07006DD2FA /* PushAlarmAPI.swift in Sources */,
 				2CAD9635298E469200974500 /* DetailViewController.swift in Sources */,
@@ -2754,6 +2846,7 @@
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				CAD1EC132A812491003B21FD /* NoLoginView.swift in Sources */,
+				3FD0C9042C6717E50046386E /* HBTIProcessGuideData.swift in Sources */,
 				CA01609D2AB2E46000D5839D /* EvaluationAddress.swift in Sources */,
 				2C39AA16296DB4DE000C6F71 /* AppDelegate.swift in Sources */,
 				2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */,
@@ -2773,6 +2866,8 @@
 				C99E7B6B2BA9F0B500F359BC /* MagazineDetailLineView.swift in Sources */,
 				2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */,
 				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
+				3F6016122C592D7400866993 /* HBTIQuantitySelectionReactor.swift in Sources */,
+				3F6016102C591AF400866993 /* HBTINotesCategoryViewController.swift in Sources */,
 				C96F76072C3FB37600D44773 /* HBTIViewController.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */,
@@ -2793,6 +2888,7 @@
 				CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */,
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
 				CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */,
+				3F60160E2C591AE300866993 /* HBTINotesCategoryView.swift in Sources */,
 				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
 				CAF5335E2BA046F700A7B8B2 /* MyLogComment.swift in Sources */,
 				2CA155B82A05368000D7B0C0 /* MyProfileReactor.swift in Sources */,
@@ -2805,12 +2901,14 @@
 				C904BFA62BA9617E00B28494 /* MagazineContentsImageCell.swift in Sources */,
 				CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */,
 				2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */,
+				3F382A682C5BC1F900324CBA /* IgnoerData.swift in Sources */,
 				CA76401A2AA86C5E0053076B /* HpediaData.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
 				CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
+				3FD0C9082C6729D00046386E /* HBTINotesCategoryData.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				CAE5F2A029F1109800BAF313 /* Response.swift in Sources */,
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
@@ -2829,6 +2927,7 @@
 				CA0DB39129DBD67B0091DCB2 /* HPediaDictionaryCell.swift in Sources */,
 				C99E7B692BA96DE200F359BC /* MagazineDetailItem.swift in Sources */,
 				CA6CA1122AFF780300535B0D /* CommunityPostPhotoCell.swift in Sources */,
+				3FD0C9062C67211F0046386E /* HBTIQuantitySelectionData.swift in Sources */,
 				CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */,
 				CAFE2F1E2B0F414700054E22 /* HpediaType.swift in Sources */,
 				C98E04282C2C6CE500225624 /* PushAlarmCell.swift in Sources */,
@@ -2838,6 +2937,7 @@
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
 				CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */,
+				3F296F962C5783E700514F51 /* HBTIProcessGuideViewController.swift in Sources */,
 				2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */,
 				2CD023512A07AEBC00459801 /* NicknameView.swift in Sources */,
 				2C4CDC4929C770D900676163 /* BrandListHeaderView.swift in Sources */,
@@ -2861,9 +2961,9 @@
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
 				CA9810FC2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift in Sources */,
 				C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */,
+				3F6016142C592D8500866993 /* HBTINotesCategoryReactor.swift in Sources */,
 				C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
-				C9D161E52C1FF2550032FE78 /* IgnoerData.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
@@ -3040,7 +3140,7 @@
 		};
 		2C39AA40296DB4E0000C6F71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */;
+			baseConfigurationReference = 7040F52802E73018D2B7F7EA /* Pods-HMOA_iOS.debug.xcconfig */;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
@@ -3087,7 +3187,7 @@
 		};
 		2C39AA41296DB4E0000C6F71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21E26D795690DFD94CF3E55E /* Pods-HMOA_iOS.release.xcconfig */;
+			baseConfigurationReference = AEEA5D27017738962EFCA6D1 /* Pods-HMOA_iOS.release.xcconfig */;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
@@ -3136,7 +3236,7 @@
 		};
 		2C39AA43296DB4E0000C6F71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3192AEB7DBBC796C18F3F3DA /* Pods-HMOA_iOSTests.debug.xcconfig */;
+			baseConfigurationReference = 8D2F5FDA0B2FE4FDD9B5C82F /* Pods-HMOA_iOSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -3156,7 +3256,7 @@
 		};
 		2C39AA44296DB4E0000C6F71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1C0E120ACBE9C120092E40F1 /* Pods-HMOA_iOSTests.release.xcconfig */;
+			baseConfigurationReference = 6CF0018A422D19F4556647F3 /* Pods-HMOA_iOSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -3176,7 +3276,7 @@
 		};
 		2C39AA46296DB4E0000C6F71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C3242DF2267B938558E6D105 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */;
+			baseConfigurationReference = 587A8BCD4D51F8817ABD3C16 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
@@ -3194,7 +3294,7 @@
 		};
 		2C39AA47296DB4E0000C6F71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB046C8870182D3E4D31B012 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */;
+			baseConfigurationReference = B3B08E8C588E53A74D31467F /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
