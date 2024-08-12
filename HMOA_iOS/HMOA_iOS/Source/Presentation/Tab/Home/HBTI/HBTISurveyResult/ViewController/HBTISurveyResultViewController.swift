@@ -20,6 +20,18 @@ class HBTISurveyResultViewController: UIViewController, View {
     
     private let loadingView = HBTILoadingView()
     
+    private let bestLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
+        $0.setTextWithLineHeight(text: "OOO님에게 딱 맞는 향료는\n'시트러스'입니다", lineHeight: 27)
+        $0.numberOfLines = 2
+    }
+    
+    private let secondThirdLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 14, color: .gray3)
+        $0.setTextWithLineHeight(text: "2위: 플로럴\n3위: 스파이스", lineHeight: 20)
+        $0.numberOfLines = 2
+    }
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -49,17 +61,35 @@ class HBTISurveyResultViewController: UIViewController, View {
     
     private func setUI() {
         setBackItemNaviBar("향BTI")
+        loadingView.isHidden = true
     }
     
     // MARK: Add Views
     private func setAddView() {
+        // 로딩 화면
         view.addSubview(loadingView)
+        
+        // 결과 화면
+        [
+            bestLabel,
+            secondThirdLabel
+        ] .forEach { view.addSubview($0) }
     }
     
     // MARK: Set Constraints
     private func setConstraints() {
         loadingView.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+        
+        bestLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
+        }
+        
+        secondThirdLabel.snp.makeConstraints { make in
+            make.top.equalTo(bestLabel.snp.bottom).offset(12)
+            make.leading.equalToSuperview().inset(16)
         }
     }
 }
