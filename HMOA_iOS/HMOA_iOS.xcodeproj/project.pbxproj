@@ -147,7 +147,7 @@
 		C96F76112C40082200D44773 /* HBTIHomeBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F76102C40082200D44773 /* HBTIHomeBottomView.swift */; };
 		C9819D772C3302270046FE55 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9819D762C3302260046FE55 /* NoItemView.swift */; };
 		C98424592C4299E200530259 /* HBTISurveyQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */; };
-		C984245D2C429C1300530259 /* HBTISurveyAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984245C2C429C1300530259 /* HBTISurveyAnswerCell.swift */; };
+		C984245D2C429C1300530259 /* HBTISurveyAnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984245C2C429C1300530259 /* HBTISurveyAnswerButton.swift */; };
 		C98424602C43D42400530259 /* HBTISurveySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984245F2C43D42400530259 /* HBTISurveySection.swift */; };
 		C98424642C43D54200530259 /* HBTIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98424632C43D54200530259 /* HBTIModel.swift */; };
 		C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */; };
@@ -451,7 +451,7 @@
 		C96F76102C40082200D44773 /* HBTIHomeBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIHomeBottomView.swift; sourceTree = "<group>"; };
 		C9819D762C3302260046FE55 /* NoItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
 		C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyQuestionCell.swift; sourceTree = "<group>"; };
-		C984245C2C429C1300530259 /* HBTISurveyAnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyAnswerCell.swift; sourceTree = "<group>"; };
+		C984245C2C429C1300530259 /* HBTISurveyAnswerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyAnswerButton.swift; sourceTree = "<group>"; };
 		C984245F2C43D42400530259 /* HBTISurveySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveySection.swift; sourceTree = "<group>"; };
 		C98424632C43D54200530259 /* HBTIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIModel.swift; sourceTree = "<group>"; };
 		C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification++Extensions.swift"; sourceTree = "<group>"; };
@@ -1466,7 +1466,7 @@
 			isa = PBXGroup;
 			children = (
 				C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */,
-				C984245C2C429C1300530259 /* HBTISurveyAnswerCell.swift */,
+				C984245C2C429C1300530259 /* HBTISurveyAnswerButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2806,7 +2806,7 @@
 				CA2238902AAEFCC000452A31 /* CommunityWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				C9819D772C3302270046FE55 /* NoItemView.swift in Sources */,
-				C984245D2C429C1300530259 /* HBTISurveyAnswerCell.swift in Sources */,
+				C984245D2C429C1300530259 /* HBTISurveyAnswerButton.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */,

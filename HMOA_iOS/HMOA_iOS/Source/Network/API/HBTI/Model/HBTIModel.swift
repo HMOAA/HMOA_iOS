@@ -7,10 +7,18 @@
 
 import Foundation
 
+struct HBTISurveyResponse: Hashable {
+    let title: String
+    let questions: [HBTIQuestion]
+}
+
 struct HBTIQuestion: Hashable {
-    
+    let id: Int
+    let content: String
+    let answers: [HBTIAnswer]
 }
 
 struct HBTIAnswer: Hashable {
-    
+    let id: Int
+    let content: String
 }

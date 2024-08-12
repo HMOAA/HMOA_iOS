@@ -31,10 +31,6 @@ class HBTISurveyViewController: UIViewController, View {
             HBTISurveyQuestionCell.self,
             forCellWithReuseIdentifier: HBTISurveyQuestionCell.identifier
         )
-        $0.register(
-            HBTISurveyAnswerCell.self,
-            forCellWithReuseIdentifier: HBTISurveyAnswerCell.identifier
-        )
     }
     
     private let nextButton = UIButton().then {
@@ -42,6 +38,7 @@ class HBTISurveyViewController: UIViewController, View {
         $0.titleLabel?.font = .customFont(.pretendard, 15)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 5
+        $0.backgroundColor = .black
     }
     
     // MARK: - Properties
@@ -77,6 +74,7 @@ class HBTISurveyViewController: UIViewController, View {
     // MARK: Set UI
     private func setUI() {
         setBackItemNaviBar("향BTI")
+        hbtiSurveyCollectionView.isScrollEnabled = false
     }
     
     // MARK: Add Views
@@ -97,6 +95,7 @@ class HBTISurveyViewController: UIViewController, View {
         hbtiSurveyCollectionView.snp.makeConstraints { make in
             make.top.equalTo(progressBar.snp.bottom).offset(32)
             make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(nextButton.snp.top)
         }
         
         nextButton.snp.makeConstraints { make in
@@ -111,22 +110,21 @@ class HBTISurveyViewController: UIViewController, View {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
-            let questionGroup = self.createGroup(estimatedHeight: 20)
-            
-            let answerGroup = self.createGroup(estimatedHeight: 50)
-            
-            let combinedGroupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
                 heightDimension: .estimated(300)
             )
-            let combinedGroup = NSCollectionLayoutGroup.vertical(
-                layoutSize: combinedGroupSize,
-                subitems: [questionGroup, answerGroup]
-            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let section = NSCollectionLayoutSection(group: combinedGroup)
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.92),
+                heightDimension: .estimated(300)
+            )
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .groupPagingCentered
-            section.interGroupSpacing = 8
+            section.interGroupSpacing = 16
             
             return section
         }
@@ -159,16 +157,7 @@ class HBTISurveyViewController: UIViewController, View {
                     withReuseIdentifier: HBTISurveyQuestionCell.identifier,
                     for: indexPath) as! HBTISurveyQuestionCell
                 
-                // TODO: configureCell 정의 후 호출
-                
-                return cell
-                
-            case .answer(let answer):
-                let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HBTISurveyAnswerCell.identifier,
-                    for: indexPath) as! HBTISurveyAnswerCell
-                
-                // TODO: configureCell 정의 후 호출
+                cell.configureCell(question: question, answers: question.answers)
                 
                 return cell
             }
@@ -176,6 +165,32 @@ class HBTISurveyViewController: UIViewController, View {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTISurveySection, HBTISurveyItem>()
         initialSnapshot.appendSections([.question])
+        
+        // TODO: API 연동 후 삭제
+        initialSnapshot.appendItems([
+            .question(HBTIQuestion(
+                id: 1,
+                content: "좋아하는 계절이 있으신가요?",
+                answers: [
+                    HBTIAnswer(id: 1, content: "싱그럽고 활기찬 ‘봄’"),
+                    HBTIAnswer(id: 2, content: "화창하고 에너지 넘치는 ‘여름’"),
+                    HBTIAnswer(id: 3, content: "우아하고 고요한 분위기의 ‘가을’"),
+                    HBTIAnswer(id: 4, content: "차가움과 아늑함이 공존하는 ‘겨울’")
+                ]
+            )),
+            .question(HBTIQuestion(
+                id: 2,
+                content: "남들이 생각하는 본인의 이미지는 무엇인가요?",
+                answers: [
+                    HBTIAnswer(id: 5, content: "청순"),
+                    HBTIAnswer(id: 6, content: "시크, 멋짐"),
+                    HBTIAnswer(id: 7, content: "단아"),
+                    HBTIAnswer(id: 8, content: "귀여움"),
+                    HBTIAnswer(id: 9, content: "섹시")
+                ]
+            ))
+        ], toSection: .question)
+        
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
 }

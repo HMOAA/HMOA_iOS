@@ -21,8 +21,16 @@ class HBTISurveyQuestionCell: UICollectionViewCell {
     }
     
     private let questionLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
+        $0.setLabelUI("질문질문질문질문?", font: .pretendard, size: 20, color: .black)
         $0.numberOfLines = 0
+        $0.lineBreakStrategy = .hangulWordPriority
+    }
+    
+    private let answerStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 16
+        $0.distribution = .equalSpacing
+        $0.alignment = .fill
     }
     
     // MARK: - Init
@@ -41,7 +49,10 @@ class HBTISurveyQuestionCell: UICollectionViewCell {
     // MARK: - Function
     
     private func setAddView() {
-        [questionMarkLabel, questionLabel].forEach { addSubview($0) }
+        [questionMarkLabel, 
+         questionLabel,
+         answerStackView
+        ].forEach { addSubview($0) }
     }
     
     private func setConstraints() {
@@ -51,8 +62,26 @@ class HBTISurveyQuestionCell: UICollectionViewCell {
         
         questionLabel.snp.makeConstraints { make in
             make.leading.equalTo(questionMarkLabel.snp.trailing).offset(8)
-            make.verticalEdges.trailing.equalToSuperview()
+            make.top.trailing.equalToSuperview()
+        }
+        
+        answerStackView.snp.makeConstraints { make in
+            make.top.equalTo(questionLabel.snp.bottom).offset(32)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
     }
     
+    func configureCell(question: HBTIQuestion, answers: [HBTIAnswer]) {
+        questionLabel.text = question.content
+        
+        answers.forEach {
+            let button = HBTISurveyAnswerButton()
+            button.answerLabel.text = $0.content
+            button.isSelected = false
+            button.snp.makeConstraints { make in
+                make.height.equalTo(50)
+            }
+            answerStackView.addArrangedSubview(button)
+        }
+    }
 }
