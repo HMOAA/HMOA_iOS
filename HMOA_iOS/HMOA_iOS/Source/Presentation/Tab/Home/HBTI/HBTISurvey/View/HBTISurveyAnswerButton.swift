@@ -10,16 +10,14 @@ import UIKit
 import Then
 import SnapKit
 
-class HBTISurveyAnswerCell: UICollectionViewCell {
-    
-    static let identifier = "HBTISurveyAnswerCell"
+class HBTISurveyAnswerButton: UIButton {
     
     // MARK: - UI Components
     
     private let checkBoxImageView = UIImageView()
     
-    private let answerLabel = UILabel().then {
-        $0.setLabelUI("싱그럽고 활기찬 '봄'", font: .pretendard_medium, size: 14, color: .black)
+    let answerLabel = UILabel().then {
+        $0.setLabelUI("답변", font: .pretendard, size: 14, color: .black)
     }
     
     override var isSelected: Bool {
@@ -59,13 +57,10 @@ class HBTISurveyAnswerCell: UICollectionViewCell {
     }
     
     private func setAddView() {
-        
-        [checkBoxImageView, answerLabel
-        ].forEach { addSubview($0) }
+        [checkBoxImageView, answerLabel].forEach { addSubview($0) }
     }
     
     private func setConstraints() {
-        
         checkBoxImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(19)
             make.centerY.equalToSuperview()

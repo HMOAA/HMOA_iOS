@@ -13,21 +13,12 @@ enum HBTISurveySection: Hashable {
 
 enum HBTISurveyItem: Hashable {
     case question(HBTIQuestion)
-    case answer(HBTIAnswer)
 }
 
 extension HBTISurveyItem {
     var question: HBTIQuestion? {
         if case .question(let question) = self {
             return question
-        } else {
-            return nil
-        }
-    }
-    
-    var answer: HBTIAnswer? {
-        if case .answer(let answer) = self {
-            return answer
         } else {
             return nil
         }
