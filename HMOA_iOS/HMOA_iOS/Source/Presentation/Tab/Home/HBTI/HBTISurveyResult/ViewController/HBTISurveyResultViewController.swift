@@ -18,7 +18,7 @@ class HBTISurveyResultViewController: UIViewController, View {
     
     // MARK: - UI Components
     
-    
+    private let loadingView = HBTILoadingView()
     
     // MARK: - Properties
     
@@ -53,11 +53,13 @@ class HBTISurveyResultViewController: UIViewController, View {
     
     // MARK: Add Views
     private func setAddView() {
-        
+        view.addSubview(loadingView)
     }
     
     // MARK: Set Constraints
     private func setConstraints() {
-        
+        loadingView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
 }
