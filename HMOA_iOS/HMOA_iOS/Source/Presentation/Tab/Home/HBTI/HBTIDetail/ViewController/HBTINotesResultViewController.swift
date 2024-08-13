@@ -39,17 +39,9 @@ class HBTINotesResultViewController: UIViewController, View {
     // MARK: - Binding
     func bind(reactor: HBTINotesResultReactor) {
         // Action
-        resultView.nextButton.rx.tap
-            .map { Reactor.Action.nextButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        
         
         // State
-        reactor.state.map { $0.selectedNotes }
-            .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] notes in
-                self?.resultView.configureView(with: notes)
-            })
-            .disposed(by: disposeBag)
+        
     }
 }
