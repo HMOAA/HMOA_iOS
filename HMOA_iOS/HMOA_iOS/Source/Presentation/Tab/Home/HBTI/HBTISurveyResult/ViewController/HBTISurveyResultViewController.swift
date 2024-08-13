@@ -82,6 +82,7 @@ class HBTISurveyResultViewController: UIViewController, View {
     
     private func setUI() {
         setBackItemNaviBar("향BTI")
+        hbtiSurveyResultCollectionView.isScrollEnabled = false
         loadingView.isHidden = true
     }
     

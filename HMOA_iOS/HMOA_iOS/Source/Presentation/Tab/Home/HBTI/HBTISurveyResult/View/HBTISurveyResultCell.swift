@@ -62,9 +62,6 @@ class HBTISurveyResultCell: UICollectionViewCell {
     
     private func setConstraints() {
         bannerImageView.snp.makeConstraints { make in
-            let availableWidth = layer.frame.width
-            let imageHeight = (236.0 / 249.0) * availableWidth
-            
             make.top.horizontalEdges.equalToSuperview()
             make.height.equalTo(236)
         }
