@@ -42,6 +42,14 @@ class HBTISurveyResultViewController: UIViewController, View {
         )
     }
     
+    private let nextButton = UIButton().then {
+        $0.setTitle("다음", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 15)
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.cornerRadius = 5
+        $0.backgroundColor = .black
+    }
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -86,7 +94,8 @@ class HBTISurveyResultViewController: UIViewController, View {
         [
             bestLabel,
             secondThirdLabel,
-            hbtiSurveyResultCollectionView
+            hbtiSurveyResultCollectionView,
+            nextButton
         ] .forEach { view.addSubview($0) }
     }
     
@@ -110,6 +119,12 @@ class HBTISurveyResultViewController: UIViewController, View {
             make.top.equalTo(secondThirdLabel.snp.bottom).offset(29)
             make.horizontalEdges.equalToSuperview()
             make.height.lessThanOrEqualTo(400)
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(40)
+            make.height.equalTo(52)
         }
     }
     
