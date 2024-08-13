@@ -32,6 +32,11 @@ class HBTISurveyResultViewController: UIViewController, View {
         $0.numberOfLines = 2
     }
     
+    private lazy var hbtiSurveyResultCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    )
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -91,5 +96,34 @@ class HBTISurveyResultViewController: UIViewController, View {
             make.top.equalTo(bestLabel.snp.bottom).offset(12)
             make.leading.equalToSuperview().inset(16)
         }
+    }
+    
+    // MARK: Create Layout
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let bannerWidthRatio = 249.0 / 360.0
+            let bannerHeight = 333.0 / 249.0 * bannerWidthRatio
+            
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(bannerHeight)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(bannerWidthRatio),
+                heightDimension: .estimated(bannerHeight)
+            )
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .groupPaging
+            section.interGroupSpacing = 16
+            
+            return section
+        }
+        return layout
     }
 }
