@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import Then
 import SnapKit
 
@@ -78,5 +79,11 @@ class HBTISurveyResultCell: UICollectionViewCell {
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(24)
         }
+    }
+    
+    func configureCell(note: HBTISurveyResultNote) {
+        bannerImageView.kf.setImage(with: URL(string: note.photoURL))
+        nameLabel.text = note.name
+        descriptionLabel.text = note.content
     }
 }
