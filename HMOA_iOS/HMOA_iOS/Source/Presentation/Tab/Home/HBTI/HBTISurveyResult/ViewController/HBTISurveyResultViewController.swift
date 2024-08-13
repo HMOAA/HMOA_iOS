@@ -46,6 +46,8 @@ class HBTISurveyResultViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
     
+    private var dataSource: UICollectionViewDiffableDataSource<HBTISurveyResultSection, HBTISurveyResultItem>?
+    
     // MARK: - LifeCycle
 
     override func viewDidLoad() {
@@ -54,6 +56,7 @@ class HBTISurveyResultViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        configureDataSource()
     }
     
     // MARK: - Bind
@@ -82,7 +85,8 @@ class HBTISurveyResultViewController: UIViewController, View {
         // 결과 화면
         [
             bestLabel,
-            secondThirdLabel
+            secondThirdLabel,
+            hbtiSurveyResultCollectionView
         ] .forEach { view.addSubview($0) }
     }
     
@@ -101,6 +105,12 @@ class HBTISurveyResultViewController: UIViewController, View {
             make.top.equalTo(bestLabel.snp.bottom).offset(12)
             make.leading.equalToSuperview().inset(16)
         }
+        
+        hbtiSurveyResultCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(secondThirdLabel.snp.bottom).offset(29)
+            make.horizontalEdges.equalToSuperview()
+            make.height.lessThanOrEqualTo(400)
+        }
     }
     
     // MARK: Create Layout
@@ -109,26 +119,53 @@ class HBTISurveyResultViewController: UIViewController, View {
             (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
             let bannerWidthRatio = 249.0 / 360.0
-            let bannerHeight = 333.0 / 249.0 * bannerWidthRatio
             
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(bannerHeight)
+                heightDimension: .estimated(333)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(bannerWidthRatio),
-                heightDimension: .estimated(bannerHeight)
+                heightDimension: .estimated(333)
             )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .groupPaging
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
             section.interGroupSpacing = 16
             
             return section
         }
         return layout
+    }
+    
+    // MARK: Configure DataSource
+    private func configureDataSource() {
+        dataSource = .init(collectionView: hbtiSurveyResultCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            
+            switch item {
+            case .recommand(let note):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HBTISurveyResultCell.identifier,
+                    for: indexPath) as! HBTISurveyResultCell
+                
+                cell.configureCell(note: note)
+                
+                return cell
+            }
+        })
+        
+        var initialSnapshot = NSDiffableDataSourceSnapshot<HBTISurveyResultSection, HBTISurveyResultItem>()
+        initialSnapshot.appendSections([.recommand])
+        initialSnapshot.appendItems([
+            .recommand(HBTISurveyResultNote(id: 1, name: "시트러스", photoURL: "", content: "귤, 베르가못, 만다린이 들어간 상큼한 향료로 향수에서 가장 많이 사용되는 노트입니다.")),
+            .recommand(HBTISurveyResultNote(id: 2, name: "플로럴", photoURL: "", content: "귤, 베르가못, 만다린이 들어간 상큼한 향료로 향수에서 가장 많이 사용되는 노트입니다.")),
+            .recommand(HBTISurveyResultNote(id: 3, name: "스파이스", photoURL: "", content: "귤, 베르가못, 만다린이 들어간 상큼한 향료로 향수에서 가장 많이 사용되는 노트입니다."))
+        ])
+        
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
 }

@@ -66,7 +66,7 @@ class HBTISurveyResultCell: UICollectionViewCell {
             let imageHeight = (236.0 / 249.0) * availableWidth
             
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(imageHeight)
+            make.height.equalTo(236)
         }
         
         nameLabel.snp.makeConstraints { make in
@@ -82,7 +82,8 @@ class HBTISurveyResultCell: UICollectionViewCell {
     }
     
     func configureCell(note: HBTISurveyResultNote) {
-        bannerImageView.kf.setImage(with: URL(string: note.photoURL))
+//        bannerImageView.kf.setImage(with: URL(string: note.photoURL))
+        bannerImageView.backgroundColor = .random
         nameLabel.text = note.name
         descriptionLabel.text = note.content
     }
