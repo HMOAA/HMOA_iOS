@@ -275,6 +275,14 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiVC, animated: true)
     }
     
+    /// HBTISurveyVC로 push
+    func presentHBTISurveyViewController() {
+        let hbtiSurveyVC = HBTISurveyViewController()
+        hbtiSurveyVC.reactor = HBTISurveyReactor()
+        hbtiSurveyVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiSurveyVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
