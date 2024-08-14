@@ -118,6 +118,8 @@
 		C904BFA42BA9616200B28494 /* MagazineContentsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */; };
 		C904BFA62BA9617E00B28494 /* MagazineContentsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA52BA9617E00B28494 /* MagazineContentsImageCell.swift */; };
 		C93BFA6D2C428E9300A5D9D2 /* IntroViewHBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */; };
+		C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */; };
+		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
 		C94EE0AF2C1FFBC9005EDC95 /* PushAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */; };
 		C94EE0B22C1FFEDD005EDC95 /* PushAlarmReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */; };
 		C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */; };
@@ -144,6 +146,10 @@
 		C96F760F2C4006F200D44773 /* HBTIHomeTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F760E2C4006F200D44773 /* HBTIHomeTopView.swift */; };
 		C96F76112C40082200D44773 /* HBTIHomeBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F76102C40082200D44773 /* HBTIHomeBottomView.swift */; };
 		C9819D772C3302270046FE55 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9819D762C3302260046FE55 /* NoItemView.swift */; };
+		C98424592C4299E200530259 /* HBTISurveyQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */; };
+		C984245D2C429C1300530259 /* HBTISurveyAnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984245C2C429C1300530259 /* HBTISurveyAnswerButton.swift */; };
+		C98424602C43D42400530259 /* HBTISurveySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984245F2C43D42400530259 /* HBTISurveySection.swift */; };
+		C98424642C43D54200530259 /* HBTIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98424632C43D54200530259 /* HBTIModel.swift */; };
 		C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */; };
 		C98E04282C2C6CE500225624 /* PushAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E04272C2C6CE500225624 /* PushAlarmCell.swift */; };
 		C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */; };
@@ -416,6 +422,8 @@
 		C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineContentsHeaderCell.swift; sourceTree = "<group>"; };
 		C904BFA52BA9617E00B28494 /* MagazineContentsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineContentsImageCell.swift; sourceTree = "<group>"; };
 		C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewHBTI.swift; sourceTree = "<group>"; };
+		C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyReactor.swift; sourceTree = "<group>"; };
+		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
 		C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmViewController.swift; sourceTree = "<group>"; };
 		C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmReactor.swift; sourceTree = "<group>"; };
 		C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineTagCell.swift; sourceTree = "<group>"; };
@@ -442,6 +450,10 @@
 		C96F760E2C4006F200D44773 /* HBTIHomeTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIHomeTopView.swift; sourceTree = "<group>"; };
 		C96F76102C40082200D44773 /* HBTIHomeBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIHomeBottomView.swift; sourceTree = "<group>"; };
 		C9819D762C3302260046FE55 /* NoItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
+		C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyQuestionCell.swift; sourceTree = "<group>"; };
+		C984245C2C429C1300530259 /* HBTISurveyAnswerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyAnswerButton.swift; sourceTree = "<group>"; };
+		C984245F2C43D42400530259 /* HBTISurveySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveySection.swift; sourceTree = "<group>"; };
+		C98424632C43D54200530259 /* HBTIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIModel.swift; sourceTree = "<group>"; };
 		C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification++Extensions.swift"; sourceTree = "<group>"; };
 		C98E04272C2C6CE500225624 /* PushAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmCell.swift; sourceTree = "<group>"; };
 		C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmSection.swift; sourceTree = "<group>"; };
@@ -1244,6 +1256,7 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				C98424612C43D50200530259 /* HBTI */,
 				C96CD74C2BA8803D005C9856 /* Magazine */,
 				CA5E872B2B2AECEB006DD2FA /* PushAlarm */,
 				CA99A6CF2B1216D60030364F /* Report */,
@@ -1430,6 +1443,42 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */ = {
+			isa = PBXGroup;
+			children = (
+				C984245E2C43D40200530259 /* Model */,
+				C93BFA712C4295FC00A5D9D2 /* Reactor */,
+				C93BFA732C4295FC00A5D9D2 /* View */,
+				C93BFA752C4295FC00A5D9D2 /* ViewController */,
+			);
+			path = HBTISurvey;
+			sourceTree = "<group>";
+		};
+		C93BFA712C4295FC00A5D9D2 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		C93BFA732C4295FC00A5D9D2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */,
+				C984245C2C429C1300530259 /* HBTISurveyAnswerButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C93BFA752C4295FC00A5D9D2 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		C94EE0AA2C1FFB71005EDC95 /* PushAlarm */ = {
 			isa = PBXGroup;
 			children = (
@@ -1601,6 +1650,7 @@
 			isa = PBXGroup;
 			children = (
 				C96F760D2C40065600D44773 /* HBTI */,
+				C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */,
 			);
 			path = HBTI;
 			sourceTree = "<group>";
@@ -1639,6 +1689,30 @@
 				C96F76042C3FB35100D44773 /* ViewController */,
 			);
 			path = HBTI;
+			sourceTree = "<group>";
+		};
+		C984245E2C43D40200530259 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C984245F2C43D42400530259 /* HBTISurveySection.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C98424612C43D50200530259 /* HBTI */ = {
+			isa = PBXGroup;
+			children = (
+				C98424622C43D51700530259 /* Model */,
+			);
+			path = HBTI;
+			sourceTree = "<group>";
+		};
+		C98424622C43D51700530259 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C98424632C43D54200530259 /* HBTIModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		C98E04262C2C6CA300225624 /* View */ = {
@@ -2640,6 +2714,8 @@
 				CA4744692AC7EC0E00003584 /* CommunityAPI.swift in Sources */,
 				C96CD7422BA88010005C9856 /* MagazineDetailHeaderView.swift in Sources */,
 				CA219C522AA2FF5C003FB215 /* Comment.swift in Sources */,
+				C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */,
+				C98424602C43D42400530259 /* HBTISurveySection.swift in Sources */,
 				2C04249229A504D3009CF0FE /* CommentDetailViewController.swift in Sources */,
 				C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */,
 				CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */,
@@ -2703,6 +2779,7 @@
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
 				CA01609B2AB2E45700D5839D /* EvaluationAPI.swift in Sources */,
 				CA47446D2AC7ECED00003584 /* CommunityModel.swift in Sources */,
+				C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */,
 				2CD0235E2A080D4500459801 /* MyProfileType.swift in Sources */,
 				CA6152BB2A6A8007007B04A7 /* Brand.swift in Sources */,
 				2CAB7A9829B07A2300E74809 /* SearchResultTopView.swift in Sources */,
@@ -2729,6 +2806,7 @@
 				CA2238902AAEFCC000452A31 /* CommunityWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				C9819D772C3302270046FE55 /* NoItemView.swift in Sources */,
+				C984245D2C429C1300530259 /* HBTISurveyAnswerButton.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */,
@@ -2808,6 +2886,7 @@
 				CA76401A2AA86C5E0053076B /* HpediaData.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
+				C98424592C4299E200530259 /* HBTISurveyQuestionCell.swift in Sources */,
 				CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
@@ -2864,6 +2943,7 @@
 				C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
 				C9D161E52C1FF2550032FE78 /* IgnoerData.swift in Sources */,
+				C98424642C43D54200530259 /* HBTIModel.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
