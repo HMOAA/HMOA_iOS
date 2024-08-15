@@ -11,7 +11,7 @@ import Gifu
 import SnapKit
 import Then
 
-class HBTILoadingView: UIView {
+final class HBTILoadingView: UIView {
 
     // MARK: - UI Components
     

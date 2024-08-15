@@ -10,7 +10,7 @@ import UIKit
 import Then
 import SnapKit
 
-class HBTISurveyQuestionCell: UICollectionViewCell {
+final class HBTISurveyQuestionCell: UICollectionViewCell {
     
     static let identifier = "HBTISurveyQuestionCell"
     

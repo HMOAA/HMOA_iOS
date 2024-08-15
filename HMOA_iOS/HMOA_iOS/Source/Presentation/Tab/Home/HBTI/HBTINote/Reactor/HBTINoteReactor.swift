@@ -7,7 +7,7 @@
 import ReactorKit
 import RxSwift
 
-class HBTINoteReactor: Reactor {
+final class HBTINoteReactor: Reactor {
     
     enum Action {
         
