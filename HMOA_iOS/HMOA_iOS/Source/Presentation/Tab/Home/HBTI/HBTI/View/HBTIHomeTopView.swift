@@ -33,7 +33,7 @@ class HBTIHomeTopView: UIView {
     
     let goToSurveyButton = UIButton()
     
-    let selectSpiceButton = UIButton()
+    let selectNoteButton = UIButton()
     
     // MARK: - Init
     
@@ -59,7 +59,7 @@ class HBTIHomeTopView: UIView {
         )
         
         configureButton(
-            selectSpiceButton,
+            selectNoteButton,
             withTitle: "향료 입력하기\n(주문 후)",
             imageName: "selectSpice"
         )
@@ -71,7 +71,7 @@ class HBTIHomeTopView: UIView {
          buttonStackView
         ].forEach { self.addSubview($0) }
         
-        [goToSurveyButton, selectSpiceButton
+        [goToSurveyButton, selectNoteButton
         ].forEach { buttonStackView.addArrangedSubview($0)}
     }
     

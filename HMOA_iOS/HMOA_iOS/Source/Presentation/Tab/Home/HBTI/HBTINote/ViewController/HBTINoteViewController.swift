@@ -25,6 +25,8 @@ class HBTINoteViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // TODO: setUI 함수로 옮기기
+        view.backgroundColor = .white
     }
     
     func bind(reactor: HBTINoteReactor) {

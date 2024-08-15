@@ -50,6 +50,11 @@ class HBTIViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        yourHBTIView.selectNoteButton.rx.tap
+            .map { Reactor.Action.didTapNoteButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         reactor.state
             .map { $0.isTapSurveyButton }
@@ -57,6 +62,15 @@ class HBTIViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, type in
                 owner.presentHBTISurveyViewController()
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isTapNoteButton }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, type in
+                owner.presentHBTINoteViewController()
             })
             .disposed(by: disposeBag)
     }
