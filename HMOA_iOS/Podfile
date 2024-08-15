@@ -24,6 +24,7 @@ target 'HMOA_iOS' do
   pod 'FirebaseFirestore'
   pod 'FirebaseMessaging'
   pod 'FirebaseCrashlytics'
+  pod 'Gifu'
   use_frameworks!
 
   # Pods for HMOA_iOS
