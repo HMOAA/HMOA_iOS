@@ -45,10 +45,20 @@ class HBTIViewController: UIViewController, View {
     func bind(reactor: HBTIReactor) {
         
         // MARK: Action
-        
+        yourHBTIView.goToSurveyButton.rx.tap
+            .map { Reactor.Action.didTapSurveyButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
-        
+        reactor.state
+            .map { $0.isTapSurveyButton }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, type in
+                owner.presentHBTISurveyViewController()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
