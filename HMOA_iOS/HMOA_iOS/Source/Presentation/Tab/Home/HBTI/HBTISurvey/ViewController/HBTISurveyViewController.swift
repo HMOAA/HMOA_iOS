@@ -13,7 +13,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class HBTISurveyViewController: UIViewController, View {
+final class HBTISurveyViewController: UIViewController, View {
     
     // MARK: - UI Components
     
@@ -73,6 +73,7 @@ class HBTISurveyViewController: UIViewController, View {
     
     // MARK: Set UI
     private func setUI() {
+        view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
         hbtiSurveyCollectionView.isScrollEnabled = false
     }

@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class HBTIHomeTopView: UIView {
+final class HBTIHomeTopView: UIView {
     
     // MARK: - UI Components
     
@@ -31,9 +31,9 @@ class HBTIHomeTopView: UIView {
         $0.distribution = .fillEqually
     }
     
-    private let goToSurveyButton = UIButton()
+    let goToSurveyButton = UIButton()
     
-    private let selectSpiceButton = UIButton()
+    let selectNoteButton = UIButton()
     
     // MARK: - Init
     
@@ -59,7 +59,7 @@ class HBTIHomeTopView: UIView {
         )
         
         configureButton(
-            selectSpiceButton,
+            selectNoteButton,
             withTitle: "향료 입력하기\n(주문 후)",
             imageName: "selectSpice"
         )
@@ -71,7 +71,7 @@ class HBTIHomeTopView: UIView {
          buttonStackView
         ].forEach { self.addSubview($0) }
         
-        [goToSurveyButton, selectSpiceButton
+        [goToSurveyButton, selectNoteButton
         ].forEach { buttonStackView.addArrangedSubview($0)}
     }
     
@@ -92,7 +92,7 @@ class HBTIHomeTopView: UIView {
         }
     }
     
-    func configureButton(_ button: UIButton, withTitle title: String, imageName: String) {
+    private func configureButton(_ button: UIButton, withTitle title: String, imageName: String) {
         button.titleLabel?.numberOfLines = 0
         button.setTitleColor(.black, for: .normal)
         

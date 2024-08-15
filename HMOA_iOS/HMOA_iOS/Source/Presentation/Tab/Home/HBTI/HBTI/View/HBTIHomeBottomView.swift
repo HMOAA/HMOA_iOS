@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HBTIHomeBottomView: UIView {
+final class HBTIHomeBottomView: UIView {
 
     // MARK: - UI Components
     

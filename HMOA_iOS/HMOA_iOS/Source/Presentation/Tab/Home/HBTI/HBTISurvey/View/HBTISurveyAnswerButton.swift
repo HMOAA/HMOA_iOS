@@ -10,7 +10,7 @@ import UIKit
 import Then
 import SnapKit
 
-class HBTISurveyAnswerButton: UIButton {
+final class HBTISurveyAnswerButton: UIButton {
     
     // MARK: - UI Components
     

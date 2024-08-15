@@ -11,7 +11,7 @@ import Kingfisher
 import Then
 import SnapKit
 
-class HBTISurveyResultCell: UICollectionViewCell {
+final class HBTISurveyResultCell: UICollectionViewCell {
     
     static let identifier = "HBTISurveyResultCell"
     
