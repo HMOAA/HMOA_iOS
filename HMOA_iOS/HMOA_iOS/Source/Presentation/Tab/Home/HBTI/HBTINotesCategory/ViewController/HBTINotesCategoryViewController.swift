@@ -60,7 +60,7 @@ class HBTINotesCategoryViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                let notesResultVC = HBTINotesResultViewController(reactor: HBTINotesResultReactor(selectedNotes: []))
+                let notesResultVC = HBTINotesResultViewController(reactor: HBTINotesResultReactor())
                 owner.navigationController?.pushViewController(notesResultVC, animated: true)
             })
             .disposed(by: disposeBag)

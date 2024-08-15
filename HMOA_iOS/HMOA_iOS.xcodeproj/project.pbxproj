@@ -1442,58 +1442,175 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		3F296F8E2C57836300514F51 /* HBTIDetail */ = {
+		3F2B2A8E2C6DDAC700FA391B /* HBTIProcessGuide */ = {
 			isa = PBXGroup;
 			children = (
-				3F296F8F2C57837E00514F51 /* Model */,
-				3F296F902C57838500514F51 /* Reactor */,
-				3F296F912C57838B00514F51 /* View */,
-				3F296F922C57838F00514F51 /* ViewController */,
+				3F2B2A922C6DDB1C00FA391B /* Model */,
+				3F2B2A932C6DDB2400FA391B /* Reactor */,
+				3F2B2A942C6DDB3600FA391B /* View */,
+				3F2B2A952C6DDB3E00FA391B /* ViewController */,
 			);
-			path = HBTIDetail;
+			path = HBTIProcessGuide;
 			sourceTree = "<group>";
 		};
-		3F296F8F2C57837E00514F51 /* Model */ = {
+		3F2B2A8F2C6DDAD600FA391B /* HBTIQuantitySelection */ = {
+			isa = PBXGroup;
+			children = (
+				3F2B2A992C6DDBAE00FA391B /* Model */,
+				3F2B2A982C6DDBA800FA391B /* Reactor */,
+				3F2B2A972C6DDBA200FA391B /* View */,
+				3F2B2A962C6DDB9C00FA391B /* ViewController */,
+			);
+			path = HBTIQuantitySelection;
+			sourceTree = "<group>";
+		};
+		3F2B2A902C6DDAE700FA391B /* HBTINotesCategory */ = {
+			isa = PBXGroup;
+			children = (
+				3F2B2A9D2C6DDBDC00FA391B /* Model */,
+				3F2B2A9C2C6DDBD700FA391B /* Reactor */,
+				3F2B2A9B2C6DDBD200FA391B /* View */,
+				3F2B2A9A2C6DDBCC00FA391B /* ViewController */,
+			);
+			path = HBTINotesCategory;
+			sourceTree = "<group>";
+		};
+		3F2B2A912C6DDAF900FA391B /* HBTINotesResult */ = {
+			isa = PBXGroup;
+			children = (
+				3F2B2AA32C6DDC2900FA391B /* Model */,
+				3F2B2AA22C6DDC2200FA391B /* Reactor */,
+				3F2B2AA12C6DDC1C00FA391B /* View */,
+				3F2B2A9F2C6DDC0900FA391B /* ViewController */,
+			);
+			path = HBTINotesResult;
+			sourceTree = "<group>";
+		};
+		3F2B2A922C6DDB1C00FA391B /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				3FD0C9032C6717E50046386E /* HBTIProcessGuideData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3F2B2A932C6DDB2400FA391B /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3F296F932C5783D600514F51 /* HBTIProcessGuideReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3F2B2A942C6DDB3600FA391B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F296F992C57F6B500514F51 /* HBTIProcessGuideView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F2B2A952C6DDB3E00FA391B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F296F952C5783E700514F51 /* HBTIProcessGuideViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F2B2A962C6DDB9C00FA391B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F60160B2C5918A100866993 /* HBTIQuantitySelectionViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F2B2A972C6DDBA200FA391B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F296F972C57D22100514F51 /* HBTIQuantitySelctionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F2B2A982C6DDBA800FA391B /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3F6016112C592D7400866993 /* HBTIQuantitySelectionReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3F2B2A992C6DDBAE00FA391B /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				3FD0C9052C67211F0046386E /* HBTIQuantitySelectionData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3F2B2A9A2C6DDBCC00FA391B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F60160F2C591AF400866993 /* HBTINotesCategoryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F2B2A9B2C6DDBD200FA391B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F60160D2C591AE300866993 /* HBTINotesCategoryView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F2B2A9C2C6DDBD700FA391B /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3F6016132C592D8500866993 /* HBTINotesCategoryReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3F2B2A9D2C6DDBDC00FA391B /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				3FD0C9072C6729D00046386E /* HBTINotesCategoryData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		3F296F902C57838500514F51 /* Reactor */ = {
+		3F2B2A9F2C6DDC0900FA391B /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				3F296F932C5783D600514F51 /* HBTIProcessGuideReactor.swift */,
-				3F6016112C592D7400866993 /* HBTIQuantitySelectionReactor.swift */,
-				3F6016132C592D8500866993 /* HBTINotesCategoryReactor.swift */,
-				3FD651042C61D6B200E80087 /* HBTINotesResultReactor.swift */,
+				3FD651082C61D6D100E80087 /* HBTINotesResultViewController.swift */,
 			);
-			path = Reactor;
+			path = ViewController;
 			sourceTree = "<group>";
 		};
-		3F296F912C57838B00514F51 /* View */ = {
+		3F2B2AA12C6DDC1C00FA391B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3F296F992C57F6B500514F51 /* HBTIProcessGuideView.swift */,
-				3F296F972C57D22100514F51 /* HBTIQuantitySelctionView.swift */,
-				3F60160D2C591AE300866993 /* HBTINotesCategoryView.swift */,
 				3FD651062C61D6C100E80087 /* HBTINotesResultView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		3F296F922C57838F00514F51 /* ViewController */ = {
+		3F2B2AA22C6DDC2200FA391B /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
-				3F296F952C5783E700514F51 /* HBTIProcessGuideViewController.swift */,
-				3F60160B2C5918A100866993 /* HBTIQuantitySelectionViewController.swift */,
-				3F60160F2C591AF400866993 /* HBTINotesCategoryViewController.swift */,
-				3FD651082C61D6D100E80087 /* HBTINotesResultViewController.swift */,
+				3FD651042C61D6B200E80087 /* HBTINotesResultReactor.swift */,
 			);
-			path = ViewController;
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3F2B2AA32C6DDC2900FA391B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		3F75A37B2C53D90600C232FA /* Key */ = {
@@ -1685,7 +1802,10 @@
 			isa = PBXGroup;
 			children = (
 				C96F760D2C40065600D44773 /* HBTI */,
-				3F296F8E2C57836300514F51 /* HBTIDetail */,
+				3F2B2A8E2C6DDAC700FA391B /* HBTIProcessGuide */,
+				3F2B2A8F2C6DDAD600FA391B /* HBTIQuantitySelection */,
+				3F2B2A902C6DDAE700FA391B /* HBTINotesCategory */,
+				3F2B2A912C6DDAF900FA391B /* HBTINotesResult */,
 			);
 			path = HBTI;
 			sourceTree = "<group>";
