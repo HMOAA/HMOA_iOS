@@ -290,6 +290,14 @@ extension UIViewController {
         hbtiSurveyResultVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiSurveyResultVC, animated: true)
     }
+        
+    /// HBTINoteVC로 push
+    func presentHBTINoteViewController() {
+        let hbtiNoteVC = HBTINoteViewController()
+        hbtiNoteVC.reactor = HBTINoteReactor()
+        hbtiNoteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNoteVC, animated: true)
+    }
     
     // MARK: Configure NavigationBar
     

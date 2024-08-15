@@ -14,7 +14,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class HBTIViewController: UIViewController, View {
+final class HBTIViewController: UIViewController, View {
     
     // MARK: - UI Components
     
@@ -45,10 +45,32 @@ class HBTIViewController: UIViewController, View {
     func bind(reactor: HBTIReactor) {
         
         // MARK: Action
+        yourHBTIView.goToSurveyButton.rx.tap
+            .map { Reactor.Action.didTapSurveyButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
+        yourHBTIView.selectNoteButton.rx.tap
+            .map { Reactor.Action.didTapNoteButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
+        reactor.state
+            .map { $0.isTapSurveyButton }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(onNext: presentHBTISurveyViewController)
+            .disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.isTapNoteButton }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(onNext: presentHBTINoteViewController)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions

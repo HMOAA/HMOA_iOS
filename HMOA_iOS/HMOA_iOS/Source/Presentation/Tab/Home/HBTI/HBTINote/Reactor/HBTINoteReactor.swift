@@ -1,14 +1,13 @@
 //
-//  HBTISurveyReactor.swift
+//  HBTINoteReactor.swift
 //  HMOA_iOS
 //
-//  Created by 곽다은 on 7/12/24.
+//  Created by 곽다은 on 8/15/24.
 //
-
 import ReactorKit
 import RxSwift
 
-final class HBTISurveyReactor: Reactor {
+final class HBTINoteReactor: Reactor {
     
     enum Action {
         
@@ -29,10 +28,18 @@ final class HBTISurveyReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        
+        switch action {
+            
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
+        var state = state
         
+        switch mutation {
+            
+        }
+        
+        return state
     }
 }
