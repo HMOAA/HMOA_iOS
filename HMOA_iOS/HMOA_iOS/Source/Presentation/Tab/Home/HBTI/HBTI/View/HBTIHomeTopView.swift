@@ -31,9 +31,9 @@ class HBTIHomeTopView: UIView {
         $0.distribution = .fillEqually
     }
     
-    private let goToSurveyButton = UIButton()
+    let goToSurveyButton = UIButton()
     
-    private let selectSpiceButton = UIButton()
+    let selectSpiceButton = UIButton()
     
     // MARK: - Init
     
@@ -92,7 +92,7 @@ class HBTIHomeTopView: UIView {
         }
     }
     
-    func configureButton(_ button: UIButton, withTitle title: String, imageName: String) {
+    private func configureButton(_ button: UIButton, withTitle title: String, imageName: String) {
         button.titleLabel?.numberOfLines = 0
         button.setTitleColor(.black, for: .normal)
         
