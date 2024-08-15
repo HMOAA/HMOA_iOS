@@ -7,7 +7,7 @@
 import ReactorKit
 import RxSwift
 
-class HBTIReactor: Reactor {
+final class HBTIReactor: Reactor {
     
     enum Action {
         case didTapSurveyButton

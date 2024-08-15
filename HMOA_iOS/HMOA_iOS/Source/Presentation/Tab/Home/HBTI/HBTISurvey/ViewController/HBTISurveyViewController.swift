@@ -13,7 +13,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class HBTISurveyViewController: UIViewController, View {
+final class HBTISurveyViewController: UIViewController, View {
     
     // MARK: - UI Components
     

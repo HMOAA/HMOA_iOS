@@ -14,7 +14,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class HBTINoteViewController: UIViewController, View {
+final class HBTINoteViewController: UIViewController, View {
     
     // MARK: - Properties
     

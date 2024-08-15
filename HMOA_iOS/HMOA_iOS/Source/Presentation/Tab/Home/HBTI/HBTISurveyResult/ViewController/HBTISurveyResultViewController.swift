@@ -14,7 +14,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class HBTISurveyResultViewController: UIViewController, View {
+final class HBTISurveyResultViewController: UIViewController, View {
     
     // MARK: - UI Components
     

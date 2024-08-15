@@ -14,7 +14,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class HBTIViewController: UIViewController, View {
+final class HBTIViewController: UIViewController, View {
     
     // MARK: - UI Components
     

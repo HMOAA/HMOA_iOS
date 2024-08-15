@@ -8,7 +8,7 @@
 import ReactorKit
 import RxSwift
 
-class HBTISurveyReactor: Reactor {
+final class HBTISurveyReactor: Reactor {
     
     enum Action {
         
