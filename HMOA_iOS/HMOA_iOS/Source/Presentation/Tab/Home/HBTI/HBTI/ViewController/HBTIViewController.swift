@@ -59,19 +59,17 @@ final class HBTIViewController: UIViewController, View {
         reactor.state
             .map { $0.isTapSurveyButton }
             .filter { $0 }
+            .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, type in
-                owner.presentHBTISurveyViewController()
-            })
+            .drive(onNext: presentHBTISurveyViewController)
             .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.isTapNoteButton }
             .filter { $0 }
+            .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, type in
-                owner.presentHBTINoteViewController()
-            })
+            .drive(onNext: presentHBTINoteViewController)
             .disposed(by: disposeBag)
     }
     
