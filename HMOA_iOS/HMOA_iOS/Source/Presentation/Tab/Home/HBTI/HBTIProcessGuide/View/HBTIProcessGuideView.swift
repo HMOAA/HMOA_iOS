@@ -38,10 +38,6 @@ final class HBTIProcessGuideView: UIView {
     // MARK: - Set AddView
     
     private func setAddView() {
-//        [
-//         processFullStackView
-//        ].forEach(self.addSubview)
-
         self.addSubview(processFullStackView)
         processPartStackViews.forEach(processFullStackView.addArrangedSubview)
     }
@@ -51,7 +47,7 @@ final class HBTIProcessGuideView: UIView {
     private func setConstraints() {
         processFullStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
     }
     
