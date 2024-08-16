@@ -21,6 +21,12 @@ final class HBTIQuantitySelectTopView: UIView {
         $0.numberOfLines = 0
     }
     
+    private let categoryDescriptionLabel = UILabel().then {
+        $0.text = HBTIQuantitySelectionData().descriptionLabelText
+        $0.textColor = .black
+        $0.font = UIFont.customFont(.pretendard, 12)
+    }
+    
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
@@ -44,7 +50,8 @@ final class HBTIQuantitySelectTopView: UIView {
     
     private func setAddView() {
         [
-         categoryTitleLabel
+         categoryTitleLabel,
+         categoryDescriptionLabel
         ].forEach(self.addSubview)
     }
     
@@ -54,6 +61,11 @@ final class HBTIQuantitySelectTopView: UIView {
         categoryTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
             $0.leading.equalToSuperview().offset(16)
+        }
+        
+        categoryDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(categoryTitleLabel.snp.top).offset(63)
+            $0.leading.equalTo(categoryTitleLabel.snp.leading).offset(109)
         }
     }
 }
