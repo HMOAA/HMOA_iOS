@@ -21,6 +21,10 @@ final class HBTIProcessGuideView: UIView {
     
     private var processPartStackViews: [UIStackView] = []
     
+    private let lineView = UIView().then {
+        $0.backgroundColor = UIColor.customColor(.searchBarColor)
+    }
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
@@ -39,6 +43,8 @@ final class HBTIProcessGuideView: UIView {
     
     private func setAddView() {
         self.addSubview(processFullStackView)
+        
+        processFullStackView.addSubview(lineView)
         processPartStackViews.forEach(processFullStackView.addArrangedSubview)
     }
     
@@ -48,6 +54,13 @@ final class HBTIProcessGuideView: UIView {
         processFullStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
             $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
+        lineView.snp.makeConstraints {
+            $0.width.equalTo(1)
+            $0.top.equalTo(processPartStackViews.first!.snp.top).offset(10)
+            $0.bottom.equalTo(processPartStackViews.last!.snp.top)
+            $0.leading.equalTo(processPartStackViews.first!).offset(9)
         }
     }
     
