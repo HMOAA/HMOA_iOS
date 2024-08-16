@@ -14,6 +14,7 @@ import ReactorKit
 final class HBTIProcessGuideViewController: UIViewController {
     
     // MARK: - UI Components
+    private let hbtiProcessGuideView = HBTIProcessGuideView()
     
     private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
     
@@ -46,12 +47,19 @@ final class HBTIProcessGuideViewController: UIViewController {
     // MARK: Add Views
     
     private func setAddView() {
-        view.addSubview(nextButton)
+        [
+         hbtiProcessGuideView,
+         nextButton
+        ].forEach(view.addSubview)
     }
     
     // MARK: Set Constraints
     
     private func setConstraints() {
+        hbtiProcessGuideView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         nextButton.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(40)
