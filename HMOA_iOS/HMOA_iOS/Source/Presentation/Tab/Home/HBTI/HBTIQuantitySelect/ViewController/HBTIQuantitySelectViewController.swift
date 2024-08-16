@@ -15,6 +15,8 @@ final class HBTIQuantitySelectViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let hbtiQuantityTopView = HBTIQuantitySelectTopView()
+    
     private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
     
     // MARK: - LifeCycle
@@ -48,6 +50,7 @@ final class HBTIQuantitySelectViewController: UIViewController {
     
     private func setAddView() {
         [
+         hbtiQuantityTopView,
          nextButton
         ].forEach(view.addSubview)
     }
@@ -55,6 +58,10 @@ final class HBTIQuantitySelectViewController: UIViewController {
     // MARK: Set Constraints
     
     private func setConstraints() {
+        hbtiQuantityTopView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         nextButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(40)
             $0.horizontalEdges.equalToSuperview().inset(16)
