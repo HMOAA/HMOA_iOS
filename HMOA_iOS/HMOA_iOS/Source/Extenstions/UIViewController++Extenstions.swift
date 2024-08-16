@@ -307,6 +307,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiPerfumeResultVC, animated: true)
     }
     
+    /// HBTIProcessGuideVC로 push
+    func presentHBTIProcessGuideViewController() {
+        let hbtiProcessGuideVC = HBTIProcessGuideViewController()
+        hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
