@@ -299,6 +299,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiNoteVC, animated: true)
     }
     
+    /// HBTIQuantitySelectVC로 push
+    func presentHBTIQuantitySelectViewController() {
+        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
+        hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
