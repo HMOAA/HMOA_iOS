@@ -142,13 +142,14 @@
 		3FA0D8A72C739D380085BBE5 /* HBTINotesResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */; };
 		3FA0D8AD2C73AB040085BBE5 /* HBTINotesResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */; };
 		3F964D162C72C5ED00F97CB7 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3F964D152C72C5ED00F97CB7 /* loading.gif */; };
-		3F964D182C72C64800F97CB7 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D172C72C64800F97CB7 /* IgnoerData.swift */; };
 		3F964D202C72C73100F97CB7 /* HBTINotesCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */; };
 		3F964D2A2C72D36000F97CB7 /* HBTINotesCategoryTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */; };
 		3F964D2C2C72D72F00F97CB7 /* HBTINotesCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */; };
 		3F964D2E2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */; };
 		3F964D302C7324E600F97CB7 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */; };
 		3F964D322C73254200F97CB7 /* HBTINotesCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */; };
+		3FE780272C6F96D5003D6FDB /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE780262C6F96D5003D6FDB /* IgnoerData.swift */; };
+		3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */; };
 		45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 		C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */; };
 		C904BFA22BA95CF000B28494 /* MagazineLikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */; };
@@ -505,13 +506,14 @@
 		3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultViewController.swift; sourceTree = "<group>"; };
 		3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultCell.swift; sourceTree = "<group>"; };
 		3F964D152C72C5ED00F97CB7 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
-		3F964D172C72C64800F97CB7 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryViewController.swift; sourceTree = "<group>"; };
 		3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryTopView.swift; sourceTree = "<group>"; };
 		3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryData.swift; sourceTree = "<group>"; };
 		3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryButton.swift; sourceTree = "<group>"; };
 		3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryCell.swift; sourceTree = "<group>"; };
+		3FE780262C6F96D5003D6FDB /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
+		3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectViewController.swift; sourceTree = "<group>"; };
 		4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -964,7 +966,6 @@
 				CAF177082BB58BAF00A8F66E /* GoogleService-Info.plist */,
 				2C39AA7629704C2F000C6F71 /* Info.plist */,
 				2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */,
-				3FA07E482C6E337E00CE3CDA /* loading.gif */,
 				2C39AA21296DB4E0000C6F71 /* Assets.xcassets */,
 				3F964D152C72C5ED00F97CB7 /* loading.gif */,
 				2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */,
@@ -1590,6 +1591,25 @@
 			isa = PBXGroup;
 			children = (
 				3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */,
+            );
+            path = ViewController;
+            sourceTree = "<group>";
+        };
+		3FE780282C6F97B3003D6FDB /* HBTIQuantitySelect */ = {
+			isa = PBXGroup;
+			children = (
+				3FE7802C2C6F97E7003D6FDB /* Model */,
+				3FE7802B2C6F97E0003D6FDB /* Reactor */,
+				3FE7802A2C6F97D8003D6FDB /* View */,
+				3FE780292C6F97CF003D6FDB /* ViewController */,
+			);
+			path = HBTIQuantitySelect;
+			sourceTree = "<group>";
+		};
+		3FE780292C6F97CF003D6FDB /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1628,6 +1648,13 @@
 				3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */,
 				3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */,
 				3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */,
+            );
+            path = View;
+            sourceTree = "<group>";
+        };
+		3FE7802A2C6F97D8003D6FDB /* View */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1647,6 +1674,13 @@
             sourceTree = "<group>";
         };
 		3F964D1D2C72C6F400F97CB7 /* Reactor */ = {
+            isa = PBXGroup;
+            children = (
+            );
+            path = Reactor;
+            sourceTree = "<group>";
+        };
+		3FE7802B2C6F97E0003D6FDB /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -1678,6 +1712,13 @@
 			children = (
 				3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */,
 				3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */,
+            );
+            path = Model;
+            sourceTree = "<group>";
+        };
+		3FE7802C2C6F97E7003D6FDB /* Model */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2075,7 +2116,7 @@
 		C96CD7522BA8805B005C9856 /* Key */ = {
 			isa = PBXGroup;
 			children = (
-				3F964D172C72C64800F97CB7 /* IgnoerData.swift */,
+				3FE780262C6F96D5003D6FDB /* IgnoerData.swift */,
 			);
 			path = Key;
 			sourceTree = "<group>";
@@ -2090,6 +2131,7 @@
 				3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */,
 				3FA0D8A12C739D030085BBE5 /* HBTINotesResult */,
 				3F964D1A2C72C6CB00F97CB7 /* HBTINotesCategory */,
+				3FE780282C6F97B3003D6FDB /* HBTIQuantitySelect */,
 				C93CA20D2C69E6A900AFD9E8 /* HBTISurveyResult */,
 				C96F760D2C40065600D44773 /* HBTI */,
 				C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */,
@@ -3225,7 +3267,7 @@
 				3F49FB502C7844D600EDB0AC /* ReuseIdentifying.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
-				3F964D182C72C64800F97CB7 /* IgnoerData.swift in Sources */,
+				3FE780272C6F96D5003D6FDB /* IgnoerData.swift in Sources */,
 				C96CD74F2BA8803D005C9856 /* MagazineAPI.swift in Sources */,
 				3F1EAC7B2C8593EB000B657C /* HBTIAgreementView.swift in Sources */,
 				3F49FB4E2C78431D00EDB0AC /* HBTINotesResultModel.swift in Sources */,
@@ -3451,6 +3493,7 @@
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
 				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
 				CA0DB39129DBD67B0091DCB2 /* HPediaDictionaryCell.swift in Sources */,
+				3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */,
 				C99E7B692BA96DE200F359BC /* MagazineDetailItem.swift in Sources */,
 				CA6CA1122AFF780300535B0D /* CommunityPostPhotoCell.swift in Sources */,
 				CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */,
