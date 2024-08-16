@@ -19,7 +19,7 @@ final class HBTIProcessGuideViewController: UIViewController {
     }
     
     private func setUI() {
-        setClearBackNaviBar("향BTI", .black)
+        setBackItemNaviBar("향BTI")
     }
     
     func bind() {
