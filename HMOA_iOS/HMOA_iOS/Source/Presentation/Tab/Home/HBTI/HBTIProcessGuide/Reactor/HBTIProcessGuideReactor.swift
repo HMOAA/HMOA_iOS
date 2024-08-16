@@ -8,7 +8,7 @@
 import RxSwift
 import ReactorKit
 
-class HBTIProcessGuideReactor: Reactor {
+final class HBTIProcessGuideReactor: Reactor {
     enum Action {
         case didTapNextButton
     }
