@@ -112,6 +112,9 @@
 		2CD023632A092A5200459801 /* UserYearService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023622A092A5200459801 /* UserYearService.swift */; };
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
+		3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */; };
+		3FA07E492C6E337E00CE3CDA /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3FA07E482C6E337E00CE3CDA /* loading.gif */; };
+		3FCCFC472C6E1DE1009AE780 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */; };
 		45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 		C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */; };
 		C904BFA22BA95CF000B28494 /* MagazineLikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */; };
@@ -160,8 +163,6 @@
 		C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E042F2C2CE83100225624 /* PushAlarm.swift */; };
 		C99E7B692BA96DE200F359BC /* MagazineDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */; };
 		C99E7B6B2BA9F0B500F359BC /* MagazineDetailLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */; };
-		C9D161E52C1FF2550032FE78 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D161E42C1FF2550032FE78 /* IgnoerData.swift */; };
-		C9D230072C69F583008ACB9B /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9D230062C69F583008ACB9B /* loading.gif */; };
 		C9D2300B2C69F601008ACB9B /* HBTILoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300A2C69F601008ACB9B /* HBTILoadingView.swift */; };
 		C9D2300D2C6AE106008ACB9B /* HBTISurveyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */; };
 		C9D2300F2C6AE63C008ACB9B /* HBTISurveyResultSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */; };
@@ -421,6 +422,9 @@
 		2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageViewController.swift; sourceTree = "<group>"; };
 		2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageReactor.swift; sourceTree = "<group>"; };
 		3192AEB7DBBC796C18F3F3DA /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideViewController.swift; sourceTree = "<group>"; };
+		3FA07E482C6E337E00CE3CDA /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -472,8 +476,6 @@
 		C98E042F2C2CE83100225624 /* PushAlarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarm.swift; sourceTree = "<group>"; };
 		C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailItem.swift; sourceTree = "<group>"; };
 		C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailLineView.swift; sourceTree = "<group>"; };
-		C9D161E42C1FF2550032FE78 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
-		C9D230062C69F583008ACB9B /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = loading.gif; path = ../../../../../../.Trash/loading.gif; sourceTree = "<group>"; };
 		C9D2300A2C69F601008ACB9B /* HBTILoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTILoadingView.swift; sourceTree = "<group>"; };
 		C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultCell.swift; sourceTree = "<group>"; };
 		C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultSection.swift; sourceTree = "<group>"; };
@@ -870,8 +872,8 @@
 				CAF177082BB58BAF00A8F66E /* GoogleService-Info.plist */,
 				2C39AA7629704C2F000C6F71 /* Info.plist */,
 				2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */,
+				3FA07E482C6E337E00CE3CDA /* loading.gif */,
 				2C39AA21296DB4E0000C6F71 /* Assets.xcassets */,
-				C9D230062C69F583008ACB9B /* loading.gif */,
 				2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */,
 			);
 			path = Resource;
@@ -1442,6 +1444,54 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */ = {
+			isa = PBXGroup;
+			children = (
+				3F5565FA2C6F32D4005CCBCA /* Model */,
+				3F5565F92C6F32CF005CCBCA /* Reactor */,
+				3F5565F82C6F32CA005CCBCA /* View */,
+				3F5565F72C6F32BE005CCBCA /* ViewController */,
+			);
+			path = HBTIProcessGuide;
+			sourceTree = "<group>";
+		};
+		3F5565F72C6F32BE005CCBCA /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F5565F82C6F32CA005CCBCA /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F5565F92C6F32CF005CCBCA /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3F5565FA2C6F32D4005CCBCA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3FCCFC452C6E1D28009AE780 /* Key */ = {
+			isa = PBXGroup;
+			children = (
+				3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */,
+			);
+			path = Key;
+			sourceTree = "<group>";
+		};
 		C904BFA72BA9646F00B28494 /* ContentsCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1537,6 +1587,39 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		C93CA2092C69E6A900AFD9E8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C93CA20A2C69E6A900AFD9E8 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C93CA2102C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		C93CA20B2C69E6A900AFD9E8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C9D2300A2C69F601008ACB9B /* HBTILoadingView.swift */,
+				C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C93CA20C2C69E6A900AFD9E8 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C93CA20E2C69E6D600AFD9E8 /* HBTISurveyResultViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		C93CA20D2C69E6A900AFD9E8 /* HBTISurveyResult */ = {
 			isa = PBXGroup;
 			children = (
@@ -1548,39 +1631,6 @@
 			path = HBTISurveyResult;
 			sourceTree = "<group>";
 		};
-        C93CA2092C69E6A900AFD9E8 /* Model */ = {
-            isa = PBXGroup;
-            children = (
-                C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */,
-            );
-            path = Model;
-            sourceTree = "<group>";
-        };
-        C93CA20A2C69E6A900AFD9E8 /* Reactor */ = {
-            isa = PBXGroup;
-            children = (
-                C93CA2102C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift */,
-            );
-            path = Reactor;
-            sourceTree = "<group>";
-        };
-        C93CA20B2C69E6A900AFD9E8 /* View */ = {
-            isa = PBXGroup;
-            children = (
-                C9D2300A2C69F601008ACB9B /* HBTILoadingView.swift */,
-                C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */,
-            );
-            path = View;
-            sourceTree = "<group>";
-        };
-        C93CA20C2C69E6A900AFD9E8 /* ViewController */ = {
-            isa = PBXGroup;
-            children = (
-                C93CA20E2C69E6D600AFD9E8 /* HBTISurveyResultViewController.swift */,
-            );
-            path = ViewController;
-            sourceTree = "<group>";
-        };
 		C94EE0AA2C1FFB71005EDC95 /* PushAlarm */ = {
 			isa = PBXGroup;
 			children = (
@@ -1740,20 +1790,13 @@
 			path = Magazine;
 			sourceTree = "<group>";
 		};
-		C96CD7522BA8805B005C9856 /* Key */ = {
-			isa = PBXGroup;
-			children = (
-				C9D161E42C1FF2550032FE78 /* IgnoerData.swift */,
-			);
-			path = Key;
-			sourceTree = "<group>";
-		};
 		C96F76032C3FB34800D44773 /* HBTI */ = {
 			isa = PBXGroup;
 			children = (
-				C93CA20D2C69E6A900AFD9E8 /* HBTISurveyResult */,
+				3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */,
 				C96F760D2C40065600D44773 /* HBTI */,
 				C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */,
+				C93CA20D2C69E6A900AFD9E8 /* HBTISurveyResult */,
 				C91980DF2C6D93EF00A7E91F /* HBTINote */,
 			);
 			path = HBTI;
@@ -2356,7 +2399,7 @@
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				C96CD7522BA8805B005C9856 /* Key */,
+				3FCCFC452C6E1D28009AE780 /* Key */,
 				CADEAE182B43F9E100BC8964 /* Login */,
 				CA051CAC297FD9BD001865F5 /* Start */,
 			);
@@ -2638,8 +2681,8 @@
 			files = (
 				CAA4245C2B6BF24D0005975D /* Settings.bundle in Resources */,
 				CAF177092BB58BAF00A8F66E /* GoogleService-Info.plist in Resources */,
+				3FA07E492C6E337E00CE3CDA /* loading.gif in Resources */,
 				2C39AA25296DB4E0000C6F71 /* LaunchScreen.storyboard in Resources */,
-				C9D230072C69F583008ACB9B /* loading.gif in Resources */,
 				2C39AA22296DB4E0000C6F71 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2828,6 +2871,7 @@
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
+				3FCCFC472C6E1DE1009AE780 /* IgnoerData.swift in Sources */,
 				C96CD74F2BA8803D005C9856 /* MagazineAPI.swift in Sources */,
 				2CA155B22A039B1B00D7B0C0 /* LoginAddress.swift in Sources */,
 				CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */,
@@ -2955,6 +2999,7 @@
 				C96F760F2C4006F200D44773 /* HBTIHomeTopView.swift in Sources */,
 				CA39D5652B0B35F900694677 /* MyLogCommentViewController.swift in Sources */,
 				CA7C9C112AAAFB9300072AB9 /* CommunityListHeaderView.swift in Sources */,
+				3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */,
 				CA7C9C0B2AAADF8500072AB9 /* CommunityListViewController.swift in Sources */,
 				CA9B9D812B1B29F9006BBA10 /* MyPageSwitchCell.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
@@ -3054,7 +3099,6 @@
 				C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */,
 				C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
-				C9D161E52C1FF2550032FE78 /* IgnoerData.swift in Sources */,
 				C98424642C43D54200530259 /* HBTIModel.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
