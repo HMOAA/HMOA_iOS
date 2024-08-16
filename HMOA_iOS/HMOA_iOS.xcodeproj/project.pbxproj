@@ -148,6 +148,7 @@
 		3F964D2E2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */; };
 		3F964D302C7324E600F97CB7 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */; };
 		3F964D322C73254200F97CB7 /* HBTINotesCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */; };
+		3F2060A42C6F9CBA00926F14 /* HBTIQuantitySelectData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */; };
 		3FE780272C6F96D5003D6FDB /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE780262C6F96D5003D6FDB /* IgnoerData.swift */; };
 		3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */; };
 		45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
@@ -512,6 +513,7 @@
 		3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryButton.swift; sourceTree = "<group>"; };
 		3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryCell.swift; sourceTree = "<group>"; };
+		3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectData.swift; sourceTree = "<group>"; };
 		3FE780262C6F96D5003D6FDB /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectViewController.swift; sourceTree = "<group>"; };
 		4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1719,6 +1721,7 @@
 		3FE7802C2C6F97E7003D6FDB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3402,6 +3405,7 @@
 				C91980E72C6D952600A7E91F /* HBTINoteReactor.swift in Sources */,
 				CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
+				3F2060A42C6F9CBA00926F14 /* HBTIQuantitySelectData.swift in Sources */,
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				CAD1EC132A812491003B21FD /* NoLoginView.swift in Sources */,
 				CA01609D2AB2E46000D5839D /* EvaluationAddress.swift in Sources */,
