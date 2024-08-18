@@ -96,7 +96,13 @@ extension HBTIQuantitySelectViewController: UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HBTIQuantitySelectCell.reuseIdentifier, for: indexPath) as! HBTIQuantitySelectCell
-        cell.configureCell(quantity: quantities[indexPath.row])
+        
+        if indexPath.row == 2 {
+            cell.configureCell(quantity: "", isThirdCell: true)
+        } else {
+            cell.configureCell(quantity: quantities[indexPath.row])
+        }
+        
         return cell
     }
     
