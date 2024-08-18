@@ -14,7 +14,7 @@ final class HBTIQuantitySelectTopView: UIView {
     // MARK: - UI Components
     
     private let categoryTitleLabel = UILabel().then {
-        $0.text = HBTIQuantitySelectionData().titleLabelText
+        $0.setTextWithLineHeight(text: HBTIQuantitySelectionData().titleLabelText, lineHeight: 27)
         $0.textColor = .black
         $0.font = UIFont.customFont(.pretendard_bold, 20)
         $0.textAlignment = .left
@@ -59,8 +59,7 @@ final class HBTIQuantitySelectTopView: UIView {
     
     private func setConstraints() {
         categoryTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(127)
-            $0.leading.equalToSuperview().offset(16)
+            $0.edges.equalToSuperview()
         }
         
         categoryDescriptionLabel.snp.makeConstraints {
