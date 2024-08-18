@@ -21,12 +21,14 @@ final class HBTISurveyReactor: Reactor {
         case setSelectedID((Int, Int))
         case setNextQuestion(Int)
         case setIsEnabledNextButton
+        case setIsPushNextVC(Bool)
     }
     
     struct State {
         var selectedID = [Int: Int]()
         var currentQuestion: Int? = nil
         var isEnableNextButton: Bool = false
+        var isPushNextVC: Bool = false
     }
     
     var initialState: State
@@ -53,6 +55,11 @@ final class HBTISurveyReactor: Reactor {
             guard let currentQuestionIndexPath = currentState.currentQuestion else {
                 return .empty()
             }
+            // TODO: API 연동 후 조건문 변경
+            if currentQuestionIndexPath == 4 - 1 && currentState.selectedID.count == 4 {
+                return .just(.setIsPushNextVC(true))
+            }
+                
             return .just(.setNextQuestion(currentQuestionIndexPath + 1))
         }
     }
@@ -80,6 +87,9 @@ final class HBTISurveyReactor: Reactor {
         case .setIsEnabledNextButton:
             guard let currentPage = state.currentQuestion else { return state }
             state.isEnableNextButton = currentPage <= state.selectedID.count - 1
+            
+        case .setIsPushNextVC(let isPush):
+            state.isPushNextVC = isPush
         }
         
         return state

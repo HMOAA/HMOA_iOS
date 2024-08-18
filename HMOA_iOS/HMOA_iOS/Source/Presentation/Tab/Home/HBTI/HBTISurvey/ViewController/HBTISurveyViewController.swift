@@ -87,6 +87,14 @@ final class HBTISurveyViewController: UIViewController, View {
                 owner.nextButton.backgroundColor = isEnabled ? .black : UIColor.customColor(.gray3)
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: presentHBTISurveyResultViewController)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
