@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HBTIQuantitySelectBottomView: UIView {
+final class HBTIQuantitySelectCell: UICollectionViewCell {
     
     // MARK: - UI Components
     
