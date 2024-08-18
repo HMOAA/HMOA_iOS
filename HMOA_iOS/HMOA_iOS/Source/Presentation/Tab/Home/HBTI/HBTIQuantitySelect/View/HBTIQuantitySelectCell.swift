@@ -50,6 +50,6 @@ final class HBTIQuantitySelectCell: UITableViewCell, ReuseIdentifying {
     }
     
     func configureCell(quantity: String) {
-        quantityButton.quantityLabel.text = quantity
+        quantityButton.quantityLabel.setLabelUI(quantity, font: .pretendard, size: 14, color: .black)
     }
 }
