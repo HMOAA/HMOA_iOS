@@ -54,4 +54,16 @@ final class HBTIQuantitySelectCell: UICollectionViewCell {
             $0.edges.equalToSuperview()
         }
     }
+    
+    func configureCell(quantities: [String]) {
+        quantities.forEach {
+            let button = HBTIQuantitySelectButton()
+            button.quantityLabel.text = $0
+            button.isSelected = false
+            button.snp.makeConstraints {
+                $0.height.equalTo(50)
+            }
+            answerStackView.addArrangedSubview(button)
+        }
+    }
 }
