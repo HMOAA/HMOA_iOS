@@ -13,6 +13,12 @@ final class HBTIQuantitySelectButton: UIButton {
     
     // MARK: - UI Components
     
+    private let checkBoxImageView = UIImageView()
+    
+    let quantityLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
+    }
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
@@ -30,18 +36,32 @@ final class HBTIQuantitySelectButton: UIButton {
     // MARK: Set UI
     
     private func setUI() {
-        
+        self.layer.cornerRadius = 5
+        self.layer.masksToBounds = true
     }
     
     // MARK: Add Views
     
     private func setAddView() {
-        
+        [
+         checkBoxImageView,
+         quantityLabel
+        ].forEach(addSubview)
     }
     
     // MARK: Set Constraints
     
     private func setConstraints() {
+        checkBoxImageView.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(19)
+            $0.centerY.equalToSuperview()
+            $0.width.equalTo(18)
+        }
         
+        quantityLabel.snp.makeConstraints {
+            $0.leading.equalTo(checkBoxImageView.snp.trailing).offset(15)
+            $0.trailing.equalToSuperview().inset(19)
+            $0.centerY.equalToSuperview()
+        }
     }
 }
