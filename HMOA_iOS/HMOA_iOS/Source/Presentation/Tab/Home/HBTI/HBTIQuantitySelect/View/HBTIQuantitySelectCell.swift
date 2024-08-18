@@ -9,26 +9,19 @@ import UIKit
 import SnapKit
 import Then
 
-final class HBTIQuantitySelectCell: UICollectionViewCell {
-    
-    static let identifier = "HBTIQuantitySelectCell"
+final class HBTIQuantitySelectCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
-    
-    private let answerStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 16
-        $0.distribution = .equalSpacing
-        $0.alignment = .fill
-    }
+    private let quantityButton = HBTIQuantitySelectButton()
     
     // MARK: - LifeCycle
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setAddView()
         setConstraints()
+        setUI()
     }
     
     required init?(coder: NSCoder) {
@@ -44,26 +37,19 @@ final class HBTIQuantitySelectCell: UICollectionViewCell {
     // MARK: Add Views
     
     private func setAddView() {
-        self.addSubview(answerStackView)
+        contentView.addSubview(quantityButton)
     }
     
     // MARK: Set Constraints
     
     private func setConstraints() {
-        answerStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        quantityButton.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0))
+            $0.height.equalTo(50)
         }
     }
     
-    func configureCell(quantities: [String]) {
-        quantities.forEach {
-            let button = HBTIQuantitySelectButton()
-            button.quantityLabel.text = $0
-            button.isSelected = false
-            button.snp.makeConstraints {
-                $0.height.equalTo(50)
-            }
-            answerStackView.addArrangedSubview(button)
-        }
+    func configureCell(quantity: String) {
+        quantityButton.quantityLabel.text = quantity
     }
 }
