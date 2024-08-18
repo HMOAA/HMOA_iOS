@@ -160,6 +160,25 @@ final class HBTISurveyViewController: UIViewController, View {
                 
                 cell.configureCell(question: question, answers: question.answers)
                 
+                let questionID = question.id
+                
+                for (i, view) in cell.answerStackView.subviews.enumerated() {
+                    guard i < question.answers.count else { break }
+                    
+                    let button = view as! UIButton
+                    let answerID = question.answers[i].id
+                    
+                    button.rx.tap
+                        .map { Reactor.Action.didTapAnswerButton((questionID, answerID)) }
+                        .bind(to: self.reactor!.action)
+                        .disposed(by: self.disposeBag)
+                    
+                    self.reactor?.state
+                        .map { $0.selectedID[questionID] == answerID }
+                        .bind(to: button.rx.isSelected)
+                        .disposed(by: cell.disposeBag)
+                }
+                
                 return cell
             }
         })
