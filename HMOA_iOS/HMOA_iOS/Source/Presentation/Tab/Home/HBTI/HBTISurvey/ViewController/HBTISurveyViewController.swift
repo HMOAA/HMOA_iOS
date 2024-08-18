@@ -153,22 +153,6 @@ final class HBTISurveyViewController: UIViewController, View {
         return layout
     }
     
-    private func createGroup(estimatedHeight height : CGFloat) -> NSCollectionLayoutGroup {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(height)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(height)
-        )
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
-        return group
-    }
-    
     // MARK: Configure DataSource
     private func configureDataSource() {
         dataSource = .init(collectionView: hbtiSurveyCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
