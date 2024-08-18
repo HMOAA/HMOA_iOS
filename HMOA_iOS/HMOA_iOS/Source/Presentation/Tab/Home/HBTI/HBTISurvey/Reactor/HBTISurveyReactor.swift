@@ -20,11 +20,13 @@ final class HBTISurveyReactor: Reactor {
         case setCurrentQuestion(Int)
         case setSelectedID((Int, Int))
         case setNextQuestion(Int)
+        case setIsEnabledNextButton
     }
     
     struct State {
         var selectedID = [Int: Int]()
         var currentQuestion: Int? = nil
+        var isEnableNextButton: Bool = false
     }
     
     var initialState: State
@@ -37,11 +39,15 @@ final class HBTISurveyReactor: Reactor {
         switch action {
         case .didTapAnswerButton(let (questionID, answerID)):
             return .concat([
-                .just(.setSelectedID((questionID, answerID)))
+                .just(.setSelectedID((questionID, answerID))),
+                .just(.setIsEnabledNextButton)
             ])
             
         case .didChangeQuestion(let row):
-            return .just(.setCurrentQuestion(row))
+            return .concat([
+                .just(.setCurrentQuestion(row)),
+                .just(.setIsEnabledNextButton)
+            ])
             
         case .didTapNextButton:
             guard let currentQuestionIndexPath = currentState.currentQuestion else {
@@ -70,6 +76,10 @@ final class HBTISurveyReactor: Reactor {
             // TODO: API 연동 후 조건문 변경
             guard row < 4 else { return state }
             state.currentQuestion = row
+            
+        case .setIsEnabledNextButton:
+            guard let currentPage = state.currentQuestion else { return state }
+            state.isEnableNextButton = currentPage <= state.selectedID.count - 1
         }
         
         return state
