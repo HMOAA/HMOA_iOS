@@ -65,7 +65,7 @@ final class HBTIProcessGuideView: UIView {
     }
     
     private func createPartStackView() {
-        for data in processData {
+        for data in HBTIProcessGuideData.processData {
             let partStackView = createItemView(number: data.index, title: data.title, description: data.description)
             processPartStackViews.append(partStackView)
         }
