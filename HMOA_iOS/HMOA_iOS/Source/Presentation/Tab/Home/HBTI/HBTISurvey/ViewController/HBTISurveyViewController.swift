@@ -20,7 +20,7 @@ final class HBTISurveyViewController: UIViewController, View {
     private let progressBar = UIProgressView(progressViewStyle: .default).then {
         $0.progressTintColor = .black
         $0.trackTintColor = .customColor(.gray1)
-        $0.progress = 0.1
+        $0.progress = 0
     }
     
     private lazy var hbtiSurveyCollectionView = UICollectionView(
@@ -69,6 +69,16 @@ final class HBTISurveyViewController: UIViewController, View {
             .disposed(by: self.disposeBag)
         
         // MARK: State
+        reactor.state
+            .map { $0.selectedID }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, selectedID in
+                // TODO: API 연동 후 4를 총 아이템(질문) 수로 변경
+                let progress = Float(selectedID.count) / Float(4)
+                owner.progressBar.setProgress(progress, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .compactMap { $0.currentQuestion }
             .distinctUntilChanged()
