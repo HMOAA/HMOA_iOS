@@ -12,14 +12,19 @@ final class HBTISurveyReactor: Reactor {
     
     enum Action {
         case didTapAnswerButton((Int, Int))
+        case didChangeQuestion(Int)
+        case didTapNextButton
     }
     
     enum Mutation {
+        case setCurrentQuestion(Int)
         case setSelectedID((Int, Int))
+        case setNextQuestion(Int)
     }
     
     struct State {
         var selectedID = [Int: Int]()
+        var currentQuestion: Int? = nil
     }
     
     var initialState: State
@@ -34,6 +39,15 @@ final class HBTISurveyReactor: Reactor {
             return .concat([
                 .just(.setSelectedID((questionID, answerID)))
             ])
+            
+        case .didChangeQuestion(let row):
+            return .just(.setCurrentQuestion(row))
+            
+        case .didTapNextButton:
+            guard let currentQuestionIndexPath = currentState.currentQuestion else {
+                return .empty()
+            }
+            return .just(.setNextQuestion(currentQuestionIndexPath + 1))
         }
     }
     
@@ -41,12 +55,21 @@ final class HBTISurveyReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setCurrentQuestion(let row):
+            state.currentQuestion = row
+            
         case .setSelectedID(let (questionID, answerID)):
             if state.selectedID[questionID] == answerID {
                 state.selectedID.removeValue(forKey: questionID)
             } else {
                 state.selectedID[questionID] = answerID
             }
+            state.selectedID[questionID] = answerID
+            
+        case .setNextQuestion(let row):
+            // TODO: API 연동 후 조건문 변경
+            guard row < 4 else { return state }
+            state.currentQuestion = row
         }
         
         return state

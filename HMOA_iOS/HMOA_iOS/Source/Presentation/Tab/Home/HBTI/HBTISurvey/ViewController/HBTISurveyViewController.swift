@@ -63,9 +63,21 @@ final class HBTISurveyViewController: UIViewController, View {
     func bind(reactor: HBTISurveyReactor) {
         
         // MARK: Action
-        
+        nextButton.rx.tap
+            .map { Reactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
         // MARK: State
+        reactor.state
+            .compactMap { $0.currentQuestion }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, row in
+                let indexPath = IndexPath(row: row, section: 0)
+                owner.hbtiSurveyCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -126,6 +138,15 @@ final class HBTISurveyViewController: UIViewController, View {
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .groupPagingCentered
             section.interGroupSpacing = 16
+            
+            var previousPage: Int = -1
+            section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
+                let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
+                if currentPage != previousPage {
+                    previousPage = currentPage
+                    self.reactor?.action.onNext(.didChangeQuestion(currentPage))
+                }
+            }
             
             return section
         }
@@ -207,6 +228,28 @@ final class HBTISurveyViewController: UIViewController, View {
                     HBTIAnswer(id: 7, content: "단아"),
                     HBTIAnswer(id: 8, content: "귀여움"),
                     HBTIAnswer(id: 9, content: "섹시")
+                ]
+            )),
+            .question(HBTIQuestion(
+                id: 3,
+                content: "질문예시3",
+                answers: [
+                    HBTIAnswer(id: 10, content: "답1"),
+                    HBTIAnswer(id: 11, content: "답2"),
+                    HBTIAnswer(id: 12, content: "답3"),
+                    HBTIAnswer(id: 13, content: "답4"),
+                    HBTIAnswer(id: 14, content: "답5")
+                ]
+            )),
+            .question(HBTIQuestion(
+                id: 4,
+                content: "질문예시4",
+                answers: [
+                    HBTIAnswer(id: 15, content: "답6"),
+                    HBTIAnswer(id: 16, content: "답7"),
+                    HBTIAnswer(id: 17, content: "답8"),
+                    HBTIAnswer(id: 18, content: "답9"),
+                    HBTIAnswer(id: 19, content: "답10")
                 ]
             ))
         ], toSection: .question)
