@@ -11,7 +11,16 @@ import Then
 
 final class HBTIQuantitySelectCell: UICollectionViewCell {
     
+    static let identifier = "HBTIQuantitySelectCell"
+    
     // MARK: - UI Components
+    
+    private let answerStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 16
+        $0.distribution = .equalSpacing
+        $0.alignment = .fill
+    }
     
     // MARK: - LifeCycle
     
@@ -35,12 +44,14 @@ final class HBTIQuantitySelectCell: UICollectionViewCell {
     // MARK: Add Views
     
     private func setAddView() {
-
+        self.addSubview(answerStackView)
     }
     
     // MARK: Set Constraints
     
     private func setConstraints() {
-        
+        answerStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 }
