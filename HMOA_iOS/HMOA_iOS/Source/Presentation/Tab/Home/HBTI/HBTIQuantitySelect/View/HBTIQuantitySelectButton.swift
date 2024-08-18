@@ -19,6 +19,20 @@ final class HBTIQuantitySelectButton: UIButton {
         $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
     }
     
+    override var isSelected: Bool {
+        didSet {
+            layer.backgroundColor = isSelected
+                ? #colorLiteral(red: 0.3913987577, green: 0.3913987279, blue: 0.3913987577, alpha: 1)
+                : #colorLiteral(red: 0.9626654983, green: 0.9626654983, blue: 0.9626654983, alpha: 1)
+            checkBoxImageView.image = isSelected
+                ? UIImage(named: "checkBoxSelected")
+                : UIImage(named: "checkBoxNotSelected")
+            quantityLabel.textColor = isSelected
+                ? .white
+                : .black
+        }
+    }
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
@@ -36,6 +50,7 @@ final class HBTIQuantitySelectButton: UIButton {
     // MARK: Set UI
     
     private func setUI() {
+        isSelected = false
         self.layer.cornerRadius = 5
         self.layer.masksToBounds = true
     }
