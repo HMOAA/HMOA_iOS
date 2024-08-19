@@ -148,6 +148,7 @@
 		3F964D2C2C72D72F00F97CB7 /* HBTINotesCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */; };
 		3F964D2E2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */; };
 		3F964D302C7324E600F97CB7 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */; };
+		3F964D322C73254200F97CB7 /* HBTINotesCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */; };
 		45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 		C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */; };
 		C904BFA22BA95CF000B28494 /* MagazineLikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */; };
@@ -510,6 +511,7 @@
 		3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryData.swift; sourceTree = "<group>"; };
 		3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryButton.swift; sourceTree = "<group>"; };
 		3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
+		3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryCell.swift; sourceTree = "<group>"; };
 		4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1625,6 +1627,7 @@
 			children = (
 				3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */,
 				3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */,
+				3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3275,6 +3278,7 @@
 				CACE2C6A2B15991100D4116A /* UITextView++Extension.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */,
+				3F964D322C73254200F97CB7 /* HBTINotesCategoryCell.swift in Sources */,
 				CA0160982AB2E15200D5839D /* EvaluationReactor.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
 				CA22389B2AAF492D00452A31 /* CommunityPostCell.swift in Sources */,

@@ -5,7 +5,9 @@
 //  Created by HyoTaek on 8/19/24.
 //
 
-import Foundation
+import UIKit
+import SnapKit
+import Then
 
 final class HBTINotesCategoryButton: UIButton {
     
@@ -80,9 +82,9 @@ final class HBTINotesCategoryButton: UIButton {
         }
     }
     
-    // MARK: - Configuration
-    
-    func configure() {
-        
+    func configureButton(with category: HBTINotesCategoryData) {
+        imageView.image = UIImage(named: category.image)?.resize(targetSize: CGSize(width: 68, height: 68))
+        titleLabel.text = category.title
+        descriptionLabel.text = category.description
     }
 }
