@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HBTINotesCategoryCell: UICollectionViewCell {
+final class HBTINotesCategoryCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
         
@@ -25,7 +25,8 @@ final class HBTINotesCategoryCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUI()
+        setAddView()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {

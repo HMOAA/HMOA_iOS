@@ -7,15 +7,7 @@
 
 import Foundation
 
-struct HBTINotesCategoryData {
-    let titleLabelText = """
-                         추천받은 카테고리는 '시트러스' 입니다.
-                         원하는 카테고리 배송 수량을
-                         선택해주세요
-                         """
-
-    let descriptionLabelText = "· 향료 1개 당 990원"
-    
+struct HBTINotesCategoryData: Hashable {
     let id: Int
     let title: String
     let image: String
@@ -32,6 +24,23 @@ extension HBTINotesCategoryData {
         HBTINotesCategoryData(id: 6, title: "플로럴", image: "Sweet", description: "네롤리, 화이트 로즈,\n핑크 로즈\n(총 4,800원)"),
         HBTINotesCategoryData(id: 7, title: "시트러스", image: "Sweet", description: "라임 만다린, 베르가못,\n비터 오렌지, 자몽\n(총 6,000원)")
     ]
+}
+
+struct HBTICategoryLabelTexts {
+    let titleLabelText = """
+                         추천받은 카테고리는 '시트러스' 입니다.
+                         원하는 카테고리 배송 수량을
+                         선택해주세요
+                         """
+    let descriptionLabelText = "· 향료 1개 당 990원"
+}
+
+enum HBTINotesCategorySection: Hashable {
+    case category
+}
+
+enum HBTINotesCategoryItem: Hashable {
+    case note(HBTINotesCategoryData)
 }
 
 
