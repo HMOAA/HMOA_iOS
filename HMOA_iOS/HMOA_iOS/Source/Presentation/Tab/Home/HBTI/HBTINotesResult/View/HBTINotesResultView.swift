@@ -1,5 +1,5 @@
 //
-//  HBTINotesResultViewController.swift
+//  HBTINotesResultView.swift
 //  HMOA_iOS
 //
 //  Created by HyoTaek on 8/20/24.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HBTINotesResultViewController: UIViewController {
+final class HBTINotesResultView: UIView {
     
     // MARK: - UI Components
     
@@ -25,21 +25,10 @@ final class HBTINotesResultViewController: UIViewController {
         setConstraints()
     }
     
-    // MARK: - Bind
-    
-    func bind(reactor: HBTISurveyReactor) {
-        
-        // MARK: Action
-        
-        
-        // MARK: State
-        
-    }
-    
     // MARK: Set UI
     
     private func setUI() {
-        setBackItemNaviBar("향BTI")
+        
     }
     
     // MARK: Add Views
@@ -53,9 +42,4 @@ final class HBTINotesResultViewController: UIViewController {
     private func setConstraints() {
         
     }
-    
-    // MARK: Create Layout
-    
-    // MARK: Configure DataSource
-    
 }
