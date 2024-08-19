@@ -63,7 +63,7 @@ final class HBTINotesCategoryCell: UICollectionViewCell {
             button.snp.makeConstraints {
                 $0.height.equalTo(134)
             }
-            answerStackView.addArrangedSubview(button)
+            categoryStackView.addArrangedSubview(button)
         }
     }
 }
