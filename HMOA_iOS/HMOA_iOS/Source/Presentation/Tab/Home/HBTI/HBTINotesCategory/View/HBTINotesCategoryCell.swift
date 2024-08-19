@@ -18,6 +18,9 @@ final class HBTINotesCategoryCell: UICollectionViewCell, ReuseIdentifying {
         $0.spacing = 16
         $0.distribution = .fillEqually
         $0.alignment = .fill
+        
+        $0.layer.borderColor = UIColor.blue.cgColor
+        $0.layer.borderWidth = 2
     }
     
     // MARK: - Init

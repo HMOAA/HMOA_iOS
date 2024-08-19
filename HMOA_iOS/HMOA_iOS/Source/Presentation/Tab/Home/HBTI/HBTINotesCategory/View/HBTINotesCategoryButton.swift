@@ -66,7 +66,7 @@ final class HBTINotesCategoryButton: UIButton {
     
     private func setConstraints() {
         customImageView.snp.makeConstraints {
-            $0.top.centerX.equalToSuperview()
+            $0.centerX.equalToSuperview()
             $0.size.equalTo(68)
         }
         
@@ -77,8 +77,7 @@ final class HBTINotesCategoryButton: UIButton {
         
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(customTitleLabel.snp.bottom).offset(4)
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.width.equalTo(60)
+            $0.centerX.equalToSuperview()
         }
     }
     
