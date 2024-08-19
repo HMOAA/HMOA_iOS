@@ -74,9 +74,10 @@ final class HBTINotesCategoryViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(hbtiNotesCategoryTopView.snp.bottom).offset(20)
+            $0.top.equalTo(hbtiNotesCategoryTopView.snp.bottom).offset(28)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalTo(nextButton.snp.top).offset(-20)
+            $0.bottom.equalToSuperview().inset(60)
+//            $0.bottom.equalTo(nextButton.snp.top).offset(-20)
         }
         
         nextButton.snp.makeConstraints {
@@ -89,10 +90,10 @@ final class HBTINotesCategoryViewController: UIViewController {
     // MARK: Create Layout
         
     private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .absolute(134))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .estimated(134))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(134))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(134))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
