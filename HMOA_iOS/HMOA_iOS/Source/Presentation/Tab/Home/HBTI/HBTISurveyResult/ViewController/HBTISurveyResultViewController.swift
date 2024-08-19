@@ -20,6 +20,8 @@ final class HBTISurveyResultViewController: UIViewController, View {
     
     private let loadingView = HBTILoadingView()
     
+    private let resultView = UIView()
+    
     private let bestLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
         $0.setTextWithLineHeight(text: "OOO님에게 딱 맞는 향료는\n'시트러스'입니다", lineHeight: 27)
@@ -84,21 +86,22 @@ final class HBTISurveyResultViewController: UIViewController, View {
         view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
         hbtiSurveyResultCollectionView.isScrollEnabled = false
-        loadingView.isHidden = true
+        resultView.isHidden = true
     }
     
     // MARK: Add Views
     private func setAddView() {
-        // 로딩 화면
-        view.addSubview(loadingView)
+        [
+            loadingView,
+            resultView
+        ] .forEach { view.addSubview($0) }
         
-        // 결과 화면
         [
             bestLabel,
             secondThirdLabel,
             hbtiSurveyResultCollectionView,
             nextButton
-        ] .forEach { view.addSubview($0) }
+        ] .forEach { resultView.addSubview($0) }
     }
     
     // MARK: Set Constraints
@@ -107,9 +110,13 @@ final class HBTISurveyResultViewController: UIViewController, View {
             make.center.equalToSuperview()
         }
         
+        resultView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         bestLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
+            make.top.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(16)
         }
         
         secondThirdLabel.snp.makeConstraints { make in
