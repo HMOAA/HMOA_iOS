@@ -40,12 +40,6 @@ final class HBTINotesCategoryTopView: UIView {
     
     // MARK: - LifeCycle
     
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        
-//        setAddView()
-//        setConstraints()
-//    }
     init(labelTexts: HBTICategoryLabelTexts) {
         self.labelTexts = labelTexts
         super.init(frame: .zero)

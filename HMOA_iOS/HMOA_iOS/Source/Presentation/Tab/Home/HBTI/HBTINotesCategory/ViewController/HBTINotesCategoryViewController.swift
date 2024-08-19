@@ -106,10 +106,6 @@ final class HBTINotesCategoryViewController: UIViewController {
     
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<HBTINotesCategorySection, HBTINotesCategoryItem>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, item: HBTINotesCategoryItem) -> UICollectionViewCell? in
-//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier, for: indexPath) as? HBTINotesCategoryCell,
-//                  let category = item.category else {
-//                return UICollectionViewCell()
-//            }
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier, for: indexPath) as? HBTINotesCategoryCell else {
                 return UICollectionViewCell()
@@ -119,8 +115,6 @@ final class HBTINotesCategoryViewController: UIViewController {
             case .note(let noteData):
                 cell.configureCell(with: [noteData])
             }
-            
-//            cell.configure(with: category)
             return cell
         }
         
