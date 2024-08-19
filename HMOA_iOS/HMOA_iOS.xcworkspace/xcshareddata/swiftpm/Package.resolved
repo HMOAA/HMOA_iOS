@@ -14,13 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kakao/kakao-ios-sdk.git",
       "state" : {
-<<<<<<< HEAD
         "revision" : "5fcd519edd8ecfa134017fff90cf0d30e0a90919",
         "version" : "2.22.7"
-=======
-        "revision" : "66b3bddc2657e8ccb7a16fa0264aac99c57be09b",
-        "version" : "2.22.5"
->>>>>>> d4502398 ([Feat] HBTINotesResultView 생성)
       }
     },
     {
@@ -28,13 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kakao/kakao-ios-sdk-rx",
       "state" : {
-<<<<<<< HEAD
         "revision" : "837fadb84fba9cd769d9cc2a511b555e1852faa1",
         "version" : "2.22.7"
-=======
-        "revision" : "b5d6cd4bbf29e5e2a79b8a1d3c43e8df606dbb40",
-        "version" : "2.22.5"
->>>>>>> d4502398 ([Feat] HBTINotesResultView 생성)
       }
     },
     {
