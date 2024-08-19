@@ -15,12 +15,18 @@ final class HBTINotesCategoryViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let hbtiNotesCategoryTopView = HBTINotesCategoryTopView()
+    private let hbtiNotesCategoryTopView = HBTINotesCategoryTopView(labelTexts: HBTICategoryLabelTexts())
+    
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
+        $0.register(HBTINotesCategoryCell.self, forCellWithReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier)
+    }
     
     private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
     
     // MARK: - Properties
     
+    private var dataSource: UICollectionViewDiffableDataSource<HBTINotesCategorySection, HBTINotesCategoryItem>?
+
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -29,6 +35,7 @@ final class HBTINotesCategoryViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+        configureDataSource()
     }
     
     // MARK: - Bind
@@ -53,6 +60,7 @@ final class HBTINotesCategoryViewController: UIViewController {
     private func setAddView() {
         [
          hbtiNotesCategoryTopView,
+         collectionView,
          nextButton
         ].forEach(view.addSubview)
     }
@@ -65,6 +73,12 @@ final class HBTINotesCategoryViewController: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(hbtiNotesCategoryTopView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(nextButton.snp.top).offset(-20)
+        }
+        
         nextButton.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(40)
@@ -73,8 +87,47 @@ final class HBTINotesCategoryViewController: UIViewController {
     }
     
     // MARK: Create Layout
-    
-    
+        
+    private func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .absolute(134))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(134))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 24
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+        
     // MARK: Configure DataSource
     
+    private func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<HBTINotesCategorySection, HBTINotesCategoryItem>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, item: HBTINotesCategoryItem) -> UICollectionViewCell? in
+//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier, for: indexPath) as? HBTINotesCategoryCell,
+//                  let category = item.category else {
+//                return UICollectionViewCell()
+//            }
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier, for: indexPath) as? HBTINotesCategoryCell else {
+                return UICollectionViewCell()
+            }
+            
+            switch item {
+            case .note(let noteData):
+                cell.configureCell(with: [noteData])
+            }
+            
+//            cell.configure(with: category)
+            return cell
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<HBTINotesCategorySection, HBTINotesCategoryItem>()
+        snapshot.appendSections([.category])
+        let items = HBTINotesCategoryData.data.map { HBTINotesCategoryItem.note($0) }
+        snapshot.appendItems(items, toSection: .category)
+        dataSource?.apply(snapshot, animatingDifferences: false)
+    } 
 }

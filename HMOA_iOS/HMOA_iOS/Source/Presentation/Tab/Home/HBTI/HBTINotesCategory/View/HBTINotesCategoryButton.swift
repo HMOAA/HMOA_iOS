@@ -13,13 +13,13 @@ final class HBTINotesCategoryButton: UIButton {
     
     // MARK: - UI Components
     
-    private let imageView = UIImageView().then {
+    private let customImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 34
     }
     
-    private let titleLabel = UILabel().then {
+    private let customTitleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_semibold, 14)
         $0.textColor = .black
         $0.textAlignment = .center
@@ -56,8 +56,8 @@ final class HBTINotesCategoryButton: UIButton {
     
     private func setAddView() {
         [
-         imageView,
-         titleLabel,
+         customImageView,
+         customTitleLabel,
          descriptionLabel
         ].forEach(addSubview)
     }
@@ -65,26 +65,26 @@ final class HBTINotesCategoryButton: UIButton {
     // MARK: Set Constraints
     
     private func setConstraints() {
-        imageView.snp.makeConstraints {
+        customImageView.snp.makeConstraints {
             $0.top.centerX.equalToSuperview()
             $0.size.equalTo(68)
         }
         
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(12)
-            $0.centerX.equalTo(imageView)
+        customTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(customImageView.snp.bottom).offset(12)
+            $0.centerX.equalTo(customImageView)
         }
         
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
+            $0.top.equalTo(customTitleLabel.snp.bottom).offset(4)
             $0.leading.trailing.bottom.equalToSuperview()
             $0.width.equalTo(60)
         }
     }
     
     func configureButton(with category: HBTINotesCategoryData) {
-        imageView.image = UIImage(named: category.image)?.resize(targetSize: CGSize(width: 68, height: 68))
-        titleLabel.text = category.title
+        customImageView.image = UIImage(named: category.image)?.resize(targetSize: CGSize(width: 68, height: 68))
+        customTitleLabel.text = category.title
         descriptionLabel.text = category.description
     }
 }
