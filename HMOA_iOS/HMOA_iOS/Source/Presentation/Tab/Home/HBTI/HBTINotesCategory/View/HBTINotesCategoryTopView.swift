@@ -22,9 +22,6 @@ final class HBTINotesCategoryTopView: UIView {
         $0.spacing = 12
         $0.alignment = .fill
         $0.distribution = .fill
-        
-        $0.layer.borderColor = UIColor.orange.cgColor
-        $0.layer.borderWidth = 2
     }
     
     private lazy var categoryTitleLabel = UILabel().then {
