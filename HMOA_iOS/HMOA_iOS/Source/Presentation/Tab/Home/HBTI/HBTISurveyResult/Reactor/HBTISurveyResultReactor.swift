@@ -18,7 +18,7 @@ final class HBTISurveyResultReactor: Reactor {
     }
     
     struct State {
-        
+        var noteItems: [HBTISurveyResultItem] = [.recommand(HBTISurveyResultNote(id: 999, name: "시험용", photoURL: "시험용", content: "시험용"))]
     }
     
     var initialState: State
@@ -28,10 +28,16 @@ final class HBTISurveyResultReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        
+        switch action {
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
+        var state = state
         
+        switch mutation {
+        }
+        
+        return state
     }
 }

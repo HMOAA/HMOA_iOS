@@ -75,8 +75,15 @@ final class HBTISurveyResultViewController: UIViewController, View {
         
         // MARK: Action
         
-        
         // MARK: State
+        reactor.state
+            .map { $0.noteItems }
+            .delay(.seconds(2), scheduler: MainScheduler.instance)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateLoadingViewIsHidden(isHidden: !items.isEmpty)
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -191,5 +198,12 @@ final class HBTISurveyResultViewController: UIViewController, View {
         ])
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+}
+
+extension HBTISurveyResultViewController {
+    private func updateLoadingViewIsHidden(isHidden: Bool) {
+        loadingView.isHidden = isHidden
+        resultView.isHidden = !isHidden
     }
 }
