@@ -15,6 +15,8 @@ final class HBTINotesCategoryViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let hbtiNotesCategoryTopView = HBTINotesCategoryTopView()
+    
     private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
     
     // MARK: - Properties
@@ -50,6 +52,7 @@ final class HBTINotesCategoryViewController: UIViewController {
     
     private func setAddView() {
         [
+         hbtiNotesCategoryTopView,
          nextButton
         ].forEach(view.addSubview)
     }
@@ -57,6 +60,11 @@ final class HBTINotesCategoryViewController: UIViewController {
     // MARK: Set Constraints
     
     private func setConstraints() {
+        hbtiNotesCategoryTopView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(127)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
         nextButton.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(40)

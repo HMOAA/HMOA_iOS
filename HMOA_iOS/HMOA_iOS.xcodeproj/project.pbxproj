@@ -144,6 +144,8 @@
 		3F964D162C72C5ED00F97CB7 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3F964D152C72C5ED00F97CB7 /* loading.gif */; };
 		3F964D182C72C64800F97CB7 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D172C72C64800F97CB7 /* IgnoerData.swift */; };
 		3F964D202C72C73100F97CB7 /* HBTINotesCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */; };
+		3F964D2A2C72D36000F97CB7 /* HBTINotesCategoryTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */; };
+		3F964D2C2C72D72F00F97CB7 /* HBTINotesCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */; };
 		45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 		C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */; };
 		C904BFA22BA95CF000B28494 /* MagazineLikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */; };
@@ -502,6 +504,8 @@
 		3F964D152C72C5ED00F97CB7 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		3F964D172C72C64800F97CB7 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryViewController.swift; sourceTree = "<group>"; };
+		3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryTopView.swift; sourceTree = "<group>"; };
+		3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryData.swift; sourceTree = "<group>"; };
 		4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1615,6 +1619,7 @@
 		3F964D1C2C72C6EF00F97CB7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1663,6 +1668,7 @@
 		3F964D1E2C72C70900F97CB7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3415,6 +3421,7 @@
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				3F03E0902C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift in Sources */,
+				3F964D2A2C72D36000F97CB7 /* HBTINotesCategoryTopView.swift in Sources */,
 				CAE5F2A029F1109800BAF313 /* Response.swift in Sources */,
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
 				CA39D56C2B0B3A9C00694677 /* MyLogCommentSection.swift in Sources */,
@@ -3443,6 +3450,7 @@
 				2CA155B02A039AD100D7B0C0 /* MemberAddress.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
+				3F964D2C2C72D72F00F97CB7 /* HBTINotesCategoryData.swift in Sources */,
 				CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */,
 				2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */,
 				C9D2300D2C6AE106008ACB9B /* HBTISurveyResultCell.swift in Sources */,
