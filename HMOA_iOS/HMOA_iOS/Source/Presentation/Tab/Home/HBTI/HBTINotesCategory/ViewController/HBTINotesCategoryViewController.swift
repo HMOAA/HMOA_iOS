@@ -77,7 +77,6 @@ final class HBTINotesCategoryViewController: UIViewController {
             $0.top.equalTo(hbtiNotesCategoryTopView.snp.bottom).offset(28)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(60)
-//            $0.bottom.equalTo(nextButton.snp.top).offset(-20)
         }
         
         nextButton.snp.makeConstraints {
