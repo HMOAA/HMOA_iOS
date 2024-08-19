@@ -74,6 +74,10 @@ final class HBTISurveyResultViewController: UIViewController, View {
     func bind(reactor: HBTISurveyResultReactor) {
         
         // MARK: Action
+        nextButton.rx.tap
+            .map { Reactor.Action.isTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
         reactor.state
@@ -83,6 +87,15 @@ final class HBTISurveyResultViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, items in
                 owner.updateLoadingViewIsHidden(isHidden: !items.isEmpty)
             })
+            .disposed(by: disposeBag)
+        
+        // TODO: 향료 선택 가이드 VC로 push하도록 변경
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: presentHBTINoteViewController)
             .disposed(by: disposeBag)
         
     }
