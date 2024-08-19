@@ -299,6 +299,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiNoteVC, animated: true)
     }
     
+    /// HBTINotesResultVC로 push
+    func presentHBTINotesResultViewController() {
+        let hbtiNoteResultVC = HBTINotesResultViewController()
+        hbtiNoteResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNoteResultVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
