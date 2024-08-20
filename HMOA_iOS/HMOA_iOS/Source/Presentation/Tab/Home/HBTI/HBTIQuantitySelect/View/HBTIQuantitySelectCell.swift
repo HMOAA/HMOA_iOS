@@ -27,7 +27,7 @@ final class HBTIQuantitySelectCell: UITableViewCell, ReuseIdentifying {
         
         let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: "33,000원")
         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributeString.length))
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughColor, value: UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 1.0), range: NSRange(location: 0, length: attributeString.length))
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughColor, value: UIColor.red, range: NSRange(location: 0, length: attributeString.length))
         
         $0.attributedText = attributeString
     }
