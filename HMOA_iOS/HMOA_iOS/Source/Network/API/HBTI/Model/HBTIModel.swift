@@ -7,18 +7,31 @@
 
 import Foundation
 
-struct HBTISurveyResponse: Hashable {
+struct HBTISurveyResponse: Hashable, Codable {
     let title: String
     let questions: [HBTIQuestion]
 }
 
-struct HBTIQuestion: Hashable {
+struct HBTIQuestion: Hashable, Codable {
     let id: Int
     let content: String
     let answers: [HBTIAnswer]
+    let isMultipleChoice: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "questionId"
+        case content
+        case answers
+        case isMultipleChoice
+    }
 }
 
-struct HBTIAnswer: Hashable {
+struct HBTIAnswer: Hashable, Codable {
     let id: Int
     let content: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "optionId"
+        case content = "option"
+    }
 }

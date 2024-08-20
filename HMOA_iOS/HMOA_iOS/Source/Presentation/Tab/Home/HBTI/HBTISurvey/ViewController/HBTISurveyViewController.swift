@@ -63,12 +63,27 @@ final class HBTISurveyViewController: UIViewController, View {
     func bind(reactor: HBTISurveyReactor) {
         
         // MARK: Action
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
         nextButton.rx.tap
             .map { Reactor.Action.didTapNextButton }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
         // MARK: State
+        
+        reactor.state
+            .map { $0.questionList }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .question, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.selectedID }
             .asDriver(onErrorRecover: { _ in .empty() })
@@ -218,52 +233,62 @@ final class HBTISurveyViewController: UIViewController, View {
         initialSnapshot.appendSections([.question])
         
         // TODO: API 연동 후 삭제
-        initialSnapshot.appendItems([
-            .question(HBTIQuestion(
-                id: 1,
-                content: "좋아하는 계절이 있으신가요?",
-                answers: [
-                    HBTIAnswer(id: 1, content: "싱그럽고 활기찬 ‘봄’"),
-                    HBTIAnswer(id: 2, content: "화창하고 에너지 넘치는 ‘여름’"),
-                    HBTIAnswer(id: 3, content: "우아하고 고요한 분위기의 ‘가을’"),
-                    HBTIAnswer(id: 4, content: "차가움과 아늑함이 공존하는 ‘겨울’")
-                ]
-            )),
-            .question(HBTIQuestion(
-                id: 2,
-                content: "남들이 생각하는 본인의 이미지는 무엇인가요?",
-                answers: [
-                    HBTIAnswer(id: 5, content: "청순"),
-                    HBTIAnswer(id: 6, content: "시크, 멋짐"),
-                    HBTIAnswer(id: 7, content: "단아"),
-                    HBTIAnswer(id: 8, content: "귀여움"),
-                    HBTIAnswer(id: 9, content: "섹시")
-                ]
-            )),
-            .question(HBTIQuestion(
-                id: 3,
-                content: "질문예시3",
-                answers: [
-                    HBTIAnswer(id: 10, content: "답1"),
-                    HBTIAnswer(id: 11, content: "답2"),
-                    HBTIAnswer(id: 12, content: "답3"),
-                    HBTIAnswer(id: 13, content: "답4"),
-                    HBTIAnswer(id: 14, content: "답5")
-                ]
-            )),
-            .question(HBTIQuestion(
-                id: 4,
-                content: "질문예시4",
-                answers: [
-                    HBTIAnswer(id: 15, content: "답6"),
-                    HBTIAnswer(id: 16, content: "답7"),
-                    HBTIAnswer(id: 17, content: "답8"),
-                    HBTIAnswer(id: 18, content: "답9"),
-                    HBTIAnswer(id: 19, content: "답10")
-                ]
-            ))
-        ], toSection: .question)
+//        initialSnapshot.appendItems([
+//            .question(HBTIQuestion(
+//                id: 1,
+//                content: "좋아하는 계절이 있으신가요?",
+//                answers: [
+//                    HBTIAnswer(id: 1, content: "싱그럽고 활기찬 ‘봄’"),
+//                    HBTIAnswer(id: 2, content: "화창하고 에너지 넘치는 ‘여름’"),
+//                    HBTIAnswer(id: 3, content: "우아하고 고요한 분위기의 ‘가을’"),
+//                    HBTIAnswer(id: 4, content: "차가움과 아늑함이 공존하는 ‘겨울’")
+//                ]
+//            )),
+//            .question(HBTIQuestion(
+//                id: 2,
+//                content: "남들이 생각하는 본인의 이미지는 무엇인가요?",
+//                answers: [
+//                    HBTIAnswer(id: 5, content: "청순"),
+//                    HBTIAnswer(id: 6, content: "시크, 멋짐"),
+//                    HBTIAnswer(id: 7, content: "단아"),
+//                    HBTIAnswer(id: 8, content: "귀여움"),
+//                    HBTIAnswer(id: 9, content: "섹시")
+//                ]
+//            )),
+//            .question(HBTIQuestion(
+//                id: 3,
+//                content: "질문예시3",
+//                answers: [
+//                    HBTIAnswer(id: 10, content: "답1"),
+//                    HBTIAnswer(id: 11, content: "답2"),
+//                    HBTIAnswer(id: 12, content: "답3"),
+//                    HBTIAnswer(id: 13, content: "답4"),
+//                    HBTIAnswer(id: 14, content: "답5")
+//                ]
+//            )),
+//            .question(HBTIQuestion(
+//                id: 4,
+//                content: "질문예시4",
+//                answers: [
+//                    HBTIAnswer(id: 15, content: "답6"),
+//                    HBTIAnswer(id: 16, content: "답7"),
+//                    HBTIAnswer(id: 17, content: "답8"),
+//                    HBTIAnswer(id: 18, content: "답9"),
+//                    HBTIAnswer(id: 19, content: "답10")
+//                ]
+//            ))
+//        ], toSection: .question)
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: HBTISurveySection, withItems items: [HBTISurveyItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }

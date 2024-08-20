@@ -48,7 +48,7 @@ class HomeViewController: UIViewController, View {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        presentHBTIViewController()
+        
         configureUI()
         setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
@@ -56,6 +56,8 @@ class HomeViewController: UIViewController, View {
         
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
+        presentHBTIViewController()
     }
     
     private func configureUI() {
