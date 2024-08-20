@@ -72,7 +72,6 @@ final class HBTIQuantitySelectViewController: UIViewController {
         hbtiQuantityTopView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
             $0.horizontalEdges.equalToSuperview().inset(16)
-//            $0.height.equalTo(81)
         }
         
         hbtiQuantityTableView.snp.makeConstraints {
