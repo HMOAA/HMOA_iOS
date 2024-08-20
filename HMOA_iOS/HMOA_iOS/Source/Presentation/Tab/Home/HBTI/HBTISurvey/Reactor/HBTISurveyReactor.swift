@@ -11,12 +11,14 @@ import RxSwift
 final class HBTISurveyReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
         case didTapAnswerButton((Int, Int))
         case didChangeQuestion(Int)
         case didTapNextButton
     }
     
     enum Mutation {
+        case setQuestionList([HBTISurveyItem])
         case setCurrentQuestion(Int)
         case setSelectedID((Int, Int))
         case setNextQuestion(Int)
@@ -25,6 +27,7 @@ final class HBTISurveyReactor: Reactor {
     }
     
     struct State {
+        var questionList: [HBTISurveyItem] = []
         var selectedID = [Int: Int]()
         var currentQuestion: Int? = nil
         var isEnableNextButton: Bool = false
@@ -39,6 +42,9 @@ final class HBTISurveyReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return setQuestionList()
+            
         case .didTapAnswerButton(let (questionID, answerID)):
             return .concat([
                 .just(.setSelectedID((questionID, answerID))),
@@ -68,6 +74,9 @@ final class HBTISurveyReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setQuestionList(let items):
+            state.questionList = items
+            
         case .setCurrentQuestion(let row):
             state.currentQuestion = row
             
@@ -93,5 +102,28 @@ final class HBTISurveyReactor: Reactor {
         }
         
         return state
+    }
+}
+
+extension HBTISurveyReactor {
+    func setQuestionList() -> Observable<Mutation> {
+        return HBTIAPI.fetchSurvey()
+            .catch { _ in .empty() }
+            .flatMap { questionListData -> Observable<Mutation> in
+                let listData = questionListData.questions.map { questionData in
+                    
+                    
+                    return HBTISurveyItem.question(
+                        HBTIQuestion(
+                            id: questionData.id,
+                            content: questionData.content,
+                            answers: questionData.answers,
+                            isMultipleChoice: questionData.isMultipleChoice
+                        )
+                    )
+                }
+                print(listData)
+                return .just(.setQuestionList(listData))
+            }
     }
 }
