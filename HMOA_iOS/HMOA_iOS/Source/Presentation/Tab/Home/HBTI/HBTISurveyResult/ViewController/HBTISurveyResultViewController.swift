@@ -81,6 +81,7 @@ final class HBTISurveyResultViewController: UIViewController, View {
     // MARK: - Functions
     
     private func setUI() {
+        view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
         hbtiSurveyResultCollectionView.isScrollEnabled = false
         loadingView.isHidden = true
