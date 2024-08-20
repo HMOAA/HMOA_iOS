@@ -60,7 +60,7 @@ final class HBTIProcessGuideView: UIView {
             $0.width.equalTo(1)
             $0.top.equalTo(processPartStackViews.first!.snp.top).offset(10)
             $0.bottom.equalTo(processPartStackViews.last!.snp.top)
-            $0.leading.equalTo(processPartStackViews.first!).offset(9)
+            $0.centerX.equalTo(processPartStackViews.first!.subviews.first!)
         }
     }
     
@@ -104,7 +104,9 @@ final class HBTIProcessGuideView: UIView {
             $0.numberOfLines = 0
         }
         
-        processLeftStackView.addArrangedSubview(numberLabel)
+        [
+         numberLabel
+        ].forEach(processLeftStackView.addArrangedSubview)
         
         [
          titleLabel,
