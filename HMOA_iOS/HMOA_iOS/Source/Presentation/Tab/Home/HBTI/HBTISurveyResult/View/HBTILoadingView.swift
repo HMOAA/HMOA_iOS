@@ -18,7 +18,6 @@ final class HBTILoadingView: UIView {
     private let loadingImage = GIFImageView().then {
         $0.animate(withGIFNamed: "loading")
         $0.contentMode = .scaleAspectFit
-        $0.backgroundColor = UIColor.random
     }
     
     private let waitLabel = UILabel().then {

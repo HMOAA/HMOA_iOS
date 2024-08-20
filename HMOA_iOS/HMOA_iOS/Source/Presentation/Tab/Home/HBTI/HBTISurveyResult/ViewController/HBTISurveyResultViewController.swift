@@ -20,6 +20,8 @@ final class HBTISurveyResultViewController: UIViewController, View {
     
     private let loadingView = HBTILoadingView()
     
+    private let resultView = UIView()
+    
     private let bestLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
         $0.setTextWithLineHeight(text: "OOO님에게 딱 맞는 향료는\n'시트러스'입니다", lineHeight: 27)
@@ -72,9 +74,29 @@ final class HBTISurveyResultViewController: UIViewController, View {
     func bind(reactor: HBTISurveyResultReactor) {
         
         // MARK: Action
-        
+        nextButton.rx.tap
+            .map { Reactor.Action.isTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
+        reactor.state
+            .map { $0.noteItems }
+            .delay(.seconds(2), scheduler: MainScheduler.instance)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateLoadingViewIsHidden(isHidden: !items.isEmpty)
+            })
+            .disposed(by: disposeBag)
+        
+        // TODO: 향료 선택 가이드 VC로 push하도록 변경
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: presentHBTINoteViewController)
+            .disposed(by: disposeBag)
         
     }
     
@@ -84,21 +106,22 @@ final class HBTISurveyResultViewController: UIViewController, View {
         view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
         hbtiSurveyResultCollectionView.isScrollEnabled = false
-        loadingView.isHidden = true
+        resultView.isHidden = true
     }
     
     // MARK: Add Views
     private func setAddView() {
-        // 로딩 화면
-        view.addSubview(loadingView)
+        [
+            loadingView,
+            resultView
+        ] .forEach { view.addSubview($0) }
         
-        // 결과 화면
         [
             bestLabel,
             secondThirdLabel,
             hbtiSurveyResultCollectionView,
             nextButton
-        ] .forEach { view.addSubview($0) }
+        ] .forEach { resultView.addSubview($0) }
     }
     
     // MARK: Set Constraints
@@ -107,9 +130,13 @@ final class HBTISurveyResultViewController: UIViewController, View {
             make.center.equalToSuperview()
         }
         
+        resultView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         bestLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
+            make.top.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(16)
         }
         
         secondThirdLabel.snp.makeConstraints { make in
@@ -184,5 +211,12 @@ final class HBTISurveyResultViewController: UIViewController, View {
         ])
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+}
+
+extension HBTISurveyResultViewController {
+    private func updateLoadingViewIsHidden(isHidden: Bool) {
+        loadingView.isHidden = isHidden
+        resultView.isHidden = !isHidden
     }
 }
