@@ -20,7 +20,7 @@ final class HBTISurveyViewController: UIViewController, View {
     private let progressBar = UIProgressView(progressViewStyle: .default).then {
         $0.progressTintColor = .black
         $0.trackTintColor = .customColor(.gray1)
-        $0.progress = 0.1
+        $0.progress = 0
     }
     
     private lazy var hbtiSurveyCollectionView = UICollectionView(
@@ -63,10 +63,48 @@ final class HBTISurveyViewController: UIViewController, View {
     func bind(reactor: HBTISurveyReactor) {
         
         // MARK: Action
-        
+        nextButton.rx.tap
+            .map { Reactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
         // MARK: State
+        reactor.state
+            .map { $0.selectedID }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, selectedID in
+                // TODO: API 연동 후 4를 총 아이템(질문) 수로 변경
+                let progress = Float(selectedID.count) / Float(4)
+                owner.progressBar.setProgress(progress, animated: true)
+            })
+            .disposed(by: disposeBag)
         
+        reactor.state
+            .compactMap { $0.currentQuestion }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, row in
+                let indexPath = IndexPath(row: row, section: 0)
+                owner.hbtiSurveyCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.isEnableNextButton }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isEnabled in
+                owner.nextButton.isEnabled = isEnabled
+                owner.nextButton.backgroundColor = isEnabled ? .black : UIColor.customColor(.gray3)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: presentHBTISurveyResultViewController)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -127,25 +165,18 @@ final class HBTISurveyViewController: UIViewController, View {
             section.orthogonalScrollingBehavior = .groupPagingCentered
             section.interGroupSpacing = 16
             
+            var previousPage: Int = -1
+            section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
+                let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
+                if currentPage != previousPage {
+                    previousPage = currentPage
+                    self.reactor?.action.onNext(.didChangeQuestion(currentPage))
+                }
+            }
+            
             return section
         }
         return layout
-    }
-    
-    private func createGroup(estimatedHeight height : CGFloat) -> NSCollectionLayoutGroup {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(height)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(height)
-        )
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
-        return group
     }
     
     // MARK: Configure DataSource
@@ -159,6 +190,25 @@ final class HBTISurveyViewController: UIViewController, View {
                     for: indexPath) as! HBTISurveyQuestionCell
                 
                 cell.configureCell(question: question, answers: question.answers)
+                
+                let questionID = question.id
+                
+                for (i, view) in cell.answerStackView.subviews.enumerated() {
+                    guard i < question.answers.count else { break }
+                    
+                    let button = view as! UIButton
+                    let answerID = question.answers[i].id
+                    
+                    button.rx.tap
+                        .map { Reactor.Action.didTapAnswerButton((questionID, answerID)) }
+                        .bind(to: self.reactor!.action)
+                        .disposed(by: self.disposeBag)
+                    
+                    self.reactor?.state
+                        .map { $0.selectedID[questionID] == answerID }
+                        .bind(to: button.rx.isSelected)
+                        .disposed(by: cell.disposeBag)
+                }
                 
                 return cell
             }
@@ -188,6 +238,28 @@ final class HBTISurveyViewController: UIViewController, View {
                     HBTIAnswer(id: 7, content: "단아"),
                     HBTIAnswer(id: 8, content: "귀여움"),
                     HBTIAnswer(id: 9, content: "섹시")
+                ]
+            )),
+            .question(HBTIQuestion(
+                id: 3,
+                content: "질문예시3",
+                answers: [
+                    HBTIAnswer(id: 10, content: "답1"),
+                    HBTIAnswer(id: 11, content: "답2"),
+                    HBTIAnswer(id: 12, content: "답3"),
+                    HBTIAnswer(id: 13, content: "답4"),
+                    HBTIAnswer(id: 14, content: "답5")
+                ]
+            )),
+            .question(HBTIQuestion(
+                id: 4,
+                content: "질문예시4",
+                answers: [
+                    HBTIAnswer(id: 15, content: "답6"),
+                    HBTIAnswer(id: 16, content: "답7"),
+                    HBTIAnswer(id: 17, content: "답8"),
+                    HBTIAnswer(id: 18, content: "답9"),
+                    HBTIAnswer(id: 19, content: "답10")
                 ]
             ))
         ], toSection: .question)
