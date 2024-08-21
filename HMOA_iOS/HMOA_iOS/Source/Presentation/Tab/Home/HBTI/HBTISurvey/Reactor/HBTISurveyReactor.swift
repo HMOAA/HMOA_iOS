@@ -86,7 +86,6 @@ final class HBTISurveyReactor: Reactor {
             } else {
                 state.selectedID[questionID] = answerID
             }
-            state.selectedID[questionID] = answerID
             
         case .setNextQuestion(let row):
             // TODO: API 연동 후 조건문 변경

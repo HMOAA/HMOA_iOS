@@ -166,13 +166,13 @@ final class HBTISurveyViewController: UIViewController, View {
             
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(300)
+                heightDimension: .estimated(600)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.92),
-                heightDimension: .estimated(300)
+                heightDimension: .estimated(600)
             )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
