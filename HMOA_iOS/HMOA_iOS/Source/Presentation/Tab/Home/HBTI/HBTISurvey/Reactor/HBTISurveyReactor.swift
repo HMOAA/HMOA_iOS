@@ -12,7 +12,7 @@ final class HBTISurveyReactor: Reactor {
     
     enum Action {
         case viewDidLoad
-        case didTapAnswerButton((Int, Int))
+        case didTapAnswerButton((HBTIQuestion, Int))
         case didChangeQuestion(Int)
         case didTapNextButton
     }
@@ -20,7 +20,7 @@ final class HBTISurveyReactor: Reactor {
     enum Mutation {
         case setQuestionList([HBTISurveyItem])
         case setCurrentQuestion(Int)
-        case setSelectedID((Int, Int))
+        case setSelectedID((HBTIQuestion, Int))
         case setNextQuestion(Int)
         case setIsEnabledNextButton
         case setIsPushNextVC(Bool)
@@ -28,7 +28,7 @@ final class HBTISurveyReactor: Reactor {
     
     struct State {
         var questionList: [HBTISurveyItem] = []
-        var selectedID = [Int: Int]()
+        var selectedID = [Int: [Int]]()
         var currentQuestion: Int? = nil
         var isEnableNextButton: Bool = false
         var isPushNextVC: Bool = false
@@ -45,9 +45,9 @@ final class HBTISurveyReactor: Reactor {
         case .viewDidLoad:
             return setQuestionList()
             
-        case .didTapAnswerButton(let (questionID, answerID)):
+        case .didTapAnswerButton(let (question, answerID)):
             return .concat([
-                .just(.setSelectedID((questionID, answerID))),
+                .just(.setSelectedID((question, answerID))),
                 .just(.setIsEnabledNextButton)
             ])
             
@@ -61,8 +61,11 @@ final class HBTISurveyReactor: Reactor {
             guard let currentQuestionIndexPath = currentState.currentQuestion else {
                 return .empty()
             }
-            // TODO: API 연동 후 조건문 변경
-            if currentQuestionIndexPath == 4 - 1 && currentState.selectedID.count == 4 {
+            let questionCount = currentState.questionList.count
+            let isLastQuestion = currentQuestionIndexPath == questionCount - 1
+            let isAllSelected = currentState.selectedID.count == questionCount
+            
+            if isLastQuestion && isAllSelected {
                 return .just(.setIsPushNextVC(true))
             }
                 
@@ -80,16 +83,26 @@ final class HBTISurveyReactor: Reactor {
         case .setCurrentQuestion(let row):
             state.currentQuestion = row
             
-        case .setSelectedID(let (questionID, answerID)):
-            if state.selectedID[questionID] == answerID {
-                state.selectedID.removeValue(forKey: questionID)
+        case .setSelectedID(let (question, answerID)):
+            let questionID = question.id
+            
+            guard let selectedID = state.selectedID[questionID] else {
+                state.selectedID[questionID] = [answerID]
+                break
+            }
+            
+            if selectedID.contains(answerID) {
+                if selectedID.count == 1 {
+                    state.selectedID.removeValue(forKey: questionID)
+                } else {
+                    state.selectedID[questionID] = selectedID.filter { $0 != answerID }
+                }
             } else {
-                state.selectedID[questionID] = answerID
+                state.selectedID[questionID] = question.isMultipleChoice ? selectedID + [answerID] : [answerID]
             }
             
         case .setNextQuestion(let row):
-            // TODO: API 연동 후 조건문 변경
-            guard row < 4 else { return state }
+            guard row < currentState.questionList.count else { return state }
             state.currentQuestion = row
             
         case .setIsEnabledNextButton:
@@ -110,8 +123,6 @@ extension HBTISurveyReactor {
             .catch { _ in .empty() }
             .flatMap { questionListData -> Observable<Mutation> in
                 let listData = questionListData.questions.map { questionData in
-                    
-                    
                     return HBTISurveyItem.question(
                         HBTIQuestion(
                             id: questionData.id,
@@ -121,7 +132,6 @@ extension HBTISurveyReactor {
                         )
                     )
                 }
-                print(listData)
                 return .just(.setQuestionList(listData))
             }
     }
