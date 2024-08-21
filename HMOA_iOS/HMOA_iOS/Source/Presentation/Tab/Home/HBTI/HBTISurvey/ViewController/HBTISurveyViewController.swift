@@ -128,7 +128,8 @@ final class HBTISurveyViewController: UIViewController, View {
     private func setUI() {
         view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
-        hbtiSurveyCollectionView.isScrollEnabled = false
+        hbtiSurveyCollectionView.isScrollEnabled = true
+        hbtiSurveyCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 92, right: 0)
     }
     
     // MARK: Add Views
@@ -148,8 +149,7 @@ final class HBTISurveyViewController: UIViewController, View {
         
         hbtiSurveyCollectionView.snp.makeConstraints { make in
             make.top.equalTo(progressBar.snp.bottom).offset(32)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(nextButton.snp.top)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
         
         nextButton.snp.makeConstraints { make in
@@ -166,13 +166,13 @@ final class HBTISurveyViewController: UIViewController, View {
             
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(600)
+                heightDimension: .fractionalHeight(1)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.92),
-                heightDimension: .estimated(600)
+                heightDimension: .fractionalHeight(1)
             )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
