@@ -8,7 +8,7 @@
 import Foundation
 
 enum HBTISurveyResultSection: Hashable {
-    case recommand
+    case recommend
 }
 
 enum HBTISurveyResultItem: Hashable {
