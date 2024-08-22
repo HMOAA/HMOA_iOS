@@ -24,22 +24,3 @@ extension HBTISurveyResultItem {
         }
     }
 }
-
-// TODO: HBTI 설문 병합 후 이동
-struct HBTISurveyResultResponse: Hashable {
-    let recommandNotes: [HBTISurveyResultNote]
-}
-
-struct HBTISurveyResultNote: Hashable {
-    let id: Int
-    let name: String
-    let photoURL: String
-    let content: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "noteId"
-        case name = "noteName"
-        case photoURL = "notePhotoUrl"
-        case content
-    }
-}

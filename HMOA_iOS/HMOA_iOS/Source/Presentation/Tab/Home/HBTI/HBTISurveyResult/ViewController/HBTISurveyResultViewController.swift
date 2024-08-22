@@ -74,6 +74,11 @@ final class HBTISurveyResultViewController: UIViewController, View {
     func bind(reactor: HBTISurveyResultReactor) {
         
         // MARK: Action
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         nextButton.rx.tap
             .map { Reactor.Action.isTapNextButton }
             .bind(to: reactor.action)
@@ -81,7 +86,7 @@ final class HBTISurveyResultViewController: UIViewController, View {
         
         // MARK: State
         reactor.state
-            .map { $0.noteItems }
+            .map { $0.noteItemList }
             .delay(.seconds(2), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in

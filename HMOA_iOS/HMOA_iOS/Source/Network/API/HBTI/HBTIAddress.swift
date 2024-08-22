@@ -9,11 +9,14 @@ import Foundation
 
 enum HBTIAddress {
     case fetchQuestionList
+    case postAnswerList
     
     var url: String {
         switch self {
         case .fetchQuestionList:
             return "survey/note"
+        case .postAnswerList:
+            return "survey/note/respond"
         }
     }
 }
