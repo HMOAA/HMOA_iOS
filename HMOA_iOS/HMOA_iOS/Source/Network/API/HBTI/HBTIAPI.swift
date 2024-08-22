@@ -15,4 +15,14 @@ final class HBTIAPI {
             data: nil,
             model: HBTISurveyResponse.self)
     }
+    
+    static func postAnswers(params: [String: [Int]]) -> Observable<HBTISurveyResultResponse> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        
+        return networking(
+            urlStr: HBTIAddress.postAnswerList.url,
+            method: .post,
+            data: data,
+            model: HBTISurveyResultResponse.self)
+    }
 }

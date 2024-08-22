@@ -10,16 +10,18 @@ import RxSwift
 final class HBTISurveyResultReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
         case isTapNextButton
     }
     
     enum Mutation {
+        case setNoteItemList([HBTISurveyResultItem])
         case setIsPushNextVC
     }
     
     struct State {
         var selectedIDList: [Int]
-        var noteItems: [HBTISurveyResultItem] = [.recommand(HBTISurveyResultNote(id: 999, name: "시험용", photoURL: "시험용", content: "시험용"))]
+        var noteItemList: [HBTISurveyResultItem] = []
         var isPushNextVC: Bool = false
     }
     
@@ -31,6 +33,8 @@ final class HBTISurveyResultReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return setNoteItemList()
         case .isTapNextButton:
             return .just(.setIsPushNextVC)
         }
@@ -40,10 +44,27 @@ final class HBTISurveyResultReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setNoteItemList(let item):
+            state.noteItemList = item
         case .setIsPushNextVC:
             state.isPushNextVC = true
         }
         
         return state
+    }
+}
+
+extension HBTISurveyResultReactor {
+    func setNoteItemList() -> Observable<Mutation> {
+        let selectedIDList = currentState.selectedIDList
+        
+        return HBTIAPI.postAnswers(params: ["optionIds": selectedIDList])
+            .catch { _ in .empty() }
+            .flatMap { recommendNoteListData -> Observable<Mutation> in
+                let listData = recommendNoteListData.recommendNotes.map { noteData in
+                    return HBTISurveyResultItem.recommand(noteData)
+                }
+                return .just(.setNoteItemList(listData))
+            }
     }
 }

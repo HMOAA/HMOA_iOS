@@ -35,3 +35,21 @@ struct HBTIAnswer: Hashable, Codable {
         case content = "option"
     }
 }
+
+struct HBTISurveyResultResponse: Hashable, Codable {
+    let recommendNotes: [HBTISurveyResultNote]
+}
+
+struct HBTISurveyResultNote: Hashable, Codable {
+    let id: Int
+    let name: String
+    let photoURL: String
+    let content: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "noteId"
+        case name = "noteName"
+        case photoURL = "notePhotoUrl"
+        case content
+    }
+}
