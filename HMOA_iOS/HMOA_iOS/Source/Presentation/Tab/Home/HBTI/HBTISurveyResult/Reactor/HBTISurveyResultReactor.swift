@@ -18,14 +18,15 @@ final class HBTISurveyResultReactor: Reactor {
     }
     
     struct State {
+        var selectedIDList: [Int]
         var noteItems: [HBTISurveyResultItem] = [.recommand(HBTISurveyResultNote(id: 999, name: "시험용", photoURL: "시험용", content: "시험용"))]
         var isPushNextVC: Bool = false
     }
     
     var initialState: State
     
-    init() {
-        self.initialState = State()
+    init(_ selectedIDList: [Int]) {
+        self.initialState = State(selectedIDList: selectedIDList)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

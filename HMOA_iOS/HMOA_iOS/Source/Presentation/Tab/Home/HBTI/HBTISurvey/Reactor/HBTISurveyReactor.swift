@@ -20,7 +20,7 @@ final class HBTISurveyReactor: Reactor {
     enum Mutation {
         case setQuestionList([HBTISurveyItem])
         case setCurrentPage(Int)
-        case setSelectedID((HBTIQuestion, Int))
+        case setSelectedIDList((HBTIQuestion, Int))
         case setNextPage(Int)
         case setIsEnabledNextButton
         case setIsPushNextVC(Bool)
@@ -28,7 +28,7 @@ final class HBTISurveyReactor: Reactor {
     
     struct State {
         var questionList: [HBTISurveyItem] = []
-        var selectedID = [Int: [Int]]()
+        var selectedIDList = [Int: [Int]]()
         var currentPage: Int? = nil
         var isEnableNextButton: Bool = false
         var isPushNextVC: Bool = false
@@ -47,7 +47,7 @@ final class HBTISurveyReactor: Reactor {
             
         case .didTapAnswerButton(let (question, answerID)):
             return .concat([
-                .just(.setSelectedID((question, answerID))),
+                .just(.setSelectedIDList((question, answerID))),
                 .just(.setIsEnabledNextButton)
             ])
             
@@ -63,7 +63,7 @@ final class HBTISurveyReactor: Reactor {
             }
             let questionCount = currentState.questionList.count
             let isLastQuestion = currentQuestionIndexPath == questionCount - 1
-            let isAllSelected = currentState.selectedID.count == questionCount
+            let isAllSelected = currentState.selectedIDList.count == questionCount
             
             if isLastQuestion && isAllSelected {
                 return .just(.setIsPushNextVC(true))
@@ -83,22 +83,22 @@ final class HBTISurveyReactor: Reactor {
         case .setCurrentPage(let row):
             state.currentPage = row
             
-        case .setSelectedID(let (question, answerID)):
+        case .setSelectedIDList(let (question, answerID)):
             let questionID = question.id
             
-            guard let selectedID = state.selectedID[questionID] else {
-                state.selectedID[questionID] = [answerID]
+            guard let selectedID = state.selectedIDList[questionID] else {
+                state.selectedIDList[questionID] = [answerID]
                 break
             }
             
             if selectedID.contains(answerID) {
                 if selectedID.count == 1 {
-                    state.selectedID.removeValue(forKey: questionID)
+                    state.selectedIDList.removeValue(forKey: questionID)
                 } else {
-                    state.selectedID[questionID] = selectedID.filter { $0 != answerID }
+                    state.selectedIDList[questionID] = selectedID.filter { $0 != answerID }
                 }
             } else {
-                state.selectedID[questionID] = question.isMultipleChoice ? selectedID + [answerID] : [answerID]
+                state.selectedIDList[questionID] = question.isMultipleChoice ? selectedID + [answerID] : [answerID]
             }
             
         case .setNextPage(let page):
@@ -109,7 +109,7 @@ final class HBTISurveyReactor: Reactor {
             guard let currentPage = state.currentPage else { break }
             let question = state.questionList[currentPage].question!
             
-            state.isEnableNextButton = state.selectedID[question.id] != nil
+            state.isEnableNextButton = state.selectedIDList[question.id] != nil
             
         case .setIsPushNextVC(let isPush):
             state.isPushNextVC = isPush

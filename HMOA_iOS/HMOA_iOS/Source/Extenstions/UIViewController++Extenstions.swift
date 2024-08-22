@@ -284,9 +284,9 @@ extension UIViewController {
     }
     
     /// HBTISurveyResultVC로 push
-    func presentHBTISurveyResultViewController() {
+    func presentHBTISurveyResultViewController(_ selectedIDList: [Int]) {
         let hbtiSurveyResultVC = HBTISurveyResultViewController()
-        hbtiSurveyResultVC.reactor = HBTISurveyResultReactor()
+        hbtiSurveyResultVC.reactor = HBTISurveyResultReactor(selectedIDList)
         hbtiSurveyResultVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiSurveyResultVC, animated: true)
     }
