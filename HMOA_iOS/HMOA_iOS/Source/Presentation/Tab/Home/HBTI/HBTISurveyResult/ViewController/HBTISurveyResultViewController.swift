@@ -86,6 +86,12 @@ final class HBTISurveyResultViewController: UIViewController, View {
         
         // MARK: State
         reactor.state
+            .map { $0.resultInfo }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: updateLabels(with:))
+            .disposed(by: disposeBag)
+        
+        reactor.state
             .map { $0.noteItemList }
             .delay(.seconds(2), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in .empty() })
@@ -223,5 +229,16 @@ extension HBTISurveyResultViewController {
     private func updateLoadingViewIsHidden(isHidden: Bool) {
         loadingView.isHidden = isHidden
         resultView.isHidden = !isHidden
+    }
+    
+    private func updateLabels(with resultInfo: [String: String]) {
+        guard let nickname = resultInfo["nickname"],
+              let best = resultInfo["best"],
+              let second = resultInfo["second"],
+              let third = resultInfo["third"] else { return }
+        
+        loadingView.descriptionLabel.text = "\(nickname)님에게 딱 맞는 \n향료를 추천하는 중입니다."
+        bestLabel.text = "\(nickname)님에게 딱 맞는 향료는\n'\(best)'입니다"
+        secondThirdLabel.text = "2위: \(second)\n3위: \(third)"
     }
 }

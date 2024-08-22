@@ -16,7 +16,7 @@ enum HBTISurveyResultItem: Hashable {
 }
 
 extension HBTISurveyResultItem {
-    var question: HBTISurveyResultNote? {
+    var note: HBTISurveyResultNote? {
         if case .recommand(let note) = self {
             return note
         } else {
