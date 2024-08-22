@@ -16,12 +16,14 @@ final class HBTISurveyResultReactor: Reactor {
     
     enum Mutation {
         case setNoteItemList([HBTISurveyResultItem])
+        case setResultInfo(String)
         case setIsPushNextVC
     }
     
     struct State {
         var selectedIDList: [Int]
         var noteItemList: [HBTISurveyResultItem] = []
+        var resultInfo: [String: String] = [:]
         var isPushNextVC: Bool = false
     }
     
@@ -34,7 +36,10 @@ final class HBTISurveyResultReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return setNoteItemList()
+            return .concat([
+                setNoteItemList(),
+                setResultInfo()
+            ])
         case .isTapNextButton:
             return .just(.setIsPushNextVC)
         }
@@ -46,6 +51,16 @@ final class HBTISurveyResultReactor: Reactor {
         switch mutation {
         case .setNoteItemList(let item):
             state.noteItemList = item
+        case .setResultInfo(let nickname):
+            let noteList = currentState.noteItemList.map { $0.note!.name }
+            let resultInfo = [
+                "nickname": nickname,
+                "best": noteList.first!,
+                "second": noteList[1],
+                "third": noteList[2]
+            ]
+            state.resultInfo = resultInfo
+            
         case .setIsPushNextVC:
             state.isPushNextVC = true
         }
@@ -65,6 +80,16 @@ extension HBTISurveyResultReactor {
                     return HBTISurveyResultItem.recommand(noteData)
                 }
                 return .just(.setNoteItemList(listData))
+            }
+    }
+    
+    func setResultInfo() -> Observable<Mutation> {
+        return MemberAPI.getMember()
+            .catch { _ in .empty() }
+            .flatMap { member -> Observable<Mutation> in
+                guard let member = member else { return .empty() }
+                let nickname = member.nickname
+                return .just(.setResultInfo(nickname))
             }
     }
 }
