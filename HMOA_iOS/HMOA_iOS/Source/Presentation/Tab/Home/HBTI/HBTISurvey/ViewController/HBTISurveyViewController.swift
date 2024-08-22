@@ -85,7 +85,7 @@ final class HBTISurveyViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.selectedID }
+            .map { $0.selectedIDList }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, selectedID in
                 let progress = Float(selectedID.count) / Float(reactor.currentState.questionList.count)
@@ -115,9 +115,11 @@ final class HBTISurveyViewController: UIViewController, View {
         reactor.state
             .map { $0.isPushNextVC }
             .filter { $0 }
-            .map { _ in }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: presentHBTISurveyResultViewController)
+            .drive(with: self, onNext: { owner, isPush in
+                let list = reactor.currentState.selectedIDList.values.flatMap { $0 }
+                owner.presentHBTISurveyResultViewController(list)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -218,7 +220,7 @@ final class HBTISurveyViewController: UIViewController, View {
                     
                     self.reactor?.state
                         .map {
-                            guard let selectedID = $0.selectedID[question.id] else { return false }
+                            guard let selectedID = $0.selectedIDList[question.id] else { return false }
                             return selectedID.contains(answerID)
                         }
                         .bind(to: button.rx.isSelected)
