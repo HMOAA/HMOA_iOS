@@ -94,7 +94,7 @@ final class HBTISurveyViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .compactMap { $0.currentQuestion }
+            .compactMap { $0.currentPage }
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, row in
@@ -184,7 +184,7 @@ final class HBTISurveyViewController: UIViewController, View {
                 let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
                 if currentPage != previousPage {
                     previousPage = currentPage
-                    self.reactor?.action.onNext(.didChangeQuestion(currentPage))
+                    self.reactor?.action.onNext(.didChangePage(currentPage))
                 }
             }
             
