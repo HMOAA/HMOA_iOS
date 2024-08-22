@@ -19,6 +19,7 @@ final class HBTISurveyResultCell: UICollectionViewCell {
     
     private let bannerImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     
     private let nameLabel = UILabel().then {
@@ -79,8 +80,7 @@ final class HBTISurveyResultCell: UICollectionViewCell {
     }
     
     func configureCell(note: HBTISurveyResultNote) {
-//        bannerImageView.kf.setImage(with: URL(string: note.photoURL))
-        bannerImageView.backgroundColor = .random
+        bannerImageView.kf.setImage(with: URL(string: note.photoURL))
         nameLabel.text = note.name
         descriptionLabel.text = note.content
     }

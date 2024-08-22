@@ -96,6 +96,7 @@ final class HBTISurveyResultViewController: UIViewController, View {
             .delay(.seconds(2), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .recommend, withItems: items)
                 owner.updateLoadingViewIsHidden(isHidden: !items.isEmpty)
             })
             .disposed(by: disposeBag)
@@ -214,14 +215,19 @@ final class HBTISurveyResultViewController: UIViewController, View {
         })
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTISurveyResultSection, HBTISurveyResultItem>()
-        initialSnapshot.appendSections([.recommand])
-        initialSnapshot.appendItems([
-            .recommand(HBTISurveyResultNote(id: 1, name: "시트러스", photoURL: "", content: "귤, 베르가못, 만다린이 들어간 상큼한 향료로 향수에서 가장 많이 사용되는 노트입니다.")),
-            .recommand(HBTISurveyResultNote(id: 2, name: "플로럴", photoURL: "", content: "귤, 베르가못, 만다린이 들어간 상큼한 향료로 향수에서 가장 많이 사용되는 노트입니다.")),
-            .recommand(HBTISurveyResultNote(id: 3, name: "스파이스", photoURL: "", content: "귤, 베르가못, 만다린이 들어간 상큼한 향료로 향수에서 가장 많이 사용되는 노트입니다."))
-        ])
+        initialSnapshot.appendSections([.recommend])
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: HBTISurveyResultSection, withItems items: [HBTISurveyResultItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
