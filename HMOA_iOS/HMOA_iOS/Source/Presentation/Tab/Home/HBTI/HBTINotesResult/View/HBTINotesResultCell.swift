@@ -18,7 +18,7 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
         $0.layer.cornerRadius = 5
     }
     
-    private let imageView = UIImageView().then {
+    private let noteImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
     }
@@ -49,8 +49,8 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - LifeCycle
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setUI()
         setAddView()
