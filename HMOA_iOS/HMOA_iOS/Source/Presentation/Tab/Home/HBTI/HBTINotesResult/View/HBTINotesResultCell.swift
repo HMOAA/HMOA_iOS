@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HBTINotesResultView: UIView {
+final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
