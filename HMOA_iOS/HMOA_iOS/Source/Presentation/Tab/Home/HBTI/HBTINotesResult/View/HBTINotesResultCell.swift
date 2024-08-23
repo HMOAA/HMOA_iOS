@@ -13,6 +13,38 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
+    private let containerView = UIView().then {
+        $0.backgroundColor = .customColor(.gray1)
+        $0.layer.cornerRadius = 5
+    }
+    
+    private let imageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.clipsToBounds = true
+    }
+    
+    private let titleLabel = UILabel().then {
+        $0.font = .customFont(.pretendard_bold, 16)
+        $0.textColor = .black
+    }
+    
+    private let subtitleLabel = UILabel().then {
+        $0.font = .customFont(.pretendard, 12)
+        $0.textColor = .black
+    }
+    
+    private let priceLabel = UILabel().then {
+        $0.font = .customFont(.pretendard, 14)
+        $0.textColor = .black
+        $0.textAlignment = .right
+    }
+    
+    private let descriptionLabel = UILabel().then {
+        $0.font = .customFont(.pretendard, 12)
+        $0.textColor = .black
+        $0.numberOfLines = 3
+    }
+    
     // MARK: - Properties
     
     // MARK: - LifeCycle
