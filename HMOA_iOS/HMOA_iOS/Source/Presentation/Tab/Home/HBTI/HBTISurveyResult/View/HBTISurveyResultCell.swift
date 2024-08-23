@@ -28,9 +28,8 @@ final class HBTISurveyResultCell: UICollectionViewCell {
     
     private let descriptionLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_light, size: 12, color: .white)
-        $0.setTextWithLineHeight(text: "설명\n2줄", lineHeight: 15)
-        $0.numberOfLines = 2
-        $0.lineBreakStrategy = .hangulWordPriority
+        $0.setTextWithLineHeight(text: "설명", lineHeight: 15)
+        $0.numberOfLines = 0
     }
     
     // MARK: - Init
@@ -75,7 +74,7 @@ final class HBTISurveyResultCell: UICollectionViewCell {
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom).offset(7)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(24)
+            make.height.lessThanOrEqualTo(75)
         }
     }
     
