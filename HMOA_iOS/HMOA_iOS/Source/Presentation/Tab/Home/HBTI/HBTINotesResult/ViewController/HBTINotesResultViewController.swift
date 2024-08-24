@@ -17,6 +17,19 @@ final class HBTINotesResultViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let selectedNotes: [HBTINotesResultModel]
+    
+    // MARK: - Initialization
+    
+    init(selectedNotes: [HBTINotesResultModel]) {
+        self.selectedNotes = selectedNotes
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
