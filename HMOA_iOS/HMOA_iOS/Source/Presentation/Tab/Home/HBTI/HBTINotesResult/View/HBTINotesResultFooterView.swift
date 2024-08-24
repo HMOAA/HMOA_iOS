@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class HBTINotesResultFooterView: UITableViewHeaderFooterView, ReuseIdentifying {
+class HBTINotesResultFooterView: UIView {
     
     // MARK: - UI Components
    
@@ -22,8 +22,8 @@ class HBTINotesResultFooterView: UITableViewHeaderFooterView, ReuseIdentifying {
     
     // MARK: - LifeCycle
     
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
        
         setUI()
         setAddView()
@@ -37,21 +37,20 @@ class HBTINotesResultFooterView: UITableViewHeaderFooterView, ReuseIdentifying {
     // MARK: Set UI
     
     private func setUI() {
-        contentView.backgroundColor = .white
+
     }
     
     // MARK: Add Views
     
     private func setAddView() {
-        contentView.addSubview(totalPriceLabel)
+        addSubview(totalPriceLabel)
     }
     
     // MARK: Set Constraints
     
     private func setConstraints() {
         totalPriceLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.horizontalEdges.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
 }
