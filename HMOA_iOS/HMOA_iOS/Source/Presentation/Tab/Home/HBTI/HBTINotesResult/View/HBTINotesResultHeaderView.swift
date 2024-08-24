@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class HBTINotesResultHeaderView: UITableViewHeaderFooterView, ReuseIdentifying {
+class HBTINotesResultHeaderView: UIView {
     
     // MARK: - UI Components
     
@@ -21,8 +21,8 @@ class HBTINotesResultHeaderView: UITableViewHeaderFooterView, ReuseIdentifying {
     
     // MARK: - LifeCycle
     
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setAddView()
         setConstraints()
@@ -35,7 +35,7 @@ class HBTINotesResultHeaderView: UITableViewHeaderFooterView, ReuseIdentifying {
     // MARK: Add Views
     
     private func setAddView() {
-        contentView.addSubview(titleLabel)
+        addSubview(titleLabel)
     }
     
     // MARK: Set Constraints

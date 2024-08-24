@@ -13,10 +13,10 @@ final class HBTINotesResultViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private lazy var tableView = UITableView().then {
+    private let headerView = HBTINotesResultHeaderView()
+    
+    private lazy var tableView = UITableView(frame: .zero).then {
         $0.register(HBTINotesResultCell.self, forCellReuseIdentifier: HBTINotesResultCell.reuseIdentifier)
-        $0.register(HBTINotesResultHeaderView.self, forHeaderFooterViewReuseIdentifier: HBTINotesResultHeaderView.reuseIdentifier)
-        $0.register(HBTINotesResultFooterView.self, forHeaderFooterViewReuseIdentifier: HBTINotesResultFooterView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
         $0.separatorStyle = .none
@@ -70,6 +70,7 @@ final class HBTINotesResultViewController: UIViewController {
     
     private func setAddView() {
         [
+         headerView,
          tableView,
          nextButton
         ].forEach(view.addSubview)
@@ -78,10 +79,15 @@ final class HBTINotesResultViewController: UIViewController {
     // MARK: Set Constraints
     
     private func setConstraints() {
-        tableView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(173)
+        headerView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(127)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(500)
+        }
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(headerView.snp.bottom).offset(19)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(800)
         }
         
         nextButton.snp.makeConstraints {
@@ -113,13 +119,5 @@ extension HBTINotesResultViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 162
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return tableView.dequeueReusableHeaderFooterView(withIdentifier: HBTINotesResultHeaderView.reuseIdentifier)
-    }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return tableView.dequeueReusableHeaderFooterView(withIdentifier: HBTINotesResultFooterView.reuseIdentifier)
     }
 }
