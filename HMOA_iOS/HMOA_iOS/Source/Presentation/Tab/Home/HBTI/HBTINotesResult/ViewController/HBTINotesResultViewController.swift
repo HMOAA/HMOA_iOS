@@ -20,6 +20,7 @@ final class HBTINotesResultViewController: UIViewController {
         $0.delegate = self
         $0.dataSource = self
         $0.separatorStyle = .none
+        $0.allowsSelection = false
     }
     
     private let footerView = HBTINotesResultFooterView()
