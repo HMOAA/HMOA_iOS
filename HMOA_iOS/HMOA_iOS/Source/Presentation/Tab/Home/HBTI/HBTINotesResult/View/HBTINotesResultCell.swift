@@ -16,9 +16,6 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     private let containerView = UIView().then {
         $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
-        
-        $0.layer.borderColor = UIColor.orange.cgColor
-        $0.layer.borderWidth = 1
     }
     
     private let noteImageView = UIImageView().then {
