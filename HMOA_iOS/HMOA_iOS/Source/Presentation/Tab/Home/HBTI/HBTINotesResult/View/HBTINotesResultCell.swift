@@ -16,6 +16,9 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     private let containerView = UIView().then {
         $0.backgroundColor = .customColor(.gray1)
         $0.layer.cornerRadius = 5
+        
+        $0.layer.borderColor = UIColor.orange.cgColor
+        $0.layer.borderWidth = 1
     }
     
     private let noteImageView = UIImageView().then {
@@ -70,12 +73,49 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     // MARK: Add Views
     
     private func setAddView() {
-
+        contentView.addSubview(containerView)
+                
+        [
+         noteImageView,
+         titleLabel,
+         subtitleLabel,
+         priceLabel,
+         descriptionLabel
+        ].forEach(containerView.addSubview)
     }
     
     // MARK: Set Constraints
     
     private func setConstraints() {
+        containerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
+        noteImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(16)
+            $0.width.height.equalTo(66)
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(noteImageView)
+            $0.leading.equalTo(noteImageView.snp.trailing).offset(22)
+        }
+        
+        subtitleLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+            $0.leading.equalTo(titleLabel)
+        }
+        
+        priceLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(14)
+            $0.trailing.equalToSuperview().inset(14)
+        }
+        
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(subtitleLabel.snp.bottom).offset(8)
+            $0.leading.equalTo(noteImageView.snp.trailing).offset(19)
+            $0.trailing.bottom.equalToSuperview().inset(40)
+        }
     }
 }
