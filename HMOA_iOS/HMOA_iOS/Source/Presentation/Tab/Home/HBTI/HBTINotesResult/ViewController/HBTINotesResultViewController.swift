@@ -13,6 +13,14 @@ final class HBTINotesResultViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private lazy var tableView = UITableView().then {
+        $0.register(HBTINotesResultCell.self, forCellReuseIdentifier: HBTINotesResultCell.reuseIdentifier)
+        $0.delegate = self
+        $0.dataSource = self
+        $0.separatorStyle = .none
+        $0.backgroundColor = .customColor(.gray1)
+    }
+    
     private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
     
     // MARK: - Properties
@@ -79,4 +87,18 @@ final class HBTINotesResultViewController: UIViewController {
     
     // MARK: Configure DataSource
     
+}
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
+extension HBTINotesResultViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return selectedNotes.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HBTINotesResultCell.reuseIdentifier, for: indexPath) as? HBTINotesResultCell else {
+            fatalError("Unable to dequeue HBTINotesResultCell")
+        }
+        return cell
+    }
 }
