@@ -137,6 +137,7 @@
 		3FEB5E032C80421600F3C7F5 /* HBTIProductInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */; };
 		3FEB5E052C8042DE00F3C7F5 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */; };
 		45DD3AF679B202AF42C5F0B6 /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBD5F4B0B87FC3229F0B6AC2 /* Pods_HMOA_iOSTests.framework */; };
+		3F01E75A2C79C1A300BC598E /* HBTINotesResultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F01E7592C79C1A300BC598E /* HBTINotesResultHeaderView.swift */; };
 		3F49FB4E2C78431D00EDB0AC /* HBTINotesResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F49FB4D2C78431D00EDB0AC /* HBTINotesResultModel.swift */; };
 		3F49FB502C7844D600EDB0AC /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F49FB4F2C7844D600EDB0AC /* ReuseIdentifying.swift */; };
 		3FA0D8A72C739D380085BBE5 /* HBTINotesResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */; };
@@ -494,6 +495,7 @@
 		84655EE4C38128D0FAB4D094 /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS_HMOA_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2B57011E344F241A988C8A5 /* Pods-HMOA_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		3192AEB7DBBC796C18F3F3DA /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3F01E7592C79C1A300BC598E /* HBTINotesResultHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultHeaderView.swift; sourceTree = "<group>"; };
 		3F49FB4D2C78431D00EDB0AC /* HBTINotesResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultModel.swift; sourceTree = "<group>"; };
 		3F49FB4F2C7844D600EDB0AC /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultViewController.swift; sourceTree = "<group>"; };
@@ -1587,6 +1589,7 @@
 			isa = PBXGroup;
 			children = (
 				3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */,
+				3F01E7592C79C1A300BC598E /* HBTINotesResultHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3375,6 +3378,7 @@
 				2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */,
 				C961ED3A2C8C674000BC9FFE /* HBTISelectedNoteView.swift in Sources */,
 				CA99A6D32B1216E50030364F /* ReportAddress.swift in Sources */,
+				3F01E75A2C79C1A300BC598E /* HBTINotesResultHeaderView.swift in Sources */,
 				CA219C442A9C6DAD003FB215 /* LikeAPI.swift in Sources */,
 				CA4744832AD3E2BB00003584 /* OptionReactor.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
