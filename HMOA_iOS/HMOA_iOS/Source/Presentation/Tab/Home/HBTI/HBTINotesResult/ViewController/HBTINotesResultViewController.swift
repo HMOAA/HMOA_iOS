@@ -15,6 +15,8 @@ final class HBTINotesResultViewController: UIViewController {
     
     private lazy var tableView = UITableView().then {
         $0.register(HBTINotesResultCell.self, forCellReuseIdentifier: HBTINotesResultCell.reuseIdentifier)
+        $0.register(HBTINotesResultHeaderView.self, forHeaderFooterViewReuseIdentifier: HBTINotesResultHeaderView.reuseIdentifier)
+        $0.register(HBTINotesResultFooterView.self, forHeaderFooterViewReuseIdentifier: HBTINotesResultFooterView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
         $0.separatorStyle = .none
@@ -111,5 +113,13 @@ extension HBTINotesResultViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 162
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return tableView.dequeueReusableHeaderFooterView(withIdentifier: HBTINotesResultHeaderView.reuseIdentifier)
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return tableView.dequeueReusableHeaderFooterView(withIdentifier: HBTINotesResultFooterView.reuseIdentifier)
     }
 }
