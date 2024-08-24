@@ -29,7 +29,7 @@ final class HBTINotesResultViewController: UIViewController {
     
     // MARK: - Initialization
     
-    init(selectedNotes: [HBTINotesResultModel] = []) {
+    init(selectedNotes: [HBTINotesResultModel] = HBTINotesResultModel.notesResultData) {
         self.selectedNotes = selectedNotes
         super.init(nibName: nil, bundle: nil)
     }
