@@ -118,4 +118,13 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
             $0.trailing.bottom.equalToSuperview().inset(40)
         }
     }
+    
+    // MARK: - Configuration
+    func configure(with model: HBTINotesResultModel) {
+        noteImageView.image = UIImage(named: model.image)
+        titleLabel.text = model.title
+        subtitleLabel.text = model.subtitle
+        priceLabel.text = "\(model.price)원"
+        descriptionLabel.text = model.description
+    }
 }
