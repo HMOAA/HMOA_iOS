@@ -25,12 +25,19 @@ class HBTINotesResultFooterView: UITableViewHeaderFooterView, ReuseIdentifying {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
        
+        setUI()
         setAddView()
         setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Set UI
+    
+    private func setUI() {
+        contentView.backgroundColor = .white
     }
     
     // MARK: Add Views
