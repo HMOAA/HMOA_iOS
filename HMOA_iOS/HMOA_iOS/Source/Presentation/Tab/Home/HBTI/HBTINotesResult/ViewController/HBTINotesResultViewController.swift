@@ -69,6 +69,7 @@ final class HBTINotesResultViewController: UIViewController {
     
     private func setAddView() {
         [
+         tableView,
          nextButton
         ].forEach(view.addSubview)
     }
@@ -76,6 +77,12 @@ final class HBTINotesResultViewController: UIViewController {
     // MARK: Set Constraints
     
     private func setConstraints() {
+        tableView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(173)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(500)
+        }
+        
         nextButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(40)
             $0.horizontalEdges.equalToSuperview().inset(16)
