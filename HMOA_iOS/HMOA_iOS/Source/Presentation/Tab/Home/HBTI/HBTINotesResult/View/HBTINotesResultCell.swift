@@ -43,7 +43,7 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     private let descriptionLabel = UILabel().then {
         $0.font = .customFont(.pretendard, 12)
         $0.textColor = .black
-        $0.numberOfLines = 3
+        $0.numberOfLines = 0
     }
     
     // MARK: - Properties
@@ -119,7 +119,8 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(subtitleLabel.snp.bottom).offset(8)
             $0.leading.equalTo(noteImageView.snp.trailing).offset(19)
-            $0.trailing.bottom.equalToSuperview().inset(40)
+            $0.trailing.equalToSuperview().inset(40)
+            $0.bottom.equalToSuperview().inset(16)
         }
     }
     
