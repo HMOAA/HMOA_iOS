@@ -50,7 +50,8 @@ class HBTINotesResultFooterView: UITableViewHeaderFooterView, ReuseIdentifying {
     
     private func setConstraints() {
         totalPriceLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview().inset(8)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
 }
