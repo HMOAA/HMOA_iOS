@@ -20,7 +20,8 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     
     private let noteImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
-        $0.clipsToBounds = true
+        $0.layer.masksToBounds = true
+        $0.layer.cornerRadius = 33
     }
     
     private let titleLabel = UILabel().then {
