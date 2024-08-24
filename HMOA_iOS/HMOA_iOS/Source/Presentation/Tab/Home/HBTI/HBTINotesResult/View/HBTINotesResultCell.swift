@@ -25,24 +25,20 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     }
     
     private let titleLabel = UILabel().then {
-        $0.font = .customFont(.pretendard_bold, 16)
-        $0.textColor = .black
+        $0.setLabelUI("", font: .pretendard_bold, size: 16, color: .black)
     }
     
     private let subtitleLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 12)
-        $0.textColor = .black
+        $0.setLabelUI("", font: .pretendard, size: 12, color: .black)
     }
     
     private let priceLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 14)
-        $0.textColor = .black
+        $0.setLabelUI("", font: .pretendard, size: 14, color: .black)
         $0.textAlignment = .right
     }
     
     private let descriptionLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 12)
-        $0.textColor = .black
+        $0.setLabelUI("", font: .pretendard, size: 12, color: .black)
         $0.numberOfLines = 0
     }
     
@@ -102,7 +98,7 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(noteImageView)
+            $0.top.equalToSuperview().offset(20)
             $0.leading.equalTo(noteImageView.snp.trailing).offset(22)
         }
         
@@ -120,7 +116,6 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
             $0.top.equalTo(subtitleLabel.snp.bottom).offset(8)
             $0.leading.equalTo(noteImageView.snp.trailing).offset(19)
             $0.trailing.equalToSuperview().inset(40)
-            $0.bottom.equalToSuperview().inset(16)
         }
     }
     
@@ -130,6 +125,6 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
         titleLabel.text = model.title
         subtitleLabel.text = model.subtitle
         priceLabel.text = "\(model.price)원"
-        descriptionLabel.text = model.description
+        descriptionLabel.setTextWithLineHeight(text: model.description, lineHeight: 20)
     }
 }
