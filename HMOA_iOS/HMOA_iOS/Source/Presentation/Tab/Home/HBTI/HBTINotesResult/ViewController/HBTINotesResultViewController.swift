@@ -22,6 +22,8 @@ final class HBTINotesResultViewController: UIViewController {
         $0.separatorStyle = .none
     }
     
+    private let footerView = HBTINotesResultFooterView()
+    
     private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
     
     // MARK: - Properties
@@ -72,6 +74,7 @@ final class HBTINotesResultViewController: UIViewController {
         [
          headerView,
          tableView,
+         footerView,
          nextButton
         ].forEach(view.addSubview)
     }
@@ -87,7 +90,12 @@ final class HBTINotesResultViewController: UIViewController {
         tableView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom).offset(19)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(800)
+            $0.bottom.equalTo(footerView.snp.top).offset(-8)
+        }
+        
+        footerView.snp.makeConstraints {
+            $0.bottom.equalTo(nextButton.snp.top).offset(-16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
         nextButton.snp.makeConstraints {
