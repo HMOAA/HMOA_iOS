@@ -29,7 +29,7 @@ final class HBTINotesResultViewController: UIViewController {
     
     // MARK: - Initialization
     
-    init(selectedNotes: [HBTINotesResultModel]) {
+    init(selectedNotes: [HBTINotesResultModel] = []) {
         self.selectedNotes = selectedNotes
         super.init(nibName: nil, bundle: nil)
     }
@@ -99,6 +99,7 @@ extension HBTINotesResultViewController: UITableViewDelegate, UITableViewDataSou
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HBTINotesResultCell.reuseIdentifier, for: indexPath) as? HBTINotesResultCell else {
             fatalError("Unable to dequeue HBTINotesResultCell")
         }
+        cell.configure(with: selectedNotes[indexPath.row])
         return cell
     }
 }
