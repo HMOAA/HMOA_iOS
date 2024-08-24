@@ -108,4 +108,8 @@ extension HBTINotesResultViewController: UITableViewDelegate, UITableViewDataSou
         cell.configure(with: selectedNotes[indexPath.row])
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 162
+    }
 }
