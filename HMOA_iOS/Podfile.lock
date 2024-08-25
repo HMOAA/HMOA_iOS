@@ -953,12 +953,17 @@ PODS:
   - AppAuth/Core (1.7.5)
   - AppAuth/ExternalUserAgent (1.7.5):
     - AppAuth/Core
+  - Bootpay (4.4.4):
+    - CryptoSwift
+    - NVActivityIndicatorView
+    - ObjectMapper
   - BoringSSL-GRPC (0.0.32):
     - BoringSSL-GRPC/Implementation (= 0.0.32)
     - BoringSSL-GRPC/Interface (= 0.0.32)
   - BoringSSL-GRPC/Implementation (0.0.32):
     - BoringSSL-GRPC/Interface (= 0.0.32)
   - BoringSSL-GRPC/Interface (0.0.32)
+  - CryptoSwift (1.8.3)
   - DropDown (2.3.13)
   - FirebaseAnalytics (10.25.0):
     - FirebaseAnalytics/AdIdSupport (= 10.25.0)
@@ -1210,6 +1215,10 @@ PODS:
     - nanopb/encode (= 2.30910.0)
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
+  - NVActivityIndicatorView (5.2.0):
+    - NVActivityIndicatorView/Base (= 5.2.0)
+  - NVActivityIndicatorView/Base (5.2.0)
+  - ObjectMapper (4.4.2)
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
@@ -1262,6 +1271,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Bootpay
   - DropDown
   - FirebaseAnalytics
   - FirebaseAuth
@@ -1289,7 +1299,9 @@ SPEC REPOS:
     - abseil
     - Alamofire
     - AppAuth
+    - Bootpay
     - BoringSSL-GRPC
+    - CryptoSwift
     - DropDown
     - FirebaseAnalytics
     - FirebaseAppCheckInterop
@@ -1322,6 +1334,8 @@ SPEC REPOS:
     - Kingfisher
     - leveldb-library
     - nanopb
+    - NVActivityIndicatorView
+    - ObjectMapper
     - PromisesObjC
     - PromisesSwift
     - ReactorKit
@@ -1345,7 +1359,9 @@ SPEC CHECKSUMS:
   abseil: d121da9ef7e2ff4cab7666e76c5a3e0915ae08c3
   Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
+  Bootpay: ed9b04d0061931d4bb0c6a2e14dc44222168fde6
   BoringSSL-GRPC: 1e2348957acdbcad360b80a264a90799984b2ba6
+  CryptoSwift: 967f37cea5a3294d9cce358f78861652155be483
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   FirebaseAnalytics: ec00fe8b93b41dc6fe4a28784b8e51da0647a248
   FirebaseAppCheckInterop: 5da5ce93e8797a215e3f677fb0654b74e736c8b8
@@ -1378,6 +1394,8 @@ SPEC CHECKSUMS:
   Kingfisher: b9c985d864d43515f404f1ef4a8ce7d802ace3ac
   leveldb-library: e8eadf9008a61f9e1dde3978c086d2b6d9b9dc28
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
+  NVActivityIndicatorView: fe52a6a68664c2df8991d7d9e3d86d8d19453c53
+  ObjectMapper: e6e4d91ff7f2861df7aecc536c92d8363f4c9677
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
@@ -1397,6 +1415,6 @@ SPEC CHECKSUMS:
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: e3ee790c1fcc485b7052578b5873a5116671fcf1
+PODFILE CHECKSUM: beee739ab1d9c8a148fa4eec61836ae2e2d158f6
 
 COCOAPODS: 1.15.2
