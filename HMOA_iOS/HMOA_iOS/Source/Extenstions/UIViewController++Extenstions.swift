@@ -306,6 +306,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
     }
     
+    /// HBTIOrderSheetVC로 push
+    func presentHBTIOrderSheetViewController() {
+        let hbtiOrderSheetVC = HBTIOrderSheetViewController()
+        hbtiOrderSheetVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
