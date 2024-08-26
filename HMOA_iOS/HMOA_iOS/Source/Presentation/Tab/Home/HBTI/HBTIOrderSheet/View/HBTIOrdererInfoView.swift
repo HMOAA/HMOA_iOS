@@ -1,5 +1,5 @@
 //
-//  HBTIOrderSheetView.swift
+//  HBTIOrdererInfoView.swift
 //  HMOA_iOS
 //
 //  Created by HyoTaek on 8/26/24.
@@ -7,7 +7,19 @@
 
 import UIKit
 
-final class HBTIOrderSheetView: UIView {
+class HBTIOrdererInfoView: UIView {
+    
+    // MARK: - UI Components
+    
+    private let titleLabel = UILabel()
+    
+    private let nameLabel = UILabel()
+    
+    private let nameTextField = UITextField()
+    
+    private let contactLabel = UILabel()
+    
+    private let contactTextField = UITextField()
     
     // MARK: - Initialization
         
