@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Bootpay
 
 class HBTIOrderSheetViewController: UIViewController {
     
