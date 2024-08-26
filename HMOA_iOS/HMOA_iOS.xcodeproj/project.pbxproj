@@ -119,6 +119,8 @@
 		C904BFA62BA9617E00B28494 /* MagazineContentsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA52BA9617E00B28494 /* MagazineContentsImageCell.swift */; };
 		C91980E52C6D947300A7E91F /* HBTINoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91980E42C6D947300A7E91F /* HBTINoteViewController.swift */; };
 		C91980E72C6D952600A7E91F /* HBTINoteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91980E62C6D952500A7E91F /* HBTINoteReactor.swift */; };
+		C923018F2C7483E0002A95BE /* HBTIAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923018E2C7483E0002A95BE /* HBTIAddress.swift */; };
+		C92301912C7483EA002A95BE /* HBTIAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92301902C7483EA002A95BE /* HBTIAPI.swift */; };
 		C93BFA6D2C428E9300A5D9D2 /* IntroViewHBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */; };
 		C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */; };
 		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
@@ -431,6 +433,8 @@
 		C904BFA52BA9617E00B28494 /* MagazineContentsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineContentsImageCell.swift; sourceTree = "<group>"; };
 		C91980E42C6D947300A7E91F /* HBTINoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINoteViewController.swift; sourceTree = "<group>"; };
 		C91980E62C6D952500A7E91F /* HBTINoteReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINoteReactor.swift; sourceTree = "<group>"; };
+		C923018E2C7483E0002A95BE /* HBTIAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddress.swift; sourceTree = "<group>"; };
+		C92301902C7483EA002A95BE /* HBTIAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAPI.swift; sourceTree = "<group>"; };
 		C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewHBTI.swift; sourceTree = "<group>"; };
 		C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyReactor.swift; sourceTree = "<group>"; };
 		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
@@ -1807,6 +1811,8 @@
 			isa = PBXGroup;
 			children = (
 				C98424622C43D51700530259 /* Model */,
+				C923018E2C7483E0002A95BE /* HBTIAddress.swift */,
+				C92301902C7483EA002A95BE /* HBTIAPI.swift */,
 			);
 			path = HBTI;
 			sourceTree = "<group>";
@@ -2875,6 +2881,7 @@
 				CA0160982AB2E15200D5839D /* EvaluationReactor.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
 				CA22389B2AAF492D00452A31 /* CommunityPostCell.swift in Sources */,
+				C923018F2C7483E0002A95BE /* HBTIAddress.swift in Sources */,
 				CA6C48612B2C2F8C00F1BE7F /* TotalPerfumeAddress.swift in Sources */,
 				C9D2300B2C69F601008ACB9B /* HBTILoadingView.swift in Sources */,
 				CA99A6D12B1216DE0030364F /* ReportAPI.swift in Sources */,
@@ -2951,6 +2958,7 @@
 				CA2238932AAF420200452A31 /* CommunityDetailViewController.swift in Sources */,
 				CA1067DD29D6D39A009A7245 /* ChangeSexReactor.swift in Sources */,
 				CA1067D929D6C9A7009A7245 /* ChangeYearReactor.swift in Sources */,
+				C92301912C7483EA002A95BE /* HBTIAPI.swift in Sources */,
 				2C700DE829C1A84F00DDEF77 /* HomeHeaderReactor.swift in Sources */,
 				C96F760F2C4006F200D44773 /* HBTIHomeTopView.swift in Sources */,
 				CA39D5652B0B35F900694677 /* MyLogCommentViewController.swift in Sources */,

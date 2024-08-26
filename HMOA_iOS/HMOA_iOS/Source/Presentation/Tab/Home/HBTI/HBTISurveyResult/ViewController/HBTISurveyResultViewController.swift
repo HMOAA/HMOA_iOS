@@ -74,6 +74,11 @@ final class HBTISurveyResultViewController: UIViewController, View {
     func bind(reactor: HBTISurveyResultReactor) {
         
         // MARK: Action
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         nextButton.rx.tap
             .map { Reactor.Action.isTapNextButton }
             .bind(to: reactor.action)
@@ -81,10 +86,17 @@ final class HBTISurveyResultViewController: UIViewController, View {
         
         // MARK: State
         reactor.state
-            .map { $0.noteItems }
+            .map { $0.resultInfo }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: updateLabels(with:))
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.noteItemList }
             .delay(.seconds(2), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .recommend, withItems: items)
                 owner.updateLoadingViewIsHidden(isHidden: !items.isEmpty)
             })
             .disposed(by: disposeBag)
@@ -166,13 +178,13 @@ final class HBTISurveyResultViewController: UIViewController, View {
             
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(333)
+                heightDimension: .absolute(378)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(bannerWidthRatio),
-                heightDimension: .estimated(333)
+                heightDimension: .absolute(378)
             )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
@@ -203,14 +215,19 @@ final class HBTISurveyResultViewController: UIViewController, View {
         })
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTISurveyResultSection, HBTISurveyResultItem>()
-        initialSnapshot.appendSections([.recommand])
-        initialSnapshot.appendItems([
-            .recommand(HBTISurveyResultNote(id: 1, name: "시트러스", photoURL: "", content: "귤, 베르가못, 만다린이 들어간 상큼한 향료로 향수에서 가장 많이 사용되는 노트입니다.")),
-            .recommand(HBTISurveyResultNote(id: 2, name: "플로럴", photoURL: "", content: "귤, 베르가못, 만다린이 들어간 상큼한 향료로 향수에서 가장 많이 사용되는 노트입니다.")),
-            .recommand(HBTISurveyResultNote(id: 3, name: "스파이스", photoURL: "", content: "귤, 베르가못, 만다린이 들어간 상큼한 향료로 향수에서 가장 많이 사용되는 노트입니다."))
-        ])
+        initialSnapshot.appendSections([.recommend])
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: HBTISurveyResultSection, withItems items: [HBTISurveyResultItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
@@ -218,5 +235,16 @@ extension HBTISurveyResultViewController {
     private func updateLoadingViewIsHidden(isHidden: Bool) {
         loadingView.isHidden = isHidden
         resultView.isHidden = !isHidden
+    }
+    
+    private func updateLabels(with resultInfo: [String: String]) {
+        guard let nickname = resultInfo["nickname"],
+              let best = resultInfo["best"],
+              let second = resultInfo["second"],
+              let third = resultInfo["third"] else { return }
+        
+        loadingView.descriptionLabel.text = "\(nickname)님에게 딱 맞는 \n향료를 추천하는 중입니다."
+        bestLabel.text = "\(nickname)님에게 딱 맞는 향료는\n'\(best)'입니다"
+        secondThirdLabel.text = "2위: \(second)\n3위: \(third)"
     }
 }

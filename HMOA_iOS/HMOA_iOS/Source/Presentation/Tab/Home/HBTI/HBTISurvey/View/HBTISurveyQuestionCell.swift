@@ -32,7 +32,7 @@ final class HBTISurveyQuestionCell: UICollectionViewCell {
     let answerStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 16
-        $0.distribution = .equalSpacing
+        $0.distribution = .equalCentering
         $0.alignment = .fill
     }
     
@@ -70,7 +70,7 @@ final class HBTISurveyQuestionCell: UICollectionViewCell {
         
         answerStackView.snp.makeConstraints { make in
             make.top.equalTo(questionLabel.snp.bottom).offset(32)
-            make.horizontalEdges.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
     }
     
