@@ -63,24 +63,38 @@ final class HBTISurveyViewController: UIViewController, View {
     func bind(reactor: HBTISurveyReactor) {
         
         // MARK: Action
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
         nextButton.rx.tap
             .map { Reactor.Action.didTapNextButton }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
         // MARK: State
+        
         reactor.state
-            .map { $0.selectedID }
+            .map { $0.questionList }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .question, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedIDList }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, selectedID in
-                // TODO: API 연동 후 4를 총 아이템(질문) 수로 변경
-                let progress = Float(selectedID.count) / Float(4)
+                let progress = Float(selectedID.count) / Float(reactor.currentState.questionList.count)
                 owner.progressBar.setProgress(progress, animated: true)
             })
             .disposed(by: disposeBag)
         
         reactor.state
-            .compactMap { $0.currentQuestion }
+            .compactMap { $0.currentPage }
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, row in
@@ -101,9 +115,11 @@ final class HBTISurveyViewController: UIViewController, View {
         reactor.state
             .map { $0.isPushNextVC }
             .filter { $0 }
-            .map { _ in }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: presentHBTISurveyResultViewController)
+            .drive(with: self, onNext: { owner, isPush in
+                let list = reactor.currentState.selectedIDList.values.flatMap { $0 }
+                owner.presentHBTISurveyResultViewController(list)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -113,7 +129,8 @@ final class HBTISurveyViewController: UIViewController, View {
     private func setUI() {
         view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
-        hbtiSurveyCollectionView.isScrollEnabled = false
+        hbtiSurveyCollectionView.isScrollEnabled = true
+        hbtiSurveyCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 92, right: 0)
     }
     
     // MARK: Add Views
@@ -133,8 +150,7 @@ final class HBTISurveyViewController: UIViewController, View {
         
         hbtiSurveyCollectionView.snp.makeConstraints { make in
             make.top.equalTo(progressBar.snp.bottom).offset(32)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(nextButton.snp.top)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
         
         nextButton.snp.makeConstraints { make in
@@ -151,13 +167,13 @@ final class HBTISurveyViewController: UIViewController, View {
             
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(300)
+                heightDimension: .fractionalHeight(1)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.92),
-                heightDimension: .estimated(300)
+                heightDimension: .fractionalHeight(1)
             )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
@@ -170,7 +186,7 @@ final class HBTISurveyViewController: UIViewController, View {
                 let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
                 if currentPage != previousPage {
                     previousPage = currentPage
-                    self.reactor?.action.onNext(.didChangeQuestion(currentPage))
+                    self.reactor?.action.onNext(.didChangePage(currentPage))
                 }
             }
             
@@ -191,8 +207,6 @@ final class HBTISurveyViewController: UIViewController, View {
                 
                 cell.configureCell(question: question, answers: question.answers)
                 
-                let questionID = question.id
-                
                 for (i, view) in cell.answerStackView.subviews.enumerated() {
                     guard i < question.answers.count else { break }
                     
@@ -200,12 +214,15 @@ final class HBTISurveyViewController: UIViewController, View {
                     let answerID = question.answers[i].id
                     
                     button.rx.tap
-                        .map { Reactor.Action.didTapAnswerButton((questionID, answerID)) }
+                        .map { Reactor.Action.didTapAnswerButton((question, answerID)) }
                         .bind(to: self.reactor!.action)
                         .disposed(by: self.disposeBag)
                     
                     self.reactor?.state
-                        .map { $0.selectedID[questionID] == answerID }
+                        .map {
+                            guard let selectedID = $0.selectedIDList[question.id] else { return false }
+                            return selectedID.contains(answerID)
+                        }
                         .bind(to: button.rx.isSelected)
                         .disposed(by: cell.disposeBag)
                 }
@@ -217,53 +234,16 @@ final class HBTISurveyViewController: UIViewController, View {
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTISurveySection, HBTISurveyItem>()
         initialSnapshot.appendSections([.question])
         
-        // TODO: API 연동 후 삭제
-        initialSnapshot.appendItems([
-            .question(HBTIQuestion(
-                id: 1,
-                content: "좋아하는 계절이 있으신가요?",
-                answers: [
-                    HBTIAnswer(id: 1, content: "싱그럽고 활기찬 ‘봄’"),
-                    HBTIAnswer(id: 2, content: "화창하고 에너지 넘치는 ‘여름’"),
-                    HBTIAnswer(id: 3, content: "우아하고 고요한 분위기의 ‘가을’"),
-                    HBTIAnswer(id: 4, content: "차가움과 아늑함이 공존하는 ‘겨울’")
-                ]
-            )),
-            .question(HBTIQuestion(
-                id: 2,
-                content: "남들이 생각하는 본인의 이미지는 무엇인가요?",
-                answers: [
-                    HBTIAnswer(id: 5, content: "청순"),
-                    HBTIAnswer(id: 6, content: "시크, 멋짐"),
-                    HBTIAnswer(id: 7, content: "단아"),
-                    HBTIAnswer(id: 8, content: "귀여움"),
-                    HBTIAnswer(id: 9, content: "섹시")
-                ]
-            )),
-            .question(HBTIQuestion(
-                id: 3,
-                content: "질문예시3",
-                answers: [
-                    HBTIAnswer(id: 10, content: "답1"),
-                    HBTIAnswer(id: 11, content: "답2"),
-                    HBTIAnswer(id: 12, content: "답3"),
-                    HBTIAnswer(id: 13, content: "답4"),
-                    HBTIAnswer(id: 14, content: "답5")
-                ]
-            )),
-            .question(HBTIQuestion(
-                id: 4,
-                content: "질문예시4",
-                answers: [
-                    HBTIAnswer(id: 15, content: "답6"),
-                    HBTIAnswer(id: 16, content: "답7"),
-                    HBTIAnswer(id: 17, content: "답8"),
-                    HBTIAnswer(id: 18, content: "답9"),
-                    HBTIAnswer(id: 19, content: "답10")
-                ]
-            ))
-        ], toSection: .question)
-        
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: HBTISurveySection, withItems items: [HBTISurveyItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }

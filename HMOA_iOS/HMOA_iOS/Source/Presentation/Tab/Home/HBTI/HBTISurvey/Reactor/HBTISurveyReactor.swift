@@ -11,22 +11,25 @@ import RxSwift
 final class HBTISurveyReactor: Reactor {
     
     enum Action {
-        case didTapAnswerButton((Int, Int))
-        case didChangeQuestion(Int)
+        case viewDidLoad
+        case didTapAnswerButton((HBTIQuestion, Int))
+        case didChangePage(Int)
         case didTapNextButton
     }
     
     enum Mutation {
-        case setCurrentQuestion(Int)
-        case setSelectedID((Int, Int))
-        case setNextQuestion(Int)
+        case setQuestionList([HBTISurveyItem])
+        case setCurrentPage(Int)
+        case setSelectedIDList((HBTIQuestion, Int))
+        case setNextPage(Int)
         case setIsEnabledNextButton
         case setIsPushNextVC(Bool)
     }
     
     struct State {
-        var selectedID = [Int: Int]()
-        var currentQuestion: Int? = nil
+        var questionList: [HBTISurveyItem] = []
+        var selectedIDList = [Int: [Int]]()
+        var currentPage: Int? = nil
         var isEnableNextButton: Bool = false
         var isPushNextVC: Bool = false
     }
@@ -39,28 +42,34 @@ final class HBTISurveyReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .didTapAnswerButton(let (questionID, answerID)):
+        case .viewDidLoad:
+            return setQuestionList()
+            
+        case .didTapAnswerButton(let (question, answerID)):
             return .concat([
-                .just(.setSelectedID((questionID, answerID))),
+                .just(.setSelectedIDList((question, answerID))),
                 .just(.setIsEnabledNextButton)
             ])
             
-        case .didChangeQuestion(let row):
+        case .didChangePage(let page):
             return .concat([
-                .just(.setCurrentQuestion(row)),
+                .just(.setCurrentPage(page)),
                 .just(.setIsEnabledNextButton)
             ])
             
         case .didTapNextButton:
-            guard let currentQuestionIndexPath = currentState.currentQuestion else {
+            guard let currentQuestionIndexPath = currentState.currentPage else {
                 return .empty()
             }
-            // TODO: API 연동 후 조건문 변경
-            if currentQuestionIndexPath == 4 - 1 && currentState.selectedID.count == 4 {
+            let questionCount = currentState.questionList.count
+            let isLastQuestion = currentQuestionIndexPath == questionCount - 1
+            let isAllSelected = currentState.selectedIDList.count == questionCount
+            
+            if isLastQuestion && isAllSelected {
                 return .just(.setIsPushNextVC(true))
             }
                 
-            return .just(.setNextQuestion(currentQuestionIndexPath + 1))
+            return .just(.setNextPage(currentQuestionIndexPath + 1))
         }
     }
     
@@ -68,30 +77,64 @@ final class HBTISurveyReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setCurrentQuestion(let row):
-            state.currentQuestion = row
+        case .setQuestionList(let items):
+            state.questionList = items
             
-        case .setSelectedID(let (questionID, answerID)):
-            if state.selectedID[questionID] == answerID {
-                state.selectedID.removeValue(forKey: questionID)
-            } else {
-                state.selectedID[questionID] = answerID
+        case .setCurrentPage(let row):
+            state.currentPage = row
+            
+        case .setSelectedIDList(let (question, answerID)):
+            let questionID = question.id
+            
+            guard let selectedID = state.selectedIDList[questionID] else {
+                state.selectedIDList[questionID] = [answerID]
+                break
             }
-            state.selectedID[questionID] = answerID
             
-        case .setNextQuestion(let row):
-            // TODO: API 연동 후 조건문 변경
-            guard row < 4 else { return state }
-            state.currentQuestion = row
+            if selectedID.contains(answerID) {
+                if selectedID.count == 1 {
+                    state.selectedIDList.removeValue(forKey: questionID)
+                } else {
+                    state.selectedIDList[questionID] = selectedID.filter { $0 != answerID }
+                }
+            } else {
+                state.selectedIDList[questionID] = question.isMultipleChoice ? selectedID + [answerID] : [answerID]
+            }
+            
+        case .setNextPage(let page):
+            guard page < currentState.questionList.count else { break }
+            state.currentPage = page
             
         case .setIsEnabledNextButton:
-            guard let currentPage = state.currentQuestion else { return state }
-            state.isEnableNextButton = currentPage <= state.selectedID.count - 1
+            guard let currentPage = state.currentPage else { break }
+            let question = state.questionList[currentPage].question!
+            
+            state.isEnableNextButton = state.selectedIDList[question.id] != nil
             
         case .setIsPushNextVC(let isPush):
             state.isPushNextVC = isPush
         }
         
         return state
+    }
+}
+
+extension HBTISurveyReactor {
+    func setQuestionList() -> Observable<Mutation> {
+        return HBTIAPI.fetchSurvey()
+            .catch { _ in .empty() }
+            .flatMap { questionListData -> Observable<Mutation> in
+                let listData = questionListData.questions.map { questionData in
+                    return HBTISurveyItem.question(
+                        HBTIQuestion(
+                            id: questionData.id,
+                            content: questionData.content,
+                            answers: questionData.answers,
+                            isMultipleChoice: questionData.isMultipleChoice
+                        )
+                    )
+                }
+                return .just(.setQuestionList(listData))
+            }
     }
 }
