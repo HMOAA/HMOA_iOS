@@ -9,8 +9,14 @@ import UIKit
 import SnapKit
 import Then
 import Bootpay
+import RxSwift
+import RxCocoa
 
 class HBTIOrderSheetViewController: UIViewController {
+    
+    // MARK: - Properties
+    
+    var disposeBag = DisposeBag()
     
     // MARK: - UI Components
     
@@ -38,12 +44,18 @@ class HBTIOrderSheetViewController: UIViewController {
         
         // MARK: Action
         
+        payButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.bootpayStart()
+            })
+            .disposed(by: disposeBag)
+        
         // MARK: State
         
     }
     
-    // MARK: - Functions
-    
+    // MARK: Set UI
+   
     private func setUI() {
         setBackItemNaviBar("주문서 작성")
     }
@@ -64,5 +76,15 @@ class HBTIOrderSheetViewController: UIViewController {
             $0.bottom.equalToSuperview().inset(40)
             $0.height.equalTo(52)
         }
+    }
+    
+    // MARK: - Functions
+    
+    func bootpayStart() {
+        let payload = generatePayload()
+    }
+    
+    func generatePayload() {
+        
     }
 }
