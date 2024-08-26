@@ -12,7 +12,7 @@ import Bootpay
 import RxSwift
 import RxCocoa
 
-class HBTIOrderSheetViewController: UIViewController {
+final class HBTIOrderSheetViewController: UIViewController {
     
     // MARK: - Properties
     
