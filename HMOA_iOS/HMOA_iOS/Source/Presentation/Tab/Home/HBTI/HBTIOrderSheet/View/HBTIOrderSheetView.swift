@@ -9,6 +9,10 @@ import UIKit
 
 final class HBTIOrderSheetView: UIView {
     
+    // MARK: - UI Components
+    
+    private let ordererInfoView = HBTIOrdererInfoView()
+    
     // MARK: - Initialization
         
     override init(frame: CGRect) {
@@ -32,12 +36,16 @@ final class HBTIOrderSheetView: UIView {
     // MARK: - Set AddView
     
     private func setAddView() {
-        
+        [
+         ordererInfoView
+        ].forEach(addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setupConstraints() {
-        
+        ordererInfoView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 }
