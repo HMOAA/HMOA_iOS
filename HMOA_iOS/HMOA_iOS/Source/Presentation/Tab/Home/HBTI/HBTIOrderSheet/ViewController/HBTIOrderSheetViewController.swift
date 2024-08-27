@@ -14,6 +14,10 @@ import RxCocoa
 
 final class HBTIOrderSheetViewController: UIViewController {
     
+    // MARK: - UI Components
+    
+    private let hbtiOrderSheetView = HBTIOrderSheetView()
+    
     // MARK: - Properties
     
     var appId = "5b8f6a4d396fa665fdc2b5e9"
@@ -66,6 +70,7 @@ final class HBTIOrderSheetViewController: UIViewController {
     
     private func setAddView() {
         [
+         hbtiOrderSheetView,
          payButton
         ].forEach(view.addSubview)
     }
@@ -73,6 +78,11 @@ final class HBTIOrderSheetViewController: UIViewController {
     // MARK: Set Constraints
     
     private func setConstraints() {
+        hbtiOrderSheetView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(127)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
         payButton.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(40)
