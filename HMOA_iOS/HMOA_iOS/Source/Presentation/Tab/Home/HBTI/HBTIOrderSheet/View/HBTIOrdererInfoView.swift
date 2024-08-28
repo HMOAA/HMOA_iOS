@@ -35,10 +35,18 @@ class HBTIOrdererInfoView: UIView {
         $0.layer.masksToBounds = true
     }
     
+    private let firstLine = UIView().then {
+        $0.backgroundColor = .customColor(.gray1)
+    }
+    
     private let contactTextFieldSecond = UITextField().then {
         $0.setTextFieldUI("0000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+    }
+    
+    private let secondeLine = UIView().then {
+        $0.backgroundColor = .customColor(.gray1)
     }
     
     private let contactTextFieldThird = UITextField().then {
@@ -76,7 +84,9 @@ class HBTIOrdererInfoView: UIView {
          nameTextField,
          contactLabel,
          contactTextFieldFirst,
+         firstLine,
          contactTextFieldSecond,
+         secondeLine,
          contactTextFieldThird
         ].forEach(addSubview)
     }
@@ -113,11 +123,25 @@ class HBTIOrdererInfoView: UIView {
             $0.height.equalTo(44)
         }
         
+        firstLine.snp.makeConstraints {
+            $0.leading.equalTo(contactTextFieldFirst.snp.trailing).offset(5)
+            $0.centerY.equalTo(contactTextFieldFirst)
+            $0.width.equalTo(10)
+            $0.height.equalTo(1)
+        }
+        
         contactTextFieldSecond.snp.makeConstraints {
             $0.top.equalTo(contactTextFieldFirst.snp.top)
             $0.leading.equalTo(contactTextFieldFirst.snp.trailing).offset(20)
             $0.width.equalToSuperview().multipliedBy((1.0 / 3.0) - (40 / UIScreen.main.bounds.width / 3.0)) // 휴대폰번호 텍스트필드 간격 20 * 2를 뺀 superView width를 3으로 나누기
             $0.height.equalTo(44)
+        }
+        
+        secondeLine.snp.makeConstraints {
+            $0.leading.equalTo(contactTextFieldSecond.snp.trailing).offset(5)
+            $0.centerY.equalTo(contactTextFieldSecond)
+            $0.width.equalTo(10)
+            $0.height.equalTo(1)
         }
         
         contactTextFieldThird.snp.makeConstraints {
