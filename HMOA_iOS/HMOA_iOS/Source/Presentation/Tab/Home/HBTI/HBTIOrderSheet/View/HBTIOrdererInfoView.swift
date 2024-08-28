@@ -15,6 +15,19 @@ class HBTIOrdererInfoView: UIView {
         $0.setLabelUI("주문자 정보", font: .pretendard_bold, size: 18, color: .black)
     }
     
+    private let saveInfoButton = UIButton().then {
+        let text = "작성한 정보 저장하기"
+        let attributedString = NSAttributedString(
+            string: text,
+            attributes: [
+                .font: UIFont.customFont(.pretendard_medium, 10),
+                .foregroundColor: UIColor.black,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        $0.setAttributedTitle(attributedString, for: .normal)
+    }
+    
     private let nameLabel = UILabel().then {
         $0.setLabelUI("이름", font: .pretendard_medium, size: 12, color: .black)
     }
@@ -80,6 +93,7 @@ class HBTIOrdererInfoView: UIView {
     private func setAddView() {
         [
          titleLabel,
+         saveInfoButton,
          nameLabel,
          nameTextField,
          contactLabel,
@@ -97,6 +111,11 @@ class HBTIOrdererInfoView: UIView {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview()
+        }
+        
+        saveInfoButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            $0.centerY.equalTo(titleLabel)
         }
         
         nameLabel.snp.makeConstraints {
