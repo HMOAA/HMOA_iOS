@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HBTIOrdererInfoView: UIView {
+final class HBTIOrdererInfoView: UIView {
     
     // MARK: - UI Components
     
@@ -168,6 +168,7 @@ class HBTIOrdererInfoView: UIView {
             $0.leading.equalTo(contactTextFieldSecond.snp.trailing).offset(20)
             $0.width.equalToSuperview().multipliedBy((1.0 / 3.0) - (40 / UIScreen.main.bounds.width / 3.0)) // 휴대폰번호 텍스트필드 간격 20 * 2를 뺀 superView width를 3으로 나누기
             $0.height.equalTo(44)
+            $0.bottom.equalToSuperview()
         }
     }
 }
