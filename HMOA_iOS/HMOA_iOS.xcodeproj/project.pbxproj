@@ -115,6 +115,7 @@
 		3F03E0902C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */; };
 		3F5022F22C7F795400230A40 /* HBTIAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F12C7F795400230A40 /* HBTIAddressView.swift */; };
 		3F5022F42C7F7F1200230A40 /* HBTIDetailAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F32C7F7F1200230A40 /* HBTIDetailAddressView.swift */; };
+		3F5022F62C7F7FDE00230A40 /* HBTIProductInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */; };
 		3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */; };
 		3F5565FE2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */; };
 		3F5566002C6F5708005CCBCA /* HBTIProcessGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */; };
@@ -432,6 +433,7 @@
 		3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetViewController.swift; sourceTree = "<group>"; };
 		3F5022F12C7F795400230A40 /* HBTIAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddressView.swift; sourceTree = "<group>"; };
 		3F5022F32C7F7F1200230A40 /* HBTIDetailAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIDetailAddressView.swift; sourceTree = "<group>"; };
+		3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProductInfoView.swift; sourceTree = "<group>"; };
 		3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideViewController.swift; sourceTree = "<group>"; };
 		3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideMessage.swift; sourceTree = "<group>"; };
 		3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideReactor.swift; sourceTree = "<group>"; };
@@ -1478,6 +1480,7 @@
 				3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */,
 				3F5022F12C7F795400230A40 /* HBTIAddressView.swift */,
 				3F5022F32C7F7F1200230A40 /* HBTIDetailAddressView.swift */,
+				3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */,
 				3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */,
 			);
 			path = View;
@@ -2953,6 +2956,7 @@
 				CA943AD32AE685CF00A5B717 /* CommunityListService.swift in Sources */,
 				CAF19B9C2A625D1300374038 /* SearchAPI.swift in Sources */,
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
+				3F5022F62C7F7FDE00230A40 /* HBTIProductInfoView.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
 				CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */,
