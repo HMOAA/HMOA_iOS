@@ -113,6 +113,7 @@
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
 		3F03E0902C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */; };
+		3F5022F22C7F795400230A40 /* HBTIAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F12C7F795400230A40 /* HBTIAddressView.swift */; };
 		3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */; };
 		3F5565FE2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */; };
 		3F5566002C6F5708005CCBCA /* HBTIProcessGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */; };
@@ -428,6 +429,7 @@
 		2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageReactor.swift; sourceTree = "<group>"; };
 		3897B273F6FFDAEDA62C377C /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetViewController.swift; sourceTree = "<group>"; };
+		3F5022F12C7F795400230A40 /* HBTIAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddressView.swift; sourceTree = "<group>"; };
 		3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideViewController.swift; sourceTree = "<group>"; };
 		3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideMessage.swift; sourceTree = "<group>"; };
 		3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideReactor.swift; sourceTree = "<group>"; };
@@ -1472,6 +1474,7 @@
 			children = (
 				3F76C2942C7CC9A300FA67EB /* HBTIOrderSheetView.swift */,
 				3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */,
+				3F5022F12C7F795400230A40 /* HBTIAddressView.swift */,
 				3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */,
 			);
 			path = View;
@@ -3098,6 +3101,7 @@
 				CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
 				2C710EF5297C0C8C006BE23B /* MyPageUserCell.swift in Sources */,
+				3F5022F22C7F795400230A40 /* HBTIAddressView.swift in Sources */,
 				2C710EF8297C0F5E006BE23B /* MyPageView.swift in Sources */,
 				2C4CDC3F29C770D900676163 /* BrandDetailSection.swift in Sources */,
 				CA6D99E829C4932A000E80CF /* ListSecton.swift in Sources */,
