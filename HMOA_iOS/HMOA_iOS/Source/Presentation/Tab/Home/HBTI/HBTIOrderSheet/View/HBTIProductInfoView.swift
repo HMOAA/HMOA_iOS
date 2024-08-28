@@ -13,6 +13,12 @@ final class HBTIProductInfoView: UIView {
     
     // MARK: - UI Components
     
+    private let titleLabel = UILabel().then {
+        $0.setLabelUI("상품 정보", font: .pretendard_bold, size: 18, color: .black)
+    }
+    
+    private let productTableView = UITableView()
+    
     // MARK: - Initialization
 
     override init(frame: CGRect) {
