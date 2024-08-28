@@ -75,7 +75,7 @@ final class HBTIOrdererInfoView: UIView {
         
         setUI()
         setAddView()
-        setupConstraints()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -107,7 +107,7 @@ final class HBTIOrdererInfoView: UIView {
     
     // MARK: - Set Constraints
     
-    private func setupConstraints() {
+    private func setConstraints() {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview()
