@@ -13,6 +13,8 @@ final class HBTIOrderSheetView: UIView {
     
     private let ordererInfoView = HBTIOrdererInfoView()
     
+    private let dividingLineView1 = HBTIOrderDividingLineView()
+    
     // MARK: - Initialization
         
     override init(frame: CGRect) {
@@ -37,7 +39,8 @@ final class HBTIOrderSheetView: UIView {
     
     private func setAddView() {
         [
-         ordererInfoView
+         ordererInfoView,
+         dividingLineView1
         ].forEach(addSubview)
     }
     
@@ -45,7 +48,14 @@ final class HBTIOrderSheetView: UIView {
     
     private func setupConstraints() {
         ordererInfoView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        dividingLineView1.snp.makeConstraints {
+            $0.top.equalTo(ordererInfoView.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
         }
     }
 }
