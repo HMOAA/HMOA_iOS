@@ -9,7 +9,16 @@ import UIKit
 
 final class HBTIOrderDividingLineView: UIView {
     
-    override init(frame: CGRect) {
+    private var dividingColor: UIColor
+    
+    init(color: UIColor) {
+        self.dividingColor = color
+        super.init(frame: .zero)
+        setupUI()
+    }
+    
+    init(frame: CGRect, color: UIColor) {
+        self.dividingColor = color
         super.init(frame: frame)
         setupUI()
     }
@@ -19,6 +28,6 @@ final class HBTIOrderDividingLineView: UIView {
     }
     
     private func setupUI() {
-        backgroundColor = UIColor.black
+        backgroundColor = dividingColor
     }
 }
