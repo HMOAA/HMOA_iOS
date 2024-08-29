@@ -66,7 +66,10 @@ final class HBTIProductInfoView: UIView {
         
         productTableView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(24)
-            $0.leading.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            //
+            $0.height.equalTo(400)
+            //
         }
     }
 }
@@ -85,5 +88,12 @@ extension HBTIProductInfoView: UITableViewDataSource, UITableViewDelegate {
         cell.configureCell(with: product)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 62
+        //
+        return 100
+        //
     }
 }

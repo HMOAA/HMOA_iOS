@@ -33,7 +33,7 @@ final class HBTIProductInfoCell: UITableViewCell, ReuseIdentifying {
     }
     
     private let removeProductButton = UIButton().then {
-        $0.setImage(UIImage(named: "x"), for: .normal)
+        $0.setImage(UIImage(named: "xMark"), for: .normal)
     }
    
     private let productPricePerUnitLabel = UILabel().then {
