@@ -125,6 +125,7 @@
 		3F76C2972C7CCEF800FA67EB /* HBTIOrdererInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */; };
 		3FA07E492C6E337E00CE3CDA /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3FA07E482C6E337E00CE3CDA /* loading.gif */; };
 		3FCCFC472C6E1DE1009AE780 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */; };
+		3FD67FB72C811986005E6235 /* HBTITotalPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */; };
 		3FEB5E012C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */; };
 		3FEB5E032C80421600F3C7F5 /* HBTIProductInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */; };
 		3FEB5E052C8042DE00F3C7F5 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */; };
@@ -446,6 +447,7 @@
 		3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrdererInfoView.swift; sourceTree = "<group>"; };
 		3FA07E482C6E337E00CE3CDA /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
+		3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTITotalPaymentView.swift; sourceTree = "<group>"; };
 		3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetProductData.swift; sourceTree = "<group>"; };
 		3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProductInfoCell.swift; sourceTree = "<group>"; };
 		3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
@@ -1488,6 +1490,7 @@
 				3F5022F32C7F7F1200230A40 /* HBTIDetailAddressView.swift */,
 				3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */,
 				3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */,
+				3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */,
 				3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */,
 			);
 			path = View;
@@ -3039,6 +3042,7 @@
 				2C15DF912A57DFE000EAB112 /* CoreGraphicManager.swift in Sources */,
 				2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */,
 				3F5565FE2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift in Sources */,
+				3FD67FB72C811986005E6235 /* HBTITotalPaymentView.swift in Sources */,
 				CA2238902AAEFCC000452A31 /* CommunityWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				C9819D772C3302270046FE55 /* NoItemView.swift in Sources */,
