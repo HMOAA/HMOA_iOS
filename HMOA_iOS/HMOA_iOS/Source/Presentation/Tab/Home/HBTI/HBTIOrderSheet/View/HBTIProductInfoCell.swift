@@ -60,12 +60,54 @@ final class HBTIProductInfoCell: UITableViewCell {
     // MARK: - Set AddView
     
     private func setAddView() {
-        
+        [
+         productImageView,
+         productTitleLabel,
+         productDescriptionLabel,
+         productCountLabel,
+         removeProductButton,
+         productPricePerUnitLabel,
+         productPriceLabel
+        ].forEach(addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        productImageView.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(60)
+        }
         
+        productTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(productImageView.snp.top).offset(1)
+            $0.leading.equalTo(productImageView.snp.trailing).offset(20)
+        }
+        
+        productDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(productTitleLabel.snp.bottom).offset(4)
+            $0.leading.equalTo(productTitleLabel)
+        }
+        
+        productCountLabel.snp.makeConstraints {
+            $0.top.equalTo(productDescriptionLabel.snp.bottom).offset(18)
+            $0.leading.equalTo(productTitleLabel)
+        }
+        
+        removeProductButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            $0.centerY.equalTo(productTitleLabel)
+        }
+        
+        productPricePerUnitLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            $0.top.equalTo(removeProductButton.snp.bottom).offset(22)
+        }
+        
+        productPriceLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            $0.top.equalTo(productPricePerUnitLabel.snp.bottom).offset(2)
+        }
     }
 }
