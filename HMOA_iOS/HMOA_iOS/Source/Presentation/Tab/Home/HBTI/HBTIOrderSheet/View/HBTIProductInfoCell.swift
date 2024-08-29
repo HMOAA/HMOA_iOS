@@ -110,4 +110,13 @@ final class HBTIProductInfoCell: UITableViewCell {
             $0.top.equalTo(productPricePerUnitLabel.snp.bottom).offset(2)
         }
     }
+    
+    func configureCell(with product: HBTIOrderSheetProductData) {
+        productImageView.image = UIImage(named: product.image)
+        productTitleLabel.text = product.title
+        productDescriptionLabel.text = product.details
+        productCountLabel.text = "수량 \(product.count)개"
+        productPricePerUnitLabel.text = product.pricePerUnit
+        productPriceLabel.text = "\(product.price)원"
+    }
 }
