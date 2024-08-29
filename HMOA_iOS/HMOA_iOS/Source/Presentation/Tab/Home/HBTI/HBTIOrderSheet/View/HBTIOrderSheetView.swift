@@ -13,15 +13,15 @@ final class HBTIOrderSheetView: UIView {
     
     private let ordererInfoView = HBTIOrdererInfoView()
     
-    private let dividingLineView1 = HBTIOrderDividingLineView()
+    private let dividingLineView1 = HBTIOrderDividingLineView(color: .black)
     
     private let addressView = HBTIAddressView()
     
-    private let dividingLineView2 = HBTIOrderDividingLineView()
+    private let dividingLineView2 = HBTIOrderDividingLineView(color: .black)
     
     private let productInfoView = HBTIProductInfoView()
     
-    private let dividingLineView3 = HBTIOrderDividingLineView()
+    private let dividingLineView3 = HBTIOrderDividingLineView(color: .black)
 
     // MARK: - Initialization
         
