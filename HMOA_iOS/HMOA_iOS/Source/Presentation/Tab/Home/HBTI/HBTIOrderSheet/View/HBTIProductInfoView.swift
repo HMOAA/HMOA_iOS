@@ -50,13 +50,24 @@ final class HBTIProductInfoView: UIView {
     // MARK: - Set AddView
 
     private func setAddView() {
-        
+        [
+         titleLabel,
+         productTableView
+        ].forEach(addSubview)
     }
 
     // MARK: - Set Constraints
 
     private func setConstraints() {
+        titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+        }
         
+        productTableView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(24)
+            $0.leading.equalToSuperview()
+        }
     }
 }
 
