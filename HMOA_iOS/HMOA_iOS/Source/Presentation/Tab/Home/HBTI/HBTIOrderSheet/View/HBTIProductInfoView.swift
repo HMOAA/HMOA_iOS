@@ -25,6 +25,8 @@ final class HBTIProductInfoView: UIView {
         $0.register(HBTIProductInfoCell.self, forCellReuseIdentifier: HBTIProductInfoCell.reuseIdentifier)
         $0.dataSource = self
         $0.delegate = self
+        $0.isScrollEnabled = false
+        $0.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     // MARK: - Initialization
@@ -65,11 +67,10 @@ final class HBTIProductInfoView: UIView {
         }
         
         productTableView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(24)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.horizontalEdges.equalToSuperview()
-            //
-            $0.height.equalTo(400)
-            //
+            $0.height.equalTo(204)
+            $0.bottom.equalToSuperview()
         }
     }
 }
@@ -91,9 +92,14 @@ extension HBTIProductInfoView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 62
-        //
-        return 100
-        //
+        // 셀의 윗 공백 (20) + 아랫 공백 (20) + 셀 본래 높이 (62)
+        return 102
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // 맨 마지막 셀 구분선 제거
+        if indexPath.row == products.count - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        }
     }
 }
