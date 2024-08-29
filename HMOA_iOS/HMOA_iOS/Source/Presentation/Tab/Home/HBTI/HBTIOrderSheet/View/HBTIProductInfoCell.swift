@@ -91,7 +91,7 @@ final class HBTIProductInfoCell: UITableViewCell, ReuseIdentifying {
         }
         
         productCountLabel.snp.makeConstraints {
-            $0.top.equalTo(productDescriptionLabel.snp.bottom).offset(18)
+            $0.bottom.equalTo(productImageView)
             $0.leading.equalTo(productTitleLabel)
         }
         
@@ -102,12 +102,12 @@ final class HBTIProductInfoCell: UITableViewCell, ReuseIdentifying {
         
         productPricePerUnitLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview()
-            $0.top.equalTo(removeProductButton.snp.bottom).offset(22)
+            $0.bottom.equalTo(productPriceLabel.snp.top).offset(-2)
         }
         
         productPriceLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview()
-            $0.top.equalTo(productPricePerUnitLabel.snp.bottom).offset(2)
+            $0.bottom.equalTo(productImageView)
         }
     }
     
