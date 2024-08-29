@@ -127,6 +127,7 @@
 		3FCCFC472C6E1DE1009AE780 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */; };
 		3FEB5E012C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */; };
 		3FEB5E032C80421600F3C7F5 /* HBTIProductInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */; };
+		3FEB5E052C8042DE00F3C7F5 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */; };
 		45DD3AF679B202AF42C5F0B6 /* Pods_HMOA_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBD5F4B0B87FC3229F0B6AC2 /* Pods_HMOA_iOSTests.framework */; };
 		C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */; };
 		C904BFA22BA95CF000B28494 /* MagazineLikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */; };
@@ -447,6 +448,7 @@
 		3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetProductData.swift; sourceTree = "<group>"; };
 		3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProductInfoCell.swift; sourceTree = "<group>"; };
+		3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		46178B2AE317ACFFC53B8B80 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		49612F377CF4514F9D8F6EF1 /* Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		77A839D856E7B9BF19D1CBE0 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1502,6 +1504,7 @@
 			isa = PBXGroup;
 			children = (
 				3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */,
+				3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3058,6 +3061,7 @@
 				2C4CDC4829C770D900676163 /* BrandSearchSection.swift in Sources */,
 				CA219C4A2AA1C635003FB215 /* LikeHeaderView.swift in Sources */,
 				CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */,
+				3FEB5E052C8042DE00F3C7F5 /* ReuseIdentifying.swift in Sources */,
 				2CA7F69A29D2FBE70022E7FD /* TotalPerfumeReactor.swift in Sources */,
 				C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* FirstDetail.swift in Sources */,
