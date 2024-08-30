@@ -55,8 +55,15 @@ final class HBTIPaymentMethodCell: UITableViewCell, ReuseIdentifying {
         }
     }
     
-    func configureCell() {
-       
+    func configureCell(with method: PaymentMethodModel) {
+        switch method {
+        case .toss:
+            checkImageView.image = UIImage(named: "checkBoxSelected")
+        default:
+            checkImageView.image = UIImage(named: "checkBoxNotSelected")
+        }
+        
+        paymentMethodTitleLabel.text = method.rawValue
     }
 }
 

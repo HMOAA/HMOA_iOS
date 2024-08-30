@@ -1545,8 +1545,8 @@
 			isa = PBXGroup;
 			children = (
 				3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */,
-				3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */,
 				3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */,
+				3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
