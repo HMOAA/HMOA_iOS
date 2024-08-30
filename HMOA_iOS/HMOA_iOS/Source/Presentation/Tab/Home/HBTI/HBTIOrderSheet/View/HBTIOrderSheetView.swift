@@ -25,6 +25,8 @@ final class HBTIOrderSheetView: UIView {
 
     private let totalPaymentView = HBTITotalPaymentView()
     
+    private let dividingLineView4 = HBTIOrderDividingLineView(color: .black)
+    
     // MARK: - Initialization
         
     override init(frame: CGRect) {
@@ -55,7 +57,8 @@ final class HBTIOrderSheetView: UIView {
          dividingLineView2,
          productInfoView,
          dividingLineView3,
-         totalPaymentView
+         totalPaymentView,
+         dividingLineView4
         ].forEach(addSubview)
     }
     
@@ -98,6 +101,12 @@ final class HBTIOrderSheetView: UIView {
         totalPaymentView.snp.makeConstraints {
             $0.top.equalTo(dividingLineView3.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
+        }
+        
+        dividingLineView4.snp.makeConstraints {
+            $0.top.equalTo(totalPaymentView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
         }
     }
 }
