@@ -114,6 +114,8 @@
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
 		3F03E0902C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */; };
 		3F1FBBD12C818BC70022E8A4 /* HBTIPaymentMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */; };
+		3F1FBBD32C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */; };
+		3F1FBBD52C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */; };
 		3F5022F22C7F795400230A40 /* HBTIAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F12C7F795400230A40 /* HBTIAddressView.swift */; };
 		3F5022F42C7F7F1200230A40 /* HBTIDetailAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F32C7F7F1200230A40 /* HBTIDetailAddressView.swift */; };
 		3F5022F62C7F7FDE00230A40 /* HBTIProductInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */; };
@@ -437,6 +439,8 @@
 		3897B273F6FFDAEDA62C377C /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetViewController.swift; sourceTree = "<group>"; };
 		3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodView.swift; sourceTree = "<group>"; };
+		3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodCell.swift; sourceTree = "<group>"; };
+		3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodModel.swift; sourceTree = "<group>"; };
 		3F5022F12C7F795400230A40 /* HBTIAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddressView.swift; sourceTree = "<group>"; };
 		3F5022F32C7F7F1200230A40 /* HBTIDetailAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIDetailAddressView.swift; sourceTree = "<group>"; };
 		3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProductInfoView.swift; sourceTree = "<group>"; };
@@ -1495,6 +1499,7 @@
 				3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */,
 				3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */,
 				3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */,
+				3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1511,6 +1516,7 @@
 			children = (
 				3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */,
 				3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */,
+				3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3121,6 +3127,7 @@
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
 				CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */,
 				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
+				3F1FBBD52C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift in Sources */,
 				CAF5335E2BA046F700A7B8B2 /* MyLogComment.swift in Sources */,
 				2CA155B82A05368000D7B0C0 /* MyProfileReactor.swift in Sources */,
 				CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */,
@@ -3194,6 +3201,7 @@
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
+				3F1FBBD32C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift in Sources */,
 				CA9810FC2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift in Sources */,
 				3FEB5E032C80421600F3C7F5 /* HBTIProductInfoCell.swift in Sources */,
 				C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */,
