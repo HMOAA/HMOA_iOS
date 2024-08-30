@@ -13,6 +13,12 @@ final class HBTIPaymentMethodCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
+    private let checkImageView = UIImageView()
+    
+    private let paymentMethodTitleLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_semibold, size: 12, color: .black)
+    }
+    
     // MARK: - Initialization
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -29,13 +35,24 @@ final class HBTIPaymentMethodCell: UITableViewCell, ReuseIdentifying {
     // MARK: - Set AddView
     
     private func setAddView() {
-        
+        [
+         checkImageView,
+         paymentMethodTitleLabel
+        ].forEach(addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        checkImageView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview()
+        }
         
+        paymentMethodTitleLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(checkImageView.snp.trailing).offset(6)
+        }
     }
     
     func configureCell() {
