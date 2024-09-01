@@ -14,16 +14,14 @@ import RxCocoa
 
 final class HBTIOrderSheetViewController: UIViewController {
     
-    // MARK: - UI Components
-    
-    private let hbtiOrderSheetView = HBTIOrderSheetView()
-    
     // MARK: - Properties
     
     var appId = "5b8f6a4d396fa665fdc2b5e9"
     var disposeBag = DisposeBag()
     
     // MARK: - UI Components
+    
+    private let hbtiOrderSheetView = HBTIOrderSheetView()
     
     private let payButton = UIButton().then {
         $0.setTitle("결제하기", for: .normal)
