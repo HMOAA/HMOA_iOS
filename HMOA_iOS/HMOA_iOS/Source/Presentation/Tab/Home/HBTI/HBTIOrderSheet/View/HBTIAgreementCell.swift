@@ -77,7 +77,7 @@ final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
         }
     }
     
-    func configure(with model: HBTIAgreementModel) {
+    func configureCell(with model: HBTIAgreementModel) {
         switch model.agreementType {
         case .allAgree:
             checkImageView.image = UIImage(systemName: "checkBoxSelected")

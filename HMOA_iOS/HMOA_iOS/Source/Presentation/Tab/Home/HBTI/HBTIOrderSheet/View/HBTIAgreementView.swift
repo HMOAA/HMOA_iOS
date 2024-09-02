@@ -11,6 +11,10 @@ import Then
 
 final class HBTIAgreementView: UIView {
     
+    // MARK: - Properties
+    
+    private let agreementData: [HBTIAgreementModel] = HBTIAgreementModel.agreementData
+    
     // MARK: - UI Components
     
     private lazy var agreementTableView = UITableView().then {
@@ -42,23 +46,37 @@ final class HBTIAgreementView: UIView {
     // MARK: - Set AddView
 
     private func setAddView() {
-        
+        [
+         agreementTableView
+        ].forEach(addSubview)
     }
 
     // MARK: - Set Constraints
 
     private func setConstraints() {
-        
+        agreementTableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 }
 
 extension HBTIAgreementView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        agreementData.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HBTIAgreementCell.reuseIdentifier, for: indexPath) as? HBTIAgreementCell else {
+            return UITableViewCell()
+        }
+        
+        let agreement = agreementData[indexPath.row]
+        cell.configureCell(with: agreement)
+        
+        return cell
     }
-
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 32
+    }
 }
