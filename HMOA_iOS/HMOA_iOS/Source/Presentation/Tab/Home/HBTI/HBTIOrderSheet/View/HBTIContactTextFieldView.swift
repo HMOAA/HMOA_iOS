@@ -1,0 +1,113 @@
+//
+//  HBTIContactTextFieldView.swift
+//  HMOA_iOS
+//
+//  Created by HyoTaek on 9/2/24.
+//
+
+import UIKit
+import SnapKit
+import Then
+
+final class HBTIContactTextFieldView: UIView {
+    
+    // MARK: UI Components
+    
+    private let contactTextFieldFirst = UITextField().then {
+        $0.setTextFieldUI("000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+    }
+    
+    private let contactFirstLine = UIView().then {
+        $0.backgroundColor = .customColor(.gray1)
+    }
+    
+    private let contactTextFieldSecond = UITextField().then {
+        $0.setTextFieldUI("0000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+    }
+    
+    private let contactSecondLine = UIView().then {
+        $0.backgroundColor = .customColor(.gray1)
+    }
+    
+    private let contactTextFieldThird = UITextField().then {
+        $0.setTextFieldUI("0000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+    }
+    
+    // MARK: - Initialization
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setUI()
+        setAddView()
+        setConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Set UI
+
+    private func setUI() {
+        
+    }
+
+    // MARK: - Set AddView
+
+    private func setAddView() {
+        [
+         contactTextFieldFirst,
+         contactFirstLine,
+         contactTextFieldSecond,
+         contactSecondLine,
+         contactTextFieldThird
+        ].forEach(addSubview)
+    }
+
+    // MARK: - Set Constraints
+
+    private func setConstraints() {
+        contactTextFieldFirst.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.width.equalToSuperview().multipliedBy((1.0 / 3.0) - (40 / UIScreen.main.bounds.width / 3.0)) // 휴대폰번호 텍스트필드 간격 20 * 2를 뺀 superView width를 3으로 나누기
+            $0.height.equalTo(44)
+        }
+        
+        contactFirstLine.snp.makeConstraints {
+            $0.leading.equalTo(contactTextFieldFirst.snp.trailing).offset(5)
+            $0.centerY.equalTo(contactTextFieldFirst)
+            $0.width.equalTo(10)
+            $0.height.equalTo(1)
+        }
+        
+        contactTextFieldSecond.snp.makeConstraints {
+            $0.top.equalTo(contactTextFieldFirst.snp.top)
+            $0.leading.equalTo(contactTextFieldFirst.snp.trailing).offset(20)
+            $0.width.equalToSuperview().multipliedBy((1.0 / 3.0) - (40 / UIScreen.main.bounds.width / 3.0)) // 휴대폰번호 텍스트필드 간격 20 * 2를 뺀 superView width를 3으로 나누기
+            $0.height.equalTo(44)
+        }
+        
+        contactSecondLine.snp.makeConstraints {
+            $0.leading.equalTo(contactTextFieldSecond.snp.trailing).offset(5)
+            $0.centerY.equalTo(contactTextFieldSecond)
+            $0.width.equalTo(10)
+            $0.height.equalTo(1)
+        }
+        
+        contactTextFieldThird.snp.makeConstraints {
+            $0.top.equalTo(contactTextFieldFirst.snp.top)
+            $0.leading.equalTo(contactTextFieldSecond.snp.trailing).offset(20)
+            $0.width.equalToSuperview().multipliedBy((1.0 / 3.0) - (40 / UIScreen.main.bounds.width / 3.0)) // 휴대폰번호 텍스트필드 간격 20 * 2를 뺀 superView width를 3으로 나누기
+            $0.height.equalTo(44)
+            $0.bottom.equalToSuperview()
+        }
+    }
+}
