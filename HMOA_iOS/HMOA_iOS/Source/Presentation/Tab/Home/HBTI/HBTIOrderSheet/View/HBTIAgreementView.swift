@@ -13,6 +13,12 @@ final class HBTIAgreementView: UIView {
     
     // MARK: - UI Components
     
+    private lazy var agreementTableView = UITableView().then {
+        $0.register(HBTIAgreementCell.self, forCellReuseIdentifier: HBTIAgreementCell.reuseIdentifier)
+        $0.dataSource = self
+        $0.delegate = self
+    }
+    
     // MARK: - Initialization
 
     override init(frame: CGRect) {
@@ -44,4 +50,15 @@ final class HBTIAgreementView: UIView {
     private func setConstraints() {
         
     }
+}
+
+extension HBTIAgreementView: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        <#code#>
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+
 }
