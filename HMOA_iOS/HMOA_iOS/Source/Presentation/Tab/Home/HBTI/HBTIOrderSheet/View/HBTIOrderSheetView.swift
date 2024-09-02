@@ -36,7 +36,7 @@ final class HBTIOrderSheetView: UIView {
         
         setUI()
         setAddView()
-        setupConstraints()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -67,7 +67,7 @@ final class HBTIOrderSheetView: UIView {
     
     // MARK: - Set Constraints
     
-    private func setupConstraints() {
+    private func setConstraints() {
         ordererInfoView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
