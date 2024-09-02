@@ -321,6 +321,12 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
     }
     
+    func presentHBTIAddAddressViewController() {
+        let hbtiAddAddressVC = HBTIAddAddressViewController()
+        hbtiAddAddressVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiAddAddressVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
