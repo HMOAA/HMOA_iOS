@@ -415,6 +415,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
     }
     
+    // 투명 배경과 back버튼 Navigation Bar
     func setClearBackNaviBar(_ title: String, _ titleColor: UIColor) {
         let titleLabel = UILabel().then {
             $0.text = title
@@ -436,10 +437,10 @@ extension UIViewController {
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
-        
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
     }
     
+    // 투명 배경과 흰색 back버튼 NavigationBar
     func setClearWhiteBackNaviBar(_ title: String, _ titleColor: UIColor) {
         let titleLabel = UILabel().then {
             $0.text = title
@@ -461,8 +462,21 @@ extension UIViewController {
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
-        
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+    }
+    
+    /// 향BTI 홈으로 이동하는 Back버튼 Navigation Bar
+    func setBackToHBTIVCNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popToHBTIViewController), imageName: "backButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
     }
     
     /// Back 버튼, Share 버튼 NavigationBar
@@ -568,6 +582,18 @@ extension UIViewController {
     /// 알림 권한 요청 및 On/Off
     @objc func pushAlarmSetting() {
         // TODO: 알림 권한 요청 및 On/Off 기능 구현
+    }
+    
+    // 향BTI 홈으로 이동
+    @objc func popToHBTIViewController() {
+        if let viewControllers = navigationController?.viewControllers {
+            for vc in viewControllers {
+                if vc is HBTIViewController {
+                    navigationController?.popToViewController(vc, animated: true)
+                    break
+                }
+            }
+        }
     }
     
     // MARK: - UI Function
