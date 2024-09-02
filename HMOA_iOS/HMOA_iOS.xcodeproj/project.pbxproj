@@ -127,6 +127,7 @@
 		3F5ED2332C7F2A320027B973 /* HBTIOrderDividingLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */; };
 		3F76C2952C7CC9A300FA67EB /* HBTIOrderSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F76C2942C7CC9A300FA67EB /* HBTIOrderSheetView.swift */; };
 		3F76C2972C7CCEF800FA67EB /* HBTIOrdererInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */; };
+		3F9F71E42C84543700790FD8 /* HBTIAgreementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */; };
 		3FA07E492C6E337E00CE3CDA /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3FA07E482C6E337E00CE3CDA /* loading.gif */; };
 		3FCCFC472C6E1DE1009AE780 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */; };
 		3FD67FB72C811986005E6235 /* HBTITotalPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */; };
@@ -468,6 +469,7 @@
 		3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderDividingLineView.swift; sourceTree = "<group>"; };
 		3F76C2942C7CC9A300FA67EB /* HBTIOrderSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetView.swift; sourceTree = "<group>"; };
 		3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrdererInfoView.swift; sourceTree = "<group>"; };
+		3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementCell.swift; sourceTree = "<group>"; };
 		3FA07E482C6E337E00CE3CDA /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTITotalPaymentView.swift; sourceTree = "<group>"; };
@@ -1532,6 +1534,7 @@
 				3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */,
 				3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */,
 				3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */,
+				3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3073,6 +3076,7 @@
 				CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */,
 				2C39AA7F29705B4C000C6F71 /* UITabBarItem++Extensions.swift in Sources */,
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
+				3F9F71E42C84543700790FD8 /* HBTIAgreementCell.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				2C4CDC4329C770D900676163 /* BrandDetailViewController.swift in Sources */,
 				3F5566002C6F5708005CCBCA /* HBTIProcessGuideReactor.swift in Sources */,
