@@ -79,7 +79,13 @@ final class HomeViewReactor: Reactor {
             return .just(.setIsLogin(isLogin))
             
         case .didTapHBTIButton:
-            print("tap")
+            if !currentState.isLogin {
+                return .concat([
+                    .just(.setIsTapWhenNotLogin(true)),
+                    .just(.setIsTapWhenNotLogin(nil))
+                ])
+            }
+            
             return .concat([
                 .just(.setIsTapHBTI(true)),
                 .just(.setIsTapHBTI(false))
