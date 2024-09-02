@@ -115,6 +115,7 @@
 		3F03E0902C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */; };
 		3F1EAC7B2C8593EB000B657C /* HBTIAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7A2C8593EB000B657C /* HBTIAgreementView.swift */; };
 		3F1EAC7D2C85A045000B657C /* HBTIAddAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7C2C85A045000B657C /* HBTIAddAddressViewController.swift */; };
+		3F1EAC7F2C85AF7F000B657C /* HBTIContactTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7E2C85AF7F000B657C /* HBTIContactTextFieldView.swift */; };
 		3F1FBBD12C818BC70022E8A4 /* HBTIPaymentMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */; };
 		3F1FBBD32C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */; };
 		3F1FBBD52C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */; };
@@ -459,6 +460,7 @@
 		3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetViewController.swift; sourceTree = "<group>"; };
 		3F1EAC7A2C8593EB000B657C /* HBTIAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementView.swift; sourceTree = "<group>"; };
 		3F1EAC7C2C85A045000B657C /* HBTIAddAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddAddressViewController.swift; sourceTree = "<group>"; };
+		3F1EAC7E2C85AF7F000B657C /* HBTIContactTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIContactTextFieldView.swift; sourceTree = "<group>"; };
 		3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodView.swift; sourceTree = "<group>"; };
 		3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodCell.swift; sourceTree = "<group>"; };
 		3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodModel.swift; sourceTree = "<group>"; };
@@ -1541,6 +1543,7 @@
 				3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */,
 				3F1EAC7A2C8593EB000B657C /* HBTIAgreementView.swift */,
 				3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */,
+				3F1EAC7E2C85AF7F000B657C /* HBTIContactTextFieldView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3336,6 +3339,7 @@
 				3FEB5E032C80421600F3C7F5 /* HBTIProductInfoCell.swift in Sources */,
 				C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */,
 				C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */,
+				3F1EAC7F2C85AF7F000B657C /* HBTIContactTextFieldView.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
 				C98424642C43D54200530259 /* HBTIModel.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
