@@ -36,6 +36,22 @@ final class HBTIAddAddressViewController: UIViewController {
         $0.layer.masksToBounds = true
     }
     
+    private let phoneNumberLabel = UILabel().then {
+        $0.setLabelUI("휴대전화", font: .pretendard_medium, size: 12, color: .black)
+    }
+    
+    private let phoneNumberTextFieldView = HBTIContactTextFieldView()
+    
+    private let contactLabel = UILabel().then {
+        $0.setLabelUI("전화번호", font: .pretendard_medium, size: 12, color: .black)
+    }
+    
+    private let contactTextFieldView = HBTIContactTextFieldView()
+    
+    private let addressLabel = UILabel().then {
+        $0.setLabelUI("주소", font: .pretendard_medium, size: 12, color: .black)
+    }
+
     private let saveAddressInfoButton = UIButton().then {
         $0.setTitle("저장하기", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 15)
