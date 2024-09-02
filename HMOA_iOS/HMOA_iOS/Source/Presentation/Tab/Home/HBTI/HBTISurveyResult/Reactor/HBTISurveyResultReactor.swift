@@ -16,14 +16,14 @@ final class HBTISurveyResultReactor: Reactor {
     
     enum Mutation {
         case setNoteItemList([HBTISurveyResultItem])
-        case setResultInfo(String)
+        case setNickname(String)
         case setIsPushNextVC
     }
     
     struct State {
         var selectedIDList: [Int]
         var noteItemList: [HBTISurveyResultItem] = []
-        var resultInfo: [String: String] = [:]
+        var nickname: String = ""
         var isPushNextVC: Bool = false
     }
     
@@ -37,8 +37,8 @@ final class HBTISurveyResultReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return .concat([
-                setNoteItemList(),
-                setResultInfo()
+                setNickname(),
+                setNoteItemList()
             ])
         case .isTapNextButton:
             return .just(.setIsPushNextVC)
@@ -51,15 +51,9 @@ final class HBTISurveyResultReactor: Reactor {
         switch mutation {
         case .setNoteItemList(let item):
             state.noteItemList = item
-        case .setResultInfo(let nickname):
-            let noteList = currentState.noteItemList.map { $0.note!.name }
-            let resultInfo = [
-                "nickname": nickname,
-                "best": noteList.first!,
-                "second": noteList[1],
-                "third": noteList[2]
-            ]
-            state.resultInfo = resultInfo
+            
+        case .setNickname(let nickname):
+            state.nickname = nickname
             
         case .setIsPushNextVC:
             state.isPushNextVC = true
@@ -83,13 +77,13 @@ extension HBTISurveyResultReactor {
             }
     }
     
-    func setResultInfo() -> Observable<Mutation> {
+    func setNickname() -> Observable<Mutation> {
         return MemberAPI.getMember()
             .catch { _ in .empty() }
             .flatMap { member -> Observable<Mutation> in
                 guard let member = member else { return .empty() }
                 let nickname = member.nickname
-                return .just(.setResultInfo(nickname))
+                return .just(.setNickname(nickname))
             }
     }
 }
