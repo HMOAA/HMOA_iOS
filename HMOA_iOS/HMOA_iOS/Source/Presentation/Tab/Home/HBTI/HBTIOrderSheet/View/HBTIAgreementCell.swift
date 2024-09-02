@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class AgreementTableViewCell: UITableViewCell, ReuseIdentifying {
+final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
