@@ -86,9 +86,9 @@ final class HBTISurveyResultViewController: UIViewController, View {
         
         // MARK: State
         reactor.state
-            .map { $0.resultInfo }
+            .map { $0.nickname }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: updateLabels(with:))
+            .drive(onNext: updateLoadingLabel)
             .disposed(by: disposeBag)
         
         reactor.state
@@ -96,6 +96,11 @@ final class HBTISurveyResultViewController: UIViewController, View {
             .delay(.seconds(2), scheduler: MainScheduler.instance)
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
+                guard !items.isEmpty else { return }
+                
+                let noteNameList = items.map { $0.note!.name }
+                let nickname = reactor.currentState.nickname
+                owner.updateResultLabels(with: noteNameList, nickname: nickname)
                 owner.updateSnapshot(forSection: .recommend, withItems: items)
                 owner.updateLoadingViewIsHidden(isHidden: !items.isEmpty)
             })
@@ -237,14 +242,12 @@ extension HBTISurveyResultViewController {
         resultView.isHidden = !isHidden
     }
     
-    private func updateLabels(with resultInfo: [String: String]) {
-        guard let nickname = resultInfo["nickname"],
-              let best = resultInfo["best"],
-              let second = resultInfo["second"],
-              let third = resultInfo["third"] else { return }
-        
+    private func updateLoadingLabel(nickname: String) {
         loadingView.descriptionLabel.text = "\(nickname)님에게 딱 맞는 \n향료를 추천하는 중입니다."
-        bestLabel.text = "\(nickname)님에게 딱 맞는 향료는\n'\(best)'입니다"
-        secondThirdLabel.text = "2위: \(second)\n3위: \(third)"
+    }
+    
+    private func updateResultLabels(with notes: [String], nickname: String) {
+        bestLabel.text = "\(nickname)님에게 딱 맞는 향료는\n'\(notes[0])'입니다"
+        secondThirdLabel.text = "2위: \(notes[1])\n3위: \(notes[2])"
     }
 }
