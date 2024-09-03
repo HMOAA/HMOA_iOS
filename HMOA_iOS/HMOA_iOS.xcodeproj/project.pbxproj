@@ -122,14 +122,12 @@
 		3F1FBBD52C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */; };
 		3F397AA12C840E3E00D09282 /* HBTIAgreementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F397AA02C840E3E00D09282 /* HBTIAgreementModel.swift */; };
 		3F5022F22C7F795400230A40 /* HBTIAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F12C7F795400230A40 /* HBTIAddressView.swift */; };
-		3F5022F42C7F7F1200230A40 /* HBTIDetailAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F32C7F7F1200230A40 /* HBTIDetailAddressView.swift */; };
 		3F5022F62C7F7FDE00230A40 /* HBTIProductInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */; };
 		3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */; };
 		3F5565FE2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */; };
 		3F5566002C6F5708005CCBCA /* HBTIProcessGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */; };
 		3F5566022C6F57CE005CCBCA /* HBTIProcessGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5566012C6F57CE005CCBCA /* HBTIProcessGuideView.swift */; };
 		3F5ED2332C7F2A320027B973 /* HBTIOrderDividingLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */; };
-		3F76C2952C7CC9A300FA67EB /* HBTIOrderSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F76C2942C7CC9A300FA67EB /* HBTIOrderSheetView.swift */; };
 		3F76C2972C7CCEF800FA67EB /* HBTIOrdererInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */; };
 		3F9F71E42C84543700790FD8 /* HBTIAgreementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */; };
 		3FA07E492C6E337E00CE3CDA /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3FA07E482C6E337E00CE3CDA /* loading.gif */; };
@@ -468,14 +466,12 @@
 		3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodModel.swift; sourceTree = "<group>"; };
 		3F397AA02C840E3E00D09282 /* HBTIAgreementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementModel.swift; sourceTree = "<group>"; };
 		3F5022F12C7F795400230A40 /* HBTIAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddressView.swift; sourceTree = "<group>"; };
-		3F5022F32C7F7F1200230A40 /* HBTIDetailAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIDetailAddressView.swift; sourceTree = "<group>"; };
 		3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProductInfoView.swift; sourceTree = "<group>"; };
 		3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideViewController.swift; sourceTree = "<group>"; };
 		3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideMessage.swift; sourceTree = "<group>"; };
 		3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideReactor.swift; sourceTree = "<group>"; };
 		3F5566012C6F57CE005CCBCA /* HBTIProcessGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideView.swift; sourceTree = "<group>"; };
 		3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderDividingLineView.swift; sourceTree = "<group>"; };
-		3F76C2942C7CC9A300FA67EB /* HBTIOrderSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetView.swift; sourceTree = "<group>"; };
 		3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrdererInfoView.swift; sourceTree = "<group>"; };
 		3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementCell.swift; sourceTree = "<group>"; };
 		3FA07E482C6E337E00CE3CDA /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
@@ -1534,10 +1530,8 @@
 			isa = PBXGroup;
 			children = (
 				3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */,
-				3F76C2942C7CC9A300FA67EB /* HBTIOrderSheetView.swift */,
 				3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */,
 				3F5022F12C7F795400230A40 /* HBTIAddressView.swift */,
-				3F5022F32C7F7F1200230A40 /* HBTIDetailAddressView.swift */,
 				3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */,
 				3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */,
 				3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */,
@@ -3208,7 +3202,6 @@
 				2C4CDC4B29C770D900676163 /* BrandSearchViewController.swift in Sources */,
 				C91980E72C6D952600A7E91F /* HBTIPerfumeSurveyReactor.swift in Sources */,
 				C91980E72C6D952600A7E91F /* HBTINoteReactor.swift in Sources */,
-				3F76C2952C7CC9A300FA67EB /* HBTIOrderSheetView.swift in Sources */,
 				CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
@@ -3333,7 +3326,6 @@
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,
 				C96F76092C3FB39C00D44773 /* HBTIReactor.swift in Sources */,
 				CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */,
-				3F5022F42C7F7F1200230A40 /* HBTIDetailAddressView.swift in Sources */,
 				3F1EAC7D2C85A045000B657C /* HBTIAddAddressViewController.swift in Sources */,
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */,
