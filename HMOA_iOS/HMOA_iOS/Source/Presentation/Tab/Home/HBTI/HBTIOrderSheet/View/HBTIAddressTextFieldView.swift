@@ -29,7 +29,11 @@ final class HBTIAddressTextFieldView: UIView {
     
     private let findAddressButton = UIButton().then {
         $0.setTitle("주소 찾기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
         $0.backgroundColor = .customColor(.gray1)
+        $0.titleLabel?.font = .customFont(.pretendard_medium, 10)
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
     }
     
     private let addressTextField = UITextField().then {
