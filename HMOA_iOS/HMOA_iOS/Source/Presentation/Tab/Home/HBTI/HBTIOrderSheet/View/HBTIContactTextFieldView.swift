@@ -11,7 +11,14 @@ import Then
 
 final class HBTIContactTextFieldView: UIView {
     
+    // MARK: - Properties
+    private let title: String
+    
     // MARK: UI Components
+    
+    private lazy var titleLabel = UILabel().then {
+        $0.setLabelUI(title, font: .pretendard_medium, size: 12, color: .black)
+    }
     
     private let contactTextFieldFirst = UITextField().then {
         $0.setTextFieldUI("000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
@@ -41,8 +48,9 @@ final class HBTIContactTextFieldView: UIView {
     
     // MARK: - Initialization
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(title: String) {
+        self.title = title
+        super.init(frame: .zero)
         
         setUI()
         setAddView()
