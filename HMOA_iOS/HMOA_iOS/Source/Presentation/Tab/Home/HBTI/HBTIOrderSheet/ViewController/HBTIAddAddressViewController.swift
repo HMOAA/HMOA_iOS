@@ -40,9 +40,7 @@ final class HBTIAddAddressViewController: UIViewController {
     
     private let contactTextFieldView = HBTIContactTextFieldView(title: "전화번호")
     
-    private let addressLabel = UILabel().then {
-        $0.setLabelUI("주소", font: .pretendard_medium, size: 12, color: .black)
-    }
+    private let addressTextFieldView = HBTIAddressTextFieldView(title: "주소")
 
     private let saveAddressInfoButton = UIButton().then {
         $0.setTitle("저장하기", for: .normal)
