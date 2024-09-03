@@ -71,6 +71,7 @@ final class HBTIContactTextFieldView: UIView {
 
     private func setAddView() {
         [
+         titleLabel,
          contactTextFieldFirst,
          contactFirstLine,
          contactTextFieldSecond,
@@ -82,8 +83,13 @@ final class HBTIContactTextFieldView: UIView {
     // MARK: - Set Constraints
 
     private func setConstraints() {
-        contactTextFieldFirst.snp.makeConstraints {
+        titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+        }
+        
+        contactTextFieldFirst.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.leading.equalToSuperview()
             $0.width.equalToSuperview().multipliedBy((1.0 / 3.0) - (40 / UIScreen.main.bounds.width / 3.0)) // 휴대폰번호 텍스트필드 간격 20 * 2를 뺀 superView width를 3으로 나누기
             $0.height.equalTo(44)
