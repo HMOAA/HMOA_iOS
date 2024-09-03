@@ -42,6 +42,16 @@ final class HBTIAddAddressViewController: UIViewController {
     
     private let addressTextFieldView = HBTIAddressTextFieldView(title: "주소")
 
+    private let deliveryRequestLabel = UILabel().then {
+        $0.setLabelUI("배송 요청사항(선택)", font: .pretendard_medium, size: 12, color: .black)
+    }
+    
+    private let deliveryRequestTextField = UITextField().then {
+        $0.setTextFieldUI("배송 시 요청사항을 선택해주세요", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+    }
+    
     private let saveAddressInfoButton = UIButton().then {
         $0.setTitle("저장하기", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 15)
