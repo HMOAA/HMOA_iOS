@@ -21,7 +21,24 @@ final class HBTIOrderSheetViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let hbtiOrderSheetView = HBTIOrderSheetView()
+    private let orderScrollView = UIScrollView()
+    private let orderContentView = UIView()
+    
+    private let ordererInfoView = HBTIOrdererInfoView()
+    
+    private let dividingLineView1 = HBTIOrderDividingLineView(color: .black)
+    
+    private let addressView = HBTIAddressView()
+    
+    private let dividingLineView2 = HBTIOrderDividingLineView(color: .black)
+    
+    private let productInfoView = HBTIProductInfoView()
+    
+    private let dividingLineView3 = HBTIOrderDividingLineView(color: .black)
+
+    private let totalPaymentView = HBTITotalPaymentView()
+    
+    private let dividingLineView4 = HBTIOrderDividingLineView(color: .black)
     
     private let payButton = UIButton().then {
         $0.setTitle("결제하기", for: .normal)
@@ -68,17 +85,81 @@ final class HBTIOrderSheetViewController: UIViewController {
     
     private func setAddView() {
         [
-         hbtiOrderSheetView,
+         orderScrollView,
          payButton
         ].forEach(view.addSubview)
+        
+        orderScrollView.addSubview(orderContentView)
+        
+        [
+         ordererInfoView,
+         dividingLineView1,
+         addressView,
+         dividingLineView2,
+         productInfoView,
+         dividingLineView3,
+         totalPaymentView,
+         dividingLineView4
+        ].forEach(orderContentView.addSubview)
     }
     
     // MARK: Set Constraints
     
     private func setConstraints() {
-        hbtiOrderSheetView.snp.makeConstraints {
+        orderScrollView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
             $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalTo(payButton.snp.top).offset(-10)
+        }
+     
+        orderContentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+
+        ordererInfoView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        
+        dividingLineView1.snp.makeConstraints {
+            $0.top.equalTo(ordererInfoView.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        
+        addressView.snp.makeConstraints {
+            $0.top.equalTo(dividingLineView1.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        dividingLineView2.snp.makeConstraints {
+            $0.top.equalTo(addressView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        
+        productInfoView.snp.makeConstraints {
+            $0.top.equalTo(dividingLineView2.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        dividingLineView3.snp.makeConstraints {
+            $0.top.equalTo(productInfoView.snp.bottom).offset(4)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        
+        totalPaymentView.snp.makeConstraints {
+            $0.top.equalTo(dividingLineView3.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        dividingLineView4.snp.makeConstraints {
+            $0.top.equalTo(totalPaymentView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
+            $0.bottom.equalToSuperview()
         }
         
         payButton.snp.makeConstraints {
