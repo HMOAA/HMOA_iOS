@@ -105,6 +105,7 @@ final class HBTIAddressTextFieldView: UIView {
             $0.top.equalTo(addressTextField.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(44)
+            $0.bottom.equalToSuperview()
         }
     }
 }

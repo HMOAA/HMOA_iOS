@@ -99,8 +99,8 @@ final class HBTIAddAddressViewController: UIViewController {
          phoneNumberTextFieldView,
          contactTextFieldView,
          addressTextFieldView,
-//         deliveryRequestLabel,
-//         deliveryRequestTextField,
+         deliveryRequestLabel,
+         deliveryRequestTextField,
          saveAddressInfoButton
         ].forEach(view.addSubview)
     }
@@ -150,16 +150,16 @@ final class HBTIAddAddressViewController: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
-//        deliveryRequestLabel.snp.makeConstraints {
-//            $0.top.equalTo(addressTextFieldView.snp.bottom).offset(16)
-//            $0.leading.equalToSuperview().offset(16)
-//        }
-//        
-//        deliveryRequestTextField.snp.makeConstraints {
-//            $0.top.equalTo(deliveryRequestLabel.snp.bottom).offset(8)
-//            $0.horizontalEdges.equalToSuperview().inset(16)
-//            $0.height.equalTo(44)
-//        }
+        deliveryRequestLabel.snp.makeConstraints {
+            $0.top.equalTo(addressTextFieldView.snp.bottom).offset(16)
+            $0.leading.equalToSuperview().offset(16)
+        }
+        
+        deliveryRequestTextField.snp.makeConstraints {
+            $0.top.equalTo(deliveryRequestLabel.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(44)
+        }
         
         saveAddressInfoButton.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(16)
