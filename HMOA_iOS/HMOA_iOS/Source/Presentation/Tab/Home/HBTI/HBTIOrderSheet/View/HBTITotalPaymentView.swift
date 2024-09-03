@@ -134,11 +134,13 @@ final class HBTITotalPaymentView: UIView {
         totalPaymentTitleLabel.snp.makeConstraints {
             $0.top.equalTo(paymentSeparator2.snp.bottom).offset(20)
             $0.leading.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
         totalPaymentPriceLabel.snp.makeConstraints {
             $0.top.equalTo(totalPaymentTitleLabel.snp.top)
             $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
     }
 }
