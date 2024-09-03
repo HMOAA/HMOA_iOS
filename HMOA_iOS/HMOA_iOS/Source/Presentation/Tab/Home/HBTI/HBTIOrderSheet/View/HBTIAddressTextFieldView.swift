@@ -62,6 +62,7 @@ final class HBTIAddressTextFieldView: UIView {
 
     private func setAddView() {
         [
+         titleLabel,
          postCodeTextField,
          findAddressButton,
          addressTextField,
@@ -72,6 +73,34 @@ final class HBTIAddressTextFieldView: UIView {
     // MARK: - Set Constraints
 
     private func setConstraints() {
+        titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+        }
         
+        postCodeTextField.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(44)
+        }
+        
+        findAddressButton.snp.makeConstraints {
+            $0.centerY.equalTo(postCodeTextField)
+            $0.trailing.equalTo(postCodeTextField.snp.trailing).inset(9)
+            $0.width.equalTo(46)
+            $0.height.equalTo(20)
+        }
+        
+        addressTextField.snp.makeConstraints {
+            $0.top.equalTo(postCodeTextField.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(44)
+        }
+        
+        detailAddressTextField.snp.makeConstraints {
+            $0.top.equalTo(addressTextField.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(44)
+        }
     }
 }
