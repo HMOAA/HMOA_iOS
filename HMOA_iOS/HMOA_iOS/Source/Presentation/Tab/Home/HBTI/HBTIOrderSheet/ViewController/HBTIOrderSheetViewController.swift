@@ -21,7 +21,10 @@ final class HBTIOrderSheetViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let orderScrollView = UIScrollView()
+    private let orderScrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
+    
     private let orderContentView = UIView()
     
     private let ordererInfoView = HBTIOrdererInfoView()
@@ -109,7 +112,7 @@ final class HBTIOrderSheetViewController: UIViewController {
         orderScrollView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalTo(payButton.snp.top).offset(-10)
+            $0.bottom.equalTo(payButton.snp.top).offset(-10)    // 화면이 어디까지 스크롤되어야 할 지 몰라서 임의로 넣은 값. 추후 변경 예정.
         }
      
         orderContentView.snp.makeConstraints {
