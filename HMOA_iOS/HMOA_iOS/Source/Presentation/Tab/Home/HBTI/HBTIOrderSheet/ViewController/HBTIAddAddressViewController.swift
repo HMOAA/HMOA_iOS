@@ -36,17 +36,9 @@ final class HBTIAddAddressViewController: UIViewController {
         $0.layer.masksToBounds = true
     }
     
-    private let phoneNumberLabel = UILabel().then {
-        $0.setLabelUI("휴대전화", font: .pretendard_medium, size: 12, color: .black)
-    }
+    private let phoneNumberTextFieldView = HBTIContactTextFieldView(title: "휴대전화")
     
-    private let phoneNumberTextFieldView = HBTIContactTextFieldView()
-    
-    private let contactLabel = UILabel().then {
-        $0.setLabelUI("전화번호", font: .pretendard_medium, size: 12, color: .black)
-    }
-    
-    private let contactTextFieldView = HBTIContactTextFieldView()
+    private let contactTextFieldView = HBTIContactTextFieldView(title: "전화번호")
     
     private let addressLabel = UILabel().then {
         $0.setLabelUI("주소", font: .pretendard_medium, size: 12, color: .black)
