@@ -45,6 +45,8 @@ final class HBTIOrderSheetViewController: UIViewController {
     
     private let paymentMethodView = HBTIPaymentMethodView()
     
+    private let dividingLineView5 = HBTIOrderDividingLineView(color: .black)
+    
     private let payButton = UIButton().then {
         $0.setTitle("결제하기", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 15)
@@ -105,7 +107,8 @@ final class HBTIOrderSheetViewController: UIViewController {
          dividingLineView3,
          totalPaymentView,
          dividingLineView4,
-         paymentMethodView
+         paymentMethodView,
+         dividingLineView5
         ].forEach(orderContentView.addSubview)
     }
     
@@ -115,7 +118,7 @@ final class HBTIOrderSheetViewController: UIViewController {
         orderScrollView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalTo(payButton.snp.top).offset(-10)    // 화면이 어디까지 스크롤되어야 할 지 몰라서 임의로 넣은 값. 추후 변경 예정.
+            $0.bottom.equalTo(payButton.snp.top).offset(-27)
         }
      
         orderContentView.snp.makeConstraints {
@@ -170,6 +173,12 @@ final class HBTIOrderSheetViewController: UIViewController {
         paymentMethodView.snp.makeConstraints {
             $0.top.equalTo(dividingLineView4.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
+        }
+        
+        dividingLineView5.snp.makeConstraints {
+            $0.top.equalTo(paymentMethodView.snp.bottom).offset(4)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
             $0.bottom.equalToSuperview()
         }
         
