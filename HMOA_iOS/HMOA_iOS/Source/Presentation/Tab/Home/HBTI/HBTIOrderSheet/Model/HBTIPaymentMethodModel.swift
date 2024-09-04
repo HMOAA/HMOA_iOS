@@ -7,9 +7,13 @@
 
 import Foundation
 
-enum PaymentMethodModel: String {
+enum PaymentMethodType: String {
     case toss = "토스페이"
     case kakao = "카카오페이"
     case payco = "페이코"
     case general = "일반 결제"
+}
+
+struct HBTIPaymentMethodModel {
+    static let paymentMethods: [PaymentMethodType] = [.toss, .kakao, .payco, .general]
 }
