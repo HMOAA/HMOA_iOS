@@ -46,7 +46,7 @@ final class HBTIPaymentMethodCell: UITableViewCell, ReuseIdentifying {
     private func setConstraints() {
         checkImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(3)
             $0.width.height.equalTo(24)
         }
         
