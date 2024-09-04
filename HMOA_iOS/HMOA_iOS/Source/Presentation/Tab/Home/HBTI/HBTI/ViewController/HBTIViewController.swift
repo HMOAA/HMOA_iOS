@@ -76,7 +76,7 @@ final class HBTIViewController: UIViewController, View {
     // MARK: - Functions
     
     private func setUI() {
-        setClearBackNaviBar("향BTI", .white)
+        setClearWhiteBackNaviBar("향BTI", .white)
     }
     
     // MARK: Add Views
