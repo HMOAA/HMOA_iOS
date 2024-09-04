@@ -1048,6 +1048,7 @@ PODS:
     - nanopb (< 2.30911.0, >= 2.30908.0)
     - PromisesSwift (~> 2.1)
   - FirebaseSharedSwift (10.25.0)
+  - Gifu (3.3.1)
   - GoogleAppMeasurement (10.25.0):
     - GoogleAppMeasurement/AdIdSupport (= 10.25.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
@@ -1267,6 +1268,7 @@ DEPENDENCIES:
   - FirebaseCrashlytics
   - FirebaseFirestore
   - FirebaseMessaging
+  - Gifu
   - GoogleSignIn
   - Kingfisher
   - ReactorKit
@@ -1303,6 +1305,7 @@ SPEC REPOS:
     - FirebaseRemoteConfigInterop
     - FirebaseSessions
     - FirebaseSharedSwift
+    - Gifu
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleSignIn
@@ -1358,6 +1361,7 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfigInterop: b25018791b204c0d78a90e394d6c62d9b1f22da8
   FirebaseSessions: c0939656253a1fa0e94ecc266ccf770cc8b33732
   FirebaseSharedSwift: 0274086954b1b2d5fd7e829eccc587044d72a4ba
+  Gifu: 416d4e38c4c2fed012f019e0a1d3ffcb58e5b842
   GoogleAppMeasurement: 9abf64b682732fed36da827aa2a68f0221fd2356
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
@@ -1393,6 +1397,6 @@ SPEC CHECKSUMS:
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 54eb7f3359b50dc3d5e48f23f251dc6347ae6d86
+PODFILE CHECKSUM: e3ee790c1fcc485b7052578b5873a5116671fcf1
 
 COCOAPODS: 1.14.3
