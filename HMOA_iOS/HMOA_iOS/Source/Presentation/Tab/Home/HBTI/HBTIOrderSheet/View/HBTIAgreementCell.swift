@@ -80,12 +80,12 @@ final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
     func configureCell(with model: HBTIAgreementModel) {
         switch model.agreementType {
         case .allAgree:
-            checkImageView.image = UIImage(systemName: "checkBoxSelected")
+            checkImageView.image = UIImage(named: "checkBoxSelected")
             titleLabel.setLabelUI(model.agreeTitle, font: .pretendard_bold, size: 14, color: .black)
             viewButton.isHidden = true
             
         case .partialAgree:
-            checkImageView.image = UIImage(systemName: "checkNotSelected")
+            checkImageView.image = UIImage(named: "checkNotSelected")
             titleLabel.setLabelUI(model.agreeTitle, font: .pretendard_medium, size: 12, color: .gray3)
             viewButton.isHidden = false
         }
