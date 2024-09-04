@@ -87,7 +87,7 @@ extension HBTIProductInfoView: UITableViewDataSource, UITableViewDelegate {
         
         let product = products[indexPath.row]
         cell.configureCell(with: product)
-        
+        cell.selectionStyle = .none
         return cell
     }
     
