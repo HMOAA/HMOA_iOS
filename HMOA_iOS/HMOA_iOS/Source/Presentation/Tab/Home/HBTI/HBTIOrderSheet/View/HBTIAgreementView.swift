@@ -72,6 +72,7 @@ extension HBTIAgreementView: UITableViewDataSource, UITableViewDelegate {
         
         let agreement = agreementData[indexPath.row]
         cell.configureCell(with: agreement)
+        cell.selectionStyle = .none
         
         return cell
     }
