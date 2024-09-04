@@ -47,6 +47,8 @@ final class HBTIOrderSheetViewController: UIViewController {
     
     private let dividingLineView5 = HBTIOrderDividingLineView(color: .black)
     
+    private let agreementView = HBTIAgreementView()
+    
     private let payButton = UIButton().then {
         $0.setTitle("결제하기", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 15)
@@ -108,7 +110,8 @@ final class HBTIOrderSheetViewController: UIViewController {
          totalPaymentView,
          dividingLineView4,
          paymentMethodView,
-         dividingLineView5
+         dividingLineView5,
+         agreementView
         ].forEach(orderContentView.addSubview)
     }
     
@@ -179,6 +182,11 @@ final class HBTIOrderSheetViewController: UIViewController {
             $0.top.equalTo(paymentMethodView.snp.bottom).offset(4)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
+        }
+        
+        agreementView.snp.makeConstraints {
+            $0.top.equalTo(dividingLineView5.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
         
