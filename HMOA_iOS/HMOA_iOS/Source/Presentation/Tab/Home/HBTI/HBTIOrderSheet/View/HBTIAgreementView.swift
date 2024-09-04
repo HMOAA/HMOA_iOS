@@ -80,13 +80,12 @@ final class HBTIAgreementView: UIView {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(32)
-            $0.bottom.equalToSuperview()
         }
         
         agreementTableView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalTo(allAgreementButton.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(92)
+            $0.height.equalTo(56)
             $0.bottom.equalToSuperview()
         }
     }
@@ -94,7 +93,7 @@ final class HBTIAgreementView: UIView {
 
 extension HBTIAgreementView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        agreementData.count
+        partialAgreementData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -102,7 +101,7 @@ extension HBTIAgreementView: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
-        let agreement = agreementData[indexPath.row]
+        let agreement = partialAgreementData[indexPath.row]
         cell.configureCell(with: agreement)
         cell.selectionStyle = .none
         
@@ -110,6 +109,7 @@ extension HBTIAgreementView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 32
+        //  셀 높이(12) + 셀 간격(16)
+        return 28
     }
 }
