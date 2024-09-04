@@ -57,7 +57,10 @@ final class HBTIAgreementView: UIView {
 
     private func setConstraints() {
         agreementTableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(92)
+            $0.bottom.equalToSuperview()
         }
     }
 }
