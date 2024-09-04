@@ -7,19 +7,14 @@
 
 import Foundation
 
-enum HBTIAgreementType {
-    case allAgree
-    case partialAgree
+struct HBTIAgreementModel {
+    let agreementTitle: String
 }
 
-struct HBTIAgreementModel {
-    let agreeTitle: String
-    let agreementType: HBTIAgreementType
-    
+extension HBTIAgreementModel {
     static let agreementData: [HBTIAgreementModel] = [
-        HBTIAgreementModel(agreeTitle: "주문 내용을 확인했으며, 아래의 정보 제공 및 결제에 모두 동의합니다.", agreementType: .allAgree),
-        HBTIAgreementModel(agreeTitle: "배송/취소/반품/교환정책", agreementType: .partialAgree),
-        HBTIAgreementModel(agreeTitle: "개인정보 제공 동의", agreementType: .partialAgree)
+        HBTIAgreementModel(agreementTitle: "배송/취소/반품/교환정책"),
+        HBTIAgreementModel(agreementTitle: "개인정보 제공 동의")
     ]
 }
 
