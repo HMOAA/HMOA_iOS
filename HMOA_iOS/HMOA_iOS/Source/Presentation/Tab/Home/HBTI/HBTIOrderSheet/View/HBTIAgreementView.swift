@@ -13,9 +13,28 @@ final class HBTIAgreementView: UIView {
     
     // MARK: - Properties
     
-    private let agreementData: [HBTIAgreementModel] = HBTIAgreementModel.agreementData
+    private let allAgreementData: HBTIAgreementModel = HBTIAgreementModel.allAgreementData
+    private let partialAgreementData: [HBTIAgreementModel] = HBTIAgreementModel.partialAgreementData
     
     // MARK: - UI Components
+    
+    private lazy var allAgreementButton = UIButton().then {
+        var config = UIButton.Configuration.plain()
+        
+        // 텍스트 설정
+        config.title = allAgreementData.agreementTitle
+        config.baseForegroundColor = .black
+        config.attributedTitle?.font = UIFont.customFont(.pretendard_bold, 14)
+        
+        // 이미지 설정
+        config.imagePadding = 8
+        config.image = UIImage(named: "checkBoxNotSelectedSvg")
+        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        $0.titleLabel?.numberOfLines = 0
+        $0.contentHorizontalAlignment = .leading
+        $0.configuration = config
+    }
     
     private lazy var agreementTableView = UITableView().then {
         $0.register(HBTIAgreementCell.self, forCellReuseIdentifier: HBTIAgreementCell.reuseIdentifier)
@@ -49,6 +68,7 @@ final class HBTIAgreementView: UIView {
 
     private func setAddView() {
         [
+         allAgreementButton,
          agreementTableView
         ].forEach(addSubview)
     }
@@ -56,6 +76,13 @@ final class HBTIAgreementView: UIView {
     // MARK: - Set Constraints
 
     private func setConstraints() {
+        allAgreementButton.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(32)
+            $0.bottom.equalToSuperview()
+        }
+        
         agreementTableView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
