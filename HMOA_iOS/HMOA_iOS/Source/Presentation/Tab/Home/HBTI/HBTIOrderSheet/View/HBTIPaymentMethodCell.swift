@@ -60,7 +60,7 @@ final class HBTIPaymentMethodCell: UITableViewCell, ReuseIdentifying {
         case .toss:
             checkImageView.image = UIImage(named: "checkBoxSelected")
         default:
-            checkImageView.image = UIImage(named: "checkBoxNotSelected")
+            checkImageView.image = UIImage(named: "checkBoxNotSelectedSvg")
         }
         
         paymentMethodTitleLabel.text = method.rawValue
