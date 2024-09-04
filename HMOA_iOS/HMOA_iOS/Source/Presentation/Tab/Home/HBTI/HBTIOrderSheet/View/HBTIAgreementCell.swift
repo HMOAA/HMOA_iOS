@@ -61,13 +61,12 @@ final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
     
     private func setConstraints() {
         checkImageView.snp.makeConstraints {
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(8)
             $0.centerY.equalToSuperview()
-            $0.width.height.equalTo(24)
         }
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalTo(checkImageView.snp.trailing).offset(4)
+            $0.leading.equalTo(checkImageView.snp.trailing).offset(16)
             $0.centerY.equalToSuperview()
         }
         
