@@ -9,10 +9,13 @@ import UIKit
 
 import Then
 import SnapKit
+import RxSwift
 
 final class HBTISurveyQuestionCell: UICollectionViewCell {
     
     static let identifier = "HBTISurveyQuestionCell"
+    
+    var disposeBag = DisposeBag()
     
     // MARK: - UI Components
     
@@ -26,10 +29,10 @@ final class HBTISurveyQuestionCell: UICollectionViewCell {
         $0.lineBreakStrategy = .hangulWordPriority
     }
     
-    private let answerStackView = UIStackView().then {
+    let answerStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 16
-        $0.distribution = .equalSpacing
+        $0.distribution = .equalCentering
         $0.alignment = .fill
     }
     
@@ -67,12 +70,14 @@ final class HBTISurveyQuestionCell: UICollectionViewCell {
         
         answerStackView.snp.makeConstraints { make in
             make.top.equalTo(questionLabel.snp.bottom).offset(32)
-            make.horizontalEdges.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
     }
     
     func configureCell(question: HBTIQuestion, answers: [HBTIAnswer]) {
         questionLabel.text = question.content
+        
+        answerStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         answers.forEach {
             let button = HBTISurveyAnswerButton()

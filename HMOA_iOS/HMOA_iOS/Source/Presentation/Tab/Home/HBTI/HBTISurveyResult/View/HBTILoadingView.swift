@@ -18,14 +18,13 @@ final class HBTILoadingView: UIView {
     private let loadingImage = GIFImageView().then {
         $0.animate(withGIFNamed: "loading")
         $0.contentMode = .scaleAspectFit
-        $0.backgroundColor = UIColor.random
     }
     
     private let waitLabel = UILabel().then {
         $0.setLabelUI("잠시만 기다려주세요...", font: .pretendard, size: 16, color: .black)
     }
     
-    private let descriptionLabel = UILabel().then {
+    let descriptionLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 22, color: .black)
         $0.setTextWithLineHeight(text: "OOO님에게 딱 맞는 \n향료를 추천하는 중입니다.", lineHeight: 28)
         $0.numberOfLines = 2

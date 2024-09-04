@@ -48,7 +48,7 @@ class HomeViewController: UIViewController, View {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        presentHBTISurveyResultViewController()
+        
         configureUI()
         setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
@@ -161,6 +161,15 @@ class HomeViewController: UIViewController, View {
                 )
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.isTapHBTI }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isTap in
+                owner.presentHBTIViewController()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func bindHeader(reactor: HomeHeaderReactor) {
@@ -192,6 +201,16 @@ extension HomeViewController {
                 }
                 
                 homeTopCell.setImage(data)
+                
+                homeTopCell.hbtiButton.rx.tap
+                    .map { Reactor.Action.didTapHBTIButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
+                self.reactor!.state
+                    .compactMap { $0.isTapHBTI }
+                    .bind(to: homeTopCell.hbtiButton.rx.isSelected)
+                    .disposed(by: homeTopCell.disposeBag)
                 
                 return homeTopCell
                 
