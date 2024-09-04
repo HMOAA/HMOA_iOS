@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import Kingfisher
+import RxSwift
 
 class HomeTopCell: UICollectionViewCell {
     
@@ -17,12 +18,14 @@ class HomeTopCell: UICollectionViewCell {
     
     // MARK: - Properies
     
+    var disposeBag = DisposeBag()
+    
     private lazy var newsImageView = UIImageView().then {
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 12
     }
     
-    private lazy var hbtiButton = UIButton().then {
+    lazy var hbtiButton = UIButton().then {
         $0.setTitle("# 향bti 검사하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 14)
@@ -33,6 +36,7 @@ class HomeTopCell: UICollectionViewCell {
     private lazy var banerView = UIView().then {
         $0.backgroundColor =  #colorLiteral(red: 0.9607843137, green: 0.9450980392, blue: 0.9529411765, alpha: 1)
     }
+    
     private lazy var banerLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 14, color: .banerLabelColor)
     }
@@ -50,9 +54,7 @@ extension HomeTopCell {
     func configureUI() {
         banerView.addSubview(banerLabel)
         
-        newsImageView.addSubview(hbtiButton)
-        
-        [newsImageView, banerView] .forEach { addSubview($0) }
+        [newsImageView, hbtiButton, banerView] .forEach { addSubview($0) }
         
         newsImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(20)
@@ -60,8 +62,8 @@ extension HomeTopCell {
         }
         
         hbtiButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(15)
-            make.bottom.equalToSuperview().inset(26)
+            make.horizontalEdges.equalTo(newsImageView.snp.horizontalEdges).inset(16)
+            make.bottom.equalTo(newsImageView.snp.bottom).inset(26)
             make.height.equalTo(47)
         }
         
