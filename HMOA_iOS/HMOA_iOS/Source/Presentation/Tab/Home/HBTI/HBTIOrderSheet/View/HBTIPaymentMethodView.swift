@@ -86,6 +86,7 @@ extension HBTIPaymentMethodView: UITableViewDataSource, UITableViewDelegate {
         
         let method = paymentMethods[indexPath.row]
         cell.configureCell(with: method)
+        cell.selectionStyle = .none
         
         return cell
     }
