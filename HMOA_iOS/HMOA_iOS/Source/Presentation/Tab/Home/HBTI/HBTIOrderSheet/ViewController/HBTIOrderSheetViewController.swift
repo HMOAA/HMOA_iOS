@@ -88,6 +88,13 @@ final class HBTIOrderSheetViewController: UIViewController {
    
     private func setUI() {
         setBackItemNaviBar("주문서 작성")
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     // MARK: Add Views
