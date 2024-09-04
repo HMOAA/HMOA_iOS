@@ -21,6 +21,8 @@ final class HBTIAgreementView: UIView {
         $0.register(HBTIAgreementCell.self, forCellReuseIdentifier: HBTIAgreementCell.reuseIdentifier)
         $0.dataSource = self
         $0.delegate = self
+        $0.isScrollEnabled = false
+        $0.separatorStyle = .none
     }
     
     // MARK: - Initialization
