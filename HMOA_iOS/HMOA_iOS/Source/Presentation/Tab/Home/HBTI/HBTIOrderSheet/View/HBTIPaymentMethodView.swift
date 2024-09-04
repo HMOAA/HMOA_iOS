@@ -23,6 +23,7 @@ final class HBTIPaymentMethodView: UIView {
     
     private lazy var paymentMethodTableView = UITableView().then {
         $0.isScrollEnabled = false
+        $0.separatorStyle = .none
         $0.dataSource = self
         $0.delegate = self
         $0.register(HBTIPaymentMethodCell.self, forCellReuseIdentifier: HBTIPaymentMethodCell.reuseIdentifier)
@@ -66,7 +67,7 @@ final class HBTIPaymentMethodView: UIView {
         }
         
         paymentMethodTableView.snp.makeConstraints {
-            $0.top.equalTo(paymentMethodTitleLabel.snp.bottom).offset(4)
+            $0.top.equalTo(paymentMethodTitleLabel.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(176)
             $0.bottom.equalToSuperview()

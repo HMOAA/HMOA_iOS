@@ -47,11 +47,12 @@ final class HBTIPaymentMethodCell: UITableViewCell, ReuseIdentifying {
         checkImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview()
+            $0.width.height.equalTo(24)
         }
         
         paymentMethodTitleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(checkImageView.snp.trailing).offset(6)
+            $0.leading.equalTo(checkImageView.snp.trailing).offset(8)
         }
     }
     
