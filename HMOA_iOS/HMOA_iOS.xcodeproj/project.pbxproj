@@ -167,6 +167,7 @@
 		C9D2300D2C6AE106008ACB9B /* HBTISurveyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */; };
 		C9D2300F2C6AE63C008ACB9B /* HBTISurveyResultSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */; };
 		C9DE5B9A2C899B2100BFCFA1 /* HBTIPerfumeSurveySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE5B992C899B2100BFCFA1 /* HBTIPerfumeSurveySection.swift */; };
+		C9DE5B9C2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE5B9B2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift */; };
 		C9DEC1E82C72DF34001A2E93 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9DEC1E72C72DF34001A2E93 /* loading.gif */; };
 		CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */; };
 		CA0027C72B2C60F8001DEAE3 /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */; };
@@ -482,6 +483,7 @@
 		C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultCell.swift; sourceTree = "<group>"; };
 		C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultSection.swift; sourceTree = "<group>"; };
 		C9DE5B992C899B2100BFCFA1 /* HBTIPerfumeSurveySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HBTIPerfumeSurveySection.swift; path = HMOA_iOS/Source/Network/API/HBTI/HBTIPerfumeSurveySection.swift; sourceTree = SOURCE_ROOT; };
+		C9DE5B9B2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HBTINoteQuestionCell.swift; path = HMOA_iOS/Source/Network/API/HBTI/HBTINoteQuestionCell.swift; sourceTree = SOURCE_ROOT; };
 		C9DEC1E72C72DF34001A2E93 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
@@ -1488,6 +1490,7 @@
 		C91980E22C6D944200A7E91F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C9DE5B9B2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2980,6 +2983,7 @@
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
 				CA360F3429DD623D00A93873 /* HPediaSection.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
+				C9DE5B9C2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift in Sources */,
 				C94EE0AF2C1FFBC9005EDC95 /* PushAlarmViewController.swift in Sources */,
 				CA99A6CC2B1200F20030364F /* MyLogWritedPostViewController.swift in Sources */,
 				CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */,
