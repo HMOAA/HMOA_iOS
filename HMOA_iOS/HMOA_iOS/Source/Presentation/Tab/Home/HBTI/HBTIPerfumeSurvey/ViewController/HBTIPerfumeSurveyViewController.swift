@@ -14,7 +14,7 @@ import RxSwift
 import SnapKit
 import Then
 
-final class HBTINoteViewController: UIViewController, View {
+final class HBTIPerfumeSurveyViewController: UIViewController, View {
     
     // MARK: - Properties
     
@@ -29,7 +29,7 @@ final class HBTINoteViewController: UIViewController, View {
         view.backgroundColor = .white
     }
     
-    func bind(reactor: HBTINoteReactor) {
+    func bind(reactor: HBTIPerfumeSurveyReactor) {
         
         // MARK: Action
         
