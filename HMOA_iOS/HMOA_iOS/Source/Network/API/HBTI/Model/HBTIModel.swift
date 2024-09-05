@@ -7,6 +7,9 @@
 
 import Foundation
 
+// TODO: Model 파일 분리?
+
+// 1차 전반부 (향BTI 결과까지)
 struct HBTISurveyResponse: Hashable, Codable {
     let title: String
     let questions: [HBTIQuestion]
@@ -52,4 +55,21 @@ struct HBTISurveyResultNote: Hashable, Codable {
         case photoURL = "notePhotoUrl"
         case content
     }
+}
+
+// 2차 (배송 후 향수 추천)
+struct HBTIPerfumeServeyResponse: Hashable {
+    let priceQuestion: HBTIQuestion
+    let noteQuestion: HBTINoteQuestion
+}
+
+struct HBTINoteQuestion: Hashable {
+    let content: String
+    let isMultipleChoice: Bool
+    let answer: [HBTIAnswer]
+}
+
+struct HBTINoteAnswer: Hashable {
+    let category: String
+    let notes: [String]
 }
