@@ -128,6 +128,8 @@
 		C93CA2112C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CA2102C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift */; };
 		C94EE0AF2C1FFBC9005EDC95 /* PushAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */; };
 		C94EE0B22C1FFEDD005EDC95 /* PushAlarmReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */; };
+		C952EE012C89B74600581D3F /* HBTIPerfumeSurveySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952EE002C89B74600581D3F /* HBTIPerfumeSurveySection.swift */; };
+		C952EE032C89B75100581D3F /* HBTINoteQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952EE022C89B75100581D3F /* HBTINoteQuestionCell.swift */; };
 		C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */; };
 		C96CD7382BA88010005C9856 /* MagazineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD71E2BA88010005C9856 /* MagazineItem.swift */; };
 		C96CD7392BA88010005C9856 /* MagazineReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7202BA88010005C9856 /* MagazineReactor.swift */; };
@@ -166,8 +168,6 @@
 		C9D2300B2C69F601008ACB9B /* HBTILoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300A2C69F601008ACB9B /* HBTILoadingView.swift */; };
 		C9D2300D2C6AE106008ACB9B /* HBTISurveyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */; };
 		C9D2300F2C6AE63C008ACB9B /* HBTISurveyResultSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */; };
-		C9DE5B9A2C899B2100BFCFA1 /* HBTIPerfumeSurveySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE5B992C899B2100BFCFA1 /* HBTIPerfumeSurveySection.swift */; };
-		C9DE5B9C2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE5B9B2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift */; };
 		C9DEC1E82C72DF34001A2E93 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9DEC1E72C72DF34001A2E93 /* loading.gif */; };
 		CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */; };
 		CA0027C72B2C60F8001DEAE3 /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */; };
@@ -444,6 +444,8 @@
 		C93CA2102C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultReactor.swift; sourceTree = "<group>"; };
 		C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmViewController.swift; sourceTree = "<group>"; };
 		C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmReactor.swift; sourceTree = "<group>"; };
+		C952EE002C89B74600581D3F /* HBTIPerfumeSurveySection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeSurveySection.swift; sourceTree = "<group>"; };
+		C952EE022C89B75100581D3F /* HBTINoteQuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTINoteQuestionCell.swift; sourceTree = "<group>"; };
 		C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineTagCell.swift; sourceTree = "<group>"; };
 		C96CD71E2BA88010005C9856 /* MagazineItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineItem.swift; sourceTree = "<group>"; };
 		C96CD7202BA88010005C9856 /* MagazineReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineReactor.swift; sourceTree = "<group>"; };
@@ -482,8 +484,6 @@
 		C9D2300A2C69F601008ACB9B /* HBTILoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTILoadingView.swift; sourceTree = "<group>"; };
 		C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultCell.swift; sourceTree = "<group>"; };
 		C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultSection.swift; sourceTree = "<group>"; };
-		C9DE5B992C899B2100BFCFA1 /* HBTIPerfumeSurveySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HBTIPerfumeSurveySection.swift; path = HMOA_iOS/Source/Network/API/HBTI/HBTIPerfumeSurveySection.swift; sourceTree = SOURCE_ROOT; };
-		C9DE5B9B2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HBTINoteQuestionCell.swift; path = HMOA_iOS/Source/Network/API/HBTI/HBTINoteQuestionCell.swift; sourceTree = SOURCE_ROOT; };
 		C9DEC1E72C72DF34001A2E93 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
@@ -1463,20 +1463,12 @@
 		C91980DF2C6D93EF00A7E91F /* HBTIPerfumeSurvey */ = {
 			isa = PBXGroup;
 			children = (
-				C91980E02C6D943500A7E91F /* Model */,
+				C952EDFF2C89B72000581D3F /* Model */,
+				C952EDFE2C89B71900581D3F /* View */,
 				C91980E12C6D943C00A7E91F /* Reactor */,
-				C91980E22C6D944200A7E91F /* View */,
 				C91980E32C6D944700A7E91F /* ViewController */,
 			);
 			path = HBTIPerfumeSurvey;
-			sourceTree = "<group>";
-		};
-		C91980E02C6D943500A7E91F /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				C9DE5B992C899B2100BFCFA1 /* HBTIPerfumeSurveySection.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		C91980E12C6D943C00A7E91F /* Reactor */ = {
@@ -1485,14 +1477,6 @@
 				C91980E62C6D952500A7E91F /* HBTIPerfumeSurveyReactor.swift */,
 			);
 			path = Reactor;
-			sourceTree = "<group>";
-		};
-		C91980E22C6D944200A7E91F /* View */ = {
-			isa = PBXGroup;
-			children = (
-				C9DE5B9B2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		C91980E32C6D944700A7E91F /* ViewController */ = {
@@ -1616,6 +1600,22 @@
 				C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */,
 			);
 			path = Reactor;
+			sourceTree = "<group>";
+		};
+		C952EDFE2C89B71900581D3F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C952EE022C89B75100581D3F /* HBTINoteQuestionCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C952EDFF2C89B72000581D3F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C952EE002C89B74600581D3F /* HBTIPerfumeSurveySection.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		C96CD71F2BA88010005C9856 /* Model */ = {
@@ -2891,7 +2891,7 @@
 				CA6C48612B2C2F8C00F1BE7F /* TotalPerfumeAddress.swift in Sources */,
 				C9D2300B2C69F601008ACB9B /* HBTILoadingView.swift in Sources */,
 				CA99A6D12B1216DE0030364F /* ReportAPI.swift in Sources */,
-				C9DE5B9A2C899B2100BFCFA1 /* HBTIPerfumeSurveySection.swift in Sources */,
+				C952EE012C89B74600581D3F /* HBTIPerfumeSurveySection.swift in Sources */,
 				C96CD7402BA88010005C9856 /* MagazineViewController.swift in Sources */,
 				CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */,
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
@@ -2983,7 +2983,7 @@
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
 				CA360F3429DD623D00A93873 /* HPediaSection.swift in Sources */,
 				2C4DD36C29754B3A0027CE40 /* HomeTopCell.swift in Sources */,
-				C9DE5B9C2C89B00900BFCFA1 /* HBTINoteQuestionCell.swift in Sources */,
+				C952EE032C89B75100581D3F /* HBTINoteQuestionCell.swift in Sources */,
 				C94EE0AF2C1FFBC9005EDC95 /* PushAlarmViewController.swift in Sources */,
 				CA99A6CC2B1200F20030364F /* MyLogWritedPostViewController.swift in Sources */,
 				CA174F6329BB33AF006E7680 /* UserInformationReactor.swift in Sources */,

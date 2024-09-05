@@ -32,6 +32,10 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
             HBTISurveyQuestionCell.self,
             forCellWithReuseIdentifier: HBTISurveyQuestionCell.identifier
         )
+        $0.register(
+            HBTINoteQuestionCell.self,
+            forCellWithReuseIdentifier: HBTINoteQuestionCell.identifier
+        )
     }
     
     private let nextButton = UIButton().then {
@@ -56,6 +60,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        configureDataSource()
     }
     
     func bind(reactor: HBTIPerfumeSurveyReactor) {
@@ -79,6 +84,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
     private func setAddView() {
         [
             progressBar,
+            hbtiPerfumeSurveyCollectionView,
             nextButton
         ].forEach { view.addSubview($0) }
     }
@@ -88,6 +94,11 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         progressBar.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(12)
             make.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
+        hbtiPerfumeSurveyCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(progressBar.snp.bottom).offset(32)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
         
         nextButton.snp.makeConstraints { make in
@@ -123,6 +134,40 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         return layout
     }
     
-    
+    // MARK: Configure DataSource
+    private func configureDataSource() {
+        dataSource = .init(collectionView: hbtiPerfumeSurveyCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            
+            switch item {
+            case .price(let question):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HBTISurveyQuestionCell.identifier,
+                    for: indexPath) as! HBTISurveyQuestionCell
+                
+                cell.configureCell(question: question, answers: question.answers)
+                
+                return cell
+                
+            case .note(let question):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HBTINoteQuestionCell.identifier,
+                    for: indexPath) as! HBTINoteQuestionCell
+                
+                cell.configureCell(question: question)
+                
+                return cell
+            }
+        })
+        
+        var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIPerfumeSurveySection, HBTIPerfumeSurveyItem>()
+        initialSnapshot.appendSections([.price, .note])
+        
+        initialSnapshot.appendItems([
+            .price(HBTIQuestion(id: 1, content: "시험용", answers: [HBTIAnswer(id: 1, content: "시험")], isMultipleChoice: false)),
+            .note(HBTINoteQuestion(content: "시험용", isMultipleChoice: true, answer: []))
+        ])
+        
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
 
 }
