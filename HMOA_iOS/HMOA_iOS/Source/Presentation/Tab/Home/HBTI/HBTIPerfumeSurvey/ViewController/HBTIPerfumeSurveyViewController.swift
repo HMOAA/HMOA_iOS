@@ -97,8 +97,32 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         }
     }
     
+    // MARK: Create Layout
     private func createLayout() -> UICollectionViewLayout {
-        return UICollectionViewLayout()
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.92),
+                heightDimension: .fractionalHeight(1)
+            )
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .groupPagingCentered
+            section.interGroupSpacing = 16
+            
+            return section
+        }
+        return layout
     }
+    
+    
 
 }
