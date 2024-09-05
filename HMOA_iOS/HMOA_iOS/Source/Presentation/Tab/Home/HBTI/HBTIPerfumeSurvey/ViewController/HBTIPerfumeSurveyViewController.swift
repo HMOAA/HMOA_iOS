@@ -24,6 +24,14 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         $0.progress = 0
     }
     
+    private let nextButton = UIButton().then {
+        $0.setTitle("다음", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 15)
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.cornerRadius = 5
+        $0.backgroundColor = .black
+    }
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -58,7 +66,8 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
     // MARK: Add Views
     private func setAddView() {
         [
-            progressBar
+            progressBar,
+            nextButton
         ].forEach { view.addSubview($0) }
     }
     
@@ -67,6 +76,12 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         progressBar.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(12)
             make.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(40)
+            make.height.equalTo(52)
         }
     }
 
