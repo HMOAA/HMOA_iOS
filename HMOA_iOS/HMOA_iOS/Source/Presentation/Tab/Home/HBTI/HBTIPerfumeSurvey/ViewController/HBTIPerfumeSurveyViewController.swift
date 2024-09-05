@@ -36,6 +36,8 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
     
+    private var dataSource: UICollectionViewDiffableDataSource<HBTIPerfumeSurveySection, HBTIPerfumeSurveyItem>?
+    
     // MARK: - LifeCycle
 
     override func viewDidLoad() {
