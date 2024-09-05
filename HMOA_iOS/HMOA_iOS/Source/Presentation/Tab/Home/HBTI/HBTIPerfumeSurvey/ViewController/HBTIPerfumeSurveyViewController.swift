@@ -24,6 +24,16 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         $0.progress = 0
     }
     
+    private lazy var hbtiPerfumeSurveyCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.register(
+            HBTISurveyQuestionCell.self,
+            forCellWithReuseIdentifier: HBTISurveyQuestionCell.identifier
+        )
+    }
+    
     private let nextButton = UIButton().then {
         $0.setTitle("다음", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 15)
@@ -85,6 +95,10 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
             make.bottom.equalToSuperview().inset(40)
             make.height.equalTo(52)
         }
+    }
+    
+    private func createLayout() -> UICollectionViewLayout {
+        return UICollectionViewLayout()
     }
 
 }
