@@ -154,6 +154,7 @@
 		C96F76092C3FB39C00D44773 /* HBTIReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F76082C3FB39C00D44773 /* HBTIReactor.swift */; };
 		C96F760F2C4006F200D44773 /* HBTIHomeTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F760E2C4006F200D44773 /* HBTIHomeTopView.swift */; };
 		C96F76112C40082200D44773 /* HBTIHomeBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96F76102C40082200D44773 /* HBTIHomeBottomView.swift */; };
+		C9728CFE2C8AC7B8009C49B4 /* HBTINoteCategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9728CFD2C8AC7B8009C49B4 /* HBTINoteCategoryHeaderView.swift */; };
 		C9819D772C3302270046FE55 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9819D762C3302260046FE55 /* NoItemView.swift */; };
 		C98424592C4299E200530259 /* HBTISurveyQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */; };
 		C984245D2C429C1300530259 /* HBTISurveyAnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984245C2C429C1300530259 /* HBTISurveyAnswerButton.swift */; };
@@ -471,6 +472,7 @@
 		C96F76082C3FB39C00D44773 /* HBTIReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReactor.swift; sourceTree = "<group>"; };
 		C96F760E2C4006F200D44773 /* HBTIHomeTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIHomeTopView.swift; sourceTree = "<group>"; };
 		C96F76102C40082200D44773 /* HBTIHomeBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIHomeBottomView.swift; sourceTree = "<group>"; };
+		C9728CFD2C8AC7B8009C49B4 /* HBTINoteCategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINoteCategoryHeaderView.swift; sourceTree = "<group>"; };
 		C9819D762C3302260046FE55 /* NoItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
 		C98424582C4299E200530259 /* HBTISurveyQuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyQuestionCell.swift; sourceTree = "<group>"; };
 		C984245C2C429C1300530259 /* HBTISurveyAnswerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyAnswerButton.swift; sourceTree = "<group>"; };
@@ -1607,6 +1609,7 @@
 		C952EDFE2C89B71900581D3F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C9728CFC2C8AC788009C49B4 /* SupplementaryView */,
 				C952EE022C89B75100581D3F /* HBTINoteQuestionCell.swift */,
 				C952EE042C89D5BF00581D3F /* HBTINoteCell.swift */,
 			);
@@ -1806,6 +1809,14 @@
 				C96F76042C3FB35100D44773 /* ViewController */,
 			);
 			path = HBTI;
+			sourceTree = "<group>";
+		};
+		C9728CFC2C8AC788009C49B4 /* SupplementaryView */ = {
+			isa = PBXGroup;
+			children = (
+				C9728CFD2C8AC7B8009C49B4 /* HBTINoteCategoryHeaderView.swift */,
+			);
+			path = SupplementaryView;
 			sourceTree = "<group>";
 		};
 		C984245E2C43D40200530259 /* Model */ = {
@@ -2890,6 +2901,7 @@
 				CA0160982AB2E15200D5839D /* EvaluationReactor.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
 				CA22389B2AAF492D00452A31 /* CommunityPostCell.swift in Sources */,
+				C9728CFE2C8AC7B8009C49B4 /* HBTINoteCategoryHeaderView.swift in Sources */,
 				C923018F2C7483E0002A95BE /* HBTIAddress.swift in Sources */,
 				CA6C48612B2C2F8C00F1BE7F /* TotalPerfumeAddress.swift in Sources */,
 				C9D2300B2C69F601008ACB9B /* HBTILoadingView.swift in Sources */,
