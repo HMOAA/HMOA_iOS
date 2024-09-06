@@ -34,3 +34,11 @@ extension HBTIPerfumeSurveyItem {
         }
     }
 }
+
+struct HBTINoteQuestionSection: Hashable {
+    let category: String
+}
+
+struct HBTINoteQuestionItem: Hashable {
+    let note: String
+}
