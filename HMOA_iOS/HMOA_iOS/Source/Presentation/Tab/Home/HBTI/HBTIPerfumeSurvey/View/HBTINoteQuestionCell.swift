@@ -30,6 +30,11 @@ class HBTINoteQuestionCell: UICollectionViewCell {
             HBTINoteCell.self,
             forCellWithReuseIdentifier: HBTINoteCell.identifier
         )
+        $0.register(
+            HBTINoteCategoryHeaderView.self,
+            forSupplementaryViewOfKind: SupplementaryViewKind.header,
+            withReuseIdentifier: HBTINoteCategoryHeaderView.identifier
+        )
     }
     
     // MARK: - Properties
@@ -77,6 +82,16 @@ class HBTINoteQuestionCell: UICollectionViewCell {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
+            let headerItemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(80)
+            )
+            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerItemSize,
+                elementKind: SupplementaryViewKind.header,
+                alignment: .top
+            )
+            
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .estimated(60),
                 heightDimension: .absolute(32)
@@ -92,6 +107,8 @@ class HBTINoteQuestionCell: UICollectionViewCell {
             
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 12
+            section.contentInsets = .init(top: 16, leading: 0, bottom: 24, trailing: 0)
+            section.boundarySupplementaryItems = [headerItem]
             
             return section
         }
@@ -123,6 +140,23 @@ class HBTINoteQuestionCell: UICollectionViewCell {
         initialSnapshot.appendItems([.init(note: "시험2")], toSection: section2)
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+        
+        // MARK: Supplementary View Provider
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+            switch kind {
+            case SupplementaryViewKind.header:
+                let headerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: SupplementaryViewKind.header,
+                    withReuseIdentifier: HBTINoteCategoryHeaderView.identifier,
+                    for: indexPath) as! HBTINoteCategoryHeaderView
+                headerView.configureHeader("헤더")
+                
+                return headerView
+                
+            default:
+                return nil
+            }
+        }
     }
     
     

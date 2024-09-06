@@ -164,7 +164,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         
         initialSnapshot.appendItems([
             .price(HBTIQuestion(id: 1, content: "시험용", answers: [HBTIAnswer(id: 1, content: "시험")], isMultipleChoice: false)),
-            .note(HBTINoteQuestion(content: "시험용", isMultipleChoice: true, answer: []))
+            .note(HBTINoteQuestion(content: "시향 후 마음에 드는 향료를 골라주세요", isMultipleChoice: true, answer: []))
         ])
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
