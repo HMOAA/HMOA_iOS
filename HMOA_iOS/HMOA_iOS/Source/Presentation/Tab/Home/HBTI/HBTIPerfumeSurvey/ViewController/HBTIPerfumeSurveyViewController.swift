@@ -78,6 +78,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
     private func setUI() {
         view.backgroundColor = .white
         setBackItemNaviBar("향수 추천")
+        hbtiPerfumeSurveyCollectionView.showsVerticalScrollIndicator = false
     }
     
     // MARK: Add Views
@@ -98,7 +99,8 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         
         hbtiPerfumeSurveyCollectionView.snp.makeConstraints { make in
             make.top.equalTo(progressBar.snp.bottom).offset(32)
-            make.horizontalEdges.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         nextButton.snp.makeConstraints { make in

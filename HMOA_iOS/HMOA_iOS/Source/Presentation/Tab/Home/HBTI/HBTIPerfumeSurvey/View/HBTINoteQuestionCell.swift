@@ -48,6 +48,7 @@ class HBTINoteQuestionCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setUI()
         setAddView()
         setConstraints()
         configureDataSource()
@@ -58,6 +59,10 @@ class HBTINoteQuestionCell: UICollectionViewCell {
     }
     
     // MARK: - Function
+    
+    private func setUI() {
+        noteCategoryCollectionView.showsVerticalScrollIndicator = false
+    }
     
     private func setAddView() {
         [
@@ -73,7 +78,8 @@ class HBTINoteQuestionCell: UICollectionViewCell {
         
         noteCategoryCollectionView.snp.makeConstraints { make in
             make.top.equalTo(selectLabel.snp.bottom).offset(16)
-            make.horizontalEdges.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview().inset(52)
         }
     }
     
@@ -131,13 +137,23 @@ class HBTINoteQuestionCell: UICollectionViewCell {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTINoteQuestionSection, HBTINoteQuestionItem>()
         
-        let section1 = HBTINoteQuestionSection(category: "시험용")
-        initialSnapshot.appendSections([section1])
-        initialSnapshot.appendItems([.init(note: "시험1"), .init(note: "tlgja1")], toSection: section1)
+        let sections = [
+            HBTINoteAnswer(category: "시험1", notes: ["노트1-1", "노트1-2"]),
+            HBTINoteAnswer(category: "시험2", notes: ["노트2-1", "노트2-2"]),
+            HBTINoteAnswer(category: "시험3", notes: ["노트3-1", "노트3-2"]),
+            HBTINoteAnswer(category: "시험4", notes: ["노트4-1", "노트4-2"]),
+            HBTINoteAnswer(category: "시험5", notes: ["노트5-1", "노트5-2"]),
+            HBTINoteAnswer(category: "시험6", notes: ["노트6-1", "노트6-2"]),
+            HBTINoteAnswer(category: "시험7", notes: ["노트7-1", "노트7-2"])
+        ]
         
-        let section2 = HBTINoteQuestionSection(category: "시험용2")
-        initialSnapshot.appendSections([section2])
-        initialSnapshot.appendItems([.init(note: "시험2")], toSection: section2)
+        for data in sections {
+            let section = HBTINoteQuestionSection(category: data.category)
+            initialSnapshot.appendSections([section])
+            
+            let items = data.notes.map { HBTINoteQuestionItem(note: $0)}
+            initialSnapshot.appendItems(items, toSection: section)
+        }
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
         
@@ -158,7 +174,6 @@ class HBTINoteQuestionCell: UICollectionViewCell {
             }
         }
     }
-    
     
     func configureCell(question: HBTINoteQuestion) {
         selectLabel.text = question.content
