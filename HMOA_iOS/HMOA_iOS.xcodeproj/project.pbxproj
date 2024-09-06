@@ -130,6 +130,7 @@
 		C94EE0B22C1FFEDD005EDC95 /* PushAlarmReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */; };
 		C952EE012C89B74600581D3F /* HBTIPerfumeSurveySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952EE002C89B74600581D3F /* HBTIPerfumeSurveySection.swift */; };
 		C952EE032C89B75100581D3F /* HBTINoteQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952EE022C89B75100581D3F /* HBTINoteQuestionCell.swift */; };
+		C952EE052C89D5BF00581D3F /* HBTINoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952EE042C89D5BF00581D3F /* HBTINoteCell.swift */; };
 		C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */; };
 		C96CD7382BA88010005C9856 /* MagazineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD71E2BA88010005C9856 /* MagazineItem.swift */; };
 		C96CD7392BA88010005C9856 /* MagazineReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96CD7202BA88010005C9856 /* MagazineReactor.swift */; };
@@ -446,6 +447,7 @@
 		C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmReactor.swift; sourceTree = "<group>"; };
 		C952EE002C89B74600581D3F /* HBTIPerfumeSurveySection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeSurveySection.swift; sourceTree = "<group>"; };
 		C952EE022C89B75100581D3F /* HBTINoteQuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTINoteQuestionCell.swift; sourceTree = "<group>"; };
+		C952EE042C89D5BF00581D3F /* HBTINoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINoteCell.swift; sourceTree = "<group>"; };
 		C96B99D12BB022B6005F4E31 /* MagazineTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineTagCell.swift; sourceTree = "<group>"; };
 		C96CD71E2BA88010005C9856 /* MagazineItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineItem.swift; sourceTree = "<group>"; };
 		C96CD7202BA88010005C9856 /* MagazineReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineReactor.swift; sourceTree = "<group>"; };
@@ -1606,6 +1608,7 @@
 			isa = PBXGroup;
 			children = (
 				C952EE022C89B75100581D3F /* HBTINoteQuestionCell.swift */,
+				C952EE042C89D5BF00581D3F /* HBTINoteCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2974,6 +2977,7 @@
 				CA9B9D812B1B29F9006BBA10 /* MyPageSwitchCell.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				C96CD7412BA88010005C9856 /* MagazineDetailReactor.swift in Sources */,
+				C952EE052C89D5BF00581D3F /* HBTINoteCell.swift in Sources */,
 				C99E7B6B2BA9F0B500F359BC /* MagazineDetailLineView.swift in Sources */,
 				2CA7F69D29D2FD180022E7FD /* TotalPerfumeSection.swift in Sources */,
 				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
