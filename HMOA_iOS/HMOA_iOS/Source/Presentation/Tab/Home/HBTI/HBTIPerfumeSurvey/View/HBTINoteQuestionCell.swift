@@ -64,6 +64,9 @@ class HBTINoteQuestionCell: UICollectionViewCell {
     
     private func setUI() {
         noteCategoryCollectionView.showsVerticalScrollIndicator = false
+        
+        // TODO: 서버 응답 반영하기
+        noteCategoryCollectionView.allowsMultipleSelection = true
     }
     
     private func setAddView() {
