@@ -19,7 +19,7 @@ final class HBTISelectedNoteCell: UICollectionViewCell {
     }
     
     let xButton = UIButton().then {
-        $0.setImage(UIImage(named: "xButton"), for: .normal)
+        $0.setImage(UIImage(named: "noteXButton"), for: .normal)
     }
     
     // MARK: - Initialization

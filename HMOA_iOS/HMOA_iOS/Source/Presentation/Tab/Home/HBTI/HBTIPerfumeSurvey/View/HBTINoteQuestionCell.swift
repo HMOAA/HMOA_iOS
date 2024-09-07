@@ -17,6 +17,8 @@ class HBTINoteQuestionCell: UICollectionViewCell {
     
     // MARK: - UI Components
     
+    lazy var selectedNoteView = HBTISelectedNoteView()
+    
     private let selectLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
         $0.setTextWithLineHeight(text: "선택안내", lineHeight: 27)
@@ -66,14 +68,21 @@ class HBTINoteQuestionCell: UICollectionViewCell {
     
     private func setAddView() {
         [
+            selectedNoteView,
             selectLabel,
             noteCategoryCollectionView
         ].forEach { addSubview($0) }
     }
     
     private func setConstraints() {
-        selectLabel.snp.makeConstraints { make in
+        selectedNoteView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(58)
+        }
+        
+        selectLabel.snp.makeConstraints { make in
+            make.top.equalTo(selectedNoteView.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
         }
         
         noteCategoryCollectionView.snp.makeConstraints { make in
