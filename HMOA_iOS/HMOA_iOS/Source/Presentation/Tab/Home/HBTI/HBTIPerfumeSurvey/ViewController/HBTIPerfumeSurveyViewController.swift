@@ -79,6 +79,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         view.backgroundColor = .white
         setBackItemNaviBar("향수 추천")
         hbtiPerfumeSurveyCollectionView.showsVerticalScrollIndicator = false
+        hbtiPerfumeSurveyCollectionView.isScrollEnabled = false
     }
     
     // MARK: Add Views

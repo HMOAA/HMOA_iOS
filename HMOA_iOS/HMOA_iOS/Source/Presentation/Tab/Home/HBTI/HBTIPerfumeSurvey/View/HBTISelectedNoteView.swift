@@ -15,7 +15,7 @@ final class HBTISelectedNoteView: UIView {
     // MARK: - UI Components
     
     let clearButton = UIButton().then {
-        $0.setImage(UIImage(named: "clearButton"), for: .normal)
+        $0.setImage(UIImage(named: "noteClearButton"), for: .normal)
     }
     
     lazy var selectedNoteCollectionView = UICollectionView(
