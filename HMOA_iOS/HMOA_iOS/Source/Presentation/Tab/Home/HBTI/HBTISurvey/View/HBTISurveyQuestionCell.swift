@@ -60,17 +60,19 @@ final class HBTISurveyQuestionCell: UICollectionViewCell {
     
     private func setConstraints() {
         questionMarkLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview()
+            make.top.equalToSuperview().inset(12)
+            make.leading.equalToSuperview().inset(16)
         }
         
         questionLabel.snp.makeConstraints { make in
             make.leading.equalTo(questionMarkLabel.snp.trailing).offset(8)
-            make.top.trailing.equalToSuperview()
+            make.top.equalTo(questionMarkLabel.snp.top)
+            make.trailing.equalToSuperview().inset(16)
         }
         
         answerStackView.snp.makeConstraints { make in
             make.top.equalTo(questionLabel.snp.bottom).offset(32)
-            make.horizontalEdges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(16)
         }
     }
     

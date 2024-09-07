@@ -77,18 +77,18 @@ class HBTINoteQuestionCell: UICollectionViewCell {
     private func setConstraints() {
         selectedNoteView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(58)
+            make.height.equalTo(78)
         }
         
         selectLabel.snp.makeConstraints { make in
             make.top.equalTo(selectedNoteView.snp.bottom)
-            make.horizontalEdges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(16)
         }
         
         noteCategoryCollectionView.snp.makeConstraints { make in
             make.top.equalTo(selectLabel.snp.bottom).offset(16)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview().inset(52)
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(92)
         }
     }
     
