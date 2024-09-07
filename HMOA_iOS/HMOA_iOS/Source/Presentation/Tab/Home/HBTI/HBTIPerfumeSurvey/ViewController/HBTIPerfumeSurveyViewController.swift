@@ -99,7 +99,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         }
         
         hbtiPerfumeSurveyCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(progressBar.snp.bottom).offset(32)
+            make.top.equalTo(progressBar.snp.bottom).offset(24)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
@@ -123,7 +123,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.92),
+                widthDimension: .fractionalWidth(1),
                 heightDimension: .fractionalHeight(1)
             )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])

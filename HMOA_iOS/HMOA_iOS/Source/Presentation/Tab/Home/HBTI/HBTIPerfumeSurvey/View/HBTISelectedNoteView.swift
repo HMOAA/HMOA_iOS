@@ -62,14 +62,16 @@ final class HBTISelectedNoteView: UIView {
     
     private func setConstraints() {
         clearButton.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview().inset(20)
-            make.leading.equalToSuperview()
-            make.height.width.equalTo(18)
+            make.top.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(40)
+            make.width.equalTo(18)
         }
         
         selectedNoteCollectionView.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview()
             make.leading.equalTo(clearButton.snp.trailing).offset(8)
-            make.verticalEdges.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().inset(20)
         }
     }
     
@@ -91,7 +93,7 @@ final class HBTISelectedNoteView: UIView {
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = .init(top: 12, leading: 0, bottom: 12, trailing: 0)
+            section.contentInsets = .init(top: 12, leading: 0, bottom: 12, trailing: 16)
             section.orthogonalScrollingBehavior = .continuous
             section.interGroupSpacing = 8
             

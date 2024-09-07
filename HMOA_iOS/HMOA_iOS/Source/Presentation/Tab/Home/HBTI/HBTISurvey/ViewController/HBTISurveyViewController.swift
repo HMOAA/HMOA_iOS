@@ -149,7 +149,7 @@ final class HBTISurveyViewController: UIViewController, View {
         }
         
         hbtiSurveyCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(progressBar.snp.bottom).offset(32)
+            make.top.equalTo(progressBar.snp.bottom).offset(24)
             make.horizontalEdges.bottom.equalToSuperview()
         }
         
@@ -172,7 +172,7 @@ final class HBTISurveyViewController: UIViewController, View {
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.92),
+                widthDimension: .fractionalWidth(1),
                 heightDimension: .fractionalHeight(1)
             )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
