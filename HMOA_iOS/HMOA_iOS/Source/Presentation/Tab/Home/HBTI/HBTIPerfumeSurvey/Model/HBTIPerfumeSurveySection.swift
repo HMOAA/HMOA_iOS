@@ -42,3 +42,11 @@ struct HBTINoteQuestionSection: Hashable {
 struct HBTINoteQuestionItem: Hashable {
     let note: String
 }
+
+enum HBTISelectedNoteSection: Hashable {
+    case selected
+}
+
+enum HBTISelectedNoteItem: Hashable {
+    case note(String)
+}
