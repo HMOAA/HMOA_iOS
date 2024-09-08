@@ -33,6 +33,11 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         $0.isSelected = false
     }
     
+//    private lazy var recommendedPerfumeCollectionView = UICollectionView(
+//        frame: .zero,
+//        collectionViewLayout: <#T##UICollectionViewLayout#>
+//    )
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -91,6 +96,31 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
             make.trailing.equalToSuperview().inset(5)
             make.height.equalTo(12)
         }
+    }
+    
+    // MARK: Create Layout
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let availableLayoutWidth = layoutEnvironment.container.effectiveContentSize.width
+            let centerImageWidth = availableLayoutWidth * 0.78
+            let centerImageHeight = centerImageWidth / 280 * 354
+            
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .absolute(centerImageHeight))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .groupPagingCentered
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+            section.interGroupSpacing = 16
+            
+            return section
+        }
+        return layout
     }
 
 }
