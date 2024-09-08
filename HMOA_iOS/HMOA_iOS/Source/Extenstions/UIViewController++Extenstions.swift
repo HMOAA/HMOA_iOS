@@ -291,12 +291,20 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiSurveyResultVC, animated: true)
     }
         
-    /// HBTINoteVC로 push
+    /// HBTIPerfumeSurveyVC로 push
     func presentHBTIPerfumeSurveyViewController() {
         let hbtiPerfumeSurveyVC = HBTIPerfumeSurveyViewController()
         hbtiPerfumeSurveyVC.reactor = HBTIPerfumeSurveyReactor()
         hbtiPerfumeSurveyVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiPerfumeSurveyVC, animated: true)
+    }
+    
+    /// HBTIPerfumeResultVC로 push
+    func presentHBTIPerfumeResultViewController() {
+        let hbtiPerfumeResultVC = HBTIPerfumeResultViewController()
+        hbtiPerfumeResultVC.reactor = HBTIPerfumeResultReactor()
+        hbtiPerfumeResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiPerfumeResultVC, animated: true)
     }
     
     // MARK: Configure NavigationBar

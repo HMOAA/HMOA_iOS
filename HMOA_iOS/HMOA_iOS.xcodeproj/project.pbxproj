@@ -173,6 +173,8 @@
 		C9D2300D2C6AE106008ACB9B /* HBTISurveyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */; };
 		C9D2300F2C6AE63C008ACB9B /* HBTISurveyResultSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */; };
 		C9DEC1E82C72DF34001A2E93 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9DEC1E72C72DF34001A2E93 /* loading.gif */; };
+		C9EBE6F42C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F32C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift */; };
+		C9EBE6F62C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F52C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift */; };
 		CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */; };
 		CA0027C72B2C60F8001DEAE3 /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */; };
 		CA0160962AB0B11100D5839D /* SecondDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0160952AB0B11100D5839D /* SecondDetail.swift */; };
@@ -493,6 +495,8 @@
 		C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultCell.swift; sourceTree = "<group>"; };
 		C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultSection.swift; sourceTree = "<group>"; };
 		C9DEC1E72C72DF34001A2E93 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		C9EBE6F32C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultViewController.swift; sourceTree = "<group>"; };
+		C9EBE6F52C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultReactor.swift; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
 		CA0160952AB0B11100D5839D /* SecondDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondDetail.swift; sourceTree = "<group>"; };
@@ -1773,10 +1777,11 @@
 		C96F76032C3FB34800D44773 /* HBTI */ = {
 			isa = PBXGroup;
 			children = (
-				C93CA20D2C69E6A900AFD9E8 /* HBTISurveyResult */,
 				C96F760D2C40065600D44773 /* HBTI */,
 				C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */,
+				C93CA20D2C69E6A900AFD9E8 /* HBTISurveyResult */,
 				C91980DF2C6D93EF00A7E91F /* HBTIPerfumeSurvey */,
+				C9EBE6ED2C8DA978007AB66B /* HBTIPerfumeResult */,
 			);
 			path = HBTI;
 			sourceTree = "<group>";
@@ -1881,6 +1886,47 @@
 				C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C9EBE6ED2C8DA978007AB66B /* HBTIPerfumeResult */ = {
+			isa = PBXGroup;
+			children = (
+				C9EBE6EE2C8DA99D007AB66B /* Model */,
+				C9EBE6EF2C8DA9A7007AB66B /* View */,
+				C9EBE6F12C8DA9B3007AB66B /* Reactor */,
+				C9EBE6F22C8DA9BB007AB66B /* ViewController */,
+			);
+			path = HBTIPerfumeResult;
+			sourceTree = "<group>";
+		};
+		C9EBE6EE2C8DA99D007AB66B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C9EBE6EF2C8DA9A7007AB66B /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C9EBE6F12C8DA9B3007AB66B /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C9EBE6F52C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		C9EBE6F22C8DA9BB007AB66B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C9EBE6F32C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		CA0027C22B2C5E52001DEAE3 /* Tutorial */ = {
@@ -2894,6 +2940,7 @@
 				2C464E5029CDB26400A07658 /* MyPageSeparatorLineView.swift in Sources */,
 				CA22389F2AAF515F00452A31 /* CommunityDetailReactor.swift in Sources */,
 				2C464E4E29CDB1C300A07658 /* UserInfo.swift in Sources */,
+				C9EBE6F62C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift in Sources */,
 				C96CD74D2BA8803D005C9856 /* MagazineModel.swift in Sources */,
 				C96CD73D2BA88010005C9856 /* MagazineMainCell.swift in Sources */,
 				CA219C462A9F0985003FB215 /* LikePerfume.swift in Sources */,
@@ -3023,6 +3070,7 @@
 				CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */,
 				CACAD39329C9E418001D28E1 /* LoginStartViewController.swift in Sources */,
 				CAF5335E2BA046F700A7B8B2 /* MyLogComment.swift in Sources */,
+				C9EBE6F42C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift in Sources */,
 				2CA155B82A05368000D7B0C0 /* MyProfileReactor.swift in Sources */,
 				CA69039A2A3023A000EAD59A /* AppRequestInterCeptor.swift in Sources */,
 				2C1BD6A9298FAA370059A43D /* CommentCell.swift in Sources */,
