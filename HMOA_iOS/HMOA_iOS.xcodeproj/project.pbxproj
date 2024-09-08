@@ -176,6 +176,7 @@
 		C9EBE6F42C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F32C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift */; };
 		C9EBE6F62C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F52C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift */; };
 		C9EBE6F92C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */; };
+		C9EBE6FB2C8DD664007AB66B /* HBTIPerfumeResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6FA2C8DD664007AB66B /* HBTIPerfumeResultCell.swift */; };
 		CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */; };
 		CA0027C72B2C60F8001DEAE3 /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */; };
 		CA0160962AB0B11100D5839D /* SecondDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0160952AB0B11100D5839D /* SecondDetail.swift */; };
@@ -499,6 +500,7 @@
 		C9EBE6F32C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultViewController.swift; sourceTree = "<group>"; };
 		C9EBE6F52C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultReactor.swift; sourceTree = "<group>"; };
 		C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultSection.swift; sourceTree = "<group>"; };
+		C9EBE6FA2C8DD664007AB66B /* HBTIPerfumeResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultCell.swift; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
 		CA0160952AB0B11100D5839D /* SecondDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondDetail.swift; sourceTree = "<group>"; };
@@ -1912,6 +1914,7 @@
 		C9EBE6EF2C8DA9A7007AB66B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C9EBE6FA2C8DD664007AB66B /* HBTIPerfumeResultCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3017,6 +3020,7 @@
 				CA6C48632B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift in Sources */,
 				2C4CDC4829C770D900676163 /* BrandSearchSection.swift in Sources */,
 				CA219C4A2AA1C635003FB215 /* LikeHeaderView.swift in Sources */,
+				C9EBE6FB2C8DD664007AB66B /* HBTIPerfumeResultCell.swift in Sources */,
 				CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */,
 				2CA7F69A29D2FBE70022E7FD /* TotalPerfumeReactor.swift in Sources */,
 				C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */,
