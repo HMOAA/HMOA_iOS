@@ -175,6 +175,7 @@
 		C9DEC1E82C72DF34001A2E93 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C9DEC1E72C72DF34001A2E93 /* loading.gif */; };
 		C9EBE6F42C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F32C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift */; };
 		C9EBE6F62C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F52C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift */; };
+		C9EBE6F92C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */; };
 		CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */; };
 		CA0027C72B2C60F8001DEAE3 /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */; };
 		CA0160962AB0B11100D5839D /* SecondDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0160952AB0B11100D5839D /* SecondDetail.swift */; };
@@ -497,6 +498,7 @@
 		C9DEC1E72C72DF34001A2E93 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		C9EBE6F32C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultViewController.swift; sourceTree = "<group>"; };
 		C9EBE6F52C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultReactor.swift; sourceTree = "<group>"; };
+		C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultSection.swift; sourceTree = "<group>"; };
 		CA0027C42B2C5E7D001DEAE3 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		CA0027C62B2C60F8001DEAE3 /* TutorialContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
 		CA0160952AB0B11100D5839D /* SecondDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondDetail.swift; sourceTree = "<group>"; };
@@ -1902,6 +1904,7 @@
 		C9EBE6EE2C8DA99D007AB66B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3126,6 +3129,7 @@
 				2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */,
 				2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */,
 				C96CD7452BA88010005C9856 /* MagazineDetailViewController.swift in Sources */,
+				C9EBE6F92C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift in Sources */,
 				2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */,
 				CABED5512B3186E40030874F /* BrandDetailService.swift in Sources */,
 				2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */,
