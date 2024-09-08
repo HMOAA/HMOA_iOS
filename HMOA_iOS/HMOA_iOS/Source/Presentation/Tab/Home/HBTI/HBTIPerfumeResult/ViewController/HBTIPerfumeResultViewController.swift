@@ -17,7 +17,11 @@ import Then
 final class HBTIPerfumeResultViewController: UIViewController, View {
 
     // MARK: - UI Components
-
+    
+    private var titleLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
+        $0.setTextWithLineHeight(text: "고객님에게 어울릴 향수는", lineHeight: 27)
+    }
     
     // MARK: - Properties
     
@@ -53,12 +57,16 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
     // MARK: Add Views
     private func setAddView() {
         [
+            titleLabel
         ].forEach { view.addSubview($0) }
     }
     
     // MARK: Set Constraints
     private func setConstraints() {
-        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
+            make.horizontalEdges.equalToSuperview().inset(16)
+        }
     }
 
 }
