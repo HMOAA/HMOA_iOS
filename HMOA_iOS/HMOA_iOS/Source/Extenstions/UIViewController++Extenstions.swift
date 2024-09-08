@@ -292,11 +292,11 @@ extension UIViewController {
     }
         
     /// HBTINoteVC로 push
-    func presentHBTINoteViewController() {
-        let hbtiNoteVC = HBTINoteViewController()
-        hbtiNoteVC.reactor = HBTINoteReactor()
-        hbtiNoteVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(hbtiNoteVC, animated: true)
+    func presentHBTIPerfumeSurveyViewController() {
+        let hbtiPerfumeSurveyVC = HBTIPerfumeSurveyViewController()
+        hbtiPerfumeSurveyVC.reactor = HBTIPerfumeSurveyReactor()
+        hbtiPerfumeSurveyVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiPerfumeSurveyVC, animated: true)
     }
     
     // MARK: Configure NavigationBar
