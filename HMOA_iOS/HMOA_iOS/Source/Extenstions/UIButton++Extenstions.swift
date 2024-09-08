@@ -144,4 +144,11 @@ extension UIButton {
         self.titleLabel?.font = .customFont(.pretendard, 20)
         self.setTitle("변경", for: .normal)
     }
+    
+    func setHBTIPriorityButton(title: String) {
+        self.setTitleColor(.init(hexCode: "9C9C9C"), for: .normal)
+        self.setTitleColor(.black, for: .selected)
+        self.titleLabel?.font = .customFont(.pretendard, 12)
+        self.setTitle(title, for: .normal)
+    }
 }
