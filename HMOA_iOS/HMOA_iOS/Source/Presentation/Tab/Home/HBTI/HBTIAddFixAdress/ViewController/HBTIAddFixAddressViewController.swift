@@ -12,6 +12,13 @@ import Then
 final class HBTIAddFixAddressViewController: UIViewController {
 
     // MARK: - UI Components
+    
+    private let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
+    
+    private let contentView = UIView()
+
     private let receiverInfoLabel = UILabel().then {
         $0.setLabelUI("배송자 정보", font: .pretendard_bold, size: 18, color: .black)
     }
@@ -85,11 +92,25 @@ final class HBTIAddFixAddressViewController: UIViewController {
    
     private func setUI() {
         setBackItemNaviBar("주소 추가")
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     // MARK: Add Views
     
     private func setAddView() {
+        [
+         scrollView,
+         saveAddressInfoButton
+        ].forEach(view.addSubview)
+        
+        scrollView.addSubview(contentView)
+        
         [
          receiverInfoLabel,
          receiverNameLabel,
@@ -100,65 +121,76 @@ final class HBTIAddFixAddressViewController: UIViewController {
          contactTextFieldView,
          addressTextFieldView,
          deliveryRequestLabel,
-         deliveryRequestTextField,
-         saveAddressInfoButton
-        ].forEach(view.addSubview)
+         deliveryRequestTextField
+        ].forEach(contentView.addSubview)
     }
     
     // MARK: Set Constraints
     
     private func setConstraints() {
-        receiverInfoLabel.snp.makeConstraints {
+        scrollView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
-            $0.leading.equalToSuperview().offset(16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalTo(saveAddressInfoButton.snp.top).offset(-27)
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        
+        receiverInfoLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
         }
         
         receiverNameLabel.snp.makeConstraints {
             $0.top.equalTo(receiverInfoLabel.snp.bottom).offset(20)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview()
         }
         
         receiverNameTextField.snp.makeConstraints {
             $0.top.equalTo(receiverNameLabel.snp.bottom).offset(8)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(44)
         }
         
         receiverAddressNameLabel.snp.makeConstraints {
             $0.top.equalTo(receiverNameTextField.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview()
         }
         
         receiverAddressNameTextField.snp.makeConstraints {
             $0.top.equalTo(receiverAddressNameLabel.snp.bottom).offset(8)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(44)
         }
         
         phoneNumberTextFieldView.snp.makeConstraints {
             $0.top.equalTo(receiverAddressNameTextField.snp.bottom).offset(16)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview()
         }
         
         contactTextFieldView.snp.makeConstraints {
             $0.top.equalTo(phoneNumberTextFieldView.snp.bottom).offset(16)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview()
         }
         
         addressTextFieldView.snp.makeConstraints {
             $0.top.equalTo(contactTextFieldView.snp.bottom).offset(16)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview()
         }
         
         deliveryRequestLabel.snp.makeConstraints {
             $0.top.equalTo(addressTextFieldView.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview()
         }
         
         deliveryRequestTextField.snp.makeConstraints {
             $0.top.equalTo(deliveryRequestLabel.snp.bottom).offset(8)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(44)
+            $0.bottom.equalToSuperview()
         }
         
         saveAddressInfoButton.snp.makeConstraints {
