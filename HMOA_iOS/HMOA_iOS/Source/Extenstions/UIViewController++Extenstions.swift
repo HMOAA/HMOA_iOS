@@ -322,7 +322,7 @@ extension UIViewController {
     }
     
     func presentHBTIAddAddressViewController() {
-        let hbtiAddAddressVC = HBTIAddAddressViewController()
+        let hbtiAddAddressVC = HBTIAddFixAddressViewController()
         hbtiAddAddressVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiAddAddressVC, animated: true)
     }
