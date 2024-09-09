@@ -112,14 +112,10 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
-            let availableLayoutWidth = layoutEnvironment.container.effectiveContentSize.width
-            let centerImageWidth = availableLayoutWidth * 0.78
-            let centerImageHeight = centerImageWidth / 280 * 354
-            
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(354))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.78), heightDimension: .absolute(centerImageHeight))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.78), heightDimension: .estimated(354))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
