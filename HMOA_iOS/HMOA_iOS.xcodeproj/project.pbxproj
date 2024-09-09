@@ -114,7 +114,7 @@
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
 		3F03E0902C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */; };
 		3F1EAC7B2C8593EB000B657C /* HBTIAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7A2C8593EB000B657C /* HBTIAgreementView.swift */; };
-		3F1EAC7D2C85A045000B657C /* HBTIAddAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7C2C85A045000B657C /* HBTIAddAddressViewController.swift */; };
+		3F1EAC7D2C85A045000B657C /* HBTIAddFixAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7C2C85A045000B657C /* HBTIAddFixAddressViewController.swift */; };
 		3F1EAC7F2C85AF7F000B657C /* HBTIContactTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7E2C85AF7F000B657C /* HBTIContactTextFieldView.swift */; };
 		3F1EAC812C85B557000B657C /* HBTIAddressTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC802C85B557000B657C /* HBTIAddressTextFieldView.swift */; };
 		3F1FBBD12C818BC70022E8A4 /* HBTIPaymentMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */; };
@@ -443,7 +443,7 @@
 		3897B273F6FFDAEDA62C377C /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetViewController.swift; sourceTree = "<group>"; };
 		3F1EAC7A2C8593EB000B657C /* HBTIAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementView.swift; sourceTree = "<group>"; };
-		3F1EAC7C2C85A045000B657C /* HBTIAddAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddAddressViewController.swift; sourceTree = "<group>"; };
+		3F1EAC7C2C85A045000B657C /* HBTIAddFixAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddFixAddressViewController.swift; sourceTree = "<group>"; };
 		3F1EAC7E2C85AF7F000B657C /* HBTIContactTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIContactTextFieldView.swift; sourceTree = "<group>"; };
 		3F1EAC802C85B557000B657C /* HBTIAddressTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddressTextFieldView.swift; sourceTree = "<group>"; };
 		3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodView.swift; sourceTree = "<group>"; };
@@ -1491,7 +1491,6 @@
 			isa = PBXGroup;
 			children = (
 				3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */,
-				3F1EAC7C2C85A045000B657C /* HBTIAddAddressViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1510,7 +1509,6 @@
 				3F1EAC7A2C8593EB000B657C /* HBTIAgreementView.swift */,
 				3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */,
 				3F1EAC7E2C85AF7F000B657C /* HBTIContactTextFieldView.swift */,
-				3F1EAC802C85B557000B657C /* HBTIAddressTextFieldView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1574,6 +1572,31 @@
 				3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3FBF351C2C8E791A00FD0079 /* HBTIAddFixAdress */ = {
+			isa = PBXGroup;
+			children = (
+				3FBF351F2C8E79A900FD0079 /* View */,
+				3FBF351E2C8E793800FD0079 /* ViewController */,
+			);
+			path = HBTIAddFixAdress;
+			sourceTree = "<group>";
+		};
+		3FBF351E2C8E793800FD0079 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F1EAC7C2C85A045000B657C /* HBTIAddFixAddressViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3FBF351F2C8E79A900FD0079 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F1EAC802C85B557000B657C /* HBTIAddressTextFieldView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		3FCCFC452C6E1D28009AE780 /* Key */ = {
@@ -1895,6 +1918,7 @@
 		C96F76032C3FB34800D44773 /* HBTI */ = {
 			isa = PBXGroup;
 			children = (
+				3FBF351C2C8E791A00FD0079 /* HBTIAddFixAdress */,
 				3F03E08A2C7B1F7800A31ACC /* HBTIOrderSheet */,
 				3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */,
 				C96F760D2C40065600D44773 /* HBTI */,
@@ -3212,7 +3236,7 @@
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,
 				C96F76092C3FB39C00D44773 /* HBTIReactor.swift in Sources */,
 				CA19D1602A8F5F8000B04C6F /* DetailAPI.swift in Sources */,
-				3F1EAC7D2C85A045000B657C /* HBTIAddAddressViewController.swift in Sources */,
+				3F1EAC7D2C85A045000B657C /* HBTIAddFixAddressViewController.swift in Sources */,
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,

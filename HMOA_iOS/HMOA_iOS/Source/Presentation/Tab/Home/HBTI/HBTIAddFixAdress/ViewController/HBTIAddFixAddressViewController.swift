@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HBTIAddAddressViewController: UIViewController {
+final class HBTIAddFixAddressViewController: UIViewController {
 
     // MARK: - UI Components
     private let receiverInfoLabel = UILabel().then {
