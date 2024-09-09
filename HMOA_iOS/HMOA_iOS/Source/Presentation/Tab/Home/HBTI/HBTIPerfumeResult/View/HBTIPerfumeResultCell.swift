@@ -92,6 +92,7 @@ class HBTIPerfumeResultCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super .init(frame: frame)
         
+        setUI()
         setAddView()
         setConstraints()
         
@@ -101,14 +102,6 @@ class HBTIPerfumeResultCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        
-        contentView.layer.borderWidth = 1
-        contentView.layer.cornerRadius = 5
-        contentView.layer.masksToBounds = true
-        
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
@@ -116,6 +109,12 @@ class HBTIPerfumeResultCell: UICollectionViewCell {
     
     
     //MARK: - SetUp
+    private func setUI() {
+        layer.borderWidth = 1
+        layer.cornerRadius = 5
+        layer.masksToBounds = true
+    }
+    
     private func setAddView() {
         
         addSubview(shadowView)
@@ -158,22 +157,23 @@ class HBTIPerfumeResultCell: UICollectionViewCell {
         perpumeImageView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(32)
             make.centerX.equalToSuperview()
-            make.height.width.equalTo(250)
+            make.height.width.equalTo(120)
         }
         
         nameStackView.snp.makeConstraints { make in
             make.trailing.leading.equalToSuperview().inset(24)
-            make.top.equalTo(perpumeImageView.snp.bottom).offset(8)
+            make.top.equalTo(perpumeImageView.snp.bottom).offset(46)
         }
         
         priceTextLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameStackView.snp.bottom).offset(36)
+            make.top.equalTo(nameStackView.snp.bottom).offset(28)
             make.leading.equalToSuperview().inset(24)
         }
         
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameStackView.snp.bottom).offset(36)
+            make.top.equalTo(nameStackView.snp.bottom).offset(28)
             make.trailing.equalToSuperview().inset(24)
+            make.bottom.equalToSuperview().inset(40)
         }
     }
     
@@ -182,8 +182,8 @@ class HBTIPerfumeResultCell: UICollectionViewCell {
         korNameLabel.text = perfume.nameKR
         engNameLabel.text = perfume.nameEN
         priceLabel.text = perfume.price.numberFormatterToWon()
-//        perpumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl))
+        //        perpumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl))
         perpumeImageView.backgroundColor = .random
     }
-
+    
 }
