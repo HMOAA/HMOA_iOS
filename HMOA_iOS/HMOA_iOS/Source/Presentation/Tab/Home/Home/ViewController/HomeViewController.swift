@@ -48,7 +48,8 @@ class HomeViewController: UIViewController, View {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        presentHBTIOrderSheetViewController()
+//        presentHBTIOrderSheetViewController()
+        presentHBTIAddAddressViewController()
         configureUI()
         setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
