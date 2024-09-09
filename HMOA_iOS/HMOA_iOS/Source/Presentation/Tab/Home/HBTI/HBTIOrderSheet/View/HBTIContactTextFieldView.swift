@@ -137,6 +137,12 @@ extension HBTIContactTextFieldView: UITextFieldDelegate {
             return true
         }
         
+        // 숫자만 입력 허용 (한글, 영문, 특수문자 차단)
+        let allowedCharacters = CharacterSet.decimalDigits
+        if string.rangeOfCharacter(from: allowedCharacters.inverted) != nil {
+            return false
+        }
+        
         guard let contactText = textField.text else { return true }
         
         switch textField {
@@ -149,6 +155,3 @@ extension HBTIContactTextFieldView: UITextFieldDelegate {
         }
     }
 }
-
-// TODO: -
-// 4. 전화번호 텍스트필드 한글, 영문, 특수문자 입력 안되도록
