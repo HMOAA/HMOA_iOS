@@ -20,30 +20,33 @@ final class HBTIContactTextFieldView: UIView {
         $0.setLabelUI(title, font: .pretendard_medium, size: 12, color: .black)
     }
     
-    private let contactTextFieldFirst = UITextField().then {
+    private lazy var contactTextFieldFirst = UITextField().then {
         $0.setTextFieldUI("000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.delegate = self
     }
     
     private let contactFirstLine = UIView().then {
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    private let contactTextFieldSecond = UITextField().then {
+    private lazy var contactTextFieldSecond = UITextField().then {
         $0.setTextFieldUI("0000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.delegate = self
     }
     
     private let contactSecondLine = UIView().then {
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    private let contactTextFieldThird = UITextField().then {
+    private lazy var contactTextFieldThird = UITextField().then {
         $0.setTextFieldUI("0000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.delegate = self
     }
     
     // MARK: - Initialization
@@ -125,3 +128,27 @@ final class HBTIContactTextFieldView: UIView {
         }
     }
 }
+
+extension HBTIContactTextFieldView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        // 백스페이스 입력 시, 문자 삭제
+        if string.isEmpty {
+            return true
+        }
+        
+        guard let contactText = textField.text else { return true }
+        
+        switch textField {
+        case contactTextFieldFirst:
+            return contactText.count < 3
+        case contactTextFieldSecond, contactTextFieldThird:
+            return contactText.count < 4
+        default:
+            return true
+        }
+    }
+}
+
+// TODO: -
+// 4. 전화번호 텍스트필드 한글, 영문, 특수문자 입력 안되도록

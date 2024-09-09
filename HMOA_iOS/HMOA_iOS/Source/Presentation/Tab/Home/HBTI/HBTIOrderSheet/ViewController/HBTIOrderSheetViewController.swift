@@ -277,10 +277,3 @@ final class HBTIOrderSheetViewController: UIViewController {
         return payload
     }
 }
-
-
-// TODO: -
-// 2. addAddressvc 스크롤뷰 추가
-// 3. 프로덕트인포뷰 테이블뷰 높이?
-// 4. 전화번호 텍스트필드 한글, 영문, 특수문자 입력 안되도록, 3글자 및 4글자 입력 제한
-// 5. addVC를 addFixVC로 이름 변경
