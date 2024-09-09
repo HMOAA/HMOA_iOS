@@ -38,6 +38,14 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
                     forCellWithReuseIdentifier: HBTIPerfumeResultCell.identifier)
     }
     
+    private let nextButton = UIButton().then {
+        $0.setTitle("다음", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 15)
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.cornerRadius = 5
+        $0.backgroundColor = .black
+    }
+    
     // MARK: - Properties
     
     var dataSource: UICollectionViewDiffableDataSource<HBTIPerfumeResultSection, HBTIPerfumeResultItem>?
@@ -78,7 +86,8 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
             titleLabel,
             priceButton,
             noteButton,
-            perfumeCollectionView
+            perfumeCollectionView,
+            nextButton
         ].forEach { view.addSubview($0) }
     }
     
@@ -104,6 +113,12 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         perfumeCollectionView.snp.makeConstraints { make in
             make.top.equalTo(priceButton.snp.bottom).offset(22)
             make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(40)
+            make.height.equalTo(52)
         }
     }
     
