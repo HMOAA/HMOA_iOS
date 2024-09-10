@@ -149,6 +149,26 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
                 
                 cell.configureCell(question: question, answers: question.answers)
                 
+                for (i, view) in cell.answerStackView.subviews.enumerated() {
+                    guard i < question.answers.count else { break }
+                    
+                    let button = view as! UIButton
+                    let priceInfo = question.answers[i].content
+                    
+                    button.rx.tap
+                        .map { Reactor.Action.didTapPriceButton(priceInfo) }
+                        .bind(to: self.reactor!.action)
+                        .disposed(by: self.disposeBag)
+                    
+                    self.reactor?.state
+                        .map {
+                            guard let selectedPrice = $0.selectedPrice else { return false }
+                            return selectedPrice == priceInfo
+                        }
+                        .bind(to: button.rx.isSelected)
+                        .disposed(by: cell.disposeBag)
+                }
+                
                 return cell
                 
             case .note(let question):
@@ -166,7 +186,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         initialSnapshot.appendSections([.price, .note])
         
         initialSnapshot.appendItems([
-            .price(HBTIQuestion(id: 1, content: "시험용", answers: [HBTIAnswer(id: 1, content: "시험")], isMultipleChoice: false)),
+            .price(HBTIQuestion(id: 1, content: "시험용", answers: [HBTIAnswer(id: 1, content: "가격1"), HBTIAnswer(id: 2, content: "가격2")], isMultipleChoice: false)),
             .note(HBTINoteQuestion(content: "시향 후 마음에 드는 향료를 골라주세요", isMultipleChoice: true, answer: []))
         ])
         
