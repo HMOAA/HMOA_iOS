@@ -10,15 +10,17 @@ import RxSwift
 final class HBTIPerfumeSurveyReactor: Reactor {
     
     enum Action {
-        case didTapAnswerButton(String)
+        case didTapPriceButton(String)
     }
     
     enum Mutation {
         case setSelectedPrice(String)
+        case setIsEnabledNextButton
     }
     
     struct State {
         var selectedPrice: String? = nil
+        var isEnabledNextButton: Bool = false
     }
     
     var initialState: State
@@ -29,8 +31,11 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .didTapAnswerButton(let price):
-            return .just(.setSelectedPrice(price))
+        case .didTapPriceButton(let price):
+            return .concat([
+                .just(.setSelectedPrice(price)),
+                .just(.setIsEnabledNextButton)
+            ])
         }
     }
     
@@ -40,6 +45,9 @@ final class HBTIPerfumeSurveyReactor: Reactor {
         switch mutation {
         case .setSelectedPrice(let price):
             state.selectedPrice = state.selectedPrice == price ? nil : price
+            
+        case .setIsEnabledNextButton:
+            state.isEnabledNextButton = state.selectedPrice != nil
         }
         
         return state
