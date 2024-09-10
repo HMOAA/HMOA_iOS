@@ -69,7 +69,7 @@ final class HBTIViewController: UIViewController, View {
             .filter { $0 }
             .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(onNext: presentHBTIPerfumeResultViewController)
+            .drive(onNext: presentHBTIPerfumeSurveyViewController)
             .disposed(by: disposeBag)
     }
     
