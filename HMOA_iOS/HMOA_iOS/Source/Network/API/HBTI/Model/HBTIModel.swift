@@ -73,3 +73,14 @@ struct HBTINoteAnswer: Hashable {
     let category: String
     let notes: [String]
 }
+
+struct HBTIPerfumeResultResponse: Hashable {
+    let perfumeList: [HBTIPerfume]
+}
+
+struct HBTIPerfume: Hashable {
+    let id: Int
+    let nameKR: String
+    let nameEN: String
+    let price: Int
+}
