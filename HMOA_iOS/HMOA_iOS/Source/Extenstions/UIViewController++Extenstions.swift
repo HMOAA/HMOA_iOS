@@ -305,6 +305,13 @@ extension UIViewController {
         hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
     }
+  
+    /// HBTIProcessGuideVC로 push
+    func presentHBTIProcessGuideViewController() {
+        let hbtiProcessGuideVC = HBTIProcessGuideViewController()
+        hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
+    }
     
     // MARK: Configure NavigationBar
     
