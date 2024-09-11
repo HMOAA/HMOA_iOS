@@ -299,6 +299,27 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiNoteVC, animated: true)
     }
     
+    /// HBTINotesResultVC로 push
+    func presentHBTINotesResultViewController() {
+        let hbtiNotesResultVC = HBTINotesResultViewController()
+        hbtiNotesResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNotesResultVC, animated: true)
+    }
+  
+    /// HBTINotesCatrgoryVC로 push
+    func presentHBTINotesCategoryViewController() {
+        let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
+        hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
+    }
+  
+    /// HBTIQuantitySelectVC로 push
+    func presentHBTIQuantitySelectViewController() {
+        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
+        hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
+    }
+  
     /// HBTIProcessGuideVC로 push
     func presentHBTIProcessGuideViewController() {
         let hbtiProcessGuideVC = HBTIProcessGuideViewController()
