@@ -147,25 +147,7 @@ class HBTINoteQuestionCell: UICollectionViewCell {
             
         })
         
-        var initialSnapshot = NSDiffableDataSourceSnapshot<HBTINoteQuestionSection, HBTINoteQuestionItem>()
-        
-        let sections = [
-            HBTINoteAnswer(category: "시험1", notes: ["노트1-1", "노트1-2"]),
-            HBTINoteAnswer(category: "시험2", notes: ["노트2-1", "노트2-2"]),
-            HBTINoteAnswer(category: "시험3", notes: ["노트3-1", "노트3-2"]),
-            HBTINoteAnswer(category: "시험4", notes: ["노트4-1", "노트4-2"]),
-            HBTINoteAnswer(category: "시험5", notes: ["노트5-1", "노트5-2"]),
-            HBTINoteAnswer(category: "시험6", notes: ["노트6-1", "노트6-2"]),
-            HBTINoteAnswer(category: "시험7", notes: ["노트7-1", "노트7-2"])
-        ]
-        
-        for data in sections {
-            let section = HBTINoteQuestionSection(category: data.category)
-            initialSnapshot.appendSections([section])
-            
-            let items = data.notes.map { HBTINoteQuestionItem(note: $0)}
-            initialSnapshot.appendItems(items, toSection: section)
-        }
+        let initialSnapshot = NSDiffableDataSourceSnapshot<HBTINoteQuestionSection, HBTINoteQuestionItem>()
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
         
@@ -189,6 +171,22 @@ class HBTINoteQuestionCell: UICollectionViewCell {
     
     func configureCell(question: HBTINoteQuestion) {
         selectLabel.text = question.content
+    }
+    
+    func updateSnapshot(withNoteAnswers notes: [HBTINoteAnswer]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        for data in notes {
+            let section = HBTINoteQuestionSection(category: data.category)
+            snapshot.appendSections([section])
+            
+            let items = data.notes.map { HBTINoteQuestionItem(note: $0)}
+            snapshot.appendItems(items, toSection: section)
+        }
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
 }

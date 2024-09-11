@@ -23,6 +23,15 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     }
     
     struct State {
+        var noteList: [HBTINoteAnswer] = [
+            HBTINoteAnswer(category: "시험1", notes: ["노트1-1", "노트1-2"]),
+            HBTINoteAnswer(category: "시험2", notes: ["노트2-1", "노트2-2"]),
+            HBTINoteAnswer(category: "시험3", notes: ["노트3-1", "노트3-2"]),
+            HBTINoteAnswer(category: "시험4", notes: ["노트4-1", "노트4-2"]),
+            HBTINoteAnswer(category: "시험5", notes: ["노트5-1", "노트5-2"]),
+            HBTINoteAnswer(category: "시험6", notes: ["노트6-1", "노트6-2"]),
+            HBTINoteAnswer(category: "시험7", notes: ["노트7-1", "노트7-2"])
+        ]
         var selectedPrice: String? = nil
         var isEnabledNextButton: Bool = false
         var currentPage: Int = 0

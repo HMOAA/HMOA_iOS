@@ -204,12 +204,21 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
                 
                 return cell
                 
-            case .note(let question):
+            case .note(let note):
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HBTINoteQuestionCell.identifier,
                     for: indexPath) as! HBTINoteQuestionCell
                 
-                cell.configureCell(question: question)
+                cell.configureCell(question: note)
+                
+                self.reactor?.state
+                    .map { $0.noteList }
+                    .distinctUntilChanged()
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, noteList in
+                        cell.updateSnapshot(withNoteAnswers: noteList)
+                    })
+                    .disposed(by: cell.disposeBag)
                 
                 return cell
             }
