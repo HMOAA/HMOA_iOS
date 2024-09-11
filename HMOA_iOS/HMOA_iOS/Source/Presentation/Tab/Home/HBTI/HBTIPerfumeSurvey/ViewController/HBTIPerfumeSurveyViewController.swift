@@ -216,7 +216,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         })
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIPerfumeSurveySection, HBTIPerfumeSurveyItem>()
-        initialSnapshot.appendSections([.price])
+        initialSnapshot.appendSections([.survey])
         
         initialSnapshot.appendItems([
             .price(HBTIQuestion(id: 1, content: "시험용", answers: [HBTIAnswer(id: 1, content: "가격1"), HBTIAnswer(id: 2, content: "가격2")], isMultipleChoice: false)),

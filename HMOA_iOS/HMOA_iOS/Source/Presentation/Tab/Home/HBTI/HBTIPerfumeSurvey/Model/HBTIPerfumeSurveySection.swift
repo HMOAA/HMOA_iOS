@@ -8,8 +8,7 @@
 import Foundation
 
 enum HBTIPerfumeSurveySection: Hashable {
-    case price
-    case note
+    case survey
 }
 
 enum HBTIPerfumeSurveyItem: Hashable {
