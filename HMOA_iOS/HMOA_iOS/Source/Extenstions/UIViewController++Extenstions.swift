@@ -299,6 +299,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiNoteVC, animated: true)
     }
     
+    /// HBTINotesCatrgoryVC로 push
+    func presentHBTINotesCategoryViewController() {
+        let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
+        hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
+    }
+  
     /// HBTIQuantitySelectVC로 push
     func presentHBTIQuantitySelectViewController() {
         let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()

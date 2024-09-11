@@ -112,6 +112,12 @@
 		2CD023632A092A5200459801 /* UserYearService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023622A092A5200459801 /* UserYearService.swift */; };
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
+		3F964D202C72C73100F97CB7 /* HBTINotesCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */; };
+		3F964D2A2C72D36000F97CB7 /* HBTINotesCategoryTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */; };
+		3F964D2C2C72D72F00F97CB7 /* HBTINotesCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */; };
+		3F964D2E2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */; };
+		3F964D302C7324E600F97CB7 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */; };
+		3F964D322C73254200F97CB7 /* HBTINotesCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */; };
 		3F2060A42C6F9CBA00926F14 /* HBTIQuantitySelectData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */; };
 		3F2060A62C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */; };
 		3F2060A82C6FB8A800926F14 /* HBTIQuantitySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */; };
@@ -431,6 +437,12 @@
 		2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageViewController.swift; sourceTree = "<group>"; };
 		2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageReactor.swift; sourceTree = "<group>"; };
 		3192AEB7DBBC796C18F3F3DA /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryViewController.swift; sourceTree = "<group>"; };
+		3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryTopView.swift; sourceTree = "<group>"; };
+		3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryData.swift; sourceTree = "<group>"; };
+		3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryButton.swift; sourceTree = "<group>"; };
+		3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
+		3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryCell.swift; sourceTree = "<group>"; };
 		3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectData.swift; sourceTree = "<group>"; };
 		3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectTopView.swift; sourceTree = "<group>"; };
 		3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectCell.swift; sourceTree = "<group>"; };
@@ -1462,6 +1474,25 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		3F964D1A2C72C6CB00F97CB7 /* HBTINotesCategory */ = {
+			isa = PBXGroup;
+			children = (
+				3F964D1E2C72C70900F97CB7 /* Model */,
+				3F964D1D2C72C6F400F97CB7 /* Reactor */,
+				3F964D1C2C72C6EF00F97CB7 /* View */,
+				3F964D1B2C72C6E700F97CB7 /* ViewController */,
+			);
+			path = HBTINotesCategory;
+			sourceTree = "<group>";
+		};
+		3F964D1B2C72C6E700F97CB7 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */,
+      );
+      path = ViewController;
+      sourceTree = "<group>";
+    );
 		3FE780282C6F97B3003D6FDB /* HBTIQuantitySelect */ = {
 			isa = PBXGroup;
 			children = (
@@ -1500,6 +1531,16 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		3F964D1C2C72C6EF00F97CB7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */,
+				3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */,
+				3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */,
+      );
+      path = View;
+      sourceTree = "<group>";
+    );
 		3FE7802A2C6F97D8003D6FDB /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1518,6 +1559,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		3F964D1D2C72C6F400F97CB7 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+      );
+      path = Reactor;
+      sourceTree = "<group>";
+    );
 		3FE7802B2C6F97E0003D6FDB /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1533,6 +1581,15 @@
 			path = Reactor;
 			sourceTree = "<group>";
 		};
+		3F964D1E2C72C70900F97CB7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */,
+				3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */,
+      );
+      path = Model;
+      sourceTree = "<group>";
+    };
 		3FE7802C2C6F97E7003D6FDB /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1867,6 +1924,7 @@
 		C96F76032C3FB34800D44773 /* HBTI */ = {
 			isa = PBXGroup;
 			children = (
+				3F964D1A2C72C6CB00F97CB7 /* HBTINotesCategory */,
 				3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */,
 				3FE780282C6F97B3003D6FDB /* HBTIQuantitySelect */,
 				C96F760D2C40065600D44773 /* HBTI */,
@@ -2989,10 +3047,12 @@
 				2CA155AE2A039A7E00D7B0C0 /* LoginAPI.swift in Sources */,
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
 				C96CD7392BA88010005C9856 /* MagazineReactor.swift in Sources */,
+				3F964D302C7324E600F97CB7 /* ReuseIdentifying.swift in Sources */,
 				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
 				CACE2C6A2B15991100D4116A /* UITextView++Extension.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
 				CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */,
+				3F964D322C73254200F97CB7 /* HBTINotesCategoryCell.swift in Sources */,
 				CA0160982AB2E15200D5839D /* EvaluationReactor.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
 				CA22389B2AAF492D00452A31 /* CommunityPostCell.swift in Sources */,
@@ -3053,6 +3113,7 @@
 				CA99A6CE2B1201B10030364F /* MyLogWritedPostReactor.swift in Sources */,
 				2C1BD6B3298FF14F0059A43D /* SimilarHeaderView.swift in Sources */,
 				CA6C48632B2C2FFF00F1BE7F /* TotalPerfumeAPI.swift in Sources */,
+				3F964D202C72C73100F97CB7 /* HBTINotesCategoryViewController.swift in Sources */,
 				2C4CDC4829C770D900676163 /* BrandSearchSection.swift in Sources */,
 				CA219C4A2AA1C635003FB215 /* LikeHeaderView.swift in Sources */,
 				CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */,
@@ -3104,6 +3165,7 @@
 				2C4CDC4C29C770D900676163 /* BrandSearchReactor.swift in Sources */,
 				2C39AA18296DB4DE000C6F71 /* SceneDelegate.swift in Sources */,
 				2C04246129A37F7B009CF0FE /* HomeViewReactor.swift in Sources */,
+				3F964D2E2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift in Sources */,
 				CA54DD9029C445EE00167F05 /* LikeReactor.swift in Sources */,
 				CACAD39529C9EA89001D28E1 /* NicknameViewController.swift in Sources */,
 				CA943AD92AEF971800A5B717 /* DetailCommentService.swift in Sources */,
@@ -3129,6 +3191,7 @@
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
 				3F964D142C72856500F97CB7 /* ReuseIdentifying.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
+				3F964D2A2C72D36000F97CB7 /* HBTINotesCategoryTopView.swift in Sources */,
 				CAE5F2A029F1109800BAF313 /* Response.swift in Sources */,
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
 				CA39D56C2B0B3A9C00694677 /* MyLogCommentSection.swift in Sources */,
@@ -3155,6 +3218,7 @@
 				2CA155B02A039AD100D7B0C0 /* MemberAddress.swift in Sources */,
 				2C710EFC297C15DF006BE23B /* MyPageCell.swift in Sources */,
 				2C39AA7B29705524000C6F71 /* UIColor++Extenstions.swift in Sources */,
+				3F964D2C2C72D72F00F97CB7 /* HBTINotesCategoryData.swift in Sources */,
 				CA0027C52B2C5E7D001DEAE3 /* TutorialViewController.swift in Sources */,
 				2C4041D429ACDC67009247E7 /* SearchResultViewController.swift in Sources */,
 				C9D2300D2C6AE106008ACB9B /* HBTISurveyResultCell.swift in Sources */,
