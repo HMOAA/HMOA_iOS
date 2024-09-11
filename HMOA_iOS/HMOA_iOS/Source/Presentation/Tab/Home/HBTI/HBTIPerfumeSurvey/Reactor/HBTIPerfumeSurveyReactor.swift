@@ -11,16 +11,21 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     
     enum Action {
         case didTapPriceButton(String)
+        case didTapNextButton
+        case didChangePage(Int)
     }
     
     enum Mutation {
         case setSelectedPrice(String)
         case setIsEnabledNextButton
+        case setNextPage(Int)
+        case setCurrentPage(Int)
     }
     
     struct State {
         var selectedPrice: String? = nil
         var isEnabledNextButton: Bool = false
+        var currentPage: Int = 0
     }
     
     var initialState: State
@@ -36,6 +41,15 @@ final class HBTIPerfumeSurveyReactor: Reactor {
                 .just(.setSelectedPrice(price)),
                 .just(.setIsEnabledNextButton)
             ])
+            
+        case .didChangePage(let page):
+            return .concat([
+                .just(.setCurrentPage(page)),
+                .just(.setIsEnabledNextButton)
+            ])
+            
+        case .didTapNextButton:
+            return .just(.setNextPage(currentState.currentPage + 1))
         }
     }
     
@@ -47,7 +61,19 @@ final class HBTIPerfumeSurveyReactor: Reactor {
             state.selectedPrice = state.selectedPrice == price ? nil : price
             
         case .setIsEnabledNextButton:
-            state.isEnabledNextButton = state.selectedPrice != nil
+            if state.currentPage == 0 {
+                state.isEnabledNextButton = state.selectedPrice != nil
+            } else {
+                // TODO: 향료 state에 따라 업데이트
+                state.isEnabledNextButton = false
+            }
+            
+        case .setNextPage(let page):
+            guard page < 2 else { break }
+            state.currentPage = page
+            
+        case .setCurrentPage(let row):
+            state.currentPage = row
         }
         
         return state
