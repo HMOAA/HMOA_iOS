@@ -67,6 +67,10 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         
         // MARK: Action
         
+        nextButton.rx.tap
+            .map { Reactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
         // MARK: State
         
@@ -76,6 +80,18 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, isEnabled in
                 owner.nextButton.isEnabled = isEnabled
                 owner.nextButton.backgroundColor = isEnabled ? .black : UIColor.customColor(.gray3)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.currentPage }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, row in
+                if owner.hbtiPerfumeSurveyCollectionView.numberOfItems(inSection: 0) > 0 {
+                    let indexPath = IndexPath(row: row, section: 0)
+                    owner.hbtiPerfumeSurveyCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -140,6 +156,15 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
             section.orthogonalScrollingBehavior = .groupPagingCentered
             section.interGroupSpacing = 16
             
+            var previousPage: Int = -1
+            section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
+                let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
+                if currentPage != previousPage {
+                    previousPage = currentPage
+                    self.reactor?.action.onNext(.didChangePage(currentPage))
+                }
+            }
+            
             return section
         }
         return layout
@@ -191,7 +216,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         })
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIPerfumeSurveySection, HBTIPerfumeSurveyItem>()
-        initialSnapshot.appendSections([.price, .note])
+        initialSnapshot.appendSections([.price])
         
         initialSnapshot.appendItems([
             .price(HBTIQuestion(id: 1, content: "시험용", answers: [HBTIAnswer(id: 1, content: "가격1"), HBTIAnswer(id: 2, content: "가격2")], isMultipleChoice: false)),
