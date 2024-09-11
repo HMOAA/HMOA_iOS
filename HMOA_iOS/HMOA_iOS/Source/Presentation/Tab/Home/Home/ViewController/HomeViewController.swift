@@ -48,7 +48,6 @@ class HomeViewController: UIViewController, View {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        presentHBTIProcessGuideViewController()
         configureUI()
         setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()

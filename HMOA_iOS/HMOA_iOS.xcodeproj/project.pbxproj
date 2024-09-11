@@ -112,6 +112,12 @@
 		2CD023632A092A5200459801 /* UserYearService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023622A092A5200459801 /* UserYearService.swift */; };
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
+		3F2060A42C6F9CBA00926F14 /* HBTIQuantitySelectData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */; };
+		3F2060A62C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */; };
+		3F2060A82C6FB8A800926F14 /* HBTIQuantitySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */; };
+		3F964D122C72746C00F97CB7 /* HBTIQuantitySelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */; };
+		3F964D142C72856500F97CB7 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D132C72856500F97CB7 /* ReuseIdentifying.swift */; };
+		3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */; };
 		3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */; };
 		3F5565FE2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */; };
 		3F5566002C6F5708005CCBCA /* HBTIProcessGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */; };
@@ -425,6 +431,12 @@
 		2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageViewController.swift; sourceTree = "<group>"; };
 		2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageReactor.swift; sourceTree = "<group>"; };
 		3192AEB7DBBC796C18F3F3DA /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectData.swift; sourceTree = "<group>"; };
+		3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectTopView.swift; sourceTree = "<group>"; };
+		3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectCell.swift; sourceTree = "<group>"; };
+		3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectButton.swift; sourceTree = "<group>"; };
+		3F964D132C72856500F97CB7 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
+		3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectViewController.swift; sourceTree = "<group>"; };
 		3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideViewController.swift; sourceTree = "<group>"; };
 		3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideMessage.swift; sourceTree = "<group>"; };
 		3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideReactor.swift; sourceTree = "<group>"; };
@@ -1450,6 +1462,25 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		3FE780282C6F97B3003D6FDB /* HBTIQuantitySelect */ = {
+			isa = PBXGroup;
+			children = (
+				3FE7802C2C6F97E7003D6FDB /* Model */,
+				3FE7802B2C6F97E0003D6FDB /* Reactor */,
+				3FE7802A2C6F97D8003D6FDB /* View */,
+				3FE780292C6F97CF003D6FDB /* ViewController */,
+			);
+			path = HBTIQuantitySelect;
+			sourceTree = "<group>";
+		};
+		3FE780292C6F97CF003D6FDB /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */,
+      );
+      path = ViewController;
+      sourceTree = "<group>";
+    );
 		3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */ = {
 			isa = PBXGroup;
 			children = (
@@ -1469,6 +1500,16 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		3FE7802A2C6F97D8003D6FDB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */,
+				3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */,
+				3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */,
+      );
+      path = View;
+      sourceTree = "<group>";
+    );
 		3F5565F82C6F32CA005CCBCA /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1477,6 +1518,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		3FE7802B2C6F97E0003D6FDB /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+      );
+      path = Reactor;
+      sourceTree = "<group>";
+    );
 		3F5565F92C6F32CF005CCBCA /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1485,6 +1533,15 @@
 			path = Reactor;
 			sourceTree = "<group>";
 		};
+		3FE7802C2C6F97E7003D6FDB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */,
+				3F964D132C72856500F97CB7 /* ReuseIdentifying.swift */,
+      );
+      path = Model;
+      sourceTree = "<group>";
+    };
 		3F5565FA2C6F32D4005CCBCA /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1799,10 +1856,19 @@
 			path = Magazine;
 			sourceTree = "<group>";
 		};
+		C96CD7522BA8805B005C9856 /* Key */ = {
+			isa = PBXGroup;
+			children = (
+				3FE780262C6F96D5003D6FDB /* IgnoerData.swift */,
+			);
+			path = Key;
+			sourceTree = "<group>";
+		};
 		C96F76032C3FB34800D44773 /* HBTI */ = {
 			isa = PBXGroup;
 			children = (
 				3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */,
+				3FE780282C6F97B3003D6FDB /* HBTIQuantitySelect */,
 				C96F760D2C40065600D44773 /* HBTI */,
 				C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */,
 				C93CA20D2C69E6A900AFD9E8 /* HBTISurveyResult */,
@@ -2896,6 +2962,7 @@
 				CAF19B9C2A625D1300374038 /* SearchAPI.swift in Sources */,
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */,
+				3F964D122C72746C00F97CB7 /* HBTIQuantitySelectButton.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
 				CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */,
 				2C8318CC2A0FC6FD004A3ACD /* HomeData.swift in Sources */,
@@ -2933,6 +3000,7 @@
 				C9D2300B2C69F601008ACB9B /* HBTILoadingView.swift in Sources */,
 				CA99A6D12B1216DE0030364F /* ReportAPI.swift in Sources */,
 				C96CD7402BA88010005C9856 /* MagazineViewController.swift in Sources */,
+				3F2060A62C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift in Sources */,
 				CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */,
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
 				CA39D5682B0B36C500694677 /* MyLogCommentHeaderView.swift in Sources */,
@@ -2995,6 +3063,7 @@
 				C91980E72C6D952600A7E91F /* HBTINoteReactor.swift in Sources */,
 				CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
+				3F2060A42C6F9CBA00926F14 /* HBTIQuantitySelectData.swift in Sources */,
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				CAD1EC132A812491003B21FD /* NoLoginView.swift in Sources */,
 				CA01609D2AB2E46000D5839D /* EvaluationAddress.swift in Sources */,
@@ -3053,10 +3122,12 @@
 				CA76401A2AA86C5E0053076B /* HpediaData.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
+				3F2060A82C6FB8A800926F14 /* HBTIQuantitySelectCell.swift in Sources */,
 				C98424592C4299E200530259 /* HBTISurveyQuestionCell.swift in Sources */,
 				CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
+				3F964D142C72856500F97CB7 /* ReuseIdentifying.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				CAE5F2A029F1109800BAF313 /* Response.swift in Sources */,
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
@@ -3073,6 +3144,7 @@
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
 				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
 				CA0DB39129DBD67B0091DCB2 /* HPediaDictionaryCell.swift in Sources */,
+				3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */,
 				C99E7B692BA96DE200F359BC /* MagazineDetailItem.swift in Sources */,
 				CA6CA1122AFF780300535B0D /* CommunityPostPhotoCell.swift in Sources */,
 				CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */,
