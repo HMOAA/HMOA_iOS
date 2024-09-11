@@ -112,14 +112,24 @@
 		2CD023632A092A5200459801 /* UserYearService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023622A092A5200459801 /* UserYearService.swift */; };
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
-		3F964D162C72C5ED00F97CB7 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3F964D152C72C5ED00F97CB7 /* loading.gif */; };
-		3F964D182C72C64800F97CB7 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D172C72C64800F97CB7 /* IgnoerData.swift */; };
 		3F964D202C72C73100F97CB7 /* HBTINotesCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */; };
 		3F964D2A2C72D36000F97CB7 /* HBTINotesCategoryTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */; };
 		3F964D2C2C72D72F00F97CB7 /* HBTINotesCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */; };
 		3F964D2E2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */; };
 		3F964D302C7324E600F97CB7 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */; };
 		3F964D322C73254200F97CB7 /* HBTINotesCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */; };
+		3F2060A42C6F9CBA00926F14 /* HBTIQuantitySelectData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */; };
+		3F2060A62C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */; };
+		3F2060A82C6FB8A800926F14 /* HBTIQuantitySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */; };
+		3F964D122C72746C00F97CB7 /* HBTIQuantitySelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */; };
+		3F964D142C72856500F97CB7 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D132C72856500F97CB7 /* ReuseIdentifying.swift */; };
+		3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */; };
+		3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */; };
+		3F5565FE2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */; };
+		3F5566002C6F5708005CCBCA /* HBTIProcessGuideReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */; };
+		3F5566022C6F57CE005CCBCA /* HBTIProcessGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5566012C6F57CE005CCBCA /* HBTIProcessGuideView.swift */; };
+		3FA07E492C6E337E00CE3CDA /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3FA07E482C6E337E00CE3CDA /* loading.gif */; };
+		3FCCFC472C6E1DE1009AE780 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */; };
 		45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
 		C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */; };
 		C904BFA22BA95CF000B28494 /* MagazineLikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */; };
@@ -427,14 +437,24 @@
 		2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageViewController.swift; sourceTree = "<group>"; };
 		2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageReactor.swift; sourceTree = "<group>"; };
 		3192AEB7DBBC796C18F3F3DA /* Pods-HMOA_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOSTests/Pods-HMOA_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		3F964D152C72C5ED00F97CB7 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
-		3F964D172C72C64800F97CB7 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryViewController.swift; sourceTree = "<group>"; };
 		3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryTopView.swift; sourceTree = "<group>"; };
 		3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryData.swift; sourceTree = "<group>"; };
 		3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryButton.swift; sourceTree = "<group>"; };
 		3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryCell.swift; sourceTree = "<group>"; };
+		3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectData.swift; sourceTree = "<group>"; };
+		3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectTopView.swift; sourceTree = "<group>"; };
+		3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectCell.swift; sourceTree = "<group>"; };
+		3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectButton.swift; sourceTree = "<group>"; };
+		3F964D132C72856500F97CB7 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
+		3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectViewController.swift; sourceTree = "<group>"; };
+		3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideViewController.swift; sourceTree = "<group>"; };
+		3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideMessage.swift; sourceTree = "<group>"; };
+		3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideReactor.swift; sourceTree = "<group>"; };
+		3F5566012C6F57CE005CCBCA /* HBTIProcessGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideView.swift; sourceTree = "<group>"; };
+		3FA07E482C6E337E00CE3CDA /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -882,8 +902,8 @@
 				CAF177082BB58BAF00A8F66E /* GoogleService-Info.plist */,
 				2C39AA7629704C2F000C6F71 /* Info.plist */,
 				2C39AA23296DB4E0000C6F71 /* LaunchScreen.storyboard */,
+				3FA07E482C6E337E00CE3CDA /* loading.gif */,
 				2C39AA21296DB4E0000C6F71 /* Assets.xcassets */,
-				3F964D152C72C5ED00F97CB7 /* loading.gif */,
 				2C39AA1E296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld */,
 			);
 			path = Resource;
@@ -1469,6 +1489,44 @@
 			isa = PBXGroup;
 			children = (
 				3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */,
+      );
+      path = ViewController;
+      sourceTree = "<group>";
+    );
+		3FE780282C6F97B3003D6FDB /* HBTIQuantitySelect */ = {
+			isa = PBXGroup;
+			children = (
+				3FE7802C2C6F97E7003D6FDB /* Model */,
+				3FE7802B2C6F97E0003D6FDB /* Reactor */,
+				3FE7802A2C6F97D8003D6FDB /* View */,
+				3FE780292C6F97CF003D6FDB /* ViewController */,
+			);
+			path = HBTIQuantitySelect;
+			sourceTree = "<group>";
+		};
+		3FE780292C6F97CF003D6FDB /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */,
+      );
+      path = ViewController;
+      sourceTree = "<group>";
+    );
+		3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */ = {
+			isa = PBXGroup;
+			children = (
+				3F5565FA2C6F32D4005CCBCA /* Model */,
+				3F5565F92C6F32CF005CCBCA /* Reactor */,
+				3F5565F82C6F32CA005CCBCA /* View */,
+				3F5565F72C6F32BE005CCBCA /* ViewController */,
+			);
+			path = HBTIProcessGuide;
+			sourceTree = "<group>";
+		};
+		3F5565F72C6F32BE005CCBCA /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F5565FB2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1479,6 +1537,24 @@
 				3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */,
 				3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */,
 				3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */,
+      );
+      path = View;
+      sourceTree = "<group>";
+    );
+		3FE7802A2C6F97D8003D6FDB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */,
+				3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */,
+				3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */,
+      );
+      path = View;
+      sourceTree = "<group>";
+    );
+		3F5565F82C6F32CA005CCBCA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F5566012C6F57CE005CCBCA /* HBTIProcessGuideView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1486,6 +1562,21 @@
 		3F964D1D2C72C6F400F97CB7 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+      );
+      path = Reactor;
+      sourceTree = "<group>";
+    );
+		3FE7802B2C6F97E0003D6FDB /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+      );
+      path = Reactor;
+      sourceTree = "<group>";
+    );
+		3F5565F92C6F32CF005CCBCA /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3F5565FF2C6F5708005CCBCA /* HBTIProcessGuideReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1495,8 +1586,33 @@
 			children = (
 				3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */,
 				3F964D2F2C7324E600F97CB7 /* ReuseIdentifying.swift */,
+      );
+      path = Model;
+      sourceTree = "<group>";
+    };
+		3FE7802C2C6F97E7003D6FDB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */,
+				3F964D132C72856500F97CB7 /* ReuseIdentifying.swift */,
+      );
+      path = Model;
+      sourceTree = "<group>";
+    };
+		3F5565FA2C6F32D4005CCBCA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F5565FD2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3FCCFC452C6E1D28009AE780 /* Key */ = {
+			isa = PBXGroup;
+			children = (
+				3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */,
+			);
+			path = Key;
 			sourceTree = "<group>";
 		};
 		C904BFA72BA9646F00B28494 /* ContentsCell */ = {
@@ -1800,7 +1916,7 @@
 		C96CD7522BA8805B005C9856 /* Key */ = {
 			isa = PBXGroup;
 			children = (
-				3F964D172C72C64800F97CB7 /* IgnoerData.swift */,
+				3FE780262C6F96D5003D6FDB /* IgnoerData.swift */,
 			);
 			path = Key;
 			sourceTree = "<group>";
@@ -1809,9 +1925,11 @@
 			isa = PBXGroup;
 			children = (
 				3F964D1A2C72C6CB00F97CB7 /* HBTINotesCategory */,
-				C93CA20D2C69E6A900AFD9E8 /* HBTISurveyResult */,
+				3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */,
+				3FE780282C6F97B3003D6FDB /* HBTIQuantitySelect */,
 				C96F760D2C40065600D44773 /* HBTI */,
 				C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */,
+				C93CA20D2C69E6A900AFD9E8 /* HBTISurveyResult */,
 				C91980DF2C6D93EF00A7E91F /* HBTINote */,
 			);
 			path = HBTI;
@@ -2414,7 +2532,7 @@
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				C96CD7522BA8805B005C9856 /* Key */,
+				3FCCFC452C6E1D28009AE780 /* Key */,
 				CADEAE182B43F9E100BC8964 /* Login */,
 				CA051CAC297FD9BD001865F5 /* Start */,
 			);
@@ -2696,8 +2814,8 @@
 			files = (
 				CAA4245C2B6BF24D0005975D /* Settings.bundle in Resources */,
 				CAF177092BB58BAF00A8F66E /* GoogleService-Info.plist in Resources */,
+				3FA07E492C6E337E00CE3CDA /* loading.gif in Resources */,
 				2C39AA25296DB4E0000C6F71 /* LaunchScreen.storyboard in Resources */,
-				3F964D162C72C5ED00F97CB7 /* loading.gif in Resources */,
 				2C39AA22296DB4E0000C6F71 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2886,7 +3004,7 @@
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
-				3F964D182C72C64800F97CB7 /* IgnoerData.swift in Sources */,
+				3FCCFC472C6E1DE1009AE780 /* IgnoerData.swift in Sources */,
 				C96CD74F2BA8803D005C9856 /* MagazineAPI.swift in Sources */,
 				2CA155B22A039B1B00D7B0C0 /* LoginAddress.swift in Sources */,
 				CAD18E1D29C2FFF6005BC997 /* LikeListCell.swift in Sources */,
@@ -2894,6 +3012,7 @@
 				CA914498297E873300762BC0 /* UIFont++Extenstions.swift in Sources */,
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				2C4CDC4329C770D900676163 /* BrandDetailViewController.swift in Sources */,
+				3F5566002C6F5708005CCBCA /* HBTIProcessGuideReactor.swift in Sources */,
 				C96CD7432BA88010005C9856 /* MagazineContentCell.swift in Sources */,
 				CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */,
 				2CA155A42A03921000D7B0C0 /* MemberAPI.swift in Sources */,
@@ -2901,6 +3020,7 @@
 				CAF19B9C2A625D1300374038 /* SearchAPI.swift in Sources */,
 				2C1BD6C42997A6F80059A43D /* CommentFooterView.swift in Sources */,
 				CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */,
+				3F964D122C72746C00F97CB7 /* HBTIQuantitySelectButton.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
 				CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */,
 				2C8318CC2A0FC6FD004A3ACD /* HomeData.swift in Sources */,
@@ -2940,6 +3060,7 @@
 				C9D2300B2C69F601008ACB9B /* HBTILoadingView.swift in Sources */,
 				CA99A6D12B1216DE0030364F /* ReportAPI.swift in Sources */,
 				C96CD7402BA88010005C9856 /* MagazineViewController.swift in Sources */,
+				3F2060A62C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift in Sources */,
 				CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */,
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
 				CA39D5682B0B36C500694677 /* MyLogCommentHeaderView.swift in Sources */,
@@ -2972,6 +3093,7 @@
 				C93CA2112C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift in Sources */,
 				2C15DF912A57DFE000EAB112 /* CoreGraphicManager.swift in Sources */,
 				2C464E4929CDB16A00A07658 /* MyPageReactor.swift in Sources */,
+				3F5565FE2C6F3C2F005CCBCA /* HBTIProcessGuideMessage.swift in Sources */,
 				CA2238902AAEFCC000452A31 /* CommunityWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				C9819D772C3302270046FE55 /* NoItemView.swift in Sources */,
@@ -3002,6 +3124,7 @@
 				C91980E72C6D952600A7E91F /* HBTINoteReactor.swift in Sources */,
 				CA7640122AA864630053076B /* DictionaryViewController.swift in Sources */,
 				2C710EED29798172006BE23B /* HomeFirstCell.swift in Sources */,
+				3F2060A42C6F9CBA00926F14 /* HBTIQuantitySelectData.swift in Sources */,
 				2C4A265D29C2F6F3009F288F /* ServiceAPI.swift in Sources */,
 				CAD1EC132A812491003B21FD /* NoLoginView.swift in Sources */,
 				CA01609D2AB2E46000D5839D /* EvaluationAddress.swift in Sources */,
@@ -3017,6 +3140,7 @@
 				C96F760F2C4006F200D44773 /* HBTIHomeTopView.swift in Sources */,
 				CA39D5652B0B35F900694677 /* MyLogCommentViewController.swift in Sources */,
 				CA7C9C112AAAFB9300072AB9 /* CommunityListHeaderView.swift in Sources */,
+				3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */,
 				CA7C9C0B2AAADF8500072AB9 /* CommunityListViewController.swift in Sources */,
 				CA9B9D812B1B29F9006BBA10 /* MyPageSwitchCell.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
@@ -3060,10 +3184,12 @@
 				CA76401A2AA86C5E0053076B /* HpediaData.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
+				3F2060A82C6FB8A800926F14 /* HBTIQuantitySelectCell.swift in Sources */,
 				C98424592C4299E200530259 /* HBTISurveyQuestionCell.swift in Sources */,
 				CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
+				3F964D142C72856500F97CB7 /* ReuseIdentifying.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				3F964D2A2C72D36000F97CB7 /* HBTINotesCategoryTopView.swift in Sources */,
 				CAE5F2A029F1109800BAF313 /* Response.swift in Sources */,
@@ -3081,6 +3207,7 @@
 				2C60F22C29BA130300595EF4 /* HPediaViewController.swift in Sources */,
 				2C4CDC4A29C770D900676163 /* BrandListCollectionViewCell.swift in Sources */,
 				CA0DB39129DBD67B0091DCB2 /* HPediaDictionaryCell.swift in Sources */,
+				3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */,
 				C99E7B692BA96DE200F359BC /* MagazineDetailItem.swift in Sources */,
 				CA6CA1122AFF780300535B0D /* CommunityPostPhotoCell.swift in Sources */,
 				CA1067DB29D6CFC2009A7245 /* ChangeSexViewController.swift in Sources */,
@@ -3097,6 +3224,7 @@
 				C9D2300D2C6AE106008ACB9B /* HBTISurveyResultCell.swift in Sources */,
 				2CD023512A07AEBC00459801 /* NicknameView.swift in Sources */,
 				2C4CDC4929C770D900676163 /* BrandListHeaderView.swift in Sources */,
+				3F5566022C6F57CE005CCBCA /* HBTIProcessGuideView.swift in Sources */,
 				2C8318C72A0FC6D0004A3ACD /* HomeAPI.swift in Sources */,
 				C96CD73B2BA88010005C9856 /* MagazineHeaderView.swift in Sources */,
 				CA943AE12AF29C6400A5B717 /* PhotoSection.swift in Sources */,
