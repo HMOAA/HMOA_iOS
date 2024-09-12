@@ -220,6 +220,16 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
                     })
                     .disposed(by: cell.disposeBag)
                 
+                cell.noteCategoryCollectionView.rx.itemSelected
+                    .map { Reactor.Action.isSelectedNoteItem($0) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
+                cell.noteCategoryCollectionView.rx.itemDeselected
+                    .map { Reactor.Action.isDeselectedNoteItem($0) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
                 return cell
             }
         })
