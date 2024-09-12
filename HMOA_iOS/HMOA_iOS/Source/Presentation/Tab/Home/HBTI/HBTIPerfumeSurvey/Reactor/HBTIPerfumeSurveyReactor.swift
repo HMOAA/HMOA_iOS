@@ -57,11 +57,17 @@ final class HBTIPerfumeSurveyReactor: Reactor {
             
         case .isSelectedNoteItem(let indexPath):
             let note = findNote(of: currentState.noteList, from: indexPath)
-            return .just(.setSelectedNoteList(note, selcted: true))
+            return .concat([
+                .just(.setSelectedNoteList(note, selcted: true)),
+                .just(.setIsEnabledNextButton)
+            ])
             
         case .isDeselectedNoteItem(let indexPath):
             let note = findNote(of: currentState.noteList, from: indexPath)
-            return .just(.setSelectedNoteList(note, selcted: false))
+            return .concat([
+                .just(.setSelectedNoteList(note, selcted: false)),
+                .just(.setIsEnabledNextButton)
+            ])
             
         case .didChangePage(let page):
             return .concat([
@@ -92,8 +98,9 @@ final class HBTIPerfumeSurveyReactor: Reactor {
         case .setIsEnabledNextButton:
             if state.currentPage == 0 {
                 state.isEnabledNextButton = state.selectedPrice != nil
+            } else if state.currentPage == 1 {
+                state.isEnabledNextButton = state.selectedPrice != nil && state.selectedNoteList.count > 0
             } else {
-                // TODO: 향료 state에 따라 업데이트
                 state.isEnabledNextButton = false
             }
             
