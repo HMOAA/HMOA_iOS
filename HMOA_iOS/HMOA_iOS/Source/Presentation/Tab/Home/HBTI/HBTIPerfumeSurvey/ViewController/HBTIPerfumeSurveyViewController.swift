@@ -230,6 +230,14 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
                     .bind(to: self.reactor!.action)
                     .disposed(by: self.disposeBag)
                 
+                self.reactor?.state
+                    .map { $0.selectedNoteList }
+                    .asDriver(onErrorRecover: { _ in .empty()})
+                    .drive(with: self, onNext: { owenr, noteList in
+                        cell.selectedNoteView.updateSnapshot(with: noteList.map { $0.0 })
+                    })
+                    .disposed(by: cell.disposeBag)
+                
                 return cell
             }
         })
