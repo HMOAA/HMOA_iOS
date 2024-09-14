@@ -19,7 +19,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     
     enum Mutation {
         case setSelectedPrice(String)
-        case setSelectedNoteList(String, selcted: Bool)
+        case setSelectedNoteList((String, IndexPath), selcted: Bool)
         case setIsEnabledNextButton
         case setNextPage(Int)
         case setCurrentPage(Int)
@@ -36,7 +36,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
             HBTINoteAnswer(category: "시험7", notes: ["노트7-1", "노트7-2"])
         ]
         var selectedPrice: String? = nil
-        var selectedNoteList: [String] = []
+        var selectedNoteList: [(String, IndexPath)] = []
         var isEnabledNextButton: Bool = false
         var currentPage: Int = 0
     }
@@ -56,16 +56,16 @@ final class HBTIPerfumeSurveyReactor: Reactor {
             ])
             
         case .isSelectedNoteItem(let indexPath):
-            let note = findNote(of: currentState.noteList, from: indexPath)
+            let note = findNoteName(from: currentState.noteList, by: indexPath)
             return .concat([
-                .just(.setSelectedNoteList(note, selcted: true)),
+                .just(.setSelectedNoteList((note, indexPath), selcted: true)),
                 .just(.setIsEnabledNextButton)
             ])
             
         case .isDeselectedNoteItem(let indexPath):
-            let note = findNote(of: currentState.noteList, from: indexPath)
+            let note = findNoteName(from: currentState.noteList, by: indexPath)
             return .concat([
-                .just(.setSelectedNoteList(note, selcted: false)),
+                .just(.setSelectedNoteList((note, indexPath), selcted: false)),
                 .just(.setIsEnabledNextButton)
             ])
             
@@ -91,9 +91,10 @@ final class HBTIPerfumeSurveyReactor: Reactor {
             if selected {
                 state.selectedNoteList.append(note)
             } else {
-                let noteIndex = state.selectedNoteList.firstIndex(of: note)!
+                let noteIndex = state.selectedNoteList.map { $0.0 }.firstIndex(of: note.0)!
                 state.selectedNoteList.remove(at: noteIndex)
             }
+            print(state.selectedNoteList)
             
         case .setIsEnabledNextButton:
             if state.currentPage == 0 {
@@ -117,7 +118,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
 }
 
 extension HBTIPerfumeSurveyReactor {
-    func findNote(of noteList: [HBTINoteAnswer], from indexPath: IndexPath) -> String {
+    func findNoteName(from noteList: [HBTINoteAnswer], by indexPath: IndexPath) -> String {
         return noteList[indexPath.section].notes[indexPath.row]
     }
 }

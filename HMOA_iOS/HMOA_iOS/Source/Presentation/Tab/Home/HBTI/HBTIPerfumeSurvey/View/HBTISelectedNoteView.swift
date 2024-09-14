@@ -117,13 +117,22 @@ final class HBTISelectedNoteView: UIView {
                 
                 return cell
             }
-            
         })
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTISelectedNoteSection, HBTISelectedNoteItem>()
         initialSnapshot.appendSections([.selected])
-        initialSnapshot.appendItems([.note("선택된 향료1"), .note("선택된 향료2"), .note("선택된 향료3"), .note("선택된 향료4")])
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    func updateSnapshot(with notes: [String]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .selected))
+        snapshot.appendItems(notes.map { .note($0) }, toSection: .selected)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
