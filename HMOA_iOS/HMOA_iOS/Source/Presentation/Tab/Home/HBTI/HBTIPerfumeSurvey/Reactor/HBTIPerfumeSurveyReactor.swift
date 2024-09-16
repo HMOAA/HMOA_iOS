@@ -14,6 +14,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
         case isSelectedNoteItem(IndexPath)
         case isDeselectedNoteItem(IndexPath)
         case didTapCancelButton(String)
+        case didTapClearButton
         case didTapNextButton
         case didChangePage(Int)
     }
@@ -21,6 +22,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     enum Mutation {
         case setSelectedPrice(String)
         case setSelectedNoteList((String, IndexPath), selcted: Bool)
+        case clearSelectedNotes
         case setIsEnabledNextButton
         case setNextPage(Int)
         case setCurrentPage(Int)
@@ -82,6 +84,9 @@ final class HBTIPerfumeSurveyReactor: Reactor {
             
             return .just(.setSelectedNoteList(noteList[index], selcted: false))
             
+        case .didTapClearButton:
+            return .just(.clearSelectedNotes)
+            
         case .didTapNextButton:
             return .just(.setNextPage(currentState.currentPage + 1))
         }
@@ -101,7 +106,9 @@ final class HBTIPerfumeSurveyReactor: Reactor {
                 let noteIndex = state.selectedNoteList.map { $0.0 }.firstIndex(of: note.0)!
                 state.selectedNoteList.remove(at: noteIndex)
             }
-            print(state.selectedNoteList)
+            
+        case .clearSelectedNotes:
+            state.selectedNoteList = []
             
         case .setIsEnabledNextButton:
             if state.currentPage == 0 {
