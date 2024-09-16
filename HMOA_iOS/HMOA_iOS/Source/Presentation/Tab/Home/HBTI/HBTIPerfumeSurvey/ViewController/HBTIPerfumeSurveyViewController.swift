@@ -254,6 +254,11 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
                     })
                     .disposed(by: cell.disposeBag)
                 
+                cell.selectedNoteView.clearButton.rx.tap
+                    .map { Reactor.Action.didTapClearButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
                 return cell
             }
         })
