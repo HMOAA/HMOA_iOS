@@ -80,7 +80,7 @@ class HBTINoteQuestionCell: UICollectionViewCell {
     private func setConstraints() {
         selectedNoteView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(78)
+            make.height.equalTo(0)
         }
         
         selectLabel.snp.makeConstraints { make in
@@ -168,7 +168,9 @@ class HBTINoteQuestionCell: UICollectionViewCell {
             }
         }
     }
-    
+}
+
+extension HBTINoteQuestionCell {
     func configureCell(question: HBTINoteQuestion) {
         selectLabel.text = question.content
     }
@@ -189,4 +191,9 @@ class HBTINoteQuestionCell: UICollectionViewCell {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
+    func updateHeight(condition: Bool) {
+        selectedNoteView.snp.updateConstraints { make in
+            make.height.equalTo(condition ? 0 : 78)
+        }
+    }
 }

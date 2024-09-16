@@ -235,6 +235,7 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
                     .asDriver(onErrorRecover: { _ in .empty()})
                     .drive(with: self, onNext: { owner, selectedNoteList in
                         cell.selectedNoteView.updateSnapshot(with: selectedNoteList.map { $0.0 })
+                        cell.updateHeight(condition: selectedNoteList.isEmpty)
                         owner.deselectRemovedItems(from: selectedNoteList,
                                                    in: cell.noteCategoryCollectionView)
                     })
