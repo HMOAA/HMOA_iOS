@@ -75,6 +75,14 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         // MARK: State
         
         reactor.state
+            .map { ($0.selectedPrice, $0.selectedNoteList) }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { (owner, option) in
+                owner.updateProgressbar(option, owner)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
             .map { $0.isEnabledNextButton }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, isEnabled in
@@ -296,5 +304,19 @@ extension HBTIPerfumeSurveyViewController {
                 collectionView.deselectItem(at: indexPath, animated: false)
             }
         }
+    }
+    
+    func updateProgressbar(_ option: (String?, [(String, IndexPath)]), _ owner: HBTIPerfumeSurveyViewController) {
+        let (price, noteList) = option
+        var progress: Float = 0
+        
+        if price != nil && !noteList.isEmpty {
+            progress = 1
+        } else if price != nil || !noteList.isEmpty {
+            progress = 0.5
+        } else {
+            progress = 0
+        }
+        owner.progressBar.setProgress(progress, animated: true)
     }
 }
