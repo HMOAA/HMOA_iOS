@@ -135,4 +135,9 @@ final class HBTISelectedNoteView: UIView {
         
         dataSource.apply(snapshot, animatingDifferences: false)
     }
+    
+    func hideSelectedNoteCollectionView(isEmptySelectedNoteList: Bool) {
+        self.selectedNoteCollectionView.isHidden = isEmptySelectedNoteList
+        self.clearButton.isHidden = isEmptySelectedNoteList
+    }
 }
