@@ -233,8 +233,23 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
                 self.reactor?.state
                     .map { $0.selectedNoteList }
                     .asDriver(onErrorRecover: { _ in .empty()})
-                    .drive(with: self, onNext: { owenr, noteList in
-                        cell.selectedNoteView.updateSnapshot(with: noteList.map { $0.0 })
+                    .drive(with: self, onNext: { owner, selectedNoteList in
+                        cell.selectedNoteView.updateSnapshot(with: selectedNoteList.map { $0.0 })
+                        owner.deselectRemovedItems(from: selectedNoteList,
+                                                   in: cell.noteCategoryCollectionView)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                cell.selectedNoteView.selectedNoteCollectionView.rx.willDisplayCell
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(onNext: { cell, _ in
+                        guard let subCell = cell as? HBTISelectedNoteCell else { return }
+                        guard let note = subCell.tagLabel.text else { return }
+                        
+                        subCell.bindButtonAction()
+                            .map { Reactor.Action.didTapCancelButton(note) }
+                            .bind(to: self.reactor!.action)
+                            .disposed(by: subCell.disposeBag)
                     })
                     .disposed(by: cell.disposeBag)
                 
@@ -253,4 +268,19 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
 
+}
+
+extension HBTIPerfumeSurveyViewController {
+    func deselectRemovedItems(from noteList: [(String, IndexPath)], in collectionView: UICollectionView) {
+        let canceledNoteCellIndexPathList = collectionView.indexPathsForSelectedItems?.filter {
+            let indexPathList = noteList.map { $0.1 }
+            return !indexPathList.contains($0)
+        }
+        
+        if let indexPathList = canceledNoteCellIndexPathList {
+            for indexPath in indexPathList {
+                collectionView.deselectItem(at: indexPath, animated: false)
+            }
+        }
+    }
 }

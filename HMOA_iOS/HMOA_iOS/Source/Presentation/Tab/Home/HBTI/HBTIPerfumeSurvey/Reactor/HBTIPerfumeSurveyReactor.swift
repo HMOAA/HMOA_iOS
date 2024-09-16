@@ -13,6 +13,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
         case didTapPriceButton(String)
         case isSelectedNoteItem(IndexPath)
         case isDeselectedNoteItem(IndexPath)
+        case didTapCancelButton(String)
         case didTapNextButton
         case didChangePage(Int)
     }
@@ -74,6 +75,12 @@ final class HBTIPerfumeSurveyReactor: Reactor {
                 .just(.setCurrentPage(page)),
                 .just(.setIsEnabledNextButton)
             ])
+            
+        case .didTapCancelButton(let noteName):
+            let noteList = currentState.selectedNoteList
+            guard let index = noteList.firstIndex(where: { $0.0 == noteName }) else { return .empty() }
+            
+            return .just(.setSelectedNoteList(noteList[index], selcted: false))
             
         case .didTapNextButton:
             return .just(.setNextPage(currentState.currentPage + 1))
