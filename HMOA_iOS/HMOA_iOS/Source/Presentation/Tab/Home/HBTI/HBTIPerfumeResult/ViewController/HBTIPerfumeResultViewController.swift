@@ -77,7 +77,7 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
     // MARK: Set UI
     private func setUI() {
         view.backgroundColor = .white
-        setBackItemNaviBar("향수 추천")
+        setBackToHBTIVCNaviBar("향수 추천")
     }
     
     // MARK: Add Views

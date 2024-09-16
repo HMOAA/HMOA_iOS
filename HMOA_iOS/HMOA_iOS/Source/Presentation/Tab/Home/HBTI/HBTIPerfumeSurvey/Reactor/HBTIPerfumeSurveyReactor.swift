@@ -26,6 +26,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
         case setIsEnabledNextButton
         case setNextPage(Int)
         case setCurrentPage(Int)
+        case setIsPushNextVC(Bool)
     }
     
     struct State {
@@ -42,6 +43,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
         var selectedNoteList: [(String, IndexPath)] = []
         var isEnabledNextButton: Bool = false
         var currentPage: Int = 0
+        var isPushNextVC = false
     }
     
     var initialState: State
@@ -88,6 +90,9 @@ final class HBTIPerfumeSurveyReactor: Reactor {
             return .just(.clearSelectedNotes)
             
         case .didTapNextButton:
+            if currentState.currentPage == 1 {
+                return .just(.setIsPushNextVC(true))
+            }
             return .just(.setNextPage(currentState.currentPage + 1))
         }
     }
@@ -125,6 +130,9 @@ final class HBTIPerfumeSurveyReactor: Reactor {
             
         case .setCurrentPage(let row):
             state.currentPage = row
+            
+        case .setIsPushNextVC(let isPush):
+            state.isPushNextVC = isPush
         }
         
         return state

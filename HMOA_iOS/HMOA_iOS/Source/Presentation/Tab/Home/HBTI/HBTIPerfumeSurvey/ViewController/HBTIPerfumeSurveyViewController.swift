@@ -94,6 +94,14 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
                 }
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: presentHBTIPerfumeResultViewController)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
