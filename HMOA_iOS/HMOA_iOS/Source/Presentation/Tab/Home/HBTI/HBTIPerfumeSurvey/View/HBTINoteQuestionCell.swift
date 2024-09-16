@@ -186,6 +186,7 @@ extension HBTINoteQuestionCell {
         
         for data in notes {
             let section = HBTINoteQuestionSection(category: data.category)
+            guard !snapshot.sectionIdentifiers.contains(section) else { return }
             snapshot.appendSections([section])
             
             let items = data.notes.map { HBTINoteQuestionItem(note: $0)}
