@@ -159,7 +159,11 @@ class HBTINoteQuestionCell: UICollectionViewCell {
                     ofKind: SupplementaryViewKind.header,
                     withReuseIdentifier: HBTINoteCategoryHeaderView.identifier,
                     for: indexPath) as! HBTINoteCategoryHeaderView
-                headerView.configureHeader("헤더")
+                
+                if let currentSnapshot = self.dataSource?.snapshot() {
+                    let sectionTitle = currentSnapshot.sectionIdentifiers[indexPath.section].category
+                    headerView.configureHeader(sectionTitle)
+                }
                 
                 return headerView
                 
