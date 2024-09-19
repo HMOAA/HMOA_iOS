@@ -78,6 +78,11 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        perfumeCollectionView.rx.itemSelected
+            .map { Reactor.Action.didTapPerfumeCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         nextButton.rx.tap
             .map { Reactor.Action.didTapNextButton }
             .bind(to: reactor.action)
@@ -89,6 +94,14 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
             .map { $0.resultPriority }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(onNext: togglePriority(_:))
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.selectedPerfumeID }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, id in
+                owner.presentDetailViewController(id)
+            })
             .disposed(by: disposeBag)
         
         reactor.state

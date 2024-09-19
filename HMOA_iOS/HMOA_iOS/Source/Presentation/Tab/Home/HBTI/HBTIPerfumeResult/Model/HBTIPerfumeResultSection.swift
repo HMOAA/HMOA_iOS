@@ -14,3 +14,13 @@ enum HBTIPerfumeResultSection: Hashable {
 enum HBTIPerfumeResultItem: Hashable {
     case perfume(HBTIPerfume)
 }
+
+extension HBTIPerfumeResultItem {
+    var perfume: HBTIPerfume? {
+        if case .perfume(let perfume) = self {
+            return perfume
+        } else {
+            return nil
+        }
+    }
+}
