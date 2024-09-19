@@ -44,6 +44,7 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 5
         $0.backgroundColor = .black
+        $0.isEnabled = true
     }
     
     // MARK: - Properties
@@ -67,8 +68,20 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         
         // MARK: Action
         
+        nextButton.rx.tap
+            .map { Reactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: popToHBTIViewController)
+            .disposed(by: disposeBag)
         
     }
     
