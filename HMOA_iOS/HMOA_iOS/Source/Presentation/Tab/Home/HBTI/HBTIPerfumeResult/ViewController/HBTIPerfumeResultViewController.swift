@@ -64,6 +64,12 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         configureDataSource()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setNavigationBar()
+    }
+    
     func bind(reactor: HBTIPerfumeResultReactor) {
         
         // MARK: Action
@@ -119,6 +125,11 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
     // MARK: Set UI
     private func setUI() {
         view.backgroundColor = .white
+        setNavigationBar()
+    }
+    
+    private func setNavigationBar() {
+        navigationController?.navigationBar.scrollEdgeAppearance?.shadowColor = .clear
         setBackToHBTIVCNaviBar("향수 추천")
     }
     
