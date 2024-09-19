@@ -121,6 +121,7 @@
 		C91980E72C6D952600A7E91F /* HBTIPerfumeSurveyReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91980E62C6D952500A7E91F /* HBTIPerfumeSurveyReactor.swift */; };
 		C923018F2C7483E0002A95BE /* HBTIAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923018E2C7483E0002A95BE /* HBTIAddress.swift */; };
 		C92301912C7483EA002A95BE /* HBTIAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92301902C7483EA002A95BE /* HBTIAPI.swift */; };
+		C92D5C892C9C1A5D007A1CA2 /* ResultPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */; };
 		C93BFA6D2C428E9300A5D9D2 /* IntroViewHBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */; };
 		C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */; };
 		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
@@ -445,6 +446,7 @@
 		C91980E62C6D952500A7E91F /* HBTIPerfumeSurveyReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeSurveyReactor.swift; sourceTree = "<group>"; };
 		C923018E2C7483E0002A95BE /* HBTIAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddress.swift; sourceTree = "<group>"; };
 		C92301902C7483EA002A95BE /* HBTIAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAPI.swift; sourceTree = "<group>"; };
+		C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPriority.swift; sourceTree = "<group>"; };
 		C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewHBTI.swift; sourceTree = "<group>"; };
 		C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyReactor.swift; sourceTree = "<group>"; };
 		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
@@ -1907,6 +1909,7 @@
 			isa = PBXGroup;
 			children = (
 				C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */,
+				C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3002,6 +3005,7 @@
 				CA2238902AAEFCC000452A31 /* CommunityWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				C9819D772C3302270046FE55 /* NoItemView.swift in Sources */,
+				C92D5C892C9C1A5D007A1CA2 /* ResultPriority.swift in Sources */,
 				C984245D2C429C1300530259 /* HBTISurveyAnswerButton.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,

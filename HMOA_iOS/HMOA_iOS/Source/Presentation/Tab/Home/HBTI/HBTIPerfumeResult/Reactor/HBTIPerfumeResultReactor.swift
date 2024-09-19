@@ -12,14 +12,17 @@ final class HBTIPerfumeResultReactor: Reactor {
     
     enum Action {
         case didTapNextButton
+        case didTapPriorityButton(ResultPriority)
     }
     
     enum Mutation {
         case setIsPushNextVC
+        case setResultPriority(ResultPriority)
     }
     
     struct State {
         var isPushNextVC: Bool = false
+        var resultPriority: ResultPriority = .price
     }
     
     var initialState: State
@@ -32,6 +35,9 @@ final class HBTIPerfumeResultReactor: Reactor {
         switch action {
         case .didTapNextButton:
             return .just(.setIsPushNextVC)
+            
+        case .didTapPriorityButton(let priority):
+            return .just(.setResultPriority(priority))
         }
     }
     
@@ -41,6 +47,9 @@ final class HBTIPerfumeResultReactor: Reactor {
         switch mutation {
         case .setIsPushNextVC:
             state.isPushNextVC = true
+            
+        case .setResultPriority(let priority):
+            state.resultPriority = priority
         }
         
         return state

@@ -68,12 +68,28 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         
         // MARK: Action
         
+        priceButton.rx.tap
+            .map { Reactor.Action.didTapPriorityButton(.price) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        noteButton.rx.tap
+            .map { Reactor.Action.didTapPriorityButton(.note) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         nextButton.rx.tap
             .map { Reactor.Action.didTapNextButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         // MARK: State
+        
+        reactor.state
+            .map { $0.resultPriority }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: togglePriority(_:))
+            .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.isPushNextVC }
@@ -180,4 +196,8 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
 
+    private func togglePriority(_ priority: ResultPriority) {
+        priceButton.isSelected = priority == .price
+        noteButton.isSelected = priority == .note
+    }
 }
