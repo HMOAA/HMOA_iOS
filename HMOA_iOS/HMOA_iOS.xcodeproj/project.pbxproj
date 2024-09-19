@@ -112,6 +112,8 @@
 		2CD023632A092A5200459801 /* UserYearService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD023622A092A5200459801 /* UserYearService.swift */; };
 		2CF5C1A62A51A9D200C2FA32 /* ChangeProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */; };
 		2CF5C1A82A51AF1900C2FA32 /* ChangeProfileImageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */; };
+		3F01E75A2C79C1A300BC598E /* HBTINotesResultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F01E7592C79C1A300BC598E /* HBTINotesResultHeaderView.swift */; };
+		3F01E75E2C79C37600BC598E /* HBTINotesResultFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F01E75D2C79C37600BC598E /* HBTINotesResultFooterView.swift */; };
 		3F03E0902C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */; };
 		3F1EAC7B2C8593EB000B657C /* HBTIAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7A2C8593EB000B657C /* HBTIAgreementView.swift */; };
 		3F1EAC7D2C85A045000B657C /* HBTIAddFixAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7C2C85A045000B657C /* HBTIAddFixAddressViewController.swift */; };
@@ -153,9 +155,9 @@
 		3F2060A82C6FB8A800926F14 /* HBTIQuantitySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */; };
 		3F964D122C72746C00F97CB7 /* HBTIQuantitySelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */; };
 		3F964D142C72856500F97CB7 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D132C72856500F97CB7 /* ReuseIdentifying.swift */; };
-		3FE780272C6F96D5003D6FDB /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE780262C6F96D5003D6FDB /* IgnoerData.swift */; };
 		3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */; };
 		45192AFEE6891A5BFAD91B8E /* Pods_HMOA_iOS_HMOA_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025EE7E53A1217EDF560D96F /* Pods_HMOA_iOS_HMOA_iOSUITests.framework */; };
+		3F9897262C9C19A700DE93D9 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9897252C9C19A700DE93D9 /* IgnoerData.swift */; };
 		C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */; };
 		C904BFA22BA95CF000B28494 /* MagazineLikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */; };
 		C904BFA42BA9616200B28494 /* MagazineContentsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */; };
@@ -474,6 +476,8 @@
 		2CF5C1A52A51A9D200C2FA32 /* ChangeProfileImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageViewController.swift; sourceTree = "<group>"; };
 		2CF5C1A72A51AF1900C2FA32 /* ChangeProfileImageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileImageReactor.swift; sourceTree = "<group>"; };
 		3897B273F6FFDAEDA62C377C /* Pods-HMOA_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.release.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		3F01E7592C79C1A300BC598E /* HBTINotesResultHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultHeaderView.swift; sourceTree = "<group>"; };
+		3F01E75D2C79C37600BC598E /* HBTINotesResultFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultFooterView.swift; sourceTree = "<group>"; };
 		3F03E08F2C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetViewController.swift; sourceTree = "<group>"; };
 		3F1EAC7A2C8593EB000B657C /* HBTIAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementView.swift; sourceTree = "<group>"; };
 		3F1EAC7C2C85A045000B657C /* HBTIAddFixAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddFixAddressViewController.swift; sourceTree = "<group>"; };
@@ -522,12 +526,12 @@
 		3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectCell.swift; sourceTree = "<group>"; };
 		3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectButton.swift; sourceTree = "<group>"; };
 		3F964D132C72856500F97CB7 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
-		3FE780262C6F96D5003D6FDB /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectViewController.swift; sourceTree = "<group>"; };
 		4C907E7F1B686DDAE6338075 /* Pods-HMOA_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS/Pods-HMOA_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		59DEBEFFD285D4866DDA54BF /* Pods_HMOA_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C05BD61383BBB383EFC03A3 /* Pods_HMOA_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HMOA_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3242DF2267B938558E6D105 /* Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-HMOA_iOS-HMOA_iOSUITests/Pods-HMOA_iOS-HMOA_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3F9897252C9C19A700DE93D9 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		C904BF9F2BA94B2E00B28494 /* MagazineInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineInfoCell.swift; sourceTree = "<group>"; };
 		C904BFA12BA95CF000B28494 /* MagazineLikeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineLikeCell.swift; sourceTree = "<group>"; };
 		C904BFA32BA9616100B28494 /* MagazineContentsHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineContentsHeaderCell.swift; sourceTree = "<group>"; };
@@ -1703,7 +1707,6 @@
 		3F03E08E2C7B1F9400A31ACC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */,
 				3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */,
 				3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */,
 				3F397AA02C840E3E00D09282 /* HBTIAgreementModel.swift */,
@@ -1781,6 +1784,94 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3F964D1A2C72C6CB00F97CB7 /* HBTINotesCategory */ = {
+			isa = PBXGroup;
+			children = (
+				3F964D1E2C72C70900F97CB7 /* Model */,
+				3F964D1D2C72C6F400F97CB7 /* Reactor */,
+				3F964D1C2C72C6EF00F97CB7 /* View */,
+				3F964D1B2C72C6E700F97CB7 /* ViewController */,
+			);
+			path = HBTINotesCategory;
+			sourceTree = "<group>";
+		};
+		3F964D1B2C72C6E700F97CB7 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F964D1F2C72C73100F97CB7 /* HBTINotesCategoryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F964D1C2C72C6EF00F97CB7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F964D292C72D36000F97CB7 /* HBTINotesCategoryTopView.swift */,
+				3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */,
+				3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F964D1D2C72C6F400F97CB7 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3F964D1E2C72C70900F97CB7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F964D2B2C72D72F00F97CB7 /* HBTINotesCategoryData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3FA0D8A12C739D030085BBE5 /* HBTINotesResult */ = {
+			isa = PBXGroup;
+			children = (
+				3FA0D8A52C739D220085BBE5 /* Model */,
+				3FA0D8A42C739D1C0085BBE5 /* Reactor */,
+				3FA0D8A32C739D170085BBE5 /* View */,
+				3FA0D8A22C739D100085BBE5 /* ViewController */,
+			);
+			path = HBTINotesResult;
+			sourceTree = "<group>";
+		};
+		3FA0D8A22C739D100085BBE5 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3FA0D8A32C739D170085BBE5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */,
+				3F01E7592C79C1A300BC598E /* HBTINotesResultHeaderView.swift */,
+				3F01E75D2C79C37600BC598E /* HBTINotesResultFooterView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3FA0D8A42C739D1C0085BBE5 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3FA0D8A52C739D220085BBE5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F49FB4D2C78431D00EDB0AC /* HBTINotesResultModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3FBF351C2C8E791A00FD0079 /* HBTIAddFixAdress */ = {
 			isa = PBXGroup;
 			children = (
@@ -1809,9 +1900,53 @@
 		3FCCFC452C6E1D28009AE780 /* Key */ = {
 			isa = PBXGroup;
 			children = (
-				3FCCFC462C6E1DE1009AE780 /* IgnoerData.swift */,
+				3F9897252C9C19A700DE93D9 /* IgnoerData.swift */,
 			);
 			path = Key;
+			sourceTree = "<group>";
+		};
+		3FE780282C6F97B3003D6FDB /* HBTIQuantitySelect */ = {
+			isa = PBXGroup;
+			children = (
+				3FE7802C2C6F97E7003D6FDB /* Model */,
+				3FE7802B2C6F97E0003D6FDB /* Reactor */,
+				3FE7802A2C6F97D8003D6FDB /* View */,
+				3FE780292C6F97CF003D6FDB /* ViewController */,
+			);
+			path = HBTIQuantitySelect;
+			sourceTree = "<group>";
+		};
+		3FE780292C6F97CF003D6FDB /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3FE7802A2C6F97D8003D6FDB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */,
+				3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */,
+				3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3FE7802B2C6F97E0003D6FDB /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3FE7802C2C6F97E7003D6FDB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		9C8D9844171A0988EB13A2D4 /* Frameworks */ = {
@@ -2539,6 +2674,7 @@
 		CA30BC6D2B80F7000049A463 /* Comon */ = {
 			isa = PBXGroup;
 			children = (
+				3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */,
 				2CAD963C298E693D00974500 /* View */,
 			);
 			path = Comon;
@@ -3279,7 +3415,6 @@
 				CAFE2F232B0F431000054E22 /* HPediaAddress.swift in Sources */,
 				2C464E5C29CDDCB600A07658 /* MyProfileViewController.swift in Sources */,
 				3F397AA12C840E3E00D09282 /* HBTIAgreementModel.swift in Sources */,
-				3F49FB502C7844D600EDB0AC /* ReuseIdentifying.swift in Sources */,
 				2C1BD6C62998D34F0059A43D /* DetailBottomView.swift in Sources */,
 				2CAB7A9A29B08BBA00E74809 /* SearchResultCollectionViewCell.swift in Sources */,
 				3FE780272C6F96D5003D6FDB /* IgnoerData.swift in Sources */,
@@ -3331,7 +3466,6 @@
 				2CA155AE2A039A7E00D7B0C0 /* LoginAPI.swift in Sources */,
 				2C1BD6C22997A35C0059A43D /* CommentHeaderView.swift in Sources */,
 				C96CD7392BA88010005C9856 /* MagazineReactor.swift in Sources */,
-				3F964D302C7324E600F97CB7 /* ReuseIdentifying.swift in Sources */,
 				2C4DEECD299BBF7500DE9778 /* UINavigationItem++Extenstions.swift in Sources */,
 				CACE2C6A2B15991100D4116A /* UITextView++Extension.swift in Sources */,
 				2C4DD37029756D3A0027CE40 /* HomeCellHeaderView.swift in Sources */,
@@ -3448,6 +3582,7 @@
 				CA219C502AA2FF16003FB215 /* CommentAPI.swift in Sources */,
 				C961ED382C8C66EB00BC9FFE /* HBTISelectedNoteCell.swift in Sources */,
 				C96F76072C3FB37600D44773 /* HBTIViewController.swift in Sources */,
+				3F9897262C9C19A700DE93D9 /* IgnoerData.swift in Sources */,
 				CA91448D297E75C700762BC0 /* LoginViewController.swift in Sources */,
 				CA76400B2AA84F620053076B /* HPediaQnAHeaderView.swift in Sources */,
 				CA0CBBB22A205B1900CBA58F /* KeychainManager.swift in Sources */,
@@ -3492,7 +3627,6 @@
 				CA7640142AA864750053076B /* DictionaryReactor.swift in Sources */,
 				2C6DAD0B29A76F0D003F0E98 /* SearchReactor.swift in Sources */,
 				2C4CDC4229C770D900676163 /* BrandDetailHeaderView.swift in Sources */,
-				3F964D142C72856500F97CB7 /* ReuseIdentifying.swift in Sources */,
 				2C1BD6B1298FE5A40059A43D /* SimilarCell.swift in Sources */,
 				3F03E0902C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift in Sources */,
 				3F964D2A2C72D36000F97CB7 /* HBTINotesCategoryTopView.swift in Sources */,
