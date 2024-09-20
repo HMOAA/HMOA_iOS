@@ -14,13 +14,10 @@ import RxSwift
 class HBTIPerfumeResultCell: UICollectionViewCell {
     
     // MARK: - UIComponents
-    static let identifier = "LikeCardCell"
+    static let identifier = "HBTIPerfumeResultCell"
     
     private let topView = UIView().then {
         $0.backgroundColor = .black
-    }
-    let xButton = UIButton().then {
-        $0.setImage(UIImage(named: "x"), for: .normal)
     }
     
     private let brandNameLabel = UILabel().then {
@@ -119,8 +116,7 @@ class HBTIPerfumeResultCell: UICollectionViewCell {
         
         addSubview(shadowView)
         
-        [xButton,
-         brandNameLabel].forEach { topView.addSubview($0) }
+        [brandNameLabel].forEach { topView.addSubview($0) }
         
         [
          korNameLabel,
@@ -142,12 +138,6 @@ class HBTIPerfumeResultCell: UICollectionViewCell {
         topView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(40)
-        }
-        
-        xButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(10)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(30)
         }
         
         brandNameLabel.snp.makeConstraints { make in

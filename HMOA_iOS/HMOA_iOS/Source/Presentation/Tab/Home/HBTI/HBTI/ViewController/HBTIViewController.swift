@@ -35,9 +35,14 @@ final class HBTIViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUI()
         setAddView()
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setClearWhiteBackNaviBar("향BTI", .white)
     }
     
     // MARK: - Bind
@@ -74,10 +79,6 @@ final class HBTIViewController: UIViewController, View {
     }
     
     // MARK: - Functions
-    
-    private func setUI() {
-        setClearWhiteBackNaviBar("향BTI", .white)
-    }
     
     // MARK: Add Views
     private func setAddView() {
