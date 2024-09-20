@@ -44,6 +44,7 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 5
         $0.backgroundColor = .black
+        $0.isEnabled = true
     }
     
     // MARK: - Properties
@@ -63,12 +64,59 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         configureDataSource()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setNavigationBar()
+    }
+    
     func bind(reactor: HBTIPerfumeResultReactor) {
         
         // MARK: Action
         
+        priceButton.rx.tap
+            .map { Reactor.Action.didTapPriorityButton(.price) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        noteButton.rx.tap
+            .map { Reactor.Action.didTapPriorityButton(.note) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        perfumeCollectionView.rx.itemSelected
+            .map { Reactor.Action.didTapPerfumeCell($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .map { Reactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
+        
+        reactor.state
+            .map { $0.resultPriority }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: togglePriority(_:))
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.selectedPerfumeID }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, id in
+                owner.presentDetailViewController(id)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: popToHBTIViewController)
+            .disposed(by: disposeBag)
         
     }
     
@@ -77,6 +125,11 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
     // MARK: Set UI
     private func setUI() {
         view.backgroundColor = .white
+        setNavigationBar()
+    }
+    
+    private func setNavigationBar() {
+        navigationController?.navigationBar.scrollEdgeAppearance?.shadowColor = .clear
         setBackToHBTIVCNaviBar("향수 추천")
     }
     
@@ -167,4 +220,8 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
 
+    private func togglePriority(_ priority: ResultPriority) {
+        priceButton.isSelected = priority == .price
+        noteButton.isSelected = priority == .note
+    }
 }
