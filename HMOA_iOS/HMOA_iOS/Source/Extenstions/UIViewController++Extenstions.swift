@@ -321,10 +321,10 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
     }
     
-    func presentHBTIAddAddressViewController() {
-        let hbtiAddAddressVC = HBTIAddFixAddressViewController()
-        hbtiAddAddressVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(hbtiAddAddressVC, animated: true)
+    func presentHBTIAddFixAddressViewController() {
+        let hbtiAddFixAddressVC = HBTIAddFixAddressViewController()
+        hbtiAddFixAddressVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiAddFixAddressVC, animated: true)
     }
     
     /// HBTINotesResultVC로 push
