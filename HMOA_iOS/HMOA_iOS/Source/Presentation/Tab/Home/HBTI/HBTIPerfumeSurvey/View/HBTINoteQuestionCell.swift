@@ -80,7 +80,7 @@ class HBTINoteQuestionCell: UICollectionViewCell {
     private func setConstraints() {
         selectedNoteView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(78)
+            make.height.equalTo(0)
         }
         
         selectLabel.snp.makeConstraints { make in
@@ -147,25 +147,7 @@ class HBTINoteQuestionCell: UICollectionViewCell {
             
         })
         
-        var initialSnapshot = NSDiffableDataSourceSnapshot<HBTINoteQuestionSection, HBTINoteQuestionItem>()
-        
-        let sections = [
-            HBTINoteAnswer(category: "시험1", notes: ["노트1-1", "노트1-2"]),
-            HBTINoteAnswer(category: "시험2", notes: ["노트2-1", "노트2-2"]),
-            HBTINoteAnswer(category: "시험3", notes: ["노트3-1", "노트3-2"]),
-            HBTINoteAnswer(category: "시험4", notes: ["노트4-1", "노트4-2"]),
-            HBTINoteAnswer(category: "시험5", notes: ["노트5-1", "노트5-2"]),
-            HBTINoteAnswer(category: "시험6", notes: ["노트6-1", "노트6-2"]),
-            HBTINoteAnswer(category: "시험7", notes: ["노트7-1", "노트7-2"])
-        ]
-        
-        for data in sections {
-            let section = HBTINoteQuestionSection(category: data.category)
-            initialSnapshot.appendSections([section])
-            
-            let items = data.notes.map { HBTINoteQuestionItem(note: $0)}
-            initialSnapshot.appendItems(items, toSection: section)
-        }
+        let initialSnapshot = NSDiffableDataSourceSnapshot<HBTINoteQuestionSection, HBTINoteQuestionItem>()
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
         
@@ -177,7 +159,11 @@ class HBTINoteQuestionCell: UICollectionViewCell {
                     ofKind: SupplementaryViewKind.header,
                     withReuseIdentifier: HBTINoteCategoryHeaderView.identifier,
                     for: indexPath) as! HBTINoteCategoryHeaderView
-                headerView.configureHeader("헤더")
+                
+                if let currentSnapshot = self.dataSource?.snapshot() {
+                    let sectionTitle = currentSnapshot.sectionIdentifiers[indexPath.section].category
+                    headerView.configureHeader(sectionTitle)
+                }
                 
                 return headerView
                 
@@ -186,9 +172,33 @@ class HBTINoteQuestionCell: UICollectionViewCell {
             }
         }
     }
-    
+}
+
+extension HBTINoteQuestionCell {
     func configureCell(question: HBTINoteQuestion) {
         selectLabel.text = question.content
     }
     
+    func updateSnapshot(withNoteAnswers notes: [HBTINoteAnswer]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        for data in notes {
+            let section = HBTINoteQuestionSection(category: data.category)
+            guard !snapshot.sectionIdentifiers.contains(section) else { return }
+            snapshot.appendSections([section])
+            
+            let items = data.notes.map { HBTINoteQuestionItem(note: $0)}
+            snapshot.appendItems(items, toSection: section)
+        }
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    func updateHeight(condition: Bool) {
+        selectedNoteView.snp.updateConstraints { make in
+            make.height.equalTo(condition ? 0 : 78)
+        }
+    }
 }
