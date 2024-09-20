@@ -16,7 +16,7 @@ class HBTINotesResultHeaderView: UIView {
     private let titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_bold, 20)
         $0.textColor = .black
-        $0.text = "선택한 향료 시향카드"
+        $0.text = "선택한 향료 시향 카드"
     }
     
     // MARK: - LifeCycle
