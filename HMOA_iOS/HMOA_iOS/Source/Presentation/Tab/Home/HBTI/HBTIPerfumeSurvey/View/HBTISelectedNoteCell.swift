@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 final class HBTISelectedNoteCell: UICollectionViewCell {
     static let identifier = "HBTIselectedNoteCell"
@@ -21,6 +22,10 @@ final class HBTISelectedNoteCell: UICollectionViewCell {
     let xButton = UIButton().then {
         $0.setImage(UIImage(named: "noteXButton"), for: .normal)
     }
+    
+    // MARK: - Properties
+    
+    var disposeBag = DisposeBag()
     
     // MARK: - Initialization
     override init(frame: CGRect) {
@@ -65,5 +70,9 @@ final class HBTISelectedNoteCell: UICollectionViewCell {
     
     func configureCell(_ noteName: String) {
         tagLabel.text = noteName
+    }
+    
+    func bindButtonAction() -> Observable<Void> {
+        return xButton.rx.tap.asObservable()
     }
 }

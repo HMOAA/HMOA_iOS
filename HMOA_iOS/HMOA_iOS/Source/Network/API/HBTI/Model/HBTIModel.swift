@@ -66,7 +66,7 @@ struct HBTIPerfumeServeyResponse: Hashable {
 struct HBTINoteQuestion: Hashable {
     let content: String
     let isMultipleChoice: Bool
-    let answer: [HBTIAnswer]
+    let answer: [HBTINoteAnswer]
 }
 
 struct HBTINoteAnswer: Hashable {
