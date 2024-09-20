@@ -25,4 +25,12 @@ final class HBTIAPI {
             data: data,
             model: HBTISurveyResultResponse.self)
     }
+    
+    static func fetchPerfumeSurvey() -> Observable<HBTIPerfumeServeyResponse> {
+        return networking(
+            urlStr: HBTIAddress.fetchPerfumeSurvey.url,
+            method: .get,
+            data: nil,
+            model: HBTIPerfumeServeyResponse.self)
+    }
 }

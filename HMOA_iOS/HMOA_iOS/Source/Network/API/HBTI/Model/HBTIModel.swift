@@ -58,18 +58,18 @@ struct HBTISurveyResultNote: Hashable, Codable {
 }
 
 // 2차 (배송 후 향수 추천)
-struct HBTIPerfumeServeyResponse: Hashable {
+struct HBTIPerfumeServeyResponse: Hashable, Codable {
     let priceQuestion: HBTIQuestion
     let noteQuestion: HBTINoteQuestion
 }
 
-struct HBTINoteQuestion: Hashable {
+struct HBTINoteQuestion: Hashable, Codable {
     let content: String
     let isMultipleChoice: Bool
     let answer: [HBTINoteAnswer]
 }
 
-struct HBTINoteAnswer: Hashable {
+struct HBTINoteAnswer: Hashable, Codable {
     let category: String
     let notes: [String]
 }

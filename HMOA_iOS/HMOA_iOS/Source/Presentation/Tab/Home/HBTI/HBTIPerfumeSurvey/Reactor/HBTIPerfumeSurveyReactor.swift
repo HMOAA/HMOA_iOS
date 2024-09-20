@@ -10,6 +10,7 @@ import RxSwift
 final class HBTIPerfumeSurveyReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
         case didTapPriceButton(String)
         case isSelectedNoteItem(IndexPath)
         case isDeselectedNoteItem(IndexPath)
@@ -20,6 +21,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     }
     
     enum Mutation {
+        case setQuestionList([HBTIPerfumeSurveyItem])
         case setSelectedPrice(String)
         case setSelectedNoteList((String, IndexPath), selcted: Bool)
         case clearSelectedNotes
@@ -30,6 +32,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     }
     
     struct State {
+        var questionList: [HBTIPerfumeSurveyItem] = []
         var noteList: [HBTINoteAnswer] = [
             HBTINoteAnswer(category: "시험1", notes: ["노트1-1", "노트1-2"]),
             HBTINoteAnswer(category: "시험2", notes: ["노트2-1", "노트2-2"]),
@@ -54,6 +57,9 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return setSurvey()
+            
         case .didTapPriceButton(let price):
             return .concat([
                 .just(.setSelectedPrice(price)),
@@ -101,6 +107,9 @@ final class HBTIPerfumeSurveyReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setQuestionList(let item):
+            state.questionList = item
+            
         case .setSelectedPrice(let price):
             state.selectedPrice = state.selectedPrice == price ? nil : price
             
@@ -142,5 +151,18 @@ final class HBTIPerfumeSurveyReactor: Reactor {
 extension HBTIPerfumeSurveyReactor {
     func findNoteName(from noteList: [HBTINoteAnswer], by indexPath: IndexPath) -> String {
         return noteList[indexPath.section].notes[indexPath.row]
+    }
+    
+    func setSurvey() -> Observable<Mutation> {
+        return HBTIAPI.fetchPerfumeSurvey()
+            .catch { _ in .empty() }
+            .flatMap { surveyData -> Observable<Mutation> in
+                let priceQuestion = HBTIPerfumeSurveyItem.price(surveyData.priceQuestion)
+                let noteQuestion = HBTIPerfumeSurveyItem.note(surveyData.noteQuestion)
+                
+                return .concat([
+                    .just(.setQuestionList([priceQuestion, noteQuestion]))
+                ])
+            }
     }
 }
