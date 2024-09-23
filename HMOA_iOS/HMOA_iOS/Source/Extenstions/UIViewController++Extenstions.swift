@@ -300,9 +300,9 @@ extension UIViewController {
     }
     
     /// HBTIPerfumeResultVC로 push
-    func presentHBTIPerfumeResultViewController() {
+    func presentHBTIPerfumeResultViewController(_ minPrice: Int, _ maxPrice: Int, _ notes: [String]) {
         let hbtiPerfumeResultVC = HBTIPerfumeResultViewController()
-        hbtiPerfumeResultVC.reactor = HBTIPerfumeResultReactor()
+        hbtiPerfumeResultVC.reactor = HBTIPerfumeResultReactor(minPrice, maxPrice, notes)
         hbtiPerfumeResultVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiPerfumeResultVC, animated: true)
     }
