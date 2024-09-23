@@ -74,13 +74,28 @@ struct HBTINoteAnswer: Hashable, Codable {
     let notes: [String]
 }
 
-struct HBTIPerfumeResultResponse: Hashable {
+struct HBTIPerfumeResultResponse: Hashable, Codable {
     let perfumeList: [HBTIPerfume]
+    
+    enum CodingKeys: String, CodingKey {
+        case perfumeList = "recommendPerfumes"
+    }
 }
 
-struct HBTIPerfume: Hashable {
+struct HBTIPerfume: Hashable, Codable {
     let id: Int
     let nameKR: String
     let nameEN: String
+    let brand: String
     let price: Int
+    let imageURL: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "perfumeId"
+        case nameKR = "perfumeName"
+        case nameEN = "perfumeEnglishName"
+        case brand = "brandName"
+        case price
+        case imageURL = "perfumeImageUrl"
+    }
 }
