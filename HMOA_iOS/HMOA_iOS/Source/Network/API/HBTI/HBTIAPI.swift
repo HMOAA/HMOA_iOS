@@ -33,4 +33,15 @@ final class HBTIAPI {
             data: nil,
             model: HBTIPerfumeServeyResponse.self)
     }
+    
+    static func postPerfumeAnswer(params: [String: Any], isContainAll: Bool) -> Observable<HBTIPerfumeResultResponse> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        
+        return networking(
+            urlStr: HBTIAddress.postPerfumeAnswer.url,
+            method: .post,
+            data: data,
+            model: HBTIPerfumeResultResponse.self,
+            query: ["isContainAll": isContainAll])
+    }
 }

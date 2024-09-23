@@ -74,6 +74,11 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         
         // MARK: Action
         
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         priceButton.rx.tap
             .map { Reactor.Action.didTapPriorityButton(.price) }
             .bind(to: reactor.action)
@@ -99,7 +104,12 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         reactor.state
             .map { $0.resultPriority }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: togglePriority(_:))
+            .drive(with: self, onNext: { owner, priority in
+                owner.togglePriority(priority)
+                
+                let items = reactor.currentState.perfumeList
+                owner.updateSnapshot(forSection: .perfume, withItems: items)
+            })
             .disposed(by: disposeBag)
         
         reactor.state
@@ -213,11 +223,19 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIPerfumeResultSection, HBTIPerfumeResultItem>()
         initialSnapshot.appendSections([.perfume])
-        initialSnapshot.appendItems([.perfume(HBTIPerfume(id: 1, nameKR: "이름1", nameEN: "name1", price: 128000))])
-        initialSnapshot.appendItems([.perfume(HBTIPerfume(id: 2, nameKR: "이름2", nameEN: "name2", price: 34000))])
-        initialSnapshot.appendItems([.perfume(HBTIPerfume(id: 3, nameKR: "이름3", nameEN: "name3", price: 60000))])
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: HBTIPerfumeResultSection, withItems items: [HBTIPerfumeResultItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .perfume))
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 
     private func togglePriority(_ priority: ResultPriority) {
