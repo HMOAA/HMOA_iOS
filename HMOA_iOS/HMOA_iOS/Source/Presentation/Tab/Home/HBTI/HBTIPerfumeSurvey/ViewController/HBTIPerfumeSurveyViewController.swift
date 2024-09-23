@@ -120,9 +120,14 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         reactor.state
             .map { $0.isPushNextVC }
             .filter { $0 }
-            .map { _ in }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: presentHBTIPerfumeResultViewController)
+            .drive(with: self, onNext: { owner, isPush in
+                let selectedPrice = reactor.currentState.selectedPrice!
+                let (min, max) = owner.parsePriceRange(priceInfo: selectedPrice)
+                let notes = reactor.currentState.selectedNoteList.map { $0.0 }
+                
+                owner.presentHBTIPerfumeResultViewController(min, max, notes)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -337,5 +342,26 @@ extension HBTIPerfumeSurveyViewController {
             progress = 0
         }
         owner.progressBar.setProgress(progress, animated: true)
+    }
+    
+    private func parsePriceRange(priceInfo: String) -> (Int, Int) {
+        let selectedPrice = priceInfo
+            .replacingOccurrences(of: ",", with: "")
+            .replacingOccurrences(of: "원", with: "")
+            .split(separator: " ")
+        
+        var (min, max) = (0, 1_000_000)
+        switch selectedPrice[1] {
+        case "이하":
+            max = Int(selectedPrice[0]) ?? 1_000_000
+        case "~":
+            min = Int(selectedPrice[0]) ?? 0
+            max = Int(selectedPrice[2]) ?? 1_000_000
+        case "이상":
+            min = Int(selectedPrice[0]) ?? 0
+        default: break
+        }
+        
+        return (min, max)
     }
 }

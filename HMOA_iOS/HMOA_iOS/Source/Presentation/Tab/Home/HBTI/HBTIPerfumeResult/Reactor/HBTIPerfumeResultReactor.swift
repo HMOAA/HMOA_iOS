@@ -23,6 +23,9 @@ final class HBTIPerfumeResultReactor: Reactor {
     }
     
     struct State {
+        let minPrice: Int
+        let maxPrice: Int
+        let selectedNoteList: [String]
         var perfumeList: [HBTIPerfumeResultItem] = [
             .perfume(HBTIPerfume(id: 32, nameKR: "한국 이름1", nameEN: "English name1", price: 40000)),
             .perfume(HBTIPerfume(id: 22, nameKR: "한국 이름2", nameEN: "English name2", price: 540000)),
@@ -35,8 +38,8 @@ final class HBTIPerfumeResultReactor: Reactor {
     
     var initialState: State
     
-    init() {
-        self.initialState = State()
+    init(_ minPrice: Int, _ maxPrice: Int, _ notes: [String]) {
+        self.initialState = State(minPrice: minPrice, maxPrice: maxPrice, selectedNoteList: notes)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
