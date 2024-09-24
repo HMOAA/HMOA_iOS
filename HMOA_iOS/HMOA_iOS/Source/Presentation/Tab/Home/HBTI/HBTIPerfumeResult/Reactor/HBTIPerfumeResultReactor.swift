@@ -11,23 +11,24 @@ import RxSwift
 final class HBTIPerfumeResultReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
         case didTapNextButton
         case didTapPriorityButton(ResultPriority)
         case didTapPerfumeCell(IndexPath)
     }
     
     enum Mutation {
+        case setPerfumeList([HBTIPerfumeResultItem])
         case setIsPushNextVC
         case setResultPriority(ResultPriority)
         case setSelectedPerfumeID(IndexPath?)
     }
     
     struct State {
-        var perfumeList: [HBTIPerfumeResultItem] = [
-            .perfume(HBTIPerfume(id: 32, nameKR: "한국 이름1", nameEN: "English name1", price: 40000)),
-            .perfume(HBTIPerfume(id: 22, nameKR: "한국 이름2", nameEN: "English name2", price: 540000)),
-            .perfume(HBTIPerfume(id: 12, nameKR: "한국 이름3", nameEN: "English name3", price: 12000))
-        ]
+        let minPrice: Int
+        let maxPrice: Int
+        let selectedNoteList: [String]
+        var perfumeList: [HBTIPerfumeResultItem] = []
         var isPushNextVC: Bool = false
         var resultPriority: ResultPriority = .price
         var selectedPerfumeID: Int? = nil
@@ -35,17 +36,25 @@ final class HBTIPerfumeResultReactor: Reactor {
     
     var initialState: State
     
-    init() {
-        self.initialState = State()
+    init(_ minPrice: Int, _ maxPrice: Int, _ notes: [String]) {
+        self.initialState = State(minPrice: minPrice, maxPrice: maxPrice, selectedNoteList: notes)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return setPerfumeList(isContainAll: false)
+            
         case .didTapNextButton:
             return .just(.setIsPushNextVC)
             
         case .didTapPriorityButton(let priority):
-            return .just(.setResultPriority(priority))
+            let noteFirst = priority == .note
+            
+            return .concat([
+                .just(.setResultPriority(priority)),
+                setPerfumeList(isContainAll: noteFirst)
+            ])
             
         case .didTapPerfumeCell(let indexPath):
             return .concat([
@@ -59,6 +68,9 @@ final class HBTIPerfumeResultReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setPerfumeList(let item):
+            state.perfumeList = item
+            
         case .setIsPushNextVC:
             state.isPushNextVC = true
             
@@ -70,9 +82,32 @@ final class HBTIPerfumeResultReactor: Reactor {
                 state.selectedPerfumeID = nil
                 break
             }
-            state.selectedPerfumeID = state.perfumeList[indexPath.row].perfume?.id
+            state.selectedPerfumeID = state.perfumeList[indexPath.row].perfume!.id
         }
         
         return state
+    }
+}
+
+extension HBTIPerfumeResultReactor {
+    private func setPerfumeList(isContainAll: Bool) -> Observable<Mutation> {
+        let maxPrice = currentState.maxPrice
+        let minPrice = currentState.minPrice
+        let notes = currentState.selectedNoteList
+        
+        let params: [String: Any] = [
+            "maxPrice": maxPrice,
+            "minPrice": minPrice,
+            "notes": notes
+        ]
+        
+        return HBTIAPI.postPerfumeAnswer(params: params, isContainAll: isContainAll)
+            .catch { _ in .empty() }
+            .flatMap { perfumeListData -> Observable<Mutation> in
+                let perfumeList = perfumeListData.perfumeList.map { perfumeData in
+                    return HBTIPerfumeResultItem.perfume(perfumeData)
+                }
+                return .just(.setPerfumeList(perfumeList))
+            }
     }
 }

@@ -67,12 +67,26 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         
         // MARK: Action
         
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
         nextButton.rx.tap
             .map { Reactor.Action.didTapNextButton }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
         // MARK: State
+        
+        reactor.state
+            .compactMap { $0.questionList }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .survey, withItems: items)
+            })
+            .disposed(by: disposeBag)
         
         reactor.state
             .map { ($0.selectedPrice, $0.selectedNoteList) }
@@ -106,9 +120,14 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         reactor.state
             .map { $0.isPushNextVC }
             .filter { $0 }
-            .map { _ in }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: presentHBTIPerfumeResultViewController)
+            .drive(with: self, onNext: { owner, isPush in
+                let selectedPrice = reactor.currentState.selectedPrice!
+                let (min, max) = owner.parsePriceRange(priceInfo: selectedPrice)
+                let notes = reactor.currentState.selectedNoteList.map { $0.0 }
+                
+                owner.presentHBTIPerfumeResultViewController(min, max, notes)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -282,12 +301,17 @@ final class HBTIPerfumeSurveyViewController: UIViewController, View {
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIPerfumeSurveySection, HBTIPerfumeSurveyItem>()
         initialSnapshot.appendSections([.survey])
         
-        initialSnapshot.appendItems([
-            .price(HBTIQuestion(id: 1, content: "시험용", answers: [HBTIAnswer(id: 1, content: "가격1"), HBTIAnswer(id: 2, content: "가격2")], isMultipleChoice: false)),
-            .note(HBTINoteQuestion(content: "시향 후 마음에 드는 향료를 골라주세요", isMultipleChoice: true, answer: []))
-        ])
-        
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: HBTIPerfumeSurveySection, withItems items: [HBTIPerfumeSurveyItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems([.price(items[0].price!), .note(items[1].note!)])
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 
 }
@@ -318,5 +342,26 @@ extension HBTIPerfumeSurveyViewController {
             progress = 0
         }
         owner.progressBar.setProgress(progress, animated: true)
+    }
+    
+    private func parsePriceRange(priceInfo: String) -> (Int, Int) {
+        let selectedPrice = priceInfo
+            .replacingOccurrences(of: ",", with: "")
+            .replacingOccurrences(of: "원", with: "")
+            .split(separator: " ")
+        
+        var (min, max) = (0, 1_000_000)
+        switch selectedPrice[1] {
+        case "이하":
+            max = Int(selectedPrice[0]) ?? 1_000_000
+        case "~":
+            min = Int(selectedPrice[0]) ?? 0
+            max = Int(selectedPrice[2]) ?? 1_000_000
+        case "이상":
+            min = Int(selectedPrice[0]) ?? 0
+        default: break
+        }
+        
+        return (min, max)
     }
 }

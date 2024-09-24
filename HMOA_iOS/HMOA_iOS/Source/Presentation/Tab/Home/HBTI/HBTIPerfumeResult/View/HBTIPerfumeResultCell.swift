@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
 import RxSwift
@@ -168,12 +169,11 @@ class HBTIPerfumeResultCell: UICollectionViewCell {
     }
     
     func configureCell(perfume: HBTIPerfume) {
-        brandNameLabel.text = "브랜드"
+        brandNameLabel.text = perfume.brand
         korNameLabel.text = perfume.nameKR
         engNameLabel.text = perfume.nameEN
         priceLabel.text = perfume.price.numberFormatterToWon()
-        //        perpumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl))
-        perpumeImageView.backgroundColor = .random
+        perpumeImageView.kf.setImage(with: URL(string: perfume.imageURL))
     }
     
 }
