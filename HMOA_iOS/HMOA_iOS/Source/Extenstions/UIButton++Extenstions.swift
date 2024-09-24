@@ -163,4 +163,16 @@ extension UIButton {
         
         return button
     }
+    
+    func makeInvalidHBTINextButton() -> UIButton {
+        let button = UIButton().then {
+            $0.setTitle("다음", for: .normal)
+            $0.titleLabel?.font = .customFont(.pretendard, 15)
+            $0.setTitleColor(.white, for: .normal)
+            $0.layer.cornerRadius = 5
+            $0.backgroundColor = .customColor(.gray3)
+        }
+
+        return button
+    }
 }

@@ -8,11 +8,17 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 final class HBTIQuantitySelectCell: UITableViewCell, ReuseIdentifying {
     
+    // MARK: - Properties
+    
+    var disposeBag = DisposeBag()
+    
     // MARK: - UI Components
-    private let quantityButton = HBTIQuantitySelectButton()
+    
+    let quantityButton = HBTIQuantitySelectButton()
     
     private let label1 = UILabel().then {
         $0.setLabelUI("8개", font: .pretendard, size: 14, color: .black)
@@ -46,10 +52,15 @@ final class HBTIQuantitySelectCell: UITableViewCell, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
     // MARK: Set UI
     
     private func setUI() {
-        
+        selectionStyle = .none
     }
     
     // MARK: Add Views
