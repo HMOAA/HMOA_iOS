@@ -241,6 +241,12 @@ extension MyPageViewController {
             changeProfileVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(changeProfileVC, animated: true)
             
+        case .orderLog:
+            let orderLogVC = OrderLogViewController()
+            let orderLogReactor = OrderLogReactor()
+            orderLogVC.reactor = orderLogReactor
+            self.navigationController?.pushViewController(orderLogVC, animated: true)
+            
         case .myPerfume:
             let likeVC = LikeViewController()
             let reactor = LikeReactor()
