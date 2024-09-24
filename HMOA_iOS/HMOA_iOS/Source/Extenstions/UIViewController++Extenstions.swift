@@ -306,10 +306,17 @@ extension UIViewController {
         hbtiPerfumeResultVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiPerfumeResultVC, animated: true)
     }
-    
+  
+    /// HBTIQuantitySelectVC로 push
+    func presentHBTIQuantitySelectViewController() {
+        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController(reactor: HBTIQuantitySelectReactor())
+        hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
+    }
+  
     /// HBTIProcessGuideVC로 push
     func presentHBTIProcessGuideViewController() {
-        let hbtiProcessGuideVC = HBTIProcessGuideViewController()
+        let hbtiProcessGuideVC = HBTIProcessGuideViewController(reactor: HBTIProcessGuideReactor())
         hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
     }
@@ -339,13 +346,6 @@ extension UIViewController {
         let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
         hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
-    }
-    
-    /// HBTIQuantitySelectVC로 push
-    func presentHBTIQuantitySelectViewController() {
-        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
-        hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
     }
     
     // MARK: Configure NavigationBar

@@ -9,16 +9,31 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
+import RxCocoa
 import ReactorKit
 
-final class HBTIProcessGuideViewController: UIViewController {
+final class HBTIProcessGuideViewController: UIViewController, View {
+    
+    // MARK: - Properties
+    
+    var disposeBag = DisposeBag()
     
     // MARK: - UI Components
+    
     private let hbtiProcessGuideView = HBTIProcessGuideView()
     
     private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
     
     // MARK: - LifeCycle
+    
+    init(reactor: HBTIProcessGuideReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,17 +45,32 @@ final class HBTIProcessGuideViewController: UIViewController {
     
     // MARK: - Bind
     
-    func bind() {
+    func bind(reactor: HBTIProcessGuideReactor) {
         
         // MARK: Action
         
+        nextButton.rx.tap
+            .map { HBTIProcessGuideReactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
         // MARK: State
         
+        reactor.state
+            .map { $0.isPushNextVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentHBTIQuantitySelectViewController()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
     
     private func setUI() {
+        view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
     }
     
