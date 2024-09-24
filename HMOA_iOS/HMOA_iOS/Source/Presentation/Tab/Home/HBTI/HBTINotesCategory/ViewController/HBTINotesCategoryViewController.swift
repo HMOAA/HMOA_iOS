@@ -52,6 +52,7 @@ final class HBTINotesCategoryViewController: UIViewController {
     // MARK: Set UI
     
     private func setUI() {
+        view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
     }
     
