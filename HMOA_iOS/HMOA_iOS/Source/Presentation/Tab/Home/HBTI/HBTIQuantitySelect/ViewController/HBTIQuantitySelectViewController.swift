@@ -30,7 +30,7 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
         $0.isScrollEnabled = false
     }
     
-    private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
+    private let nextButton: UIButton = UIButton().makeInvalidHBTINextButton()
     
     private let quantities = ["2개", "5개", "8개", "자유롭게 선택"]
     
@@ -62,10 +62,34 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
         nextButton.rx.tap
             .map { HBTIQuantitySelectReactor.Action.didTapNextButton }
             .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
         
         // MARK: State
         
+        reactor.state
+            .compactMap { $0.selectedIndex }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, selectedIndex in
+                for cell in owner.hbtiQuantityTableView.visibleCells {
+                    guard let indexPath = owner.hbtiQuantityTableView.indexPath(for: cell),
+                          let hbtiQuantityCell = cell as? HBTIQuantitySelectCell else { continue }
+                    
+                    hbtiQuantityCell.quantityButton.isSelected = indexPath == selectedIndex
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isEnabledNextButton }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isEnabled in
+                owner.nextButton.isEnabled = isEnabled
+                owner.nextButton.backgroundColor = isEnabled ? .black : .customColor(.gray3)
+            })
+            .disposed(by: disposeBag)
+                
         reactor.state
             .map { $0.isPushNextVC }
             .distinctUntilChanged()
@@ -129,6 +153,11 @@ extension HBTIQuantitySelectViewController: UITableViewDataSource, UITableViewDe
         } else {
             cell.configureCell(quantity: quantities[indexPath.row])
         }
+
+        cell.quantityButton.rx.tap
+            .map { HBTIQuantitySelectReactor.Action.didSelectQuantity(indexPath) }
+            .bind(to: reactor!.action)
+            .disposed(by: cell.disposeBag)
         
         return cell
     }
@@ -137,4 +166,3 @@ extension HBTIQuantitySelectViewController: UITableViewDataSource, UITableViewDe
         return 66
     }
 }
-
