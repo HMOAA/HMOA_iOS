@@ -10,6 +10,7 @@ import RxSwift
 final class HBTIPerfumeSurveyReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
         case didTapPriceButton(String)
         case isSelectedNoteItem(IndexPath)
         case isDeselectedNoteItem(IndexPath)
@@ -20,6 +21,7 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     }
     
     enum Mutation {
+        case setQuestionList([HBTIPerfumeSurveyItem])
         case setSelectedPrice(String)
         case setSelectedNoteList((String, IndexPath), selcted: Bool)
         case clearSelectedNotes
@@ -30,15 +32,8 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     }
     
     struct State {
-        var noteList: [HBTINoteAnswer] = [
-            HBTINoteAnswer(category: "시험1", notes: ["노트1-1", "노트1-2"]),
-            HBTINoteAnswer(category: "시험2", notes: ["노트2-1", "노트2-2"]),
-            HBTINoteAnswer(category: "시험3", notes: ["노트3-1", "노트3-2"]),
-            HBTINoteAnswer(category: "시험4", notes: ["노트4-1", "노트4-2"]),
-            HBTINoteAnswer(category: "시험5", notes: ["노트5-1", "노트5-2"]),
-            HBTINoteAnswer(category: "시험6", notes: ["노트6-1", "노트6-2"]),
-            HBTINoteAnswer(category: "시험7", notes: ["노트7-1", "노트7-2"])
-        ]
+        var questionList: [HBTIPerfumeSurveyItem] = []
+        var noteList: [HBTINoteAnswer] = []
         var selectedPrice: String? = nil
         var selectedNoteList: [(String, IndexPath)] = []
         var isEnabledNextButton: Bool = false
@@ -54,6 +49,9 @@ final class HBTIPerfumeSurveyReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return setSurvey()
+            
         case .didTapPriceButton(let price):
             return .concat([
                 .just(.setSelectedPrice(price)),
@@ -101,6 +99,10 @@ final class HBTIPerfumeSurveyReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setQuestionList(let item):
+            state.questionList = item
+            state.noteList = item[1].note!.answer
+            
         case .setSelectedPrice(let price):
             state.selectedPrice = state.selectedPrice == price ? nil : price
             
@@ -142,5 +144,18 @@ final class HBTIPerfumeSurveyReactor: Reactor {
 extension HBTIPerfumeSurveyReactor {
     func findNoteName(from noteList: [HBTINoteAnswer], by indexPath: IndexPath) -> String {
         return noteList[indexPath.section].notes[indexPath.row]
+    }
+    
+    func setSurvey() -> Observable<Mutation> {
+        return HBTIAPI.fetchPerfumeSurvey()
+            .catch { _ in .empty() }
+            .flatMap { surveyData -> Observable<Mutation> in
+                let priceQuestion = HBTIPerfumeSurveyItem.price(surveyData.priceQuestion)
+                let noteQuestion = HBTIPerfumeSurveyItem.note(surveyData.noteQuestion)
+                
+                return .concat([
+                    .just(.setQuestionList([priceQuestion, noteQuestion]))
+                ])
+            }
     }
 }
