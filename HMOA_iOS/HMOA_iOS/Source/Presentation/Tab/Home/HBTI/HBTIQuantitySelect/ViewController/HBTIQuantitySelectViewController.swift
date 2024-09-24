@@ -9,9 +9,14 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
+import RxCocoa
 import ReactorKit
 
-final class HBTIQuantitySelectViewController: UIViewController {
+final class HBTIQuantitySelectViewController: UIViewController, View {
+    
+    //MARK: - Properties
+    
+    var disposeBag = DisposeBag()
     
     // MARK: - UI Components
     
@@ -31,6 +36,15 @@ final class HBTIQuantitySelectViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    init(reactor: HBTIQuantitySelectReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,18 +55,32 @@ final class HBTIQuantitySelectViewController: UIViewController {
     
     // MARK: - Bind
     
-    func bind(reactor: HBTISurveyReactor) {
+    func bind(reactor: HBTIQuantitySelectReactor) {
         
         // MARK: Action
         
+        nextButton.rx.tap
+            .map { HBTIQuantitySelectReactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
         // MARK: State
         
+        reactor.state
+            .map { $0.isPushNextVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentHBTINotesCategoryViewController()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Set UI
     
     private func setUI() {
+        view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
     }
     

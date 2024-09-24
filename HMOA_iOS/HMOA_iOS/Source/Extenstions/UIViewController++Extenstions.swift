@@ -315,14 +315,14 @@ extension UIViewController {
   
     /// HBTIQuantitySelectVC로 push
     func presentHBTIQuantitySelectViewController() {
-        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
+        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController(reactor: HBTIQuantitySelectReactor())
         hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
     }
   
     /// HBTIProcessGuideVC로 push
     func presentHBTIProcessGuideViewController() {
-        let hbtiProcessGuideVC = HBTIProcessGuideViewController()
+        let hbtiProcessGuideVC = HBTIProcessGuideViewController(reactor: HBTIProcessGuideReactor())
         hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
     }
