@@ -18,6 +18,7 @@ final class OrderCategoryView: UIView {
     private let categoryImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
+        $0.backgroundColor = .random
     }
     
     private let categoryLabel = UILabel().then {
@@ -67,7 +68,6 @@ final class OrderCategoryView: UIView {
     // MARK: - Function
     
     private func setUI() {
-        backgroundColor = .black
         categoryImageView.layer.cornerRadius = categoryImageWidth / 2
     }
     
@@ -96,6 +96,7 @@ final class OrderCategoryView: UIView {
         noteListLabel.snp.makeConstraints { make in
             make.top.equalTo(categoryLabel.snp.bottom).offset(4)
             make.leading.equalTo(categoryLabel.snp.leading)
+            make.trailing.equalToSuperview()
         }
         
         quantityLabel.snp.makeConstraints { make in
@@ -110,7 +111,7 @@ final class OrderCategoryView: UIView {
         
         categoryPriceLabel.snp.makeConstraints { make in
             make.top.equalTo(unitPriceLabel.snp.bottom).offset(12)
-            make.leading.equalTo(unitPriceLabel.snp.leading)
+            make.leading.equalTo(quantityLabel.snp.leading)
         }
     }
     
