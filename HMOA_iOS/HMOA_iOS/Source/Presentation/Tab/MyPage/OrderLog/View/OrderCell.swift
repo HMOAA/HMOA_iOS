@@ -55,11 +55,16 @@ final class OrderCell: UICollectionViewCell {
     }
     
     private let totalAmountValueLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .red)
+        $0.setLabelUI("15,000원", font: .pretendard_bold, size: 20, color: .red)
     }
     
     private let returnRefundButton = UIButton().then {
         $0.setTitle("이동 버튼", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_semibold, 12)
+        $0.setTitleColor(.customColor(.gray3), for: .normal)
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.customColor(.gray3).cgColor
+        $0.layer.cornerRadius = 3
     }
     
     // MARK: - Init
@@ -103,7 +108,7 @@ final class OrderCell: UICollectionViewCell {
         }
         
         decoLine.snp.makeConstraints { make in
-            make.top.equalTo(statusLabel)
+            make.centerY.equalTo(statusLabel.snp.centerY)
             make.leading.equalTo(statusLabel.snp.trailing).offset(12)
             make.trailing.equalToSuperview()
             make.height.equalTo(1)
@@ -116,12 +121,12 @@ final class OrderCell: UICollectionViewCell {
         
         shippingInfoLabel.snp.makeConstraints { make in
             make.top.equalTo(categoryStackView.snp.bottom).offset(20)
-            make.leading.equalToSuperview().inset(88)
+            make.leading.equalToSuperview().inset(80)
         }
         
         shippingPriceTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(shippingInfoLabel.snp.bottom).offset(18)
-            make.trailing.equalTo(shippingPriceValueLabel.snp.leading).offset(7)
+            make.trailing.equalTo(shippingPriceValueLabel.snp.leading).offset(-7)
         }
         
         shippingPriceValueLabel.snp.makeConstraints { make in
@@ -132,6 +137,7 @@ final class OrderCell: UICollectionViewCell {
         separatorLineView.snp.makeConstraints { make in
             make.top.equalTo(shippingPriceTitleLabel.snp.bottom).offset(24)
             make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(1)
         }
         
         totalAmountTitleLabel.snp.makeConstraints { make in
@@ -146,13 +152,25 @@ final class OrderCell: UICollectionViewCell {
         
         returnRefundButton.snp.makeConstraints { make in
             make.top.equalTo(totalAmountTitleLabel.snp.bottom).offset(32)
-            make.horizontalEdges.equalToSuperview()
+            make.horizontalEdges.bottom.equalToSuperview()
             make.height.equalTo(32)
         }
         
     }
     
     func configureCell() {
+        let category1 = OrderCategoryView()
+        let category2 = OrderCategoryView()
         
+        [
+            category1,
+            category2
+        ]   .forEach {
+            $0.configureView()
+            $0.snp.makeConstraints { make in
+                make.height.greaterThanOrEqualTo(90)
+            }
+            categoryStackView.addArrangedSubview($0)
+        }
     }
 }

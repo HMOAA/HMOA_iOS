@@ -74,14 +74,14 @@ final class OrderLogViewController: UIViewController, View {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(200))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(200))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 16, bottom: 100, trailing: 16)
             section.interGroupSpacing = 30
             
             return section
@@ -99,7 +99,7 @@ final class OrderLogViewController: UIViewController, View {
                     withReuseIdentifier: OrderCell.identifier,
                     for: indexPath) as! OrderCell
                 
-                // TODO: configureCell 호출
+                cell.configureCell()
                 
                 return cell
             }
