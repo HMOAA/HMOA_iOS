@@ -17,6 +17,10 @@ final class OrderLogViewController: UIViewController, View {
 
     // MARK: - UI Components
     
+    private lazy var orderCollectionView = UICollectionView(frame: .zero,
+                                                            collectionViewLayout: createLayout()).then {
+        $0.register(OrderCell.self, forCellWithReuseIdentifier: OrderCell.identifier)
+    }
     
     // MARK: - Properties
     
@@ -56,6 +60,26 @@ final class OrderLogViewController: UIViewController, View {
     // MARK: Set Constraints
     private func setConstraints() {
         
+    }
+    
+    // MARK: Create Layout
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+            section.interGroupSpacing = 30
+            
+            return section
+        }
+        return layout
     }
 
 }
