@@ -24,6 +24,8 @@ final class OrderLogViewController: UIViewController, View {
     
     // MARK: - Properties
     
+    var dataSource: UICollectionViewDiffableDataSource<OrderLogSection, OrderLogItem>?
+    
     var disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
@@ -34,6 +36,7 @@ final class OrderLogViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        configureDataSource()
     }
     
     // MARK: - Bind
@@ -54,12 +57,16 @@ final class OrderLogViewController: UIViewController, View {
     
     // MARK: Add Views
     private func setAddView() {
-        
+        [
+            orderCollectionView
+        ]   .forEach { view.addSubview($0) }
     }
     
     // MARK: Set Constraints
     private func setConstraints() {
-        
+        orderCollectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     // MARK: Create Layout
@@ -80,6 +87,30 @@ final class OrderLogViewController: UIViewController, View {
             return section
         }
         return layout
+    }
+    
+    // MARK: Configure DataSource
+    private func configureDataSource() {
+        dataSource = .init(collectionView: orderCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            
+            switch item {
+            case .order(let order):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: OrderCell.identifier,
+                    for: indexPath) as! OrderCell
+                
+                // TODO: configureCell 호출
+                
+                return cell
+            }
+        })
+        
+        var initialSnapshot = NSDiffableDataSourceSnapshot<OrderLogSection, OrderLogItem>()
+        initialSnapshot.appendSections([.order])
+        
+        initialSnapshot.appendItems([.order("1"), .order("2")])
+        
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
 
 }
