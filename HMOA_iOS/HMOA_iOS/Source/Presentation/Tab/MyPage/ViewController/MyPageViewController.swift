@@ -247,6 +247,12 @@ extension MyPageViewController {
             orderLogVC.reactor = orderLogReactor
             self.navigationController?.pushViewController(orderLogVC, animated: true)
             
+        case .orderCancelLog:
+            let orderCancelLogVC = OrderCancelLogViewController()
+            let orderCancelLogReactor = OrderCancelLogReactor()
+            orderCancelLogVC.reactor = orderCancelLogReactor
+            self.navigationController?.pushViewController(orderCancelLogVC, animated: true)
+            
         case .myPerfume:
             let likeVC = LikeViewController()
             let reactor = LikeReactor()
