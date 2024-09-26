@@ -129,6 +129,7 @@
 		C93AC2E92CA3F5BD004A1CF5 /* OrderCancelLogReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2E82CA3F5BD004A1CF5 /* OrderCancelLogReactor.swift */; };
 		C93AC2EB2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EA2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift */; };
 		C93AC2ED2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */; };
+		C93AC2EF2CA4068C004A1CF5 /* OrderCancelLogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */; };
 		C93BFA6D2C428E9300A5D9D2 /* IntroViewHBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */; };
 		C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */; };
 		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
@@ -463,6 +464,7 @@
 		C93AC2E82CA3F5BD004A1CF5 /* OrderCancelLogReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogReactor.swift; sourceTree = "<group>"; };
 		C93AC2EA2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogCell.swift; sourceTree = "<group>"; };
 		C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelCategoryView.swift; sourceTree = "<group>"; };
+		C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogSection.swift; sourceTree = "<group>"; };
 		C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewHBTI.swift; sourceTree = "<group>"; };
 		C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyReactor.swift; sourceTree = "<group>"; };
 		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
@@ -1584,6 +1586,7 @@
 		C93AC2E12CA3F4F1004A1CF5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3138,6 +3141,7 @@
 				CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */,
 				2CA7F69A29D2FBE70022E7FD /* TotalPerfumeReactor.swift in Sources */,
 				C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */,
+				C93AC2EF2CA4068C004A1CF5 /* OrderCancelLogSection.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* FirstDetail.swift in Sources */,
 				2C4CDC4B29C770D900676163 /* BrandSearchViewController.swift in Sources */,
 				C91980E72C6D952600A7E91F /* HBTIPerfumeSurveyReactor.swift in Sources */,
