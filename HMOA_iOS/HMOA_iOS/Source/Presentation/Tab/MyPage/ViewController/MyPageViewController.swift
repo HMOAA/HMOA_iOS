@@ -245,12 +245,14 @@ extension MyPageViewController {
             let orderLogVC = OrderLogViewController()
             let orderLogReactor = OrderLogReactor()
             orderLogVC.reactor = orderLogReactor
+            orderLogVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(orderLogVC, animated: true)
             
         case .orderCancelLog:
             let orderCancelLogVC = OrderCancelLogViewController()
             let orderCancelLogReactor = OrderCancelLogReactor()
             orderCancelLogVC.reactor = orderCancelLogReactor
+            orderCancelLogVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(orderCancelLogVC, animated: true)
             
         case .myPerfume:

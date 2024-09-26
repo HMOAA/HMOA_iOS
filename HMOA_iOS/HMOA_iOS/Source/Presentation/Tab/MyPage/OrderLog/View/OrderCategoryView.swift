@@ -27,7 +27,7 @@ final class OrderCategoryView: UIView {
     
     private let noteListLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 10, color: .black)
-        $0.setTextWithLineHeight(text: "노트1, 노트2, 노트3, 노트4, 노트5, 노트6", lineHeight: 12)
+        $0.setTextWithLineHeight(text: "노트1, 노트2, 노트3, 노트4, 노트5, 노트6, 노트7", lineHeight: 12)
         $0.numberOfLines = 0
         $0.lineBreakStrategy = .hangulWordPriority
     }
@@ -96,12 +96,12 @@ final class OrderCategoryView: UIView {
         noteListLabel.snp.makeConstraints { make in
             make.top.equalTo(categoryLabel.snp.bottom).offset(4)
             make.leading.equalTo(categoryLabel.snp.leading)
-            make.trailing.equalToSuperview()
+            make.width.equalTo(170)
         }
         
         quantityLabel.snp.makeConstraints { make in
-            make.top.equalTo(noteListLabel.snp.bottom).offset(18)
             make.leading.equalTo(noteListLabel.snp.leading)
+            make.bottom.equalTo(categoryImageView.snp.bottom)
         }
         
         unitPriceLabel.snp.makeConstraints { make in

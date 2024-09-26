@@ -16,7 +16,7 @@ import Then
 final class OrderCancelLogViewController: UIViewController, View {
 
     // MARK: - UI Components
-    private lazy var orderCancleLogTableView = UITableView(frame: .zero, style: .plain).then {
+    private lazy var orderCancelLogTableView = UITableView(frame: .zero, style: .plain).then {
         $0.register(OrderCancelLogCell.self, forCellReuseIdentifier: OrderCancelLogCell.identifier)
     }
 
@@ -51,19 +51,19 @@ final class OrderCancelLogViewController: UIViewController, View {
     private func setUI() {
         setClearBackNaviBar("환불 / 반품 내역", .black)
         view.backgroundColor = .white
-        orderCancleLogTableView.separatorStyle = .none
+        orderCancelLogTableView.separatorStyle = .none
     }
 
     // MARK: Add Views
     private func setAddView() {
         [
-            orderCancleLogTableView
+            orderCancelLogTableView
         ]   .forEach { view.addSubview($0) }
     }
 
     // MARK: Set Constraints
     private func setConstraints() {
-        orderCancleLogTableView.snp.makeConstraints { make in
+        orderCancelLogTableView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(3)
             make.horizontalEdges.equalToSuperview().inset(16)
             make.bottom.equalToSuperview()
@@ -73,7 +73,7 @@ final class OrderCancelLogViewController: UIViewController, View {
     // MARK: - Data Source Initialization
     
     private func configureDatasource() {
-        dataSource = .init(tableView: orderCancleLogTableView,
+        dataSource = .init(tableView: orderCancelLogTableView,
                            cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
             
             let cell = tableView.dequeueReusableCell(

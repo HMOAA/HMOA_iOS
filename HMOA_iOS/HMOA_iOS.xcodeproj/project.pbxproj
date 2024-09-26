@@ -957,6 +957,7 @@
 			isa = PBXGroup;
 			children = (
 				C939CCF62CA163B9004E26AE /* OrderLog */,
+				C93AC2E02CA3F480004A1CF5 /* OrderCancelLog */,
 				2C464E5329CDDC2600A07658 /* MyProfile */,
 				2C464E5129CDDBFC00A07658 /* MyLog */,
 				2C464E4A29CDB1A800A07658 /* Model */,
@@ -964,7 +965,6 @@
 				2C710EFD297C1810006BE23B /* ViewModel */,
 				2C710EF6297C0E75006BE23B /* View */,
 				2C39AA6B2970484E000C6F71 /* ViewController */,
-				C93AC2E02CA3F480004A1CF5 /* OrderCancelLog */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -1321,7 +1321,6 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				C93AC2DE2CA3DA36004A1CF5 /* OrderLog */,
 				C98424612C43D50200530259 /* HBTI */,
 				C96CD74C2BA8803D005C9856 /* Magazine */,
 				CA5E872B2B2AECEB006DD2FA /* PushAlarm */,
@@ -1543,35 +1542,35 @@
 			isa = PBXGroup;
 			children = (
 				C93AC2DC2CA3D9C3004A1CF5 /* OrderLogSection.swift */,
-            );
-            path = Model;
-            sourceTree = "<group>";
-        };
-        C939CCF92CA163F1004E26AE /* View */ = {
-            isa = PBXGroup;
-            children = (
-                C9B02B482CA24A0F00F1107C /* OrderCell.swift */,
-                C9B02B4C2CA25A0E00F1107C /* OrderCategoryView.swift */,
-            );
-            path = View;
-            sourceTree = "<group>";
-        };
-        C939CCFB2CA16405004E26AE /* Reactor */ = {
-            isa = PBXGroup;
-            children = (
-                C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */,
-            );
-            path = Reactor;
-            sourceTree = "<group>";
-        };
-        C939CCFC2CA16410004E26AE /* ViewController */ = {
-            isa = PBXGroup;
-            children = (
-                C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */,
-            );
-            path = ViewController;
-            sourceTree = "<group>";
-        };
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C939CCF92CA163F1004E26AE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C9B02B482CA24A0F00F1107C /* OrderCell.swift */,
+				C9B02B4C2CA25A0E00F1107C /* OrderCategoryView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C939CCFB2CA16405004E26AE /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		C939CCFC2CA16410004E26AE /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		C93AC2E02CA3F480004A1CF5 /* OrderCancelLog */ = {
 			isa = PBXGroup;
 			children = (
