@@ -130,6 +130,8 @@
 		C93AC2EB2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EA2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift */; };
 		C93AC2ED2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */; };
 		C93AC2EF2CA4068C004A1CF5 /* OrderCancelLogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */; };
+		C93AC2F42CA58493004A1CF5 /* OrderCancelDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2F32CA58493004A1CF5 /* OrderCancelDetailReactor.swift */; };
+		C93AC2F62CA584AF004A1CF5 /* OrderCancelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2F52CA584AF004A1CF5 /* OrderCancelDetailViewController.swift */; };
 		C93BFA6D2C428E9300A5D9D2 /* IntroViewHBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */; };
 		C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */; };
 		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
@@ -465,6 +467,8 @@
 		C93AC2EA2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogCell.swift; sourceTree = "<group>"; };
 		C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelCategoryView.swift; sourceTree = "<group>"; };
 		C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogSection.swift; sourceTree = "<group>"; };
+		C93AC2F32CA58493004A1CF5 /* OrderCancelDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelDetailReactor.swift; sourceTree = "<group>"; };
+		C93AC2F52CA584AF004A1CF5 /* OrderCancelDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelDetailViewController.swift; sourceTree = "<group>"; };
 		C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewHBTI.swift; sourceTree = "<group>"; };
 		C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyReactor.swift; sourceTree = "<group>"; };
 		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
@@ -957,6 +961,7 @@
 			isa = PBXGroup;
 			children = (
 				C939CCF62CA163B9004E26AE /* OrderLog */,
+				C93AC2F02CA58418004A1CF5 /* OrderCancelDetail */,
 				C93AC2E02CA3F480004A1CF5 /* OrderCancelLog */,
 				2C464E5329CDDC2600A07658 /* MyProfile */,
 				2C464E5129CDDBFC00A07658 /* MyLog */,
@@ -1611,6 +1616,31 @@
 			isa = PBXGroup;
 			children = (
 				C93AC2E62CA3F550004A1CF5 /* OrderCancelLogViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		C93AC2F02CA58418004A1CF5 /* OrderCancelDetail */ = {
+			isa = PBXGroup;
+			children = (
+				C93AC2F12CA58478004A1CF5 /* Reactor */,
+				C93AC2F22CA58481004A1CF5 /* ViewController */,
+			);
+			path = OrderCancelDetail;
+			sourceTree = "<group>";
+		};
+		C93AC2F12CA58478004A1CF5 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C93AC2F32CA58493004A1CF5 /* OrderCancelDetailReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		C93AC2F22CA58481004A1CF5 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C93AC2F52CA584AF004A1CF5 /* OrderCancelDetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -3109,6 +3139,7 @@
 				CA219C422A9C6D91003FB215 /* LikeAddress.swift in Sources */,
 				CA2238992AAF471400452A31 /* CommunityDetailSection.swift in Sources */,
 				2C724E2F29AB1A120057D9B4 /* CommentListTopView.swift in Sources */,
+				C93AC2F42CA58493004A1CF5 /* OrderCancelDetailReactor.swift in Sources */,
 				CA5E872F2B2AED13006DD2FA /* PushAlarmAddress.swift in Sources */,
 				CAA5926B2B049197003DAE51 /* ImageListViewController.swift in Sources */,
 				C93CA2112C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift in Sources */,
@@ -3274,6 +3305,7 @@
 				C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */,
 				C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */,
 				2C04247329A3F7A6009CF0FE /* DetailSection.swift in Sources */,
+				C93AC2F62CA584AF004A1CF5 /* OrderCancelDetailViewController.swift in Sources */,
 				C9D161E52C1FF2550032FE78 /* IgnoerData.swift in Sources */,
 				C98424642C43D54200530259 /* HBTIModel.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
