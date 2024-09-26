@@ -125,6 +125,11 @@
 		C939CCFE2CA1647A004E26AE /* OrderLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */; };
 		C939CD002CA164EF004E26AE /* OrderLogReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */; };
 		C93AC2DD2CA3D9C3004A1CF5 /* OrderLogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2DC2CA3D9C3004A1CF5 /* OrderLogSection.swift */; };
+		C93AC2E72CA3F550004A1CF5 /* OrderCancelLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2E62CA3F550004A1CF5 /* OrderCancelLogViewController.swift */; };
+		C93AC2E92CA3F5BD004A1CF5 /* OrderCancelLogReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2E82CA3F5BD004A1CF5 /* OrderCancelLogReactor.swift */; };
+		C93AC2EB2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EA2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift */; };
+		C93AC2ED2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */; };
+		C93AC2EF2CA4068C004A1CF5 /* OrderCancelLogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */; };
 		C93BFA6D2C428E9300A5D9D2 /* IntroViewHBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */; };
 		C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */; };
 		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
@@ -455,6 +460,11 @@
 		C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogViewController.swift; sourceTree = "<group>"; };
 		C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogReactor.swift; sourceTree = "<group>"; };
 		C93AC2DC2CA3D9C3004A1CF5 /* OrderLogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogSection.swift; sourceTree = "<group>"; };
+		C93AC2E62CA3F550004A1CF5 /* OrderCancelLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogViewController.swift; sourceTree = "<group>"; };
+		C93AC2E82CA3F5BD004A1CF5 /* OrderCancelLogReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogReactor.swift; sourceTree = "<group>"; };
+		C93AC2EA2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogCell.swift; sourceTree = "<group>"; };
+		C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelCategoryView.swift; sourceTree = "<group>"; };
+		C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogSection.swift; sourceTree = "<group>"; };
 		C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewHBTI.swift; sourceTree = "<group>"; };
 		C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyReactor.swift; sourceTree = "<group>"; };
 		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
@@ -947,6 +957,7 @@
 			isa = PBXGroup;
 			children = (
 				C939CCF62CA163B9004E26AE /* OrderLog */,
+				C93AC2E02CA3F480004A1CF5 /* OrderCancelLog */,
 				2C464E5329CDDC2600A07658 /* MyProfile */,
 				2C464E5129CDDBFC00A07658 /* MyLog */,
 				2C464E4A29CDB1A800A07658 /* Model */,
@@ -1310,7 +1321,6 @@
 		2CA1559F2A0391C100D7B0C0 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				C93AC2DE2CA3DA36004A1CF5 /* OrderLog */,
 				C98424612C43D50200530259 /* HBTI */,
 				C96CD74C2BA8803D005C9856 /* Magazine */,
 				CA5E872B2B2AECEB006DD2FA /* PushAlarm */,
@@ -1561,19 +1571,48 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		C93AC2DE2CA3DA36004A1CF5 /* OrderLog */ = {
+		C93AC2E02CA3F480004A1CF5 /* OrderCancelLog */ = {
 			isa = PBXGroup;
 			children = (
-				C93AC2DF2CA3DA4E004A1CF5 /* Model */,
+				C93AC2E12CA3F4F1004A1CF5 /* Model */,
+				C93AC2E32CA3F500004A1CF5 /* Reactor */,
+				C93AC2E22CA3F4F8004A1CF5 /* View */,
+				C93AC2E52CA3F50C004A1CF5 /* ViewController */,
 			);
-			path = OrderLog;
+			path = OrderCancelLog;
 			sourceTree = "<group>";
 		};
-		C93AC2DF2CA3DA4E004A1CF5 /* Model */ = {
+		C93AC2E12CA3F4F1004A1CF5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C93AC2E22CA3F4F8004A1CF5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C93AC2EA2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift */,
+				C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C93AC2E32CA3F500004A1CF5 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C93AC2E82CA3F5BD004A1CF5 /* OrderCancelLogReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		C93AC2E52CA3F50C004A1CF5 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C93AC2E62CA3F550004A1CF5 /* OrderCancelLogViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		C93BFA6B2C428DAA00A5D9D2 /* Model */ = {
@@ -3047,6 +3086,7 @@
 				CA39D5682B0B36C500694677 /* MyLogCommentHeaderView.swift in Sources */,
 				CA2238A12AAF5FFD00452A31 /* CommunityPostHeaderView.swift in Sources */,
 				2C1BD6C0299798660059A43D /* TastingNoteView.swift in Sources */,
+				C93AC2EB2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift in Sources */,
 				CA01609B2AB2E45700D5839D /* EvaluationAPI.swift in Sources */,
 				CA47446D2AC7ECED00003584 /* CommunityModel.swift in Sources */,
 				C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */,
@@ -3100,6 +3140,7 @@
 				CA69F39B29DEB2D0004958BB /* CALayer++Extenstions.swift in Sources */,
 				2CA7F69A29D2FBE70022E7FD /* TotalPerfumeReactor.swift in Sources */,
 				C96B99D22BB022B6005F4E31 /* MagazineTagCell.swift in Sources */,
+				C93AC2EF2CA4068C004A1CF5 /* OrderCancelLogSection.swift in Sources */,
 				2C04247129A3E3D4009CF0FE /* FirstDetail.swift in Sources */,
 				2C4CDC4B29C770D900676163 /* BrandSearchViewController.swift in Sources */,
 				C91980E72C6D952600A7E91F /* HBTIPerfumeSurveyReactor.swift in Sources */,
@@ -3183,6 +3224,7 @@
 				CA219C442A9C6DAD003FB215 /* LikeAPI.swift in Sources */,
 				CA4744832AD3E2BB00003584 /* OptionReactor.swift in Sources */,
 				CA5D249F2983EEE50014ADF8 /* UILabel++Extenstions.swift in Sources */,
+				C93AC2E92CA3F5BD004A1CF5 /* OrderCancelLogReactor.swift in Sources */,
 				2CA155B62A0533B100D7B0C0 /* MyProfileSection.swift in Sources */,
 				CAFA450829AB7DC300ACF2C1 /* YearModel.swift in Sources */,
 				CA360F3C29DD8ABE00A93873 /* HPediaQnACell.swift in Sources */,
@@ -3210,6 +3252,7 @@
 				2C8318C72A0FC6D0004A3ACD /* HomeAPI.swift in Sources */,
 				C96CD73B2BA88010005C9856 /* MagazineHeaderView.swift in Sources */,
 				CA943AE12AF29C6400A5B717 /* PhotoSection.swift in Sources */,
+				C93AC2ED2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift in Sources */,
 				2C04248529A4D859009CF0FE /* CommentListReactor.swift in Sources */,
 				2C4041D629AD1211009247E7 /* SearchListTableViewCell.swift in Sources */,
 				C96CD7452BA88010005C9856 /* MagazineDetailViewController.swift in Sources */,
@@ -3217,6 +3260,7 @@
 				2C04249429A50DB4009CF0FE /* CommentDetailReactor.swift in Sources */,
 				CABED5512B3186E40030874F /* BrandDetailService.swift in Sources */,
 				2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */,
+				C93AC2E72CA3F550004A1CF5 /* OrderCancelLogViewController.swift in Sources */,
 				2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */,
 				CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */,
 				CA943AD62AEF93E900A5B717 /* OptionData.swift in Sources */,

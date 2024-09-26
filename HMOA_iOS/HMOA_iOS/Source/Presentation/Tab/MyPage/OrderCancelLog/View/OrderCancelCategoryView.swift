@@ -1,8 +1,8 @@
 //
-//  OrderCategoryView.swift
+//  OrderCancelCategoryView.swift
 //  HMOA_iOS
 //
-//  Created by 곽다은 on 9/24/24.
+//  Created by 곽다은 on 9/25/24.
 //
 
 import UIKit
@@ -11,8 +11,8 @@ import Kingfisher
 import SnapKit
 import Then
 
-final class OrderCategoryView: UIView {
-
+final class OrderCancelCategoryView: UIView {
+    
     // MARK: - UI Components
     
     private let categoryImageView = UIImageView().then {
@@ -101,21 +101,21 @@ final class OrderCategoryView: UIView {
         
         quantityLabel.snp.makeConstraints { make in
             make.leading.equalTo(noteListLabel.snp.leading)
-            make.bottom.equalTo(categoryImageView.snp.bottom)
+            make.bottom.equalToSuperview()
         }
         
         unitPriceLabel.snp.makeConstraints { make in
-            make.top.equalTo(quantityLabel.snp.top)
-            make.leading.equalTo(quantityLabel.snp.trailing).offset(4)
+            make.trailing.equalToSuperview()
+            make.bottom.equalTo(categoryPriceLabel.snp.top).offset(-3)
         }
         
         categoryPriceLabel.snp.makeConstraints { make in
-            make.top.equalTo(unitPriceLabel.snp.bottom).offset(12)
-            make.leading.equalTo(quantityLabel.snp.leading)
+            make.trailing.bottom.equalToSuperview()
         }
     }
     
     func configureView() {
         
     }
+    
 }
