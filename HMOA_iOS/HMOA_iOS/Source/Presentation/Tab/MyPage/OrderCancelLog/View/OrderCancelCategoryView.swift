@@ -27,7 +27,7 @@ final class OrderCancelCategoryView: UIView {
     
     private let noteListLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 10, color: .black)
-        $0.setTextWithLineHeight(text: "노트1, 노트2, 노트3, 노트4, 노트5, 노트6", lineHeight: 12)
+        $0.setTextWithLineHeight(text: "노트1, 노트2, 노트3, 노트4, 노트5, 노트6, 노트7", lineHeight: 12)
         $0.numberOfLines = 0
         $0.lineBreakStrategy = .hangulWordPriority
     }

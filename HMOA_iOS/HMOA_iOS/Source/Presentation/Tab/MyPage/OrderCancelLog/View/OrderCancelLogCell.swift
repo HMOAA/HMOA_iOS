@@ -32,8 +32,7 @@ final class OrderCancelLogCell: UITableViewCell {
 
     private let categoryStackView = UIStackView().then {
         $0.axis = .vertical
-        // TODO: spacing 결정된 후 적용
-        $0.spacing = 0
+        $0.spacing = 16
         $0.alignment = .fill
         $0.distribution = .equalSpacing
     }
@@ -86,11 +85,24 @@ final class OrderCancelLogCell: UITableViewCell {
         categoryStackView.snp.makeConstraints { make in
             make.top.equalTo(statusLabel.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview().inset(24)
         }
     }
     
     func configureCell() {
+        let category1 = OrderCancelCategoryView()
+        let category2 = OrderCancelCategoryView()
         
+        [
+            category1,
+            category2
+        ]   .forEach {
+            $0.configureView()
+            $0.snp.makeConstraints { make in
+                make.height.greaterThanOrEqualTo(60)
+            }
+            categoryStackView.addArrangedSubview($0)
+        }
     }
 
 }
