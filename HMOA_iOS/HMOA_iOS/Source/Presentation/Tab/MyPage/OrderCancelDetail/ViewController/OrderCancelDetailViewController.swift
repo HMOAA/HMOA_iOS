@@ -19,6 +19,8 @@ final class OrderCancelDetailViewController: UIViewController, View {
     
     private let scrollView = UIScrollView()
     
+    private let containerView = UIView()
+    
     private let categoryStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 16
@@ -97,22 +99,32 @@ final class OrderCancelDetailViewController: UIViewController, View {
     private func setUI() {
         setClearBackNaviBar("", .black)
         view.backgroundColor = .white
+        scrollView.showsVerticalScrollIndicator = false
     }
     
     // MARK: Add Views
     private func setAddView() {
-        view.addSubview(scrollView)
+        [
+            scrollView,
+            cancelButton
+        ]   .forEach { view.addSubview($0) }
+        scrollView.addSubview(containerView)
         
         [
             categoryStackView,
             separatorLineView,
             totalAmountTitleLabel,
             totalAmountValueLabel,
-            paymentInfoView,
-            cancelButton
-        ]   .forEach { scrollView.addSubview($0) }
+            paymentInfoView
+        ]   .forEach { containerView.addSubview($0) }
         
         [
+            OrderCancelCategoryView(),
+            OrderCancelCategoryView(),
+            OrderCancelCategoryView(),
+            OrderCancelCategoryView(),
+            OrderCancelCategoryView(),
+            OrderCancelCategoryView(),
             OrderCancelCategoryView(),
             OrderCancelCategoryView()
         ]   .forEach {
@@ -135,13 +147,19 @@ final class OrderCancelDetailViewController: UIViewController, View {
     // MARK: Set Constraints
     private func setConstraints() {
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(cancelButton.snp.top).offset(-5)
+        }
+        
+        containerView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
+            make.bottom.equalToSuperview().inset(100)
         }
         
         categoryStackView.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview().inset(20)
+            make.top.equalToSuperview().inset(20)
             make.horizontalEdges.equalToSuperview().inset(16)
-            make.width.equalTo(scrollView.snp.width).offset(-32)
         }
         
         separatorLineView.snp.makeConstraints { make in
@@ -164,6 +182,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
             make.top.equalTo(totalAmountTitleLabel.snp.bottom).offset(24)
             make.leading.equalTo(totalAmountTitleLabel.snp.leading)
             make.trailing.equalTo(totalAmountValueLabel.snp.trailing)
+            make.bottom.equalToSuperview()
         }
         
         decoLineView1.snp.makeConstraints { make in
@@ -190,11 +209,12 @@ final class OrderCancelDetailViewController: UIViewController, View {
         totalRefundPriceView.snp.makeConstraints { make in
             make.top.equalTo(decoLineView2.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
         
         cancelButton.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(categoryStackView.snp.horizontalEdges)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(40)
+            make.bottom.equalToSuperview().inset(40)
             make.height.equalTo(52)
         }
     }
