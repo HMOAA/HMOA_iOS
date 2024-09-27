@@ -132,6 +132,7 @@
 		C93AC2EF2CA4068C004A1CF5 /* OrderCancelLogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */; };
 		C93AC2F42CA58493004A1CF5 /* OrderCancelDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2F32CA58493004A1CF5 /* OrderCancelDetailReactor.swift */; };
 		C93AC2F62CA584AF004A1CF5 /* OrderCancelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2F52CA584AF004A1CF5 /* OrderCancelDetailViewController.swift */; };
+		C93AC2F92CA67573004A1CF5 /* ProductPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2F82CA67573004A1CF5 /* ProductPriceView.swift */; };
 		C93BFA6D2C428E9300A5D9D2 /* IntroViewHBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */; };
 		C93BFA762C4295FC00A5D9D2 /* HBTISurveyReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */; };
 		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
@@ -469,6 +470,7 @@
 		C93AC2EE2CA4068C004A1CF5 /* OrderCancelLogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelLogSection.swift; sourceTree = "<group>"; };
 		C93AC2F32CA58493004A1CF5 /* OrderCancelDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelDetailReactor.swift; sourceTree = "<group>"; };
 		C93AC2F52CA584AF004A1CF5 /* OrderCancelDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCancelDetailViewController.swift; sourceTree = "<group>"; };
+		C93AC2F82CA67573004A1CF5 /* ProductPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceView.swift; sourceTree = "<group>"; };
 		C93BFA6C2C428E9300A5D9D2 /* IntroViewHBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewHBTI.swift; sourceTree = "<group>"; };
 		C93BFA6F2C4295FC00A5D9D2 /* HBTISurveyReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyReactor.swift; sourceTree = "<group>"; };
 		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
@@ -1649,6 +1651,7 @@
 			isa = PBXGroup;
 			children = (
 				C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */,
+				C93AC2F82CA67573004A1CF5 /* ProductPriceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3072,6 +3075,7 @@
 				2C39AA20296DB4DE000C6F71 /* HMOA_iOS.xcdatamodeld in Sources */,
 				2C4CDC4329C770D900676163 /* BrandDetailViewController.swift in Sources */,
 				C96CD7432BA88010005C9856 /* MagazineContentCell.swift in Sources */,
+				C93AC2F92CA67573004A1CF5 /* ProductPriceView.swift in Sources */,
 				CA1067D729D6C83C009A7245 /* ChangeYearViewConroller.swift in Sources */,
 				2CA155A42A03921000D7B0C0 /* MemberAPI.swift in Sources */,
 				CA943AD32AE685CF00A5B717 /* CommunityListService.swift in Sources */,
