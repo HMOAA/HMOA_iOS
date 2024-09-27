@@ -1599,7 +1599,6 @@
 			isa = PBXGroup;
 			children = (
 				C93AC2EA2CA3FB9B004A1CF5 /* OrderCancelLogCell.swift */,
-				C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1623,6 +1622,7 @@
 		C93AC2F02CA58418004A1CF5 /* OrderCancelDetail */ = {
 			isa = PBXGroup;
 			children = (
+				C93AC2F72CA58B56004A1CF5 /* View */,
 				C93AC2F12CA58478004A1CF5 /* Reactor */,
 				C93AC2F22CA58481004A1CF5 /* ViewController */,
 			);
@@ -1643,6 +1643,14 @@
 				C93AC2F52CA584AF004A1CF5 /* OrderCancelDetailViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		C93AC2F72CA58B56004A1CF5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C93AC2EC2CA3FD75004A1CF5 /* OrderCancelCategoryView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		C93BFA6B2C428DAA00A5D9D2 /* Model */ = {
