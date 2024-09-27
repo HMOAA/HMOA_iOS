@@ -61,6 +61,14 @@ final class OrderCancelDetailViewController: UIViewController, View {
         $0.configureView(title: "총 환불금액", price: 11111, color: .black)
     }
     
+    private let cancelButton = UIButton().then {
+        $0.setTitle("취소", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 15)
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.cornerRadius = 5
+        $0.backgroundColor = .black
+    }
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -100,7 +108,8 @@ final class OrderCancelDetailViewController: UIViewController, View {
             separatorLineView,
             totalAmountTitleLabel,
             totalAmountValueLabel,
-            paymentInfoView
+            paymentInfoView,
+            cancelButton
         ]   .forEach { scrollView.addSubview($0) }
         
         [
@@ -181,6 +190,12 @@ final class OrderCancelDetailViewController: UIViewController, View {
         totalRefundPriceView.snp.makeConstraints { make in
             make.top.equalTo(decoLineView2.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview()
+        }
+        
+        cancelButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(categoryStackView.snp.horizontalEdges)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(40)
+            make.height.equalTo(52)
         }
     }
 }
