@@ -39,6 +39,28 @@ final class OrderCancelDetailViewController: UIViewController, View {
         $0.setLabelUI("15,000원", font: .pretendard_bold, size: 20, color: .red)
     }
     
+    private let paymentInfoView = UIView()
+    
+    private let decoLineView1 = UIView().then {
+        $0.backgroundColor = .customColor(.gray1)
+    }
+    
+    private let productPriceView = ProductPriceView().then {
+        $0.configureView(title: "총 상품금액", price: 9999, color: .gray3)
+    }
+    
+    private let shippingPriceView = ProductPriceView().then {
+        $0.configureView(title: "배송비", price: 3333, color: .gray3)
+    }
+    
+    private let decoLineView2 = UIView().then {
+        $0.backgroundColor = .customColor(.gray1)
+    }
+    
+    private let totalRefundPriceView = ProductPriceView().then {
+        $0.configureView(title: "총 환불금액", price: 11111, color: .black)
+    }
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -77,7 +99,8 @@ final class OrderCancelDetailViewController: UIViewController, View {
             categoryStackView,
             separatorLineView,
             totalAmountTitleLabel,
-            totalAmountValueLabel
+            totalAmountValueLabel,
+            paymentInfoView
         ]   .forEach { scrollView.addSubview($0) }
         
         [
@@ -90,6 +113,14 @@ final class OrderCancelDetailViewController: UIViewController, View {
             }
             categoryStackView.addArrangedSubview($0)
         }
+        
+        [
+            decoLineView1,
+            productPriceView,
+            shippingPriceView,
+            decoLineView2,
+            totalRefundPriceView
+        ]   .forEach { paymentInfoView.addSubview($0) }
     }
     
     // MARK: Set Constraints
@@ -118,6 +149,38 @@ final class OrderCancelDetailViewController: UIViewController, View {
         totalAmountValueLabel.snp.makeConstraints { make in
             make.top.equalTo(totalAmountTitleLabel.snp.top)
             make.trailing.equalTo(separatorLineView.snp.trailing)
+        }
+        
+        paymentInfoView.snp.makeConstraints { make in
+            make.top.equalTo(totalAmountTitleLabel.snp.bottom).offset(24)
+            make.leading.equalTo(totalAmountTitleLabel.snp.leading)
+            make.trailing.equalTo(totalAmountValueLabel.snp.trailing)
+        }
+        
+        decoLineView1.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
+        productPriceView.snp.makeConstraints { make in
+            make.top.equalTo(decoLineView1.snp.bottom).offset(16)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        shippingPriceView.snp.makeConstraints { make in
+            make.top.equalTo(productPriceView.snp.bottom).offset(12)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        decoLineView2.snp.makeConstraints { make in
+            make.top.equalTo(shippingPriceView.snp.bottom).offset(16)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
+        totalRefundPriceView.snp.makeConstraints { make in
+            make.top.equalTo(decoLineView2.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview()
         }
     }
 }
