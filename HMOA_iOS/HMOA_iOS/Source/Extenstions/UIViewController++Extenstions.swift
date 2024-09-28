@@ -307,8 +307,10 @@ extension UIViewController {
     }
   
     /// HBTINotesCatrgoryVC로 push
-    func presentHBTINotesCategoryViewController() {
-        let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
+    func presentHBTINotesCategoryViewController(_ reactor: HBTINotesCategoryReactor) {
+        let selectedQuantity = reactor.currentState.selectedQuantity
+        let hbtiNotesCategoryReactor = HBTINotesCategoryReactor(selectedQuantity: selectedQuantity)
+        let hbtiNotesCategoryVC = HBTINotesCategoryViewController(reactor: hbtiNotesCategoryReactor)
         hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
     }
