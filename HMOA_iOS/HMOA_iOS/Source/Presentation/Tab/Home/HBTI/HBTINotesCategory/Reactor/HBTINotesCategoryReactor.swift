@@ -23,7 +23,7 @@ final class HBTINotesCategoryReactor: Reactor {
     
     var initialState: State
     
-    init(selectedQuantity: Int) {
+    init(_ selectedQuantity: Int) {
         self.initialState = State(selectedQuantity: selectedQuantity)
     }
     
