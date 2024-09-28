@@ -16,3 +16,17 @@ struct HBTIQuantitySelectionData {
     
     let descriptionLabelText = "· 향료 1개 당 990원"
 }
+
+struct NotesQuantity {
+    let text: String
+    let quantity: Int
+}
+
+extension NotesQuantity {
+    static let quantities: [NotesQuantity] = [
+        NotesQuantity(text: "2개", quantity: 2),
+        NotesQuantity(text: "5개", quantity: 5),
+        NotesQuantity(text: "8개", quantity: 8),
+        NotesQuantity(text: "자유롭게 선택", quantity: 8)
+    ]
+}

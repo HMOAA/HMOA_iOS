@@ -31,9 +31,7 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
     }
     
     private let nextButton: UIButton = UIButton().makeInvalidHBTINextButton()
-    
-    private let quantities = ["2개", "5개", "8개", "자유롭게 선택"]
-    
+
     // MARK: - LifeCycle
     
     init(reactor: HBTIQuantitySelectReactor) {
@@ -75,7 +73,7 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
                     guard let indexPath = owner.hbtiQuantityTableView.indexPath(for: cell),
                           let hbtiQuantityCell = cell as? HBTIQuantitySelectCell else { continue }
                     
-                    hbtiQuantityCell.quantityButton.isSelected = indexPath == selectedIndex
+                    hbtiQuantityCell.quantityButton.isSelected = indexPath.row == selectedIndex
                 }
             })
             .disposed(by: disposeBag)
@@ -96,7 +94,11 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentHBTINotesCategoryViewController()
+                guard let selectedIndex = owner.reactor?.currentState.selectedIndex else { return }
+                let selectedQuantity = NotesQuantity.quantities[selectedIndex].quantity
+                let hbtiNotesCategoryReactor = HBTINotesCategoryReactor(selectedQuantity: selectedQuantity)
+                
+                owner.presentHBTINotesCategoryViewController(hbtiNotesCategoryReactor)
             })
             .disposed(by: disposeBag)
     }
@@ -142,16 +144,16 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
 
 extension HBTIQuantitySelectViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return quantities.count
+        return NotesQuantity.quantities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HBTIQuantitySelectCell.reuseIdentifier, for: indexPath) as! HBTIQuantitySelectCell
         
         if indexPath.row == 2 {
-            cell.configureCell(quantity: "", isThirdCell: true)
+            cell.configureCell(text: NotesQuantity.quantities[indexPath.row].text, isThirdCell: true)
         } else {
-            cell.configureCell(quantity: quantities[indexPath.row])
+            cell.configureCell(text: NotesQuantity.quantities[indexPath.row].text)
         }
 
         cell.quantityButton.rx.tap
