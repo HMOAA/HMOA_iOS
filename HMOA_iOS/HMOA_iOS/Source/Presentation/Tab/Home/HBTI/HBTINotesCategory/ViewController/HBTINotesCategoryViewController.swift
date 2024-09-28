@@ -10,8 +10,9 @@ import SnapKit
 import Then
 import RxSwift
 import ReactorKit
+import RxCocoa
 
-final class HBTINotesCategoryViewController: UIViewController {
+final class HBTINotesCategoryViewController: UIViewController, View {
     
     // MARK: - UI Components
     
@@ -25,9 +26,19 @@ final class HBTINotesCategoryViewController: UIViewController {
     
     // MARK: - Properties
     
+    var disposeBag = DisposeBag()
     private var dataSource: UICollectionViewDiffableDataSource<HBTINotesCategorySection, HBTINotesCategoryItem>?
 
     // MARK: - LifeCycle
+    
+    init(reactor: HBTINotesCategoryReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +51,7 @@ final class HBTINotesCategoryViewController: UIViewController {
     
     // MARK: - Bind
     
-    func bind(reactor: HBTISurveyReactor) {
+    func bind(reactor: HBTINotesCategoryReactor) {
         
         // MARK: Action
         

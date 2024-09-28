@@ -15,16 +15,15 @@ final class HBTIQuantitySelectReactor: Reactor {
     }
     
     enum Mutation {
-        case setSelectedQuantity(IndexPath)
+        case setSeledtedIndex(Int)
         case setIsEnabledNextButton(Bool)
         case setIsPushNextVC(Bool)
     }
     
     struct State {
-        var selectedQuantity: Int? = nil
+        var selectedIndex: Int? = nil
         var isEnabledNextButton: Bool = false
         var isPushNextVC: Bool = false
-        var selectedIndex: IndexPath?
     }
     
     var initialState: State
@@ -37,12 +36,12 @@ final class HBTIQuantitySelectReactor: Reactor {
         switch action {
         case .didSelectQuantity(let indexPath):
             return .concat([
-                .just(.setSelectedQuantity(indexPath)),
+                .just(.setSeledtedIndex(indexPath.row)),
                 .just(.setIsEnabledNextButton(true))
             ])
             
         case .didTapNextButton:
-            if currentState.selectedQuantity != nil {
+            if currentState.selectedIndex != nil {
                 return .just(.setIsPushNextVC(true))
             }
             
@@ -54,9 +53,8 @@ final class HBTIQuantitySelectReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setSelectedQuantity(let indexPath):
-            state.selectedQuantity = indexPath.row
-            state.selectedIndex = indexPath
+        case .setSeledtedIndex(let index):
+            state.selectedIndex = index
 
         case .setIsEnabledNextButton(let isEnabled):
             state.isEnabledNextButton = isEnabled
@@ -68,4 +66,3 @@ final class HBTIQuantitySelectReactor: Reactor {
         return state
     }
 }
-

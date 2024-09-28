@@ -307,6 +307,15 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiPerfumeResultVC, animated: true)
     }
   
+    /// HBTINotesCatrgoryVC로 push
+    func presentHBTINotesCategoryViewController(_ reactor: HBTINotesCategoryReactor) {
+        let selectedQuantity = reactor.currentState.selectedQuantity
+        let hbtiNotesCategoryReactor = HBTINotesCategoryReactor(selectedQuantity: selectedQuantity)
+        let hbtiNotesCategoryVC = HBTINotesCategoryViewController(reactor: hbtiNotesCategoryReactor)
+        hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
+    }
+  
     /// HBTIQuantitySelectVC로 push
     func presentHBTIQuantitySelectViewController() {
         let hbtiQuantitySelectVC = HBTIQuantitySelectViewController(reactor: HBTIQuantitySelectReactor())
@@ -339,13 +348,6 @@ extension UIViewController {
         let hbtiNotesResultVC = HBTINotesResultViewController()
         hbtiNotesResultVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesResultVC, animated: true)
-    }
-    
-    /// HBTINotesCatrgoryVC로 push
-    func presentHBTINotesCategoryViewController() {
-        let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
-        hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
     }
     
     // MARK: Configure NavigationBar
