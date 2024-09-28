@@ -37,6 +37,7 @@ final class OrderLogViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDataSource()
+        presentOrderCancelDetailViewController()
     }
     
     // MARK: - Bind
