@@ -307,24 +307,25 @@ extension UIViewController {
     }
   
     /// HBTINotesCatrgoryVC로 push
-    func presentHBTINotesCategoryViewController(_ reactor: HBTINotesCategoryReactor) {
-        let selectedQuantity = reactor.currentState.selectedQuantity
-        let hbtiNotesCategoryReactor = HBTINotesCategoryReactor(selectedQuantity: selectedQuantity)
-        let hbtiNotesCategoryVC = HBTINotesCategoryViewController(reactor: hbtiNotesCategoryReactor)
+    func presentHBTINotesCategoryViewController(_ selectedQuantity: Int) {
+        let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
+        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(selectedQuantity)
         hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
     }
   
     /// HBTIQuantitySelectVC로 push
     func presentHBTIQuantitySelectViewController() {
-        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController(reactor: HBTIQuantitySelectReactor())
+        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
+        hbtiQuantitySelectVC.reactor = HBTIQuantitySelectReactor()
         hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
     }
   
     /// HBTIProcessGuideVC로 push
     func presentHBTIProcessGuideViewController() {
-        let hbtiProcessGuideVC = HBTIProcessGuideViewController(reactor: HBTIProcessGuideReactor())
+        let hbtiProcessGuideVC = HBTIProcessGuideViewController()
+        hbtiProcessGuideVC.reactor = HBTIProcessGuideReactor()
         hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
     }
