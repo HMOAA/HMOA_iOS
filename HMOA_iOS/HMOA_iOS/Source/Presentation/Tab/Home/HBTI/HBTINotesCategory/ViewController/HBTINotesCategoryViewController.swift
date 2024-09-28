@@ -31,15 +31,6 @@ final class HBTINotesCategoryViewController: UIViewController, View {
 
     // MARK: - LifeCycle
     
-    init(reactor: HBTINotesCategoryReactor) {
-        super.init(nibName: nil, bundle: nil)
-        self.reactor = reactor
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
