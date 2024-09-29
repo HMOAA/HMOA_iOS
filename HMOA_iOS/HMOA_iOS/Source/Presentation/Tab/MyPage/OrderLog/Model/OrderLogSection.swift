@@ -12,12 +12,11 @@ enum OrderLogSection: Hashable {
 }
 
 enum OrderLogItem: Hashable {
-    // TODO: String -> Networking Model로 교체
-    case order(String)
+    case order(Order)
 }
 
 extension OrderLogItem {
-    var order: String? {
+    var order: Order? {
         if case .order(let order) = self {
             return order
         } else {

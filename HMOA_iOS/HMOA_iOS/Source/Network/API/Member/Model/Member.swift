@@ -51,7 +51,7 @@ struct OrderInfo: Codable, Hashable {
     let totalAmount: Int
     
     enum CodingKeys: String, CodingKey {
-        case categoryListInfo
+        case categoryListInfo = "productInfo"
         case paymentAmount
         case shippingFee = "shippingAmount"
         case totalAmount

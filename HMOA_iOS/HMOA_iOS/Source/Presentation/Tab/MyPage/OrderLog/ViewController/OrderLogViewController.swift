@@ -37,7 +37,6 @@ final class OrderLogViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDataSource()
-        presentOrderCancelDetailViewController()
     }
     
     // MARK: - Bind
@@ -45,6 +44,10 @@ final class OrderLogViewController: UIViewController, View {
     func bind(reactor: OrderLogReactor) {
         
         // MARK: Action
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
         // MARK: State
     }
@@ -109,7 +112,7 @@ final class OrderLogViewController: UIViewController, View {
         var initialSnapshot = NSDiffableDataSourceSnapshot<OrderLogSection, OrderLogItem>()
         initialSnapshot.appendSections([.order])
         
-        initialSnapshot.appendItems([.order("1"), .order("2")])
+        
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
