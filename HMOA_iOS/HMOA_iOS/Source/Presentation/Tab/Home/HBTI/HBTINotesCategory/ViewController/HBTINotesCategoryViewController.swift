@@ -10,8 +10,9 @@ import SnapKit
 import Then
 import RxSwift
 import ReactorKit
+import RxCocoa
 
-final class HBTINotesCategoryViewController: UIViewController {
+final class HBTINotesCategoryViewController: UIViewController, View {
     
     // MARK: - UI Components
     
@@ -25,6 +26,7 @@ final class HBTINotesCategoryViewController: UIViewController {
     
     // MARK: - Properties
     
+    var disposeBag = DisposeBag()
     private var dataSource: UICollectionViewDiffableDataSource<HBTINotesCategorySection, HBTINotesCategoryItem>?
 
     // MARK: - LifeCycle
@@ -40,7 +42,7 @@ final class HBTINotesCategoryViewController: UIViewController {
     
     // MARK: - Bind
     
-    func bind(reactor: HBTISurveyReactor) {
+    func bind(reactor: HBTINotesCategoryReactor) {
         
         // MARK: Action
         
@@ -52,6 +54,7 @@ final class HBTINotesCategoryViewController: UIViewController {
     // MARK: Set UI
     
     private func setUI() {
+        view.backgroundColor = .white
         setBackItemNaviBar("향BTI")
     }
     

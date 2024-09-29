@@ -307,8 +307,9 @@ extension UIViewController {
     }
   
     /// HBTINotesCatrgoryVC로 push
-    func presentHBTINotesCategoryViewController() {
+    func presentHBTINotesCategoryViewController(_ selectedQuantity: Int) {
         let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
+        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(selectedQuantity)
         hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
     }
@@ -316,6 +317,7 @@ extension UIViewController {
     /// HBTIQuantitySelectVC로 push
     func presentHBTIQuantitySelectViewController() {
         let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
+        hbtiQuantitySelectVC.reactor = HBTIQuantitySelectReactor()
         hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
     }
@@ -323,6 +325,7 @@ extension UIViewController {
     /// HBTIProcessGuideVC로 push
     func presentHBTIProcessGuideViewController() {
         let hbtiProcessGuideVC = HBTIProcessGuideViewController()
+        hbtiProcessGuideVC.reactor = HBTIProcessGuideReactor()
         hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
     }

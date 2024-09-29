@@ -8,11 +8,17 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 final class HBTIQuantitySelectCell: UITableViewCell, ReuseIdentifying {
     
+    // MARK: - Properties
+    
+    var disposeBag = DisposeBag()
+    
     // MARK: - UI Components
-    private let quantityButton = HBTIQuantitySelectButton()
+    
+    let quantityButton = HBTIQuantitySelectButton()
     
     private let label1 = UILabel().then {
         $0.setLabelUI("8개", font: .pretendard, size: 14, color: .black)
@@ -46,10 +52,15 @@ final class HBTIQuantitySelectCell: UITableViewCell, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
     // MARK: Set UI
     
     private func setUI() {
-        
+        selectionStyle = .none
     }
     
     // MARK: Add Views
@@ -88,7 +99,7 @@ final class HBTIQuantitySelectCell: UITableViewCell, ReuseIdentifying {
         }
     }
     
-    func configureCell(quantity: String, isThirdCell: Bool = false) {
+    func configureCell(text: String, isThirdCell: Bool = false) {
         if isThirdCell {
             label1.text = "8개"
             label2.text = "31,900원"
@@ -96,7 +107,7 @@ final class HBTIQuantitySelectCell: UITableViewCell, ReuseIdentifying {
             label2.isHidden = false
             label3.isHidden = false
         } else {
-            quantityButton.quantityLabel.setLabelUI(quantity, font: .pretendard, size: 14, color: .black)
+            quantityButton.quantityLabel.setLabelUI(text, font: .pretendard, size: 14, color: .black)
             label1.isHidden = true
             label2.isHidden = true
             label3.isHidden = true
