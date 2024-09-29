@@ -11,15 +11,15 @@ import RxSwift
 final class OrderLogReactor: Reactor {
     
     enum Action {
-        
+        case viewDidLoad
     }
     
     enum Mutation {
-        
+        case setOrderList([OrderLogItem])
     }
     
     struct State {
-        
+        var orderList: [OrderLogItem] = []
     }
     
     var initialState: State
@@ -30,7 +30,8 @@ final class OrderLogReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-            
+        case .viewDidLoad:
+            return setOrderList()
         }
     }
     
@@ -38,9 +39,24 @@ final class OrderLogReactor: Reactor {
         var state = state
         
         switch mutation {
-            
+        case .setOrderList(let order):
+            print(order)
+            state.orderList = order
         }
         
         return state
+    }
+}
+
+extension OrderLogReactor {
+    func setOrderList() -> Observable<Mutation> {
+        return MemberAPI.fetchOrderList(["cursor": 0])
+            .catch { _ in .empty() }
+            .flatMap { OrderResponseData -> Observable<Mutation> in
+                let orderItemList = OrderResponseData.orders.map { order in
+                    return OrderLogItem.order(order)
+                }
+                return .just(.setOrderList(orderItemList))
+            }
     }
 }

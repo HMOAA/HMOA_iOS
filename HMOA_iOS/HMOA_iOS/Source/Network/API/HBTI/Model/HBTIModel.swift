@@ -124,7 +124,7 @@ struct HBTICategory: Codable, Hashable {
         case name = "productName"
         case imageURL = "productPhotoUrl"
         case noteCount = "notesCount"
-        case noteList
+        case noteList = "notes"
         case price
     }
 }
