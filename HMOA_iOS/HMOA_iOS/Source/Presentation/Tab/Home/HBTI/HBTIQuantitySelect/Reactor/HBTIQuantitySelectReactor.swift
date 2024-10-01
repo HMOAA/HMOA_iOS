@@ -18,12 +18,14 @@ final class HBTIQuantitySelectReactor: Reactor {
         case setSeledtedIndex(Int)
         case setIsEnabledNextButton(Bool)
         case setIsPushNextVC(Bool)
+        case setIsFreeSelection(Bool)
     }
     
     struct State {
         var selectedIndex: Int? = nil
         var isEnabledNextButton: Bool = false
         var isPushNextVC: Bool = false
+        var isFreeSelection: Bool = false
     }
     
     var initialState: State
@@ -35,17 +37,16 @@ final class HBTIQuantitySelectReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didSelectQuantity(let indexPath):
+            let isFreeSelection = (indexPath.row == 3)
+            
             return .concat([
                 .just(.setSeledtedIndex(indexPath.row)),
-                .just(.setIsEnabledNextButton(true))
+                .just(.setIsEnabledNextButton(true)),
+                .just(.setIsFreeSelection(isFreeSelection))
             ])
             
         case .didTapNextButton:
-            if currentState.selectedIndex != nil {
-                return .just(.setIsPushNextVC(true))
-            }
-            
-            return .empty()
+            return currentState.isEnabledNextButton ? .just(.setIsPushNextVC(true)) : .empty()
         }
     }
     
@@ -61,6 +62,9 @@ final class HBTIQuantitySelectReactor: Reactor {
             
         case .setIsPushNextVC(let isPush):
             state.isPushNextVC = isPush
+            
+        case .setIsFreeSelection(let isFree):
+            state.isFreeSelection = isFree
         }
         
         return state
