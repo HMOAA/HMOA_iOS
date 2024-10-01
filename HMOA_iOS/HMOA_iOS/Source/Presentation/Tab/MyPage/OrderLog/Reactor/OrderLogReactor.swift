@@ -40,7 +40,6 @@ final class OrderLogReactor: Reactor {
         
         switch mutation {
         case .setOrderList(let order):
-            print(order)
             state.orderList = order
         }
         

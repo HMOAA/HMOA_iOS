@@ -57,3 +57,32 @@ struct OrderInfo: Codable, Hashable {
         case totalAmount
     }
 }
+
+enum OrderStatus: String, Codable {
+    case CREATED = "CREATED"
+    case PAY_FAILED = "PAY_FAILED"
+    case PAY_COMPLETE = "PAY_COMPLETE"
+    case PAY_CANCEL = "PAY_CANCEL"
+    case SHIPPING_PROGRESS = "SHIPPING_PROGRESS"
+    case SHIPPING_COMPLETE = "SHIPPING_COMPLETE"
+    case PURCHASE_CONFIRMATION = "PURCHASE_CONFIRMATION"
+    
+    var kr: String {
+        switch self {
+        case .CREATED:
+            return "주문 생성"
+        case .PAY_FAILED:
+            return "결제 실패"
+        case .PAY_COMPLETE:
+            return "주문 완료"
+        case .PAY_CANCEL:
+            return "주문 취소"
+        case .SHIPPING_PROGRESS:
+            return "배송 중"
+        case .SHIPPING_COMPLETE:
+            return "배송 완료"
+        case .PURCHASE_CONFIRMATION:
+            return "구매 확정"
+        }
+    }
+}
