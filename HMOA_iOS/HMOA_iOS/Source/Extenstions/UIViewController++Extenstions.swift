@@ -307,9 +307,9 @@ extension UIViewController {
     }
   
     /// HBTINotesCatrgoryVC로 push
-    func presentHBTINotesCategoryViewController(_ selectedQuantity: Int) {
+    func presentHBTINotesCategoryViewController(_ selectedQuantity: Int, _ isFreeSelection: Bool) {
         let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
-        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(selectedQuantity)
+        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(selectedQuantity, isFreeSelection)
         hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
     }
