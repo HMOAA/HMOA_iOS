@@ -22,7 +22,7 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         $0.register(HBTINotesCategoryCell.self, forCellWithReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier)
     }
     
-    private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
+    private let nextButton: UIButton = UIButton().makeInvalidHBTINextButton()
     
     // MARK: - Properties
     
@@ -46,9 +46,34 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         
         // MARK: Action
         
+        collectionView.rx.itemSelected
+            .do(onNext: { indexPath in
+                let selectedNote = HBTINotesCategoryData.data[indexPath.item]
+                let selectedNotes = reactor.currentState.selectedNote
+                
+                print("===============선택한 노트: \(selectedNote)================\n\n")
+                print("===============전체 선택된 노트 배열: \(selectedNotes)================\n")
+            })
+            .map { Reactor.Action.didTapNote($0.item + 1) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
         
+        reactor.state
+            .map { $0.selectedQuantity }
+            .distinctUntilChanged()
+            .subscribe(onNext: { print("=============Selected Quantity: \($0)============") })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedNote }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, selectedNotes in
+                owner.updateSnapShot(withItems: selectedNotes)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Set UI
@@ -77,7 +102,7 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(hbtiNotesCategoryTopView.snp.bottom).offset(28)
+            $0.top.equalTo(hbtiNotesCategoryTopView.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(60)
         }
@@ -116,7 +141,8 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             
             switch item {
             case .note(let noteData):
-                cell.configureCell(with: [noteData])
+                let selectedNotes = self.reactor?.currentState.selectedNote ?? []
+                cell.configureCell(with: [noteData], selectedNote: selectedNotes)
             }
             return cell
         }
@@ -127,4 +153,13 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         snapshot.appendItems(items, toSection: .category)
         dataSource?.apply(snapshot, animatingDifferences: false)
     } 
+
+    private func updateSnapShot(withItems items: [Int]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        snapshot.reloadSections([.category])
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
 }

@@ -32,6 +32,30 @@ final class HBTINotesCategoryButton: UIButton {
         $0.numberOfLines = 3
     }
     
+    private let overlayView = UIView().then {
+        $0.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        $0.layer.cornerRadius = 34
+    }
+    
+    private let overlayBigCircleView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.layer.cornerRadius = 38
+        $0.layer.borderWidth = 2
+        $0.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    private let overlaySmallCircleView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.layer.cornerRadius = 34
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    private let selectionIndexLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_bold, size: 14, color: .white)
+        $0.textAlignment = .center
+    }
+    
     // MARK: - Init
         
     override init(frame: CGRect) {
@@ -58,7 +82,11 @@ final class HBTINotesCategoryButton: UIButton {
         [
          customImageView,
          customTitleLabel,
-         descriptionLabel
+         descriptionLabel,
+         overlayView,
+         overlayBigCircleView,
+         overlaySmallCircleView,
+         selectionIndexLabel
         ].forEach(addSubview)
     }
     
@@ -66,6 +94,7 @@ final class HBTINotesCategoryButton: UIButton {
     
     private func setConstraints() {
         customImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(4)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(68)
         }
@@ -79,11 +108,45 @@ final class HBTINotesCategoryButton: UIButton {
             $0.top.equalTo(customTitleLabel.snp.bottom).offset(4)
             $0.centerX.equalToSuperview()
         }
+        
+        overlayView.snp.makeConstraints {
+            $0.edges.equalTo(customImageView)
+        }
+        
+        overlayBigCircleView.snp.makeConstraints {
+            $0.center.equalTo(customImageView)
+            $0.size.equalTo(76)
+        }
+        
+        overlaySmallCircleView.snp.makeConstraints {
+            $0.center.equalTo(customImageView)
+            $0.size.equalTo(68)
+        }
+        
+        selectionIndexLabel.snp.makeConstraints {
+            $0.center.equalTo(overlayView)
+        }
     }
     
-    func configureButton(with category: HBTINotesCategoryData) {
+    // TODO: 파라미터 id 출력은 확인용이므로 최종적으론 삭제
+    func configureButton(with category: HBTINotesCategoryData, _ id: [Int]) {
         customImageView.image = UIImage(named: category.image)?.resize(targetSize: CGSize(width: 68, height: 68))
         customTitleLabel.text = category.title
         descriptionLabel.text = category.description
+        
+        print("===================선택된 id값들: \(id)===========")
+    }
+    
+    func setOverlayVisible(_ isVisible: Bool) {
+        overlayView.isHidden = !isVisible
+        overlayBigCircleView.isHidden = !isVisible
+        overlaySmallCircleView.isHidden = !isVisible
+    }
+    
+    func setSelectionIndexLabel(_ index: Int?, _ isVisible: Bool) {
+        if isVisible, let index = index {
+            selectionIndexLabel.text = "\(index + 1)"
+            selectionIndexLabel.isHidden = false
+        }
     }
 }
