@@ -11,16 +11,20 @@ import ReactorKit
 final class HBTINotesCategoryReactor: Reactor {
     enum Action {
         case didTapNote(Int)
-//        case didTapNextButton
+        case didTapNextButton
     }
     
     enum Mutation {
         case setUpdateNoteList([Int])
+        case setIsEnabledNextButton(Bool)
+        case setIsPushNextVC(Bool)
     }
     
     struct State {
         var selectedQuantity: Int
         var selectedNote: [Int] = []
+        var isEnabledNextButton: Bool = false
+        var isPushNextVC: Bool = false
     }
     
     var initialState: State
@@ -41,7 +45,17 @@ final class HBTINotesCategoryReactor: Reactor {
                 selectedNote.append(id)
             }
             
-            return .just(.setUpdateNoteList(selectedNote))
+            return .concat([
+                .just(.setUpdateNoteList(selectedNote)),
+                .just(.setIsEnabledNextButton(selectedNote.count == currentState.selectedQuantity))
+            ])  
+            
+        case .didTapNextButton:
+            if currentState.isEnabledNextButton {
+                return .just(.setIsPushNextVC(true))
+            }
+            
+            return .empty()
         }
     }
     
@@ -51,6 +65,12 @@ final class HBTINotesCategoryReactor: Reactor {
         switch mutation {
         case .setUpdateNoteList(let selectedNotes):
             state.selectedNote = selectedNotes
+            
+        case .setIsEnabledNextButton(let isEnabled):
+            state.isEnabledNextButton = isEnabled
+            
+        case .setIsPushNextVC(let isPush):
+            state.isPushNextVC = isPush
         }
         
         return state

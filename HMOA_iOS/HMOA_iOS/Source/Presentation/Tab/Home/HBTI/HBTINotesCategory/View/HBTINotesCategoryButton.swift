@@ -128,13 +128,10 @@ final class HBTINotesCategoryButton: UIButton {
         }
     }
     
-    // TODO: 파라미터 id 출력은 확인용이므로 최종적으론 삭제
-    func configureButton(with category: HBTINotesCategoryData, _ id: [Int]) {
+    func configureButton(with category: HBTINotesCategoryData) {
         customImageView.image = UIImage(named: category.image)?.resize(targetSize: CGSize(width: 68, height: 68))
         customTitleLabel.text = category.title
         descriptionLabel.text = category.description
-        
-        print("===================선택된 id값들: \(id)===========")
     }
     
     func setOverlayVisible(_ isVisible: Bool) {
