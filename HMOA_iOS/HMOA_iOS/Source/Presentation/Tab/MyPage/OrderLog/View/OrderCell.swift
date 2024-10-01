@@ -158,19 +158,27 @@ final class OrderCell: UICollectionViewCell {
         
     }
     
-    func configureCell() {
-        let category1 = OrderCategoryView()
-        let category2 = OrderCategoryView()
+    func configureCell(order: Order) {
+        // TODO: Status에 따라 문구, 색상 변경
+        statusLabel.text = OrderStatus(rawValue: order.status)!.kr
+        let categoryList = order.products.categoryListInfo.categoryList
+        setCategoryStackView(categoryList)
+        // TODO: 두 값이 nil이면 shippingInfoLabel.hidden = true
+        shippingInfoLabel.text = "택배사:\(order.courierCompany)\n운송장번호:\(order.trackingNumber)"
+        shippingPriceValueLabel.text = order.products.shippingFee.numberFormatterToHangulWon()
+        totalAmountValueLabel.text = order.products.totalAmount.numberFormatterToHangulWon()
+    }
+    
+    private func setCategoryStackView(_ categoryList: [HBTICategory]) {
+        categoryStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
-        [
-            category1,
-            category2
-        ]   .forEach {
-            $0.configureView()
-            $0.snp.makeConstraints { make in
+        categoryList.forEach {
+            let categoryView = OrderCategoryView()
+            categoryView.configureView(category: $0)
+            categoryView.snp.makeConstraints { make in
                 make.height.greaterThanOrEqualTo(90)
             }
-            categoryStackView.addArrangedSubview($0)
+            categoryStackView.addArrangedSubview(categoryView)
         }
     }
 }

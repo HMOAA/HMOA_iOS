@@ -115,7 +115,12 @@ final class OrderCategoryView: UIView {
         }
     }
     
-    func configureView() {
-        
+    func configureView(category: HBTICategory) {
+        categoryImageView.kf.setImage(with: URL(string: category.imageURL))
+        categoryLabel.text = category.name
+        noteListLabel.text = category.noteList.map { $0.name }.joined(separator: ", ")
+        quantityLabel.text = "수량 \(category.noteCount)개"
+        unitPriceLabel.text = "\(category.price / category.noteCount)/개"
+        categoryPriceLabel.text = category.price.numberFormatterToHangulWon()
     }
 }

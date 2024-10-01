@@ -50,6 +50,13 @@ final class OrderLogViewController: UIViewController, View {
             .disposed(by: self.disposeBag)
         
         // MARK: State
+        reactor.state
+            .map { $0.orderList }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .order, withItems: items)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -103,7 +110,7 @@ final class OrderLogViewController: UIViewController, View {
                     withReuseIdentifier: OrderCell.identifier,
                     for: indexPath) as! OrderCell
                 
-                cell.configureCell()
+                cell.configureCell(order: order)
                 
                 return cell
             }
@@ -112,9 +119,17 @@ final class OrderLogViewController: UIViewController, View {
         var initialSnapshot = NSDiffableDataSourceSnapshot<OrderLogSection, OrderLogItem>()
         initialSnapshot.appendSections([.order])
         
-        
-        
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: OrderLogSection, withItems items: [OrderLogItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 
 }
