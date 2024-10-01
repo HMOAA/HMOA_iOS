@@ -47,31 +47,43 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         // MARK: Action
         
         collectionView.rx.itemSelected
-            .do(onNext: { indexPath in
-                let selectedNote = HBTINotesCategoryData.data[indexPath.item]
-                let selectedNotes = reactor.currentState.selectedNote
-                
-                print("===============선택한 노트: \(selectedNote)================\n\n")
-                print("===============전체 선택된 노트 배열: \(selectedNotes)================\n")
-            })
             .map { Reactor.Action.didTapNote($0.item + 1) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // MARK: State
-        
-        reactor.state
-            .map { $0.selectedQuantity }
-            .distinctUntilChanged()
-            .subscribe(onNext: { print("=============Selected Quantity: \($0)============") })
+        nextButton.rx.tap
+            .map { HBTINotesCategoryReactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // MARK: State
+
         reactor.state
             .map { $0.selectedNote }
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, selectedNotes in
                 owner.updateSnapShot(withItems: selectedNotes)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isEnabledNextButton }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isEnabled in
+                owner.nextButton.isEnabled = isEnabled
+                owner.nextButton.backgroundColor = isEnabled ? .black : .customColor(.gray3)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentHBTINotesResultViewController()
             })
             .disposed(by: disposeBag)
     }
