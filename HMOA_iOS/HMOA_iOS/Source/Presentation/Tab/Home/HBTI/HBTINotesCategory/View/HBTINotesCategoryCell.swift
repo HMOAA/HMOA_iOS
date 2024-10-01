@@ -66,7 +66,7 @@ final class HBTINotesCategoryCell: UICollectionViewCell, ReuseIdentifying {
             let isSelected = selectedNote.contains(note.id)
             let selectionIndex = selectedNote.firstIndex(of: note.id)
             
-            button.configureButton(with: note, selectedNote)
+            button.configureButton(with: note)
             button.setOverlayVisible(isSelected)
             button.setSelectionIndexLabel(selectionIndex, isSelected)
             
