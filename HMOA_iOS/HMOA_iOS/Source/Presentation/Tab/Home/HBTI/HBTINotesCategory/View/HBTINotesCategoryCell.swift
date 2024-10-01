@@ -18,6 +18,7 @@ final class HBTINotesCategoryCell: UICollectionViewCell, ReuseIdentifying {
         $0.spacing = 16
         $0.distribution = .fillEqually
         $0.alignment = .fill
+        $0.isUserInteractionEnabled = false
     }
     
     // MARK: - Init
@@ -57,13 +58,22 @@ final class HBTINotesCategoryCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configuration
     
-    func configureCell(with note: [HBTINotesCategoryData]) {
-        note.forEach {
+    func configureCell(with notes: [HBTINotesCategoryData], selectedNote: [Int]) {
+        categoryStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        notes.forEach { note in
             let button = HBTINotesCategoryButton()
-            button.configureButton(with: $0)
+            let isSelected = selectedNote.contains(note.id)
+            let selectionIndex = selectedNote.firstIndex(of: note.id)
+            
+            button.configureButton(with: note, selectedNote)
+            button.setOverlayVisible(isSelected)
+            button.setSelectionIndexLabel(selectionIndex, isSelected)
+            
             button.snp.makeConstraints {
                 $0.height.equalTo(134)
             }
+            
             categoryStackView.addArrangedSubview(button)
         }
     }
