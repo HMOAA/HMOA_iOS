@@ -15,7 +15,7 @@ final class HBTINotesCategoryReactor: Reactor {
     }
     
     enum Mutation {
-        case setUpdateNoteList([Int])
+        case setSelectedNote([Int])
         case setIsEnabledNextButton(Bool)
         case setIsPushNextVC(Bool)
     }
@@ -49,12 +49,14 @@ final class HBTINotesCategoryReactor: Reactor {
             let isEnabledNextButton = currentState.isFreeSelection ? selectedNote.count > 0 : selectedNote.count == currentState.selectedQuantity
             
             return .concat([
-                .just(.setUpdateNoteList(selectedNote)),
+                .just(.setSelectedNote(selectedNote)),
                 .just(.setIsEnabledNextButton(isEnabledNextButton))
             ])
             
         case .didTapNextButton:
-            return currentState.isEnabledNextButton ? .just(.setIsPushNextVC(true)) : .empty()
+            let isEnabled = currentState.isEnabledNextButton
+            
+            return .just(.setIsPushNextVC(isEnabled))
         }
     }
     
@@ -62,7 +64,7 @@ final class HBTINotesCategoryReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setUpdateNoteList(let selectedNotes):
+        case .setSelectedNote(let selectedNotes):
             state.selectedNote = selectedNotes
             
         case .setIsEnabledNextButton(let isEnabled):
