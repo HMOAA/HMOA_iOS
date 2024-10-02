@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Member: Codable, Hashable {
     var age: Int
@@ -83,6 +84,13 @@ enum OrderStatus: String, Codable {
             return "배송 완료"
         case .PURCHASE_CONFIRMATION:
             return "구매 확정"
+        }
+    }
+    
+    var textColor: UIColor {
+        switch self {
+        case .SHIPPING_COMPLETE: return .customColor(.blue)
+        default: return .black
         }
     }
 }

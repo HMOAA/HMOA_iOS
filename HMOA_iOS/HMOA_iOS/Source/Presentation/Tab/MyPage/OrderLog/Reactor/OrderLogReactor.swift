@@ -21,7 +21,7 @@ final class OrderLogReactor: Reactor {
     }
     
     struct State {
-        var orderList: [OrderLogItem] = []
+        var orderList: [OrderLogItem] = OrderLogItem.exampleOrder
         var nextPage: Int = 0
     }
     

@@ -159,8 +159,8 @@ final class OrderCell: UICollectionViewCell {
     }
     
     func configureCell(order: Order) {
-        // TODO: Status에 따라 문구, 색상 변경
-        statusLabel.text = OrderStatus(rawValue: order.status)!.kr
+        setStatusLabel(for: OrderStatus(rawValue: order.status))
+        
         let categoryList = order.products.categoryListInfo.categoryList
         setCategoryStackView(categoryList)
         // TODO: 두 값이 nil이면 shippingInfoLabel.hidden = true
@@ -180,5 +180,11 @@ final class OrderCell: UICollectionViewCell {
             }
             categoryStackView.addArrangedSubview(categoryView)
         }
+    }
+    
+    private func setStatusLabel(for status: OrderStatus?) {
+        guard let status = status else { return }
+        statusLabel.text = status.kr
+        statusLabel.textColor = status.textColor
     }
 }
