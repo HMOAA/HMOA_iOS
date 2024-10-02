@@ -46,7 +46,9 @@ final class HBTIQuantitySelectReactor: Reactor {
             ])
             
         case .didTapNextButton:
-            return currentState.isEnabledNextButton ? .just(.setIsPushNextVC(true)) : .empty()
+            let isEnabled = currentState.isEnabledNextButton
+            
+            return .just(.setIsPushNextVC(isEnabled))
         }
     }
     
