@@ -35,10 +35,16 @@ final class OrderCell: UICollectionViewCell {
         $0.backgroundColor = .black
     }
     
-    private let shippingInfoLabel = UILabel().then {
+    private let shippingInfoView = UIView()
+    
+    private let shippingCompanyLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 10, color: .gray3)
-        $0.setTextWithLineHeight(text: "택배사:모아택배\n운송장번호:123456789", lineHeight: 12)
-        $0.numberOfLines = 2
+        $0.setTextWithLineHeight(text: "택배사:모아택배", lineHeight: 12)
+    }
+    
+    private let shippingTrackingNumberLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 10, color: .gray3)
+        $0.setTextWithLineHeight(text: "운송장번호:123456789", lineHeight: 12)
     }
     
     private let shippingPriceTitleLabel = UILabel().then {
@@ -92,7 +98,7 @@ final class OrderCell: UICollectionViewCell {
             statusLabel,
             decoLine,
             categoryStackView,
-            shippingInfoLabel,
+            shippingInfoView,
             shippingPriceTitleLabel,
             shippingPriceValueLabel,
             separatorLineView,
@@ -100,6 +106,11 @@ final class OrderCell: UICollectionViewCell {
             totalAmountValueLabel,
             returnRefundButton
         ]   .forEach { addSubview($0) }
+        
+        [
+            shippingCompanyLabel,
+            shippingTrackingNumberLabel
+        ]   .forEach { shippingInfoView.addSubview($0) }
     }
     
     private func setConstraints() {
@@ -119,13 +130,23 @@ final class OrderCell: UICollectionViewCell {
             make.horizontalEdges.equalToSuperview()
         }
         
-        shippingInfoLabel.snp.makeConstraints { make in
-            make.top.equalTo(categoryStackView.snp.bottom).offset(20)
+        shippingInfoView.snp.makeConstraints { make in
+            make.top.equalTo(categoryStackView.snp.bottom)
             make.leading.equalToSuperview().inset(80)
         }
         
+        shippingCompanyLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        shippingTrackingNumberLabel.snp.makeConstraints { make in
+            make.top.equalTo(shippingCompanyLabel.snp.bottom)
+            make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
         shippingPriceTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(shippingInfoLabel.snp.bottom).offset(18)
+            make.top.equalTo(shippingInfoView.snp.bottom).offset(18)
             make.trailing.equalTo(shippingPriceValueLabel.snp.leading).offset(-7)
         }
         
@@ -159,12 +180,10 @@ final class OrderCell: UICollectionViewCell {
     }
     
     func configureCell(order: Order) {
-        setStatusLabel(for: OrderStatus(rawValue: order.status))
-        
         let categoryList = order.products.categoryListInfo.categoryList
         setCategoryStackView(categoryList)
-        // TODO: 두 값이 nil이면 shippingInfoLabel.hidden = true
-        shippingInfoLabel.text = "택배사:\(order.courierCompany)\n운송장번호:\(order.trackingNumber)"
+        setStatusLabel(for: OrderStatus(rawValue: order.status))
+        setShippingInfoView(company: order.courierCompany, trackingNumber: order.trackingNumber)
         shippingPriceValueLabel.text = order.products.shippingFee.numberFormatterToHangulWon()
         totalAmountValueLabel.text = order.products.totalAmount.numberFormatterToHangulWon()
     }
@@ -186,5 +205,20 @@ final class OrderCell: UICollectionViewCell {
         guard let status = status else { return }
         statusLabel.text = status.kr
         statusLabel.textColor = status.textColor
+    }
+    
+    private func setShippingInfoView(company: String?, trackingNumber: String?) {
+        if let company = company,
+           let trackingNumber = trackingNumber {
+            shippingCompanyLabel.text = "택배사:\(company)"
+            shippingTrackingNumberLabel.text = "운송장번호:\(trackingNumber)"
+            shippingInfoView.snp.makeConstraints { make in
+                make.height.equalTo(44)
+            }
+        } else {
+            shippingInfoView.snp.makeConstraints { make in
+                make.height.equalTo(0)
+            }
+        }
     }
 }
