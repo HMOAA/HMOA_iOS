@@ -12,14 +12,17 @@ final class OrderLogReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case loadNextPage
     }
     
     enum Mutation {
         case setOrderList([OrderLogItem])
+        case setNextPage(Int)
     }
     
     struct State {
         var orderList: [OrderLogItem] = []
+        var nextPage: Int = 0
     }
     
     var initialState: State
@@ -32,6 +35,8 @@ final class OrderLogReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return setOrderList()
+        case .loadNextPage:
+            return setOrderList()
         }
     }
     
@@ -40,7 +45,10 @@ final class OrderLogReactor: Reactor {
         
         switch mutation {
         case .setOrderList(let order):
-            state.orderList = order
+            state.orderList += order
+            
+        case .setNextPage(let page):
+            state.nextPage = page
         }
         
         return state
@@ -49,13 +57,19 @@ final class OrderLogReactor: Reactor {
 
 extension OrderLogReactor {
     func setOrderList() -> Observable<Mutation> {
-        return MemberAPI.fetchOrderList(["cursor": 0])
+        let page = currentState.nextPage
+        let query: [String: Int] = ["cursor": page]
+        
+        return MemberAPI.fetchOrderList(query)
             .catch { _ in .empty() }
             .flatMap { OrderResponseData -> Observable<Mutation> in
                 let orderItemList = OrderResponseData.orders.map { order in
                     return OrderLogItem.order(order)
                 }
-                return .just(.setOrderList(orderItemList))
+                return .concat([
+                    .just(.setOrderList(orderItemList)),
+                    .just(.setNextPage(page + 1))
+                ])
             }
     }
 }

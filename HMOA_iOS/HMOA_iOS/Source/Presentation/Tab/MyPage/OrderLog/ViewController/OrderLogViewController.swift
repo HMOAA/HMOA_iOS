@@ -49,9 +49,16 @@ final class OrderLogViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
+        orderCollectionView.rx.willDisplayCell
+            .filter { $0.at.item == self.orderCollectionView.numberOfItems(inSection: 0) - 1 }
+            .map { _ in Reactor.Action.loadNextPage }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         reactor.state
             .map { $0.orderList }
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 owner.updateSnapshot(forSection: .order, withItems: items)
