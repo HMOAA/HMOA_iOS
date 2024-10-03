@@ -64,14 +64,18 @@ final class OrderCell: UICollectionViewCell {
         $0.setLabelUI("15,000원", font: .pretendard_bold, size: 20, color: .red)
     }
     
-    private let returnRefundButton = UIButton().then {
-        $0.setTitle("이동 버튼", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_semibold, 12)
-        $0.setTitleColor(.customColor(.gray3), for: .normal)
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.customColor(.gray3).cgColor
-        $0.layer.cornerRadius = 3
+    private let buttonStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.alignment = .fill
+        $0.distribution = .fillEqually
+        $0.spacing = 20
     }
+    
+    private let refundRequestButton = UIButton().grayBorderButton(title: "환불 신청")
+    
+    private let returnRequestButton = UIButton().grayBorderButton(title: "반품 신청")
+    
+    private let reviewButton = UIButton().grayBorderButton(title: "후기 작성")
     
     // MARK: - Init
     
@@ -104,7 +108,7 @@ final class OrderCell: UICollectionViewCell {
             separatorLineView,
             totalAmountTitleLabel,
             totalAmountValueLabel,
-            returnRefundButton
+            buttonStackView
         ]   .forEach { addSubview($0) }
         
         [
@@ -133,6 +137,7 @@ final class OrderCell: UICollectionViewCell {
         shippingInfoView.snp.makeConstraints { make in
             make.top.equalTo(categoryStackView.snp.bottom)
             make.leading.equalToSuperview().inset(80)
+            make.height.equalTo(44)
         }
         
         shippingCompanyLabel.snp.makeConstraints { make in
@@ -171,7 +176,7 @@ final class OrderCell: UICollectionViewCell {
             make.trailing.equalToSuperview()
         }
         
-        returnRefundButton.snp.makeConstraints { make in
+        buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(totalAmountTitleLabel.snp.bottom).offset(32)
             make.horizontalEdges.bottom.equalToSuperview()
             make.height.equalTo(32)
@@ -180,14 +185,19 @@ final class OrderCell: UICollectionViewCell {
     }
     
     func configureCell(order: Order) {
+        let status = OrderStatus(rawValue: order.status)
         let categoryList = order.products.categoryListInfo.categoryList
+        
+        setStatusLabel(for: status)
         setCategoryStackView(categoryList)
-        setStatusLabel(for: OrderStatus(rawValue: order.status))
         setShippingInfoView(company: order.courierCompany, trackingNumber: order.trackingNumber)
         shippingPriceValueLabel.text = order.products.shippingFee.numberFormatterToHangulWon()
         totalAmountValueLabel.text = order.products.totalAmount.numberFormatterToHangulWon()
+        setButtonComposition(for: status)
     }
-    
+}
+
+extension OrderCell {
     private func setCategoryStackView(_ categoryList: [HBTICategory]) {
         categoryStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
@@ -212,13 +222,31 @@ final class OrderCell: UICollectionViewCell {
            let trackingNumber = trackingNumber {
             shippingCompanyLabel.text = "택배사:\(company)"
             shippingTrackingNumberLabel.text = "운송장번호:\(trackingNumber)"
-            shippingInfoView.snp.makeConstraints { make in
+            shippingInfoView.snp.updateConstraints { make in
                 make.height.equalTo(44)
             }
         } else {
-            shippingInfoView.snp.makeConstraints { make in
+            shippingInfoView.snp.updateConstraints { make in
                 make.height.equalTo(0)
             }
+        }
+    }
+    
+    private func setButtonComposition(for status: OrderStatus?) {
+        guard let status = status else { return }
+        
+        switch status {
+        case .PAY_COMPLETE:
+            buttonStackView.addArrangedSubview(refundRequestButton)
+        case .SHIPPING_PROGRESS:
+            buttonStackView.addArrangedSubview(returnRequestButton)
+        case .SHIPPING_COMPLETE:
+            [
+                returnRequestButton,
+                reviewButton
+            ]   .forEach { buttonStackView.addArrangedSubview($0) }
+        default:
+            break
         }
     }
 }
