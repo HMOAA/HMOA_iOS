@@ -9,10 +9,13 @@ import UIKit
 
 import Then
 import SnapKit
+import RxSwift
 
 final class OrderCell: UICollectionViewCell {
     
     static let identifier = "OrderCell"
+    
+    var disposeBag = DisposeBag()
     
     // MARK: UI Components
     
@@ -71,11 +74,11 @@ final class OrderCell: UICollectionViewCell {
         $0.spacing = 20
     }
     
-    private let refundRequestButton = UIButton().grayBorderButton(title: "환불 신청")
+    let refundRequestButton = UIButton().grayBorderButton(title: "환불 신청")
     
-    private let returnRequestButton = UIButton().grayBorderButton(title: "반품 신청")
+    let returnRequestButton = UIButton().grayBorderButton(title: "반품 신청")
     
-    private let reviewButton = UIButton().grayBorderButton(title: "후기 작성")
+    let reviewButton = UIButton().grayBorderButton(title: "후기 작성")
     
     // MARK: - Init
     

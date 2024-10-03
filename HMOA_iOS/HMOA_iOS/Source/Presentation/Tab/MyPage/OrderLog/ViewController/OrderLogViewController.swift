@@ -64,6 +64,33 @@ final class OrderLogViewController: UIViewController, View {
                 owner.updateSnapshot(forSection: .order, withItems: items)
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushRefundVC }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentOrderCancelDetailViewController()
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushReturnVC }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentOrderCancelDetailViewController()
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushReviewVC }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentHBTIViewController()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -118,6 +145,21 @@ final class OrderLogViewController: UIViewController, View {
                     for: indexPath) as! OrderCell
                 
                 cell.configureCell(order: order)
+                
+                cell.refundRequestButton.rx.tap
+                    .map { Reactor.Action.didTapRefundButton }
+                    .bind(to: self.reactor!.action )
+                    .disposed(by: cell.disposeBag)
+                
+                cell.returnRequestButton.rx.tap
+                    .map { Reactor.Action.didTapReturnButton }
+                    .bind(to: self.reactor!.action )
+                    .disposed(by: cell.disposeBag)
+                
+                cell.reviewButton.rx.tap
+                    .map { Reactor.Action.didTapReviewButton }
+                    .bind(to: self.reactor!.action )
+                    .disposed(by: cell.disposeBag)
                 
                 return cell
             }
