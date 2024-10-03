@@ -12,6 +12,7 @@ enum MyPageType: String, CaseIterable {
     
     case orderLog = "20"
     case orderCancelLog = "21"
+    case terms = "22"
     
     case myPerfume = "30"
     case myLog = "31"
@@ -32,6 +33,8 @@ enum MyPageType: String, CaseIterable {
             return "주문 내역"
         case .orderCancelLog:
             return "취소/환불 내역"
+        case .terms:
+            return "이용약관"
         case .myPerfume:
             return "나의 향수"
         case .myLog:
