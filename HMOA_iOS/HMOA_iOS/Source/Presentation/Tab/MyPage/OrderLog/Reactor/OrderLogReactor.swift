@@ -13,16 +13,25 @@ final class OrderLogReactor: Reactor {
     enum Action {
         case viewDidLoad
         case loadNextPage
+        case didTapRefundButton
+        case didTapReturnButton
+        case didTapReviewButton
     }
     
     enum Mutation {
         case setOrderList([OrderLogItem])
         case setNextPage(Int)
+        case setIsPushRefundVC(Bool)
+        case setIsPushReturnVC(Bool)
+        case setIsPushReviewVC(Bool)
     }
     
     struct State {
         var orderList: [OrderLogItem] = OrderLogItem.exampleOrder
         var nextPage: Int = 0
+        var isPushRefundVC: Bool = false
+        var isPushReturnVC: Bool = false
+        var isPushReviewVC: Bool = false
     }
     
     var initialState: State
@@ -37,6 +46,21 @@ final class OrderLogReactor: Reactor {
             return setOrderList()
         case .loadNextPage:
             return setOrderList()
+        case .didTapRefundButton:
+            return .concat([
+                .just(.setIsPushRefundVC(true)),
+                .just(.setIsPushRefundVC(false))
+            ])
+        case .didTapReturnButton:
+            return .concat([
+                .just(.setIsPushReturnVC(true)),
+                .just(.setIsPushReturnVC(false))
+            ])
+        case .didTapReviewButton:
+            return .concat([
+                .just(.setIsPushReviewVC(true)),
+                .just(.setIsPushReviewVC(false))
+            ])
         }
     }
     
@@ -49,6 +73,15 @@ final class OrderLogReactor: Reactor {
             
         case .setNextPage(let page):
             state.nextPage = page
+            
+        case .setIsPushRefundVC(let isPush):
+            state.isPushRefundVC = isPush
+            
+        case .setIsPushReturnVC(let isPush):
+            state.isPushReturnVC = isPush
+            
+        case .setIsPushReviewVC(let isPush):
+            state.isPushReviewVC = isPush
         }
         
         return state
