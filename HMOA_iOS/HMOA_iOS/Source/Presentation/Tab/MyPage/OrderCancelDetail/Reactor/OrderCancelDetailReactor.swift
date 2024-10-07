@@ -13,26 +13,24 @@ import RxSwift
 final class OrderCancelDetailReactor: Reactor {
     
     enum Action {
-        
     }
     
     enum Mutation {
-        
     }
     
     struct State {
-        
+        var requestKind: OrderCancelRequestKind
     }
     
     var initialState: State
     
-    init() {
-        self.initialState = State()
+    init(_ orderCancelRequest: OrderCancelRequestKind) {
+        self.initialState = State(requestKind: orderCancelRequest)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-            
+        
         }
     }
     
@@ -40,7 +38,6 @@ final class OrderCancelDetailReactor: Reactor {
         var state = state
         
         switch mutation {
-            
         }
         
         return state

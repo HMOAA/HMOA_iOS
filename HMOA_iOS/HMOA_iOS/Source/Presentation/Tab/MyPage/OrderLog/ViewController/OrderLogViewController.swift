@@ -70,7 +70,7 @@ final class OrderLogViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentOrderCancelDetailViewController()
+                owner.presentOrderCancelDetailViewController(orderCancelRequest: .refundRequest)
             })
             .disposed(by: disposeBag)
         
@@ -79,7 +79,7 @@ final class OrderLogViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentOrderCancelDetailViewController()
+                owner.presentOrderCancelDetailViewController(orderCancelRequest: .returnRequest)
             })
             .disposed(by: disposeBag)
         

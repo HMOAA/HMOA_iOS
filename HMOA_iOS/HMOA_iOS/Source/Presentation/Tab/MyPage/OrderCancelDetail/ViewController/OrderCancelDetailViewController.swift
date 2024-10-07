@@ -92,6 +92,15 @@ final class OrderCancelDetailViewController: UIViewController, View {
         // MARK: Action
         
         // MARK: State
+        
+        reactor.state
+            .map { $0.requestKind }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, requestKind in
+                owner.paymentInfoView.isHidden = requestKind == .returnRequest
+                owner.setCancelButtonTitleLabel(requestKind)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -216,6 +225,16 @@ final class OrderCancelDetailViewController: UIViewController, View {
             make.horizontalEdges.equalTo(categoryStackView.snp.horizontalEdges)
             make.bottom.equalToSuperview().inset(40)
             make.height.equalTo(52)
+        }
+    }
+}
+
+extension OrderCancelDetailViewController {
+    private func setCancelButtonTitleLabel(_ requestKind: OrderCancelRequestKind) {
+        if requestKind == .refundRequest {
+            cancelButton.setTitle("환불 신청", for: .normal)
+        } else {
+            cancelButton.setTitle("반품 신청(1대 1 문의)", for: .normal)
         }
     }
 }
