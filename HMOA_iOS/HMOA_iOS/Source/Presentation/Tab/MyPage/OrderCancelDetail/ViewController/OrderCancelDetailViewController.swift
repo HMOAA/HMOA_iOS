@@ -57,7 +57,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
     
     private let totalRefundPriceView = ProductPriceView()
     
-    private let cancelButton = UIButton().then {
+    private let requestButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 15)
         $0.setTitleColor(.white, for: .normal)
@@ -89,6 +89,11 @@ final class OrderCancelDetailViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        requestButton.rx.tap
+            .map { Reactor.Action.didTapRequestButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         
         reactor.state
@@ -96,7 +101,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, requestKind in
                 owner.paymentInfoView.isHidden = requestKind == .returnRequest
-                owner.setCancelButtonTitleLabel(requestKind)
+                owner.setRequestButtonTitleLabel(requestKind)
             })
             .disposed(by: disposeBag)
         
@@ -109,6 +114,21 @@ final class OrderCancelDetailViewController: UIViewController, View {
                 owner.addItemToCategoryStackView(item: categoryList)
                 let orderInfo = order.order!.products
                 owner.setPriceLabels(orderInfo)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                let request = reactor.currentState.requestKind
+                if request == .refundRequest {
+                    // TODO: 부트페이 환불
+                } else {
+                    owner.presentKakaoChannel()
+                }
+                
             })
             .disposed(by: disposeBag)
     }
@@ -125,7 +145,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
     private func setAddView() {
         [
             scrollView,
-            cancelButton
+            requestButton
         ]   .forEach { view.addSubview($0) }
         scrollView.addSubview(containerView)
         
@@ -150,7 +170,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
     private func setConstraints() {
         scrollView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(cancelButton.snp.top).offset(-5)
+            make.bottom.equalTo(requestButton.snp.top).offset(-5)
         }
         
         containerView.snp.makeConstraints { make in
@@ -214,7 +234,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
             make.bottom.equalToSuperview()
         }
         
-        cancelButton.snp.makeConstraints { make in
+        requestButton.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(categoryStackView.snp.horizontalEdges)
             make.bottom.equalToSuperview().inset(40)
             make.height.equalTo(52)
@@ -223,11 +243,11 @@ final class OrderCancelDetailViewController: UIViewController, View {
 }
 
 extension OrderCancelDetailViewController {
-    private func setCancelButtonTitleLabel(_ requestKind: OrderCancelRequestKind) {
+    private func setRequestButtonTitleLabel(_ requestKind: OrderCancelRequestKind) {
         if requestKind == .refundRequest {
-            cancelButton.setTitle("환불 신청", for: .normal)
+            requestButton.setTitle("환불 신청", for: .normal)
         } else {
-            cancelButton.setTitle("반품 신청(1대 1 문의)", for: .normal)
+            requestButton.setTitle("반품 신청(1대 1 문의)", for: .normal)
         }
     }
     
@@ -249,5 +269,18 @@ extension OrderCancelDetailViewController {
         productPriceView.configureView(title: "총 상품금액", price: order.paymentAmount, color: .gray3)
         shippingPriceView.configureView(title: "배송비", price: order.shippingFee, color: .gray3)
         totalRefundPriceView.configureView(title: "총 환불금액", price: order.totalAmount, color: .black)
+    }
+    
+    private func presentKakaoChannel() {
+        MemberAPI.kakaoTalkAddChannel()
+            .map { $0 }
+            .bind(with: self) { owner, isSetKakao in
+                if !isSetKakao {
+                    owner.showAlert(title: "카카오톡 미설치",
+                                    message: "카카오톡이 설치되어 있어야 합니다.",
+                                    buttonTitle1: "확인")
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }
