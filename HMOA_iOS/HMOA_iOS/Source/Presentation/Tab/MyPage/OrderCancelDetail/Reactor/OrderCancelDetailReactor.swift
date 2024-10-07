@@ -13,24 +13,28 @@ import RxSwift
 final class OrderCancelDetailReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
     }
     
     enum Mutation {
+        case setOrder(OrderLogItem)
     }
     
     struct State {
+        var order: OrderLogItem
         var requestKind: OrderCancelRequestKind
     }
     
     var initialState: State
     
-    init(_ orderCancelRequest: OrderCancelRequestKind) {
-        self.initialState = State(requestKind: orderCancelRequest)
+    init(_ order: OrderLogItem, _ orderCancelRequest: OrderCancelRequestKind) {
+        self.initialState = State(order: order, requestKind: orderCancelRequest)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        
+        case .viewDidLoad:
+            return .just(.setOrder(currentState.order))
         }
     }
     
@@ -38,6 +42,8 @@ final class OrderCancelDetailReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setOrder(let order):
+            state.order = order
         }
         
         return state
