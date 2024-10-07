@@ -99,3 +99,42 @@ struct HBTIPerfume: Hashable, Codable {
         case imageURL = "perfumeImageUrl"
     }
 }
+
+// 1차 후반후, 3차
+struct HBTICategoryListInfo: Codable, Hashable {
+    let totalPrice: Int
+    let categoryList: [HBTICategory]
+    
+    enum CodingKeys: String, CodingKey {
+        case totalPrice
+        case categoryList = "noteProducts"
+    }
+}
+
+struct HBTICategory: Codable, Hashable {
+    let id: Int
+    let name: String
+    let imageURL: String
+    let noteCount: Int
+    let noteList: [HBTINote]
+    let price: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "productId"
+        case name = "productName"
+        case imageURL = "productPhotoUrl"
+        case noteCount = "notesCount"
+        case noteList = "notes"
+        case price
+    }
+}
+
+struct HBTINote: Codable, Hashable {
+    let name: String
+    let content: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name = "noteName"
+        case content = "noteContent"
+    }
+}

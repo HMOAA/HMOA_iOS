@@ -9,10 +9,13 @@ import UIKit
 
 import Then
 import SnapKit
+import RxSwift
 
 final class OrderCell: UICollectionViewCell {
     
     static let identifier = "OrderCell"
+    
+    var disposeBag = DisposeBag()
     
     // MARK: UI Components
     
@@ -35,10 +38,16 @@ final class OrderCell: UICollectionViewCell {
         $0.backgroundColor = .black
     }
     
-    private let shippingInfoLabel = UILabel().then {
+    private let shippingInfoView = UIView()
+    
+    private let shippingCompanyLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 10, color: .gray3)
-        $0.setTextWithLineHeight(text: "택배사:모아택배\n운송장번호:123456789", lineHeight: 12)
-        $0.numberOfLines = 2
+        $0.setTextWithLineHeight(text: "택배사:모아택배", lineHeight: 12)
+    }
+    
+    private let shippingTrackingNumberLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 10, color: .gray3)
+        $0.setTextWithLineHeight(text: "운송장번호:123456789", lineHeight: 12)
     }
     
     private let shippingPriceTitleLabel = UILabel().then {
@@ -58,14 +67,18 @@ final class OrderCell: UICollectionViewCell {
         $0.setLabelUI("15,000원", font: .pretendard_bold, size: 20, color: .red)
     }
     
-    private let returnRefundButton = UIButton().then {
-        $0.setTitle("이동 버튼", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_semibold, 12)
-        $0.setTitleColor(.customColor(.gray3), for: .normal)
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.customColor(.gray3).cgColor
-        $0.layer.cornerRadius = 3
+    private let buttonStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.alignment = .fill
+        $0.distribution = .fillEqually
+        $0.spacing = 20
     }
+    
+    let refundRequestButton = UIButton().grayBorderButton(title: "환불 신청")
+    
+    let returnRequestButton = UIButton().grayBorderButton(title: "반품 신청")
+    
+    let reviewButton = UIButton().grayBorderButton(title: "후기 작성")
     
     // MARK: - Init
     
@@ -81,6 +94,12 @@ final class OrderCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+            super.prepareForReuse()
+        
+            disposeBag = DisposeBag()
+        }
+    
     // MARK: - Function
     
     private func setUI() {
@@ -92,14 +111,19 @@ final class OrderCell: UICollectionViewCell {
             statusLabel,
             decoLine,
             categoryStackView,
-            shippingInfoLabel,
+            shippingInfoView,
             shippingPriceTitleLabel,
             shippingPriceValueLabel,
             separatorLineView,
             totalAmountTitleLabel,
             totalAmountValueLabel,
-            returnRefundButton
+            buttonStackView
         ]   .forEach { addSubview($0) }
+        
+        [
+            shippingCompanyLabel,
+            shippingTrackingNumberLabel
+        ]   .forEach { shippingInfoView.addSubview($0) }
     }
     
     private func setConstraints() {
@@ -119,13 +143,24 @@ final class OrderCell: UICollectionViewCell {
             make.horizontalEdges.equalToSuperview()
         }
         
-        shippingInfoLabel.snp.makeConstraints { make in
-            make.top.equalTo(categoryStackView.snp.bottom).offset(20)
+        shippingInfoView.snp.makeConstraints { make in
+            make.top.equalTo(categoryStackView.snp.bottom)
             make.leading.equalToSuperview().inset(80)
+            make.height.equalTo(44)
+        }
+        
+        shippingCompanyLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        shippingTrackingNumberLabel.snp.makeConstraints { make in
+            make.top.equalTo(shippingCompanyLabel.snp.bottom)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
         
         shippingPriceTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(shippingInfoLabel.snp.bottom).offset(18)
+            make.top.equalTo(shippingInfoView.snp.bottom).offset(18)
             make.trailing.equalTo(shippingPriceValueLabel.snp.leading).offset(-7)
         }
         
@@ -150,7 +185,7 @@ final class OrderCell: UICollectionViewCell {
             make.trailing.equalToSuperview()
         }
         
-        returnRefundButton.snp.makeConstraints { make in
+        buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(totalAmountTitleLabel.snp.bottom).offset(32)
             make.horizontalEdges.bottom.equalToSuperview()
             make.height.equalTo(32)
@@ -158,19 +193,69 @@ final class OrderCell: UICollectionViewCell {
         
     }
     
-    func configureCell() {
-        let category1 = OrderCategoryView()
-        let category2 = OrderCategoryView()
+    func configureCell(order: Order) {
+        let status = OrderStatus(rawValue: order.status)
+        let categoryList = order.products.categoryListInfo.categoryList
         
-        [
-            category1,
-            category2
-        ]   .forEach {
-            $0.configureView()
-            $0.snp.makeConstraints { make in
+        setStatusLabel(for: status)
+        setCategoryStackView(categoryList)
+        setShippingInfoView(company: order.courierCompany, trackingNumber: order.trackingNumber)
+        shippingPriceValueLabel.text = order.products.shippingFee.numberFormatterToHangulWon()
+        totalAmountValueLabel.text = order.products.totalAmount.numberFormatterToHangulWon()
+        setButtonComposition(for: status)
+    }
+}
+
+extension OrderCell {
+    private func setCategoryStackView(_ categoryList: [HBTICategory]) {
+        categoryStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        categoryList.forEach {
+            let categoryView = OrderCategoryView()
+            categoryView.configureView(category: $0)
+            categoryView.snp.makeConstraints { make in
                 make.height.greaterThanOrEqualTo(90)
             }
-            categoryStackView.addArrangedSubview($0)
+            categoryStackView.addArrangedSubview(categoryView)
+        }
+    }
+    
+    private func setStatusLabel(for status: OrderStatus?) {
+        guard let status = status else { return }
+        statusLabel.text = status.kr
+        statusLabel.textColor = status.textColor
+    }
+    
+    private func setShippingInfoView(company: String?, trackingNumber: String?) {
+        if let company = company,
+           let trackingNumber = trackingNumber {
+            shippingCompanyLabel.text = "택배사:\(company)"
+            shippingTrackingNumberLabel.text = "운송장번호:\(trackingNumber)"
+            shippingInfoView.snp.updateConstraints { make in
+                make.height.equalTo(44)
+            }
+        } else {
+            shippingInfoView.snp.updateConstraints { make in
+                make.height.equalTo(0)
+            }
+        }
+    }
+    
+    private func setButtonComposition(for status: OrderStatus?) {
+        guard let status = status else { return }
+        
+        switch status {
+        case .PAY_COMPLETE:
+            buttonStackView.addArrangedSubview(refundRequestButton)
+        case .SHIPPING_PROGRESS:
+            buttonStackView.addArrangedSubview(returnRequestButton)
+        case .SHIPPING_COMPLETE:
+            [
+                returnRequestButton,
+                reviewButton
+            ]   .forEach { buttonStackView.addArrangedSubview($0) }
+        default:
+            break
         }
     }
 }

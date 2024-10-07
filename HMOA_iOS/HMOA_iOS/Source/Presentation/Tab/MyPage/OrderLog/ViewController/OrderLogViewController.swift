@@ -37,7 +37,6 @@ final class OrderLogViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDataSource()
-        presentOrderCancelDetailViewController()
     }
     
     // MARK: - Bind
@@ -45,8 +44,53 @@ final class OrderLogViewController: UIViewController, View {
     func bind(reactor: OrderLogReactor) {
         
         // MARK: Action
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        orderCollectionView.rx.willDisplayCell
+            .filter { $0.at.item == self.orderCollectionView.numberOfItems(inSection: 0) - 1 }
+            .map { _ in Reactor.Action.loadNextPage }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
+        reactor.state
+            .map { $0.orderList }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .order, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushRefundVC }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentOrderCancelDetailViewController()
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushReturnVC }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentOrderCancelDetailViewController()
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushReviewVC }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentHBTIViewController()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -100,7 +144,22 @@ final class OrderLogViewController: UIViewController, View {
                     withReuseIdentifier: OrderCell.identifier,
                     for: indexPath) as! OrderCell
                 
-                cell.configureCell()
+                cell.configureCell(order: order)
+                
+                cell.refundRequestButton.rx.tap
+                    .map { Reactor.Action.didTapRefundButton }
+                    .bind(to: self.reactor!.action )
+                    .disposed(by: cell.disposeBag)
+                
+                cell.returnRequestButton.rx.tap
+                    .map { Reactor.Action.didTapReturnButton }
+                    .bind(to: self.reactor!.action )
+                    .disposed(by: cell.disposeBag)
+                
+                cell.reviewButton.rx.tap
+                    .map { Reactor.Action.didTapReviewButton }
+                    .bind(to: self.reactor!.action )
+                    .disposed(by: cell.disposeBag)
                 
                 return cell
             }
@@ -109,9 +168,17 @@ final class OrderLogViewController: UIViewController, View {
         var initialSnapshot = NSDiffableDataSourceSnapshot<OrderLogSection, OrderLogItem>()
         initialSnapshot.appendSections([.order])
         
-        initialSnapshot.appendItems([.order("1"), .order("2")])
-        
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateSnapshot(forSection section: OrderLogSection, withItems items: [OrderLogItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 
 }
