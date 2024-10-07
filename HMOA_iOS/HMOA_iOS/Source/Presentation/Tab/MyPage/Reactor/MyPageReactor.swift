@@ -200,7 +200,8 @@ extension MyPageReactor {
     static func setUpOtherSection() -> [MyPageSection] {
         let first = [
             MyPageType.orderLog.title,
-            MyPageType.orderCancelLog.title
+            MyPageType.orderCancelLog.title,
+            MyPageType.terms.title
         ]   .map { MyPageSectionItem.otherCell($0) }
         
         let second = [
