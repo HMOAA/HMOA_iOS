@@ -97,7 +97,7 @@ final class OrderCancelLogCell: UITableViewCell {
             category1,
             category2
         ]   .forEach {
-            $0.configureView()
+            // configureView()
             $0.snp.makeConstraints { make in
                 make.height.greaterThanOrEqualTo(60)
             }

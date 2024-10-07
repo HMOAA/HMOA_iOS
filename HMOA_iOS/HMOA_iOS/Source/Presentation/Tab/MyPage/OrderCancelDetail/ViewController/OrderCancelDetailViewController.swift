@@ -37,7 +37,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
         $0.setTextWithLineHeight(text: "결제금액", lineHeight: 20)
     }
     
-    private let totalAmountValueLabel = UILabel().then {
+    private var totalAmountValueLabel = UILabel().then {
         $0.setLabelUI("15,000원", font: .pretendard_bold, size: 20, color: .red)
     }
     
@@ -47,21 +47,15 @@ final class OrderCancelDetailViewController: UIViewController, View {
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    private let productPriceView = ProductPriceView().then {
-        $0.configureView(title: "총 상품금액", price: 9999, color: .gray3)
-    }
+    private var productPriceView = ProductPriceView()
     
-    private let shippingPriceView = ProductPriceView().then {
-        $0.configureView(title: "배송비", price: 3333, color: .gray3)
-    }
+    private var shippingPriceView = ProductPriceView()
     
-    private let decoLineView2 = UIView().then {
+    private var decoLineView2 = UIView().then {
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    private let totalRefundPriceView = ProductPriceView().then {
-        $0.configureView(title: "총 환불금액", price: 11111, color: .black)
-    }
+    private let totalRefundPriceView = ProductPriceView()
     
     private let cancelButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
@@ -105,6 +99,18 @@ final class OrderCancelDetailViewController: UIViewController, View {
                 owner.setCancelButtonTitleLabel(requestKind)
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.order }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, order in
+                let categoryList = order.order!.products.categoryListInfo.categoryList
+                owner.addItemToCategoryStackView(item: categoryList)
+                let orderInfo = order.order!.products
+                owner.setPriceLabels(orderInfo)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -130,23 +136,6 @@ final class OrderCancelDetailViewController: UIViewController, View {
             totalAmountValueLabel,
             paymentInfoView
         ]   .forEach { containerView.addSubview($0) }
-        
-        [
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView()
-        ]   .forEach {
-            $0.configureView()
-            $0.snp.makeConstraints { make in
-                make.height.greaterThanOrEqualTo(60)
-            }
-            categoryStackView.addArrangedSubview($0)
-        }
         
         [
             decoLineView1,
@@ -240,5 +229,25 @@ extension OrderCancelDetailViewController {
         } else {
             cancelButton.setTitle("반품 신청(1대 1 문의)", for: .normal)
         }
+    }
+    
+    private func addItemToCategoryStackView(item: [HBTICategory]) {
+        item.map { category in
+            let view = OrderCancelCategoryView()
+            view.configureView(category: category)
+            return view
+        }.forEach { view in
+            view.snp.makeConstraints { make in
+                make.height.greaterThanOrEqualTo(60)
+            }
+            categoryStackView.addArrangedSubview(view)
+        }
+    }
+    
+    private func setPriceLabels(_ order: OrderInfo) {
+        totalAmountValueLabel.text = order.totalAmount.numberFormatterToHangulWon()
+        productPriceView.configureView(title: "총 상품금액", price: order.paymentAmount, color: .gray3)
+        shippingPriceView.configureView(title: "배송비", price: order.shippingFee, color: .gray3)
+        totalRefundPriceView.configureView(title: "총 환불금액", price: order.totalAmount, color: .black)
     }
 }
