@@ -308,9 +308,9 @@ extension UIViewController {
     }
     
     /// OrderCancelDetailVC로 push
-    func presentOrderCancelDetailViewController(orderCancelRequest: OrderCancelRequestKind) {
+    func presentOrderCancelDetailViewController(_ order: OrderLogItem, orderCancelRequest: OrderCancelRequestKind) {
         let orderCancelDetailVC = OrderCancelDetailViewController()
-        orderCancelDetailVC.reactor = OrderCancelDetailReactor(orderCancelRequest)
+        orderCancelDetailVC.reactor = OrderCancelDetailReactor(order, orderCancelRequest)
         orderCancelDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(orderCancelDetailVC, animated: true)
     }

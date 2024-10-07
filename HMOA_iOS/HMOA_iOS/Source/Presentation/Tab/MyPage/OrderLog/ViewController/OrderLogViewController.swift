@@ -69,9 +69,10 @@ final class OrderLogViewController: UIViewController, View {
             .map { $0.isPushRefundVC }
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(with: self, onNext: { owner, _ in
-                owner.presentOrderCancelDetailViewController(orderCancelRequest: .refundRequest)
-            })
+            .drive(with: self) { owner, _ in
+                guard let order = reactor.currentState.selectedOrder else { return }
+                owner.presentOrderCancelDetailViewController(order, orderCancelRequest: .refundRequest)
+            }
             .disposed(by: disposeBag)
         
         reactor.state
@@ -79,7 +80,8 @@ final class OrderLogViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentOrderCancelDetailViewController(orderCancelRequest: .returnRequest)
+                guard let order = reactor.currentState.selectedOrder else { return }
+                owner.presentOrderCancelDetailViewController(order, orderCancelRequest: .returnRequest)
             })
             .disposed(by: disposeBag)
         
@@ -147,12 +149,12 @@ final class OrderLogViewController: UIViewController, View {
                 cell.configureCell(order: order)
                 
                 cell.refundRequestButton.rx.tap
-                    .map { Reactor.Action.didTapRefundButton }
+                    .map { Reactor.Action.didTapRefundButton(item) }
                     .bind(to: self.reactor!.action )
                     .disposed(by: cell.disposeBag)
                 
                 cell.returnRequestButton.rx.tap
-                    .map { Reactor.Action.didTapReturnButton }
+                    .map { Reactor.Action.didTapReturnButton(item) }
                     .bind(to: self.reactor!.action )
                     .disposed(by: cell.disposeBag)
                 

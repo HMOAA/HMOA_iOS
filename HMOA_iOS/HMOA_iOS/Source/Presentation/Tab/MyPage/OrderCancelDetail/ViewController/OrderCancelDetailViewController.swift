@@ -90,6 +90,10 @@ final class OrderCancelDetailViewController: UIViewController, View {
     func bind(reactor: OrderCancelDetailReactor) {
         
         // MARK: Action
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
         
