@@ -42,7 +42,11 @@ final class OrderCancelLogViewController: UIViewController, View {
     func bind(reactor: OrderCancelLogReactor) {
 
         // MARK: Action
-
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
     }
 
@@ -90,7 +94,6 @@ final class OrderCancelLogViewController: UIViewController, View {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<OrderCancelLogSection, OrderCancelLogItem>()
         initialSnapshot.appendSections([.cancel])
-        initialSnapshot.appendItems([.order("1"), .order("2")])
         
         dataSource?.apply(initialSnapshot)
     }
