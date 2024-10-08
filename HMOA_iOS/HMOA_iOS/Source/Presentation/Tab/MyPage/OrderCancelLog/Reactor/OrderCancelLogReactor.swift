@@ -12,14 +12,17 @@ final class OrderCancelLogReactor: Reactor {
 
     enum Action {
         case viewDidLoad
+        case loadNextPage
     }
 
     enum Mutation {
         case setOrderCancelList([OrderCancelLogItem])
+        case setNextPage(Int)
     }
 
     struct State {
         var orderCancelList: [OrderCancelLogItem] = []
+        var nextPage: Int = 0
     }
 
     var initialState: State
@@ -32,6 +35,9 @@ final class OrderCancelLogReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return setOrderCancelList()
+            
+        case .loadNextPage:
+            return setOrderCancelList()
         }
     }
 
@@ -40,7 +46,10 @@ final class OrderCancelLogReactor: Reactor {
 
         switch mutation {
         case .setOrderCancelList(let list):
-            state.orderCancelList = list
+            state.orderCancelList += list
+            
+        case .setNextPage(let page):
+            state.nextPage = page
         }
 
         return state
@@ -49,7 +58,8 @@ final class OrderCancelLogReactor: Reactor {
 
 extension OrderCancelLogReactor {
     func setOrderCancelList() -> Observable<Mutation> {
-        let query: [String: Int] = ["cursor": 0]
+        let page = currentState.nextPage
+        let query: [String: Int] = ["cursor": page]
         
         return MemberAPI.fetchOrderCancelList(query)
             .catch { _ in .empty() }
@@ -58,7 +68,8 @@ extension OrderCancelLogReactor {
                     return OrderCancelLogItem.order(order)
                 }
                 return .concat([
-                    .just(.setOrderCancelList(orderItemList))
+                    .just(.setOrderCancelList(orderItemList)),
+                    .just(.setNextPage(page + 1))
                 ])
             }
     }
