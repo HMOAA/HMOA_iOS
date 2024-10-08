@@ -13,14 +13,15 @@ final class OrderLogReactor: Reactor {
     enum Action {
         case viewDidLoad
         case loadNextPage
-        case didTapRefundButton
-        case didTapReturnButton
+        case didTapRefundButton(OrderLogItem)
+        case didTapReturnButton(OrderLogItem)
         case didTapReviewButton
     }
     
     enum Mutation {
         case setOrderList([OrderLogItem])
         case setNextPage(Int)
+        case setSelectedOrder(OrderLogItem?)
         case setIsPushRefundVC(Bool)
         case setIsPushReturnVC(Bool)
         case setIsPushReviewVC(Bool)
@@ -29,6 +30,7 @@ final class OrderLogReactor: Reactor {
     struct State {
         var orderList: [OrderLogItem] = OrderLogItem.exampleOrder
         var nextPage: Int = 0
+        var selectedOrder: OrderLogItem? = nil
         var isPushRefundVC: Bool = false
         var isPushReturnVC: Bool = false
         var isPushReviewVC: Bool = false
@@ -44,18 +46,26 @@ final class OrderLogReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return setOrderList()
+            
         case .loadNextPage:
             return setOrderList()
-        case .didTapRefundButton:
+            
+        case .didTapRefundButton(let order):
             return .concat([
+                .just(.setSelectedOrder(order)),
                 .just(.setIsPushRefundVC(true)),
+                .just(.setSelectedOrder(nil)),
                 .just(.setIsPushRefundVC(false))
             ])
-        case .didTapReturnButton:
+            
+        case .didTapReturnButton(let order):
             return .concat([
+                .just(.setSelectedOrder(order)),
                 .just(.setIsPushReturnVC(true)),
+                .just(.setSelectedOrder(nil)),
                 .just(.setIsPushReturnVC(false))
             ])
+            
         case .didTapReviewButton:
             return .concat([
                 .just(.setIsPushReviewVC(true)),
@@ -73,6 +83,9 @@ final class OrderLogReactor: Reactor {
             
         case .setNextPage(let page):
             state.nextPage = page
+            
+        case .setSelectedOrder(let order):
+            state.selectedOrder = order
             
         case .setIsPushRefundVC(let isPush):
             state.isPushRefundVC = isPush
