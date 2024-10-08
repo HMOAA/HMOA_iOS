@@ -37,7 +37,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
         $0.setTextWithLineHeight(text: "결제금액", lineHeight: 20)
     }
     
-    private let totalAmountValueLabel = UILabel().then {
+    private var totalAmountValueLabel = UILabel().then {
         $0.setLabelUI("15,000원", font: .pretendard_bold, size: 20, color: .red)
     }
     
@@ -47,23 +47,17 @@ final class OrderCancelDetailViewController: UIViewController, View {
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    private let productPriceView = ProductPriceView().then {
-        $0.configureView(title: "총 상품금액", price: 9999, color: .gray3)
-    }
+    private var productPriceView = ProductPriceView()
     
-    private let shippingPriceView = ProductPriceView().then {
-        $0.configureView(title: "배송비", price: 3333, color: .gray3)
-    }
+    private var shippingPriceView = ProductPriceView()
     
-    private let decoLineView2 = UIView().then {
+    private var decoLineView2 = UIView().then {
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    private let totalRefundPriceView = ProductPriceView().then {
-        $0.configureView(title: "총 환불금액", price: 11111, color: .black)
-    }
+    private let totalRefundPriceView = ProductPriceView()
     
-    private let cancelButton = UIButton().then {
+    private let requestButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 15)
         $0.setTitleColor(.white, for: .normal)
@@ -90,8 +84,53 @@ final class OrderCancelDetailViewController: UIViewController, View {
     func bind(reactor: OrderCancelDetailReactor) {
         
         // MARK: Action
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        requestButton.rx.tap
+            .map { Reactor.Action.didTapRequestButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
+        
+        reactor.state
+            .map { $0.requestKind }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, requestKind in
+                owner.paymentInfoView.isHidden = requestKind == .returnRequest
+                owner.setRequestButtonTitleLabel(requestKind)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.order }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, order in
+                let categoryList = order.order!.products.categoryListInfo.categoryList
+                owner.addItemToCategoryStackView(item: categoryList)
+                let orderInfo = order.order!.products
+                owner.setPriceLabels(orderInfo)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                let request = reactor.currentState.requestKind
+                if request == .refundRequest {
+                    // TODO: 부트페이 환불
+                } else {
+                    owner.presentKakaoChannel()
+                }
+                
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -106,7 +145,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
     private func setAddView() {
         [
             scrollView,
-            cancelButton
+            requestButton
         ]   .forEach { view.addSubview($0) }
         scrollView.addSubview(containerView)
         
@@ -117,23 +156,6 @@ final class OrderCancelDetailViewController: UIViewController, View {
             totalAmountValueLabel,
             paymentInfoView
         ]   .forEach { containerView.addSubview($0) }
-        
-        [
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView(),
-            OrderCancelCategoryView()
-        ]   .forEach {
-            $0.configureView()
-            $0.snp.makeConstraints { make in
-                make.height.greaterThanOrEqualTo(60)
-            }
-            categoryStackView.addArrangedSubview($0)
-        }
         
         [
             decoLineView1,
@@ -148,7 +170,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
     private func setConstraints() {
         scrollView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(cancelButton.snp.top).offset(-5)
+            make.bottom.equalTo(requestButton.snp.top).offset(-5)
         }
         
         containerView.snp.makeConstraints { make in
@@ -212,10 +234,53 @@ final class OrderCancelDetailViewController: UIViewController, View {
             make.bottom.equalToSuperview()
         }
         
-        cancelButton.snp.makeConstraints { make in
+        requestButton.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(categoryStackView.snp.horizontalEdges)
             make.bottom.equalToSuperview().inset(40)
             make.height.equalTo(52)
         }
+    }
+}
+
+extension OrderCancelDetailViewController {
+    private func setRequestButtonTitleLabel(_ requestKind: OrderCancelRequestKind) {
+        if requestKind == .refundRequest {
+            requestButton.setTitle("환불 신청", for: .normal)
+        } else {
+            requestButton.setTitle("반품 신청(1대 1 문의)", for: .normal)
+        }
+    }
+    
+    private func addItemToCategoryStackView(item: [HBTICategory]) {
+        item.map { category in
+            let view = OrderCancelCategoryView()
+            view.configureView(category: category)
+            return view
+        }.forEach { view in
+            view.snp.makeConstraints { make in
+                make.height.greaterThanOrEqualTo(60)
+            }
+            categoryStackView.addArrangedSubview(view)
+        }
+    }
+    
+    private func setPriceLabels(_ order: OrderInfo) {
+        totalAmountValueLabel.text = order.totalAmount.numberFormatterToHangulWon()
+        productPriceView.configureView(title: "총 상품금액", price: order.paymentAmount, color: .gray3)
+        shippingPriceView.configureView(title: "배송비", price: order.shippingFee, color: .gray3)
+        totalRefundPriceView.configureView(title: "총 환불금액", price: order.totalAmount, color: .black)
+    }
+    
+    private func presentKakaoChannel() {
+        MemberAPI.kakaoTalkAddChannel()
+            .map { $0 }
+            .bind(with: self) { owner, isSetKakao in
+                if !isSetKakao {
+                    owner.showAlert(title: "카카오톡 미설치",
+                                    message: "카카오톡이 설치되어 있어야 합니다.",
+                                    buttonTitle1: "확인")
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }
