@@ -48,6 +48,15 @@ final class OrderCancelLogViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         // MARK: State
+        
+        reactor.state
+            .map { $0.orderCancelList }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .cancel, withItems: items)
+            })
+            .disposed(by: disposeBag)
     }
 
     // MARK: - Functions
@@ -84,7 +93,7 @@ final class OrderCancelLogViewController: UIViewController, View {
                 withIdentifier: OrderCancelLogCell.identifier,
                 for: indexPath) as! OrderCancelLogCell
             
-            cell.configureCell()
+            cell.configureCell(order: item.order!)
             cell.selectionStyle = .none
             
             return cell
@@ -96,6 +105,16 @@ final class OrderCancelLogViewController: UIViewController, View {
         initialSnapshot.appendSections([.cancel])
         
         dataSource?.apply(initialSnapshot)
+    }
+    
+    private func updateSnapshot(forSection section: OrderCancelLogSection, withItems items: [OrderCancelLogItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(items, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 
 }

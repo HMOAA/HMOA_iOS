@@ -72,7 +72,7 @@ final class OrderCancelLogCell: UITableViewCell {
         decoLine.snp.makeConstraints { make in
             make.centerY.equalTo(statusLabel.snp.centerY)
             make.leading.equalTo(statusLabel.snp.trailing).offset(16)
-            make.trailing.equalToSuperview()
+            make.trailing.equalTo(dateLabel.snp.leading).offset(-12)
             make.height.equalTo(1)
         }
         
@@ -89,20 +89,34 @@ final class OrderCancelLogCell: UITableViewCell {
         }
     }
     
-    func configureCell() {
-        let category1 = OrderCancelCategoryView()
-        let category2 = OrderCancelCategoryView()
+    func configureCell(order: Order) {
+        let status = OrderStatus(rawValue: order.status)
+        let categoryList = order.products.categoryListInfo.categoryList
         
-        [
-            category1,
-            category2
-        ]   .forEach {
-            // configureView()
-            $0.snp.makeConstraints { make in
-                make.height.greaterThanOrEqualTo(60)
+        setStatusLabel(for: status)
+        setCategoryStackView(categoryList)
+        dateLabel.setLabelUI(order.createdAt, font: .pretendard_bold, size: 12, color: .gray3)
+    }
+    
+}
+
+extension OrderCancelLogCell {
+    private func setCategoryStackView(_ categoryList: [HBTICategory]) {
+        categoryStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        categoryList.forEach {
+            let categoryView = OrderCancelCategoryView()
+            categoryView.configureView(category: $0)
+            categoryView.snp.makeConstraints { make in
+                make.height.greaterThanOrEqualTo(61)
             }
-            categoryStackView.addArrangedSubview($0)
+            categoryStackView.addArrangedSubview(categoryView)
         }
     }
-
+    
+    private func setStatusLabel(for status: OrderStatus?) {
+        guard let status = status else { return }
+        statusLabel.text = status.kr
+        statusLabel.textColor = status.textColor
+    }
 }
