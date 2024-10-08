@@ -47,6 +47,12 @@ final class OrderCancelLogViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        orderCancelLogTableView.rx.willDisplayCell
+            .filter { $0.indexPath.row == self.orderCancelLogTableView.numberOfRows(inSection: 0) - 1 }
+            .map { _ in Reactor.Action.loadNextPage }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         
         reactor.state
