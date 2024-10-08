@@ -22,6 +22,7 @@ enum MemberAddress {
     case fetchWritedPost
     case deleteMember
     case fetchOrder
+    case fetchOrderCancel
 }
 
 extension MemberAddress {
@@ -55,6 +56,8 @@ extension MemberAddress {
             return "member/delete"
         case .fetchOrder:
             return "member/order"
+        case .fetchOrderCancel:
+            return "member/order/cancel"
         }
     }
 }
