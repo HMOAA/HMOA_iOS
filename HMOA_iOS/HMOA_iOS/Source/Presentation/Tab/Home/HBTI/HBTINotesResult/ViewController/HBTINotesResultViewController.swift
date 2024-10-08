@@ -8,8 +8,16 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
+import ReactorKit
 
-final class HBTINotesResultViewController: UIViewController {
+final class HBTINotesResultViewController: UIViewController, View {
+    
+    // MARK: - Properties
+    
+    var disposeBag = DisposeBag()
+    private let selectedNotes: [HBTINotesResultModel]
     
     // MARK: - UI Components
     
@@ -26,10 +34,6 @@ final class HBTINotesResultViewController: UIViewController {
     private let footerView = HBTINotesResultFooterView()
     
     private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
-    
-    // MARK: - Properties
-    
-    private let selectedNotes: [HBTINotesResultModel]
     
     // MARK: - Initialization
     
@@ -54,13 +58,25 @@ final class HBTINotesResultViewController: UIViewController {
     
     // MARK: - Bind
     
-    func bind(reactor: HBTISurveyReactor) {
+    func bind(reactor: HBTINotesResultReactor) {
         
         // MARK: Action
         
+        nextButton.rx.tap
+            .map { HBTINotesResultReactor.Action.didTapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
         // MARK: State
         
+        reactor.state
+            .map { $0.isPushNextVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(onNext: presentHBTIOrderSheetViewController)
+            .disposed(by: disposeBag)
     }
     
     // MARK: Set UI
