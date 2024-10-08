@@ -87,6 +87,7 @@ final class HBTIOrderSheetViewController: UIViewController {
     // MARK: Set UI
    
     private func setUI() {
+        view.backgroundColor = .white
         setBackItemNaviBar("주문서 작성")
         
         let appearance = UINavigationBarAppearance()
