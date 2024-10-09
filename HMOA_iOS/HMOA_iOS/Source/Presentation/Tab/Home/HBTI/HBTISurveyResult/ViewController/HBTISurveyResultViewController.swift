@@ -112,7 +112,7 @@ final class HBTISurveyResultViewController: UIViewController, View {
             .filter { $0 }
             .map { _ in }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: presentHBTIViewController)
+            .drive(onNext: presentHBTIProcessGuideViewController)
             .disposed(by: disposeBag)
         
     }
