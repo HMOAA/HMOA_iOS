@@ -241,6 +241,23 @@ extension MyPageViewController {
             changeProfileVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(changeProfileVC, animated: true)
             
+        case .orderLog:
+            let orderLogVC = OrderLogViewController()
+            let orderLogReactor = OrderLogReactor()
+            orderLogVC.reactor = orderLogReactor
+            orderLogVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(orderLogVC, animated: true)
+            
+        case .orderCancelLog:
+            let orderCancelLogVC = OrderCancelLogViewController()
+            let orderCancelLogReactor = OrderCancelLogReactor()
+            orderCancelLogVC.reactor = orderCancelLogReactor
+            orderCancelLogVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(orderCancelLogVC, animated: true)
+            
+        case .terms:
+            UIApplication.shared.open(URL(string: "https://sites.google.com/view/hyangmoa/서비스-이용약관?authuser=0")!)
+            
         case .myPerfume:
             let likeVC = LikeViewController()
             let reactor = LikeReactor()
@@ -257,7 +274,7 @@ extension MyPageViewController {
             let myInformationVC = MyProfileViewController(reactor: myInformationReactor)
             self.navigationController?.pushViewController(myInformationVC, animated: true)
         case .policy:
-            UIApplication.shared.open(URL(string: "https://atom-baritone-abe.notion.site/Hmoa-b80ec8694fc440f7a78b3a05b35ecffd?pvs=4")!)
+            UIApplication.shared.open(URL(string: "https://sites.google.com/view/hyangmoa/개인정보처리방침?authuser=0")!)
         case .version:
             break
         case .inquireAccount:
