@@ -198,6 +198,12 @@ extension MyPageReactor {
     }
     
     static func setUpOtherSection() -> [MyPageSection] {
+        let first = [
+            MyPageType.orderLog.title,
+            MyPageType.orderCancelLog.title,
+            MyPageType.terms.title
+        ]   .map { MyPageSectionItem.otherCell($0) }
+        
         let second = [
             MyPageType.myPerfume.title,
             MyPageType.myLog.title,
@@ -216,7 +222,7 @@ extension MyPageReactor {
             ]   .map { MyPageSectionItem.otherCell($0)}
         
         
-        return [MyPageSection.otherSection(second), MyPageSection.otherSection(thrid), MyPageSection.otherSection(fourth)]
+        return [MyPageSection.otherSection(first), MyPageSection.otherSection(second), MyPageSection.otherSection(thrid), MyPageSection.otherSection(fourth)]
     }
     
     static func reqeustUserInfo() -> Observable<Mutation> {
