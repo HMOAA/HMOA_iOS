@@ -43,10 +43,6 @@ final class HBTIOrderSheetViewController: UIViewController {
     
     private let dividingLineView4 = HBTIOrderDividingLineView(color: .black)
     
-    private let paymentMethodView = HBTIPaymentMethodView()
-    
-    private let dividingLineView5 = HBTIOrderDividingLineView(color: .black)
-    
     private let agreementView = HBTIAgreementView()
     
     private let payButton = UIButton().then {
@@ -54,7 +50,7 @@ final class HBTIOrderSheetViewController: UIViewController {
         $0.titleLabel?.font = .customFont(.pretendard, 15)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 5
-        $0.backgroundColor = .black
+        $0.backgroundColor = .customColor(.gray3)
     }
     
     // MARK: - LifeCycle
@@ -116,8 +112,6 @@ final class HBTIOrderSheetViewController: UIViewController {
          dividingLineView3,
          totalPaymentView,
          dividingLineView4,
-         paymentMethodView,
-         dividingLineView5,
          agreementView
         ].forEach(orderContentView.addSubview)
     }
@@ -180,19 +174,8 @@ final class HBTIOrderSheetViewController: UIViewController {
             $0.height.equalTo(1)
         }
         
-        paymentMethodView.snp.makeConstraints {
-            $0.top.equalTo(dividingLineView4.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview()
-        }
-        
-        dividingLineView5.snp.makeConstraints {
-            $0.top.equalTo(paymentMethodView.snp.bottom).offset(4)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(1)
-        }
-        
         agreementView.snp.makeConstraints {
-            $0.top.equalTo(dividingLineView5.snp.bottom).offset(24)
+            $0.top.equalTo(dividingLineView4.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
