@@ -127,6 +127,7 @@
 		3F2060A82C6FB8A800926F14 /* HBTIQuantitySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */; };
 		3F397AA12C840E3E00D09282 /* HBTIAgreementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F397AA02C840E3E00D09282 /* HBTIAgreementModel.swift */; };
 		3F49FB4E2C78431D00EDB0AC /* HBTINotesResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F49FB4D2C78431D00EDB0AC /* HBTINotesResultModel.swift */; };
+		3F4CA6B12CB82F5C00D67866 /* HBTIAddFixReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4CA6B02CB82F5B00D67866 /* HBTIAddFixReactor.swift */; };
 		3F5022F22C7F795400230A40 /* HBTIAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F12C7F795400230A40 /* HBTIAddressView.swift */; };
 		3F5022F62C7F7FDE00230A40 /* HBTIProductInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */; };
 		3F53EC5E2C9D9D340033D553 /* HBTIQuantitySelectReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F53EC5D2C9D9D340033D553 /* HBTIQuantitySelectReactor.swift */; };
@@ -487,6 +488,7 @@
 		3F2060A72C6FB8A800926F14 /* HBTIQuantitySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectCell.swift; sourceTree = "<group>"; };
 		3F397AA02C840E3E00D09282 /* HBTIAgreementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementModel.swift; sourceTree = "<group>"; };
 		3F49FB4D2C78431D00EDB0AC /* HBTINotesResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultModel.swift; sourceTree = "<group>"; };
+		3F4CA6B02CB82F5B00D67866 /* HBTIAddFixReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddFixReactor.swift; sourceTree = "<group>"; };
 		3F5022F12C7F795400230A40 /* HBTIAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddressView.swift; sourceTree = "<group>"; };
 		3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProductInfoView.swift; sourceTree = "<group>"; };
 		3F53EC5D2C9D9D340033D553 /* HBTIQuantitySelectReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectReactor.swift; sourceTree = "<group>"; };
@@ -1593,6 +1595,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3F4CA6AF2CB82F4400D67866 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3F4CA6B02CB82F5B00D67866 /* HBTIAddFixReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
 		3F5565F62C6F32AF005CCBCA /* HBTIProcessGuide */ = {
 			isa = PBXGroup;
 			children = (
@@ -1728,6 +1738,7 @@
 		3FBF351C2C8E791A00FD0079 /* HBTIAddFixAdress */ = {
 			isa = PBXGroup;
 			children = (
+				3F4CA6AF2CB82F4400D67866 /* Reactor */,
 				3FBF351F2C8E79A900FD0079 /* View */,
 				3FBF351E2C8E793800FD0079 /* ViewController */,
 			);
@@ -3476,6 +3487,7 @@
 				3F03E0902C7B1FA700A31ACC /* HBTIOrderSheetViewController.swift in Sources */,
 				3F964D2A2C72D36000F97CB7 /* HBTINotesCategoryTopView.swift in Sources */,
 				CAE5F2A029F1109800BAF313 /* Response.swift in Sources */,
+				3F4CA6B12CB82F5C00D67866 /* HBTIAddFixReactor.swift in Sources */,
 				2C4CDC4629C770D900676163 /* BrandDetailReactor.swift in Sources */,
 				CA39D56C2B0B3A9C00694677 /* MyLogCommentSection.swift in Sources */,
 				2C464E4C29CDB1B300A07658 /* MyPageSection.swift in Sources */,
