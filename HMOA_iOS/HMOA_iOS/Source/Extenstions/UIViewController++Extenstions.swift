@@ -334,6 +334,7 @@ extension UIViewController {
     /// HBTIOrderSheetVC로 push
     func presentHBTIOrderSheetViewController() {
         let hbtiOrderSheetVC = HBTIOrderSheetViewController()
+        hbtiOrderSheetVC.reactor = HBTIOrderReactor()
         hbtiOrderSheetVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
     }

@@ -34,13 +34,13 @@ final class HBTIOrdererInfoView: UIView {
         $0.setLabelUI("이름", font: .pretendard_medium, size: 12, color: .black)
     }
     
-    private let nameTextField = UITextField().then {
+    let nameTextField = UITextField().then {
         $0.setTextFieldUI("이름", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
     }
     
-    private let contactTextField = HBTIContactTextFieldView(title: "휴대전화")
+    let contactTextField = HBTIContactTextFieldView(title: "휴대전화")
     
     // MARK: - Initialization
         
