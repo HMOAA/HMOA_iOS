@@ -11,8 +11,9 @@ import Then
 import Bootpay
 import RxSwift
 import RxCocoa
+import ReactorKit
 
-final class HBTIOrderSheetViewController: UIViewController {
+final class HBTIOrderSheetViewController: UIViewController, View {
     
     // MARK: - Properties
     
@@ -61,14 +62,33 @@ final class HBTIOrderSheetViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
-        bind()
     }
     
     // MARK: - Bind
     
-    func bind() {
+    func bind(reactor: HBTIOrderReactor) {
         
         // MARK: Action
+        
+        ordererInfoView.nameTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangeName($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 3개의 전화번호 텍스트 필드 통합 관리
+        Observable
+            .combineLatest(
+                ordererInfoView.contactTextField.contactTextFieldFirst.rx.text.orEmpty,
+                ordererInfoView.contactTextField.contactTextFieldSecond.rx.text.orEmpty,
+                ordererInfoView.contactTextField.contactTextFieldThird.rx.text.orEmpty
+            )
+            .map { first, second, third in "\(first)-\(second)-\(third)" }
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangeContact($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         payButton.rx.tap
             .subscribe(onNext: { [weak self] in
@@ -77,13 +97,21 @@ final class HBTIOrderSheetViewController: UIViewController {
             .disposed(by: disposeBag)
         
         // MARK: State
-        
+
+        reactor.state
+            .map { $0.isPayValid }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] isValid in
+                self?.payButton.backgroundColor = isValid ? .black : .customColor(.gray3)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Set UI
    
     private func setUI() {
         setBackItemNaviBar("주문서 작성")
+        view.backgroundColor = .white
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white

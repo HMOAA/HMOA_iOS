@@ -20,7 +20,7 @@ final class HBTIContactTextFieldView: UIView {
         $0.setLabelUI(title, font: .pretendard_medium, size: 12, color: .black)
     }
     
-    private lazy var contactTextFieldFirst = UITextField().then {
+    lazy var contactTextFieldFirst = UITextField().then {
         $0.setTextFieldUI("000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
@@ -31,7 +31,7 @@ final class HBTIContactTextFieldView: UIView {
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    private lazy var contactTextFieldSecond = UITextField().then {
+    lazy var contactTextFieldSecond = UITextField().then {
         $0.setTextFieldUI("0000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
@@ -42,7 +42,7 @@ final class HBTIContactTextFieldView: UIView {
         $0.backgroundColor = .customColor(.gray1)
     }
     
-    private lazy var contactTextFieldThird = UITextField().then {
+    lazy var contactTextFieldThird = UITextField().then {
         $0.setTextFieldUI("0000", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
