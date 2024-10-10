@@ -86,7 +86,7 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             )
             .map { first, second, third in "\(first)-\(second)-\(third)" }
             .distinctUntilChanged()
-            .map { Reactor.Action.didChangeContact($0) }
+            .map { Reactor.Action.didChangePhoneNumber($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
