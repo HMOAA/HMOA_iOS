@@ -13,18 +13,23 @@ final class HBTIOrderReactor: Reactor {
     enum Action {
         case didChangeName(String)
         case didChangePhoneNumber(String)
+        case didTapSaveInfoButton
+        case didTapEnterAddressButton
     }
     
     enum Mutation {
         case setName(String)
         case setPhoneNumber(String)
         case setPayValid(Bool)
+//        case setIsAddressSaved(Bool)
     }
     
     struct State {
         var name: String = ""
         var phoneNumber: String = ""
         var isPayValid: Bool = false
+        // isAddressSaved는 서버에서 불러오는 것으로 변경 예정
+//        var isAddressSaved: Bool = false
     }
     
     var initialState: State
@@ -50,6 +55,12 @@ final class HBTIOrderReactor: Reactor {
                 .just(.setPhoneNumber(phoneNumber)),
                 .just(.setPayValid(isValid))
             ])
+            
+        case .didTapSaveInfoButton:
+            return .empty()
+            
+        case .didTapEnterAddressButton:
+            return .empty()
         }
     }
     

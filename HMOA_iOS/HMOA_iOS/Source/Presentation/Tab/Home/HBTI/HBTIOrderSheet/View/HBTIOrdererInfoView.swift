@@ -17,7 +17,7 @@ final class HBTIOrdererInfoView: UIView {
         $0.setLabelUI("주문자 정보", font: .pretendard_bold, size: 18, color: .black)
     }
     
-    private let saveInfoButton = UIButton().then {
+    let saveInfoButton = UIButton().then {
         let text = "작성한 정보 저장하기"
         let attributedString = NSAttributedString(
             string: text,

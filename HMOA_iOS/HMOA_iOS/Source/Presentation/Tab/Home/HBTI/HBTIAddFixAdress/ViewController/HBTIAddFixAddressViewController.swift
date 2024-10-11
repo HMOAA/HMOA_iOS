@@ -8,9 +8,14 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
 
-final class HBTIAddFixAddressViewController: UIViewController {
+final class HBTIAddFixAddressViewController: UIViewController, View {
 
+    // MARK: - Properties
+    
+    var disposeBag = DisposeBag()
+    
     // MARK: - UI Components
     
     private let scrollView = UIScrollView().then {
@@ -75,23 +80,29 @@ final class HBTIAddFixAddressViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
-        bind()
     }
     
     // MARK: - Bind
     
-    func bind() {
+    func bind(reactor: HBTIAddFixReactor) {
         
         // MARK: Action
         
         // MARK: State
         
+        reactor.state
+            .map { $0.title }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] title in
+                self?.setBackItemNaviBar(title)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Set UI
    
     private func setUI() {
-        setBackItemNaviBar("주소 추가")
+        view.backgroundColor = .white
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
