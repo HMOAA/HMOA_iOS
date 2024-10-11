@@ -24,6 +24,7 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     
     private let orderScrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
+        $0.keyboardDismissMode = .onDrag
     }
     
     private let orderContentView = UIView()
@@ -62,6 +63,7 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        dismissKeyboard()
     }
     
     // MARK: - Bind
@@ -221,7 +223,7 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         }
     }
     
-    // MARK: - Functions
+    // MARK: - Other Functions
     
     func bootpayStart() {
         let payload = generatePayload()
@@ -292,5 +294,15 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         payload.user = testUser
         
         return payload
+    }
+    
+    private func dismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addDismissKeyboardGesture))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func addDismissKeyboardGesture() {
+        self.view.endEditing(true)
     }
 }

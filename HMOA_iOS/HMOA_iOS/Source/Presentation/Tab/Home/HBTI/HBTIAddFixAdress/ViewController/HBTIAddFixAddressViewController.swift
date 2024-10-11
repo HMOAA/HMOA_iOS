@@ -20,6 +20,7 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
     
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
+        $0.keyboardDismissMode = .onDrag
     }
     
     private let contentView = UIView()
@@ -80,6 +81,7 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        dismissKeyboard()
     }
     
     // MARK: - Bind
@@ -209,5 +211,17 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             $0.bottom.equalToSuperview().inset(40)
             $0.height.equalTo(52)
         }
+    }
+    
+    // MARK: Other Functions
+    
+    private func dismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addDismissKeyboardGesture))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func addDismissKeyboardGesture() {
+        self.view.endEditing(true)
     }
 }
