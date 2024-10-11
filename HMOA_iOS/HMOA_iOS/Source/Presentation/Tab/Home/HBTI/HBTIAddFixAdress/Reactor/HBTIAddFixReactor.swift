@@ -19,6 +19,7 @@ final class HBTIAddFixReactor: Reactor {
     }
     
     struct State {
+        var title: String
         var name: String = ""
         var addressName: String = ""
         var phoneNumber: String = ""
@@ -31,8 +32,8 @@ final class HBTIAddFixReactor: Reactor {
     
     var initialState: State
     
-    init() {
-        self.initialState = State()
+    init(title: String) {
+        self.initialState = State(title: title)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

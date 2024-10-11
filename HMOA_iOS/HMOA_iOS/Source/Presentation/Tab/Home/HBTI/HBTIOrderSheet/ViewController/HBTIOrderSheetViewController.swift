@@ -90,6 +90,12 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        addressView.saveDeliveryInfoButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.presentHBTIAddFixAddressViewController(title: "주소 추가")
+            })
+            .disposed(by: disposeBag)
+        
         payButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.bootpayStart()
