@@ -21,7 +21,7 @@ class PushAlarmViewController: UIViewController, View {
         $0.register(PushAlarmCell.self, forCellReuseIdentifier: PushAlarmCell.identifier)
     }
     
-    private var noAlarmBackgroundView = NoItemView(title: "알림이 없습니다", description: "")
+    private var noAlarmBackgroundView = IconMessageView(title: "알림이 없습니다", iconWidth: 110)
     
     private var bellButton = UIButton().then {
         $0.setImage(UIImage(named: "bellOn"), for: .selected)
