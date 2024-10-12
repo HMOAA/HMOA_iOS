@@ -25,6 +25,7 @@ final class HBTIContactTextFieldView: UIView {
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
         $0.delegate = self
+        $0.returnKeyType = .next
     }
     
     private let contactFirstLine = UIView().then {
@@ -36,6 +37,7 @@ final class HBTIContactTextFieldView: UIView {
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
         $0.delegate = self
+        $0.returnKeyType = .next
     }
     
     private let contactSecondLine = UIView().then {
@@ -47,6 +49,7 @@ final class HBTIContactTextFieldView: UIView {
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
         $0.delegate = self
+        $0.returnKeyType = .next
     }
     
     // MARK: - Initialization
@@ -152,6 +155,23 @@ extension HBTIContactTextFieldView: UITextFieldDelegate {
             return contactText.count < 4
         default:
             return true
+        }
+    }
+    
+    // 키보드에서 next버튼 누를 때 다음 텍스트 필드로 이동
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case contactTextFieldFirst:
+            return moveToNextTextField(currentTextField: textField, nextTextField: contactTextFieldSecond)
+            
+        case contactTextFieldSecond:
+            return moveToNextTextField(currentTextField: textField, nextTextField: contactTextFieldThird)
+            
+        case contactTextFieldThird:
+            return moveToNextTextField(currentTextField: textField, nextTextField: nil)
+            
+        default:
+            return false
         }
     }
 }

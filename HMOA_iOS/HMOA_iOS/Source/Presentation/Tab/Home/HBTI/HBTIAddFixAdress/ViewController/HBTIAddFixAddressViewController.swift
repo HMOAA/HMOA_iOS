@@ -33,20 +33,24 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
         $0.setLabelUI("이름", font: .pretendard_medium, size: 12, color: .black)
     }
     
-    private let receiverNameTextField = UITextField().then {
+    lazy var receiverNameTextField = UITextField().then {
         $0.setTextFieldUI("수령인", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.delegate = self
+        $0.returnKeyType = .next
     }
     
-    private let receiverAddressNameLabel = UILabel().then {
+    lazy var receiverAddressNameLabel = UILabel().then {
         $0.setLabelUI("배송지명(선택)", font: .pretendard_medium, size: 12, color: .black)
     }
     
-    private let receiverAddressNameTextField = UITextField().then {
+    lazy var receiverAddressNameTextField = UITextField().then {
         $0.setTextFieldUI("배송지명", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.delegate = self
+        $0.returnKeyType = .next
     }
     
     private let phoneNumberTextFieldView = HBTIContactTextFieldView(title: "휴대전화")
@@ -223,5 +227,22 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
     
     @objc private func addDismissKeyboardGesture() {
         self.view.endEditing(true)
+    }
+}
+
+extension HBTIAddFixAddressViewController: UITextFieldDelegate {
+    
+    // 키보드에서 next버튼 누를 때 다음 텍스트 필드로 이동
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case receiverNameTextField:
+            return moveToNextTextField(currentTextField: receiverNameTextField, nextTextField: receiverAddressNameTextField)
+            
+        case receiverAddressNameTextField:
+            return moveToNextTextField(currentTextField: receiverAddressNameTextField, nextTextField: phoneNumberTextFieldView.contactTextFieldFirst)
+            
+        default:
+            return false
+        }
     }
 }

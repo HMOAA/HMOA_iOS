@@ -34,10 +34,12 @@ final class HBTIOrdererInfoView: UIView {
         $0.setLabelUI("이름", font: .pretendard_medium, size: 12, color: .black)
     }
     
-    let nameTextField = UITextField().then {
+    lazy var nameTextField = UITextField().then {
         $0.setTextFieldUI("이름", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.delegate = self
+        $0.returnKeyType = .next
     }
     
     let contactTextField = HBTIContactTextFieldView(title: "휴대전화")
@@ -106,3 +108,12 @@ final class HBTIOrdererInfoView: UIView {
         }
     }
 }
+
+extension HBTIOrdererInfoView: UITextFieldDelegate {
+    
+    // 키보드에서 next버튼 누를 때 다음 텍스트 필드로 이동
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return moveToNextTextField(currentTextField: textField, nextTextField: contactTextField.contactTextFieldFirst)
+    }
+}
+

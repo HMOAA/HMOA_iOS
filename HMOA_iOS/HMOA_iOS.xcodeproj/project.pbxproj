@@ -151,6 +151,7 @@
 		3FCB3B792CB6C43D008FCCEE /* HBTIOrderReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */; };
 		3FD67FB72C811986005E6235 /* HBTITotalPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */; };
 		3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */; };
+		3FE89B502CB90BF8009D157D /* UIView++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE89B4F2CB90BF8009D157D /* UIView++Extensions.swift */; };
 		3FEB5E012C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */; };
 		3FEB5E032C80421600F3C7F5 /* HBTIProductInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */; };
 		3FEB5E052C8042DE00F3C7F5 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */; };
@@ -512,6 +513,7 @@
 		3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderReactor.swift; sourceTree = "<group>"; };
 		3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTITotalPaymentView.swift; sourceTree = "<group>"; };
 		3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectViewController.swift; sourceTree = "<group>"; };
+		3FE89B4F2CB90BF8009D157D /* UIView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView++Extensions.swift"; sourceTree = "<group>"; };
 		3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetProductData.swift; sourceTree = "<group>"; };
 		3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProductInfoCell.swift; sourceTree = "<group>"; };
 		3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
@@ -1088,6 +1090,7 @@
 				CAA592682B048BB9003DAE51 /* UIImage++Extenstions.swift */,
 				CA9810FB2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift */,
 				C98970DB2BD2062A00FFD68E /* Notification++Extensions.swift */,
+				3FE89B4F2CB90BF8009D157D /* UIView++Extensions.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -3383,6 +3386,7 @@
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
 				C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */,
 				CA4744862ADA718500003584 /* MyLogReactor.swift in Sources */,
+				3FE89B502CB90BF8009D157D /* UIView++Extensions.swift in Sources */,
 				2CAB7A9D29B08E4100E74809 /* Product.swift in Sources */,
 				CA5C9B112AB71C6D007D04BA /* AlertViewController.swift in Sources */,
 				CA5E872D2B2AED07006DD2FA /* PushAlarmAPI.swift in Sources */,
