@@ -25,6 +25,7 @@ final class HBTIAddressTextFieldView: UIView {
         $0.setTextFieldUI("우편번호", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.isEnabled = false
     }
     
     private let findAddressButton = UIButton().then {
@@ -40,6 +41,7 @@ final class HBTIAddressTextFieldView: UIView {
         $0.setTextFieldUI("주소", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.isEnabled = false
     }
     
     private let detailAddressTextField = UITextField().then {

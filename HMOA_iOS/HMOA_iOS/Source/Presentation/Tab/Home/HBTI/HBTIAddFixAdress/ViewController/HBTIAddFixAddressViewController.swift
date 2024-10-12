@@ -86,6 +86,7 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
         setAddView()
         setConstraints()
         dismissKeyboard()
+        setKeyboardObservers()
     }
     
     // MARK: - Bind
@@ -216,6 +217,9 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             $0.height.equalTo(52)
         }
     }
+}
+
+extension HBTIAddFixAddressViewController {
     
     // MARK: Other Functions
     
@@ -227,6 +231,30 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
     
     @objc private func addDismissKeyboardGesture() {
         self.view.endEditing(true)
+    }
+
+    private func setKeyboardObservers() {
+        // 키보드가 나타날 때 호출
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .keyboardWillShow, object: nil)
+        
+        // 키보드가 사라질 때 호출
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .keyboardWillHide, object: nil)
+    }
+    
+    // 키보드가 나타날 때 스크롤뷰의 contentInset을 조정
+    @objc private func keyboardWillShow(notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        // 스크롤뷰의 인셋을 키보드 높이에 맞게 조정
+        scrollView.contentInset.bottom = keyboardHeight
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+    }
+
+    // 키보드가 사라질 때 스크롤뷰의 contentInset을 원래대로 복원
+    @objc private func keyboardWillHide(notification: Notification) {
+        scrollView.contentInset.bottom = .zero
+        scrollView.scrollIndicatorInsets = .zero
     }
 }
 
