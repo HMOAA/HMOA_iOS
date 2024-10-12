@@ -78,7 +78,6 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
         $0.titleLabel?.font = .customFont(.pretendard, 15)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 5
-        $0.backgroundColor = .black
     }
     
     // MARK: - LifeCycle
@@ -99,6 +98,63 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
         
         // MARK: Action
         
+        receiverNameTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangeName($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        receiverAddressNameTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangeAddressName($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        Observable
+            .combineLatest(
+                phoneNumberTextFieldView.contactTextFieldFirst.rx.text.orEmpty,
+                phoneNumberTextFieldView.contactTextFieldSecond.rx.text.orEmpty,
+                phoneNumberTextFieldView.contactTextFieldThird.rx.text.orEmpty
+            )
+            .map { first, second, third in "\(first)-\(second)-\(third)" }
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangePhoneNumber($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        Observable
+            .combineLatest(
+                contactTextFieldView.contactTextFieldFirst.rx.text.orEmpty,
+                contactTextFieldView.contactTextFieldSecond.rx.text.orEmpty,
+                contactTextFieldView.contactTextFieldThird.rx.text.orEmpty
+            )
+            .map { first, second, third in "\(first)-\(second)-\(third)" }
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangeTelephoneNumber($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        addressTextFieldView.detailAddressTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangeDetailAddress($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        deliveryRequestTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangeOrderRequest($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        saveAddressInfoButton.rx.tap
+            .map { Reactor.Action.didTapSaveButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         
         reactor.state
@@ -106,6 +162,26 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] title in
                 self?.setBackItemNaviBar(title)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isEnabledSaveButton }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isEnabled in
+                owner.saveAddressInfoButton.isEnabled = isEnabled
+                owner.saveAddressInfoButton.backgroundColor = isEnabled ? .black : .customColor(.gray3)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushVC }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentHBTIOrderSheetViewController()
             })
             .disposed(by: disposeBag)
     }
