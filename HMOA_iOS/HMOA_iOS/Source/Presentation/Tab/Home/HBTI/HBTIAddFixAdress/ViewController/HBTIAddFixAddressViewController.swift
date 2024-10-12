@@ -232,6 +232,25 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
 
 extension HBTIAddFixAddressViewController: UITextFieldDelegate {
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        // 배송자 정보 중 이름 textField만 입력 제한
+        if textField == receiverNameTextField {
+            let restrictedCharacters = CharacterSet
+                                            .decimalDigits
+                                            .union(.punctuationCharacters)
+                                            .union(.symbols)
+                                            .union(.whitespaces)
+                
+            // restrictedCharacters에 포함되지 않는 문자만 허용 (한글, 알파벳만 허용)
+            if string.rangeOfCharacter(from: restrictedCharacters) != nil {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     // 키보드에서 next버튼 누를 때 다음 텍스트 필드로 이동
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
