@@ -26,6 +26,7 @@ final class HBTIContactTextFieldView: UIView {
         $0.layer.masksToBounds = true
         $0.delegate = self
         $0.returnKeyType = .next
+        $0.keyboardType = .numberPad
     }
     
     private let contactFirstLine = UIView().then {
@@ -38,6 +39,7 @@ final class HBTIContactTextFieldView: UIView {
         $0.layer.masksToBounds = true
         $0.delegate = self
         $0.returnKeyType = .next
+        $0.keyboardType = .numberPad
     }
     
     private let contactSecondLine = UIView().then {
@@ -50,6 +52,7 @@ final class HBTIContactTextFieldView: UIView {
         $0.layer.masksToBounds = true
         $0.delegate = self
         $0.returnKeyType = .next
+        $0.keyboardType = .numberPad
     }
     
     // MARK: - Initialization
@@ -61,6 +64,7 @@ final class HBTIContactTextFieldView: UIView {
         setUI()
         setAddView()
         setConstraints()
+        addNextButtonToKeyboard()
     }
 
     required init?(coder: NSCoder) {
@@ -133,6 +137,7 @@ final class HBTIContactTextFieldView: UIView {
 }
 
 extension HBTIContactTextFieldView: UITextFieldDelegate {
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         // 백스페이스 입력 시, 문자 삭제
@@ -151,11 +156,44 @@ extension HBTIContactTextFieldView: UITextFieldDelegate {
         switch textField {
         case contactTextFieldFirst:
             return contactText.count < 3
+            
         case contactTextFieldSecond, contactTextFieldThird:
             return contactText.count < 4
+            
         default:
             return true
         }
+    }
+    
+    private func addNextButtonToKeyboard() {
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+
+        let nextButton = UIBarButtonItem(title: "다음", style: .plain, target: self, action: #selector(toolBarNextButtonTapped))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        toolbar.setItems([flexSpace, nextButton], animated: false)
+
+        [
+         contactTextFieldFirst,
+         contactTextFieldSecond,
+         contactTextFieldThird
+        ].forEach { $0.inputAccessoryView = toolbar }
+    }
+    
+    @objc private func toolBarNextButtonTapped() {
+        
+        // 현재 활성화된 텍스트필드를 찾음
+        if let activeTextField = self.findFirstResponder() as? UITextField {
+            // 활성화된 텍스트필드를 textFieldShouldReturn로 전달
+            _ = textFieldShouldReturn(activeTextField)
+        }
+    }
+
+    // 현재 활성화된 텍스트필드를 찾기
+    private func findFirstResponder() -> UIResponder? {
+        return self.subviews.first(where: { $0.isFirstResponder })
     }
     
     // 키보드에서 next버튼 누를 때 다음 텍스트 필드로 이동
