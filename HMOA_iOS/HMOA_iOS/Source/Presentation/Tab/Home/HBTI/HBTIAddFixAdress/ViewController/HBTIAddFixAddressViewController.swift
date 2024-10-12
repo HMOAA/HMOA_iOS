@@ -57,16 +57,20 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
     
     private let contactTextFieldView = HBTIContactTextFieldView(title: "전화번호")
     
-    private let addressTextFieldView = HBTIAddressTextFieldView(title: "주소")
+    lazy var addressTextFieldView = HBTIAddressTextFieldView(title: "주소").then {
+        $0.delegate = self
+    }
 
     private let deliveryRequestLabel = UILabel().then {
         $0.setLabelUI("배송 요청사항(선택)", font: .pretendard_medium, size: 12, color: .black)
     }
     
-    private let deliveryRequestTextField = UITextField().then {
+    lazy var deliveryRequestTextField = UITextField().then {
         $0.setTextFieldUI("배송 시 요청사항을 선택해주세요", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.delegate = self
+        $0.returnKeyType = .done
     }
     
     private let saveAddressInfoButton = UIButton().then {
@@ -287,9 +291,24 @@ extension HBTIAddFixAddressViewController: UITextFieldDelegate {
             
         case receiverAddressNameTextField:
             return moveToNextTextField(currentTextField: receiverAddressNameTextField, nextTextField: phoneNumberTextFieldView.contactTextFieldFirst)
+
+        case addressTextFieldView.detailAddressTextField:
+            return moveToNextTextField(currentTextField: addressTextFieldView.detailAddressTextField, nextTextField: deliveryRequestTextField)
+            
+        case deliveryRequestTextField:
+            textField.resignFirstResponder()
+            return true
             
         default:
             return false
         }
+    }
+}
+
+extension HBTIAddFixAddressViewController: HBTIAddressTextFieldViewDelegate {
+    
+    // 상세주소 텍스트필드에서 returnKey 탭했을 경우 배송 요청사항 텍스트필드로 이동
+    func didTapReturnOnDetailAddressTextField() {
+        moveToNextTextField(currentTextField: addressTextFieldView.detailAddressTextField, nextTextField: deliveryRequestTextField)
     }
 }

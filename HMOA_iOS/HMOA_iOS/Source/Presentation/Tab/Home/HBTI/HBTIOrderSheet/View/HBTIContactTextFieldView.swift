@@ -206,7 +206,8 @@ extension HBTIContactTextFieldView: UITextFieldDelegate {
             return moveToNextTextField(currentTextField: textField, nextTextField: contactTextFieldThird)
             
         case contactTextFieldThird:
-            return moveToNextTextField(currentTextField: textField, nextTextField: nil)
+            textField.resignFirstResponder()
+            return true
             
         default:
             return false
