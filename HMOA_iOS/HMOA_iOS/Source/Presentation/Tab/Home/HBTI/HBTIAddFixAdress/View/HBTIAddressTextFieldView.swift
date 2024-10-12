@@ -9,11 +9,16 @@ import UIKit
 import SnapKit
 import Then
 
+protocol HBTIAddressTextFieldViewDelegate: AnyObject {
+    func didTapReturnOnDetailAddressTextField()
+}
+
 final class HBTIAddressTextFieldView: UIView {
     
     //MARK: Properties
     
     private let title: String
+    weak var delegate: HBTIAddressTextFieldViewDelegate?
     
     // MARK: UI Components
     
@@ -44,10 +49,12 @@ final class HBTIAddressTextFieldView: UIView {
         $0.isEnabled = false
     }
     
-    private let detailAddressTextField = UITextField().then {
+    lazy var detailAddressTextField = UITextField().then {
         $0.setTextFieldUI("상세주소", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.delegate = self
+        $0.returnKeyType = .next
     }
     
     // MARK: - Initialization
@@ -109,5 +116,15 @@ final class HBTIAddressTextFieldView: UIView {
             $0.height.equalTo(44)
             $0.bottom.equalToSuperview()
         }
+    }
+}
+
+extension HBTIAddressTextFieldView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == detailAddressTextField {
+            delegate?.didTapReturnOnDetailAddressTextField()
+            return true
+        }
+        return false
     }
 }
