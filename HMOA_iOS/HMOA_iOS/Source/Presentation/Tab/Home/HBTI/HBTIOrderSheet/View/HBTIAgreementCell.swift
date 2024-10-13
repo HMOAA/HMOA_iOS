@@ -11,6 +11,16 @@ import Then
 
 final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
     
+    // MARK: - Properties
+    
+    override var isSelected: Bool {
+        didSet {
+            checkImageView.image = isSelected
+                ? UIImage(named: "checkSelected")
+                : UIImage(named: "checkNotSelected")
+        }
+    }
+    
     // MARK: - UI Components
     
     private let checkImageView = UIImageView().then {
@@ -77,7 +87,6 @@ final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
     }
     
     func configureCell(with model: HBTIAgreementModel) {
-        checkImageView.image = UIImage(named: "checkNotSelected")
         titleLabel.setLabelUI(model.agreementTitle, font: .pretendard_medium, size: 12, color: .gray3)
     }
 }

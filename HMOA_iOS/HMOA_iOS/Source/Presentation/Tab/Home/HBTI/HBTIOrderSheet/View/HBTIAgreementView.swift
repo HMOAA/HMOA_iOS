@@ -36,7 +36,7 @@ final class HBTIAgreementView: UIView {
         $0.configuration = config
     }
     
-    private lazy var agreementTableView = UITableView().then {
+    lazy var agreementTableView = UITableView().then {
         $0.register(HBTIAgreementCell.self, forCellReuseIdentifier: HBTIAgreementCell.reuseIdentifier)
         $0.dataSource = self
         $0.delegate = self
