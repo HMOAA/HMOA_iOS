@@ -16,6 +16,7 @@ final class HBTIOrderReactor: Reactor {
         case didTapSaveInfoButton
         case didTapEnterAddressButton
         case didTapPolicyAgree
+        case didTapPersonalInfoAgree
     }
     
     enum Mutation {
@@ -24,6 +25,7 @@ final class HBTIOrderReactor: Reactor {
         case setPayValid(Bool)
 //        case setIsAddressSaved(Bool)
         case setPolicyAgree(Bool)
+        case setPersonalInfoAgree(Bool)
     }
     
     struct State {
@@ -71,6 +73,11 @@ final class HBTIOrderReactor: Reactor {
             let isPolicyAgree = !currentState.isPolicyAgree
             
             return .just(.setPolicyAgree(isPolicyAgree))
+            
+        case .didTapPersonalInfoAgree:
+            let isPersonalInfoAgree = !currentState.isPersonalInfoAgree
+            
+            return .just(.setPersonalInfoAgree(isPersonalInfoAgree))
         }
     }
     
@@ -89,6 +96,9 @@ final class HBTIOrderReactor: Reactor {
             
         case .setPolicyAgree(let isPolicyAgree):
             state.isPolicyAgree = isPolicyAgree
+            
+        case .setPersonalInfoAgree(let isPersonalInfoAgree):
+            state.isPersonalInfoAgree = isPersonalInfoAgree
         }
         
         return state

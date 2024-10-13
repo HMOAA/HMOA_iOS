@@ -99,8 +99,16 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         agreementView.agreementTableView.rx.itemSelected
-            .filter { $0.row == 0 }
-            .map { _ in Reactor.Action.didTapPolicyAgree }
+            .map { indexPath -> Reactor.Action in
+                switch indexPath.row {
+                case 0:
+                    return Reactor.Action.didTapPolicyAgree
+                case 1:
+                    return Reactor.Action.didTapPersonalInfoAgree
+                default:
+                    fatalError("Unexpected row index")
+                }
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -113,14 +121,17 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         // MARK: State
 
         reactor.state
-            .map { $0.isPolicyAgree }
-            .distinctUntilChanged()
-            .asDriver(onErrorRecover: { _ in .empty()})
-            .drive(with: self, onNext: { owner, isPolicyAgree in
+            .subscribe(onNext: { [weak self] state in
                 let policyAgreeIndexPath = IndexPath(row: 0, section: 0)
-                guard let policyAgreeCell = owner.agreementView.agreementTableView.cellForRow(at: policyAgreeIndexPath) as? HBTIAgreementCell else { return }
+                let personalInfoIndexPath = IndexPath(row: 1, section: 0)
                 
-                policyAgreeCell.isSelected = isPolicyAgree
+                if let policyAgreeCell = self?.agreementView.agreementTableView.cellForRow(at: policyAgreeIndexPath) as? HBTIAgreementCell {
+                    policyAgreeCell.isSelected = state.isPolicyAgree
+                }
+                
+                if let personalInfoCell = self?.agreementView.agreementTableView.cellForRow(at: personalInfoIndexPath) as? HBTIAgreementCell {
+                    personalInfoCell.isSelected = state.isPersonalInfoAgree
+                }
             })
             .disposed(by: disposeBag)
         
@@ -129,12 +140,6 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] isValid in
                 self?.payButton.backgroundColor = isValid ? .black : .customColor(.gray3)
-            })
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .subscribe(onNext: { state in
-                print("=============부분 환불정책 동의: \(state.isPolicyAgree)============")
             })
             .disposed(by: disposeBag)
     }
