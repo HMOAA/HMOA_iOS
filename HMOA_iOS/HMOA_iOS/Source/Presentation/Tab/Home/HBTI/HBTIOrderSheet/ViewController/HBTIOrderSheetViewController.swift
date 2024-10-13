@@ -98,6 +98,11 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        agreementView.allAgreementButton.rx.tap
+            .map { Reactor.Action.didTapAllAgree }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         agreementView.agreementTableView.rx.itemSelected
             .map { indexPath -> Reactor.Action in
                 switch indexPath.row {
@@ -120,6 +125,20 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         // MARK: State
 
+        reactor.state
+            .map { $0.isAllAgree }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] isAllAgree in
+                guard let self = self else { return }
+                
+                let image = isAllAgree
+                    ? UIImage(named: "checkBoxSelectedSvg")
+                    : UIImage(named: "checkBoxNotSelectedSvg")
+                
+                self.agreementView.allAgreementButton.setImage(image, for: .normal)
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .subscribe(onNext: { [weak self] state in
                 let policyAgreeIndexPath = IndexPath(row: 0, section: 0)
