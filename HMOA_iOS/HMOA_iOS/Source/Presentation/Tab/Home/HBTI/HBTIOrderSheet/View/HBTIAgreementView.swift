@@ -18,7 +18,7 @@ final class HBTIAgreementView: UIView {
     
     // MARK: - UI Components
     
-    private lazy var allAgreementButton = UIButton().then {
+    lazy var allAgreementButton = UIButton().then {
         var config = UIButton.Configuration.plain()
         
         // 텍스트 설정

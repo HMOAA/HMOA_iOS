@@ -15,6 +15,7 @@ final class HBTIOrderReactor: Reactor {
         case didChangePhoneNumber(String)
         case didTapSaveInfoButton
         case didTapEnterAddressButton
+        case didTapAllAgree
         case didTapPolicyAgree
         case didTapPersonalInfoAgree
     }
@@ -24,6 +25,7 @@ final class HBTIOrderReactor: Reactor {
         case setPhoneNumber(String)
         case setPayValid(Bool)
 //        case setIsAddressSaved(Bool)
+        case setAllAgree(Bool)
         case setPolicyAgree(Bool)
         case setPersonalInfoAgree(Bool)
     }
@@ -69,15 +71,32 @@ final class HBTIOrderReactor: Reactor {
         case .didTapEnterAddressButton:
             return .empty()
             
+        case .didTapAllAgree:
+            let isAllAgree = !currentState.isAllAgree
+            
+            return .concat([
+                .just(.setAllAgree(isAllAgree)),
+                .just(.setPolicyAgree(isAllAgree)),
+                .just(.setPersonalInfoAgree(isAllAgree))
+            ])
+            
         case .didTapPolicyAgree:
             let isPolicyAgree = !currentState.isPolicyAgree
+            let isAllAgree = isPolicyAgree && currentState.isPersonalInfoAgree
             
-            return .just(.setPolicyAgree(isPolicyAgree))
+            return .concat([
+                .just(.setPolicyAgree(isPolicyAgree)),
+                .just(.setAllAgree(isAllAgree))
+            ])
             
         case .didTapPersonalInfoAgree:
             let isPersonalInfoAgree = !currentState.isPersonalInfoAgree
+            let isAllAgree = currentState.isPolicyAgree && isPersonalInfoAgree
             
-            return .just(.setPersonalInfoAgree(isPersonalInfoAgree))
+            return .concat([
+                .just(.setPersonalInfoAgree(isPersonalInfoAgree)),
+                .just(.setAllAgree(isAllAgree))
+            ])
         }
     }
     
@@ -93,6 +112,9 @@ final class HBTIOrderReactor: Reactor {
             
         case .setPayValid(let isValid):
             state.isPayValid = isValid
+            
+        case .setAllAgree(let isAllAgree):
+            state.isAllAgree = isAllAgree
             
         case .setPolicyAgree(let isPolicyAgree):
             state.isPolicyAgree = isPolicyAgree
