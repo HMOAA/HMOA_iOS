@@ -9,6 +9,19 @@ import UIKit
 
 extension UIButton {
     
+    func grayBorderButton(title: String) -> UIButton {
+        let button = UIButton().then {
+            $0.setTitle(title, for: .normal)
+            $0.titleLabel?.font = .customFont(.pretendard_semibold, 12)
+            $0.setTitleColor(.customColor(.gray3), for: .normal)
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor.customColor(.gray3).cgColor
+            $0.layer.cornerRadius = 3
+        }
+        
+        return button
+    }
+    
     func makeFloatingListButton(title: String) -> UIButton {
         var config = UIButton.Configuration.plain()
         var titleAttr = AttributedString.init(title)
