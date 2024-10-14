@@ -158,6 +158,7 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             .map { $0.isPayValid }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] isValid in
+                self?.payButton.isEnabled = isValid
                 self?.payButton.backgroundColor = isValid ? .black : .customColor(.gray3)
             })
             .disposed(by: disposeBag)

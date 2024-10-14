@@ -24,6 +24,7 @@ final class HBTIOrderReactor: Reactor {
         case setName(String)
         case setPhoneNumber(String)
         case setPayValid(Bool)
+        case setIsFormValid(Bool)
 //        case setIsAddressSaved(Bool)
         case setAllAgree(Bool)
         case setPolicyAgree(Bool)
@@ -36,6 +37,7 @@ final class HBTIOrderReactor: Reactor {
         var isAllAgree: Bool = false
         var isPolicyAgree: Bool = false
         var isPersonalInfoAgree: Bool = false
+        var isFormValid: Bool = false
         var isPayValid: Bool = false
         // isAddressSaved는 서버에서 불러오는 것으로 변경 예정
 //        var isAddressSaved: Bool = false
@@ -50,19 +52,19 @@ final class HBTIOrderReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didChangeName(let name):
-            let isValid = isPayValid(name: name, phoneNumber: currentState.phoneNumber)
+            let isValid = isFormValid(name: name, phoneNumber: currentState.phoneNumber)
             
             return .concat([
                 .just(.setName(name)),
-                .just(.setPayValid(isValid))
+                .just(.setIsFormValid(isValid))
             ])
             
         case .didChangePhoneNumber(let phoneNumber):
-            let isValid = isPayValid(name: currentState.name, phoneNumber: phoneNumber)
+            let isValid = isFormValid(name: currentState.name, phoneNumber: phoneNumber)
             
             return .concat([
                 .just(.setPhoneNumber(phoneNumber)),
-                .just(.setPayValid(isValid))
+                .just(.setIsFormValid(isValid))
             ])
             
         case .didTapSaveInfoButton:
@@ -110,6 +112,9 @@ final class HBTIOrderReactor: Reactor {
         case .setPhoneNumber(let phoneNumber):
             state.phoneNumber = phoneNumber
             
+        case .setIsFormValid(let isValid):
+            state.isFormValid = isValid
+            
         case .setPayValid(let isValid):
             state.isPayValid = isValid
             
@@ -123,13 +128,15 @@ final class HBTIOrderReactor: Reactor {
             state.isPersonalInfoAgree = isPersonalInfoAgree
         }
         
+        state.isPayValid = state.isFormValid && state.isAllAgree
+        
         return state
     }
 }
 
 extension HBTIOrderReactor {
     // 주문자 정보 유효성 검사
-    private func isPayValid(name: String, phoneNumber: String) -> Bool {
+    private func isFormValid(name: String, phoneNumber: String) -> Bool {
         return !name.isEmpty && phoneNumber.count == 13
     }
 }
