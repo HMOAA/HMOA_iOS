@@ -119,7 +119,8 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         payButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.bootpayStart()
+//                self?.bootpayStart()
+                self?.presentHBTIOrderResultViewController()
             })
             .disposed(by: disposeBag)
         
