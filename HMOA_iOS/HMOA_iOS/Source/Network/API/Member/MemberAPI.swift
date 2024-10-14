@@ -198,4 +198,22 @@ final class MemberAPI {
             return .just(false)
         }
     }
+    
+    static func fetchOrderList(_ query: [String: Int]) -> Observable<OrderResponse> {
+        return networking(
+            urlStr: MemberAddress.fetchOrder.url,
+            method: .get,
+            data: nil,
+            model: OrderResponse.self,
+            query: query)
+    }
+    
+    static func fetchOrderCancelList(_ query: [String: Int]) -> Observable<OrderResponse> {
+        return networking(
+            urlStr: MemberAddress.fetchOrderCancel.url,
+            method: .get,
+            data: nil,
+            model: OrderResponse.self,
+            query: query)
+    }
 }
