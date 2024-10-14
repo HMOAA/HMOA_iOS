@@ -361,6 +361,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(orderCancelDetailVC, animated: true)
     }
     
+    /// HBTIOrderResultVC로 push
+    func presentHBTIOrderResultViewController() {
+        let hbtiOrderResultVC = HBTIOrderResultViewController()
+        hbtiOrderResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiOrderResultVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
@@ -536,6 +543,20 @@ extension UIViewController {
         }
         
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popToHBTIViewController), imageName: "backButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+    }
+    
+    /// 홈화면으로 이동하는 Back버튼 Navigation Bar
+    func setBackToHomeVCNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "backButton")
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
