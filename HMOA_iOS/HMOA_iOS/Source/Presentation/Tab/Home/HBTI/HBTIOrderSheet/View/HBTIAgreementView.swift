@@ -8,10 +8,13 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 final class HBTIAgreementView: UIView {
     
     // MARK: - Properties
+    
+    var disposeBag = DisposeBag()
     
     private let allAgreementData: HBTIAgreementModel = HBTIAgreementModel.allAgreementData
     private let partialAgreementData: [HBTIAgreementModel] = HBTIAgreementModel.partialAgreementData
@@ -103,6 +106,24 @@ extension HBTIAgreementView: UITableViewDataSource, UITableViewDelegate {
         
         let agreement = partialAgreementData[indexPath.row]
         cell.configureCell(with: agreement)
+        cell.viewButton.rx.tap
+            .subscribe(onNext: {
+                var urlString: String
+                
+                switch indexPath.row {
+                case 0:
+                    urlString = "https://sites.google.com/view/hyangmoa/배송-및-환불-규정?authuser=0"
+                case 1:
+                    urlString = "https://sites.google.com/view/hyangmoa/개인정보처리동의서?authuser=0"
+                default:
+                    return
+                }
+                if let url = URL(string: urlString) {
+                    UIApplication.shared.open(url)
+                }
+            })
+            .disposed(by: disposeBag)
+        
         cell.selectionStyle = .none
         
         return cell
