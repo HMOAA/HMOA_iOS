@@ -52,20 +52,10 @@ final class HBTIOrderReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didChangeName(let name):
-            let isValid = isFormValid(name: name, phoneNumber: currentState.phoneNumber)
-            
-            return .concat([
-                .just(.setName(name)),
-                .just(.setIsFormValid(isValid))
-            ])
+            return .just(.setName(name))
             
         case .didChangePhoneNumber(let phoneNumber):
-            let isValid = isFormValid(name: currentState.name, phoneNumber: phoneNumber)
-            
-            return .concat([
-                .just(.setPhoneNumber(phoneNumber)),
-                .just(.setIsFormValid(isValid))
-            ])
+            return .just(.setPhoneNumber(phoneNumber))
             
         case .didTapSaveInfoButton:
             return .empty()
@@ -128,15 +118,23 @@ final class HBTIOrderReactor: Reactor {
             state.isPersonalInfoAgree = isPersonalInfoAgree
         }
         
-        state.isPayValid = state.isFormValid && state.isAllAgree
+        state.isPayValid = isValid(state.name, state.phoneNumber, state.isAllAgree)
         
         return state
     }
 }
 
 extension HBTIOrderReactor {
-    // 주문자 정보 유효성 검사
-    private func isFormValid(name: String, phoneNumber: String) -> Bool {
-        return !name.isEmpty && phoneNumber.count == 13
+    private func isValid(_ name: String, _ phoneNumber: String, _ isAllAgree: Bool) -> Bool {
+        return !name.isEmpty
+            && isValidPhoneNumber(phoneNumber)
+            && isAllAgree
+    }
+    
+    private func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
+        let phoneRegex = "^(010)-\\d{4}-\\d{4}$"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+            
+        return predicate.evaluate(with: phoneNumber)
     }
 }
