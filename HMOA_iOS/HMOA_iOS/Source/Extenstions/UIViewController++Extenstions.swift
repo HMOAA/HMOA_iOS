@@ -352,6 +352,14 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiNotesResultVC, animated: true)
     }
     
+    /// OrderCancelDetailVC로 push
+    func presentOrderCancelDetailViewController(_ order: OrderLogItem, orderCancelRequest: OrderCancelRequestKind) {
+        let orderCancelDetailVC = OrderCancelDetailViewController()
+        orderCancelDetailVC.reactor = OrderCancelDetailReactor(order, orderCancelRequest)
+        orderCancelDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(orderCancelDetailVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
