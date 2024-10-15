@@ -16,6 +16,13 @@ extension Int {
         return "₩" + numberFormatter.string(from: NSNumber(value: self))! + "~"
     }
     
+    func numberFormatterToHangulWon() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+
+        return numberFormatter.string(from: NSNumber(value: self))! + "원"
+    }
+    
     /// 나이로 태어난 년도 구하는 함수
     func ageToYear() -> String {
         let dateFormatter = DateFormatter()
