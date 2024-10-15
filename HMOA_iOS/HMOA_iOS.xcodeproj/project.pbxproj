@@ -146,13 +146,14 @@
 		3F964D2E2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */; };
 		3F964D322C73254200F97CB7 /* HBTINotesCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */; };
 		3F9F71E42C84543700790FD8 /* HBTIAgreementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */; };
+		3FCB3B792CB6C43D008FCCEE /* HBTIOrderReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */; };
+		3FE89B502CB90BF8009D157D /* UIView++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE89B4F2CB90BF8009D157D /* UIView++Extensions.swift */; };
+		3F9897262C9C19A700DE93D9 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9897252C9C19A700DE93D9 /* IgnoerData.swift */; };
 		3FA0D8A72C739D380085BBE5 /* HBTINotesResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */; };
 		3FA0D8AD2C73AB040085BBE5 /* HBTINotesResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */; };
-		3FB24AC42CBD656800E73E89 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB24AC32CBD656800E73E89 /* IgnoerData.swift */; };
-		3FCB3B792CB6C43D008FCCEE /* HBTIOrderReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */; };
 		3FD67FB72C811986005E6235 /* HBTITotalPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */; };
+		3FD9C68D2CB505A6009C800C /* HBTINotesResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD9C68C2CB505A6009C800C /* HBTINotesResultReactor.swift */; };
 		3FE7802E2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */; };
-		3FE89B502CB90BF8009D157D /* UIView++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE89B4F2CB90BF8009D157D /* UIView++Extensions.swift */; };
 		3FEB5E012C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */; };
 		3FEB5E032C80421600F3C7F5 /* HBTIProductInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */; };
 		3FEB5E052C8042DE00F3C7F5 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */; };
@@ -523,13 +524,14 @@
 		3F964D2D2C7321FF00F97CB7 /* HBTINotesCategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryButton.swift; sourceTree = "<group>"; };
 		3F964D312C73254200F97CB7 /* HBTINotesCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesCategoryCell.swift; sourceTree = "<group>"; };
 		3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementCell.swift; sourceTree = "<group>"; };
+		3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderReactor.swift; sourceTree = "<group>"; };
+		3FE89B4F2CB90BF8009D157D /* UIView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView++Extensions.swift"; sourceTree = "<group>"; };
+		3F9897252C9C19A700DE93D9 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultViewController.swift; sourceTree = "<group>"; };
 		3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultCell.swift; sourceTree = "<group>"; };
-		3FB24AC32CBD656800E73E89 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
-		3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderReactor.swift; sourceTree = "<group>"; };
 		3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTITotalPaymentView.swift; sourceTree = "<group>"; };
+		3FD9C68C2CB505A6009C800C /* HBTINotesResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultReactor.swift; sourceTree = "<group>"; };
 		3FE7802D2C6F9800003D6FDB /* HBTIQuantitySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectViewController.swift; sourceTree = "<group>"; };
-		3FE89B4F2CB90BF8009D157D /* UIView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView++Extensions.swift"; sourceTree = "<group>"; };
 		3FEB5E002C80404C00F3C7F5 /* HBTIOrderSheetProductData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderSheetProductData.swift; sourceTree = "<group>"; };
 		3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProductInfoCell.swift; sourceTree = "<group>"; };
 		3FEB5E042C8042DE00F3C7F5 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
@@ -1770,6 +1772,7 @@
 		3FA0D8A42C739D1C0085BBE5 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				3FD9C68C2CB505A6009C800C /* HBTINotesResultReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -3517,6 +3520,7 @@
 				C952EE012C89B74600581D3F /* HBTIPerfumeSurveySection.swift in Sources */,
 				C96CD7402BA88010005C9856 /* MagazineViewController.swift in Sources */,
 				3F2060A62C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift in Sources */,
+				3FD9C68D2CB505A6009C800C /* HBTINotesResultReactor.swift in Sources */,
 				CA16AC8629BCD83E00FD57C1 /* ChoiceYearReactor.swift in Sources */,
 				2C4041D229ACDC58009247E7 /* SearchListViewController.swift in Sources */,
 				CA39D5682B0B36C500694677 /* MyLogCommentHeaderView.swift in Sources */,

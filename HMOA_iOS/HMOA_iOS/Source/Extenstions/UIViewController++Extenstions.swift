@@ -349,6 +349,7 @@ extension UIViewController {
     /// HBTINotesResultVC로 push
     func presentHBTINotesResultViewController() {
         let hbtiNotesResultVC = HBTINotesResultViewController()
+        hbtiNotesResultVC.reactor = HBTINotesResultReactor()
         hbtiNotesResultVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesResultVC, animated: true)
     }
