@@ -224,6 +224,7 @@
 		C98E04282C2C6CE500225624 /* PushAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E04272C2C6CE500225624 /* PushAlarmCell.swift */; };
 		C98E042D2C2C7F7600225624 /* PushAlarmSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E042C2C2C7F7600225624 /* PushAlarmSection.swift */; };
 		C98E04302C2CE83100225624 /* PushAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98E042F2C2CE83100225624 /* PushAlarm.swift */; };
+		C99B56BA2CB787E10026830B /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99B56B92CB787E00026830B /* IgnoerData.swift */; };
 		C99E7B692BA96DE200F359BC /* MagazineDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B682BA96DE200F359BC /* MagazineDetailItem.swift */; };
 		C99E7B6B2BA9F0B500F359BC /* MagazineDetailLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */; };
 		C9B02B492CA24A0F00F1107C /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B02B482CA24A0F00F1107C /* OrderCell.swift */; };
@@ -2301,6 +2302,14 @@
 			path = Magazine;
 			sourceTree = "<group>";
 		};
+		C96CD7522BA8805B005C9856 /* Key */ = {
+			isa = PBXGroup;
+			children = (
+				C99B56B92CB787E00026830B /* IgnoerData.swift */,
+			);
+			path = Key;
+			sourceTree = "<group>";
+		};
 		C96F76032C3FB34800D44773 /* HBTI */ = {
 			isa = PBXGroup;
 			children = (
@@ -3620,6 +3629,7 @@
 				3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */,
 				CA7C9C0B2AAADF8500072AB9 /* CommunityListViewController.swift in Sources */,
 				CA9B9D812B1B29F9006BBA10 /* MyPageSwitchCell.swift in Sources */,
+				C99B56BA2CB787E10026830B /* IgnoerData.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				C96CD7412BA88010005C9856 /* MagazineDetailReactor.swift in Sources */,
 				C952EE052C89D5BF00581D3F /* HBTINoteCell.swift in Sources */,
