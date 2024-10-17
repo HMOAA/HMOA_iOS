@@ -11,6 +11,16 @@ import Then
 
 final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
     
+    // MARK: - Properties
+    
+    override var isSelected: Bool {
+        didSet {
+            checkImageView.image = isSelected
+                ? UIImage(named: "checkSelected")
+                : UIImage(named: "checkNotSelected")
+        }
+    }
+    
     // MARK: - UI Components
     
     private let checkImageView = UIImageView().then {
@@ -21,7 +31,7 @@ final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
         $0.numberOfLines = 0
     }
     
-    private let viewButton = UIButton(type: .system).then {
+    let viewButton = UIButton(type: .system).then {
         let text = "보기"
         let attributedString = NSAttributedString(
             string: text,
@@ -77,7 +87,18 @@ final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
     }
     
     func configureCell(with model: HBTIAgreementModel) {
-        checkImageView.image = UIImage(named: "checkNotSelected")
         titleLabel.setLabelUI(model.agreementTitle, font: .pretendard_medium, size: 12, color: .gray3)
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        
+        // viewButton이 눌린 경우, 해당 이벤트는 viewButton에만 전달
+        let pointInButton = viewButton.convert(point, from: self)
+        if viewButton.bounds.contains(pointInButton) {
+            return viewButton
+        }
+        
+        // 그렇지 않으면 기본 동작 실행 (셀 선택 허용)
+        return super.hitTest(point, with: event)
     }
 }

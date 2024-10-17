@@ -17,7 +17,7 @@ final class HBTIAddressView: UIView {
         $0.setLabelUI("배송지", font: .pretendard_bold, size: 18, color: .black)
     }
     
-    private let saveDeliveryInfoButton = UIButton().then {
+    let saveDeliveryInfoButton = UIButton().then {
         let text = "배송지를 입력해주세요"
         let attributedString = NSAttributedString(
             string: text,
