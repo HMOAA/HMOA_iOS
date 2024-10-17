@@ -11,8 +11,9 @@ import Then
 import Bootpay
 import RxSwift
 import RxCocoa
+import ReactorKit
 
-final class HBTIOrderSheetViewController: UIViewController {
+final class HBTIOrderSheetViewController: UIViewController, View {
     
     // MARK: - Properties
     
@@ -23,6 +24,7 @@ final class HBTIOrderSheetViewController: UIViewController {
     
     private let orderScrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
+        $0.keyboardDismissMode = .onDrag
     }
     
     private let orderContentView = UIView()
@@ -43,10 +45,6 @@ final class HBTIOrderSheetViewController: UIViewController {
     
     private let dividingLineView4 = HBTIOrderDividingLineView(color: .black)
     
-    private let paymentMethodView = HBTIPaymentMethodView()
-    
-    private let dividingLineView5 = HBTIOrderDividingLineView(color: .black)
-    
     private let agreementView = HBTIAgreementView()
     
     private let payButton = UIButton().then {
@@ -54,7 +52,7 @@ final class HBTIOrderSheetViewController: UIViewController {
         $0.titleLabel?.font = .customFont(.pretendard, 15)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 5
-        $0.backgroundColor = .black
+        $0.backgroundColor = .customColor(.gray3)
     }
     
     // MARK: - LifeCycle
@@ -65,23 +63,106 @@ final class HBTIOrderSheetViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
-        bind()
+        dismissKeyboard()
     }
     
     // MARK: - Bind
     
-    func bind() {
+    func bind(reactor: HBTIOrderReactor) {
         
         // MARK: Action
         
+        ordererInfoView.nameTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangeName($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 3개의 전화번호 텍스트 필드 통합 관리
+        Observable
+            .combineLatest(
+                ordererInfoView.contactTextField.contactTextFieldFirst.rx.text.orEmpty,
+                ordererInfoView.contactTextField.contactTextFieldSecond.rx.text.orEmpty,
+                ordererInfoView.contactTextField.contactTextFieldThird.rx.text.orEmpty
+            )
+            .map { first, second, third in "\(first)-\(second)-\(third)" }
+            .distinctUntilChanged()
+            .map { Reactor.Action.didChangePhoneNumber($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        addressView.saveDeliveryInfoButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.presentHBTIAddFixAddressViewController(title: "주소 추가")
+            })
+            .disposed(by: disposeBag)
+        
+        agreementView.allAgreementButton.rx.tap
+            .map { Reactor.Action.didTapAllAgree }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        agreementView.agreementTableView.rx.itemSelected
+            .map { indexPath -> Reactor.Action in
+                switch indexPath.row {
+                case 0:
+                    return Reactor.Action.didTapPolicyAgree
+                case 1:
+                    return Reactor.Action.didTapPersonalInfoAgree
+                default:
+                    fatalError("Unexpected row index")
+                }
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         payButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.bootpayStart()
+//                self?.bootpayStart()
+                self?.presentHBTIOrderResultViewController()
             })
             .disposed(by: disposeBag)
         
         // MARK: State
+
+        reactor.state
+            .map { $0.isAllAgree }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] isAllAgree in
+                guard let self = self else { return }
+                
+                let image = isAllAgree
+                    ? UIImage(named: "checkBoxSelectedSvg")
+                    : UIImage(named: "checkBoxNotSelectedSvg")
+                
+                self.agreementView.allAgreementButton.setImage(image, for: .normal)
+            })
+            .disposed(by: disposeBag)
         
+        reactor.state
+            .subscribe(onNext: { [weak self] state in
+                let policyAgreeIndexPath = IndexPath(row: 0, section: 0)
+                let personalInfoIndexPath = IndexPath(row: 1, section: 0)
+                
+                if let policyAgreeCell = self?.agreementView.agreementTableView.cellForRow(at: policyAgreeIndexPath) as? HBTIAgreementCell {
+                    policyAgreeCell.isSelected = state.isPolicyAgree
+                }
+                
+                if let personalInfoCell = self?.agreementView.agreementTableView.cellForRow(at: personalInfoIndexPath) as? HBTIAgreementCell {
+                    personalInfoCell.isSelected = state.isPersonalInfoAgree
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPayValid }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] isValid in
+                self?.payButton.isEnabled = isValid
+                self?.payButton.backgroundColor = isValid ? .black : .customColor(.gray3)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Set UI
@@ -89,6 +170,7 @@ final class HBTIOrderSheetViewController: UIViewController {
     private func setUI() {
         view.backgroundColor = .white
         setBackItemNaviBar("주문서 작성")
+        view.backgroundColor = .white
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
@@ -117,8 +199,6 @@ final class HBTIOrderSheetViewController: UIViewController {
          dividingLineView3,
          totalPaymentView,
          dividingLineView4,
-         paymentMethodView,
-         dividingLineView5,
          agreementView
         ].forEach(orderContentView.addSubview)
     }
@@ -181,19 +261,8 @@ final class HBTIOrderSheetViewController: UIViewController {
             $0.height.equalTo(1)
         }
         
-        paymentMethodView.snp.makeConstraints {
-            $0.top.equalTo(dividingLineView4.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview()
-        }
-        
-        dividingLineView5.snp.makeConstraints {
-            $0.top.equalTo(paymentMethodView.snp.bottom).offset(4)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(1)
-        }
-        
         agreementView.snp.makeConstraints {
-            $0.top.equalTo(dividingLineView5.snp.bottom).offset(24)
+            $0.top.equalTo(dividingLineView4.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
@@ -205,7 +274,7 @@ final class HBTIOrderSheetViewController: UIViewController {
         }
     }
     
-    // MARK: - Functions
+    // MARK: - Other Functions
     
     func bootpayStart() {
         let payload = generatePayload()
@@ -276,5 +345,15 @@ final class HBTIOrderSheetViewController: UIViewController {
         payload.user = testUser
         
         return payload
+    }
+    
+    private func dismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addDismissKeyboardGesture))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func addDismissKeyboardGesture() {
+        self.view.endEditing(true)
     }
 }

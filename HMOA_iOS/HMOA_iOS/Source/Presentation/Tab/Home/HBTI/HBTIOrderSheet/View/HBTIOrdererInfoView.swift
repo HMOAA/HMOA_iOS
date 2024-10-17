@@ -17,7 +17,7 @@ final class HBTIOrdererInfoView: UIView {
         $0.setLabelUI("주문자 정보", font: .pretendard_bold, size: 18, color: .black)
     }
     
-    private let saveInfoButton = UIButton().then {
+    let saveInfoButton = UIButton().then {
         let text = "작성한 정보 저장하기"
         let attributedString = NSAttributedString(
             string: text,
@@ -34,13 +34,15 @@ final class HBTIOrdererInfoView: UIView {
         $0.setLabelUI("이름", font: .pretendard_medium, size: 12, color: .black)
     }
     
-    private let nameTextField = UITextField().then {
+    lazy var nameTextField = UITextField().then {
         $0.setTextFieldUI("이름", leftPadding: 12, font: .pretendard_medium, isCapsule: true)
         $0.layer.cornerRadius = 5
         $0.layer.masksToBounds = true
+        $0.delegate = self
+        $0.returnKeyType = .next
     }
     
-    private let contactTextField = HBTIContactTextFieldView(title: "휴대전화")
+    let contactTextField = HBTIContactTextFieldView(title: "휴대전화")
     
     // MARK: - Initialization
         
@@ -106,3 +108,28 @@ final class HBTIOrdererInfoView: UIView {
         }
     }
 }
+
+extension HBTIOrdererInfoView: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let restrictedCharacters = CharacterSet
+                                        .decimalDigits
+                                        .union(.punctuationCharacters)
+                                        .union(.symbols)
+                                        .union(.whitespaces)
+            
+        // restrictedCharacters에 포함되지 않는 문자만 허용 (한글, 알파벳만 허용)
+        if string.rangeOfCharacter(from: restrictedCharacters) != nil {
+            return false
+        }
+        
+        return true
+    }
+      
+    // 키보드에서 next버튼 누를 때 다음 텍스트 필드로 이동
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return moveToNextTextField(currentTextField: textField, nextTextField: contactTextField.contactTextFieldFirst)
+    }
+}
+

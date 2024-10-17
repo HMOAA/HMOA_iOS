@@ -334,12 +334,14 @@ extension UIViewController {
     /// HBTIOrderSheetVC로 push
     func presentHBTIOrderSheetViewController() {
         let hbtiOrderSheetVC = HBTIOrderSheetViewController()
+        hbtiOrderSheetVC.reactor = HBTIOrderReactor()
         hbtiOrderSheetVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
     }
     
-    func presentHBTIAddFixAddressViewController() {
+    func presentHBTIAddFixAddressViewController(title: String) {
         let hbtiAddFixAddressVC = HBTIAddFixAddressViewController()
+        hbtiAddFixAddressVC.reactor = HBTIAddFixReactor(title: title)
         hbtiAddFixAddressVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiAddFixAddressVC, animated: true)
     }
@@ -358,6 +360,13 @@ extension UIViewController {
         orderCancelDetailVC.reactor = OrderCancelDetailReactor(order, orderCancelRequest)
         orderCancelDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(orderCancelDetailVC, animated: true)
+    }
+    
+    /// HBTIOrderResultVC로 push
+    func presentHBTIOrderResultViewController() {
+        let hbtiOrderResultVC = HBTIOrderResultViewController()
+        hbtiOrderResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiOrderResultVC, animated: true)
     }
     
     // MARK: Configure NavigationBar
@@ -535,6 +544,20 @@ extension UIViewController {
         }
         
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popToHBTIViewController), imageName: "backButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+    }
+    
+    /// 홈화면으로 이동하는 Back버튼 Navigation Bar
+    func setBackToHomeVCNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "backButton")
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
@@ -737,4 +760,15 @@ extension UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    // MARK: - Other Functions
+    
+    // 텍스트필드에서 returnKey 입력 시 다음 텍스트필드 이동
+    func moveToNextTextField(currentTextField: UITextField, nextTextField: UITextField?) -> Bool {
+        if let next = nextTextField {
+            next.becomeFirstResponder()
+        } else {
+            currentTextField.resignFirstResponder()
+        }
+        return true
+    }
 }
