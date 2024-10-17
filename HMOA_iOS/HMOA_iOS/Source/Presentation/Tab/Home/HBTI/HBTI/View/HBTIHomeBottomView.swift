@@ -19,12 +19,7 @@ final class HBTIHomeBottomView: UIView {
     }
     
     private let introTitleLabel = UILabel().then {
-        $0.setLabelUI("향BTI란?", font: .pretendard, size: 20, color: .white)
-    }
-    
-    private let introDesctiptionLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 14, color: .white)
-        $0.setTextWithLineHeight(text: "공감되는 상황을 통해 알아보는 기능", lineHeight: 17)
+        $0.setLabelUI("향BTI 후가", font: .pretendard, size: 20, color: .white)
     }
     
     private let introStackView = UIStackView().then {
