@@ -9,7 +9,7 @@ import Foundation
 
 struct HBTIQuantitySelectionData {
     let titleLabelText = """
-                         추천받은 카테고리는 '시트러스' 입니다.
+                         추천받은 향료 카테고리는 '시트러스' 입니다.
                          원하는 시향카드 배송 수량을
                          선택해주세요
                          """
