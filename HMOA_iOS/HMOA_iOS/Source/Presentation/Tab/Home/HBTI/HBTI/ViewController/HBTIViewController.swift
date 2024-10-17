@@ -24,7 +24,7 @@ final class HBTIViewController: UIViewController, View {
     
     private let yourHBTIView = HBTIHomeTopView()
     
-    private let introView = HBTIHomeBottomView()
+    private let HBTIReviewHeaderView = HBTIHomeBottomView()
     
     // MARK: - Properties
     
@@ -85,7 +85,7 @@ final class HBTIViewController: UIViewController, View {
         view.addSubview(scrollView)
         
         [yourHBTIView, 
-         introView
+         HBTIReviewHeaderView
         ].forEach { scrollView.addSubview($0) }
         
     }
@@ -101,7 +101,7 @@ final class HBTIViewController: UIViewController, View {
             make.leading.trailing.equalToSuperview().inset(16)
         }
         
-        introView.snp.makeConstraints { make in
+        HBTIReviewHeaderView.snp.makeConstraints { make in
             make.top.equalTo(yourHBTIView.snp.bottom).offset(32)
             make.leading.trailing.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(20)
