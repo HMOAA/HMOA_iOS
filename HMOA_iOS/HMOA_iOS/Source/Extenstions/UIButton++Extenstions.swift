@@ -165,9 +165,9 @@ extension UIButton {
         self.setTitle(title, for: .normal)
     }
     
-    func makeValidHBTINextButton() -> UIButton {
+    func makeValidHBTINextButton(title: String) -> UIButton {
         let button = UIButton().then {
-            $0.setTitle("다음", for: .normal)
+            $0.setTitle(title, for: .normal)
             $0.titleLabel?.font = .customFont(.pretendard, 15)
             $0.setTitleColor(.white, for: .normal)
             $0.layer.cornerRadius = 5

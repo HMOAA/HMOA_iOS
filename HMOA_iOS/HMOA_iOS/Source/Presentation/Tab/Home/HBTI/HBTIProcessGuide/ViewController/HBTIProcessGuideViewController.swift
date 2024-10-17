@@ -22,7 +22,7 @@ final class HBTIProcessGuideViewController: UIViewController, View {
     
     private let hbtiProcessGuideView = HBTIProcessGuideView()
     
-    private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
+    private let nextButton: UIButton = UIButton().makeValidHBTINextButton(title: "향료 배송 & 향수 추천 받기")
     
     // MARK: - LifeCycle
     

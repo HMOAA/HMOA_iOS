@@ -33,7 +33,7 @@ final class HBTINotesResultViewController: UIViewController, View {
     
     private let footerView = HBTINotesResultFooterView()
     
-    private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
+    private let nextButton: UIButton = UIButton().makeValidHBTINextButton(title: "다음")
     
     // MARK: - Initialization
     
