@@ -81,6 +81,7 @@ final class HBTISurveyReactor: Reactor {
             state.questionList = items
             
         case .setCurrentPage(let row):
+            print("setCurrentPage")
             state.currentPage = row
             
         case .setSelectedIDList(let (question, answerID)):
@@ -102,10 +103,12 @@ final class HBTISurveyReactor: Reactor {
             }
             
         case .setNextPage(let page):
+            print("setNextPage")
             guard page < currentState.questionList.count else { break }
             state.currentPage = page
             
         case .setIsEnabledNextButton:
+            print("setIsEnabledNextButton")
             guard let currentPage = state.currentPage else { break }
             let question = state.questionList[currentPage].question!
             
