@@ -48,12 +48,26 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
         
         // MARK: Action
         
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         nextButton.rx.tap
             .map { HBTIQuantitySelectReactor.Action.didTapNextButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         // MARK: State
+        
+        reactor.state
+            .map { $0.noteName }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, noteName in
+                owner.updateNoteLabel(with: noteName)
+            })
+            .disposed(by: disposeBag)
         
         reactor.state
             .compactMap { $0.selectedIndex }
@@ -130,6 +144,13 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(52)
         }
+    }
+    
+    // MARK: Other Fucntions
+    
+    private func updateNoteLabel(with noteName: String) {
+        let quantityData = HBTIQuantitySelectionData(noteName: noteName)
+        hbtiQuantityTopView.updateNoteTitleLabel(with: quantityData.titleLabelText)
     }
 }
 

@@ -316,17 +316,17 @@ extension UIViewController {
     }
   
     /// HBTIQuantitySelectVC로 push
-    func presentHBTIQuantitySelectViewController() {
+    func presentHBTIQuantitySelectViewController(_ recommendation: [String: Any]) {
         let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
-        hbtiQuantitySelectVC.reactor = HBTIQuantitySelectReactor()
+        hbtiQuantitySelectVC.reactor = HBTIQuantitySelectReactor(recommendation)
         hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
     }
   
     /// HBTIProcessGuideVC로 push
-    func presentHBTIProcessGuideViewController() {
+    func presentHBTIProcessGuideViewController(_ recommendation: [HBTISurveyResultItem]) {
         let hbtiProcessGuideVC = HBTIProcessGuideViewController()
-        hbtiProcessGuideVC.reactor = HBTIProcessGuideReactor()
+        hbtiProcessGuideVC.reactor = HBTIProcessGuideReactor(recommendation)
         hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
     }

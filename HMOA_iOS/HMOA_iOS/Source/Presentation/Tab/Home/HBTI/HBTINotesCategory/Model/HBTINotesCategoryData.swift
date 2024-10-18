@@ -15,6 +15,7 @@ struct HBTINotesCategoryData: Hashable {
 }
 
 extension HBTINotesCategoryData {
+    // TODO: id 값이 일치하지 않으므로, id 값 일치시키기
     static let data = [
         HBTINotesCategoryData(id: 1, title: "프루트", image: "Fruit", description: "피치, 블랙베리,\n블랙체리\n(총 3,600원)"),
         HBTINotesCategoryData(id: 2, title: "아쿠아", image: "Aqua", description: "씨 솔트\n(총 3,600원)\n"),
