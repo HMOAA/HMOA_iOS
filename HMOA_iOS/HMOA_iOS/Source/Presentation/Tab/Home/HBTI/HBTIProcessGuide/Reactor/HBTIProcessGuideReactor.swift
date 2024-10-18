@@ -19,12 +19,13 @@ final class HBTIProcessGuideReactor: Reactor {
     
     struct State {
         var isPushNextVC: Bool = false
+        var recommendNoteList: [HBTISurveyResultItem]
     }
     
     var initialState: State
     
-    init() {
-        self.initialState = State()
+    init(_ recommendNoteList: [HBTISurveyResultItem]) {
+        self.initialState = State(recommendNoteList: recommendNoteList)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

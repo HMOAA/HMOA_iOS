@@ -52,8 +52,16 @@ final class HBTIProcessGuideViewController: UIViewController, View {
             .distinctUntilChanged()
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(with: self, onNext: { owner, _ in
-                owner.presentHBTIQuantitySelectViewController()
+            .drive(with: self, onNext: { owner, items in
+                guard let recommendNoteList = owner.reactor?.currentState.recommendNoteList else { return }
+                guard let firstRecommendNote = recommendNoteList.first else { return }
+                
+                let recommendNote = [
+                    "id": firstRecommendNote.note?.id ?? 0,
+                    "name": firstRecommendNote.note?.name ?? "Unknown Note"
+                ]
+                
+                owner.presentHBTIQuantitySelectViewController(recommendNote)
             })
             .disposed(by: disposeBag)
     }
