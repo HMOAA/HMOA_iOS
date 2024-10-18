@@ -71,12 +71,12 @@ class HomeViewController: UIViewController, View {
             $0.trailing.equalToSuperview()
         }
         
-//        indicatorImageView.snp.makeConstraints { make in
-//            make.centerY.centerX.equalToSuperview()
-//            make.width.height.equalTo(110)
-//        }
-//        
-//        indicatorImageView.startAnimating()
+        //        indicatorImageView.snp.makeConstraints { make in
+        //            make.centerY.centerX.equalToSuperview()
+        //            make.width.height.equalTo(110)
+        //        }
+        //
+        //        indicatorImageView.startAnimating()
     }
     
     // MARK: - Bind
@@ -215,22 +215,20 @@ extension HomeViewController {
                 return homeTopCell
                 
             case .recommendCell(let data, _):
-                guard let firstCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeFirstCell.identifier,
-                    for: indexPath) as? HomeFirstCell else {
-                    return UICollectionViewCell()
-                }
-                
-                guard let otherCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeCell.identifier,
-                    for: indexPath) as? HomeCell else {
-                    return UICollectionViewCell()
-                }
-                                
                 if indexPath.section == 1 {
+                    guard let firstCell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: HomeFirstCell.identifier,
+                        for: indexPath) as? HomeFirstCell else {
+                        return UICollectionViewCell()
+                    }
                     firstCell.bindUI(data, indexPath.row)
                     return firstCell
                 } else {
+                    guard let otherCell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: HomeCell.identifier,
+                        for: indexPath) as? HomeCell else {
+                        return UICollectionViewCell()
+                    }
                     otherCell.bindUI(data)
                     return otherCell
                 }
@@ -238,30 +236,29 @@ extension HomeViewController {
         })
         
         datasource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
-            
-            var header = UICollectionReusableView()
+            var header: UICollectionReusableView?
             
             guard let section = self.datasource?.snapshot().sectionIdentifiers[indexPath.section]
-            else { return header }
+            else { return nil }
             
             switch section {
             case .topSection(_):
-                return header
+                return nil
                 
             case .recommendSection(let title, _, let type):
                 guard let homeCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeCellHeaderView.identifier,
                     for: indexPath) as? HomeCellHeaderView else {
-                    return UICollectionReusableView()
+                    return nil
                 }
                 
                 homeCellHeader.reactor = HomeHeaderReactor(title, type)
                 self.bindHeader(reactor: homeCellHeader.reactor!)
                 header = homeCellHeader
-                
-                return header
             }
+            
+            return header
         }
     }
 }
@@ -271,7 +268,7 @@ extension HomeViewController {
 extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-                
+        
         if indexPath.section == 1 && indexPath.row == 1 {
             if !(reactor?.currentState.isPaging)! {
                 reactor?.action.onNext(.scrollCollectionView)
@@ -306,7 +303,7 @@ extension HomeViewController: UINavigationControllerDelegate {
         }
         return false
     }
-
+    
 }
 
 extension HomeViewController: UIGestureRecognizerDelegate {
