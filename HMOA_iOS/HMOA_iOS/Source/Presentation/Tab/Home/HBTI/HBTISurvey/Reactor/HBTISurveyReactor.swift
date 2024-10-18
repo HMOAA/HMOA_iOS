@@ -137,7 +137,10 @@ extension HBTISurveyReactor {
                         )
                     )
                 }
-                return .just(.setQuestionList(listData))
+                return .concat([
+                    .just(.setQuestionList(listData)),
+                    .just(.setCurrentPage(0))
+                ])
             }
     }
 }
