@@ -75,4 +75,10 @@ final class HBTINotesCategoryTopView: UIView {
             $0.edges.equalToSuperview()
         }
     }
+    
+    // MARK: Other Functions
+    
+    func updateNoteTitleLabel(with text: String) {
+        categoryTitleLabel.text = HBTICategoryLabelTexts(noteName: text).titleLabelText
+    }
 }

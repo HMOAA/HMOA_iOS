@@ -16,7 +16,7 @@ final class HBTINotesCategoryViewController: UIViewController, View {
     
     // MARK: - UI Components
     
-    private let hbtiNotesCategoryTopView = HBTINotesCategoryTopView(labelTexts: HBTICategoryLabelTexts())
+    private let hbtiNotesCategoryTopView = HBTINotesCategoryTopView(labelTexts: HBTICategoryLabelTexts(noteName: ""))
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
         $0.register(HBTINotesCategoryCell.self, forCellWithReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier)
@@ -58,6 +58,15 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         
         // MARK: State
 
+        reactor.state
+            .map { $0.noteName }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, noteName in
+                owner.hbtiNotesCategoryTopView.updateNoteTitleLabel(with: noteName)
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.selectedNote }
             .distinctUntilChanged()

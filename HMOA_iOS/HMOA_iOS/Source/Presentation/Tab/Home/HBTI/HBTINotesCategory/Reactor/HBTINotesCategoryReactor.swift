@@ -23,6 +23,7 @@ final class HBTINotesCategoryReactor: Reactor {
     struct State {
         var selectedQuantity: Int
         var isFreeSelection: Bool
+        var noteName: String
         var selectedNote: [Int] = []
         var isEnabledNextButton: Bool = false
         var isPushNextVC: Bool = false
@@ -30,8 +31,8 @@ final class HBTINotesCategoryReactor: Reactor {
     
     var initialState: State
     
-    init(_ selectedQuantity: Int, _ isFreeSelection: Bool) {
-        self.initialState = State(selectedQuantity: selectedQuantity, isFreeSelection: isFreeSelection)
+    init(_ selectedQuantity: Int, _ isFreeSelection: Bool, _ noteName: String) {
+        self.initialState = State(selectedQuantity: selectedQuantity, isFreeSelection: isFreeSelection, noteName: noteName)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
