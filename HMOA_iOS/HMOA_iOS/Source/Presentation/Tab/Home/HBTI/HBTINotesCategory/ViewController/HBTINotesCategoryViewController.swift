@@ -163,7 +163,9 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             switch item {
             case .note(let noteData):
                 let selectedNotes = self.reactor?.currentState.selectedNote ?? []
-                cell.configureCell(with: [noteData], selectedNote: selectedNotes)
+                let noteName = self.reactor?.currentState.noteName ?? ""
+                
+                cell.configureCell(with: [noteData], selectedNote: selectedNotes, noteName: noteName)
             }
             return cell
         }
