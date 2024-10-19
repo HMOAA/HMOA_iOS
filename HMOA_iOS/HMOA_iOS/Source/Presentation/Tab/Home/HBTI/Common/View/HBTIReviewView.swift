@@ -15,15 +15,15 @@ final class HBTIReviewView: UIView {
     
     private let profileImageView = UIImageView().then {
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 100
+        $0.backgroundColor = .random
     }
     
     private let nicknameLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 12, color: .gray1)
+        $0.setLabelUI("닉네임", font: .pretendard, size: 12, color: .gray1)
     }
     
     private let dateLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_medium, size: 10, color: .gray3)
+        $0.setLabelUI("00일전", font: .pretendard_medium, size: 10, color: .gray3)
     }
     
     private let heartButton = UIButton().then {
@@ -47,6 +47,7 @@ final class HBTIReviewView: UIView {
     private let imageStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 12
+        $0.alignment = .center
     }
     
     private let productCategoryLabel = UILabel().then {
@@ -58,6 +59,10 @@ final class HBTIReviewView: UIView {
         let image = UIImage(named: "verticalOption")
         $0.setImage(image, for: .normal)
     }
+    
+    // MARK: -Properties
+    
+    private let imageSize: CGFloat = 28
     
     // MARK: - Init
     
@@ -77,6 +82,7 @@ final class HBTIReviewView: UIView {
     private func setUI() {
         layer.cornerRadius = 5
         backgroundColor = .customColor(.gray5)
+        profileImageView.layer.cornerRadius = imageSize / 2
     }
     
     private func setAddView() {
@@ -91,12 +97,25 @@ final class HBTIReviewView: UIView {
             imageStackView,
             productCategoryLabel
         ].forEach { addSubview($0) }
+        
+        // TODO: 데이터 fetch 구현 후 삭제 (이미지 영역 확인용 코드)
+        let imageView1 = UIImageView().then {
+            $0.backgroundColor = .random
+        }
+        
+        imageView1.snp.makeConstraints { make in
+            make.width.height.equalTo(80)
+        }
+        [
+            imageView1
+        ].forEach { imageStackView.addArrangedSubview($0)}
     }
     
     private func setConstraints() {
         profileImageView.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(20)
-            make.height.width.equalTo(28)
+            make.top.equalToSuperview().inset(12)
+            make.leading.equalToSuperview().inset(16)
+            make.height.width.equalTo(imageSize)
         }
         
         nicknameLabel.snp.makeConstraints { make in
@@ -110,19 +129,19 @@ final class HBTIReviewView: UIView {
         }
         
         heartButton.snp.makeConstraints { make in
-            make.trailing.equalTo(likeCountLabel.snp.leading).offset(4)
+            make.trailing.equalTo(likeCountLabel.snp.leading).offset(-4)
             make.centerY.equalTo(optionButton.snp.centerY)
             make.height.width.equalTo(16)
         }
         
         likeCountLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(optionButton.snp.leading).offset(12)
+            make.trailing.equalTo(optionButton.snp.leading).offset(-12)
             make.bottom.equalTo(heartButton.snp.bottom)
         }
         
         optionButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(25)
-            make.trailing.equalToSuperview().inset(20)
+            make.centerY.equalTo(profileImageView.snp.centerY)
+            make.trailing.equalToSuperview().inset(16)
         }
         
         contentLabel.snp.makeConstraints { make in
@@ -131,13 +150,13 @@ final class HBTIReviewView: UIView {
         }
         
         imageStackView.snp.makeConstraints { make in
-            make.top.equalTo(contentLabel.snp.bottom).inset(20)
+            make.top.equalTo(contentLabel.snp.bottom).offset(13)
             make.leading.equalToSuperview().inset(20)
-            make.height.lessThanOrEqualTo(80)
-            make.bottom.equalToSuperview().inset(46)
+            make.height.lessThanOrEqualTo(94)
         }
         
         productCategoryLabel.snp.makeConstraints { make in
+            make.top.equalTo(imageStackView.snp.bottom).offset(13)
             make.trailing.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(10)
         }

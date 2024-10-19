@@ -1659,13 +1659,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		C93BFA6B2C428DAA00A5D9D2 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		C93BFA6E2C4295C200A5D9D2 /* HBTISurvey */ = {
 			isa = PBXGroup;
 			children = (
@@ -1990,7 +1983,6 @@
 		C96F760D2C40065600D44773 /* HBTI */ = {
 			isa = PBXGroup;
 			children = (
-				C93BFA6B2C428DAA00A5D9D2 /* Model */,
 				C96F76052C3FB35E00D44773 /* Reactor */,
 				C96F760A2C3FB44E00D44773 /* View */,
 				C96F76042C3FB35100D44773 /* ViewController */,
