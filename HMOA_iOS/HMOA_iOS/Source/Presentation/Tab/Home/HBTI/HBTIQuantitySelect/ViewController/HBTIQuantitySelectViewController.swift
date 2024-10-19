@@ -101,9 +101,10 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, _ in
                 guard let selectedIndex = owner.reactor?.currentState.selectedIndex else { return }
                 guard let isFreeSelection = owner.reactor?.currentState.isFreeSelection else { return }
+                guard let noteName = owner.reactor?.currentState.noteName else { return }
                 let selectedQuantity = NotesQuantity.quantities[selectedIndex].quantity
                 
-                owner.presentHBTINotesCategoryViewController(selectedQuantity, isFreeSelection)
+                owner.presentHBTINotesCategoryViewController(selectedQuantity, isFreeSelection, noteName)
             })
             .disposed(by: disposeBag)
     }
