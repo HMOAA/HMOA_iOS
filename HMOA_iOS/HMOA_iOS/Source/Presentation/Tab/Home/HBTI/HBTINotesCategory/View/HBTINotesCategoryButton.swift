@@ -140,10 +140,9 @@ final class HBTINotesCategoryButton: UIButton {
         overlaySmallCircleView.isHidden = !isVisible
     }
     
-    func setSelectionIndexLabel(_ index: Int?, _ isVisible: Bool) {
-        if isVisible, let index = index {
-            selectionIndexLabel.text = "\(index + 1)"
-            selectionIndexLabel.isHidden = false
-        }
+    func setSelectionIndexLabel(index: Int?, isVisible: Bool, text: String?, isSelected: Bool) {
+        selectionIndexLabel.isHidden = !isVisible
+        selectionIndexLabel.text = text ?? index.map { "\($0 + 1)" } ?? ""
+        selectionIndexLabel.textColor = isSelected ? .white : .black
     }
 }

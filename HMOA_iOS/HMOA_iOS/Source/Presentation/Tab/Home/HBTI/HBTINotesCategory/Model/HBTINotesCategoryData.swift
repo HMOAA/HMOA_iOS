@@ -15,15 +15,15 @@ struct HBTINotesCategoryData: Hashable {
 }
 
 extension HBTINotesCategoryData {
-    // TODO: id 값이 일치하지 않으므로, id 값 일치시키기
     static let data = [
-        HBTINotesCategoryData(id: 1, title: "프루트", image: "Fruit", description: "피치, 블랙베리,\n블랙체리\n(총 3,600원)"),
-        HBTINotesCategoryData(id: 2, title: "아쿠아", image: "Aqua", description: "씨 솔트\n(총 3,600원)\n"),
-        HBTINotesCategoryData(id: 3, title: "스위트", image: "Sweet", description: "허니, 바닐라,\n프랄린\n(총 4,800원)"),
-        HBTINotesCategoryData(id: 4, title: "스파이스", image: "Spice", description: "넛맥, 블랙페퍼\n(총 3,600원)\n"),
+        HBTINotesCategoryData(id: 1, title: "시트러스", image: "Citrus", description: "라임 만다린, 베르가못,\n비터 오렌지, 자몽\n(총 4,800원)"),
+        HBTINotesCategoryData(id: 2, title: "우디", image: "Woody", description: "샌달우드, 시더우드,\n 베티버, 패츌리\n(총 4,800원)"),
+        HBTINotesCategoryData(id: 3, title: "프루티", image: "Fruit", description: "그레이프, 블랙베리,\n블랙체리, 복숭아\n(총 3,600원)"),
+        HBTINotesCategoryData(id: 4, title: "플로럴", image: "Floral", description: "쟈스민, 라벤더,핑크 로즈,\n 화이트 로즈, 바이올렛, 피오니\n(총 7,200원)"),
         HBTINotesCategoryData(id: 5, title: "머스크", image: "Musk", description: "화이트 머스크, 코튼,\n앰버, 벤조인\n(총 4,800원)"),
-        HBTINotesCategoryData(id: 6, title: "플로럴", image: "Floral", description: "네롤리, 화이트 로즈,\n핑크 로즈\n(총 4,800원)"),
-        HBTINotesCategoryData(id: 7, title: "시트러스", image: "Citrus", description: "라임 만다린, 베르가못,\n비터 오렌지, 자몽\n(총 6,000원)")
+        HBTINotesCategoryData(id: 6, title: "그린", image: "Green", description: "오크모스,\n그린티, 허브\n(총 3,600원)"),
+        HBTINotesCategoryData(id: 7, title: "단 향료", image: "Sweet", description: "허니, 바닐라,\n프랄린\n(총 3,600원)"),
+        HBTINotesCategoryData(id: 8, title: "스파이시", image: "Spice", description: "통카빈, 카디멈, 넛맥,\n 시나몬, 핑크페퍼\n(총 7,200원)")
     ]
 }
 
