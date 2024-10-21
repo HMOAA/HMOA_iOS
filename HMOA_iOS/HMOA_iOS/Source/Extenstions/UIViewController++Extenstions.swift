@@ -307,6 +307,14 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiPerfumeResultVC, animated: true)
     }
     
+    /// HBTIReviewWriteVC로 push
+    func presentHBTIReviewWriteViewController() {
+        let hbtiReviewWriteVC = HBTIReviewWriteViewController()
+        hbtiReviewWriteVC.reactor = HBTIReviewWriteReactor()
+        hbtiReviewWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiReviewWriteVC, animated: true)
+    }
+    
     /// OrderCancelDetailVC로 push
     func presentOrderCancelDetailViewController(_ order: OrderLogItem, orderCancelRequest: OrderCancelRequestKind) {
         let orderCancelDetailVC = OrderCancelDetailViewController()

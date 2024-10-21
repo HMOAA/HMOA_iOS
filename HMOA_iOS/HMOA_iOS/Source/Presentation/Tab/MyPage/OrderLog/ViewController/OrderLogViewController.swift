@@ -39,6 +39,13 @@ final class OrderLogViewController: UIViewController, View {
         configureDataSource()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.standardAppearance.backgroundColor = .white
+    }
+    
     // MARK: - Bind
     
     func bind(reactor: OrderLogReactor) {
@@ -90,7 +97,7 @@ final class OrderLogViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentHBTIViewController()
+                owner.presentHBTIReviewWriteViewController()
             })
             .disposed(by: disposeBag)
     }
