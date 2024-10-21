@@ -80,6 +80,19 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         $0.isHidden = true
     }
     
+    private let addImageButton = UIBarButtonItem(
+        image: UIImage(named: "addImageButton"),
+        style: .plain,
+        target: nil,
+        action: nil)
+    
+    private lazy var addImageView = UIToolbar().then {
+        $0.tintColor = .black
+        $0.backgroundColor = #colorLiteral(red: 0.8534707427, green: 0.8671818376, blue: 0.8862800002, alpha: 1)
+        $0.sizeToFit()
+        $0.items = [addImageButton]
+    }
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -122,7 +135,8 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         ].forEach { view.addSubview($0) }
         
         [
-            scrollView
+            scrollView,
+            addImageView
         ].forEach { backgroundView.addSubview($0) }
         
         [
@@ -159,6 +173,12 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         collectionView.snp.makeConstraints { make in
             make.width.equalTo(300)
             make.height.equalTo(300)
+        }
+        
+        addImageView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+            make.height.equalTo(34)
         }
     }
     
