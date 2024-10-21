@@ -43,7 +43,42 @@ final class HBTIReviewWriteViewController: UIViewController, View {
     
     private let scrollView = UIScrollView()
     
-    private let contentView = UIStackView()
+    private let contentView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.spacing = 10
+    }
+    
+    private let textView = UITextView().then {
+        $0.backgroundColor = .clear
+        $0.autocorrectionType = .no
+        $0.isScrollEnabled = false
+        
+        // line Height 설정
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5.6
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.customFont(.pretendard, 14),
+            .paragraphStyle: paragraphStyle,
+            .foregroundColor: UIColor.white
+        ]
+        $0.typingAttributes = attributes
+        
+        $0.attributedText = NSAttributedString(string: "", attributes: attributes)
+    }
+    
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+        $0.backgroundColor = .clear
+        $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+    }
+    
+    private lazy var pageControl = UIPageControl().then {
+        $0.isEnabled = false
+        $0.pageIndicatorTintColor = .customColor(.gray2)
+        $0.currentPageIndicatorTintColor = .customColor(.gray4)
+        $0.isHidden = true
+    }
     
     // MARK: - Properties
     
@@ -95,7 +130,9 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         ].forEach { scrollView.addSubview($0) }
         
         [
-            
+            textView,
+            collectionView,
+            pageControl
         ].forEach { contentView.addArrangedSubview($0) }
     }
     
@@ -114,6 +151,31 @@ final class HBTIReviewWriteViewController: UIViewController, View {
             make.verticalEdges.equalToSuperview().inset(24)
             make.horizontalEdges.equalTo(view.snp.horizontalEdges).inset(32)
         }
+        
+        textView.snp.makeConstraints { make in
+            make.height.greaterThanOrEqualTo(150)
+        }
+
+        collectionView.snp.makeConstraints { make in
+            make.width.equalTo(300)
+            make.height.equalTo(300)
+        }
+    }
+    
+    private func configureLayout() -> UICollectionViewCompositionalLayout {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
     }
 }
 
