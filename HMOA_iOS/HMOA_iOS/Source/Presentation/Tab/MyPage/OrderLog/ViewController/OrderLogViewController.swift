@@ -90,7 +90,7 @@ final class OrderLogViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-//                owner.presentCommunityWriteVC(CommunityListReactor())
+                owner.presentHBTIReviewWriteViewController()
             })
             .disposed(by: disposeBag)
     }
