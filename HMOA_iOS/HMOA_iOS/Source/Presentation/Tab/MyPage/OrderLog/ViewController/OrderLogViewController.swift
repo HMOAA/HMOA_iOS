@@ -39,6 +39,12 @@ final class OrderLogViewController: UIViewController, View {
         configureDataSource()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.backgroundColor = .customColor(.white)
+    }
+    
     // MARK: - Bind
     
     func bind(reactor: OrderLogReactor) {
