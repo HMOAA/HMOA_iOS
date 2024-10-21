@@ -36,6 +36,15 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         $0.setTitleColor(.white, for: .normal)
     }
     
+    // writing area items
+    private let backgroundView = UIView().then {
+        $0.backgroundColor = .black
+    }
+    
+    private let scrollView = UIScrollView()
+    
+    private let contentView = UIStackView()
+    
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
@@ -67,20 +76,44 @@ final class HBTIReviewWriteViewController: UIViewController, View {
     private func setUI() {
         setOkCancleNavigationBar(okButton: okButton, cancleButton: cancleButton, titleLabel: titleNaviLabel)
         navigationController?.navigationBar.backgroundColor = .customColor(.gray4)
+        navigationController?.navigationBar.standardAppearance.backgroundColor = .customColor(.gray4)
         view.backgroundColor = .customColor(.gray4)
     }
     
     // MARK: Add Views
     private func setAddView() {
         [
-            
+            backgroundView
         ].forEach { view.addSubview($0) }
         
+        [
+            scrollView
+        ].forEach { backgroundView.addSubview($0) }
+        
+        [
+            contentView
+        ].forEach { scrollView.addSubview($0) }
+        
+        [
+            
+        ].forEach { contentView.addArrangedSubview($0) }
     }
     
     // MARK: Set Constraints
     private func setConstraints() {
+        backgroundView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.horizontalEdges.bottom.equalToSuperview()
+        }
         
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview().inset(24)
+            make.horizontalEdges.equalTo(view.snp.horizontalEdges).inset(32)
+        }
     }
 }
 
