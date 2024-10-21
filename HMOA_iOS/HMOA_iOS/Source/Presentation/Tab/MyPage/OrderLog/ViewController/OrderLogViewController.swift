@@ -42,7 +42,8 @@ final class OrderLogViewController: UIViewController, View {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.navigationBar.backgroundColor = .customColor(.white)
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.standardAppearance.backgroundColor = .white
     }
     
     // MARK: - Bind
