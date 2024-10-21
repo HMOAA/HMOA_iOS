@@ -24,7 +24,13 @@ final class HBTIViewController: UIViewController, View {
     
     private let yourHBTIView = HBTIHomeTopView()
     
-    private let introView = HBTIHomeBottomView()
+    private let reviewHeader = HBTIHomeReviewHeaderView()
+    
+    private let topReviewStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 12
+        $0.alignment = .fill
+    }
     
     // MARK: - Properties
     
@@ -85,8 +91,15 @@ final class HBTIViewController: UIViewController, View {
         view.addSubview(scrollView)
         
         [yourHBTIView, 
-         introView
+         reviewHeader,
+         topReviewStackView
         ].forEach { scrollView.addSubview($0) }
+        
+        [
+            HBTIReviewView(),
+            HBTIReviewView(),
+            HBTIReviewView()
+        ].forEach { topReviewStackView.addArrangedSubview($0) }
         
     }
     
@@ -98,13 +111,18 @@ final class HBTIViewController: UIViewController, View {
         
         yourHBTIView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(20)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide.snp.horizontalEdges).inset(16)
         }
         
-        introView.snp.makeConstraints { make in
+        reviewHeader.snp.makeConstraints { make in
             make.top.equalTo(yourHBTIView.snp.bottom).offset(32)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview().inset(20)
+            make.horizontalEdges.equalTo(yourHBTIView.snp.horizontalEdges)
+        }
+        
+        topReviewStackView.snp.makeConstraints { make in
+            make.top.equalTo(reviewHeader.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(reviewHeader.snp.horizontalEdges)
+            make.bottom.equalToSuperview().inset(40)
         }
     }
 }
