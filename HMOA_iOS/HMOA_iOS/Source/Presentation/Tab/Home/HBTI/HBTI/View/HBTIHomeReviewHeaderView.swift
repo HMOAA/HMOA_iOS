@@ -23,8 +23,10 @@ final class HBTIHomeReviewHeaderView: UIView {
         $0.setLabelUI("향BTI 후기", font: .pretendard_bold, size: 20, color: .white)
     }
     
-    private let seeAllLabel = UILabel().then {
-        $0.setLabelUI("전체보기", font: .pretendard_bold, size: 12, color: .white)
+    let seeAllButton = UIButton().then {
+        $0.setTitle("전체보기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_bold, 12)
     }
     
     // MARK: - Init
@@ -46,7 +48,7 @@ final class HBTIHomeReviewHeaderView: UIView {
         [
             logoImageView,
             introTitleLabel,
-            seeAllLabel
+            seeAllButton
         ].forEach { addSubview($0) }
     }
     
@@ -61,9 +63,9 @@ final class HBTIHomeReviewHeaderView: UIView {
             make.centerY.equalTo(logoImageView.snp.centerY)
         }
         
-        seeAllLabel.snp.makeConstraints { make in
+        seeAllButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
-            make.bottom.equalTo(logoImageView.snp.bottom)
+            make.bottom.equalTo(logoImageView.snp.bottom).offset(10)
         }
     }
 
