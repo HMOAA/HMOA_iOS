@@ -56,6 +56,11 @@ final class HBTIViewController: UIViewController, View {
     func bind(reactor: HBTIReactor) {
         
         // MARK: Action
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         yourHBTIView.goToSurveyButton.rx.tap
             .map { Reactor.Action.didTapSurveyButton }
             .bind(to: reactor.action)
