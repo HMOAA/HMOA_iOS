@@ -138,3 +138,36 @@ struct HBTINote: Codable, Hashable {
         case content = "noteContent"
     }
 }
+
+struct HBTIReviewListResponse: Codable, Hashable {
+    let isLastPage: Bool
+    let data: [HBTIReview]
+}
+
+struct HBTIReview: Codable, Hashable {
+    let id: Int
+    let profileImageURL: String
+    let author: String
+    let content: String
+    let imageCount: Int
+    let photoList: [CommunityPhoto]
+    let date: String
+    let isWrited: Bool
+    let likeCount: Int
+    let isLiked: Bool
+    let orderTitle: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "hbtiReviewId"
+        case profileImageURL = "profileImageUrl"
+        case author
+        case content
+        case imageCount = "imagesCount"
+        case photoList = "hbtiPhotos"
+        case date = "createdAt"
+        case isWrited
+        case likeCount = "heartCount"
+        case isLiked
+        case orderTitle
+    }
+}
