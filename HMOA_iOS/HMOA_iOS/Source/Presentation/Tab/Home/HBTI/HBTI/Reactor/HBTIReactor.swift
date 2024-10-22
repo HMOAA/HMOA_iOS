@@ -12,16 +12,19 @@ final class HBTIReactor: Reactor {
     enum Action {
         case didTapSurveyButton
         case didTapNoteButton
+        case didTapSeeAllReviewButton
     }
     
     enum Mutation {
         case setIsTapSurveyButton(Bool)
         case setIsTapNoteButton(Bool)
+        case setIsPushNextVC(Bool)
     }
     
     struct State {
         var isTapSurveyButton: Bool = false
         var isTapNoteButton: Bool = false
+        var isPushNextVC: Bool = false
     }
     
     var initialState: State
@@ -43,6 +46,12 @@ final class HBTIReactor: Reactor {
                 .just(.setIsTapNoteButton(true)),
                 .just(.setIsTapNoteButton(false))
             ])
+            
+        case .didTapSeeAllReviewButton:
+            return .concat([
+                .just(.setIsPushNextVC(true)),
+                .just(.setIsPushNextVC(false))
+            ])
         }
     }
     
@@ -55,6 +64,9 @@ final class HBTIReactor: Reactor {
             
         case .setIsTapNoteButton(let isTap):
             state.isTapNoteButton = isTap
+            
+        case .setIsPushNextVC(let isPush):
+            state.isPushNextVC = isPush
         }
         
         return state

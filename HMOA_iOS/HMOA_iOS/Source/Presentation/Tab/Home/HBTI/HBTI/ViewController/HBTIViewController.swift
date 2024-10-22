@@ -66,6 +66,11 @@ final class HBTIViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        reviewHeader.seeAllButton.rx.tap
+            .map { Reactor.Action.didTapSeeAllReviewButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         reactor.state
             .map { $0.isTapSurveyButton }
@@ -81,6 +86,16 @@ final class HBTIViewController: UIViewController, View {
             .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(onNext: presentHBTIPerfumeSurveyViewController)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPushNextVC }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentHBTIReviewListViewController()
+            })
             .disposed(by: disposeBag)
     }
     
