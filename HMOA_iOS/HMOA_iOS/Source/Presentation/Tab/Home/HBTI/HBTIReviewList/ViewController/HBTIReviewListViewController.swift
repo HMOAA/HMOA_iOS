@@ -27,6 +27,7 @@ final class HBTIReviewListViewController: UIViewController, View {
     
     // MARK: - Properties
     
+    private var dataSource: UICollectionViewDiffableDataSource<HBTIReviewListSection, HBTIReviewListItem>?
     var disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
@@ -37,6 +38,7 @@ final class HBTIReviewListViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        configureDataSource()
     }
     
     // MARK: - Bind
@@ -56,6 +58,7 @@ final class HBTIReviewListViewController: UIViewController, View {
     private func setUI() {
         view.backgroundColor = .black
         setClearWhiteBackNaviBar("향BTI 후기", .white)
+        hbtiReviewListCollectionView.backgroundColor = .clear
     }
     
     // MARK: Add Views
@@ -93,9 +96,33 @@ final class HBTIReviewListViewController: UIViewController, View {
             
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 12
+            section.contentInsets = .init(top: 20, leading: 16, bottom: 20, trailing: 16)
             
             return section
         }
         return layout
+    }
+    
+    // MARK: Configure DataSource
+    private func configureDataSource() {
+        dataSource = .init(collectionView: hbtiReviewListCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            
+            switch item {
+            case .review(let review):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HBTIReviewCell.identifier,
+                    for: indexPath) as! HBTIReviewCell
+                
+                cell.configureCell()
+                
+                return cell
+            }
+        })
+        
+        var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIReviewListSection, HBTIReviewListItem>()
+        initialSnapshot.appendSections([.review])
+        initialSnapshot.appendItems([HBTIReviewListItem.review(HBTIReview(id: 1, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드"))], toSection: .review)
+        
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
 }
