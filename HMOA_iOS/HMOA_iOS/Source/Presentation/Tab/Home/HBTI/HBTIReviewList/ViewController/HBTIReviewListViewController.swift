@@ -18,6 +18,12 @@ final class HBTIReviewListViewController: UIViewController, View {
     
     // MARK: - UI Components
     
+    private lazy var hbtiReviewListCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.register(HBTIReviewCell.self, forCellWithReuseIdentifier: HBTIReviewCell.identifier)
+    }
     
     // MARK: - Properties
     
@@ -56,13 +62,40 @@ final class HBTIReviewListViewController: UIViewController, View {
     private func setAddView() {
         
         [
-            
+            hbtiReviewListCollectionView
         ].forEach { view.addSubview($0) }
         
     }
     
     // MARK: Set Constraints
     private func setConstraints() {
-        
+        hbtiReviewListCollectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    // MARK: Create Layout
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(130)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(130)
+            )
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 12
+            
+            return section
+        }
+        return layout
     }
 }
