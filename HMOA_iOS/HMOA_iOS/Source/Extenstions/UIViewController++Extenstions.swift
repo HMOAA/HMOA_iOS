@@ -315,6 +315,14 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiReviewWriteVC, animated: true)
     }
     
+    /// HBTIReviewListVC로 push
+    func presentHBTIReviewListViewController() {
+        let hbtiReviewListVC = HBTIReviewListViewController()
+        hbtiReviewListVC.reactor = HBTIReviewListReactor()
+        hbtiReviewListVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiReviewListVC, animated: true)
+    }
+    
     /// OrderCancelDetailVC로 push
     func presentOrderCancelDetailViewController(_ order: OrderLogItem, orderCancelRequest: OrderCancelRequestKind) {
         let orderCancelDetailVC = OrderCancelDetailViewController()
