@@ -124,6 +124,7 @@
 		C9283DD12CC7233D004E9C93 /* HBTIReviewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD02CC7233D004E9C93 /* HBTIReviewListViewController.swift */; };
 		C9283DD32CC724AC004E9C93 /* HBTIReviewListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD22CC724AC004E9C93 /* HBTIReviewListReactor.swift */; };
 		C9283DD52CC7278A004E9C93 /* HBTIReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD42CC7278A004E9C93 /* HBTIReviewCell.swift */; };
+		C9283DD72CC72C25004E9C93 /* HBTIReviewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD62CC72C25004E9C93 /* HBTIReviewList.swift */; };
 		C92D5C892C9C1A5D007A1CA2 /* ResultPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */; };
 		C939CCFE2CA1647A004E26AE /* OrderLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */; };
 		C939CD002CA164EF004E26AE /* OrderLogReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */; };
@@ -468,6 +469,7 @@
 		C9283DD02CC7233D004E9C93 /* HBTIReviewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewListViewController.swift; sourceTree = "<group>"; };
 		C9283DD22CC724AC004E9C93 /* HBTIReviewListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewListReactor.swift; sourceTree = "<group>"; };
 		C9283DD42CC7278A004E9C93 /* HBTIReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewCell.swift; sourceTree = "<group>"; };
+		C9283DD62CC72C25004E9C93 /* HBTIReviewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewList.swift; sourceTree = "<group>"; };
 		C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPriority.swift; sourceTree = "<group>"; };
 		C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogViewController.swift; sourceTree = "<group>"; };
 		C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogReactor.swift; sourceTree = "<group>"; };
@@ -1583,6 +1585,7 @@
 		C9283DCF2CC72321004E9C93 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C9283DD62CC72C25004E9C93 /* HBTIReviewList.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3361,6 +3364,7 @@
 				CA360F3829DD658600A93873 /* HPediaTagData.swift in Sources */,
 				2C8318CE2A0FC779004A3ACD /* HomeAddress.swift in Sources */,
 				CA76401A2AA86C5E0053076B /* HpediaData.swift in Sources */,
+				C9283DD72CC72C25004E9C93 /* HBTIReviewList.swift in Sources */,
 				CAF19BA32A625F7600374038 /* SearchPerfume.swift in Sources */,
 				CA03C23E29EBED6C00FA0D2C /* LoginManager.swift in Sources */,
 				C98424592C4299E200530259 /* HBTISurveyQuestionCell.swift in Sources */,
