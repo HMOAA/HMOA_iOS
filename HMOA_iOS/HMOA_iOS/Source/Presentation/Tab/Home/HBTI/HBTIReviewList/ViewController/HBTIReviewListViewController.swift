@@ -11,7 +11,6 @@ import SnapKit
 import ReactorKit
 import RxCocoa
 import RxSwift
-import SnapKit
 import Then
 
 final class HBTIReviewListViewController: UIViewController, View {
@@ -23,6 +22,26 @@ final class HBTIReviewListViewController: UIViewController, View {
         collectionViewLayout: createLayout()
     ).then {
         $0.register(HBTIReviewCell.self, forCellWithReuseIdentifier: HBTIReviewCell.identifier)
+    }
+    
+    private let floatingButton = UIButton().then {
+        $0.setImage(UIImage(named: "addButton"), for: .normal)
+        $0.setImage(UIImage(named: "selectedAddButton"), for: .selected)
+    }
+    
+    private let floatingStackView = UIStackView().then {
+        $0.alpha = 0
+        $0.backgroundColor = .black
+        $0.isHidden = true
+        $0.distribution = .fillEqually
+        $0.layer.cornerRadius = 10
+        $0.axis = .vertical
+    }
+    
+    private lazy var floatingView = UIView().then {
+        $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+        $0.alpha = 0
+        $0.isHidden = true
     }
     
     // MARK: - Properties
@@ -39,6 +58,43 @@ final class HBTIReviewListViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDataSource()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            [
+                floatingView,
+                floatingButton,
+                floatingStackView
+            ]   .forEach { window.addSubview($0) }
+            
+            floatingView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+            
+            floatingButton.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().inset(24)
+                make.bottom.equalToSuperview().inset(32)
+                make.width.height.equalTo(56)
+            }
+            
+            floatingStackView.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().inset(8)
+                make.width.equalTo(135)
+                make.height.equalTo(137)
+                make.bottom.equalTo(floatingButton.snp.top).offset(-8)
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        floatingStackView.removeFromSuperview()
+        floatingView.removeFromSuperview()
+        floatingButton.removeFromSuperview()
     }
     
     // MARK: - Bind
@@ -121,7 +177,11 @@ final class HBTIReviewListViewController: UIViewController, View {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIReviewListSection, HBTIReviewListItem>()
         initialSnapshot.appendSections([.review])
-        initialSnapshot.appendItems([HBTIReviewListItem.review(HBTIReview(id: 1, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드"))], toSection: .review)
+        initialSnapshot.appendItems([
+            HBTIReviewListItem.review(HBTIReview(id: 1, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드")),
+            HBTIReviewListItem.review(HBTIReview(id: 2, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드")),
+            HBTIReviewListItem.review(HBTIReview(id: 3, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드"))
+        ], toSection: .review)
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
