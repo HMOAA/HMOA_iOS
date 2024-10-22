@@ -44,4 +44,14 @@ final class HBTIAPI {
             model: HBTIPerfumeResultResponse.self,
             query: ["isContainAll": isContainAll])
     }
+    
+    static func fetchReivewList(page: Int) -> Observable<HBTIReviewListResponse> {
+        return networking(
+            urlStr: HBTIAddress.fetchReviewList.url,
+            method: .get,
+            data: nil,
+            model: HBTIReviewListResponse.self,
+            query: ["page": page]
+        )
+    }
 }

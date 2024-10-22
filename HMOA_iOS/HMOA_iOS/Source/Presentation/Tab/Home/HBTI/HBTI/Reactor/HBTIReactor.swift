@@ -10,12 +10,14 @@ import RxSwift
 final class HBTIReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
         case didTapSurveyButton
         case didTapNoteButton
         case didTapSeeAllReviewButton
     }
     
     enum Mutation {
+        case setTopReviewList([HBTIReview])
         case setIsTapSurveyButton(Bool)
         case setIsTapNoteButton(Bool)
         case setIsPushNextVC(Bool)
@@ -25,6 +27,7 @@ final class HBTIReactor: Reactor {
         var isTapSurveyButton: Bool = false
         var isTapNoteButton: Bool = false
         var isPushNextVC: Bool = false
+        var topReviewList: [HBTIReview] = []
     }
     
     var initialState: State
@@ -35,6 +38,9 @@ final class HBTIReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return setTopReviewList()
+            
         case .didTapSurveyButton:
             return .concat([
                 .just(.setIsTapSurveyButton(true)),
@@ -59,6 +65,9 @@ final class HBTIReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setTopReviewList(let item):
+            state.topReviewList = item
+            
         case .setIsTapSurveyButton(let isTap):
             state.isTapSurveyButton = isTap
             
@@ -70,5 +79,17 @@ final class HBTIReactor: Reactor {
         }
         
         return state
+    }
+}
+
+extension HBTIReactor {
+    func setTopReviewList() -> Observable<Mutation> {
+        return HBTIAPI.fetchReivewList(page: 0)
+            .catch { _ in .empty() }
+            .flatMap { reviewListData -> Observable<Mutation> in
+                return .concat([
+                    .just(.setTopReviewList(reviewListData.data))
+                ])
+            }
     }
 }
