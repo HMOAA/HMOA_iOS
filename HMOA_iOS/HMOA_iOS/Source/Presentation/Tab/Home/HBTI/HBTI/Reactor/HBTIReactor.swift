@@ -11,22 +11,21 @@ final class HBTIReactor: Reactor {
     
     enum Action {
         case viewDidLoad
-        case didTapSurveyButton
-        case didTapNoteButton
+        case didTapSurveyCell(Int)
         case didTapSeeAllReviewButton
     }
     
     enum Mutation {
         case setTopReviewList([HBTIReview])
-        case setIsTapSurveyButton(Bool)
-        case setIsTapNoteButton(Bool)
-        case setIsPushNextVC(Bool)
+        case setIsPushNoteSurvey(Bool)
+        case setIsPushPerfumeSurvey(Bool)
+        case setIsPushAllReviewList(Bool)
     }
     
     struct State {
-        var isTapSurveyButton: Bool = false
-        var isTapNoteButton: Bool = false
-        var isPushNextVC: Bool = false
+        var isPushNoteSurvey: Bool = false
+        var isPushPerfumeSurvey: Bool = false
+        var isPushAllReviewList: Bool = false
         var topReviewList: [HBTIReview] = []
     }
     
@@ -41,22 +40,23 @@ final class HBTIReactor: Reactor {
         case .viewDidLoad:
             return setTopReviewList()
             
-        case .didTapSurveyButton:
-            return .concat([
-                .just(.setIsTapSurveyButton(true)),
-                .just(.setIsTapSurveyButton(false))
-            ])
-            
-        case .didTapNoteButton:
-            return .concat([
-                .just(.setIsTapNoteButton(true)),
-                .just(.setIsTapNoteButton(false))
-            ])
+        case .didTapSurveyCell(let row):
+            if row == 0 {
+                return .concat([
+                    .just(.setIsPushNoteSurvey(true)),
+                    .just(.setIsPushNoteSurvey(false))
+                ])
+            } else {
+                return .concat([
+                    .just(.setIsPushPerfumeSurvey(true)),
+                    .just(.setIsPushPerfumeSurvey(false))
+                ])
+            }
             
         case .didTapSeeAllReviewButton:
             return .concat([
-                .just(.setIsPushNextVC(true)),
-                .just(.setIsPushNextVC(false))
+                .just(.setIsPushAllReviewList(true)),
+                .just(.setIsPushAllReviewList(false))
             ])
         }
     }
@@ -68,14 +68,14 @@ final class HBTIReactor: Reactor {
         case .setTopReviewList(let item):
             state.topReviewList = item
             
-        case .setIsTapSurveyButton(let isTap):
-            state.isTapSurveyButton = isTap
+        case .setIsPushNoteSurvey(let isTap):
+            state.isPushNoteSurvey = isTap
             
-        case .setIsTapNoteButton(let isTap):
-            state.isTapNoteButton = isTap
+        case .setIsPushPerfumeSurvey(let isTap):
+            state.isPushPerfumeSurvey = isTap
             
-        case .setIsPushNextVC(let isPush):
-            state.isPushNextVC = isPush
+        case .setIsPushAllReviewList(let isPush):
+            state.isPushAllReviewList = isPush
         }
         
         return state

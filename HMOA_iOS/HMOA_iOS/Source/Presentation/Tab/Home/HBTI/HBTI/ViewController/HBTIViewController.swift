@@ -69,9 +69,16 @@ final class HBTIViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // survey item 터치
+        hbtiHomeCollectionView.rx.itemSelected
+            .filter { $0.section == 0 }
+            .map { Reactor.Action.didTapSurveyCell($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         reactor.state
-            .map { $0.isTapSurveyButton }
+            .map { $0.isPushNoteSurvey }
             .filter { $0 }
             .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
@@ -79,7 +86,7 @@ final class HBTIViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.isTapNoteButton }
+            .map { $0.isPushPerfumeSurvey }
             .filter { $0 }
             .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
@@ -87,7 +94,7 @@ final class HBTIViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.isPushNextVC }
+            .map { $0.isPushAllReviewList }
             .filter { $0 }
             .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
