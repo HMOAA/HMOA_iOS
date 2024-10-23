@@ -16,6 +16,11 @@ import Then
 
 final class HBTIViewController: UIViewController, View {
     
+    enum SupplementaryViewKind: String {
+        case survey = "survey"
+        case review = "review"
+    }
+    
     // MARK: - UI Components
     
     private lazy var hbtiHomeCollectionView = UICollectionView(
@@ -25,7 +30,9 @@ final class HBTIViewController: UIViewController, View {
         $0.backgroundColor = .clear
         $0.register(HBTIHomeSurveyCell.self, forCellWithReuseIdentifier: HBTIHomeSurveyCell.identifier)
         $0.register(HBTIReviewCell.self, forCellWithReuseIdentifier: HBTIReviewCell.identifier)
-        $0.register(HBTIHomeReviewHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.header, withReuseIdentifier: HBTIHomeReviewHeaderView.identifier)
+        
+        $0.register(HBTIHomeSurveyHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.survey.rawValue, withReuseIdentifier: HBTIHomeSurveyHeaderView.identifier)
+        $0.register(HBTIHomeReviewHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.review.rawValue, withReuseIdentifier: HBTIHomeReviewHeaderView.identifier)
     }
     
     // MARK: - Properties
@@ -115,6 +122,9 @@ final class HBTIViewController: UIViewController, View {
             let sections = self.sections[sectionIndex]
             switch sections {
             case .survey:
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.survey.rawValue, alignment: .top)
+                
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(0.5),
                     heightDimension: .estimated(107)
@@ -130,13 +140,13 @@ final class HBTIViewController: UIViewController, View {
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.interGroupSpacing = 12
-                section.boundarySupplementaryItems = []
+                section.boundarySupplementaryItems = [headerItem]
                 section.contentInsets = .init(top: 20, leading: 16, bottom: 20, trailing: 16)
                 
                 return section
             case .review:
                 let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40))
-                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.header, alignment: .top)
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.review.rawValue, alignment: .top)
                 
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
@@ -189,8 +199,13 @@ final class HBTIViewController: UIViewController, View {
         // MARK: Supplementary View Provider
         dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
             switch kind {
-            case SupplementaryViewKind.header:
-                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: SupplementaryViewKind.header, withReuseIdentifier: HBTIHomeReviewHeaderView.identifier, for: indexPath) as! HBTIHomeReviewHeaderView
+            case SupplementaryViewKind.survey.rawValue:
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: SupplementaryViewKind.survey.rawValue, withReuseIdentifier: HBTIHomeSurveyHeaderView.identifier, for: indexPath) as! HBTIHomeSurveyHeaderView
+                
+                return headerView
+                
+            case SupplementaryViewKind.review.rawValue:
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: SupplementaryViewKind.review.rawValue, withReuseIdentifier: HBTIHomeReviewHeaderView.identifier, for: indexPath) as! HBTIHomeReviewHeaderView
                 
                 headerView.seeAllButton.rx.tap
                     .map { Reactor.Action.didTapSeeAllReviewButton }
