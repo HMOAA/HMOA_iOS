@@ -18,22 +18,22 @@ final class HBTIViewController: UIViewController, View {
     
     // MARK: - UI Components
     
-    private let scrollView = UIScrollView().then{
-        $0.backgroundColor = .black
+    private let yourHBTIView = HBTIHomeTopView().then {
+        $0.backgroundColor = .clear
     }
     
-    private let yourHBTIView = HBTIHomeTopView()
-    
-    private let reviewHeader = HBTIHomeReviewHeaderView()
-    
-    private let topReviewStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 12
-        $0.alignment = .fill
+    private lazy var hbtiHomeCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.backgroundColor = .clear
+        $0.register(HBTIReviewCell.self, forCellWithReuseIdentifier: HBTIReviewCell.identifier)
+        $0.register(HBTIHomeReviewHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.header, withReuseIdentifier: HBTIHomeReviewHeaderView.identifier)
     }
     
     // MARK: - Properties
     
+    private var dataSource: UICollectionViewDiffableDataSource<HBTIReviewListSection, HBTIReviewListItem>?
     var disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
@@ -41,14 +41,17 @@ final class HBTIViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .black
         setAddView()
         setConstraints()
+        configureDataSource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         setClearWhiteBackNaviBar("향BTI", .white)
+        
     }
     
     // MARK: - Bind
@@ -68,11 +71,6 @@ final class HBTIViewController: UIViewController, View {
         
         yourHBTIView.selectNoteButton.rx.tap
             .map { Reactor.Action.didTapNoteButton }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        reviewHeader.seeAllButton.rx.tap
-            .map { Reactor.Action.didTapSeeAllReviewButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -108,41 +106,91 @@ final class HBTIViewController: UIViewController, View {
     
     // MARK: Add Views
     private func setAddView() {
-        view.addSubview(scrollView)
-        
-        [yourHBTIView, 
-         reviewHeader,
-         topReviewStackView
-        ].forEach { scrollView.addSubview($0) }
-        
         [
-            HBTIReviewView(),
-            HBTIReviewView(),
-            HBTIReviewView()
-        ].forEach { topReviewStackView.addArrangedSubview($0) }
-        
+            hbtiHomeCollectionView
+        ].forEach { view.addSubview($0) }
     }
     
     // MARK: Set Constraints
     private func setConstraints() {
-        scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        hbtiHomeCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.horizontalEdges.bottom.equalToSuperview()
+        }
+    }
+    
+    // MARK: Create Layout
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40))
+            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize, elementKind: SupplementaryViewKind.header, alignment: .top)
+            
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(130)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(130)
+            )
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 12
+            section.boundarySupplementaryItems = [headerItem]
+            section.contentInsets = .init(top: 20, leading: 16, bottom: 20, trailing: 16)
+            
+            return section
+        }
+        return layout
+    }
+    
+    // MARK: Configure DataSource
+    private func configureDataSource() {
+        dataSource = .init(collectionView: hbtiHomeCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            
+            switch item {
+            case .review(let review):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HBTIReviewCell.identifier,
+                    for: indexPath) as! HBTIReviewCell
+                
+                cell.configureCell()
+                
+                return cell
+            }
+        })
+        
+        // MARK: Supplementary View Provider
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+            switch kind {
+            case SupplementaryViewKind.header:
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: SupplementaryViewKind.header, withReuseIdentifier: HBTIHomeReviewHeaderView.identifier, for: indexPath) as! HBTIHomeReviewHeaderView
+                
+                headerView.seeAllButton.rx.tap
+                    .map { Reactor.Action.didTapSeeAllReviewButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: headerView.disposeBag)
+                
+                return headerView
+                
+            default:
+                return nil
+            }
         }
         
-        yourHBTIView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide.snp.horizontalEdges).inset(16)
-        }
+        var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIReviewListSection, HBTIReviewListItem>()
+        initialSnapshot.appendSections([.review])
+        initialSnapshot.appendItems([
+            HBTIReviewListItem.review(HBTIReview(id: 1, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드")),
+            HBTIReviewListItem.review(HBTIReview(id: 2, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드")),
+            HBTIReviewListItem.review(HBTIReview(id: 3, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드"))
+        ], toSection: .review)
         
-        reviewHeader.snp.makeConstraints { make in
-            make.top.equalTo(yourHBTIView.snp.bottom).offset(32)
-            make.horizontalEdges.equalTo(yourHBTIView.snp.horizontalEdges)
-        }
-        
-        topReviewStackView.snp.makeConstraints { make in
-            make.top.equalTo(reviewHeader.snp.bottom).offset(12)
-            make.horizontalEdges.equalTo(reviewHeader.snp.horizontalEdges)
-            make.bottom.equalToSuperview().inset(40)
-        }
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
 }
