@@ -9,8 +9,12 @@ import UIKit
 
 import Then
 import SnapKit
+import RxSwift
 
-final class HBTIHomeReviewHeaderView: UIView {
+final class HBTIHomeReviewHeaderView: UICollectionReusableView {
+    
+    static let identifier = "HBTIHomeReviewHeaderView"
+    var disposeBag = DisposeBag()
 
     // MARK: - UI Components
     
@@ -19,7 +23,7 @@ final class HBTIHomeReviewHeaderView: UIView {
         $0.contentMode = .scaleAspectFit
     }
     
-    private let introTitleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.setLabelUI("향BTI 후기", font: .pretendard_bold, size: 20, color: .white)
     }
     
@@ -47,7 +51,7 @@ final class HBTIHomeReviewHeaderView: UIView {
     private func setAddView() {
         [
             logoImageView,
-            introTitleLabel,
+            titleLabel,
             seeAllButton
         ].forEach { addSubview($0) }
     }
@@ -58,7 +62,7 @@ final class HBTIHomeReviewHeaderView: UIView {
             make.width.equalTo(25)
         }
         
-        introTitleLabel.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(logoImageView.snp.trailing).offset(9)
             make.centerY.equalTo(logoImageView.snp.centerY)
         }
@@ -68,5 +72,4 @@ final class HBTIHomeReviewHeaderView: UIView {
             make.bottom.equalTo(logoImageView.snp.bottom).offset(10)
         }
     }
-
 }
