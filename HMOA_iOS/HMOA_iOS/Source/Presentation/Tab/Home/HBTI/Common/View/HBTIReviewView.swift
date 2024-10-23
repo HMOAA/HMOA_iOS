@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 final class HBTIReviewView: UIView {
 
@@ -97,18 +98,6 @@ final class HBTIReviewView: UIView {
             imageStackView,
             productCategoryLabel
         ].forEach { addSubview($0) }
-        
-        // TODO: 데이터 fetch 구현 후 삭제 (이미지 영역 확인용 코드)
-        let imageView1 = UIImageView().then {
-            $0.backgroundColor = .random
-        }
-        
-        imageView1.snp.makeConstraints { make in
-            make.width.height.equalTo(80)
-        }
-        [
-            imageView1
-        ].forEach { imageStackView.addArrangedSubview($0)}
     }
     
     private func setConstraints() {
@@ -162,7 +151,26 @@ final class HBTIReviewView: UIView {
         }
     }
     
-    func configureView() {
-        
+    func configureView(review: HBTIReview) {
+        profileImageView.kf.setImage(with: URL(string: review.profileImageURL))
+        nicknameLabel.text = review.author
+        dateLabel.text = review.date
+        heartButton.isSelected = review.isLiked
+        likeCountLabel.text = String(review.likeCount)
+        contentLabel.text = review.content
+        productCategoryLabel.text = review.orderTitle
+        addPhotosToImageStackView(photoList: review.photoList)
+    }
+    
+    private func addPhotosToImageStackView(photoList: [CommunityPhoto]) {
+        photoList.forEach { photo in
+            let imageView = UIImageView()
+            imageView.kf.setImage(with: URL(string: photo.photoUrl))
+            imageView.backgroundColor = .black
+            imageView.snp.makeConstraints { make in
+                make.height.width.equalTo(80)
+            }
+            imageStackView.addArrangedSubview(imageView)
+        }
     }
 }

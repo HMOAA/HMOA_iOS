@@ -16,7 +16,7 @@ final class HBTIReactor: Reactor {
     }
     
     enum Mutation {
-        case setTopReviewList([HBTIReview])
+        case setTopReviewList([HBTIHomeItem])
         case setIsPushNoteSurvey(Bool)
         case setIsPushPerfumeSurvey(Bool)
         case setIsPushAllReviewList(Bool)
@@ -26,7 +26,7 @@ final class HBTIReactor: Reactor {
         var isPushNoteSurvey: Bool = false
         var isPushPerfumeSurvey: Bool = false
         var isPushAllReviewList: Bool = false
-        var topReviewList: [HBTIReview] = []
+        var topReviewList: [HBTIHomeItem] = []
     }
     
     var initialState: State
@@ -87,8 +87,12 @@ extension HBTIReactor {
         return HBTIAPI.fetchReivewList(page: 0)
             .catch { _ in .empty() }
             .flatMap { reviewListData -> Observable<Mutation> in
+                let listData = reviewListData.data.map { review in
+                    return HBTIHomeItem.review(review)
+                }
+                
                 return .concat([
-                    .just(.setTopReviewList(reviewListData.data))
+                    .just(.setTopReviewList(listData))
                 ])
             }
     }

@@ -78,6 +78,14 @@ final class HBTIViewController: UIViewController, View {
         
         // MARK: State
         reactor.state
+            .map { $0.topReviewList }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, item in
+                owner.updateSnapshot(forSection: .review, withItem: item)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
             .map { $0.isPushNoteSurvey }
             .filter { $0 }
             .map { _ in }
@@ -197,7 +205,7 @@ final class HBTIViewController: UIViewController, View {
                     withReuseIdentifier: HBTIReviewCell.identifier,
                     for: indexPath) as! HBTIReviewCell
                 
-                cell.configureCell()
+                cell.reviewView.configureView(review: review)
                 
                 return cell
             }
@@ -226,17 +234,27 @@ final class HBTIViewController: UIViewController, View {
             }
         }
         
+        // MARK: Initial Snapshot
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIHomeSection, HBTIHomeItem>()
         initialSnapshot.appendSections([.survey, .review])
         sections = initialSnapshot.sectionIdentifiers
         
         initialSnapshot.appendItems(HBTIHomeItem.surveys, toSection: .survey)
-        initialSnapshot.appendItems([
-            .review(HBTIReview(id: 1, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드")),
-            .review(HBTIReview(id: 2, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드")),
-            .review(HBTIReview(id: 3, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드"))
-        ], toSection: .review)
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    // MARK: Update Snapshot
+    private func updateSnapshot(forSection section: HBTIHomeSection, withItem item: [HBTIHomeItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.deleteItems(snapshot.itemIdentifiers(inSection: section))
+        snapshot.appendItems(item, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false) {
+            self.hbtiHomeCollectionView.isHidden = false
+        }
     }
 }
