@@ -169,7 +169,7 @@ final class HBTIReviewListViewController: UIViewController, View {
                     withReuseIdentifier: HBTIReviewCell.identifier,
                     for: indexPath) as! HBTIReviewCell
                 
-                cell.configureCell()
+                cell.reviewView.configureView(review: review)
                 
                 return cell
             }
