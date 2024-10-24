@@ -12,15 +12,20 @@ final class HBTIReviewListReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case loadReviewListNextPage
     }
     
     enum Mutation {
         case setReviewList([HBTIReviewListItem])
+        case setIsLastPage(Bool)
+        case setCurrentPage(Int)
     }
     
     struct State {
         let isLog: Bool
         var reviewList: [HBTIReviewListItem] = []
+        var currentPage: Int = -1
+        var isLastPage: Bool = false
     }
     
     var initialState: State
@@ -33,6 +38,9 @@ final class HBTIReviewListReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return setReviewList()
+            
+        case .loadReviewListNextPage:
+            return setReviewList()
         }
     }
     
@@ -41,7 +49,13 @@ final class HBTIReviewListReactor: Reactor {
         
         switch mutation {
         case .setReviewList(let item):
-            state.reviewList = item
+            state.reviewList += item
+            
+        case .setIsLastPage(let isLast):
+            state.isLastPage = isLast
+            
+        case .setCurrentPage(let page):
+            state.currentPage = page
         }
         
         return state
@@ -50,15 +64,22 @@ final class HBTIReviewListReactor: Reactor {
 
 extension HBTIReviewListReactor {
     func setReviewList() -> Observable<Mutation> {
-        return HBTIAPI.fetchReivewList(page: 0)
+        guard !currentState.isLastPage else { return .empty() }
+        
+        let nextPage = currentState.currentPage + 1
+        
+        return HBTIAPI.fetchReivewList(page: nextPage)
             .catch { _ in .empty() }
             .flatMap { reviewListData -> Observable<Mutation> in
                 let listData = reviewListData.data.map { review in
                     return HBTIReviewListItem.review(review)
                 }
+                let isLastPage = reviewListData.isLastPage
                 
                 return .concat([
-                    .just(.setReviewList(listData))
+                    .just(.setReviewList(listData)),
+                    .just(.setIsLastPage(isLastPage)),
+                    .just(.setCurrentPage(nextPage))
                 ])
             }
     }
