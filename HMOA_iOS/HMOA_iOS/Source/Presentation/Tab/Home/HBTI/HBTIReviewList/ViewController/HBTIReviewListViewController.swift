@@ -222,6 +222,12 @@ final class HBTIReviewListViewController: UIViewController, View {
                     }
                     .disposed(by: cell.disposeBag)
                 
+                cell.reviewView.photoCollectionView.rx.itemSelected
+                    .bind(with: self, onNext: { owner, indexPath in
+                        owner.presentImageListVC(indexPath, images: item.review!.photoList)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
                 return cell
             }
         })
