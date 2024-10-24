@@ -131,6 +131,12 @@ final class HBTIReviewListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        floatingView.rx.tapGesture()
+            .when(.recognized)
+            .map { _ in Reactor.Action.didTapFloatingBackView }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         reactor.state
             .map { $0.reviewList }

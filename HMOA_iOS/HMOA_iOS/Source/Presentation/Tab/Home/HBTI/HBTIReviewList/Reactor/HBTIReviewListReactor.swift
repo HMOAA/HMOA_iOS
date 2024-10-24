@@ -15,6 +15,7 @@ final class HBTIReviewListReactor: Reactor {
         case loadReviewListNextPage
         case didTapLikeButton(Int)
         case didTapFloatingButton
+        case didTapFloatingBackView
         case didTapWriteReviewButton(Int)
     }
     
@@ -66,6 +67,9 @@ final class HBTIReviewListReactor: Reactor {
             return setReviewLike(index: index)
             
         case .didTapFloatingButton:
+            return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
+            
+        case .didTapFloatingBackView:
             return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
             
         case .didTapWriteReviewButton(let id):
