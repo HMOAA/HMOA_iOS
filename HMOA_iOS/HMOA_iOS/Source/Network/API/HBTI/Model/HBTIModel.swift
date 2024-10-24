@@ -142,6 +142,11 @@ struct HBTINote: Codable, Hashable {
 struct HBTIReviewListResponse: Codable, Hashable {
     let isLastPage: Bool
     let data: [HBTIReview]
+    
+    enum CodingKeys: String, CodingKey {
+        case isLastPage = "lastPage"
+        case data
+    }
 }
 
 struct HBTIReview: Codable, Hashable {
@@ -153,13 +158,13 @@ struct HBTIReview: Codable, Hashable {
     let photoList: [CommunityPhoto]
     let date: String
     let isWrited: Bool
-    let likeCount: Int
-    let isLiked: Bool
+    var likeCount: Int
+    var isLiked: Bool
     let orderTitle: String
     
     enum CodingKeys: String, CodingKey {
         case id = "hbtiReviewId"
-        case profileImageURL = "profileImageUrl"
+        case profileImageURL = "profileImgUrl"
         case author
         case content
         case imageCount = "imagesCount"

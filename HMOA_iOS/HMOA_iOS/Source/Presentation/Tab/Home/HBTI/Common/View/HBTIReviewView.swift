@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 final class HBTIReviewView: UIView {
 
@@ -15,7 +16,6 @@ final class HBTIReviewView: UIView {
     
     private let profileImageView = UIImageView().then {
         $0.clipsToBounds = true
-        $0.backgroundColor = .random
     }
     
     private let nicknameLabel = UILabel().then {
@@ -26,14 +26,14 @@ final class HBTIReviewView: UIView {
         $0.setLabelUI("00일전", font: .pretendard_medium, size: 10, color: .gray3)
     }
     
-    private let heartButton = UIButton().then {
+    var heartButton = UIButton().then {
         let normalImage = UIImage(named: "like")
         
         $0.setImage(normalImage, for: .normal)
         $0.setImage(normalImage?.withTintColor(.customColor(.red)), for: .selected)
     }
     
-    private let likeCountLabel = UILabel().then {
+    var likeCountLabel = UILabel().then {
         $0.setLabelUI("888", font: .pretendard, size: 14, color: .black)
     }
     
@@ -44,10 +44,11 @@ final class HBTIReviewView: UIView {
         $0.numberOfLines = 0
     }
     
-    private let imageStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 12
-        $0.alignment = .center
+    lazy var photoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
+        $0.backgroundColor = .clear
+        $0.isUserInteractionEnabled = true
+        $0.isHidden = true
+        $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
     private let productCategoryLabel = UILabel().then {
@@ -60,7 +61,7 @@ final class HBTIReviewView: UIView {
         $0.setImage(image, for: .normal)
     }
     
-    // MARK: -Properties
+    // MARK: - Properties
     
     private let imageSize: CGFloat = 28
     
@@ -83,8 +84,10 @@ final class HBTIReviewView: UIView {
         layer.cornerRadius = 5
         backgroundColor = .customColor(.gray5)
         profileImageView.layer.cornerRadius = imageSize / 2
+//        imageStackView.addGestureRecognizer(imageStackViewTapGesture)
     }
     
+    // MARK: - Set Add View
     private func setAddView() {
         [
             profileImageView,
@@ -94,23 +97,13 @@ final class HBTIReviewView: UIView {
             likeCountLabel,
             optionButton,
             contentLabel,
-            imageStackView,
+//            imageStackView,
+            photoCollectionView,
             productCategoryLabel
         ].forEach { addSubview($0) }
-        
-        // TODO: 데이터 fetch 구현 후 삭제 (이미지 영역 확인용 코드)
-        let imageView1 = UIImageView().then {
-            $0.backgroundColor = .random
-        }
-        
-        imageView1.snp.makeConstraints { make in
-            make.width.height.equalTo(80)
-        }
-        [
-            imageView1
-        ].forEach { imageStackView.addArrangedSubview($0)}
     }
     
+    // MARK: - Set Constraints
     private func setConstraints() {
         profileImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(12)
@@ -149,20 +142,66 @@ final class HBTIReviewView: UIView {
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
-        imageStackView.snp.makeConstraints { make in
+        photoCollectionView.snp.makeConstraints { make in
             make.top.equalTo(contentLabel.snp.bottom).offset(13)
             make.leading.equalToSuperview().inset(20)
             make.height.lessThanOrEqualTo(94)
         }
         
         productCategoryLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageStackView.snp.bottom).offset(13)
+            make.top.equalTo(profileImageView.snp.bottom).offset(72)
             make.trailing.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(10)
         }
     }
     
-    func configureView() {
+    // MARK: Configure View
+    func configureView(review: HBTIReview) {
+        profileImageView.kf.setImage(with: URL(string: review.profileImageURL))
+        nicknameLabel.text = review.author
+        dateLabel.text = review.date
+        likeCountLabel.text = String(review.likeCount)
+        contentLabel.text = review.content
+        productCategoryLabel.text = review.orderTitle
+    }
+    
+    
+    // MARK: Bind Photo CollectionView
+    func bindPhotoCollectionView(_ photos: [CommunityPhoto]) {
+         if !photos.isEmpty {
+             photoCollectionView.isHidden = false
+             
+             photoCollectionView.snp.makeConstraints { make in
+                 make.top.equalTo(contentLabel.snp.bottom).offset(13)
+                 make.horizontalEdges.equalToSuperview().inset(20)
+                 make.height.equalTo(80)
+             }
+             
+             productCategoryLabel.snp.remakeConstraints { make in
+                 make.top.equalTo(photoCollectionView.snp.bottom).offset(20)
+                 make.trailing.equalToSuperview().inset(16)
+                 make.bottom.equalToSuperview().inset(10)
+             }
+         }
+     }
+    
+    // MARK: Configure Layout
+    private func configureLayout() -> UICollectionViewCompositionalLayout {
         
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(80),
+                                              heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(80),
+                                               heightDimension: .fractionalHeight(1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: [item])
+        group.interItemSpacing = .fixed(12)
+   
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
     }
 }

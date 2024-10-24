@@ -19,7 +19,7 @@ final class HBTIReviewCell: UICollectionViewCell {
     
     // MARK: - UI Components
     
-    private let reviewView = HBTIReviewView()
+    let reviewView = HBTIReviewView()
     
     // MARK: - Init
     
@@ -53,7 +53,7 @@ final class HBTIReviewCell: UICollectionViewCell {
         }
     }
     
-    func configureCell() {
+    func configureCell(review: HBTIReview) {
         
     }
 }
