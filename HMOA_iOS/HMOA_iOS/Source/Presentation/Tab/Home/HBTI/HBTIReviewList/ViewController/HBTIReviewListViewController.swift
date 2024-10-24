@@ -12,6 +12,7 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 import Then
+import RxGesture
 
 final class HBTIReviewListViewController: UIViewController, View {
     
@@ -121,12 +122,31 @@ final class HBTIReviewListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        floatingButton.rx.tap
+            .throttle(RxTimeInterval.milliseconds(350), scheduler: MainScheduler.instance)
+            .map { Reactor.Action.didTapFloatingButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         reactor.state
             .map { $0.reviewList }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, item in
                 owner.updateSnapshot(forSection: .review, withItem: item)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isFloatingButtonTap }
+            .skip(1)
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isTap in
+                owner.showFloatingButtonAnimation(
+                    floatingButton: owner.floatingButton,
+                    stackView: owner.floatingStackView,
+                    backgroundView: owner.floatingView,
+                    isTap: isTap)
             })
             .disposed(by: disposeBag)
     }
