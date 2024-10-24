@@ -107,7 +107,7 @@ final class HBTIViewController: UIViewController, View {
             .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentHBTIReviewListViewController()
+                owner.presentHBTIReviewListViewController(isLog: false)
             })
             .disposed(by: disposeBag)
     }
