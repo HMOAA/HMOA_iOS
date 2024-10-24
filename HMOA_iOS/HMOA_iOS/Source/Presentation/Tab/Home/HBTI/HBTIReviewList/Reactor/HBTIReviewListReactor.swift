@@ -74,6 +74,7 @@ final class HBTIReviewListReactor: Reactor {
             
         case .didTapWriteReviewButton(let id):
             return .concat([
+                .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap)),
                 .just(.setSelectedOrderID(id)),
                 .just(.setIsPushReviewWriteVC(true)),
                 .just(.setSelectedOrderID(nil)),
