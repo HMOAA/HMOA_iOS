@@ -62,6 +62,11 @@ final class HBTINotesResultViewController: UIViewController, View {
         
         // MARK: Action
         
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         nextButton.rx.tap
             .map { HBTINotesResultReactor.Action.didTapNextButton }
             .bind(to: reactor.action)

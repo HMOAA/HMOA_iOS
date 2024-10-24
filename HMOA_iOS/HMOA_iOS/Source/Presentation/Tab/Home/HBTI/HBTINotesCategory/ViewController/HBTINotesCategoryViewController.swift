@@ -92,7 +92,9 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentHBTINotesResultViewController()
+                let selectedNoteList = owner.reactor?.currentState.selectedNote ?? []
+                
+                owner.presentHBTINotesResultViewController(selectedNoteList)
             })
             .disposed(by: disposeBag)
     }
