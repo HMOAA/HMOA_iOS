@@ -19,13 +19,13 @@ final class HBTIReviewListReactor: Reactor {
     }
     
     struct State {
-        
+        let isLog: Bool
     }
     
     var initialState: State
     
-    init() {
-        self.initialState = State()
+    init(isLog: Bool) {
+        self.initialState = State(isLog: isLog)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
