@@ -416,7 +416,7 @@ extension UIViewController {
         appearance.backgroundColor = .white
         appearance.shadowColor = .white
         
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        self.navigationController?.navigationBar.standardAppearance = appearance
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
@@ -434,17 +434,16 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         
 
-        let scrollEdgeAppearance = UINavigationBarAppearance()
-        scrollEdgeAppearance.backgroundColor = .clear
-        scrollEdgeAppearance.shadowColor = .clear
-        scrollEdgeAppearance.backgroundEffect = nil
-        scrollEdgeAppearance.titleTextAttributes = [
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.shadowColor = .clear
+        standardAppearance.backgroundEffect = nil
+        standardAppearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
-        
-        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
     // 투명 배경과 back버튼 Navigation Bar
@@ -455,22 +454,21 @@ extension UIViewController {
             $0.textColor = titleColor
         }
         
-        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
-        backButton.tintColor = titleColor
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: titleColor == UIColor.black ? "backButton" : "whiteBack")
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
 
-        let scrollEdgeAppearance = UINavigationBarAppearance()
-        scrollEdgeAppearance.backgroundColor = .clear
-        scrollEdgeAppearance.shadowColor = .clear
-        scrollEdgeAppearance.backgroundEffect = nil
-        scrollEdgeAppearance.titleTextAttributes = [
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.shadowColor = .clear
+        standardAppearance.backgroundEffect = nil
+        standardAppearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
-        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
     // 투명 배경과 흰색 back버튼 NavigationBar
@@ -486,16 +484,16 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
 
-        let scrollEdgeAppearance = UINavigationBarAppearance()
-        scrollEdgeAppearance.backgroundColor = .clear
-        scrollEdgeAppearance.shadowColor = .clear
-        scrollEdgeAppearance.backgroundEffect = nil
-        scrollEdgeAppearance.titleTextAttributes = [
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.shadowColor = .clear
+        standardAppearance.backgroundEffect = nil
+        standardAppearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
-        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
     /// 향BTI 홈으로 이동하는 Back버튼 Navigation Bar
