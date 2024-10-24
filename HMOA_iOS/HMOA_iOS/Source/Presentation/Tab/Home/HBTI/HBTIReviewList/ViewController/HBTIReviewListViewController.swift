@@ -34,9 +34,13 @@ final class HBTIReviewListViewController: UIViewController, View {
         $0.alpha = 0
         $0.backgroundColor = .black
         $0.isHidden = true
-        $0.distribution = .fillEqually
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
         $0.layer.cornerRadius = 10
         $0.axis = .vertical
+        $0.spacing = 4
+        $0.layoutMargins = .init(top: 8, left: 4, bottom: 8, right: 4)
+        $0.isLayoutMarginsRelativeArrangement = true
     }
     
     private lazy var floatingView = UIView().then {
@@ -84,9 +88,8 @@ final class HBTIReviewListViewController: UIViewController, View {
             }
             
             floatingStackView.snp.makeConstraints { make in
-                make.trailing.equalToSuperview().inset(8)
-                make.width.equalTo(135)
-                make.height.equalTo(137)
+                make.trailing.equalToSuperview().inset(24)
+                make.height.greaterThanOrEqualTo(16)
                 make.bottom.equalTo(floatingButton.snp.top).offset(-8)
             }
         }
@@ -149,6 +152,19 @@ final class HBTIReviewListViewController: UIViewController, View {
                     isTap: isTap)
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.notReviewedOrderList }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, orderList in
+                owner.floatingStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+                orderList.forEach { order in
+                    let button = UIButton().makeHBTIFloatingListButton(title: order.info)
+                    owner.floatingStackView.addArrangedSubview(button)
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Functions

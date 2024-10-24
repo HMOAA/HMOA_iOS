@@ -74,4 +74,13 @@ final class HBTIAPI {
             query: ["ReviewId" : id]
         )
     }
+    
+    static func fetchNotReviewdOrderList() -> Observable<[NotReviewedOrder]> {
+        return networking(
+            urlStr: HBTIAddress.fetchNotReviewedOrderList.url,
+            method: .get,
+            data: nil,
+            model: [NotReviewedOrder].self
+        )
+    }
 }

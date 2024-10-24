@@ -24,6 +24,7 @@ final class HBTIReviewListReactor: Reactor {
         case setReviewLike(Int)
         case cancelReviewLike(Int)
         case setIsTapFloatingButton(Bool)
+        case setNotReviewedOrderList([NotReviewedOrder])
     }
     
     struct State {
@@ -32,6 +33,10 @@ final class HBTIReviewListReactor: Reactor {
         var currentPage: Int = -1
         var isLastPage: Bool = false
         var isFloatingButtonTap: Bool = false
+        var notReviewedOrderList: [NotReviewedOrder] = [
+            NotReviewedOrder(id: 11, info: "후기 작성하기 (시트러스 24.10.08)"),
+            NotReviewedOrder(id: 33, info: "후기 작성하기 (플로럴 24.10.08)")
+        ]
     }
     
     var initialState: State
@@ -43,7 +48,11 @@ final class HBTIReviewListReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return setReviewList()
+            return .concat([
+                setReviewList()
+                // TODO: 주문 추가 가능해지면 사용
+//                setNotReviewedOrderList()
+            ])
             
         case .loadReviewListNextPage:
             return setReviewList()
@@ -83,6 +92,9 @@ final class HBTIReviewListReactor: Reactor {
             
         case .setIsTapFloatingButton(let isTap):
             state.isFloatingButtonTap = isTap
+            
+        case .setNotReviewedOrderList(let item):
+            state.notReviewedOrderList = item
         }
         
         return state
@@ -131,5 +143,13 @@ extension HBTIReviewListReactor {
                     ])
                 }
         }
+    }
+    
+    func setNotReviewedOrderList() -> Observable<Mutation> {
+        return HBTIAPI.fetchNotReviewdOrderList()
+            .catch { _ in .empty() }
+            .flatMap { orderListData -> Observable<Mutation> in
+                return .just(.setNotReviewedOrderList(orderListData))
+            }
     }
 }
