@@ -105,10 +105,19 @@ final class HBTIReviewListViewController: UIViewController, View {
     func bind(reactor: HBTIReviewListReactor) {
         
         // MARK: Action
-        
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
-        
+        reactor.state
+            .map { $0.reviewList }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, item in
+                owner.updateSnapshot(forSection: .review, withItem: item)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -174,6 +183,18 @@ final class HBTIReviewListViewController: UIViewController, View {
                     for: indexPath) as! HBTIReviewCell
                 
                 cell.reviewView.configureView(review: review)
+                cell.reviewView.bindPhotoCollectionView(review.photoList)
+                
+                self.reactor!.state
+                    .map { _ in item.review!.photoList }
+                    .distinctUntilChanged()
+                    .observe(on: MainScheduler.instance)
+                    .bind(to: cell.reviewView.photoCollectionView.rx.items(cellIdentifier: PhotoCell.identifier, cellType: PhotoCell.self)) { row, item, cell in
+                        cell.isZoomEnabled = false
+                        cell.imageView.kf.setImage(with: URL(string: item.photoUrl))
+                        cell.backgroundColor = .black
+                    }
+                    .disposed(by: cell.disposeBag)
                 
                 return cell
             }
@@ -181,12 +202,19 @@ final class HBTIReviewListViewController: UIViewController, View {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIReviewListSection, HBTIReviewListItem>()
         initialSnapshot.appendSections([.review])
-        initialSnapshot.appendItems([
-            HBTIReviewListItem.review(HBTIReview(id: 1, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드")),
-            HBTIReviewListItem.review(HBTIReview(id: 2, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드")),
-            HBTIReviewListItem.review(HBTIReview(id: 3, profileImageURL: "", author: "작성자", content: "내용", imageCount: 0, photoList: [], date: "어제", isWrited: false, likeCount: 0, isLiked: false, orderTitle: "시향카드"))
-        ], toSection: .review)
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    // MARK: Update Snapshot
+    private func updateSnapshot(forSection section: HBTIReviewListSection, withItem item: [HBTIReviewListItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.deleteItems(snapshot.itemIdentifiers(inSection: section))
+        snapshot.appendItems(item, toSection: section)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }

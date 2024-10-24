@@ -286,8 +286,6 @@ final class HBTIViewController: UIViewController, View {
         snapshot.deleteItems(snapshot.itemIdentifiers(inSection: section))
         snapshot.appendItems(item, toSection: section)
         
-        dataSource.apply(snapshot, animatingDifferences: false) {
-            self.hbtiHomeCollectionView.isHidden = false
-        }
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }

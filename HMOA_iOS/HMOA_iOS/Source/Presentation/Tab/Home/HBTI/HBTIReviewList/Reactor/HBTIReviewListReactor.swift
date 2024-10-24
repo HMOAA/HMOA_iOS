@@ -11,15 +11,16 @@ import RxSwift
 final class HBTIReviewListReactor: Reactor {
     
     enum Action {
-        
+        case viewDidLoad
     }
     
     enum Mutation {
-        
+        case setReviewList([HBTIReviewListItem])
     }
     
     struct State {
         let isLog: Bool
+        var reviewList: [HBTIReviewListItem] = []
     }
     
     var initialState: State
@@ -30,7 +31,8 @@ final class HBTIReviewListReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-            
+        case .viewDidLoad:
+            return setReviewList()
         }
     }
     
@@ -38,9 +40,26 @@ final class HBTIReviewListReactor: Reactor {
         var state = state
         
         switch mutation {
-            
+        case .setReviewList(let item):
+            state.reviewList = item
         }
         
         return state
+    }
+}
+
+extension HBTIReviewListReactor {
+    func setReviewList() -> Observable<Mutation> {
+        return HBTIAPI.fetchReivewList(page: 0)
+            .catch { _ in .empty() }
+            .flatMap { reviewListData -> Observable<Mutation> in
+                let listData = reviewListData.data.map { review in
+                    return HBTIReviewListItem.review(review)
+                }
+                
+                return .concat([
+                    .just(.setReviewList(listData))
+                ])
+            }
     }
 }
