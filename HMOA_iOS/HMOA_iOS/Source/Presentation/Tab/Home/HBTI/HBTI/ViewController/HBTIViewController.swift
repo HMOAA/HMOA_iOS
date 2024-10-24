@@ -56,7 +56,7 @@ final class HBTIViewController: UIViewController, View {
         super.viewWillAppear(animated)
         
         setClearWhiteBackNaviBar("향BTI", .white)
-        
+        navigationController?.navigationBar.backgroundColor = .clear
     }
     
     // MARK: - Bind

@@ -68,6 +68,11 @@ final class HBTIReviewListViewController: UIViewController, View {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        let isLog = reactor!.currentState.isLog
+        view.backgroundColor = isLog ? .white : .black
+        setClearBackNaviBar(isLog ? "작성한 후기" : "향BTI 후기", isLog ? .black : .white)
+        navigationController?.navigationBar.backgroundColor = .clear
+        
         if reactor!.currentState.isLog { return }
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {
@@ -191,9 +196,6 @@ final class HBTIReviewListViewController: UIViewController, View {
     
     // MARK: Set UI
     private func setUI() {
-        let isLog = reactor!.currentState.isLog
-        view.backgroundColor = isLog ? .white : .black
-        setClearBackNaviBar(isLog ? "작성한 후기" : "향BTI 후기", isLog ? .black : .white)
         hbtiReviewListCollectionView.backgroundColor = .clear
     }
     
@@ -209,7 +211,8 @@ final class HBTIReviewListViewController: UIViewController, View {
     // MARK: Set Constraints
     private func setConstraints() {
         hbtiReviewListCollectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
     }
     
