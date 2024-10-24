@@ -158,8 +158,8 @@ struct HBTIReview: Codable, Hashable {
     let photoList: [CommunityPhoto]
     let date: String
     let isWrited: Bool
-    let likeCount: Int
-    let isLiked: Bool
+    var likeCount: Int
+    var isLiked: Bool
     let orderTitle: String
     
     enum CodingKeys: String, CodingKey {
