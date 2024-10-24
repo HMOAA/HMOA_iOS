@@ -206,6 +206,7 @@ final class HBTIViewController: UIViewController, View {
                     for: indexPath) as! HBTIReviewCell
                 
                 cell.reviewView.configureView(review: review)
+                cell.reviewView.bindPhotoCollectionView(review.photoList)
                 
                 cell.reviewView.heartButton.rx.tap
                     .map { Reactor.Action.didTapLikeButton(indexPath.row) }
@@ -220,6 +221,17 @@ final class HBTIViewController: UIViewController, View {
                         cell.reviewView.heartButton.isSelected = review.isLiked
                         cell.reviewView.likeCountLabel.text = String(review.likeCount)
                     })
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor!.state
+                    .map { _ in item.review!.photoList }
+                    .distinctUntilChanged()
+                    .observe(on: MainScheduler.instance)
+                    .bind(to: cell.reviewView.photoCollectionView.rx.items(cellIdentifier: PhotoCell.identifier, cellType: PhotoCell.self)) { row, item, cell in
+                        cell.isZoomEnabled = false
+                        cell.imageView.kf.setImage(with: URL(string: item.photoUrl))
+                        cell.backgroundColor = .black
+                    }
                     .disposed(by: cell.disposeBag)
                 
                 return cell
