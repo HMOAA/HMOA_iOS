@@ -62,6 +62,8 @@ final class HBTIReviewListViewController: UIViewController, View {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if reactor!.currentState.isLog { return }
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {
             [
@@ -92,6 +94,7 @@ final class HBTIReviewListViewController: UIViewController, View {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        if reactor!.currentState.isLog { return }
         floatingStackView.removeFromSuperview()
         floatingView.removeFromSuperview()
         floatingButton.removeFromSuperview()
@@ -112,8 +115,9 @@ final class HBTIReviewListViewController: UIViewController, View {
     
     // MARK: Set UI
     private func setUI() {
-        view.backgroundColor = .black
-        setClearWhiteBackNaviBar("향BTI 후기", .white)
+        let isLog = reactor!.currentState.isLog
+        view.backgroundColor = isLog ? .white : .black
+        setClearBackNaviBar(isLog ? "작성한 후기" : "향BTI 후기", isLog ? .black : .white)
         hbtiReviewListCollectionView.backgroundColor = .clear
     }
     

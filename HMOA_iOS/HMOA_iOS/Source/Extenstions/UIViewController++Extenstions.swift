@@ -316,10 +316,10 @@ extension UIViewController {
     }
     
     /// HBTIReviewListVC로 push
-    func presentHBTIReviewListViewController() {
+    func presentHBTIReviewListViewController(isLog: Bool) {
         let hbtiReviewListVC = HBTIReviewListViewController()
-        hbtiReviewListVC.reactor = HBTIReviewListReactor()
-        hbtiReviewListVC.hidesBottomBarWhenPushed = true
+        hbtiReviewListVC.reactor = HBTIReviewListReactor(isLog: isLog)
+        hbtiReviewListVC.hidesBottomBarWhenPushed = !isLog
         self.navigationController?.pushViewController(hbtiReviewListVC, animated: true)
     }
     
@@ -456,6 +456,7 @@ extension UIViewController {
         }
         
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        backButton.tintColor = titleColor
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
