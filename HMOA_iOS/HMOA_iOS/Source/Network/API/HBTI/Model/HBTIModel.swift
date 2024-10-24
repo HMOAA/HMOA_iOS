@@ -101,6 +101,12 @@ struct HBTIPerfume: Hashable, Codable {
 }
 
 // 1차 후반후, 3차
+
+// 카테고리에서 선택한 productId를 post하고 받는 응답 모델
+//struct HBTICategoryResultResponse: Hashable, Codable {
+//    let notesResult: [HBTICategoryListInfo]
+//}
+
 struct HBTICategoryListInfo: Codable, Hashable {
     let totalPrice: Int
     let categoryList: [HBTICategory]
