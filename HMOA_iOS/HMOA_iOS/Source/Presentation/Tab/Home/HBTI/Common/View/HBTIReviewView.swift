@@ -16,7 +16,6 @@ final class HBTIReviewView: UIView {
     
     private let profileImageView = UIImageView().then {
         $0.clipsToBounds = true
-        $0.backgroundColor = .random
     }
     
     private let nicknameLabel = UILabel().then {
@@ -27,14 +26,14 @@ final class HBTIReviewView: UIView {
         $0.setLabelUI("00일전", font: .pretendard_medium, size: 10, color: .gray3)
     }
     
-    private let heartButton = UIButton().then {
+    var heartButton = UIButton().then {
         let normalImage = UIImage(named: "like")
         
         $0.setImage(normalImage, for: .normal)
         $0.setImage(normalImage?.withTintColor(.customColor(.red)), for: .selected)
     }
     
-    private let likeCountLabel = UILabel().then {
+    var likeCountLabel = UILabel().then {
         $0.setLabelUI("888", font: .pretendard, size: 14, color: .black)
     }
     
@@ -155,7 +154,6 @@ final class HBTIReviewView: UIView {
         profileImageView.kf.setImage(with: URL(string: review.profileImageURL))
         nicknameLabel.text = review.author
         dateLabel.text = review.date
-        heartButton.isSelected = review.isLiked
         likeCountLabel.text = String(review.likeCount)
         contentLabel.text = review.content
         productCategoryLabel.text = review.orderTitle
@@ -163,6 +161,7 @@ final class HBTIReviewView: UIView {
     }
     
     private func addPhotosToImageStackView(photoList: [CommunityPhoto]) {
+        imageStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         photoList.forEach { photo in
             let imageView = UIImageView()
             imageView.kf.setImage(with: URL(string: photo.photoUrl))

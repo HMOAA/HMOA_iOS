@@ -54,4 +54,24 @@ final class HBTIAPI {
             query: ["page": page]
         )
     }
+    
+    static func putReviewLike(id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: HBTIAddress.putDeleteReviewLike(id).url,
+            method: .put,
+            data: nil,
+            model: Response.self,
+            query: ["ReviewId" : id]
+        )
+    }
+    
+    static func deleteReviewLike(id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: HBTIAddress.putDeleteReviewLike(id).url,
+            method: .delete,
+            data: nil,
+            model: Response.self,
+            query: ["ReviewId" : id]
+        )
+    }
 }
