@@ -14,6 +14,7 @@ final class HBTIReviewListReactor: Reactor {
         case viewDidLoad
         case loadReviewListNextPage
         case didTapLikeButton(Int)
+        case didTapFloatingButton
     }
     
     enum Mutation {
@@ -22,6 +23,7 @@ final class HBTIReviewListReactor: Reactor {
         case setCurrentPage(Int)
         case setReviewLike(Int)
         case cancelReviewLike(Int)
+        case setIsTapFloatingButton(Bool)
     }
     
     struct State {
@@ -29,6 +31,7 @@ final class HBTIReviewListReactor: Reactor {
         var reviewList: [HBTIReviewListItem] = []
         var currentPage: Int = -1
         var isLastPage: Bool = false
+        var isFloatingButtonTap: Bool = false
     }
     
     var initialState: State
@@ -47,6 +50,9 @@ final class HBTIReviewListReactor: Reactor {
             
         case .didTapLikeButton(let index):
             return setReviewLike(index: index)
+            
+        case .didTapFloatingButton:
+            return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
         }
     }
     
@@ -74,6 +80,9 @@ final class HBTIReviewListReactor: Reactor {
             review.isLiked = false
             review.likeCount -= 1
             state.reviewList[index] = HBTIReviewListItem.review(review)
+            
+        case .setIsTapFloatingButton(let isTap):
+            state.isFloatingButtonTap = isTap
         }
         
         return state
