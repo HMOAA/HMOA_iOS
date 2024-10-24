@@ -9,8 +9,12 @@ import UIKit
 
 import Then
 import SnapKit
+import RxSwift
 
-final class HBTIHomeReviewHeaderView: UIView {
+final class HBTIHomeReviewHeaderView: UICollectionReusableView {
+    
+    static let identifier = "HBTIHomeReviewHeaderView"
+    var disposeBag = DisposeBag()
 
     // MARK: - UI Components
     
@@ -19,12 +23,14 @@ final class HBTIHomeReviewHeaderView: UIView {
         $0.contentMode = .scaleAspectFit
     }
     
-    private let introTitleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.setLabelUI("향BTI 후기", font: .pretendard_bold, size: 20, color: .white)
     }
     
-    private let seeAllLabel = UILabel().then {
-        $0.setLabelUI("전체보기", font: .pretendard_bold, size: 12, color: .white)
+    let seeAllButton = UIButton().then {
+        $0.setTitle("전체보기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_bold, 12)
     }
     
     // MARK: - Init
@@ -45,8 +51,8 @@ final class HBTIHomeReviewHeaderView: UIView {
     private func setAddView() {
         [
             logoImageView,
-            introTitleLabel,
-            seeAllLabel
+            titleLabel,
+            seeAllButton
         ].forEach { addSubview($0) }
     }
     
@@ -56,15 +62,14 @@ final class HBTIHomeReviewHeaderView: UIView {
             make.width.equalTo(25)
         }
         
-        introTitleLabel.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(logoImageView.snp.trailing).offset(9)
             make.centerY.equalTo(logoImageView.snp.centerY)
         }
         
-        seeAllLabel.snp.makeConstraints { make in
+        seeAllButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
-            make.bottom.equalTo(logoImageView.snp.bottom)
+            make.bottom.equalTo(logoImageView.snp.bottom).offset(10)
         }
     }
-
 }
