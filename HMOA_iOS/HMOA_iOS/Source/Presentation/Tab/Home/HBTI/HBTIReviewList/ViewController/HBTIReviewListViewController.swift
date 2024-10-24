@@ -196,6 +196,21 @@ final class HBTIReviewListViewController: UIViewController, View {
                 cell.reviewView.configureView(review: review)
                 cell.reviewView.bindPhotoCollectionView(review.photoList)
                 
+                cell.reviewView.heartButton.rx.tap
+                    .map { Reactor.Action.didTapLikeButton(indexPath.row) }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
+                
+                self.reactor!.state
+                    .map { $0.reviewList[indexPath.row] }
+                    .asDriver(onErrorRecover: { _ in .empty() })
+                    .drive(with: self, onNext: { owner, item in
+                        guard let review = item.review else { return }
+                        cell.reviewView.heartButton.isSelected = review.isLiked
+                        cell.reviewView.likeCountLabel.text = String(review.likeCount)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
                 self.reactor!.state
                     .map { _ in item.review!.photoList }
                     .distinctUntilChanged()

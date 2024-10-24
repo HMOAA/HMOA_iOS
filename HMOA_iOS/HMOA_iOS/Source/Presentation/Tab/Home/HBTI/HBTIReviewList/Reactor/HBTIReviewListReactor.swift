@@ -13,12 +13,15 @@ final class HBTIReviewListReactor: Reactor {
     enum Action {
         case viewDidLoad
         case loadReviewListNextPage
+        case didTapLikeButton(Int)
     }
     
     enum Mutation {
         case setReviewList([HBTIReviewListItem])
         case setIsLastPage(Bool)
         case setCurrentPage(Int)
+        case setReviewLike(Int)
+        case cancelReviewLike(Int)
     }
     
     struct State {
@@ -41,6 +44,9 @@ final class HBTIReviewListReactor: Reactor {
             
         case .loadReviewListNextPage:
             return setReviewList()
+            
+        case .didTapLikeButton(let index):
+            return setReviewLike(index: index)
         }
     }
     
@@ -56,6 +62,18 @@ final class HBTIReviewListReactor: Reactor {
             
         case .setCurrentPage(let page):
             state.currentPage = page
+            
+        case .setReviewLike(let index):
+            guard var review = state.reviewList[index].review else { break }
+            review.isLiked = true
+            review.likeCount += 1
+            state.reviewList[index] = HBTIReviewListItem.review(review)
+        
+        case .cancelReviewLike(let index):
+            guard var review = state.reviewList[index].review else { break }
+            review.isLiked = false
+            review.likeCount -= 1
+            state.reviewList[index] = HBTIReviewListItem.review(review)
         }
         
         return state
@@ -82,5 +100,27 @@ extension HBTIReviewListReactor {
                     .just(.setCurrentPage(nextPage))
                 ])
             }
+    }
+    
+    func setReviewLike(index: Int) -> Observable<Mutation> {
+        guard let review = currentState.reviewList[index].review else { return .empty() }
+        
+        if !review.isLiked {
+            return HBTIAPI.putReviewLike(id: review.id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    return .concat([
+                        .just(.setReviewLike(index))
+                    ])
+                }
+        } else {
+            return HBTIAPI.deleteReviewLike(id: review.id)
+                .catch { _ in .empty() }
+                .flatMap { _ -> Observable<Mutation> in
+                    return .concat([
+                        .just(.cancelReviewLike(index))
+                    ])
+                }
+        }
     }
 }
