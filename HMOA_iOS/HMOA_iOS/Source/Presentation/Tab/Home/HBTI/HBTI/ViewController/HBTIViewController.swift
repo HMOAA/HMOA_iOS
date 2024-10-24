@@ -64,8 +64,8 @@ final class HBTIViewController: UIViewController, View {
     func bind(reactor: HBTIReactor) {
         
         // MARK: Action
-        rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
