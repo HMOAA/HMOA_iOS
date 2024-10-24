@@ -308,7 +308,7 @@ extension UIViewController {
     }
     
     /// HBTIReviewWriteVC로 push
-    func presentHBTIReviewWriteViewController() {
+    func presentHBTIReviewWriteViewController(id: Int) {
         let hbtiReviewWriteVC = HBTIReviewWriteViewController()
         hbtiReviewWriteVC.reactor = HBTIReviewWriteReactor()
         hbtiReviewWriteVC.hidesBottomBarWhenPushed = true
