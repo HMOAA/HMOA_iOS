@@ -109,8 +109,8 @@ final class HBTIReviewListViewController: UIViewController, View {
     func bind(reactor: HBTIReviewListReactor) {
         
         // MARK: Action
-        rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -160,11 +160,25 @@ final class HBTIReviewListViewController: UIViewController, View {
                 owner.floatingStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
                 orderList.forEach { order in
                     let button = UIButton().makeHBTIFloatingListButton(title: order.info)
+                    button.rx.tap
+                        .map { Reactor.Action.didTapWriteReviewButton(order.id)}
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
                     owner.floatingStackView.addArrangedSubview(button)
                 }
             })
             .disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.isPushReviewWriteVC }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isPush in
+                guard let orderID = reactor.currentState.selectedOrderID else { return }
+                owner.presentHBTIReviewWriteViewController(id: orderID)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions

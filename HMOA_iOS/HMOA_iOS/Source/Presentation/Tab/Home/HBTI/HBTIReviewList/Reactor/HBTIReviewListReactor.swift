@@ -11,10 +11,11 @@ import RxSwift
 final class HBTIReviewListReactor: Reactor {
     
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case loadReviewListNextPage
         case didTapLikeButton(Int)
         case didTapFloatingButton
+        case didTapWriteReviewButton(Int)
     }
     
     enum Mutation {
@@ -25,6 +26,8 @@ final class HBTIReviewListReactor: Reactor {
         case cancelReviewLike(Int)
         case setIsTapFloatingButton(Bool)
         case setNotReviewedOrderList([NotReviewedOrder])
+        case setSelectedOrderID(Int?)
+        case setIsPushReviewWriteVC(Bool)
     }
     
     struct State {
@@ -37,6 +40,8 @@ final class HBTIReviewListReactor: Reactor {
             NotReviewedOrder(id: 11, info: "후기 작성하기 (시트러스 24.10.08)"),
             NotReviewedOrder(id: 33, info: "후기 작성하기 (플로럴 24.10.08)")
         ]
+        var selectedOrderID: Int? = nil
+        var isPushReviewWriteVC: Bool = false
     }
     
     var initialState: State
@@ -47,7 +52,7 @@ final class HBTIReviewListReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return .concat([
                 setReviewList()
                 // TODO: 주문 추가 가능해지면 사용
@@ -62,6 +67,14 @@ final class HBTIReviewListReactor: Reactor {
             
         case .didTapFloatingButton:
             return .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap))
+            
+        case .didTapWriteReviewButton(let id):
+            return .concat([
+                .just(.setSelectedOrderID(id)),
+                .just(.setIsPushReviewWriteVC(true)),
+                .just(.setSelectedOrderID(nil)),
+                .just(.setIsPushReviewWriteVC(false))
+            ])
         }
     }
     
@@ -95,6 +108,12 @@ final class HBTIReviewListReactor: Reactor {
             
         case .setNotReviewedOrderList(let item):
             state.notReviewedOrderList = item
+            
+        case .setSelectedOrderID(let id):
+            state.selectedOrderID = id
+            
+        case .setIsPushReviewWriteVC(let isPush):
+            state.isPushReviewWriteVC = isPush
         }
         
         return state
