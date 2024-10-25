@@ -56,7 +56,7 @@ final class HBTIViewController: UIViewController, View {
         super.viewWillAppear(animated)
         
         setClearWhiteBackNaviBar("향BTI", .white)
-        
+        navigationController?.navigationBar.backgroundColor = .clear
     }
     
     // MARK: - Bind
@@ -64,8 +64,8 @@ final class HBTIViewController: UIViewController, View {
     func bind(reactor: HBTIReactor) {
         
         // MARK: Action
-        rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -107,7 +107,7 @@ final class HBTIViewController: UIViewController, View {
             .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentHBTIReviewListViewController()
+                owner.presentHBTIReviewListViewController(isLog: false)
             })
             .disposed(by: disposeBag)
     }
@@ -286,8 +286,6 @@ final class HBTIViewController: UIViewController, View {
         snapshot.deleteItems(snapshot.itemIdentifiers(inSection: section))
         snapshot.appendItems(item, toSection: section)
         
-        dataSource.apply(snapshot, animatingDifferences: false) {
-            self.hbtiHomeCollectionView.isHidden = false
-        }
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }

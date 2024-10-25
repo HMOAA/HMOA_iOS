@@ -176,3 +176,13 @@ struct HBTIReview: Codable, Hashable {
         case orderTitle
     }
 }
+
+struct NotReviewedOrder: Codable {
+    let id: Int
+    let info: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "orderId"
+        case info = "orderInfo"
+    }
+}

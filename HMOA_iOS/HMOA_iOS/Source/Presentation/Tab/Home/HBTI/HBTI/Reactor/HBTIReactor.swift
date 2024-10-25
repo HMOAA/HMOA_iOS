@@ -10,7 +10,7 @@ import RxSwift
 final class HBTIReactor: Reactor {
     
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case didTapSurveyCell(Int)
         case didTapSeeAllReviewButton
         case didTapLikeButton(Int)
@@ -40,7 +40,7 @@ final class HBTIReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return setTopReviewList()
             
         case .didTapSurveyCell(let row):
