@@ -13,6 +13,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 import Then
+import PhotosUI
 
 final class HBTIReviewWriteViewController: UIViewController, View {
     
@@ -95,6 +96,7 @@ final class HBTIReviewWriteViewController: UIViewController, View {
     
     // MARK: - Properties
     
+    private var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>?
     var disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
@@ -105,6 +107,7 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        configureDatasource()
     }
     
     // MARK: - Bind
@@ -112,10 +115,53 @@ final class HBTIReviewWriteViewController: UIViewController, View {
     func bind(reactor: HBTIReviewWriteReactor) {
         
         // MARK: Action
-        
+        addImageButton.rx.tap
+            .map { Reactor.Action.didTapAddPhotoButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
+        reactor.state
+            .map { $0.isPresentToAlbum }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                let selectionLimit = 3 - reactor.currentState.photoCount
+                if selectionLimit == 0 {
+                    owner.showAlert(title: "HMOA",
+                                    message: "사진은 3개까지 업로드 할 수 있습니다",
+                                    buttonTitle1: "확인")
+                } else {
+                    var config = PHPickerConfiguration()
+                    config.filter = .images
+                    config.selectionLimit = selectionLimit
+                    
+                    let pickerVC = PHPickerViewController(configuration: config)
+                    pickerVC.delegate = self
+                    
+                    owner.view.endEditing(true)
+                    owner.present(pickerVC, animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.images }
+            .distinctUntilChanged()
+            .delay(.milliseconds(300), scheduler: MainScheduler.instance)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self) { owner, item in
+                guard let datasource = owner.datasource else { return }
+                var snapshot = NSDiffableDataSourceSnapshot<PhotoSection, PhotoSectionItem>()
+                snapshot.appendSections([.photo])
+                
+                item.forEach { snapshot.appendItems([.photoCell($0, nil)], toSection: .photo) }
+                DispatchQueue.main.async {
+                    datasource.apply(snapshot, animatingDifferences: false)
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -197,5 +243,54 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         
         return layout
     }
+    
+    func configureDatasource() {
+        datasource = UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>(collectionView: collectionView, cellProvider: {
+            collectionView, indexPath, item in
+            switch item {
+            case .photoCell(let writePhoto, _):
+                
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
+                
+                cell.isZoomEnabled = false
+                cell.updateCell(writePhoto!.image)
+                cell.configureXButton()
+                cell.xButton.rx.tap
+                    .map { Reactor.Action.didTapXButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
+                
+                return cell
+            }
+        })
+    }
 }
 
+extension HBTIReviewWriteViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
+        var items: [WritePhoto] = []
+        let dispatchGroup = DispatchGroup()
+        
+        for result in results {
+            let itemProvider = result.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                dispatchGroup.enter()
+                itemProvider.loadObject(ofClass: UIImage.self) { (item, error) in
+                    DispatchQueue.main.async {
+                        if let image = item as? UIImage {
+                            items.append(WritePhoto(photoId: nil, image: image))
+                        }
+                        dispatchGroup.leave()
+                    }
+                }
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.reactor?.action.onNext(.didSelectedImage(items))
+            picker.dismiss(animated: true)
+        }
+    }
+}
