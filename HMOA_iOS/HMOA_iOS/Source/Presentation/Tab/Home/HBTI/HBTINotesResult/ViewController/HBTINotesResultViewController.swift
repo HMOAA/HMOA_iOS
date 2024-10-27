@@ -91,7 +91,11 @@ final class HBTINotesResultViewController: UIViewController, View {
             .filter { $0 }
             .map { _ in }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: presentHBTIOrderSheetViewController)
+            .drive(with: self, onNext: { owner, _ in
+                let orderNoteList = owner.reactor?.currentState.selectedNoteList ?? []
+                  
+                owner.presentHBTIOrderSheetViewController(orderNoteList)
+            })
             .disposed(by: disposeBag)
     }
     
