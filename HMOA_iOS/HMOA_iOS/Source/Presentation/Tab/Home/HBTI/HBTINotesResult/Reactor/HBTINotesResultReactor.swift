@@ -22,7 +22,7 @@ final class HBTINotesResultReactor: Reactor {
     }
     
     struct State {
-        var selectedNoteList: [Int]
+        let selectedNoteList: [Int]
         var cartItemList: [HBTINotesResultItem] = []
         var totalPrice: Int = 0
         var isPushNextVC: Bool = false

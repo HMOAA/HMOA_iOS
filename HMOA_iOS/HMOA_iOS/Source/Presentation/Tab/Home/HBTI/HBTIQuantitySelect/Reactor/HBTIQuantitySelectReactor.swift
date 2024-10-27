@@ -29,7 +29,7 @@ final class HBTIQuantitySelectReactor: Reactor {
         var isEnabledNextButton: Bool = false
         var isPushNextVC: Bool = false
         var isFreeSelection: Bool = false
-        var recommendNote: [String: Any]
+        let recommendNote: [String: Any]
     }
     
     var initialState: State

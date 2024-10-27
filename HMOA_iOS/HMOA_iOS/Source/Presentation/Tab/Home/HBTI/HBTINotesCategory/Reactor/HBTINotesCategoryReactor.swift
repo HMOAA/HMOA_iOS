@@ -21,9 +21,9 @@ final class HBTINotesCategoryReactor: Reactor {
     }
     
     struct State {
-        var selectedQuantity: Int
-        var isFreeSelection: Bool
-        var noteName: String
+        let selectedQuantity: Int
+        let isFreeSelection: Bool
+        let noteName: String
         var selectedNote: [Int] = []
         var isEnabledNextButton: Bool = false
         var isPushNextVC: Bool = false

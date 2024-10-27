@@ -19,7 +19,7 @@ final class HBTIProcessGuideReactor: Reactor {
     
     struct State {
         var isPushNextVC: Bool = false
-        var recommendNoteList: [HBTISurveyResultItem]
+        let recommendNoteList: [HBTISurveyResultItem]
     }
     
     var initialState: State
