@@ -101,6 +101,7 @@ struct HBTIPerfume: Hashable, Codable {
 }
 
 // 1차 후반후, 3차
+
 struct HBTICategoryListInfo: Codable, Hashable {
     let totalPrice: Int
     let categoryList: [HBTICategory]

@@ -33,7 +33,7 @@ final class HBTINotesResultViewController: UIViewController, View {
     
     private let footerView = HBTINotesResultFooterView()
     
-    private let nextButton: UIButton = UIButton().makeValidHBTINextButton()
+    private let nextButton: UIButton = UIButton().makeValidHBTINextButton(title: "다음")
     
     // MARK: - Initialization
     
@@ -61,6 +61,11 @@ final class HBTINotesResultViewController: UIViewController, View {
     func bind(reactor: HBTINotesResultReactor) {
         
         // MARK: Action
+        
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         nextButton.rx.tap
             .map { HBTINotesResultReactor.Action.didTapNextButton }

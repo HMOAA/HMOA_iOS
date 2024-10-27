@@ -308,25 +308,25 @@ extension UIViewController {
     }
   
     /// HBTINotesCatrgoryVC로 push
-    func presentHBTINotesCategoryViewController(_ selectedQuantity: Int, _ isFreeSelection: Bool) {
+    func presentHBTINotesCategoryViewController(_ selectedQuantity: Int, _ isFreeSelection: Bool, _ noteName: String) {
         let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
-        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(selectedQuantity, isFreeSelection)
+        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(selectedQuantity, isFreeSelection, noteName)
         hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
     }
   
     /// HBTIQuantitySelectVC로 push
-    func presentHBTIQuantitySelectViewController() {
+    func presentHBTIQuantitySelectViewController(_ recommendation: [String: Any]) {
         let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
-        hbtiQuantitySelectVC.reactor = HBTIQuantitySelectReactor()
+        hbtiQuantitySelectVC.reactor = HBTIQuantitySelectReactor(recommendation)
         hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
     }
   
     /// HBTIProcessGuideVC로 push
-    func presentHBTIProcessGuideViewController() {
+    func presentHBTIProcessGuideViewController(_ recommendation: [HBTISurveyResultItem]) {
         let hbtiProcessGuideVC = HBTIProcessGuideViewController()
-        hbtiProcessGuideVC.reactor = HBTIProcessGuideReactor()
+        hbtiProcessGuideVC.reactor = HBTIProcessGuideReactor(recommendation)
         hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
     }
@@ -347,9 +347,9 @@ extension UIViewController {
     }
     
     /// HBTINotesResultVC로 push
-    func presentHBTINotesResultViewController() {
+    func presentHBTINotesResultViewController(_ selectedNoteList: [Int]) {
         let hbtiNotesResultVC = HBTINotesResultViewController()
-        hbtiNotesResultVC.reactor = HBTINotesResultReactor()
+        hbtiNotesResultVC.reactor = HBTINotesResultReactor(selectedNoteList)
         hbtiNotesResultVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesResultVC, animated: true)
     }

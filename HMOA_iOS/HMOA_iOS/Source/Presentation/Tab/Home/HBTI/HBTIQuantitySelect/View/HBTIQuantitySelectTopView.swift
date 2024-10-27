@@ -14,7 +14,7 @@ final class HBTIQuantitySelectTopView: UIView {
     // MARK: - UI Components
     
     private let categoryTitleLabel = UILabel().then {
-        $0.setTextWithLineHeight(text: HBTIQuantitySelectionData().titleLabelText, lineHeight: 27)
+        $0.setTextWithLineHeight(text: HBTIQuantitySelectionData(noteName: "").titleLabelText, lineHeight: 27)
         $0.textColor = .black
         $0.font = UIFont.customFont(.pretendard_bold, 20)
         $0.textAlignment = .left
@@ -22,7 +22,7 @@ final class HBTIQuantitySelectTopView: UIView {
     }
     
     private let categoryDescriptionLabel = UILabel().then {
-        $0.text = HBTIQuantitySelectionData().descriptionLabelText
+        $0.text = HBTIQuantitySelectionData(noteName: "").descriptionLabelText
         $0.textColor = .black
         $0.font = UIFont.customFont(.pretendard, 12)
     }
@@ -66,5 +66,9 @@ final class HBTIQuantitySelectTopView: UIView {
             $0.top.equalTo(categoryTitleLabel.snp.top).offset(63)
             $0.leading.equalTo(categoryTitleLabel.snp.leading).offset(109)
         }
+    }
+    
+    func updateNoteTitleLabel(with text: String) {
+        categoryTitleLabel.text = text
     }
 }

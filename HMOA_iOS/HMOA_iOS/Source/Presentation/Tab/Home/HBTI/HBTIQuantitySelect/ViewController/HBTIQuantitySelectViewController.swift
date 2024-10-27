@@ -48,12 +48,26 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
         
         // MARK: Action
         
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         nextButton.rx.tap
             .map { HBTIQuantitySelectReactor.Action.didTapNextButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         // MARK: State
+        
+        reactor.state
+            .map { $0.noteName }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, noteName in
+                owner.updateNoteLabel(with: noteName)
+            })
+            .disposed(by: disposeBag)
         
         reactor.state
             .compactMap { $0.selectedIndex }
@@ -87,9 +101,10 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, _ in
                 guard let selectedIndex = owner.reactor?.currentState.selectedIndex else { return }
                 guard let isFreeSelection = owner.reactor?.currentState.isFreeSelection else { return }
+                guard let noteName = owner.reactor?.currentState.noteName else { return }
                 let selectedQuantity = NotesQuantity.quantities[selectedIndex].quantity
                 
-                owner.presentHBTINotesCategoryViewController(selectedQuantity, isFreeSelection)
+                owner.presentHBTINotesCategoryViewController(selectedQuantity, isFreeSelection, noteName)
             })
             .disposed(by: disposeBag)
     }
@@ -130,6 +145,13 @@ final class HBTIQuantitySelectViewController: UIViewController, View {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(52)
         }
+    }
+    
+    // MARK: Other Fucntions
+    
+    private func updateNoteLabel(with noteName: String) {
+        let quantityData = HBTIQuantitySelectionData(noteName: noteName)
+        hbtiQuantityTopView.updateNoteTitleLabel(with: quantityData.titleLabelText)
     }
 }
 

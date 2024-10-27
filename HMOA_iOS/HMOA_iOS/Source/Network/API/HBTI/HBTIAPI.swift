@@ -44,4 +44,15 @@ final class HBTIAPI {
             model: HBTIPerfumeResultResponse.self,
             query: ["isContainAll": isContainAll])
     }
+    
+    static func postNoteListToCart(params: [String: [Int]]) -> Observable<HBTICategoryListInfo> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        
+        return networking(
+            urlStr: HBTIAddress.postNoteListToCart.url,
+            method: .post,
+            data: data,
+            model: HBTICategoryListInfo.self
+        )
+    }
 }
