@@ -14,9 +14,7 @@ class HBTINotesResultFooterView: UIView {
     // MARK: - UI Components
    
     private let totalPriceLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 15)
-        $0.text = "총 금액 : 15,000 원"
-        $0.textColor = .black
+        $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
         $0.textAlignment = .right
     }
     
@@ -52,6 +50,12 @@ class HBTINotesResultFooterView: UIView {
         totalPriceLabel.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    // MARK: Other Functions
+    
+    func configurePriceLabel(price: Int) {
+        totalPriceLabel.text = "총 금액 : \(price.numberFormatterToHangulWon())"
     }
 }
 
