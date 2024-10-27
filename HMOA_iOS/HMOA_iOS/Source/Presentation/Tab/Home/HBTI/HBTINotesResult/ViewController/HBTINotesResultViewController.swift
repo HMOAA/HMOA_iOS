@@ -31,6 +31,7 @@ final class HBTINotesResultViewController: UIViewController, View {
             HBTINotesResultCell.self,
             forCellWithReuseIdentifier: HBTINotesResultCell.reuseIdentifier
         )
+        $0.showsVerticalScrollIndicator = false
     }
     
     private let footerView = HBTINotesResultFooterView()
@@ -72,6 +73,15 @@ final class HBTINotesResultViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
                 owner.updateSnapshot(forSection: .notesResult, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.totalPrice }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, price in
+                owner.footerView.configurePriceLabel(price: price)
             })
             .disposed(by: disposeBag)
         
