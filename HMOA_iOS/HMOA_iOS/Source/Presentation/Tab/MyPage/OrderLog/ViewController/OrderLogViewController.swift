@@ -97,8 +97,8 @@ final class OrderLogViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                // TODO: orderID 입력
-//                owner.presentHBTIReviewWriteViewController(id: 여기)
+                guard let orderID = reactor.currentState.selectedOrder?.order?.id else { return }
+                owner.presentHBTIReviewWriteViewController(orderID: orderID)
             })
             .disposed(by: disposeBag)
     }

@@ -25,6 +25,7 @@ final class HBTIReviewWriteReactor: Reactor {
     }
     
     struct State {
+        let id: Int
         var isPresentToAlbum: Bool = false
         var photoCount: Int = 0
         var images: [WritePhoto] = []
@@ -35,8 +36,8 @@ final class HBTIReviewWriteReactor: Reactor {
     
     var initialState: State
     
-    init() {
-        self.initialState = State()
+    init(orderID: Int) {
+        self.initialState = State(id: orderID)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
