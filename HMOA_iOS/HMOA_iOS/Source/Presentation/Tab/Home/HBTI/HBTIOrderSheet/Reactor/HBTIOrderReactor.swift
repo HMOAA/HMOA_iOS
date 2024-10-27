@@ -32,6 +32,7 @@ final class HBTIOrderReactor: Reactor {
     }
     
     struct State {
+        let orderNoteList: [Int]
         var name: String = ""
         var phoneNumber: String = ""
         var isAllAgree: Bool = false
@@ -45,8 +46,8 @@ final class HBTIOrderReactor: Reactor {
     
     var initialState: State
     
-    init() {
-        self.initialState = State()
+    init(_ orderNoteList: [Int]) {
+        self.initialState = State(orderNoteList: orderNoteList)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
