@@ -12,6 +12,7 @@ enum HBTIAddress {
     case postAnswerList
     case fetchPerfumeSurvey
     case postPerfumeAnswer
+    case postNoteListToCart
     
     var url: String {
         switch self {
@@ -23,6 +24,8 @@ enum HBTIAddress {
             return "survey/perfume"
         case .postPerfumeAnswer:
             return "survey/perfume/respond"
+        case .postNoteListToCart:
+            return "shop/note/select"
         }
     }
 }

@@ -106,15 +106,16 @@ final class HBTISurveyResultViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        // TODO: 향료 선택 가이드 VC로 push하도록 변경
         reactor.state
             .map { $0.isPushNextVC }
+            .distinctUntilChanged()
             .filter { $0 }
-            .map { _ in }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: presentHBTIProcessGuideViewController)
+            .drive(with: self, onNext: { owner, _ in
+                guard let recommendNoteList = owner.reactor?.currentState.noteItemList else { return }
+                owner.presentHBTIProcessGuideViewController(recommendNoteList)
+            })
             .disposed(by: disposeBag)
-        
     }
     
     // MARK: - Functions

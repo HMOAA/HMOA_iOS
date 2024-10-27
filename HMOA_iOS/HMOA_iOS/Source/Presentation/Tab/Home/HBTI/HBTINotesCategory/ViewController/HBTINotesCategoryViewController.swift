@@ -16,7 +16,7 @@ final class HBTINotesCategoryViewController: UIViewController, View {
     
     // MARK: - UI Components
     
-    private let hbtiNotesCategoryTopView = HBTINotesCategoryTopView(labelTexts: HBTICategoryLabelTexts())
+    private let hbtiNotesCategoryTopView = HBTINotesCategoryTopView(labelTexts: HBTICategoryLabelTexts(noteName: ""))
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
         $0.register(HBTINotesCategoryCell.self, forCellWithReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier)
@@ -59,6 +59,15 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         // MARK: State
 
         reactor.state
+            .map { $0.noteName }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, noteName in
+                owner.hbtiNotesCategoryTopView.updateNoteTitleLabel(with: noteName)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
             .map { $0.selectedNote }
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
@@ -83,7 +92,9 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                owner.presentHBTINotesResultViewController()
+                let selectedNoteList = owner.reactor?.currentState.selectedNote ?? []
+                
+                owner.presentHBTINotesResultViewController(selectedNoteList)
             })
             .disposed(by: disposeBag)
     }
@@ -154,7 +165,9 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             switch item {
             case .note(let noteData):
                 let selectedNotes = self.reactor?.currentState.selectedNote ?? []
-                cell.configureCell(with: [noteData], selectedNote: selectedNotes)
+                let noteName = self.reactor?.currentState.noteName ?? ""
+                
+                cell.configureCell(with: [noteData], selectedNote: selectedNotes, noteName: noteName)
             }
             return cell
         }
