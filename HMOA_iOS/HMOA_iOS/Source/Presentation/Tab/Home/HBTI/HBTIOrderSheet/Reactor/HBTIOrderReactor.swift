@@ -22,10 +22,7 @@ final class HBTIOrderReactor: Reactor {
     }
     
     enum Mutation {
-        case setIsExistMemberAddress(Bool)
-        case setIsExistMemberInfo(Bool)
-        case setOrderId(Int)
-        case setProductList([HBTIOrderSheetProductItem])
+//        case setProductList([HBTIOrderSheetProductItem])
         case setName(String)
         case setPhoneNumber(String)
         case setPayValid(Bool)
@@ -37,11 +34,13 @@ final class HBTIOrderReactor: Reactor {
     }
     
     struct State {
-        let orderNoteList: [Int]
-        var isExistMemberAddress: Bool = false
-        var isExistMemberInfo: Bool = false
-        var orderId: Int = 0
-        var productList: [HBTIOrderSheetProductItem] = []
+        // TODO: 1. 주문자 정보, 배송지 정보 유무를 응답으로 받아옴
+        // TODO: 2. 만약 true 라면 각각의 정보를 get해서 새로운 UI를 그림, false라면 기존 UI 그려줌 (true, false에 따라 다른 view를 import해줌.)
+        // TODO: 3. 주문자 정보가 있다면, 주소 변경하기 view를 띄움.
+        let isExistMemberAddress: Bool
+        let isExistMemberInfo: Bool
+        let orderId: Int
+//        var productList: [HBTIOrderSheetProductItem] = []
         var name: String = ""
         var phoneNumber: String = ""
         var isAllAgree: Bool = false
@@ -55,17 +54,15 @@ final class HBTIOrderReactor: Reactor {
     
     var initialState: State
     
-    init(_ orderNoteList: [Int]) {
-        self.initialState = State(orderNoteList: orderNoteList)
+    init(_ isExistMemberAddress: Bool, _ isExistMemberInfo: Bool, _ orderId: Int) {
+        self.initialState = State(isExistMemberAddress: isExistMemberAddress, isExistMemberInfo: isExistMemberInfo, orderId: orderId)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return .concat([
-                setOrderId(),
-                setProductList()
-            ])
+//            return .just(setProductList())
+            return .empty()
 
         case .didChangeName(let name):
             return .just(.setName(name))
@@ -112,17 +109,8 @@ final class HBTIOrderReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setIsExistMemberAddress(let isExistAddress):
-            state.isExistMemberAddress = isExistAddress
-            
-        case .setIsExistMemberInfo(let isExistInfo):
-            state.isExistMemberInfo = isExistInfo
-            
-        case .setOrderId(let orderId):
-            state.orderId = orderId
-            
-        case .setProductList(let productList):
-            state.productList = productList
+//        case .setProductList(let productList):
+//            state.productList = productList
             
         case .setName(let name):
             state.name = name
@@ -168,28 +156,6 @@ extension HBTIOrderReactor {
 }
 
 extension HBTIOrderReactor {
-    func setOrderId() -> Observable<Mutation> {
-        let orderNoteList = currentState.orderNoteList
-        
-        return HBTIAPI.postOrderNoteList(params: ["productIds": orderNoteList])
-            .catch{ _ in .empty() }
-            .flatMap { orderResultData -> Observable<Mutation> in
-                let isExistMemberAddress = orderResultData.isExistMemberAddress
-                let isExistMemberInfo = orderResultData.isExistMemberInfo
-                let orderId = orderResultData.orderId
-                
-                // TODO: 1. 주문자 정보, 배송지 정보 유무를 응답으로 받아옴
-                // TODO: 2. 만약 true 라면 각각의 정보를 get해서 새로운 UI를 그림, false라면 기존 UI 그려줌 (true, false에 따라 다른 view를 import해줌.)
-                // TODO: 3. 주문자 정보가 있다면, 주소 변경하기 view를 띄움.
-                
-                return .concat([
-                    .just(.setIsExistMemberAddress(isExistMemberAddress)),
-                    .just(.setIsExistMemberInfo(isExistMemberInfo)),
-                    .just(.setOrderId(orderId))
-                ])
-            }
-    }
-    
     func setProductList() -> Observable<Mutation> {
         let orderId = currentState.orderId
 
@@ -208,8 +174,8 @@ extension HBTIOrderReactor {
                         )
                     )
                 }
-
-                return .just(.setProductList(listData))
+//                return .just(.setProductList(listData))
+                return .empty()
             }
     }
 }
