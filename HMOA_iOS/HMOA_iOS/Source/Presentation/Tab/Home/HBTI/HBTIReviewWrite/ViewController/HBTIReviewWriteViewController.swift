@@ -13,6 +13,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 import Then
+import PhotosUI
 
 final class HBTIReviewWriteViewController: UIViewController, View {
     
@@ -70,6 +71,8 @@ final class HBTIReviewWriteViewController: UIViewController, View {
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         $0.backgroundColor = .clear
+        $0.isScrollEnabled = false
+        
         $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
@@ -95,6 +98,7 @@ final class HBTIReviewWriteViewController: UIViewController, View {
     
     // MARK: - Properties
     
+    private var datasource: UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>?
     var disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
@@ -105,6 +109,25 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        configureDatasource()
+        setNotificationKeyboard()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        textView.resignFirstResponder()
+    }
+           
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let keyboardHeight = keyboardFrame.height
+            // textView가 키보드 위에 남도록 contentInset을 조절
+            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight - 20, right: 0)
+            scrollView.contentInset = contentInset
+            scrollView.scrollIndicatorInsets = contentInset
+        }
     }
     
     // MARK: - Bind
@@ -112,10 +135,92 @@ final class HBTIReviewWriteViewController: UIViewController, View {
     func bind(reactor: HBTIReviewWriteReactor) {
         
         // MARK: Action
+        addImageButton.rx.tap
+            .map { Reactor.Action.didTapAddPhotoButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
+        // textView 사용자가 입력 시작
+        textView.rx.didBeginEditing
+            .map { Reactor.Action.didBeginEditing }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //textView text 감지
+        textView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .skip(1)
+            .map { Reactor.Action.didChangeTextViewEditing($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 확인 버튼 클릭
+        okButton.rx.tap
+            .map { Reactor.Action.didTapOkButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State
+        reactor.state
+            .map { $0.content }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, content in
+                owner.textView.text = content
+                owner.textView.textColor =
+                content == "내용을 입력해주세요" ? .customColor(.gray3) : .white
+            })
+            .disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.isPresentToAlbum }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                let selectionLimit = 3 - reactor.currentState.photoCount
+                if selectionLimit == 0 {
+                    owner.showAlert(title: "HMOA",
+                                    message: "사진은 3개까지 업로드 할 수 있습니다",
+                                    buttonTitle1: "확인")
+                } else {
+                    var config = PHPickerConfiguration()
+                    config.filter = .images
+                    config.selectionLimit = selectionLimit
+                    
+                    let pickerVC = PHPickerViewController(configuration: config)
+                    pickerVC.delegate = self
+                    
+                    owner.view.endEditing(true)
+                    owner.present(pickerVC, animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.images }
+            .distinctUntilChanged()
+            .delay(.milliseconds(300), scheduler: MainScheduler.instance)
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self) { owner, item in
+                guard let datasource = owner.datasource else { return }
+                var snapshot = NSDiffableDataSourceSnapshot<PhotoSection, PhotoSectionItem>()
+                snapshot.appendSections([.photo])
+                
+                item.forEach { snapshot.appendItems([.photoCell($0, nil)], toSection: .photo) }
+                DispatchQueue.main.async {
+                    datasource.apply(snapshot, animatingDifferences: false)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.okButtonEnable }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isEnable in
+                owner.okButton.isEnabled = isEnable
+                owner.okButton.setTitleColor(isEnable ? .white : .customColor(.gray3), for: .normal)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -197,5 +302,58 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         
         return layout
     }
+    
+    func configureDatasource() {
+        datasource = UICollectionViewDiffableDataSource<PhotoSection, PhotoSectionItem>(collectionView: collectionView, cellProvider: {
+            collectionView, indexPath, item in
+            switch item {
+            case .photoCell(let writePhoto, _):
+                
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
+                
+                cell.isZoomEnabled = false
+                cell.updateCell(writePhoto!.image)
+                cell.configureXButton()
+                cell.xButton.rx.tap
+                    .map { Reactor.Action.didTapXButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: cell.disposeBag)
+                
+                return cell
+            }
+        })
+    }
 }
 
+extension HBTIReviewWriteViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
+        var items: [WritePhoto] = []
+        let dispatchGroup = DispatchGroup()
+        
+        for result in results {
+            let itemProvider = result.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                dispatchGroup.enter()
+                itemProvider.loadObject(ofClass: UIImage.self) { (item, error) in
+                    DispatchQueue.main.async {
+                        if let image = item as? UIImage {
+                            items.append(WritePhoto(photoId: nil, image: image))
+                        }
+                        dispatchGroup.leave()
+                    }
+                }
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.reactor?.action.onNext(.didSelectedImage(items))
+            picker.dismiss(animated: true)
+        }
+    }
+    
+    private func setNotificationKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+}
