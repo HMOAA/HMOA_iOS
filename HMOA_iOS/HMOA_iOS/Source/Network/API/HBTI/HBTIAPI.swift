@@ -55,4 +55,15 @@ final class HBTIAPI {
             model: HBTICategoryListInfo.self
         )
     }
+    
+    static func postOrderNoteList(params: [String: [Int]]) -> Observable<HBTIOrderResult> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        
+        return networking(
+            urlStr: HBTIAddress.postOrderNoteList.url,
+            method: .post,
+            data: data,
+            model: HBTIOrderResult.self
+        )
+    }
 }

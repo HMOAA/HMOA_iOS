@@ -72,6 +72,11 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         // MARK: Action
         
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         ordererInfoView.nameTextField.rx.text
             .orEmpty
             .distinctUntilChanged()
