@@ -45,13 +45,16 @@ final class HBTIAPI {
             query: ["isContainAll": isContainAll])
     }
     
-    static func fetchReivewList(page: Int) -> Observable<HBTIReviewListResponse> {
+    static func fetchReivewList(fromMember: Bool, page: Int) -> Observable<HBTIReviewListResponse> {
+        let url = fromMember ? HBTIAddress.fetchPostedReview.url : HBTIAddress.fetchReviewList.url
+        let query = fromMember ? ["cursor": page] : ["page": page]
+        
         return networking(
-            urlStr: HBTIAddress.fetchReviewList.url,
+            urlStr: url,
             method: .get,
             data: nil,
             model: HBTIReviewListResponse.self,
-            query: ["page": page]
+            query: query
         )
     }
     
@@ -82,5 +85,23 @@ final class HBTIAPI {
             data: nil,
             model: [NotReviewedOrder].self
         )
+    }
+    
+    static func postReview(_ params: [String: Any], images: [UIImage]) -> Observable<HBTIReview> {
+        var imageData: [Data]?
+        
+        if images.isEmpty {
+            imageData = nil
+        } else {
+            imageData = images.compactMap { $0.resize(targetSize: $0.size)?.jpegData(compressionQuality: 0.1) }
+        }
+        
+        return uploadNetworking(
+            urlStr: HBTIAddress.postReview.url,
+            method: .post,
+            imageData: imageData,
+            imageFileName: "reviewImage.jpeg",
+            parameter: params,
+            model: HBTIReview.self)
     }
 }

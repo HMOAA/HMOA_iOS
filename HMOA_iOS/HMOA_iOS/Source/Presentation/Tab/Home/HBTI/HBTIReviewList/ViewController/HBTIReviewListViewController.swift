@@ -187,7 +187,7 @@ final class HBTIReviewListViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, isPush in
                 guard let orderID = reactor.currentState.selectedOrderID else { return }
-                owner.presentHBTIReviewWriteViewController(id: orderID)
+                owner.presentHBTIReviewWriteViewController(orderID: orderID)
             })
             .disposed(by: disposeBag)
     }

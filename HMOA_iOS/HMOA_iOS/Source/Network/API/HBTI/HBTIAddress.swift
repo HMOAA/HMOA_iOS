@@ -15,6 +15,8 @@ enum HBTIAddress {
     case fetchReviewList
     case putDeleteReviewLike(Int)
     case fetchNotReviewedOrderList
+    case fetchPostedReview
+    case postReview
     
     var url: String {
         switch self {
@@ -32,6 +34,10 @@ enum HBTIAddress {
             return "shop/review/\(id)/like"
         case .fetchNotReviewedOrderList:
             return "shop/order/me"
+        case .fetchPostedReview:
+            return "shop/review/me"
+        case .postReview:
+            return "shop/review"
         }
     }
 }
