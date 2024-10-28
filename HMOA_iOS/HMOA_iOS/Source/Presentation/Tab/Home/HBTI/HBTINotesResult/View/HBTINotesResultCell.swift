@@ -8,8 +8,9 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
-final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
+final class HBTINotesResultCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
@@ -19,7 +20,7 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     }
     
     private let noteImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 33
     }
@@ -37,17 +38,17 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
         $0.textAlignment = .right
     }
     
-    private let descriptionLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 12, color: .black)
-        $0.numberOfLines = 0
+    private let descriptionStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 2
+        $0.alignment = .leading
+        $0.distribution = .equalSpacing
     }
-    
-    // MARK: - Properties
     
     // MARK: - LifeCycle
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setUI()
         setAddView()
@@ -60,8 +61,6 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
     }
     
     // MARK: Set UI
@@ -80,7 +79,7 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
          titleLabel,
          subtitleLabel,
          priceLabel,
-         descriptionLabel
+         descriptionStackView
         ].forEach(containerView.addSubview)
     }
     
@@ -108,23 +107,33 @@ final class HBTINotesResultCell: UITableViewCell, ReuseIdentifying {
         }
         
         priceLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(14)
+            $0.centerY.equalTo(titleLabel)
             $0.trailing.equalToSuperview().inset(14)
         }
         
-        descriptionLabel.snp.makeConstraints {
+        descriptionStackView.snp.makeConstraints {
             $0.top.equalTo(subtitleLabel.snp.bottom).offset(8)
-            $0.leading.equalTo(noteImageView.snp.trailing).offset(19)
+            $0.leading.equalTo(titleLabel.snp.leading).offset(3)
             $0.trailing.equalToSuperview().inset(40)
+            $0.bottom.equalToSuperview().inset(16)
         }
     }
     
     // MARK: - Configuration
-    func configure(with model: HBTINotesResultModel) {
-        noteImageView.image = UIImage(named: model.image)
-        titleLabel.text = model.title
-        subtitleLabel.text = model.subtitle
-        priceLabel.text = "\(model.price)원"
-        descriptionLabel.setTextWithLineHeight(text: model.description, lineHeight: 20)
+    func configureCell(cartItem: HBTICategory) {
+        noteImageView.kf.setImage(with: URL(string: cartItem.imageURL))
+        titleLabel.text = cartItem.name
+        subtitleLabel.text = "(\(cartItem.noteCount)가지 향료)"
+        priceLabel.text = "\(cartItem.price)원"
+        
+        descriptionStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        cartItem.noteList.forEach { note in
+            let descriptionLabel = UILabel().then {
+                $0.setLabelUI("· \(note.name): \(note.content)", font: .pretendard, size: 12, color: .black)
+                $0.setTextWithLineHeight(text: "· \(note.name): \(note.content)", lineHeight: 20)
+                $0.numberOfLines = 0
+            }
+            descriptionStackView.addArrangedSubview(descriptionLabel)
+        }
     }
 }
