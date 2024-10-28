@@ -45,13 +45,16 @@ final class HBTIAPI {
             query: ["isContainAll": isContainAll])
     }
     
-    static func fetchReivewList(page: Int) -> Observable<HBTIReviewListResponse> {
+    static func fetchReivewList(fromMember: Bool, page: Int) -> Observable<HBTIReviewListResponse> {
+        let url = fromMember ? HBTIAddress.fetchPostedReview.url : HBTIAddress.fetchReviewList.url
+        let query = fromMember ? ["cursor": page] : ["page": page]
+        
         return networking(
-            urlStr: HBTIAddress.fetchReviewList.url,
+            urlStr: url,
             method: .get,
             data: nil,
             model: HBTIReviewListResponse.self,
-            query: ["page": page]
+            query: query
         )
     }
     

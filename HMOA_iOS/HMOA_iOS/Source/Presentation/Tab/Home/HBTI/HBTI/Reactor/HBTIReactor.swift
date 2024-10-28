@@ -102,7 +102,7 @@ final class HBTIReactor: Reactor {
 
 extension HBTIReactor {
     func setTopReviewList() -> Observable<Mutation> {
-        return HBTIAPI.fetchReivewList(page: 0)
+        return HBTIAPI.fetchReivewList(fromMember: false, page: 0)
             .catch { _ in .empty() }
             .flatMap { reviewListData -> Observable<Mutation> in
                 let listData = reviewListData.data.map { review in
