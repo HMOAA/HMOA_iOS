@@ -11,6 +11,7 @@ import ReactorKit
 final class HBTIOrderReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
         case didChangeName(String)
         case didChangePhoneNumber(String)
         case didTapSaveInfoButton
@@ -21,6 +22,9 @@ final class HBTIOrderReactor: Reactor {
     }
     
     enum Mutation {
+        case setIsExistMemberAddress(Bool)
+        case setIsExistMemberInfo(Bool)
+        case setOrderId(Int)
         case setName(String)
         case setPhoneNumber(String)
         case setPayValid(Bool)
@@ -33,6 +37,9 @@ final class HBTIOrderReactor: Reactor {
     
     struct State {
         let orderNoteList: [Int]
+        var isExistMemberAddress: Bool = false
+        var isExistMemberInfo: Bool = false
+        var orderId: Int = 0
         var name: String = ""
         var phoneNumber: String = ""
         var isAllAgree: Bool = false
@@ -52,6 +59,9 @@ final class HBTIOrderReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return setOrderId()
+
         case .didChangeName(let name):
             return .just(.setName(name))
             
@@ -97,6 +107,15 @@ final class HBTIOrderReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setIsExistMemberAddress(let isExistAddress):
+            state.isExistMemberAddress = isExistAddress
+            
+        case .setIsExistMemberInfo(let isExistInfo):
+            state.isExistMemberInfo = isExistInfo
+            
+        case .setOrderId(let orderId):
+            state.orderId = orderId
+            
         case .setName(let name):
             state.name = name
             
@@ -137,5 +156,29 @@ extension HBTIOrderReactor {
         let predicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
             
         return predicate.evaluate(with: phoneNumber)
+    }
+}
+
+extension HBTIOrderReactor {
+    func setOrderId() -> Observable<Mutation> {
+        let orderNoteList = currentState.orderNoteList
+        
+        return HBTIAPI.postOrderNoteList(params: ["productIds": orderNoteList])
+            .catch{ _ in .empty() }
+            .flatMap { orderResultData -> Observable<Mutation> in
+                let isExistMemberAddress = orderResultData.isExistMemberAddress
+                let isExistMemberInfo = orderResultData.isExistMemberInfo
+                let orderId = orderResultData.orderId
+                
+                // TODO: 1. 주문자 정보, 배송지 정보 유무를 응답으로 받아옴
+                // TODO: 2. 만약 true 라면 각각의 정보를 get해서 새로운 UI를 그림, false라면 기존 UI 그려줌 (true, false에 따라 다른 view를 import해줌.)
+                // TODO: 3. 주문자 정보가 있다면, 주소 변경하기 view를 띄움.
+                
+                return .concat([
+                    .just(.setIsExistMemberAddress(isExistMemberAddress)),
+                    .just(.setIsExistMemberInfo(isExistMemberInfo)),
+                    .just(.setOrderId(orderId))
+                ])
+            }
     }
 }
