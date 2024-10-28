@@ -18,10 +18,16 @@ final class HBTINotesResultReactor: Reactor {
     enum Mutation {
         case setCartItemList([HBTINotesResultItem])
         case setTotalPrice(Int)
+        case setIsExistMemberAddress(Bool)
+        case setIsExistMemberInfo(Bool)
+        case setOrderId(Int)
         case setIsPushNextVC(Bool)
     }
     
     struct State {
+        var isExistMemberAddress: Bool = false
+        var isExistMemberInfo: Bool = false
+        var orderId: Int = 0
         let selectedNoteList: [Int]
         var cartItemList: [HBTINotesResultItem] = []
         var totalPrice: Int = 0
@@ -41,7 +47,10 @@ final class HBTINotesResultReactor: Reactor {
             return setCartItemList()
 
         case .didTapNextButton:
-            return .just(.setIsPushNextVC(true))
+            return .concat([
+                setOrderId(),
+                .just(.setIsPushNextVC(true))
+            ])
         }
     }
     
@@ -50,6 +59,15 @@ final class HBTINotesResultReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setIsExistMemberAddress(let isExistAddress):
+            state.isExistMemberAddress = isExistAddress
+            
+        case .setIsExistMemberInfo(let isExistInfo):
+            state.isExistMemberInfo = isExistInfo
+            
+        case .setOrderId(let orderId):
+            state.orderId = orderId
+            
         case .setCartItemList(let item):
             state.cartItemList = item
             
@@ -79,6 +97,24 @@ extension HBTINotesResultReactor {
                 return .concat([
                     .just(.setCartItemList(cartItemList)),
                     .just(.setTotalPrice(totalPrice))
+                ])
+            }
+    }
+    
+    func setOrderId() -> Observable<Mutation> {
+        let orderNoteList = currentState.selectedNoteList
+
+        return HBTIAPI.postOrderNoteList(params: ["productIds": orderNoteList])
+            .catch{ _ in .empty() }
+            .flatMap { orderResultData -> Observable<Mutation> in
+                let isExistMemberAddress = orderResultData.isExistMemberAddress
+                let isExistMemberInfo = orderResultData.isExistMemberInfo
+                let orderId = orderResultData.orderId
+                
+                return .concat([
+                    .just(.setIsExistMemberAddress(isExistMemberAddress)),
+                    .just(.setIsExistMemberInfo(isExistMemberInfo)),
+                    .just(.setOrderId(orderId))
                 ])
             }
     }
