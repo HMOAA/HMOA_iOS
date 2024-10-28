@@ -66,4 +66,14 @@ final class HBTIAPI {
             model: HBTIOrderResult.self
         )
     }
+    
+    static func fetchOrderInfo(orderId: Int) -> Observable<HBTIOrderInfoResponse> {
+        let url = "\(HBTIAddress.fetchOrderInfo.url)/\(orderId)"
+        
+        return networking(
+            urlStr: url,
+            method: .get,
+            data: nil,
+            model: HBTIOrderInfoResponse.self)
+    }
 }

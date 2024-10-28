@@ -13,7 +13,7 @@ final class HBTIProductInfoView: UIView {
     
     // MARK: - Properties
     
-    private let products: [HBTIOrderSheetProductData] = HBTIOrderSheetProductData.productData
+    private var dataSource: UICollectionViewDiffableDataSource<HBTIOrderSheetProductSection, HBTIOrderSheetProductItem>?
     
     // MARK: - UI Components
     
@@ -21,13 +21,24 @@ final class HBTIProductInfoView: UIView {
         $0.setLabelUI("상품 정보", font: .pretendard_bold, size: 18, color: .black)
     }
     
-    private lazy var productTableView = UITableView().then {
-        $0.register(HBTIProductInfoCell.self, forCellReuseIdentifier: HBTIProductInfoCell.reuseIdentifier)
-        $0.dataSource = self
-        $0.delegate = self
-        $0.isScrollEnabled = false
-        $0.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    private lazy var productCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.register(
+            HBTIProductInfoCell.self,
+            forCellWithReuseIdentifier: HBTIProductInfoCell.reuseIdentifier
+        )
+        $0.showsVerticalScrollIndicator = false
     }
+    
+//    private lazy var productTableView = UITableView().then {
+//        $0.register(HBTIProductInfoCell.self, forCellReuseIdentifier: HBTIProductInfoCell.reuseIdentifier)
+//        $0.dataSource = self
+//        $0.delegate = self
+//        $0.isScrollEnabled = false
+//        $0.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//    }
     
     // MARK: - Initialization
 
@@ -54,7 +65,7 @@ final class HBTIProductInfoView: UIView {
     private func setAddView() {
         [
          titleLabel,
-         productTableView
+         productCollectionView
         ].forEach(addSubview)
     }
 
@@ -66,40 +77,71 @@ final class HBTIProductInfoView: UIView {
             $0.leading.equalToSuperview()
         }
         
-        productTableView.snp.makeConstraints {
+        productCollectionView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(204)
             $0.bottom.equalToSuperview()
         }
     }
+    
+    // MARK: Create Layout
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(62)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(62)
+        )
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 20
+        
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    // MARK: Configure DataSource
+    
+    private func configureDataSource() {
+        dataSource = .init(collectionView: productCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            
+            switch item {
+            case .productInfo(let product):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HBTIProductInfoCell.reuseIdentifier,
+                    for: indexPath) as! HBTIProductInfoCell
+                
+                cell.configureCell(product: product)
+                
+                return cell
+            }
+        })
+        
+        var initialSnapshot = NSDiffableDataSourceSnapshot<HBTIOrderSheetProductSection, HBTIOrderSheetProductItem>()
+        initialSnapshot.appendSections([.order])
+        
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+    
+    func updateSnapshot(forSection section: HBTIOrderSheetProductSection, withItems items: [HBTIOrderSheetProductItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems(items, toSection: section)
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
 }
 
-extension HBTIProductInfoView: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return products.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: HBTIProductInfoCell.reuseIdentifier, for: indexPath) as? HBTIProductInfoCell else {
-            return UITableViewCell()
-        }
-        
-        let product = products[indexPath.row]
-        cell.configureCell(with: product)
-        cell.selectionStyle = .none
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // 셀의 윗 공백 (20) + 아랫 공백 (20) + 셀 본래 높이 (62)
-        return 102
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        // 맨 마지막 셀 구분선 제거
-        if indexPath.row == products.count - 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        }
-    }
-}
+//func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        // 맨 마지막 셀 구분선 제거
+//    if indexPath.row == products.count - 1 {
+//        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+//    }
+//}
