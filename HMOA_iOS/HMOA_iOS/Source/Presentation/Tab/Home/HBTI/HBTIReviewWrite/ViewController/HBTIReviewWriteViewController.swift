@@ -71,6 +71,8 @@ final class HBTIReviewWriteViewController: UIViewController, View {
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout()).then {
         $0.backgroundColor = .clear
+        $0.isScrollEnabled = false
+        
         $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
     }
     
@@ -108,6 +110,24 @@ final class HBTIReviewWriteViewController: UIViewController, View {
         setAddView()
         setConstraints()
         configureDatasource()
+        setNotificationKeyboard()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        textView.resignFirstResponder()
+    }
+           
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let keyboardHeight = keyboardFrame.height
+            // textView가 키보드 위에 남도록 contentInset을 조절
+            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight - 20, right: 0)
+            scrollView.contentInset = contentInset
+            scrollView.scrollIndicatorInsets = contentInset
+        }
     }
     
     // MARK: - Bind
@@ -331,5 +351,9 @@ extension HBTIReviewWriteViewController: PHPickerViewControllerDelegate {
             self.reactor?.action.onNext(.didSelectedImage(items))
             picker.dismiss(animated: true)
         }
+    }
+    
+    private func setNotificationKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
 }

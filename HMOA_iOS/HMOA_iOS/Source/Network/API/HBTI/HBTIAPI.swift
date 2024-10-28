@@ -88,9 +88,6 @@ final class HBTIAPI {
     }
     
     static func postReview(_ params: [String: Any], images: [UIImage]) -> Observable<HBTIReview> {
-        params.values.forEach { value in
-            print(value)
-        }
         var imageData: [Data]?
         
         if images.isEmpty {
