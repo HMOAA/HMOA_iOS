@@ -332,9 +332,9 @@ extension UIViewController {
     }
     
     /// HBTIOrderSheetVC로 push
-    func presentHBTIOrderSheetViewController() {
+    func presentHBTIOrderSheetViewController(_ orderNoteList: [Int]) {
         let hbtiOrderSheetVC = HBTIOrderSheetViewController()
-        hbtiOrderSheetVC.reactor = HBTIOrderReactor()
+        hbtiOrderSheetVC.reactor = HBTIOrderReactor(orderNoteList)
         hbtiOrderSheetVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
     }

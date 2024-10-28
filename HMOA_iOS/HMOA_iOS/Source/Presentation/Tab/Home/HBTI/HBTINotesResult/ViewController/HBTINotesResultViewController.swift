@@ -17,34 +17,26 @@ final class HBTINotesResultViewController: UIViewController, View {
     // MARK: - Properties
     
     var disposeBag = DisposeBag()
-    private let selectedNotes: [HBTINotesResultModel]
+    private var dataSource: UICollectionViewDiffableDataSource<HBTINotesResultSection, HBTINotesResultItem>?
     
     // MARK: - UI Components
     
     private let headerView = HBTINotesResultHeaderView()
     
-    private lazy var tableView = UITableView(frame: .zero).then {
-        $0.register(HBTINotesResultCell.self, forCellReuseIdentifier: HBTINotesResultCell.reuseIdentifier)
-        $0.delegate = self
-        $0.dataSource = self
-        $0.separatorStyle = .none
-        $0.allowsSelection = false
+    private lazy var notesResultCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.register(
+            HBTINotesResultCell.self,
+            forCellWithReuseIdentifier: HBTINotesResultCell.reuseIdentifier
+        )
+        $0.showsVerticalScrollIndicator = false
     }
     
     private let footerView = HBTINotesResultFooterView()
     
     private let nextButton: UIButton = UIButton().makeValidHBTINextButton(title: "다음")
-    
-    // MARK: - Initialization
-    
-    init(selectedNotes: [HBTINotesResultModel] = HBTINotesResultModel.notesResultData) {
-        self.selectedNotes = selectedNotes
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     // MARK: - LifeCycle
     
@@ -54,6 +46,7 @@ final class HBTINotesResultViewController: UIViewController, View {
         setUI()
         setAddView()
         setConstraints()
+        configureDataSource()
     }
     
     // MARK: - Bind
@@ -75,12 +68,34 @@ final class HBTINotesResultViewController: UIViewController, View {
         // MARK: State
         
         reactor.state
+            .map { $0.cartItemList }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.updateSnapshot(forSection: .notesResult, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.totalPrice }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, price in
+                owner.footerView.configurePriceLabel(price: price)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
             .map { $0.isPushNextVC }
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: presentHBTIOrderSheetViewController)
+            .drive(with: self, onNext: { owner, _ in
+                let orderNoteList = owner.reactor?.currentState.selectedNoteList ?? []
+                  
+                owner.presentHBTIOrderSheetViewController(orderNoteList)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -96,7 +111,7 @@ final class HBTINotesResultViewController: UIViewController, View {
     private func setAddView() {
         [
          headerView,
-         tableView,
+         notesResultCollectionView,
          footerView,
          nextButton
         ].forEach(view.addSubview)
@@ -109,8 +124,8 @@ final class HBTINotesResultViewController: UIViewController, View {
             $0.top.equalToSuperview().offset(127)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
-        
-        tableView.snp.makeConstraints {
+
+        notesResultCollectionView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom).offset(19)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalTo(footerView.snp.top).offset(-8)
@@ -130,25 +145,55 @@ final class HBTINotesResultViewController: UIViewController, View {
     
     // MARK: Create Layout
     
+    private func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(142)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(142)
+        )
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 20
+        
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+    
     // MARK: Configure DataSource
     
-}
-
-// MARK: - UITableViewDelegate, UITableViewDataSource
-extension HBTINotesResultViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedNotes.count
+    private func configureDataSource() {
+        dataSource = .init(collectionView: notesResultCollectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            
+            switch item {
+            case .notesResult(let cartItem):
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HBTINotesResultCell.reuseIdentifier,
+                    for: indexPath) as! HBTINotesResultCell
+                
+                cell.configureCell(cartItem: cartItem)
+                
+                return cell
+            }
+        })
+        
+        var initialSnapshot = NSDiffableDataSourceSnapshot<HBTINotesResultSection, HBTINotesResultItem>()
+        initialSnapshot.appendSections([.notesResult])
+        
+        dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: HBTINotesResultCell.reuseIdentifier, for: indexPath) as? HBTINotesResultCell else {
-            fatalError("Unable to dequeue HBTINotesResultCell")
-        }
-        cell.configure(with: selectedNotes[indexPath.row])
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 162
+    private func updateSnapshot(forSection section: HBTINotesResultSection, withItems items: [HBTINotesResultItem]) {
+        guard let dataSource = self.dataSource else { return }
+        
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems(items, toSection: section)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
