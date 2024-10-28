@@ -120,7 +120,37 @@ final class HBTIReviewWriteViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // textView 사용자가 입력 시작
+        textView.rx.didBeginEditing
+            .map { Reactor.Action.didBeginEditing }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //textView text 감지
+        textView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .skip(1)
+            .map { Reactor.Action.didChangeTextViewEditing($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 확인 버튼 클릭
+        okButton.rx.tap
+            .map { Reactor.Action.didTapOkButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
+        reactor.state
+            .map { $0.content }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, content in
+                owner.textView.text = content
+                owner.textView.textColor =
+                content == "내용을 입력해주세요" ? .customColor(.gray3) : .white
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.isPresentToAlbum }
             .distinctUntilChanged()
@@ -161,6 +191,15 @@ final class HBTIReviewWriteViewController: UIViewController, View {
                     datasource.apply(snapshot, animatingDifferences: false)
                 }
             }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.okButtonEnable }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isEnable in
+                owner.okButton.isEnabled = isEnable
+                owner.okButton.setTitleColor(isEnable ? .white : .customColor(.gray3), for: .normal)
+            })
             .disposed(by: disposeBag)
     }
     
