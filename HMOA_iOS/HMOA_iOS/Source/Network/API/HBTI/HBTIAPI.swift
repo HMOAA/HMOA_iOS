@@ -86,4 +86,25 @@ final class HBTIAPI {
             model: [NotReviewedOrder].self
         )
     }
+    
+    static func postReview(_ params: [String: Any], images: [UIImage]) -> Observable<HBTIReview> {
+        params.values.forEach { value in
+            print(value)
+        }
+        var imageData: [Data]?
+        
+        if images.isEmpty {
+            imageData = nil
+        } else {
+            imageData = images.compactMap { $0.resize(targetSize: $0.size)?.jpegData(compressionQuality: 0.1) }
+        }
+        
+        return uploadNetworking(
+            urlStr: HBTIAddress.postReview.url,
+            method: .post,
+            imageData: imageData,
+            imageFileName: "reviewImage.jpeg",
+            parameter: params,
+            model: HBTIReview.self)
+    }
 }

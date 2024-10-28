@@ -10,22 +10,29 @@ import RxSwift
 final class HBTIReviewWriteReactor: Reactor {
     
     enum Action {
+        case didBeginEditing
+        case didChangeTextViewEditing(String)
         case didTapAddPhotoButton
         case didSelectedImage([WritePhoto])
         case didTapXButton
         case didChangePage(Int)
+        case didTapOkButton
     }
     
     enum Mutation {
+        case setContent(String)
         case setIsPresentToAlbum(Bool)
         case setImages([WritePhoto])
         case setDeletePhotoIds
         case setIsDeletedLast(Bool)
         case setCurrentPage(Int)
+        case setSuccess
     }
     
     struct State {
         let id: Int
+        var content: String = "내용을 입력해주세요"
+        var okButtonEnable: Bool = false
         var isPresentToAlbum: Bool = false
         var photoCount: Int = 0
         var images: [WritePhoto] = []
@@ -42,6 +49,16 @@ final class HBTIReviewWriteReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .didBeginEditing:
+            if currentState.content == "내용을 입력해주세요" {
+                return .just(.setContent(""))
+            } else {
+                return .empty()
+            }
+            
+        case .didChangeTextViewEditing(let content):
+            return .just(.setContent(content))
+            
         case .didTapAddPhotoButton:
             return .concat([
                 .just(.setIsPresentToAlbum(true)),
@@ -66,6 +83,9 @@ final class HBTIReviewWriteReactor: Reactor {
             if currentState.currentPage != page {
                 return .just(.setCurrentPage(page))
             } else { return .empty() }
+            
+        case .didTapOkButton:
+            return postReviewPost()
         }
     }
     
@@ -73,6 +93,10 @@ final class HBTIReviewWriteReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setContent(let content):
+            state.content = content
+            state.okButtonEnable = isOkButtonEnabled(content: content)
+            
         case .setIsPresentToAlbum(let isPresent):
             state.isPresentToAlbum = isPresent
             
@@ -94,8 +118,40 @@ final class HBTIReviewWriteReactor: Reactor {
             
         case .setCurrentPage(let page):
             state.currentPage = page
+            
+        case .setSuccess:
+            break
         }
         
         return state
+    }
+}
+
+extension HBTIReviewWriteReactor {
+    func isOkButtonEnabled(content: String) -> Bool {
+        
+        let isContentEmpty = content.isEmpty
+        let isContentInitValue = content == "내용을 입력해주세요"
+        
+        return !(isContentEmpty || isContentInitValue)
+    }
+    
+    func postReviewPost() -> Observable<Mutation> {
+        let state = currentState
+        
+        if state.content.isEmpty {
+            return .empty()
+        }
+        
+        let params: [String: Any] = [
+            "reviewId": state.id,
+            "content": state.content
+        ]
+        let images = state.images.map { $0.image }
+        return HBTIAPI.postReview(params, images: images)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .just(.setSuccess)
+            }
     }
 }
