@@ -55,7 +55,7 @@ final class HBTIReviewListReactor: Reactor {
         switch action {
         case .viewWillAppear:
             return .concat([
-                setReviewList()
+                setReviewList(),
                 // TODO: 주문 추가 가능해지면 사용
 //                setNotReviewedOrderList()
             ])
@@ -131,7 +131,7 @@ extension HBTIReviewListReactor {
         
         let nextPage = currentState.currentPage + 1
         
-        return HBTIAPI.fetchReivewList(page: nextPage)
+        return HBTIAPI.fetchReivewList(fromMember: currentState.isLog, page: nextPage)
             .catch { _ in .empty() }
             .flatMap { reviewListData -> Observable<Mutation> in
                 let listData = reviewListData.data.map { review in
