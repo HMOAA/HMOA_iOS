@@ -65,6 +65,20 @@ struct HBTIOrderResult: Hashable, Codable {
     let orderStatus: String
 }
 
+struct HBTIOrderInfoResponse: Hashable, Codable {
+    let productPrice: Int
+    let productInfo: HBTICategoryListInfo
+    let shippingPrice: Int
+    let totalPrice: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case productPrice = "paymentAmount"
+        case productInfo = "productInfo"
+        case shippingPrice = "shippingAmount"
+        case totalPrice = "totalAmount"
+    }
+}
+
 // 2차 (배송 후 향수 추천)
 struct HBTIPerfumeServeyResponse: Hashable, Codable {
     let priceQuestion: HBTIQuestion

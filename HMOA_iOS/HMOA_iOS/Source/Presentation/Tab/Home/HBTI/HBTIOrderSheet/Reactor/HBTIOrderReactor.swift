@@ -25,6 +25,7 @@ final class HBTIOrderReactor: Reactor {
         case setIsExistMemberAddress(Bool)
         case setIsExistMemberInfo(Bool)
         case setOrderId(Int)
+        case setProductList([HBTIOrderSheetProductItem])
         case setName(String)
         case setPhoneNumber(String)
         case setPayValid(Bool)
@@ -40,6 +41,7 @@ final class HBTIOrderReactor: Reactor {
         var isExistMemberAddress: Bool = false
         var isExistMemberInfo: Bool = false
         var orderId: Int = 0
+        var productList: [HBTIOrderSheetProductItem] = []
         var name: String = ""
         var phoneNumber: String = ""
         var isAllAgree: Bool = false
@@ -60,7 +62,10 @@ final class HBTIOrderReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return setOrderId()
+            return .concat([
+                setOrderId(),
+                setProductList()
+            ])
 
         case .didChangeName(let name):
             return .just(.setName(name))
@@ -115,6 +120,9 @@ final class HBTIOrderReactor: Reactor {
             
         case .setOrderId(let orderId):
             state.orderId = orderId
+            
+        case .setProductList(let productList):
+            state.productList = productList
             
         case .setName(let name):
             state.name = name
@@ -179,6 +187,29 @@ extension HBTIOrderReactor {
                     .just(.setIsExistMemberInfo(isExistMemberInfo)),
                     .just(.setOrderId(orderId))
                 ])
+            }
+    }
+    
+    func setProductList() -> Observable<Mutation> {
+        let orderId = currentState.orderId
+
+        return HBTIAPI.fetchOrderInfo(orderId: orderId)
+            .catch { _ in .empty() }
+            .flatMap { productListData -> Observable<Mutation> in
+                let listData = productListData.productInfo.categoryList.map { productData in
+                    return HBTIOrderSheetProductItem.productInfo(
+                        HBTICategory(
+                            id: productData.id,
+                            name: productData.name,
+                            imageURL: productData.imageURL,
+                            noteCount: productData.noteCount,
+                            noteList: productData.noteList,
+                            price: productData.price
+                        )
+                    )
+                }
+
+                return .just(.setProductList(listData))
             }
     }
 }
