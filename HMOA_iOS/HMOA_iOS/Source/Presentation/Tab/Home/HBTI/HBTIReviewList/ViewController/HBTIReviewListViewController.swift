@@ -119,6 +119,11 @@ final class HBTIReviewListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        rx.viewDidAppear
+            .map { _ in Reactor.Action.viewDidAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // 리뷰 마지막 아이템이 나타나면 다음 페이지 로드
         hbtiReviewListCollectionView.rx.willDisplayCell
             .filter { cellInfo in

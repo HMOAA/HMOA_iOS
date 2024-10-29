@@ -12,6 +12,7 @@ final class HBTIReviewListReactor: Reactor {
     
     enum Action {
         case viewWillAppear
+        case viewDidAppear
         case loadReviewListNextPage
         case didTapLikeButton(Int)
         case didTapFloatingButton
@@ -21,6 +22,7 @@ final class HBTIReviewListReactor: Reactor {
     
     enum Mutation {
         case setReviewList([HBTIReviewListItem])
+        case appendReviewList([HBTIReviewListItem])
         case setIsLastPage(Bool)
         case setCurrentPage(Int)
         case setReviewLike(Int)
@@ -37,10 +39,7 @@ final class HBTIReviewListReactor: Reactor {
         var currentPage: Int = -1
         var isLastPage: Bool = false
         var isFloatingButtonTap: Bool = false
-        var notReviewedOrderList: [NotReviewedOrder] = [
-            NotReviewedOrder(id: 11, info: "후기 작성하기 (시트러스 24.10.08)"),
-            NotReviewedOrder(id: 33, info: "후기 작성하기 (플로럴 24.10.08)")
-        ]
+        var notReviewedOrderList: [NotReviewedOrder] = []
         var selectedOrderID: Int? = nil
         var isPushReviewWriteVC: Bool = false
     }
@@ -55,9 +54,14 @@ final class HBTIReviewListReactor: Reactor {
         switch action {
         case .viewWillAppear:
             return .concat([
+                .just(.setCurrentPage(-1)),
+                .just(.setIsLastPage(false))
+            ])
+            
+        case .viewDidAppear:
+            return .concat([
                 setReviewList(),
-                // TODO: 주문 추가 가능해지면 사용
-//                setNotReviewedOrderList()
+                setNotReviewedOrderList()
             ])
             
         case .loadReviewListNextPage:
@@ -77,8 +81,7 @@ final class HBTIReviewListReactor: Reactor {
                 .just(.setIsTapFloatingButton(!currentState.isFloatingButtonTap)),
                 .just(.setSelectedOrderID(id)),
                 .just(.setIsPushReviewWriteVC(true)),
-                .just(.setSelectedOrderID(nil)),
-                .just(.setIsPushReviewWriteVC(false))
+                .just(.setSelectedOrderID(nil))
             ])
         }
     }
@@ -88,6 +91,9 @@ final class HBTIReviewListReactor: Reactor {
         
         switch mutation {
         case .setReviewList(let item):
+            state.reviewList = item
+            
+        case .appendReviewList(let item):
             state.reviewList += item
             
         case .setIsLastPage(let isLast):
@@ -139,11 +145,20 @@ extension HBTIReviewListReactor {
                 }
                 let isLastPage = reviewListData.isLastPage
                 
-                return .concat([
-                    .just(.setReviewList(listData)),
-                    .just(.setIsLastPage(isLastPage)),
-                    .just(.setCurrentPage(nextPage))
-                ])
+                if self.currentState.isPushReviewWriteVC {
+                    return .concat([
+                        .just(.setIsPushReviewWriteVC(false)),
+                        .just(.setReviewList(listData)),
+                        .just(.setIsLastPage(isLastPage)),
+                        .just(.setCurrentPage(nextPage))
+                    ])
+                } else {
+                    return .concat([
+                        .just(.appendReviewList(listData)),
+                        .just(.setIsLastPage(isLastPage)),
+                        .just(.setCurrentPage(nextPage))
+                    ])
+                }
             }
     }
     
