@@ -339,9 +339,9 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
     }
     
-    func presentHBTIAddFixAddressViewController(title: String) {
+    func presentHBTIAddFixAddressViewController(title: String, isExistMemberAddress: Bool, isExistMemberInfo: Bool, orderId: Int) {
         let hbtiAddFixAddressVC = HBTIAddFixAddressViewController()
-        hbtiAddFixAddressVC.reactor = HBTIAddFixReactor(title: title)
+        hbtiAddFixAddressVC.reactor = HBTIAddFixReactor(title: title, isExistMemberAddress: isExistMemberAddress, isExistMemberInfo: isExistMemberInfo, orderId: orderId)
         hbtiAddFixAddressVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiAddFixAddressVC, animated: true)
     }

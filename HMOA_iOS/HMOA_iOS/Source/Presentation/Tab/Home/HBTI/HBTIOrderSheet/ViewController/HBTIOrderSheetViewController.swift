@@ -99,7 +99,11 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         addressView.saveDeliveryInfoButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.presentHBTIAddFixAddressViewController(title: "주소 추가")
+                let isExistMemberAddress = self?.reactor?.currentState.isExistMemberAddress ?? false
+                let isExistMemberInfo = self?.reactor?.currentState.isExistMemberInfo ?? false
+                let orderId = self?.reactor?.currentState.orderId ?? 0
+                
+                self?.presentHBTIAddFixAddressViewController(title: "주소 추가", isExistMemberAddress: isExistMemberAddress, isExistMemberInfo: isExistMemberInfo, orderId: orderId)
             })
             .disposed(by: disposeBag)
         

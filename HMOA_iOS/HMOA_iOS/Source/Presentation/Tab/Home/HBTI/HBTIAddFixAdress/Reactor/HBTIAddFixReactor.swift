@@ -43,12 +43,15 @@ final class HBTIAddFixReactor: Reactor {
         var orderRequest: String = ""
         var isEnabledSaveButton: Bool = false
         var isPushVC: Bool = false
+        let isExistMemberAddress: Bool
+        let isExistMemberInfo: Bool
+        let orderId: Int
     }
     
     var initialState: State
     
-    init(title: String) {
-        self.initialState = State(title: title)
+    init(title: String, isExistMemberAddress: Bool, isExistMemberInfo: Bool, orderId: Int) {
+        self.initialState = State(title: title, isExistMemberAddress: isExistMemberAddress, isExistMemberInfo: isExistMemberInfo, orderId: orderId)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -74,7 +77,12 @@ final class HBTIAddFixReactor: Reactor {
         case .didTapSaveButton:
             let isEnabled = currentState.isEnabledSaveButton
             
-            return .just(.setIsPushVC(isEnabled))
+            return isEnabled
+                ? .concat([
+                    .just(.setIsPushVC(isEnabled)),
+                    setMemberAddressInfo()
+                  ])
+                : .just(.setIsPushVC(isEnabled))
         }
     }
     
@@ -117,7 +125,7 @@ extension HBTIAddFixReactor {
     func isValid(_ name: String, _ phoneNumber: String, _ telephoneNumber: String, _ zipCode: String, _ address: String, _ detailAddress: String) -> Bool {
         return !name.isEmpty
             && isValidPhoneNumber(phoneNumber)
-            && isValidTelephoneNumber(telephoneNumber)
+            && (isValidPhoneNumber(telephoneNumber) ||  isValidTelephoneNumber(telephoneNumber))
             && !zipCode.isEmpty
             && !address.isEmpty
             && !detailAddress.isEmpty
@@ -135,5 +143,26 @@ extension HBTIAddFixReactor {
         let predicate = NSPredicate(format: "SELF MATCHES %@", telephoneRegex)
             
         return predicate.evaluate(with: telephoneNumber)
+    }
+}
+
+extension HBTIAddFixReactor {
+    func setMemberAddressInfo() -> Observable<Mutation> {
+        let memberInfo: [String: String] = [
+            "addressName": currentState.addressName,
+            "detailAddress": currentState.detailAddress ,
+            "landlineNumber": currentState.telephoneNumber,
+            "name": currentState.name,
+            "phoneNumber": currentState.phoneNumber,
+            "request": currentState.orderRequest,
+            "streetAddress": currentState.address,
+            "zipCode": currentState.zipCode
+        ]
+        
+        return MemberAPI.postMemberOrderInfo(params: memberInfo)
+            .catch { _ in .empty() }
+            .flatMap { response -> Observable<Mutation> in
+                return .empty()
+            }
     }
 }
