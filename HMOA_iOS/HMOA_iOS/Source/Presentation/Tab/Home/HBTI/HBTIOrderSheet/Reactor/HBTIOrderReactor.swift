@@ -23,9 +23,9 @@ final class HBTIOrderReactor: Reactor {
     
     enum Mutation {
         case setProductList([HBTIOrderSheetProductItem])
-//        case setProductPrice(Int)
-//        case setShippingPrice(Int)
-//        case setTotalPrice(Int)
+        case setProductPrice(Int)
+        case setShippingPrice(Int)
+        case setTotalPrice(Int)
         case setName(String)
         case setPhoneNumber(String)
         case setPayValid(Bool)
@@ -44,9 +44,9 @@ final class HBTIOrderReactor: Reactor {
         let isExistMemberInfo: Bool
         let orderId: Int
         var productList: [HBTIOrderSheetProductItem] = []
-//        var productPrice: Int = 0
-//        var shippingPrice: Int = 0
-//        var totalPrice: Int = 0
+        var productPrice: Int = 0
+        var shippingPrice: Int = 0
+        var totalPrice: Int = 0
         var name: String = ""
         var phoneNumber: String = ""
         var isAllAgree: Bool = false
@@ -117,14 +117,14 @@ final class HBTIOrderReactor: Reactor {
         case .setProductList(let productList):
             state.productList = productList
             
-//        case .setProductPrice(let productPrice):
-//            state.productPrice = productPrice
-//            
-//        case .setShippingPrice(let shippingPrice):
-//            state.shippingPrice = shippingPrice
-//            
-//        case .setTotalPrice(let totalPrice):
-//            state.totalPrice = totalPrice
+        case .setProductPrice(let productPrice):
+            state.productPrice = productPrice
+            
+        case .setShippingPrice(let shippingPrice):
+            state.shippingPrice = shippingPrice
+            
+        case .setTotalPrice(let totalPrice):
+            state.totalPrice = totalPrice
             
         case .setName(let name):
             state.name = name
@@ -179,11 +179,16 @@ extension HBTIOrderReactor {
                 let productList = productListData.productInfo.categoryList.map { productData in
                     return HBTIOrderSheetProductItem.productInfo(productData)
                 }
-//                let productPrice = productListData.productPrice
-//                let shippingPrice = productListData.shippingPrice
-//                let totalPrice = productListData.totalPrice
+                let productPrice = productListData.productPrice
+                let shippingPrice = productListData.shippingPrice
+                let totalPrice = productListData.totalPrice
                 
-                return .just(.setProductList(productList))
+                return .concat([
+                    .just(.setProductList(productList)),
+                    .just(.setProductPrice(productPrice)),
+                    .just(.setShippingPrice(shippingPrice)),
+                    .just(.setTotalPrice(totalPrice))
+                ])  
             }
     }
 }
