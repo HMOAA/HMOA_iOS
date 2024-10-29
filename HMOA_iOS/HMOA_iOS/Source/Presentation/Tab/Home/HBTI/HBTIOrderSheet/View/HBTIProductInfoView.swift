@@ -32,14 +32,6 @@ final class HBTIProductInfoView: UIView {
         $0.showsVerticalScrollIndicator = false
     }
     
-//    private lazy var productTableView = UITableView().then {
-//        $0.register(HBTIProductInfoCell.self, forCellReuseIdentifier: HBTIProductInfoCell.reuseIdentifier)
-//        $0.dataSource = self
-//        $0.delegate = self
-//        $0.isScrollEnabled = false
-//        $0.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//    }
-    
     // MARK: - Initialization
 
     override init(frame: CGRect) {
@@ -48,6 +40,7 @@ final class HBTIProductInfoView: UIView {
         setUI()
         setAddView()
         setConstraints()
+        configureDataSource()
     }
 
     required init?(coder: NSCoder) {
@@ -81,6 +74,7 @@ final class HBTIProductInfoView: UIView {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(300)
         }
     }
     
@@ -89,14 +83,14 @@ final class HBTIProductInfoView: UIView {
     private func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(62)
+            heightDimension: .absolute(62)
         )
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(62)
+            heightDimension: .absolute(62)
         )
         
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])

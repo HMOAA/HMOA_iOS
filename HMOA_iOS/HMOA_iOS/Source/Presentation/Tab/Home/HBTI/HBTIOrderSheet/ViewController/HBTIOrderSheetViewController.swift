@@ -131,14 +131,14 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         // MARK: State
 
-//        reactor.state
-//            .map { $0.productList }
-//            .distinctUntilChanged()
-//            .asDriver(onErrorRecover: { _ in .empty() })
-//            .drive(with: self, onNext: { owner, items in
-//                owner.productInfoView.updateSnapshot(forSection: .order, withItems: items)
-//            })
-//            .disposed(by: disposeBag)
+        reactor.state
+            .map { $0.productList }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.productInfoView.updateSnapshot(forSection: .order, withItems: items)
+            })
+            .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.isAllAgree }
