@@ -18,15 +18,11 @@ final class HBTINotesResultReactor: Reactor {
     enum Mutation {
         case setCartItemList([HBTINotesResultItem])
         case setTotalPrice(Int)
-        case setIsExistMemberAddress(Bool)
-        case setIsExistMemberInfo(Bool)
         case setOrderId(Int)
         case setIsPushNextVC(Bool)
     }
     
     struct State {
-        var isExistMemberAddress: Bool = false
-        var isExistMemberInfo: Bool = false
         var orderId: Int = 0
         let selectedNoteList: [Int]
         var cartItemList: [HBTINotesResultItem] = []
@@ -59,12 +55,6 @@ final class HBTINotesResultReactor: Reactor {
         var state = state
         
         switch mutation {
-        case .setIsExistMemberAddress(let isExistAddress):
-            state.isExistMemberAddress = isExistAddress
-            
-        case .setIsExistMemberInfo(let isExistInfo):
-            state.isExistMemberInfo = isExistInfo
-            
         case .setOrderId(let orderId):
             state.orderId = orderId
             
@@ -107,15 +97,9 @@ extension HBTINotesResultReactor {
         return HBTIAPI.postOrderNoteList(params: ["productIds": orderNoteList])
             .catch{ _ in .empty() }
             .flatMap { orderResultData -> Observable<Mutation> in
-                let isExistMemberAddress = orderResultData.isExistMemberAddress
-                let isExistMemberInfo = orderResultData.isExistMemberInfo
                 let orderId = orderResultData.orderId
                 
-                return .concat([
-                    .just(.setIsExistMemberAddress(isExistMemberAddress)),
-                    .just(.setIsExistMemberInfo(isExistMemberInfo)),
-                    .just(.setOrderId(orderId))
-                ])
+                return .just(.setOrderId(orderId))
             }
     }
 }

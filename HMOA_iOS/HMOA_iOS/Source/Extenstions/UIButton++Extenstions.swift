@@ -188,4 +188,19 @@ extension UIButton {
 
         return button
     }
+    
+    func makeUnderLineButton(text: String, textColor: Colors) -> UIButton {
+        let button = UIButton()
+        let attributedString = NSAttributedString(
+            string: text,
+            attributes: [
+                .font: UIFont.customFont(.pretendard_medium, 10),
+                .foregroundColor: UIColor.customColor(textColor),
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        button.setAttributedTitle(attributedString, for: .normal)
+        
+        return button
+    }
 }

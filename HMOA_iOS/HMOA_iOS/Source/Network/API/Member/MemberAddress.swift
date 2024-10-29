@@ -25,6 +25,7 @@ enum MemberAddress {
     case fetchOrderCancel
     case postMemberOrderInfo
     case postMemberAddressInfo
+    case fetchMemberAddressInfo
 }
 
 extension MemberAddress {
@@ -63,6 +64,8 @@ extension MemberAddress {
         case .postMemberOrderInfo:
             return "member/orderInfo"
         case .postMemberAddressInfo:
+            return "member/address"
+        case .fetchMemberAddressInfo:
             return "member/address"
         }
     }

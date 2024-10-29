@@ -12,6 +12,7 @@ final class HBTIOrderReactor: Reactor {
     
     enum Action {
         case viewDidLoad
+        case viewWillAppear
         case didChangeName(String)
         case didChangePhoneNumber(String)
         case didTapSaveInfoButton
@@ -28,6 +29,9 @@ final class HBTIOrderReactor: Reactor {
         case setTotalPrice(Int)
         case setName(String)
         case setPhoneNumber(String)
+        case setAddressName(String)
+        case setAddress(String)
+        case setHasMemberInfo(Bool)
         case setPayValid(Bool)
         case setIsFormValid(Bool)
 //        case setIsAddressSaved(Bool)
@@ -40,8 +44,6 @@ final class HBTIOrderReactor: Reactor {
         // TODO: 1. 주문자 정보, 배송지 정보 유무를 응답으로 받아옴
         // TODO: 2. 만약 true 라면 각각의 정보를 get해서 새로운 UI를 그림, false라면 기존 UI 그려줌 (true, false에 따라 다른 view를 import해줌.)
         // TODO: 3. 주문자 정보가 있다면, 주소 변경하기 view를 띄움.
-        let isExistMemberAddress: Bool
-        let isExistMemberInfo: Bool
         let orderId: Int
         var productList: [HBTIOrderSheetProductItem] = []
         var productPrice: Int = 0
@@ -49,6 +51,9 @@ final class HBTIOrderReactor: Reactor {
         var totalPrice: Int = 0
         var name: String = ""
         var phoneNumber: String = ""
+        var addressName: String = ""
+        var address: String = ""
+        var hasMemberInfo = false
         var isAllAgree: Bool = false
         var isPolicyAgree: Bool = false
         var isPersonalInfoAgree: Bool = false
@@ -60,14 +65,22 @@ final class HBTIOrderReactor: Reactor {
     
     var initialState: State
     
-    init(_ isExistMemberAddress: Bool, _ isExistMemberInfo: Bool, _ orderId: Int) {
-        self.initialState = State(isExistMemberAddress: isExistMemberAddress, isExistMemberInfo: isExistMemberInfo, orderId: orderId)
+    init(orderId: Int) {
+        self.initialState = State(orderId: orderId)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+            // TODO: 1. hasMemberInfo 값에 따라 view 다르게 띄우기.
+            // TODO: 2. addFixVC에서 orderVC로 넘어올 때, 저장된 정보 view 띄우기.
         case .viewDidLoad:
-            return setProductList()
+            return .concat([
+                setProductList(),
+                getMemberAddressInfo()
+            ])
+            
+        case .viewWillAppear:
+            return getMemberAddressInfo()
 
         case .didChangeName(let name):
             return .just(.setName(name))
@@ -132,6 +145,15 @@ final class HBTIOrderReactor: Reactor {
             
         case .setPhoneNumber(let phoneNumber):
             state.phoneNumber = phoneNumber
+            
+        case .setAddressName(let addressName):
+            state.addressName = addressName
+            
+        case .setAddress(let address):
+            state.address = address
+            
+        case .setHasMemberInfo(let hasMemberInfo):
+            state.hasMemberInfo = hasMemberInfo
             
         case .setIsFormValid(let isValid):
             state.isFormValid = isValid
@@ -208,6 +230,28 @@ extension HBTIOrderReactor {
             .catch { _ in .empty() }
             .flatMap { result -> Observable<Mutation> in
                 return .empty()
+            }
+    }
+    
+    func getMemberAddressInfo() -> Observable<Mutation> {
+        return MemberAPI.fetchMemberAddressInfo()
+            .catch { _ in .empty() }
+            .flatMap { memberAddress -> Observable<Mutation> in
+                let memberName = memberAddress.memberName
+                let phoneNumber = memberAddress.phoneNumber
+                let addressName = memberAddress.addressName
+                let address = "\(memberAddress.streetAddress) \(memberAddress.detailAddress)"
+                let hasMemberInfo = !addressName.isEmpty && !address.isEmpty
+                
+                print("=========해즈멤버인포: \(hasMemberInfo)==========")
+                
+                return .concat([
+                    .just(.setName(memberName)),
+                    .just(.setPhoneNumber(phoneNumber)),
+                    .just(.setAddressName(addressName)),
+                    .just(.setAddress(address)),
+                    .just(.setHasMemberInfo(hasMemberInfo))
+                ])
             }
     }
 }

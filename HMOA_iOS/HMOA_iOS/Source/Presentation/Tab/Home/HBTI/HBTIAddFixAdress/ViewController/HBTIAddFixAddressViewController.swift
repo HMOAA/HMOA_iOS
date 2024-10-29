@@ -181,11 +181,9 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-                let isExistMemberAddress = owner.reactor?.currentState.isExistMemberAddress ?? false
-                let isExistMemberInfo = owner.reactor?.currentState.isExistMemberInfo ?? false
                 let orderId = owner.reactor?.currentState.orderId ?? 0
                 
-                owner.presentHBTIOrderSheetViewController(isExistMemberAddress, isExistMemberInfo, orderId)
+                owner.presentHBTIOrderSheetViewController(orderId: orderId)
             })
             .disposed(by: disposeBag)
     }

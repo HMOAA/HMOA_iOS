@@ -77,6 +77,11 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         ordererInfoView.nameTextField.rx.text
             .orEmpty
             .distinctUntilChanged()
@@ -99,11 +104,9 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         addressView.saveDeliveryInfoButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                let isExistMemberAddress = self?.reactor?.currentState.isExistMemberAddress ?? false
-                let isExistMemberInfo = self?.reactor?.currentState.isExistMemberInfo ?? false
                 let orderId = self?.reactor?.currentState.orderId ?? 0
                 
-                self?.presentHBTIAddFixAddressViewController(title: "주소 추가", isExistMemberAddress: isExistMemberAddress, isExistMemberInfo: isExistMemberInfo, orderId: orderId)
+                self?.presentHBTIAddFixAddressViewController(title: "주소 추가", orderId: orderId)
             })
             .disposed(by: disposeBag)
         
@@ -135,6 +138,15 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         // MARK: State
 
+        reactor.state
+            .map { $0.hasMemberInfo }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, hasMemberInfo in
+                owner.ordererInfoView.setMemberInfoViewVisible(hasMemberInfo: hasMemberInfo)
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.productList }
             .distinctUntilChanged()
