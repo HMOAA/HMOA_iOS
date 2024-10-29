@@ -27,6 +27,7 @@ final class OptionReactor: Reactor {
         case setIsTapDelete(Bool)
         case setCommentData(OptionCommentData)
         case setPostData(OptionPostData)
+        case setReviewData(OptionReviewData)
         case setType(OptionType)
         case setOptions([String])
         case delete
@@ -41,6 +42,7 @@ final class OptionReactor: Reactor {
         var isTapDelete: Bool = false
         var commentData: OptionCommentData? = nil
         var postData: OptionPostData? = nil
+        var reviewData: OptionReviewData? = nil
         var type: OptionType? = nil
         var category: String = ""
         var isTapReport: Bool = false
@@ -89,6 +91,23 @@ final class OptionReactor: Reactor {
                     return .concat([
                         .just(.setOptions(["신고"])),
                         .just(.setCommentData(commentData)),
+                        .just(.setisHiddenOptionView(false)),
+                        .just(.setType(type))
+                    ])
+                }
+                
+            case .Review(let reviewData):
+                if reviewData.isWrited {
+                    return .concat([
+                        .just(.setOptions(["수정", "삭제"])),
+                        .just(.setReviewData(reviewData)),
+                        .just(.setisHiddenOptionView(false)),
+                        .just(.setType(type))
+                    ])
+                } else {
+                    return .concat([
+                        .just(.setOptions(["신고"])),
+                        .just(.setReviewData(reviewData)),
                         .just(.setisHiddenOptionView(false)),
                         .just(.setType(type))
                     ])
@@ -152,6 +171,9 @@ final class OptionReactor: Reactor {
             
         case .setPostData(let data):
             state.postData = data
+            
+        case .setReviewData(let data):
+            state.reviewData = data
             
         case .setType(let type):
             state.type = type
