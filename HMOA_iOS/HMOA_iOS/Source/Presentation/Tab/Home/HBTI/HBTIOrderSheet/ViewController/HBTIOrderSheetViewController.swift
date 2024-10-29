@@ -141,6 +141,19 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         reactor.state
+            .map { $0.totalPrice }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                let totalPrice = owner.reactor?.currentState.totalPrice ?? 0
+                let productPrice = owner.reactor?.currentState.productPrice ?? 0
+                let shippingPrice = owner.reactor?.currentState.shippingPrice ?? 0
+                
+                owner.totalPaymentView.setPriceLabelText(totalPrice: totalPrice, productPrice: productPrice, shippingPrice: shippingPrice)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
             .map { $0.isAllAgree }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] isAllAgree in

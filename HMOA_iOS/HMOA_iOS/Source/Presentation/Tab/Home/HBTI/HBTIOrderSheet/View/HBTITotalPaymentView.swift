@@ -18,7 +18,7 @@ final class HBTITotalPaymentView: UIView {
     }
     
     private let paymentPriceLabel = UILabel().then {
-        $0.setLabelUI("15,000원", font: .pretendard_bold, size: 18, color: .red)
+        $0.setLabelUI("", font: .pretendard_bold, size: 18, color: .red)
     }
     
     private let paymentSeparator1 = HBTIOrderDividingLineView(color: .customColor(.gray1))
@@ -28,7 +28,7 @@ final class HBTITotalPaymentView: UIView {
     }
     
     private let totalProductPaymentPriceLabel = UILabel().then {
-        $0.setLabelUI("12,000원", font: .pretendard_medium, size: 12, color: .gray3)
+        $0.setLabelUI("", font: .pretendard_medium, size: 12, color: .gray3)
     }
     
     private let deliveryFeeTitleLabel = UILabel().then {
@@ -36,7 +36,7 @@ final class HBTITotalPaymentView: UIView {
     }
     
     private let deliveryFeePriceLabel = UILabel().then {
-        $0.setLabelUI("3,000원", font: .pretendard_medium, size: 12, color: .gray3)
+        $0.setLabelUI("", font: .pretendard_medium, size: 12, color: .gray3)
     }
     
     private let paymentSeparator2 = HBTIOrderDividingLineView(color: .customColor(.gray1))
@@ -46,7 +46,7 @@ final class HBTITotalPaymentView: UIView {
     }
     
     private let totalPaymentPriceLabel = UILabel().then {
-        $0.setLabelUI("15,000원", font: .pretendard_semibold, size: 12, color: .black)
+        $0.setLabelUI("", font: .pretendard_semibold, size: 12, color: .black)
     }
     
     // MARK: - Initialization
@@ -142,5 +142,14 @@ final class HBTITotalPaymentView: UIView {
             $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
+    }
+    
+    // MARK: Other Functions
+    
+    func setPriceLabelText(totalPrice: Int, productPrice: Int, shippingPrice: Int) {
+        paymentPriceLabel.text = totalPrice.numberFormatterToHangulWon()
+        totalProductPaymentPriceLabel.text = productPrice.numberFormatterToHangulWon()
+        deliveryFeePriceLabel.text = shippingPrice.numberFormatterToHangulWon()
+        totalPaymentPriceLabel.text = totalPrice.numberFormatterToHangulWon()
     }
 }
