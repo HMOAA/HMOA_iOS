@@ -144,7 +144,7 @@ extension HBTIReviewWriteReactor {
         }
         
         let params: [String: Any] = [
-            "reviewId": state.id,
+            "orderId": state.id,
             "content": state.content
         ]
         let images = state.images.map { $0.image }
