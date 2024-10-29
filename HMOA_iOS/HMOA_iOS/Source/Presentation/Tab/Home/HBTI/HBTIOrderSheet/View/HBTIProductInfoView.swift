@@ -29,6 +29,7 @@ final class HBTIProductInfoView: UIView {
             HBTIProductInfoCell.self,
             forCellWithReuseIdentifier: HBTIProductInfoCell.reuseIdentifier
         )
+        $0.isScrollEnabled = false
         $0.showsVerticalScrollIndicator = false
     }
     
@@ -73,8 +74,8 @@ final class HBTIProductInfoView: UIView {
         productCollectionView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(0)
             $0.bottom.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(300)
         }
     }
     
@@ -83,20 +84,19 @@ final class HBTIProductInfoView: UIView {
     private func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(62)
+            heightDimension: .absolute(102)
         )
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(62)
+            heightDimension: .absolute(102)
         )
         
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 20
         
         return UICollectionViewCompositionalLayout(section: section)
     }
@@ -111,8 +111,8 @@ final class HBTIProductInfoView: UIView {
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HBTIProductInfoCell.reuseIdentifier,
                     for: indexPath) as! HBTIProductInfoCell
-                
-                cell.configureCell(product: product)
+                let isSeparatorHidden = indexPath.row == (self.dataSource?.snapshot().itemIdentifiers.count ?? 1) - 1
+                cell.configureCell(product: product, isSeparatorHidden: isSeparatorHidden)
                 
                 return cell
             }
@@ -124,18 +124,27 @@ final class HBTIProductInfoView: UIView {
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
     
+    private func updateCollectionViewHeight() {
+        let cellHeight: CGFloat = 62
+        let spacing: CGFloat = 40
+        let numberOfItems = dataSource?.snapshot().itemIdentifiers.count ?? 0
+
+        // 총 높이 = (셀 높이 * 셀 개수) + (간격 * (셀 개수))
+        let totalHeight = CGFloat(numberOfItems) * cellHeight + CGFloat(numberOfItems) * spacing
+        
+        productCollectionView.snp.updateConstraints {
+            $0.height.equalTo(totalHeight)
+            $0.bottom.equalToSuperview()
+        }
+    }
+
     func updateSnapshot(forSection section: HBTIOrderSheetProductSection, withItems items: [HBTIOrderSheetProductItem]) {
         guard let dataSource = self.dataSource else { return }
         
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(items, toSection: section)
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: false) { [weak self] in
+            self?.updateCollectionViewHeight()
+        }
     }
 }
-
-//func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        // 맨 마지막 셀 구분선 제거
-//    if indexPath.row == products.count - 1 {
-//        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-//    }
-//}

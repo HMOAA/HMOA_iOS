@@ -50,7 +50,6 @@ class HomeViewController: UIViewController, View {
         super.viewDidLoad()
         
         configureUI()
-        presentHBTINotesResultViewController([1, 2])
         setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
         navigationController?.delegate = self

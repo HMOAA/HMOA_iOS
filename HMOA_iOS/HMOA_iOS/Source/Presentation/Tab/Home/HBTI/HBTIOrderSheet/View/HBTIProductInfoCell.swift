@@ -24,7 +24,7 @@ final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
     }
     
     private let productDescriptionLabel = UILabel().then {
-        $0.setLabelUI("디스크립션 라벨", font: .pretendard, size: 10, color: .black)
+        $0.setLabelUI("", font: .pretendard, size: 10, color: .black)
         $0.numberOfLines = 0
     }
    
@@ -43,6 +43,8 @@ final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
     private let productPriceLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_semibold, size: 14, color: .black)
     }
+    
+    private let separatorView = HBTIOrderDividingLineView(color: .customColor(.gray1))
     
     // MARK: - Initialization
     
@@ -67,7 +69,8 @@ final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
          productCountLabel,
          removeProductButton,
          productPricePerUnitLabel,
-         productPriceLabel
+         productPriceLabel,
+         separatorView
         ].forEach(addSubview)
     }
     
@@ -76,7 +79,7 @@ final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
     private func setConstraints() {
         productImageView.snp.makeConstraints {
             $0.leading.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview().offset(20)
             $0.width.height.equalTo(60)
         }
         
@@ -109,20 +112,21 @@ final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
             $0.trailing.equalToSuperview()
             $0.bottom.equalTo(productImageView)
         }
+        
+        separatorView.snp.makeConstraints {
+            $0.top.equalTo(productPriceLabel.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
+        }
     }
     
-    func configureCell(product: HBTICategory) {
+    func configureCell(product: HBTICategory, isSeparatorHidden: Bool) {
         productImageView.kf.setImage(with: URL(string: product.imageURL))
         productTitleLabel.text = product.name
-////        var noteContent = ""
-////        product.noteList.forEach { note in
-////            noteContent += "\(note.content), "
-//////            productDescriptionLabel.text = ""
-//////            productDescriptionLabel.text! += note.content
-////        }
-////        productDescriptionLabel.text = noteContent
+        productDescriptionLabel.text = product.noteList.map { $0.name }.joined(separator: ", ")
         productCountLabel.text = "수량 \(product.noteCount)개"
         productPricePerUnitLabel.text = "990원/개"
         productPriceLabel.text = "\(product.price.numberFormatterToHangulWon())"
+        separatorView.isHidden = isSeparatorHidden
     }
 }
