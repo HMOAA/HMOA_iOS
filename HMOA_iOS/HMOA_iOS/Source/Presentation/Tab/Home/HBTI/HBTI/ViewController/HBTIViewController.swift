@@ -35,6 +35,10 @@ final class HBTIViewController: UIViewController, View {
         $0.register(HBTIHomeReviewHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.review.rawValue, withReuseIdentifier: HBTIHomeReviewHeaderView.identifier)
     }
     
+    private lazy var optionView = OptionView().then {
+        $0.reactor = OptionReactor()
+    }
+    
     // MARK: - Properties
     
     private var sections = [HBTIHomeSection]()
@@ -73,6 +77,21 @@ final class HBTIViewController: UIViewController, View {
         hbtiHomeCollectionView.rx.itemSelected
             .filter { $0.section == 0 }
             .map { Reactor.Action.didTapSurveyCell($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        //
+        hbtiHomeCollectionView.rx.itemSelected
+            .filter { $0.section == 1 }
+            .map { Reactor.Action.didTapOptionButton($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didTapDeleteReview }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -117,7 +136,8 @@ final class HBTIViewController: UIViewController, View {
     // MARK: Add Views
     private func setAddView() {
         [
-            hbtiHomeCollectionView
+            hbtiHomeCollectionView,
+            optionView
         ].forEach { view.addSubview($0) }
     }
     
@@ -126,6 +146,10 @@ final class HBTIViewController: UIViewController, View {
         hbtiHomeCollectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        optionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -239,6 +263,17 @@ final class HBTIViewController: UIViewController, View {
                         owner.presentImageListVC(indexPath, images: item.review!.photoList)
                     })
                     .disposed(by: cell.disposeBag)
+                
+                self.optionView.parentVC = self
+                
+                let optionReviewData = OptionReviewData(id: review.id,
+                                                        content: review.content,
+                                                        isWrited: review.isWrited)
+                
+                cell.reviewView.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton(.Review(optionReviewData)) }
+                    .bind(to: self.optionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
                 
                 return cell
             }

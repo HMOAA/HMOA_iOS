@@ -18,6 +18,8 @@ final class HBTIReviewListReactor: Reactor {
         case didTapFloatingButton
         case didTapFloatingBackView
         case didTapWriteReviewButton(Int)
+        case didTapOptionButton(Int)
+        case didTapDeleteReview
     }
     
     enum Mutation {
@@ -31,6 +33,8 @@ final class HBTIReviewListReactor: Reactor {
         case setNotReviewedOrderList([NotReviewedOrder])
         case setSelectedOrderID(Int?)
         case setIsPushReviewWriteVC(Bool)
+        case setIsReviewDeleted
+        case setSelectedReviewIndex(Int?)
     }
     
     struct State {
@@ -42,6 +46,7 @@ final class HBTIReviewListReactor: Reactor {
         var notReviewedOrderList: [NotReviewedOrder] = []
         var selectedOrderID: Int? = nil
         var isPushReviewWriteVC: Bool = false
+        var selectedReviewIndex: Int? = nil
     }
     
     var initialState: State
@@ -83,6 +88,14 @@ final class HBTIReviewListReactor: Reactor {
                 .just(.setIsPushReviewWriteVC(true)),
                 .just(.setSelectedOrderID(nil))
             ])
+            
+        case .didTapOptionButton(let row):
+            return .concat([
+                .just(.setSelectedReviewIndex(row))
+            ])
+            
+        case .didTapDeleteReview:
+            return .just(.setIsReviewDeleted)
         }
     }
     
@@ -125,6 +138,13 @@ final class HBTIReviewListReactor: Reactor {
             
         case .setIsPushReviewWriteVC(let isPush):
             state.isPushReviewWriteVC = isPush
+            
+        case .setSelectedReviewIndex(let index):
+            state.selectedReviewIndex = index
+            
+        case .setIsReviewDeleted:
+            let selectedReviewIndex = state.selectedReviewIndex
+            print(selectedReviewIndex)
         }
         
         return state

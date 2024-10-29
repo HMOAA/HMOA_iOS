@@ -14,6 +14,8 @@ final class HBTIReactor: Reactor {
         case didTapSurveyCell(Int)
         case didTapSeeAllReviewButton
         case didTapLikeButton(Int)
+        case didTapOptionButton(Int)
+        case didTapDeleteReview
     }
     
     enum Mutation {
@@ -23,6 +25,8 @@ final class HBTIReactor: Reactor {
         case setIsPushAllReviewList(Bool)
         case setReviewLike(Int)
         case cancelReviewLike(Int)
+        case setIsReviewDeleted
+        case setSelectedReviewIndex(Int?)
     }
     
     struct State {
@@ -30,6 +34,7 @@ final class HBTIReactor: Reactor {
         var isPushPerfumeSurvey: Bool = false
         var isPushAllReviewList: Bool = false
         var topReviewList: [HBTIHomeItem] = []
+        var selectedReviewIndex: Int? = nil
     }
     
     var initialState: State
@@ -64,6 +69,14 @@ final class HBTIReactor: Reactor {
             
         case .didTapLikeButton(let index):
             return setReviewLike(index: index)
+            
+        case .didTapOptionButton(let row):
+            return .concat([
+                .just(.setSelectedReviewIndex(row))
+            ])
+            
+        case .didTapDeleteReview:
+            return .just(.setIsReviewDeleted)
         }
     }
     
@@ -94,6 +107,13 @@ final class HBTIReactor: Reactor {
             review.isLiked = false
             review.likeCount -= 1
             state.topReviewList[index] = HBTIHomeItem.review(review)
+            
+        case .setSelectedReviewIndex(let index):
+            state.selectedReviewIndex = index
+            
+        case .setIsReviewDeleted:
+            let selectedReviewIndex = state.selectedReviewIndex
+            print(selectedReviewIndex)
         }
         
         return state

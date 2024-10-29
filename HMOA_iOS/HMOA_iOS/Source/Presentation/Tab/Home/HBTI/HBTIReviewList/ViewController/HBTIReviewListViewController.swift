@@ -151,6 +151,19 @@ final class HBTIReviewListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        hbtiReviewListCollectionView.rx.itemSelected
+            .map { Reactor.Action.didTapOptionButton($0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didTapDeleteReview }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         reactor.state
             .map { $0.reviewList }
@@ -301,10 +314,9 @@ final class HBTIReviewListViewController: UIViewController, View {
                     })
                     .disposed(by: cell.disposeBag)
                 
-                // 옵션 버튼
+                // 옵션 뷰
                 self.optionView.parentVC = self
-            
-                // TODO: 실제 데이터로 변경
+                
                 let optionReviewData = OptionReviewData(id: review.id,
                                                         content: review.content,
                                                         isWrited: review.isWrited)
