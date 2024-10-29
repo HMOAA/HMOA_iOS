@@ -227,4 +227,15 @@ final class MemberAPI {
             model: Response.self
         )
     }
+    
+    static func postMemberAddressInfo(params: [String: String]) -> Observable<Response> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                
+        return networking(
+            urlStr: MemberAddress.postMemberAddressInfo.url,
+            method: .post,
+            data: data,
+            model: Response.self
+        )
+    }
 }
