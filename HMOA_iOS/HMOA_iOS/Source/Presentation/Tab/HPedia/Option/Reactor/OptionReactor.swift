@@ -132,6 +132,13 @@ final class OptionReactor: Reactor {
                     } else { return deletePerfumeComment() }
                 case .Post(_):
                     return deletePost()
+                case .Review(_):
+                    // TODO: API 연동 후 아래 실행
+                    return .concat([
+                        .just(.setisHiddenOptionView(true)),
+                        .just(.setIsTapDelete(true)),
+                        .just(.setIsTapDelete(false))
+                    ])
                 default: return .empty()
                 }
             case "신고":
