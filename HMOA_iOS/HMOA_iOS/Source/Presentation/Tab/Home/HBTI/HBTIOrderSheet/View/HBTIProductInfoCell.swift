@@ -24,7 +24,7 @@ final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
     }
     
     private let productDescriptionLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 10, color: .black)
+        $0.setLabelUI("디스크립션 라벨", font: .pretendard, size: 10, color: .black)
         $0.numberOfLines = 0
     }
    
@@ -114,13 +114,13 @@ final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
     func configureCell(product: HBTICategory) {
         productImageView.kf.setImage(with: URL(string: product.imageURL))
         productTitleLabel.text = product.name
-        var noteContent = ""
-        product.noteList.forEach { note in
-            noteContent += note.content
-//            productDescriptionLabel.text = ""
-//            productDescriptionLabel.text! += note.content
-        }
-        productDescriptionLabel.text = noteContent
+////        var noteContent = ""
+////        product.noteList.forEach { note in
+////            noteContent += "\(note.content), "
+//////            productDescriptionLabel.text = ""
+//////            productDescriptionLabel.text! += note.content
+////        }
+////        productDescriptionLabel.text = noteContent
         productCountLabel.text = "수량 \(product.noteCount)개"
         productPricePerUnitLabel.text = "990원/개"
         productPriceLabel.text = "\(product.price.numberFormatterToHangulWon())"

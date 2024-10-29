@@ -22,7 +22,7 @@ final class HBTIOrderReactor: Reactor {
     }
     
     enum Mutation {
-//        case setProductList([HBTIOrderSheetProductItem])
+        case setProductList([HBTIOrderSheetProductItem])
         case setName(String)
         case setPhoneNumber(String)
         case setPayValid(Bool)
@@ -40,7 +40,7 @@ final class HBTIOrderReactor: Reactor {
         let isExistMemberAddress: Bool
         let isExistMemberInfo: Bool
         let orderId: Int
-//        var productList: [HBTIOrderSheetProductItem] = []
+        var productList: [HBTIOrderSheetProductItem] = []
         var name: String = ""
         var phoneNumber: String = ""
         var isAllAgree: Bool = false
@@ -61,8 +61,7 @@ final class HBTIOrderReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-//            return .just(setProductList())
-            return .empty()
+            return setProductList()
 
         case .didChangeName(let name):
             return .just(.setName(name))
@@ -109,8 +108,8 @@ final class HBTIOrderReactor: Reactor {
         var state = state
         
         switch mutation {
-//        case .setProductList(let productList):
-//            state.productList = productList
+        case .setProductList(let productList):
+            state.productList = productList
             
         case .setName(let name):
             state.name = name
@@ -162,20 +161,11 @@ extension HBTIOrderReactor {
         return HBTIAPI.fetchOrderInfo(orderId: orderId)
             .catch { _ in .empty() }
             .flatMap { productListData -> Observable<Mutation> in
-                let listData = productListData.productInfo.categoryList.map { productData in
-                    return HBTIOrderSheetProductItem.productInfo(
-                        HBTICategory(
-                            id: productData.id,
-                            name: productData.name,
-                            imageURL: productData.imageURL,
-                            noteCount: productData.noteCount,
-                            noteList: productData.noteList,
-                            price: productData.price
-                        )
-                    )
+                let productList = productListData.productInfo.categoryList.map { productData in
+                    return HBTIOrderSheetProductItem.productInfo(productData)
                 }
-//                return .just(.setProductList(listData))
-                return .empty()
+                
+                return .just(.setProductList(productList))
             }
     }
 }

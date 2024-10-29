@@ -13,7 +13,6 @@ enum HBTIOrderSheetProductSection: Hashable {
 
 enum HBTIOrderSheetProductItem: Hashable {
     case productInfo(HBTICategory)
-//    case note(HBTINote)
 }
 
 extension HBTIOrderSheetProductItem {
@@ -24,12 +23,4 @@ extension HBTIOrderSheetProductItem {
             return nil
         }
     }
-    
-//    var note: HBTINote? {
-//        if case .note(let note) = self {
-//            return note
-//        } else {
-//            return nil
-//        }
-//    }
 }
