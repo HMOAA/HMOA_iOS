@@ -238,4 +238,12 @@ final class MemberAPI {
             model: Response.self
         )
     }
+    
+    static func fetchMemberAddressInfo() -> Observable<MemberAddressInfo> {
+        return networking(
+            urlStr: MemberAddress.fetchMemberAddressInfo.url,
+            method: .get,
+            data: nil,
+            model: MemberAddressInfo.self)
+    }
 }

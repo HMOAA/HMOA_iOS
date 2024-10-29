@@ -43,15 +43,13 @@ final class HBTIAddFixReactor: Reactor {
         var orderRequest: String = ""
         var isEnabledSaveButton: Bool = false
         var isPushVC: Bool = false
-        let isExistMemberAddress: Bool
-        let isExistMemberInfo: Bool
         let orderId: Int
     }
     
     var initialState: State
     
-    init(title: String, isExistMemberAddress: Bool, isExistMemberInfo: Bool, orderId: Int) {
-        self.initialState = State(title: title, isExistMemberAddress: isExistMemberAddress, isExistMemberInfo: isExistMemberInfo, orderId: orderId)
+    init(title: String, orderId: Int) {
+        self.initialState = State(title: title, orderId: orderId)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -80,7 +78,7 @@ final class HBTIAddFixReactor: Reactor {
             return isEnabled
                 ? .concat([
                     .just(.setIsPushVC(isEnabled)),
-                    setMemberAddressInfo()
+                    postMemberAddressInfo()
                   ])
                 : .just(.setIsPushVC(isEnabled))
         }
@@ -147,10 +145,10 @@ extension HBTIAddFixReactor {
 }
 
 extension HBTIAddFixReactor {
-    func setMemberAddressInfo() -> Observable<Mutation> {
+    func postMemberAddressInfo() -> Observable<Mutation> {
         let memberInfo: [String: String] = [
             "addressName": currentState.addressName,
-            "detailAddress": currentState.detailAddress ,
+            "detailAddress": currentState.detailAddress,
             "landlineNumber": currentState.telephoneNumber,
             "name": currentState.name,
             "phoneNumber": currentState.phoneNumber,
@@ -158,6 +156,9 @@ extension HBTIAddFixReactor {
             "streetAddress": currentState.address,
             "zipCode": currentState.zipCode
         ]
+        
+        print("============detailAddress: \(currentState.detailAddress)========")
+        print("============streetAddress: \(currentState.address)========")
         
         return MemberAPI.postMemberOrderInfo(params: memberInfo)
             .catch { _ in .empty() }

@@ -11,24 +11,19 @@ import Then
 
 final class HBTIOrdererInfoView: UIView {
     
+    private var isNonMemberInfoVisible = true
+    
     // MARK: - UI Components
     
-    private let titleLabel = UILabel().then {
+    private let orderMemberInfoStackView = UIStackView()
+    
+    private let nonMemberInfoView = UIView()
+    
+    private let nonMemberTitleLabel = UILabel().then {
         $0.setLabelUI("주문자 정보", font: .pretendard_bold, size: 18, color: .black)
     }
     
-    let saveInfoButton = UIButton().then {
-        let text = "작성한 정보 저장하기"
-        let attributedString = NSAttributedString(
-            string: text,
-            attributes: [
-                .font: UIFont.customFont(.pretendard_medium, 10),
-                .foregroundColor: UIColor.black,
-                .underlineStyle: NSUnderlineStyle.single.rawValue
-            ]
-        )
-        $0.setAttributedTitle(attributedString, for: .normal)
-    }
+    let saveInfoButton = UIButton().makeUnderLineButton(text: "작성한 정보 저장하기", textColor: .black)
     
     private let nameLabel = UILabel().then {
         $0.setLabelUI("이름", font: .pretendard_medium, size: 12, color: .black)
@@ -43,6 +38,36 @@ final class HBTIOrdererInfoView: UIView {
     }
     
     let contactTextField = HBTIContactTextFieldView(title: "휴대전화")
+    
+    private let memberInfoView = UIView()
+    
+    private let memberTitleLabel = UILabel().then {
+        $0.setLabelUI("주문자 정보", font: .pretendard_bold, size: 18, color: .black)
+    }
+    
+    private let addressNameLabel = UILabel().then {
+        $0.setLabelUI("집(박태성)", font: .pretendard_semibold, size: 14, color: .black)
+    }
+    
+    private let defaultAddressButton = UIButton().then {
+        $0.setTitle("기본 배송지", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .customColor(.gray1)
+        $0.titleLabel?.font = .customFont(.pretendard_medium, 10)
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+        $0.isUserInteractionEnabled = false
+    }
+    
+    private let phoneNumberLabel = UILabel().then {
+        $0.setLabelUI("010-3046-3807", font: .pretendard_medium, size: 12, color: .gray3)
+    }
+    
+    private let addressLabel = UILabel().then {
+        $0.setLabelUI("경기 화성시 00로 00(00동 00 아파트) 120동 1114호", font: .pretendard_medium, size: 12, color: .black)
+    }
+    
+    private let modifyInfoButton = UIButton().makeUnderLineButton(text: "변경하기", textColor: .black)
     
     // MARK: - Initialization
         
@@ -67,30 +92,50 @@ final class HBTIOrdererInfoView: UIView {
     // MARK: - Set AddView
     
     private func setAddView() {
+        addSubview(orderMemberInfoStackView)
+        
         [
-         titleLabel,
+         nonMemberInfoView,
+         memberInfoView
+        ].forEach(orderMemberInfoStackView.addArrangedSubview)
+        
+        [
+         nonMemberTitleLabel,
          saveInfoButton,
          nameLabel,
          nameTextField,
          contactTextField
-        ].forEach(addSubview)
+        ].forEach(nonMemberInfoView.addSubview)
+        
+        [
+         memberTitleLabel,
+         addressNameLabel,
+         defaultAddressButton,
+         modifyInfoButton,
+         phoneNumberLabel,
+         addressLabel
+        ].forEach(memberInfoView.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        titleLabel.snp.makeConstraints {
+        orderMemberInfoStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        nonMemberTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview()
         }
         
         saveInfoButton.snp.makeConstraints {
             $0.trailing.equalToSuperview()
-            $0.centerY.equalTo(titleLabel)
+            $0.centerY.equalTo(nonMemberTitleLabel)
         }
         
         nameLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(20)
+            $0.top.equalTo(nonMemberTitleLabel.snp.bottom).offset(20)
             $0.leading.equalToSuperview()
         }
         
@@ -105,6 +150,53 @@ final class HBTIOrdererInfoView: UIView {
             $0.top.equalTo(nameTextField.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
+        }
+        
+        memberTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+        }
+        
+        addressNameLabel.snp.makeConstraints {
+            $0.top.equalTo(memberTitleLabel.snp.bottom).offset(20)
+            $0.leading.equalToSuperview()
+        }
+        
+        defaultAddressButton.snp.makeConstraints {
+            $0.centerY.equalTo(addressNameLabel)
+            $0.leading.equalTo(addressNameLabel.snp.trailing).offset(8)
+            $0.width.equalTo(55)
+            $0.height.equalTo(20)
+        }
+        
+        modifyInfoButton.snp.makeConstraints {
+            $0.centerY.equalTo(addressNameLabel)
+            $0.trailing.equalToSuperview()
+        }
+        
+        phoneNumberLabel.snp.makeConstraints {
+            $0.top.equalTo(defaultAddressButton.snp.bottom).offset(6)
+            $0.leading.equalTo(memberTitleLabel.snp.leading).offset(1)
+        }
+        
+        addressLabel.snp.makeConstraints {
+            $0.top.equalTo(phoneNumberLabel.snp.bottom).offset(18)
+            $0.leading.equalTo(memberTitleLabel.snp.leading)
+            $0.bottom.equalToSuperview()
+        }
+    }
+    
+    // MARK: Other Functions
+    
+    func setMemberInfoViewVisible(hasMemberInfo: Bool) {
+        print("====hasMemberInfo: \(hasMemberInfo)=========")
+        
+        if hasMemberInfo {
+            orderMemberInfoStackView.removeArrangedSubview(nonMemberInfoView)
+            nonMemberInfoView.removeFromSuperview()
+        } else {
+            orderMemberInfoStackView.removeArrangedSubview(memberInfoView)
+            memberInfoView.removeFromSuperview()
         }
     }
 }
