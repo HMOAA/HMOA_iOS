@@ -49,6 +49,10 @@ final class HBTIReviewListViewController: UIViewController, View {
         $0.isHidden = true
     }
     
+    private lazy var optionView = OptionView().then {
+        $0.reactor = OptionReactor()
+    }
+    
     // MARK: - Properties
     
     private var dataSource: UICollectionViewDiffableDataSource<HBTIReviewListSection, HBTIReviewListItem>?
@@ -208,7 +212,8 @@ final class HBTIReviewListViewController: UIViewController, View {
     private func setAddView() {
         
         [
-            hbtiReviewListCollectionView
+            hbtiReviewListCollectionView,
+            optionView
         ].forEach { view.addSubview($0) }
         
     }
@@ -218,6 +223,10 @@ final class HBTIReviewListViewController: UIViewController, View {
         hbtiReviewListCollectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        optionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -291,6 +300,19 @@ final class HBTIReviewListViewController: UIViewController, View {
                         owner.presentImageListVC(indexPath, images: item.review!.photoList)
                     })
                     .disposed(by: cell.disposeBag)
+                
+                // 옵션 버튼
+                self.optionView.parentVC = self
+            
+                // TODO: 실제 데이터로 변경
+                let optionReviewData = OptionReviewData(id: review.id,
+                                                        content: review.content,
+                                                        isWrited: review.isWrited)
+                
+                cell.reviewView.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton(.Review(optionReviewData)) }
+                    .bind(to: self.optionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
                 
                 return cell
             }
