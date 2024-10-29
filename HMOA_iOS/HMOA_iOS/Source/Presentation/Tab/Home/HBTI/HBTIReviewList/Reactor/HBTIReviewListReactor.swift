@@ -33,7 +33,6 @@ final class HBTIReviewListReactor: Reactor {
         case setNotReviewedOrderList([NotReviewedOrder])
         case setSelectedOrderID(Int?)
         case setIsPushReviewWriteVC(Bool)
-        case setIsReviewDeleted
         case setSelectedReviewIndex(Int?)
     }
     
@@ -95,7 +94,10 @@ final class HBTIReviewListReactor: Reactor {
             ])
             
         case .didTapDeleteReview:
-            return .just(.setIsReviewDeleted)
+            return .concat([
+                deleteSelectedReview(),
+                .just(.setSelectedReviewIndex(nil))
+            ])
         }
     }
     
@@ -141,10 +143,6 @@ final class HBTIReviewListReactor: Reactor {
             
         case .setSelectedReviewIndex(let index):
             state.selectedReviewIndex = index
-            
-        case .setIsReviewDeleted:
-            let selectedReviewIndex = state.selectedReviewIndex
-            print(selectedReviewIndex)
         }
         
         return state
@@ -209,6 +207,19 @@ extension HBTIReviewListReactor {
             .catch { _ in .empty() }
             .flatMap { orderListData -> Observable<Mutation> in
                 return .just(.setNotReviewedOrderList(orderListData))
+            }
+    }
+    
+    func deleteSelectedReview() -> Observable<Mutation> {
+        guard let index = currentState.selectedReviewIndex else { return .empty() }
+        var reviewList = currentState.reviewList
+        let id = reviewList[index].review!.id
+        reviewList.remove(at: index)
+        
+        return HBTIAPI.deleteReivew(id: id)
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                return .just(.setReviewList(reviewList))
             }
     }
 }

@@ -104,4 +104,12 @@ final class HBTIAPI {
             parameter: params,
             model: HBTIReview.self)
     }
+    
+    static func deleteReivew(id: Int) -> Observable<Response> {
+        return networking(
+            urlStr: HBTIAddress.editDeleteReview(id).url,
+            method: .delete,
+            data: nil,
+            model: Response.self)
+    }
 }

@@ -151,11 +151,6 @@ final class HBTIReviewListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        hbtiReviewListCollectionView.rx.itemSelected
-            .map { Reactor.Action.didTapOptionButton($0.row) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         optionView.reactor?.state
             .map { $0.isTapDelete }
             .distinctUntilChanged()
@@ -288,10 +283,10 @@ final class HBTIReviewListViewController: UIViewController, View {
                     .disposed(by: cell.disposeBag)
                 
                 self.reactor!.state
-                    .map { $0.reviewList[indexPath.row] }
+                    .map { $0.reviewList.first(where: { $0.review?.id == review.id }) }
                     .asDriver(onErrorRecover: { _ in .empty() })
                     .drive(with: self, onNext: { owner, item in
-                        guard let review = item.review else { return }
+                        guard let review = item?.review else { return }
                         cell.reviewView.heartButton.isSelected = review.isLiked
                         cell.reviewView.likeCountLabel.text = String(review.likeCount)
                     })
@@ -320,6 +315,13 @@ final class HBTIReviewListViewController: UIViewController, View {
                 let optionReviewData = OptionReviewData(id: review.id,
                                                         content: review.content,
                                                         isWrited: review.isWrited)
+                
+                cell.reviewView.optionButton.rx.tap
+                    .bind(with: self, onNext: { owner, _  in
+                        let detailAction = HBTIReviewListReactor.Action.didTapOptionButton(indexPath.row)
+                        owner.reactor?.action.onNext(detailAction)
+                    })
+                    .disposed(by: cell.disposeBag)
                 
                 cell.reviewView.optionButton.rx.tap
                     .map { OptionReactor.Action.didTapOptionButton(.Review(optionReviewData)) }
