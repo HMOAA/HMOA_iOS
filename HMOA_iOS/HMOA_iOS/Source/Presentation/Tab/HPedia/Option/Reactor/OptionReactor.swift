@@ -133,7 +133,6 @@ final class OptionReactor: Reactor {
                 case .Post(_):
                     return deletePost()
                 case .Review(_):
-                    // TODO: API 연동 후 아래 실행
                     return .concat([
                         .just(.setisHiddenOptionView(true)),
                         .just(.setIsTapDelete(true)),

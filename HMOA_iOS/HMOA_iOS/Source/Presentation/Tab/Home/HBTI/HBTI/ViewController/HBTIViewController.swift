@@ -238,10 +238,10 @@ final class HBTIViewController: UIViewController, View {
                     .disposed(by: cell.disposeBag)
                 
                 self.reactor!.state
-                    .map { $0.topReviewList[indexPath.row] }
+                    .map { $0.topReviewList.first(where: { $0.review?.id == review.id }) }
                     .asDriver(onErrorRecover: { _ in .empty() })
                     .drive(with: self, onNext: { owner, item in
-                        guard let review = item.review else { return }
+                        guard let review = item?.review else { return }
                         cell.reviewView.heartButton.isSelected = review.isLiked
                         cell.reviewView.likeCountLabel.text = String(review.likeCount)
                     })
@@ -269,6 +269,13 @@ final class HBTIViewController: UIViewController, View {
                 let optionReviewData = OptionReviewData(id: review.id,
                                                         content: review.content,
                                                         isWrited: review.isWrited)
+                
+                cell.reviewView.optionButton.rx.tap
+                    .bind(with: self, onNext: { owner, _  in
+                        let detailAction = HBTIReactor.Action.didTapOptionButton(indexPath.row)
+                        owner.reactor?.action.onNext(detailAction)
+                    })
+                    .disposed(by: cell.disposeBag)
                 
                 cell.reviewView.optionButton.rx.tap
                     .map { OptionReactor.Action.didTapOptionButton(.Review(optionReviewData)) }

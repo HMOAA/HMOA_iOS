@@ -17,6 +17,7 @@ enum HBTIAddress {
     case fetchNotReviewedOrderList
     case fetchPostedReview
     case postReview
+    case editDeleteReview(Int)
     
     var url: String {
         switch self {
@@ -38,6 +39,8 @@ enum HBTIAddress {
             return "shop/review/me"
         case .postReview:
             return "shop/review"
+        case .editDeleteReview(let id):
+            return "shop/review/\(id)"
         }
     }
 }

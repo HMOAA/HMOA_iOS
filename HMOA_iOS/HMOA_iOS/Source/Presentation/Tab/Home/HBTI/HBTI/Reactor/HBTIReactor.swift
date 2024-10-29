@@ -76,7 +76,10 @@ final class HBTIReactor: Reactor {
             ])
             
         case .didTapDeleteReview:
-            return .just(.setIsReviewDeleted)
+            return .concat([
+                deleteSelectedReview(),
+                .just(.setSelectedReviewIndex(nil))
+            ])
         }
     }
     
@@ -113,7 +116,6 @@ final class HBTIReactor: Reactor {
             
         case .setIsReviewDeleted:
             let selectedReviewIndex = state.selectedReviewIndex
-            print(selectedReviewIndex)
         }
         
         return state
@@ -155,5 +157,18 @@ extension HBTIReactor {
                     ])
                 }
         }
+    }
+    
+    func deleteSelectedReview() -> Observable<Mutation> {
+        guard let index = currentState.selectedReviewIndex else { return .empty() }
+        var reviewList = currentState.topReviewList
+        let id = reviewList[index].review!.id
+        reviewList.remove(at: index)
+        
+        return HBTIAPI.deleteReivew(id: id)
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                return .just(.setTopReviewList(reviewList))
+            }
     }
 }
