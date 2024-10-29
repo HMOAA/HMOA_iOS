@@ -76,7 +76,8 @@ final class HBTIOrderReactor: Reactor {
             return .just(.setPhoneNumber(phoneNumber))
             
         case .didTapSaveInfoButton:
-            return .empty()
+            guard isMemberOrderInfoValid(name: currentState.name, phoneNumber: currentState.phoneNumber) else { return .empty() }
+            return setMemberOrderInfo()
             
         case .didTapEnterAddressButton:
             return .empty()
@@ -167,6 +168,11 @@ extension HBTIOrderReactor {
             
         return predicate.evaluate(with: phoneNumber)
     }
+    
+    private func isMemberOrderInfoValid(name: String, phoneNumber: String) -> Bool {
+        return !name.isEmpty
+            && isValidPhoneNumber(phoneNumber)
+    }
 }
 
 extension HBTIOrderReactor {
@@ -188,7 +194,20 @@ extension HBTIOrderReactor {
                     .just(.setProductPrice(productPrice)),
                     .just(.setShippingPrice(shippingPrice)),
                     .just(.setTotalPrice(totalPrice))
-                ])  
+                ])
+            }
+    }
+    
+    func setMemberOrderInfo() -> Observable<Mutation> {
+        let memberInfo: [String: String] = [
+            "name": currentState.name,
+            "phoneNumber": currentState.phoneNumber
+        ]
+        
+        return MemberAPI.postMemberOrderInfo(params: memberInfo)
+            .catch { _ in .empty() }
+            .flatMap { result -> Observable<Mutation> in
+                return .empty()
             }
     }
 }
