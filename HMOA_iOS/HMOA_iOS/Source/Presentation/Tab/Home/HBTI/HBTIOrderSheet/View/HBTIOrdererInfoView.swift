@@ -46,7 +46,7 @@ final class HBTIOrdererInfoView: UIView {
     }
     
     private let addressNameLabel = UILabel().then {
-        $0.setLabelUI("집(박태성)", font: .pretendard_semibold, size: 14, color: .black)
+        $0.setLabelUI("", font: .pretendard_semibold, size: 14, color: .black)
     }
     
     private let defaultAddressButton = UIButton().then {
@@ -60,14 +60,14 @@ final class HBTIOrdererInfoView: UIView {
     }
     
     private let phoneNumberLabel = UILabel().then {
-        $0.setLabelUI("010-3046-3807", font: .pretendard_medium, size: 12, color: .gray3)
+        $0.setLabelUI("", font: .pretendard_medium, size: 12, color: .gray3)
     }
     
     private let addressLabel = UILabel().then {
-        $0.setLabelUI("경기 화성시 00로 00(00동 00 아파트) 120동 1114호", font: .pretendard_medium, size: 12, color: .black)
+        $0.setLabelUI("", font: .pretendard_medium, size: 12, color: .black)
     }
     
-    private let modifyInfoButton = UIButton().makeUnderLineButton(text: "변경하기", textColor: .black)
+    let modifyInfoButton = UIButton().makeUnderLineButton(text: "변경하기", textColor: .black)
     
     // MARK: - Initialization
         
@@ -188,15 +188,27 @@ final class HBTIOrdererInfoView: UIView {
     
     // MARK: Other Functions
     
-    func setMemberInfoViewVisible(hasMemberInfo: Bool) {
-        print("====hasMemberInfo: \(hasMemberInfo)=========")
+    func setMemberInfoViewVisible(isSavedAddress: Bool, addressName: String, memberName: String, phoneNumber: String, address: String) {
+        addressNameLabel.text = "\(addressName)(\(memberName))"
+        phoneNumberLabel.text = phoneNumber
+        addressLabel.text = address
         
-        if hasMemberInfo {
-            orderMemberInfoStackView.removeArrangedSubview(nonMemberInfoView)
-            nonMemberInfoView.removeFromSuperview()
+        if isSavedAddress {
+            if nonMemberInfoView.superview != nil {
+                orderMemberInfoStackView.removeArrangedSubview(nonMemberInfoView)
+                nonMemberInfoView.removeFromSuperview()
+            }
+            if memberInfoView.superview == nil {
+                orderMemberInfoStackView.addArrangedSubview(memberInfoView)
+            }
         } else {
-            orderMemberInfoStackView.removeArrangedSubview(memberInfoView)
-            memberInfoView.removeFromSuperview()
+            if memberInfoView.superview != nil {
+                orderMemberInfoStackView.removeArrangedSubview(memberInfoView)
+                memberInfoView.removeFromSuperview()
+            }
+            if nonMemberInfoView.superview == nil {
+                orderMemberInfoStackView.addArrangedSubview(nonMemberInfoView)
+            }
         }
     }
 }

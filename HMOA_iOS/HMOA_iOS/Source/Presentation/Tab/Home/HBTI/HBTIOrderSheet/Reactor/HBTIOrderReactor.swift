@@ -31,19 +31,15 @@ final class HBTIOrderReactor: Reactor {
         case setPhoneNumber(String)
         case setAddressName(String)
         case setAddress(String)
-        case setHasMemberInfo(Bool)
+        case setIsSavedAddress(Bool)
         case setPayValid(Bool)
         case setIsFormValid(Bool)
-//        case setIsAddressSaved(Bool)
         case setAllAgree(Bool)
         case setPolicyAgree(Bool)
         case setPersonalInfoAgree(Bool)
     }
     
     struct State {
-        // TODO: 1. 주문자 정보, 배송지 정보 유무를 응답으로 받아옴
-        // TODO: 2. 만약 true 라면 각각의 정보를 get해서 새로운 UI를 그림, false라면 기존 UI 그려줌 (true, false에 따라 다른 view를 import해줌.)
-        // TODO: 3. 주문자 정보가 있다면, 주소 변경하기 view를 띄움.
         let orderId: Int
         var productList: [HBTIOrderSheetProductItem] = []
         var productPrice: Int = 0
@@ -53,14 +49,12 @@ final class HBTIOrderReactor: Reactor {
         var phoneNumber: String = ""
         var addressName: String = ""
         var address: String = ""
-        var hasMemberInfo = false
+        var isSavedAddress = false
         var isAllAgree: Bool = false
         var isPolicyAgree: Bool = false
         var isPersonalInfoAgree: Bool = false
         var isFormValid: Bool = false
         var isPayValid: Bool = false
-        // isAddressSaved는 서버에서 불러오는 것으로 변경 예정
-//        var isAddressSaved: Bool = false
     }
     
     var initialState: State
@@ -71,13 +65,8 @@ final class HBTIOrderReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-            // TODO: 1. hasMemberInfo 값에 따라 view 다르게 띄우기.
-            // TODO: 2. addFixVC에서 orderVC로 넘어올 때, 저장된 정보 view 띄우기.
         case .viewDidLoad:
-            return .concat([
-                setProductList(),
-                getMemberAddressInfo()
-            ])
+            return setProductList()
             
         case .viewWillAppear:
             return getMemberAddressInfo()
@@ -152,8 +141,8 @@ final class HBTIOrderReactor: Reactor {
         case .setAddress(let address):
             state.address = address
             
-        case .setHasMemberInfo(let hasMemberInfo):
-            state.hasMemberInfo = hasMemberInfo
+        case .setIsSavedAddress(let isSavedAddress):
+            state.isSavedAddress = isSavedAddress
             
         case .setIsFormValid(let isValid):
             state.isFormValid = isValid
@@ -235,23 +224,27 @@ extension HBTIOrderReactor {
     
     func getMemberAddressInfo() -> Observable<Mutation> {
         return MemberAPI.fetchMemberAddressInfo()
-            .catch { _ in .empty() }
             .flatMap { memberAddress -> Observable<Mutation> in
                 let memberName = memberAddress.memberName
                 let phoneNumber = memberAddress.phoneNumber
                 let addressName = memberAddress.addressName
                 let address = "\(memberAddress.streetAddress) \(memberAddress.detailAddress)"
-                let hasMemberInfo = !addressName.isEmpty && !address.isEmpty
-                
-                print("=========해즈멤버인포: \(hasMemberInfo)==========")
+                let isSavedAddress = !memberName.isEmpty && !phoneNumber.isEmpty && !address.isEmpty
                 
                 return .concat([
                     .just(.setName(memberName)),
                     .just(.setPhoneNumber(phoneNumber)),
                     .just(.setAddressName(addressName)),
                     .just(.setAddress(address)),
-                    .just(.setHasMemberInfo(hasMemberInfo))
+                    .just(.setIsSavedAddress(isSavedAddress))
                 ])
+            }
+            .catch { error in
+                if let urlError = error as? URLError, urlError.code == .fileDoesNotExist {
+                    return .just(.setIsSavedAddress(false))
+                } else {
+                    return .empty()
+                }
             }
     }
 }

@@ -29,6 +29,11 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     
     private let orderContentView = UIView()
     
+    private let memberInfoStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 24
+    }
+    
     private let ordererInfoView = HBTIOrdererInfoView()
     
     private let dividingLineView1 = HBTIOrderDividingLineView(color: .black)
@@ -80,6 +85,19 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         rx.viewWillAppear
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ordererInfoView.saveInfoButton.rx.tap
+            .map { Reactor.Action.didTapEnterAddressButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ordererInfoView.modifyInfoButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let orderId = self?.reactor?.currentState.orderId ?? 0
+                
+                self?.presentHBTIAddFixAddressViewController(title: "주소 변경", orderId: orderId)
+            })
             .disposed(by: disposeBag)
         
         ordererInfoView.nameTextField.rx.text
@@ -139,11 +157,18 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         // MARK: State
 
         reactor.state
-            .map { $0.hasMemberInfo }
+            .map { $0.isSavedAddress }
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(with: self, onNext: { owner, hasMemberInfo in
-                owner.ordererInfoView.setMemberInfoViewVisible(hasMemberInfo: hasMemberInfo)
+            .drive(with: self, onNext: { owner, isSavedAddress in
+                let addressName = owner.reactor?.currentState.addressName ?? ""
+                let memberName = owner.reactor?.currentState.name ?? ""
+                let phoneNumber = owner.reactor?.currentState.phoneNumber ?? ""
+                let address = owner.reactor?.currentState.address ?? ""
+                
+                owner.ordererInfoView.setMemberInfoViewVisible(isSavedAddress: isSavedAddress, addressName: addressName, memberName: memberName, phoneNumber: phoneNumber, address: address)
+                owner.addressView.isHidden = isSavedAddress
+                owner.dividingLineView1.isHidden = isSavedAddress
             })
             .disposed(by: disposeBag)
         
@@ -234,9 +259,7 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         orderScrollView.addSubview(orderContentView)
         
         [
-         ordererInfoView,
-         dividingLineView1,
-         addressView,
+         memberInfoStackView,
          dividingLineView2,
          productInfoView,
          dividingLineView3,
@@ -244,6 +267,12 @@ final class HBTIOrderSheetViewController: UIViewController, View {
          dividingLineView4,
          agreementView
         ].forEach(orderContentView.addSubview)
+        
+        [
+         ordererInfoView,
+         dividingLineView1,
+         addressView,
+        ].forEach(memberInfoStackView.addArrangedSubview)
     }
     
     // MARK: Set Constraints
@@ -260,24 +289,17 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             $0.width.equalToSuperview()
         }
 
-        ordererInfoView.snp.makeConstraints {
+        memberInfoStackView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
         
         dividingLineView1.snp.makeConstraints {
-            $0.top.equalTo(ordererInfoView.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
         }
         
-        addressView.snp.makeConstraints {
-            $0.top.equalTo(dividingLineView1.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-        }
-        
         dividingLineView2.snp.makeConstraints {
-            $0.top.equalTo(addressView.snp.bottom)
+            $0.top.equalTo(memberInfoStackView.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
         }
