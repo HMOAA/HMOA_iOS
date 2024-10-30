@@ -181,11 +181,19 @@ final class HBTIReviewListViewController: UIViewController, View {
             .skip(1)
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, isTap in
-                owner.showFloatingButtonAnimation(
-                    floatingButton: owner.floatingButton,
-                    stackView: owner.floatingStackView,
-                    backgroundView: owner.floatingView,
-                    isTap: isTap)
+                let orderList = reactor.currentState.notReviewedOrderList
+                if orderList.isEmpty && isTap {
+                    owner.presentAlertVC(title: "주문 후 이용가능한 서비스입니다",
+                                         content: "배송 후 후기를 작성해주세요",
+                                         buttonTitle: "확인",
+                                         type: .order)
+                } else {
+                    owner.showFloatingButtonAnimation(
+                        floatingButton: owner.floatingButton,
+                        stackView: owner.floatingStackView,
+                        backgroundView: owner.floatingView,
+                        isTap: isTap)
+                }
             })
             .disposed(by: disposeBag)
         
