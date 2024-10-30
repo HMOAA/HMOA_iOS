@@ -64,8 +64,8 @@ final class HBTIAddressView: UIView {
     private func setConstraints() {
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview()
-            $0.top.equalToSuperview().offset(24)
-            $0.bottom.equalToSuperview().offset(-24)
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
         saveDeliveryInfoButton.snp.makeConstraints {

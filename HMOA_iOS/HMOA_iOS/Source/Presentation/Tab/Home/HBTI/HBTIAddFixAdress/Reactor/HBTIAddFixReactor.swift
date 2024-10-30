@@ -75,12 +75,10 @@ final class HBTIAddFixReactor: Reactor {
         case .didTapSaveButton:
             let isEnabled = currentState.isEnabledSaveButton
             
-            return isEnabled
-                ? .concat([
-                    .just(.setIsPushVC(isEnabled)),
-                    postMemberAddressInfo()
-                  ])
-                : .just(.setIsPushVC(isEnabled))
+            return .concat([
+                postMemberAddressInfo(),
+                .just(.setIsPushVC(isEnabled))
+            ])
         }
     }
     
@@ -146,7 +144,7 @@ extension HBTIAddFixReactor {
 
 extension HBTIAddFixReactor {
     func postMemberAddressInfo() -> Observable<Mutation> {
-        let memberInfo: [String: String] = [
+        let memberAddressInfo: [String: String] = [
             "addressName": currentState.addressName,
             "detailAddress": currentState.detailAddress,
             "landlineNumber": currentState.telephoneNumber,
@@ -157,10 +155,7 @@ extension HBTIAddFixReactor {
             "zipCode": currentState.zipCode
         ]
         
-        print("============detailAddress: \(currentState.detailAddress)========")
-        print("============streetAddress: \(currentState.address)========")
-        
-        return MemberAPI.postMemberOrderInfo(params: memberInfo)
+        return MemberAPI.postMemberAddressInfo(params: memberAddressInfo)
             .catch { _ in .empty() }
             .flatMap { response -> Observable<Mutation> in
                 return .empty()
