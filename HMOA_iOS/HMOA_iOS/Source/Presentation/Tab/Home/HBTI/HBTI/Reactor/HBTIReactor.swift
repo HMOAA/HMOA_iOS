@@ -14,22 +14,33 @@ final class HBTIReactor: Reactor {
         case didTapSurveyCell(Int)
         case didTapSeeAllReviewButton
         case didTapLikeButton(Int)
+        case didTapOptionButton(HBTIReview?)
+        case didTapDeleteReview
+        case didTapEditReview
     }
     
     enum Mutation {
+        case setIsOrdered(Bool)
+        case setBackgroundImageURL(String?)
         case setTopReviewList([HBTIHomeItem])
         case setIsPushNoteSurvey(Bool)
         case setIsPushPerfumeSurvey(Bool)
         case setIsPushAllReviewList(Bool)
         case setReviewLike(Int)
         case cancelReviewLike(Int)
+        case setSelectedReview(HBTIReview?)
+        case setIsEditReview(Bool)
     }
     
     struct State {
+        var isOrdered: Bool = false
+        var backgroundImageURL: String? = nil
         var isPushNoteSurvey: Bool = false
         var isPushPerfumeSurvey: Bool = false
         var isPushAllReviewList: Bool = false
         var topReviewList: [HBTIHomeItem] = []
+        var selectedReview: HBTIReview? = nil
+        var isEditReivew: Bool = false
     }
     
     var initialState: State
@@ -41,7 +52,10 @@ final class HBTIReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return setTopReviewList()
+            return .concat([
+                setHomeInfo(),
+                setTopReviewList()
+            ])
             
         case .didTapSurveyCell(let row):
             if row == 0 {
@@ -64,6 +78,23 @@ final class HBTIReactor: Reactor {
             
         case .didTapLikeButton(let index):
             return setReviewLike(index: index)
+            
+        case .didTapOptionButton(let review):
+            return .concat([
+                .just(.setSelectedReview(review))
+            ])
+            
+        case .didTapDeleteReview:
+            return .concat([
+                deleteSelectedReview(),
+                .just(.setSelectedReview(nil))
+            ])
+            
+        case .didTapEditReview:
+            return .concat([
+                .just(.setIsEditReview(true)),
+                .just(.setIsEditReview(false))
+            ])
         }
     }
     
@@ -71,6 +102,12 @@ final class HBTIReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setIsOrdered(let isOrdered):
+            state.isOrdered = isOrdered
+            
+        case .setBackgroundImageURL(let url):
+            state.backgroundImageURL = url
+            
         case .setTopReviewList(let item):
             state.topReviewList = item
             
@@ -94,6 +131,12 @@ final class HBTIReactor: Reactor {
             review.isLiked = false
             review.likeCount -= 1
             state.topReviewList[index] = HBTIHomeItem.review(review)
+            
+        case .setSelectedReview(let review):
+            state.selectedReview = review
+            
+        case .setIsEditReview(let isEdit):
+            state.isEditReivew = isEdit
         }
         
         return state
@@ -101,6 +144,17 @@ final class HBTIReactor: Reactor {
 }
 
 extension HBTIReactor {
+    func setHomeInfo() -> Observable<Mutation> {
+        return HBTIAPI.fetchHomeInfo()
+            .catch { _ in .empty() }
+            .flatMap { infoData -> Observable<Mutation> in
+                return .concat([
+                    .just(.setIsOrdered(infoData.isOrdered)),
+                    .just(.setBackgroundImageURL(infoData.backgroundImageURL))
+                ])
+            }
+    }
+    
     func setTopReviewList() -> Observable<Mutation> {
         return HBTIAPI.fetchReivewList(fromMember: false, page: 0)
             .catch { _ in .empty() }
@@ -135,5 +189,18 @@ extension HBTIReactor {
                     ])
                 }
         }
+    }
+    
+    func deleteSelectedReview() -> Observable<Mutation> {
+        guard let review = currentState.selectedReview else { return .empty() }
+        var reviewList = currentState.topReviewList
+        let index = reviewList.firstIndex(of: .review(review))!
+        reviewList.remove(at: index)
+        
+        return HBTIAPI.deleteReivew(id: review.id)
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                return .just(.setTopReviewList(reviewList))
+            }
     }
 }

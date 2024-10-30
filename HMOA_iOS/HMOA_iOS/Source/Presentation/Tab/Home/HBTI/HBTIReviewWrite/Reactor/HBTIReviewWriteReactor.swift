@@ -10,6 +10,7 @@ import RxSwift
 final class HBTIReviewWriteReactor: Reactor {
     
     enum Action {
+        case viewDidLoad
         case didBeginEditing
         case didChangeTextViewEditing(String)
         case didTapAddPhotoButton
@@ -27,28 +28,45 @@ final class HBTIReviewWriteReactor: Reactor {
         case setIsDeletedLast(Bool)
         case setCurrentPage(Int)
         case setSuccess
+        case setEditImages([WritePhoto])
     }
     
     struct State {
-        let id: Int
+        let orderID: Int?
+        let reviewID: Int?
         var content: String = "내용을 입력해주세요"
         var okButtonEnable: Bool = false
         var isPresentToAlbum: Bool = false
         var photoCount: Int = 0
         var images: [WritePhoto] = []
+        var communityPhotos: [CommunityPhoto] = []
         var currentPage: Int = 0
         var deletePhotoIds: [Int] = []
         var isDeletedLast: Bool = false
+        var editImages: [WritePhoto] = []
     }
     
     var initialState: State
     
     init(orderID: Int) {
-        self.initialState = State(id: orderID)
+        self.initialState = State(orderID: orderID, reviewID: nil)
+    }
+    
+    init(reviewID: Int, content: String, photos: [CommunityPhoto]) {
+        self.initialState = State(orderID: nil, reviewID: reviewID, content: content, photoCount: photos.count, communityPhotos: photos)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return CommunityWriteReactor.loadPhotos(currentState.communityPhotos)
+                .flatMap { photos -> Observable<Mutation> in
+                        .concat([
+                            .just(.setImages(photos)),
+                            .just(.setEditImages(photos))
+                        ])
+                }
+            
         case .didBeginEditing:
             if currentState.content == "내용을 입력해주세요" {
                 return .just(.setContent(""))
@@ -85,7 +103,11 @@ final class HBTIReviewWriteReactor: Reactor {
             } else { return .empty() }
             
         case .didTapOkButton:
-            return postReviewPost()
+            if initialState.orderID != nil {
+                return postReviewPost()
+            } else {
+                return editReview()
+            }
         }
     }
     
@@ -121,6 +143,9 @@ final class HBTIReviewWriteReactor: Reactor {
             
         case .setSuccess:
             break
+            
+        case .setEditImages(let editImages):
+            state.editImages = editImages
         }
         
         return state
@@ -144,11 +169,35 @@ extension HBTIReviewWriteReactor {
         }
         
         let params: [String: Any] = [
-            "reviewId": state.id,
+            "orderId": state.orderID!,
             "content": state.content
         ]
         let images = state.images.map { $0.image }
         return HBTIAPI.postReview(params, images: images)
+            .catch { _ in .empty() }
+            .flatMap { data -> Observable<Mutation> in
+                return .just(.setSuccess)
+            }
+    }
+    
+    func editReview() -> Observable<Mutation> {
+        let state = currentState
+        
+        if state.content.isEmpty {
+            return .empty()
+        }
+        var addImages: [UIImage] = []
+        for item in currentState.images {
+            if !currentState.editImages.contains(where: { $0 == item }) {
+                addImages.append(item.image)
+            }
+        }
+        let params: [String: Any] = [
+            "reviewId": state.reviewID!,
+            "content": state.content,
+            "deleteReviewPhotoIds": state.deletePhotoIds
+        ]
+        return HBTIAPI.editReview(reviewID: state.reviewID!,params: params, images: addImages)
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
                 return .just(.setSuccess)

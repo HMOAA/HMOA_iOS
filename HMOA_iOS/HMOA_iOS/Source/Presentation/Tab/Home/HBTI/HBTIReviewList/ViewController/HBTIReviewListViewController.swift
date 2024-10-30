@@ -18,10 +18,16 @@ final class HBTIReviewListViewController: UIViewController, View {
     
     // MARK: - UI Components
     
+    // MyLog용 빈 화면
+    private var noItemView = IconMessageView(title: "작성한 후기가 없습니다", iconWidth: 110).then {
+        $0.isHidden = true
+    }
+    
     private lazy var hbtiReviewListCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
+        $0.isHidden = true
         $0.register(HBTIReviewCell.self, forCellWithReuseIdentifier: HBTIReviewCell.identifier)
     }
     
@@ -47,6 +53,10 @@ final class HBTIReviewListViewController: UIViewController, View {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         $0.alpha = 0
         $0.isHidden = true
+    }
+    
+    private lazy var optionView = OptionView().then {
+        $0.reactor = OptionReactor()
     }
     
     // MARK: - Properties
@@ -119,6 +129,11 @@ final class HBTIReviewListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        rx.viewDidAppear
+            .map { _ in Reactor.Action.viewDidAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // 리뷰 마지막 아이템이 나타나면 다음 페이지 로드
         hbtiReviewListCollectionView.rx.willDisplayCell
             .filter { cellInfo in
@@ -142,11 +157,30 @@ final class HBTIReviewListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didTapDeleteReview }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        optionView.reactor?.state
+            .map { $0.isTapEdit }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didTapEditReview }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         reactor.state
             .map { $0.reviewList }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, item in
+                if reactor.currentState.isLog {
+                    owner.updateCollectionViewIsHidden(isHidden: item.isEmpty)
+                }
                 owner.updateSnapshot(forSection: .review, withItem: item)
             })
             .disposed(by: disposeBag)
@@ -156,11 +190,19 @@ final class HBTIReviewListViewController: UIViewController, View {
             .skip(1)
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, isTap in
-                owner.showFloatingButtonAnimation(
-                    floatingButton: owner.floatingButton,
-                    stackView: owner.floatingStackView,
-                    backgroundView: owner.floatingView,
-                    isTap: isTap)
+                let orderList = reactor.currentState.notReviewedOrderList
+                if orderList.isEmpty && isTap {
+                    owner.presentAlertVC(title: "주문 후 이용가능한 서비스입니다",
+                                         content: "배송 후 후기를 작성해주세요",
+                                         buttonTitle: "확인",
+                                         type: .order)
+                } else {
+                    owner.showFloatingButtonAnimation(
+                        floatingButton: owner.floatingButton,
+                        stackView: owner.floatingStackView,
+                        backgroundView: owner.floatingView,
+                        isTap: isTap)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -190,6 +232,17 @@ final class HBTIReviewListViewController: UIViewController, View {
                 owner.presentHBTIReviewWriteViewController(orderID: orderID)
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isEditReivew }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self) { owner, isPush in
+                guard let review = reactor.currentState.selectedReview else { return }
+                owner.presentHBTIReviewWriteViewController(reviewID: review.id, content: review.content, communityPhotos: review.photoList)
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -203,7 +256,9 @@ final class HBTIReviewListViewController: UIViewController, View {
     private func setAddView() {
         
         [
-            hbtiReviewListCollectionView
+            hbtiReviewListCollectionView,
+            optionView,
+            noItemView
         ].forEach { view.addSubview($0) }
         
     }
@@ -213,6 +268,14 @@ final class HBTIReviewListViewController: UIViewController, View {
         hbtiReviewListCollectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        optionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        noItemView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     
@@ -261,10 +324,10 @@ final class HBTIReviewListViewController: UIViewController, View {
                     .disposed(by: cell.disposeBag)
                 
                 self.reactor!.state
-                    .map { $0.reviewList[indexPath.row] }
+                    .map { $0.reviewList.first(where: { $0.review?.id == review.id }) }
                     .asDriver(onErrorRecover: { _ in .empty() })
                     .drive(with: self, onNext: { owner, item in
-                        guard let review = item.review else { return }
+                        guard let review = item?.review else { return }
                         cell.reviewView.heartButton.isSelected = review.isLiked
                         cell.reviewView.likeCountLabel.text = String(review.likeCount)
                     })
@@ -287,6 +350,25 @@ final class HBTIReviewListViewController: UIViewController, View {
                     })
                     .disposed(by: cell.disposeBag)
                 
+                // 옵션 뷰
+                self.optionView.parentVC = self
+                
+                let optionReviewData = OptionReviewData(id: review.id,
+                                                        content: review.content,
+                                                        isWrited: review.isWrited)
+                
+                cell.reviewView.optionButton.rx.tap
+                    .bind(with: self, onNext: { owner, _  in
+                        let detailAction = HBTIReviewListReactor.Action.didTapOptionButton(review)
+                        owner.reactor?.action.onNext(detailAction)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                cell.reviewView.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton(.Review(optionReviewData)) }
+                    .bind(to: self.optionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
+                
                 return cell
             }
         })
@@ -307,5 +389,12 @@ final class HBTIReviewListViewController: UIViewController, View {
         snapshot.appendItems(item, toSection: section)
         
         dataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+extension HBTIReviewListViewController {
+    private func updateCollectionViewIsHidden(isHidden: Bool) {
+        noItemView.isHidden = !isHidden
+        hbtiReviewListCollectionView.isHidden = isHidden
     }
 }

@@ -65,8 +65,8 @@ extension UIViewController {
     }
     
     /// CustomAlertVC로 present
-    func presentAlertVC(title: String, content: String, buttonTitle: String) {
-        let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle)
+    func presentAlertVC(title: String, content: String, buttonTitle: String, type: AlertType? = nil) {
+        let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle, type: type)
         alertVC.modalPresentationStyle = .overFullScreen
         self.present(alertVC, animated: false)
     }
@@ -311,6 +311,15 @@ extension UIViewController {
     func presentHBTIReviewWriteViewController(orderID: Int) {
         let hbtiReviewWriteVC = HBTIReviewWriteViewController()
         hbtiReviewWriteVC.reactor = HBTIReviewWriteReactor(orderID: orderID)
+        hbtiReviewWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiReviewWriteVC, animated: true)
+    }
+    
+    func presentHBTIReviewWriteViewController(reviewID: Int, content: String, communityPhotos: [CommunityPhoto]) {
+        let hbtiReviewWriteVC = HBTIReviewWriteViewController()
+        hbtiReviewWriteVC.reactor = HBTIReviewWriteReactor(reviewID: reviewID,
+                                                           content: content,
+                                                           photos: communityPhotos)
         hbtiReviewWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiReviewWriteVC, animated: true)
     }
