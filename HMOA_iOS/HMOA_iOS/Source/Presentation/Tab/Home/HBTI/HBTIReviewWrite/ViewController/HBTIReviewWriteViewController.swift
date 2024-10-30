@@ -135,6 +135,11 @@ final class HBTIReviewWriteViewController: UIViewController, View {
     func bind(reactor: HBTIReviewWriteReactor) {
         
         // MARK: Action
+        Observable.just(())
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         addImageButton.rx.tap
             .map { Reactor.Action.didTapAddPhotoButton }
             .bind(to: reactor.action)

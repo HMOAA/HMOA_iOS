@@ -112,4 +112,22 @@ final class HBTIAPI {
             data: nil,
             model: Response.self)
     }
+    
+    static func editReview(reviewID: Int, params: [String: Any], images: [UIImage]) -> Observable<HBTIReview> {
+        var imageData: [Data]?
+        
+        if images.isEmpty {
+            imageData = nil
+        } else {
+            imageData = images.compactMap { $0.resize(targetSize: $0.size)?.jpegData(compressionQuality: 0.1) }
+        }
+        
+        return uploadNetworking(
+            urlStr: HBTIAddress.editDeleteReview(reviewID).url,
+            method: .post,
+            imageData: imageData,
+            imageFileName: "reviewImage.jpeg",
+            parameter: params,
+            model: HBTIReview.self)
+    }
 }

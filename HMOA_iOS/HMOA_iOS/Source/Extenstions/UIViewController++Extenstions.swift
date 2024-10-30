@@ -315,6 +315,15 @@ extension UIViewController {
         self.navigationController?.pushViewController(hbtiReviewWriteVC, animated: true)
     }
     
+    func presentHBTIReviewWriteViewController(reviewID: Int, content: String, communityPhotos: [CommunityPhoto]) {
+        let hbtiReviewWriteVC = HBTIReviewWriteViewController()
+        hbtiReviewWriteVC.reactor = HBTIReviewWriteReactor(reviewID: reviewID,
+                                                           content: content,
+                                                           photos: communityPhotos)
+        hbtiReviewWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiReviewWriteVC, animated: true)
+    }
+    
     /// HBTIReviewListVC로 push
     func presentHBTIReviewListViewController(isLog: Bool) {
         let hbtiReviewListVC = HBTIReviewListViewController()
