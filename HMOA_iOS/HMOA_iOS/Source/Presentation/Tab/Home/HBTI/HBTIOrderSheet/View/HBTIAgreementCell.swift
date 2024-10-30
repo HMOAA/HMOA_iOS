@@ -31,18 +31,7 @@ final class HBTIAgreementCell: UITableViewCell, ReuseIdentifying {
         $0.numberOfLines = 0
     }
     
-    let viewButton = UIButton(type: .system).then {
-        let text = "보기"
-        let attributedString = NSAttributedString(
-            string: text,
-            attributes: [
-                .font: UIFont.customFont(.pretendard_medium, 12),
-                .foregroundColor: UIColor.customColor(.gray3),
-                .underlineStyle: NSUnderlineStyle.single.rawValue
-            ]
-        )
-        $0.setAttributedTitle(attributedString, for: .normal)
-    }
+    let viewButton = UIButton(type: .system).makeUnderLineButton(text: "보기", textColor: .gray3)
     
     // MARK: - Initialization
     
