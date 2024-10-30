@@ -76,4 +76,15 @@ final class HBTIAPI {
             data: nil,
             model: HBTIOrderInfoResponse.self)
     }
+    
+    static func postPurchaseResult(params: [String: String]) -> Observable<Response> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                
+        return networking(
+            urlStr: HBTIAddress.postPurchaseResult.url,
+            method: .post,
+            data: data,
+            model: Response.self
+        )
+    }
 }
