@@ -21,6 +21,7 @@ final class HBTIReactor: Reactor {
     
     enum Mutation {
         case setIsOrdered(Bool)
+        case setBackgroundImageURL(String?)
         case setTopReviewList([HBTIHomeItem])
         case setIsPushNoteSurvey(Bool)
         case setIsPushPerfumeSurvey(Bool)
@@ -33,6 +34,7 @@ final class HBTIReactor: Reactor {
     
     struct State {
         var isOrdered: Bool = false
+        var backgroundImageURL: String? = nil
         var isPushNoteSurvey: Bool = false
         var isPushPerfumeSurvey: Bool = false
         var isPushAllReviewList: Bool = false
@@ -50,7 +52,10 @@ final class HBTIReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return setTopReviewList()
+            return .concat([
+                setHomeInfo(),
+                setTopReviewList()
+            ])
             
         case .didTapSurveyCell(let row):
             if row == 0 {
@@ -100,6 +105,9 @@ final class HBTIReactor: Reactor {
         case .setIsOrdered(let isOrdered):
             state.isOrdered = isOrdered
             
+        case .setBackgroundImageURL(let url):
+            state.backgroundImageURL = url
+            
         case .setTopReviewList(let item):
             state.topReviewList = item
             
@@ -140,7 +148,10 @@ extension HBTIReactor {
         return HBTIAPI.fetchHomeInfo()
             .catch { _ in .empty() }
             .flatMap { infoData -> Observable<Mutation> in
-                return .just(.setIsOrdered(infoData.isOrdered))
+                return .concat([
+                    .just(.setIsOrdered(infoData.isOrdered)),
+                    .just(.setBackgroundImageURL(infoData.backgroundImageURL))
+                ])
             }
     }
     

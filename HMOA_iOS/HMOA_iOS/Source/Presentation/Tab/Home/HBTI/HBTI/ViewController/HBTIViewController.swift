@@ -13,6 +13,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 import Then
+import Kingfisher
 
 final class HBTIViewController: UIViewController, View {
     
@@ -22,6 +23,10 @@ final class HBTIViewController: UIViewController, View {
     }
     
     // MARK: - UI Components
+    
+    private lazy var backgroundImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     private lazy var hbtiHomeCollectionView = UICollectionView(
         frame: .zero,
@@ -98,6 +103,14 @@ final class HBTIViewController: UIViewController, View {
         
         // MARK: State
         reactor.state
+            .compactMap { $0.backgroundImageURL }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, url in
+                owner.backgroundImageView.kf.setImage(with: URL(string: url))
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
             .map { $0.topReviewList }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, item in
@@ -157,6 +170,7 @@ final class HBTIViewController: UIViewController, View {
     // MARK: Add Views
     private func setAddView() {
         [
+            backgroundImageView,
             hbtiHomeCollectionView,
             optionView
         ].forEach { view.addSubview($0) }
@@ -164,6 +178,10 @@ final class HBTIViewController: UIViewController, View {
     
     // MARK: Set Constraints
     private func setConstraints() {
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalTo(hbtiHomeCollectionView.snp.edges)
+        }
+        
         hbtiHomeCollectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.bottom.equalToSuperview()
