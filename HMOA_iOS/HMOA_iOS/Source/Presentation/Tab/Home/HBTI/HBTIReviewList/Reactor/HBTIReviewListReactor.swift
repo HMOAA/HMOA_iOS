@@ -99,7 +99,8 @@ final class HBTIReviewListReactor: Reactor {
         case .didTapDeleteReview:
             return .concat([
                 deleteSelectedReview(),
-                .just(.setSelectedReview(nil))
+                .just(.setSelectedReview(nil)),
+                setNotReviewedOrderList()
             ])
             
         case .didTapEditReview:
