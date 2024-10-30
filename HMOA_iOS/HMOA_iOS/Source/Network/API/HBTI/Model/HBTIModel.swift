@@ -9,6 +9,20 @@ import Foundation
 
 // TODO: Model 파일 분리?
 
+struct HBTIHomeInfo: Codable {
+    let backgroundImageURL: String
+    let noteSurveyImageURL: String
+    let perfumeSurveyImageURL: String
+    let isOrdered: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case backgroundImageURL = "backgroundImgUrl"
+        case noteSurveyImageURL = "firstImageUrl"
+        case perfumeSurveyImageURL = "secondImageUrl"
+        case isOrdered
+    }
+}
+
 // 1차 전반부 (향BTI 결과까지)
 struct HBTISurveyResponse: Hashable, Codable {
     let title: String
@@ -136,5 +150,53 @@ struct HBTINote: Codable, Hashable {
     enum CodingKeys: String, CodingKey {
         case name = "noteName"
         case content = "noteContent"
+    }
+}
+
+struct HBTIReviewListResponse: Codable, Hashable {
+    let isLastPage: Bool
+    let data: [HBTIReview]
+    
+    enum CodingKeys: String, CodingKey {
+        case isLastPage = "lastPage"
+        case data
+    }
+}
+
+struct HBTIReview: Codable, Hashable {
+    let id: Int
+    let profileImageURL: String
+    let author: String
+    let content: String
+    let imageCount: Int
+    let photoList: [CommunityPhoto]
+    let date: String
+    let isWrited: Bool
+    var likeCount: Int
+    var isLiked: Bool
+    let orderTitle: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "hbtiReviewId"
+        case profileImageURL = "profileImgUrl"
+        case author
+        case content
+        case imageCount = "imagesCount"
+        case photoList = "hbtiPhotos"
+        case date = "createdAt"
+        case isWrited
+        case likeCount = "heartCount"
+        case isLiked
+        case orderTitle
+    }
+}
+
+struct NotReviewedOrder: Codable {
+    let id: Int
+    let info: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "orderId"
+        case info = "orderInfo"
     }
 }
