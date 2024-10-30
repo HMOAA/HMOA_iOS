@@ -56,7 +56,7 @@ final class HBTIReviewView: UIView {
         $0.setTextWithLineHeight(text: "시향카드", lineHeight: 17)
     }
     
-    private let optionButton = UIButton().then {
+    let optionButton = UIButton().then {
         let image = UIImage(named: "verticalOption")
         $0.setImage(image, for: .normal)
     }

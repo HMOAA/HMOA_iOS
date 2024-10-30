@@ -13,6 +13,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 import Then
+import Kingfisher
 
 final class HBTIViewController: UIViewController, View {
     
@@ -22,6 +23,10 @@ final class HBTIViewController: UIViewController, View {
     }
     
     // MARK: - UI Components
+    
+    private lazy var backgroundImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     private lazy var hbtiHomeCollectionView = UICollectionView(
         frame: .zero,
@@ -33,6 +38,10 @@ final class HBTIViewController: UIViewController, View {
         
         $0.register(HBTIHomeSurveyHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.survey.rawValue, withReuseIdentifier: HBTIHomeSurveyHeaderView.identifier)
         $0.register(HBTIHomeReviewHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.review.rawValue, withReuseIdentifier: HBTIHomeReviewHeaderView.identifier)
+    }
+    
+    private lazy var optionView = OptionView().then {
+        $0.reactor = OptionReactor()
     }
     
     // MARK: - Properties
@@ -76,7 +85,31 @@ final class HBTIViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        optionView.reactor?.state
+            .map { $0.isTapDelete }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didTapDeleteReview }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        optionView.reactor?.state
+            .map { $0.isTapEdit }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didTapEditReview }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
+        reactor.state
+            .compactMap { $0.backgroundImageURL }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, url in
+                owner.backgroundImageView.kf.setImage(with: URL(string: url))
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.topReviewList }
             .asDriver(onErrorRecover: { _ in .empty() })
@@ -96,9 +129,18 @@ final class HBTIViewController: UIViewController, View {
         reactor.state
             .map { $0.isPushPerfumeSurvey }
             .filter { $0 }
-            .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(onNext: presentHBTIPerfumeSurveyViewController)
+            .drive(with: self, onNext: { owner, _ in
+                let isOrdered = reactor.currentState.isOrdered
+                if isOrdered {
+                    owner.presentHBTIPerfumeSurveyViewController()
+                } else {
+                    owner.presentAlertVC(title: "주문 후 이용가능한 서비스입니다",
+                                         content: "향료 주문 후 이용해주세요",
+                                         buttonTitle: "확인",
+                                         type: .order)
+                }
+            })
             .disposed(by: disposeBag)
         
         reactor.state
@@ -110,6 +152,17 @@ final class HBTIViewController: UIViewController, View {
                 owner.presentHBTIReviewListViewController(isLog: false)
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isEditReivew }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self) { owner, isPush in
+                guard let review = reactor.currentState.selectedReview else { return }
+                owner.presentHBTIReviewWriteViewController(reviewID: review.id, content: review.content, communityPhotos: review.photoList)
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Functions
@@ -117,15 +170,25 @@ final class HBTIViewController: UIViewController, View {
     // MARK: Add Views
     private func setAddView() {
         [
-            hbtiHomeCollectionView
+            backgroundImageView,
+            hbtiHomeCollectionView,
+            optionView
         ].forEach { view.addSubview($0) }
     }
     
     // MARK: Set Constraints
     private func setConstraints() {
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalTo(hbtiHomeCollectionView.snp.edges)
+        }
+        
         hbtiHomeCollectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        optionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -214,10 +277,10 @@ final class HBTIViewController: UIViewController, View {
                     .disposed(by: cell.disposeBag)
                 
                 self.reactor!.state
-                    .map { $0.topReviewList[indexPath.row] }
+                    .map { $0.topReviewList.first(where: { $0.review?.id == review.id }) }
                     .asDriver(onErrorRecover: { _ in .empty() })
                     .drive(with: self, onNext: { owner, item in
-                        guard let review = item.review else { return }
+                        guard let review = item?.review else { return }
                         cell.reviewView.heartButton.isSelected = review.isLiked
                         cell.reviewView.likeCountLabel.text = String(review.likeCount)
                     })
@@ -239,6 +302,24 @@ final class HBTIViewController: UIViewController, View {
                         owner.presentImageListVC(indexPath, images: item.review!.photoList)
                     })
                     .disposed(by: cell.disposeBag)
+                
+                self.optionView.parentVC = self
+                
+                let optionReviewData = OptionReviewData(id: review.id,
+                                                        content: review.content,
+                                                        isWrited: review.isWrited)
+                
+                cell.reviewView.optionButton.rx.tap
+                    .bind(with: self, onNext: { owner, _  in
+                        let detailAction = HBTIReactor.Action.didTapOptionButton(review)
+                        owner.reactor?.action.onNext(detailAction)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                cell.reviewView.optionButton.rx.tap
+                    .map { OptionReactor.Action.didTapOptionButton(.Review(optionReviewData)) }
+                    .bind(to: self.optionView.reactor!.action)
+                    .disposed(by: self.disposeBag)
                 
                 return cell
             }

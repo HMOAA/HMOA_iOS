@@ -28,7 +28,7 @@ final class OrderLogReactor: Reactor {
     }
     
     struct State {
-        var orderList: [OrderLogItem] = OrderLogItem.exampleOrder
+        var orderList: [OrderLogItem] = []
         var nextPage: Int = 0
         var selectedOrder: OrderLogItem? = nil
         var isPushRefundVC: Bool = false

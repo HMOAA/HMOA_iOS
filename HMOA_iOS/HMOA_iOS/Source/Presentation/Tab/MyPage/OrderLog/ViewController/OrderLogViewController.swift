@@ -17,8 +17,13 @@ final class OrderLogViewController: UIViewController, View {
 
     // MARK: - UI Components
     
+    private var noItemView = IconMessageView(title: "주문 내역이 없습니다", iconWidth: 110).then {
+        $0.isHidden = true
+    }
+    
     private lazy var orderCollectionView = UICollectionView(frame: .zero,
                                                             collectionViewLayout: createLayout()).then {
+        $0.isHidden = true
         $0.register(OrderCell.self, forCellWithReuseIdentifier: OrderCell.identifier)
     }
     
@@ -68,6 +73,7 @@ final class OrderLogViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
+                owner.updateCollectionViewIsHidden(isHidden: items.isEmpty)
                 owner.updateSnapshot(forSection: .order, withItems: items)
             })
             .disposed(by: disposeBag)
@@ -113,7 +119,8 @@ final class OrderLogViewController: UIViewController, View {
     // MARK: Add Views
     private func setAddView() {
         [
-            orderCollectionView
+            orderCollectionView,
+            noItemView
         ]   .forEach { view.addSubview($0) }
     }
     
@@ -121,6 +128,10 @@ final class OrderLogViewController: UIViewController, View {
     private func setConstraints() {
         orderCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        noItemView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     
@@ -191,4 +202,11 @@ final class OrderLogViewController: UIViewController, View {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 
+}
+
+extension OrderLogViewController {
+    private func updateCollectionViewIsHidden(isHidden: Bool) {
+        noItemView.isHidden = !isHidden
+        orderCollectionView.isHidden = isHidden
+    }
 }
