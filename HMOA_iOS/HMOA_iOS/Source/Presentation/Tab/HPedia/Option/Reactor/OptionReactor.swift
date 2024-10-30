@@ -291,6 +291,19 @@ extension OptionReactor {
                     ])
             }
             
+        case .Review(let data):
+            return ReportAPI.reportContent(
+                ["reviewId": data.id],
+                .reportReview(data.id))
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                    .concat([
+                        .just(.setisHiddenOptionView(true)),
+                        .just(.setIsReport(true)),
+                        .just(.setIsReport(false))
+                    ])
+            }
+            
         default: return .empty()
         }
     }
