@@ -11,6 +11,7 @@ enum ReportAddress {
     case reportCommunity
     case reportCommunityComment
     case reportPerfumeComment
+    case reportReview(Int)
 }
 
 extension ReportAddress {
@@ -22,7 +23,8 @@ extension ReportAddress {
             return "report/communityComment"
         case .reportPerfumeComment:
             return "report/perfumeComment"
-            
+        case .reportReview(let id):
+            return "report/hbti-review/\(id)"
         }
     }
 }
