@@ -17,8 +17,8 @@ struct HBTIHomeInfo: Codable {
     
     enum CodingKeys: String, CodingKey {
         case backgroundImageURL = "backgroundImgUrl"
-        case noteSurveyImageURL = "firstImgUrl"
-        case perfumeSurveyImageURL = "secondImgUrl"
+        case noteSurveyImageURL = "firstImageUrl"
+        case perfumeSurveyImageURL = "secondImageUrl"
         case isOrdered
     }
 }

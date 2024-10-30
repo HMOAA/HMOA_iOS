@@ -68,8 +68,6 @@ final class OrderLogViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
-                print("state")
-                print(items)
                 owner.updateSnapshot(forSection: .order, withItems: items)
             })
             .disposed(by: disposeBag)
