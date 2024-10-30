@@ -8,6 +8,7 @@
 import Foundation
 
 enum HBTIAddress {
+    case fetchHomeInfo
     case fetchQuestionList
     case postAnswerList
     case fetchPerfumeSurvey
@@ -21,6 +22,8 @@ enum HBTIAddress {
     
     var url: String {
         switch self {
+        case .fetchHomeInfo:
+            return "survey/home"
         case .fetchQuestionList:
             return "survey/note"
         case .postAnswerList:

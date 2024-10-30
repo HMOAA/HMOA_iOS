@@ -116,9 +116,18 @@ final class HBTIViewController: UIViewController, View {
         reactor.state
             .map { $0.isPushPerfumeSurvey }
             .filter { $0 }
-            .map { _ in }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(onNext: presentHBTIPerfumeSurveyViewController)
+            .drive(with: self, onNext: { owner, _ in
+                let isOrdered = reactor.currentState.isOrdered
+                if isOrdered {
+                    owner.presentHBTIPerfumeSurveyViewController()
+                } else {
+                    owner.presentAlertVC(title: "주문 후 이용가능한 서비스입니다",
+                                         content: "향료 주문 후 이용해주세요",
+                                         buttonTitle: "확인",
+                                         type: .order)
+                }
+            })
             .disposed(by: disposeBag)
         
         reactor.state
