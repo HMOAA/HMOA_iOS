@@ -343,44 +343,55 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     // MARK: - Other Functions
     
     func bootpayStart(totalPrice: Double, orderId: String) {
-        let payload = generatePayload(totalPrice: totalPrice, orderId: orderId)
-        
-        Bootpay.requestPayment(
-            viewController: self,
-            payload: payload,
-            isModal: true,
-            modalPresentationStyle: .fullScreen,
-            animated: true
-        )
-        
-            .onCancel { data in
-                print("-- cancel: \(data)")
-            }
-            .onIssued { data in
-                print("-- issued: \(data)")
-            }
-            .onConfirm { data in
-                print("-- confirm: \(data)")
-                return true //재고가 있어서 결제를 최종 승인하려 할 경우
-//                Bootpay.transactionConfirm()
-//                return false //재고가 없어서 결제를 승인하지 않을때
-            }
-            .onDone { data in
-                print("-- done: \(data)")
-                
-                if let dataDict = data["data"] as? [String: Any],
-                   let receiptId = dataDict["receipt_id"] as? String {
-                    // TODO: 서버로 receiptId 전송
+        DispatchQueue.global(qos: .userInitiated).async {
+            let payload = self.generatePayload(totalPrice: totalPrice, orderId: orderId)
+            
+            DispatchQueue.main.async {
+                Bootpay.requestPayment(
+                    viewController: self,
+                    payload: payload,
+                    isModal: true,
+                    modalPresentationStyle: .fullScreen,
+                    animated: true
+                )
+                .onCancel { data in
+                    print("-- cancel: \(data)")
                 }
-                
-                self.presentHBTIOrderResultViewController()
+                .onIssued { data in
+                    print("-- issued: \(data)")
+                }
+                .onConfirm { data in
+                    print("-- confirm: \(data)")
+                    return true
+                }
+                .onDone { data in
+                    print("-- done: \(data)")
+                    
+                    if let dataDict = data["data"] as? [String: Any],
+                       let receiptId = dataDict["receipt_id"] as? String {
+                        let receiptData: [String: String] = [
+                            "receiptId": receiptId
+                        ]
+                        
+                        HBTIAPI.postPurchaseResult(params: receiptData)
+                            .subscribe(onNext: { response in
+                                print("==========서버 응답 성공: \(response)===========")
+                            }, onError: { error in
+                                print("===========서버 전송 오류: \(error)==============")
+                            })
+                            .disposed(by: self.disposeBag)
+                    }
+                    
+                    self.presentHBTIOrderResultViewController()
+                }
+                .onError { data in
+                    print("-- error: \(data)")
+                }
+                .onClose {
+                    print("-- close")
+                }
             }
-            .onError { data in
-                print("-- error: \(data)")
-            }
-            .onClose {
-                print("-- close")
-            }
+        }
     }
     
     func generatePayload(totalPrice: Double, orderId: String) -> Payload {
