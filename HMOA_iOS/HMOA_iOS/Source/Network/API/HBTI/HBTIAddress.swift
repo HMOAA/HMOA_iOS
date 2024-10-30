@@ -8,13 +8,22 @@
 import Foundation
 
 enum HBTIAddress {
+    case fetchHomeInfo
     case fetchQuestionList
     case postAnswerList
     case fetchPerfumeSurvey
     case postPerfumeAnswer
+    case fetchReviewList
+    case putDeleteReviewLike(Int)
+    case fetchNotReviewedOrderList
+    case fetchPostedReview
+    case postReview
+    case editDeleteReview(Int)
     
     var url: String {
         switch self {
+        case .fetchHomeInfo:
+            return "survey/home"
         case .fetchQuestionList:
             return "survey/note"
         case .postAnswerList:
@@ -23,6 +32,18 @@ enum HBTIAddress {
             return "survey/perfume"
         case .postPerfumeAnswer:
             return "survey/perfume/respond"
+        case .fetchReviewList:
+            return "shop/review"
+        case .putDeleteReviewLike(let id):
+            return "shop/review/\(id)/like"
+        case .fetchNotReviewedOrderList:
+            return "shop/order/me"
+        case .fetchPostedReview:
+            return "shop/review/me"
+        case .postReview:
+            return "shop/review"
+        case .editDeleteReview(let id):
+            return "shop/review/\(id)"
         }
     }
 }
