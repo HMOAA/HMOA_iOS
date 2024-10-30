@@ -80,18 +80,19 @@ final class HBTIViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        //
-        hbtiHomeCollectionView.rx.itemSelected
-            .filter { $0.section == 1 }
-            .map { Reactor.Action.didTapOptionButton($0.row) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         optionView.reactor?.state
             .map { $0.isTapDelete }
             .distinctUntilChanged()
             .filter { $0 }
             .map { _ in Reactor.Action.didTapDeleteReview }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        optionView.reactor?.state
+            .map { $0.isTapEdit }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didTapEditReview }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -128,6 +129,17 @@ final class HBTIViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, _ in
                 owner.presentHBTIReviewListViewController(isLog: false)
             })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isEditReivew }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self) { owner, isPush in
+                guard let review = reactor.currentState.selectedReview else { return }
+                owner.presentHBTIReviewWriteViewController(reviewID: review.id, content: review.content, communityPhotos: review.photoList)
+            }
             .disposed(by: disposeBag)
     }
     
@@ -272,7 +284,7 @@ final class HBTIViewController: UIViewController, View {
                 
                 cell.reviewView.optionButton.rx.tap
                     .bind(with: self, onNext: { owner, _  in
-                        let detailAction = HBTIReactor.Action.didTapOptionButton(indexPath.row)
+                        let detailAction = HBTIReactor.Action.didTapOptionButton(review)
                         owner.reactor?.action.onNext(detailAction)
                     })
                     .disposed(by: cell.disposeBag)

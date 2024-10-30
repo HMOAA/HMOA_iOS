@@ -18,8 +18,9 @@ final class HBTIReviewListReactor: Reactor {
         case didTapFloatingButton
         case didTapFloatingBackView
         case didTapWriteReviewButton(Int)
-        case didTapOptionButton(Int)
+        case didTapOptionButton(HBTIReview?)
         case didTapDeleteReview
+        case didTapEditReview
     }
     
     enum Mutation {
@@ -33,7 +34,8 @@ final class HBTIReviewListReactor: Reactor {
         case setNotReviewedOrderList([NotReviewedOrder])
         case setSelectedOrderID(Int?)
         case setIsPushReviewWriteVC(Bool)
-        case setSelectedReviewIndex(Int?)
+        case setSelectedReview(HBTIReview?)
+        case setIsEditReview(Bool)
     }
     
     struct State {
@@ -45,7 +47,8 @@ final class HBTIReviewListReactor: Reactor {
         var notReviewedOrderList: [NotReviewedOrder] = []
         var selectedOrderID: Int? = nil
         var isPushReviewWriteVC: Bool = false
-        var selectedReviewIndex: Int? = nil
+        var selectedReview: HBTIReview? = nil
+        var isEditReivew: Bool = false
     }
     
     var initialState: State
@@ -88,15 +91,21 @@ final class HBTIReviewListReactor: Reactor {
                 .just(.setSelectedOrderID(nil))
             ])
             
-        case .didTapOptionButton(let row):
+        case .didTapOptionButton(let review):
             return .concat([
-                .just(.setSelectedReviewIndex(row))
+                .just(.setSelectedReview(review))
             ])
             
         case .didTapDeleteReview:
             return .concat([
                 deleteSelectedReview(),
-                .just(.setSelectedReviewIndex(nil))
+                .just(.setSelectedReview(nil))
+            ])
+            
+        case .didTapEditReview:
+            return .concat([
+                .just(.setIsEditReview(true)),
+                .just(.setIsEditReview(false))
             ])
         }
     }
@@ -141,8 +150,11 @@ final class HBTIReviewListReactor: Reactor {
         case .setIsPushReviewWriteVC(let isPush):
             state.isPushReviewWriteVC = isPush
             
-        case .setSelectedReviewIndex(let index):
-            state.selectedReviewIndex = index
+        case .setSelectedReview(let review):
+            state.selectedReview = review
+            
+        case .setIsEditReview(let isEdit):
+            state.isEditReivew = isEdit
         }
         
         return state
@@ -163,7 +175,7 @@ extension HBTIReviewListReactor {
                 }
                 let isLastPage = reviewListData.isLastPage
                 
-                if self.currentState.isPushReviewWriteVC {
+                if self.currentState.isPushReviewWriteVC || !self.currentState.isLastPage {
                     return .concat([
                         .just(.setIsPushReviewWriteVC(false)),
                         .just(.setReviewList(listData)),
@@ -211,12 +223,12 @@ extension HBTIReviewListReactor {
     }
     
     func deleteSelectedReview() -> Observable<Mutation> {
-        guard let index = currentState.selectedReviewIndex else { return .empty() }
+        guard let review = currentState.selectedReview else { return .empty() }
         var reviewList = currentState.reviewList
-        let id = reviewList[index].review!.id
+        let index = reviewList.firstIndex(of: .review(review))!
         reviewList.remove(at: index)
         
-        return HBTIAPI.deleteReivew(id: id)
+        return HBTIAPI.deleteReivew(id: review.id)
             .catch { _ in .empty() }
             .flatMap { _ -> Observable<Mutation> in
                 return .just(.setReviewList(reviewList))

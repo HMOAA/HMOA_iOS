@@ -14,8 +14,9 @@ final class HBTIReactor: Reactor {
         case didTapSurveyCell(Int)
         case didTapSeeAllReviewButton
         case didTapLikeButton(Int)
-        case didTapOptionButton(Int)
+        case didTapOptionButton(HBTIReview?)
         case didTapDeleteReview
+        case didTapEditReview
     }
     
     enum Mutation {
@@ -25,8 +26,8 @@ final class HBTIReactor: Reactor {
         case setIsPushAllReviewList(Bool)
         case setReviewLike(Int)
         case cancelReviewLike(Int)
-        case setIsReviewDeleted
-        case setSelectedReviewIndex(Int?)
+        case setSelectedReview(HBTIReview?)
+        case setIsEditReview(Bool)
     }
     
     struct State {
@@ -34,7 +35,8 @@ final class HBTIReactor: Reactor {
         var isPushPerfumeSurvey: Bool = false
         var isPushAllReviewList: Bool = false
         var topReviewList: [HBTIHomeItem] = []
-        var selectedReviewIndex: Int? = nil
+        var selectedReview: HBTIReview? = nil
+        var isEditReivew: Bool = false
     }
     
     var initialState: State
@@ -70,15 +72,21 @@ final class HBTIReactor: Reactor {
         case .didTapLikeButton(let index):
             return setReviewLike(index: index)
             
-        case .didTapOptionButton(let row):
+        case .didTapOptionButton(let review):
             return .concat([
-                .just(.setSelectedReviewIndex(row))
+                .just(.setSelectedReview(review))
             ])
             
         case .didTapDeleteReview:
             return .concat([
                 deleteSelectedReview(),
-                .just(.setSelectedReviewIndex(nil))
+                .just(.setSelectedReview(nil))
+            ])
+            
+        case .didTapEditReview:
+            return .concat([
+                .just(.setIsEditReview(true)),
+                .just(.setIsEditReview(false))
             ])
         }
     }
@@ -111,11 +119,11 @@ final class HBTIReactor: Reactor {
             review.likeCount -= 1
             state.topReviewList[index] = HBTIHomeItem.review(review)
             
-        case .setSelectedReviewIndex(let index):
-            state.selectedReviewIndex = index
+        case .setSelectedReview(let review):
+            state.selectedReview = review
             
-        case .setIsReviewDeleted:
-            let selectedReviewIndex = state.selectedReviewIndex
+        case .setIsEditReview(let isEdit):
+            state.isEditReivew = isEdit
         }
         
         return state
@@ -160,12 +168,12 @@ extension HBTIReactor {
     }
     
     func deleteSelectedReview() -> Observable<Mutation> {
-        guard let index = currentState.selectedReviewIndex else { return .empty() }
+        guard let review = currentState.selectedReview else { return .empty() }
         var reviewList = currentState.topReviewList
-        let id = reviewList[index].review!.id
+        let index = reviewList.firstIndex(of: .review(review))!
         reviewList.remove(at: index)
         
-        return HBTIAPI.deleteReivew(id: id)
+        return HBTIAPI.deleteReivew(id: review.id)
             .catch { _ in .empty() }
             .flatMap { _ -> Observable<Mutation> in
                 return .just(.setTopReviewList(reviewList))

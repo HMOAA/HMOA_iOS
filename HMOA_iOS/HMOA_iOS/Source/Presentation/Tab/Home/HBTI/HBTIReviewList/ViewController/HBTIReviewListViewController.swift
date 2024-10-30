@@ -159,6 +159,14 @@ final class HBTIReviewListViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        optionView.reactor?.state
+            .map { $0.isTapEdit }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .map { _ in Reactor.Action.didTapEditReview }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: State
         reactor.state
             .map { $0.reviewList }
@@ -206,6 +214,17 @@ final class HBTIReviewListViewController: UIViewController, View {
                 guard let orderID = reactor.currentState.selectedOrderID else { return }
                 owner.presentHBTIReviewWriteViewController(orderID: orderID)
             })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isEditReivew }
+            .filter { $0 }
+            .map { _ in }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self) { owner, isPush in
+                guard let review = reactor.currentState.selectedReview else { return }
+                owner.presentHBTIReviewWriteViewController(reviewID: review.id, content: review.content, communityPhotos: review.photoList)
+            }
             .disposed(by: disposeBag)
     }
     
@@ -318,7 +337,7 @@ final class HBTIReviewListViewController: UIViewController, View {
                 
                 cell.reviewView.optionButton.rx.tap
                     .bind(with: self, onNext: { owner, _  in
-                        let detailAction = HBTIReviewListReactor.Action.didTapOptionButton(indexPath.row)
+                        let detailAction = HBTIReviewListReactor.Action.didTapOptionButton(review)
                         owner.reactor?.action.onNext(detailAction)
                     })
                     .disposed(by: cell.disposeBag)
