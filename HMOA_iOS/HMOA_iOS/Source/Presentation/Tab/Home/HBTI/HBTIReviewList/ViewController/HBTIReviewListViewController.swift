@@ -18,10 +18,16 @@ final class HBTIReviewListViewController: UIViewController, View {
     
     // MARK: - UI Components
     
+    // MyLog용 빈 화면
+    private var noItemView = IconMessageView(title: "작성한 후기가 없습니다", iconWidth: 110).then {
+        $0.isHidden = true
+    }
+    
     private lazy var hbtiReviewListCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
+        $0.isHidden = true
         $0.register(HBTIReviewCell.self, forCellWithReuseIdentifier: HBTIReviewCell.identifier)
     }
     
@@ -172,6 +178,9 @@ final class HBTIReviewListViewController: UIViewController, View {
             .map { $0.reviewList }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, item in
+                if reactor.currentState.isLog {
+                    owner.updateCollectionViewIsHidden(isHidden: item.isEmpty)
+                }
                 owner.updateSnapshot(forSection: .review, withItem: item)
             })
             .disposed(by: disposeBag)
@@ -248,7 +257,8 @@ final class HBTIReviewListViewController: UIViewController, View {
         
         [
             hbtiReviewListCollectionView,
-            optionView
+            optionView,
+            noItemView
         ].forEach { view.addSubview($0) }
         
     }
@@ -262,6 +272,10 @@ final class HBTIReviewListViewController: UIViewController, View {
         
         optionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        noItemView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     
@@ -375,5 +389,12 @@ final class HBTIReviewListViewController: UIViewController, View {
         snapshot.appendItems(item, toSection: section)
         
         dataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+extension HBTIReviewListViewController {
+    private func updateCollectionViewIsHidden(isHidden: Bool) {
+        noItemView.isHidden = !isHidden
+        hbtiReviewListCollectionView.isHidden = isHidden
     }
 }
