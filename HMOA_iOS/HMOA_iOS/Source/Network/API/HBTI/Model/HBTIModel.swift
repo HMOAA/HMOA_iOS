@@ -9,6 +9,20 @@ import Foundation
 
 // TODO: Model 파일 분리?
 
+struct HBTIHomeInfo: Codable {
+    let backgroundImageURL: String
+    let noteSurveyImageURL: String
+    let perfumeSurveyImageURL: String
+    let isOrdered: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case backgroundImageURL = "backgroundImgUrl"
+        case noteSurveyImageURL = "firstImgUrl"
+        case perfumeSurveyImageURL = "secondImgUrl"
+        case isOrdered
+    }
+}
+
 // 1차 전반부 (향BTI 결과까지)
 struct HBTISurveyResponse: Hashable, Codable {
     let title: String

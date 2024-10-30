@@ -8,6 +8,14 @@
 import RxSwift
 
 final class HBTIAPI {
+    static func fetchHomeInfo() -> Observable<HBTIHomeInfo> {
+        return networking(
+            urlStr: HBTIAddress.fetchHomeInfo.url,
+            method: .get,
+            data: nil,
+            model: HBTIHomeInfo.self)
+    }
+    
     static func fetchSurvey() -> Observable<HBTISurveyResponse> {
         return networking(
             urlStr: HBTIAddress.fetchQuestionList.url,

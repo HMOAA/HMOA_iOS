@@ -20,6 +20,7 @@ final class HBTIReactor: Reactor {
     }
     
     enum Mutation {
+        case setIsOrdered(Bool)
         case setTopReviewList([HBTIHomeItem])
         case setIsPushNoteSurvey(Bool)
         case setIsPushPerfumeSurvey(Bool)
@@ -31,6 +32,7 @@ final class HBTIReactor: Reactor {
     }
     
     struct State {
+        var isOrdered: Bool = false
         var isPushNoteSurvey: Bool = false
         var isPushPerfumeSurvey: Bool = false
         var isPushAllReviewList: Bool = false
@@ -95,6 +97,9 @@ final class HBTIReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setIsOrdered(let isOrdered):
+            state.isOrdered = isOrdered
+            
         case .setTopReviewList(let item):
             state.topReviewList = item
             
@@ -131,6 +136,14 @@ final class HBTIReactor: Reactor {
 }
 
 extension HBTIReactor {
+    func setHomeInfo() -> Observable<Mutation> {
+        return HBTIAPI.fetchHomeInfo()
+            .catch { _ in .empty() }
+            .flatMap { infoData -> Observable<Mutation> in
+                return .just(.setIsOrdered(infoData.isOrdered))
+            }
+    }
+    
     func setTopReviewList() -> Observable<Mutation> {
         return HBTIAPI.fetchReivewList(fromMember: false, page: 0)
             .catch { _ in .empty() }
