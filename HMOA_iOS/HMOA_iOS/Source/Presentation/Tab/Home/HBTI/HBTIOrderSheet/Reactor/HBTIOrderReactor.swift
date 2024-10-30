@@ -31,6 +31,8 @@ final class HBTIOrderReactor: Reactor {
         case setPhoneNumber(String)
         case setAddressName(String)
         case setAddress(String)
+        case setTelephoneNumber(String)
+        case setZipCode(String)
         case setIsSavedAddress(Bool)
         case setPayValid(Bool)
         case setIsFormValid(Bool)
@@ -49,6 +51,8 @@ final class HBTIOrderReactor: Reactor {
         var phoneNumber: String = ""
         var addressName: String = ""
         var address: String = ""
+        var telephoneNumber: String = ""
+        var zipCode: String = ""
         var isSavedAddress = false
         var isAllAgree: Bool = false
         var isPolicyAgree: Bool = false
@@ -141,6 +145,12 @@ final class HBTIOrderReactor: Reactor {
         case .setAddress(let address):
             state.address = address
             
+        case .setTelephoneNumber(let telephoneNumber):
+            state.telephoneNumber = telephoneNumber
+            
+        case .setZipCode(let zipCode):
+            state.zipCode = zipCode
+            
         case .setIsSavedAddress(let isSavedAddress):
             state.isSavedAddress = isSavedAddress
             
@@ -160,17 +170,20 @@ final class HBTIOrderReactor: Reactor {
             state.isPersonalInfoAgree = isPersonalInfoAgree
         }
         
-        state.isPayValid = isValid(state.name, state.phoneNumber, state.isAllAgree)
+        state.isPayValid = isValid(state.name, state.phoneNumber, state.isAllAgree, state.telephoneNumber, state.address, state.zipCode)
         
         return state
     }
 }
 
 extension HBTIOrderReactor {
-    private func isValid(_ name: String, _ phoneNumber: String, _ isAllAgree: Bool) -> Bool {
+    private func isValid(_ name: String, _ phoneNumber: String, _ isAllAgree: Bool, _ telephoneNumber: String, _ address: String, _ zipCode: String) -> Bool {
         return !name.isEmpty
             && isValidPhoneNumber(phoneNumber)
             && isAllAgree
+            && isValidPhoneNumber(telephoneNumber)
+            && !address.isEmpty
+            && !zipCode.isEmpty
     }
     
     private func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
@@ -229,6 +242,8 @@ extension HBTIOrderReactor {
                 let phoneNumber = memberAddress.phoneNumber
                 let addressName = memberAddress.addressName
                 let address = "\(memberAddress.streetAddress) \(memberAddress.detailAddress)"
+                let telephoneNumber = memberAddress.telephoneNumber
+                let zipCode = memberAddress.zipCode
                 let isSavedAddress = !memberName.isEmpty && !phoneNumber.isEmpty && !address.isEmpty
                 
                 return .concat([
@@ -236,6 +251,8 @@ extension HBTIOrderReactor {
                     .just(.setPhoneNumber(phoneNumber)),
                     .just(.setAddressName(addressName)),
                     .just(.setAddress(address)),
+                    .just(.setTelephoneNumber(telephoneNumber)),
+                    .just(.setZipCode(zipCode)),
                     .just(.setIsSavedAddress(isSavedAddress))
                 ])
             }

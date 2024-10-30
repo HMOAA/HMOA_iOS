@@ -17,7 +17,6 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     
     // MARK: - Properties
     
-    var appId = "5b8f6a4d396fa665fdc2b5e9"
     var disposeBag = DisposeBag()
     
     // MARK: - UI Components
@@ -149,8 +148,10 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         payButton.rx.tap
             .subscribe(onNext: { [weak self] in
-//                self?.bootpayStart()
-                self?.presentHBTIOrderResultViewController()
+                guard let totalPrice = self?.reactor?.currentState.totalPrice,
+                      let orderId = self?.reactor?.currentState.orderId else { return }
+                
+                self?.bootpayStart(totalPrice: Double(totalPrice), orderId: String(orderId))
             })
             .disposed(by: disposeBag)
         
@@ -341,14 +342,16 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     
     // MARK: - Other Functions
     
-    func bootpayStart() {
-        let payload = generatePayload()
+    func bootpayStart(totalPrice: Double, orderId: String) {
+        let payload = generatePayload(totalPrice: totalPrice, orderId: orderId)
         
-        Bootpay.requestPayment(viewController: self,
-                               payload: payload,
-                               isModal: true,
-                               modalPresentationStyle: .fullScreen,
-                               animated: true)
+        Bootpay.requestPayment(
+            viewController: self,
+            payload: payload,
+            isModal: true,
+            modalPresentationStyle: .fullScreen,
+            animated: true
+        )
         
             .onCancel { data in
                 print("-- cancel: \(data)")
@@ -364,50 +367,29 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             }
             .onDone { data in
                 print("-- done: \(data)")
+                
+                if let dataDict = data["data"] as? [String: Any],
+                   let receiptId = dataDict["receipt_id"] as? String {
+                    // TODO: 서버로 receiptId 전송
+                }
+                
+                self.presentHBTIOrderResultViewController()
             }
             .onError { data in
                 print("-- error: \(data)")
             }
             .onClose {
                 print("-- close")
-//                self.presentHBTIOrderSheetViewController()
             }
     }
     
-    func generatePayload() -> Payload {
+    func generatePayload(totalPrice: Double, orderId: String) -> Payload {
         let payload = Payload()
-        payload.applicationId = appId
         
-        payload.price = 15600
-        payload.orderId = String(NSTimeIntervalSince1970)
+        payload.applicationId = Key.BOOTPAY_APP_ID
         payload.orderName = "시향카드 구매"
-        
-        let item1 = BootItem()
-        item1.name = "프루트"
-        item1.qty = 1
-        item1.id = "3"
-        item1.price = 4800
-
-        let item2 = BootItem()
-        item2.name = "플로럴"
-        item2.qty = 1
-        item2.id = "4"
-        item2.price = 4800
-        
-        let item3 = BootItem()
-        item3.name = "시트러스"
-        item3.qty = 1
-        item3.id = "1"
-        item3.price = 6000
-        
-        payload.items = [item1, item2, item3]
-        
-        let testUser = BootUser()
-        testUser.userId = "1"
-        testUser.username = "Test1"
-        testUser.phone = "01012345678"
-        
-        payload.user = testUser
+        payload.price = totalPrice
+        payload.orderId = orderId
         
         return payload
     }
