@@ -178,9 +178,7 @@ final class HBTIReviewListViewController: UIViewController, View {
             .map { $0.reviewList }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, item in
-                if reactor.currentState.isLog {
-                    owner.updateCollectionViewIsHidden(isHidden: item.isEmpty)
-                }
+                owner.updateCollectionViewIsHidden(isHidden: item.isEmpty && reactor.currentState.isLog)
                 owner.updateSnapshot(forSection: .review, withItem: item)
             })
             .disposed(by: disposeBag)
