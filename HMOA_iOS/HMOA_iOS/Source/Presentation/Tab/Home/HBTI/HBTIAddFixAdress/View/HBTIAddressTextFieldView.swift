@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 protocol HBTIAddressTextFieldViewDelegate: AnyObject {
     func didTapReturnOnDetailAddressTextField()
@@ -20,6 +21,9 @@ final class HBTIAddressTextFieldView: UIView {
     
     private let title: String
     weak var delegate: HBTIAddressTextFieldViewDelegate?
+    
+    let zipCodeSubject = PublishSubject<String>()
+    let addressSubject = PublishSubject<String>()
     
     // MARK: UI Components
     
@@ -150,5 +154,8 @@ extension HBTIAddressTextFieldView: HBTIZipCodeViewControllerDelegate {
     func didReceiveAddress(postCode: String, address: String) {
         postCodeTextField.text = postCode
         addressTextField.text = address
+        
+        zipCodeSubject.onNext(postCode)
+        addressSubject.onNext(address)
     }
 }
