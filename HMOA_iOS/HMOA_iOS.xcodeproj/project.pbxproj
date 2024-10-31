@@ -137,6 +137,7 @@
 		3F5566022C6F57CE005CCBCA /* HBTIProcessGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5566012C6F57CE005CCBCA /* HBTIProcessGuideView.swift */; };
 		3F5BD6C52CBCFF7A004B2293 /* HBTIOrderResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5BD6C42CBCFF7A004B2293 /* HBTIOrderResultViewController.swift */; };
 		3F5ED2332C7F2A320027B973 /* HBTIOrderDividingLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */; };
+		3F6706362CD2AF9A00CDF8A3 /* HBTIZipCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6706352CD2AF9A00CDF8A3 /* HBTIZipCodeViewController.swift */; };
 		3F76C2972C7CCEF800FA67EB /* HBTIOrdererInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */; };
 		3F964D122C72746C00F97CB7 /* HBTIQuantitySelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */; };
 		3F964D162C72C5ED00F97CB7 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3F964D152C72C5ED00F97CB7 /* loading.gif */; };
@@ -517,6 +518,7 @@
 		3F5566012C6F57CE005CCBCA /* HBTIProcessGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIProcessGuideView.swift; sourceTree = "<group>"; };
 		3F5BD6C42CBCFF7A004B2293 /* HBTIOrderResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderResultViewController.swift; sourceTree = "<group>"; };
 		3F5ED2322C7F2A320027B973 /* HBTIOrderDividingLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderDividingLineView.swift; sourceTree = "<group>"; };
+		3F6706352CD2AF9A00CDF8A3 /* HBTIZipCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIZipCodeViewController.swift; sourceTree = "<group>"; };
 		3F76C2962C7CCEF800FA67EB /* HBTIOrdererInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrdererInfoView.swift; sourceTree = "<group>"; };
 		3F964D112C72746C00F97CB7 /* HBTIQuantitySelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectButton.swift; sourceTree = "<group>"; };
 		3F964D152C72C5ED00F97CB7 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
@@ -1805,6 +1807,7 @@
 			isa = PBXGroup;
 			children = (
 				3F1EAC7C2C85A045000B657C /* HBTIAddFixAddressViewController.swift */,
+				3F6706352CD2AF9A00CDF8A3 /* HBTIZipCodeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -3491,6 +3494,7 @@
 				CA051CB0297FDA0F001865F5 /* UserInformationViewController.swift in Sources */,
 				3F01E75E2C79C37600BC598E /* HBTINotesResultFooterView.swift in Sources */,
 				3F964D122C72746C00F97CB7 /* HBTIQuantitySelectButton.swift in Sources */,
+				3F6706362CD2AF9A00CDF8A3 /* HBTIZipCodeViewController.swift in Sources */,
 				CA91448F297E760800762BC0 /* UITextField++Extenstions.swift in Sources */,
 				CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */,
 				2C8318CC2A0FC6FD004A3ACD /* HomeData.swift in Sources */,
