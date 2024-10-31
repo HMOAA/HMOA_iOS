@@ -20,24 +20,36 @@ class HomeTopCell: UICollectionViewCell {
     
     var disposeBag = DisposeBag()
     
+    private let titleLabel = UILabel().then {
+        $0.setLabelUI("무료 향BTI 검사 후\n당신만의 향을 찾아보세요", font: .pretendard_medium, size: 20, color: .white)
+//        $0.setTextWithLineHeight(text: ", lineHeight: 20)
+        $0.numberOfLines = 2
+        $0.textAlignment = .center
+    }
+    
+    private let bannerView = UIView().then {
+        $0.backgroundColor = .black
+        $0.layer.cornerRadius = 12
+    }
+    
     private lazy var newsImageView = UIImageView().then {
         $0.layer.masksToBounds = true
-        $0.layer.cornerRadius = 12
+        $0.contentMode = .scaleAspectFill
     }
     
     lazy var hbtiButton = UIButton().then {
         $0.setTitle("# 향bti 검사하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 14)
-        $0.backgroundColor = #colorLiteral(red: 0.09803920239, green: 0.09803920239, blue: 0.09803920239, alpha: 1)
+        $0.backgroundColor = .customColor(.gray4)
         $0.layer.cornerRadius = 8
     }
     
-    private lazy var banerView = UIView().then {
+    private lazy var noticeView = UIView().then {
         $0.backgroundColor =  #colorLiteral(red: 0.9607843137, green: 0.9450980392, blue: 0.9529411765, alpha: 1)
     }
     
-    private lazy var banerLabel = UILabel().then {
+    private lazy var noticeLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 14, color: .banerLabelColor)
     }
     
@@ -52,29 +64,56 @@ class HomeTopCell: UICollectionViewCell {
 extension HomeTopCell {
     
     func configureUI() {
-        banerView.addSubview(banerLabel)
+        noticeView.addSubview(noticeLabel)
         
-        [newsImageView, hbtiButton, banerView] .forEach { addSubview($0) }
+        [
+            bannerView,
+            noticeView
+        ].forEach { addSubview($0) }
         
-        newsImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
-            make.leading.trailing.equalToSuperview().inset(16)
+        [
+            titleLabel,
+            newsImageView,
+            hbtiButton
+        ].forEach { bannerView.addSubview($0)}
+        
+        
+        // 배너 문구 라벨
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(25)
+            make.centerX.equalToSuperview()
         }
         
+        // 배너 이미지뷰
+        newsImageView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(30)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalTo(hbtiButton.snp.top).offset(-10)
+        }
+        
+        // 배너 뷰
+        bannerView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
+        // 향BTI 버튼
         hbtiButton.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(newsImageView.snp.horizontalEdges).inset(16)
-            make.bottom.equalTo(newsImageView.snp.bottom).inset(26)
+            make.bottom.equalTo(bannerView.snp.bottom).inset(26)
             make.height.equalTo(47)
         }
         
-        banerView.snp.makeConstraints { make in
-            make.top.equalTo(newsImageView.snp.bottom).offset(20)
+        // 공지 뷰
+        noticeView.snp.makeConstraints { make in
+            make.top.equalTo(bannerView.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
             make.height.equalTo(36)
         }
         
-        banerLabel.snp.makeConstraints { make in
+        // 공지 라벨
+        noticeLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
             make.centerY.equalToSuperview()
         }
@@ -82,7 +121,7 @@ extension HomeTopCell {
     
     func setImage(_ item: HomeFirstData) {
         let url = URL(string: item.mainImage)
-        banerLabel.text =  item.banner
+        noticeLabel.text =  item.banner
         newsImageView.kf.setImage(with: url)
     }
 }
