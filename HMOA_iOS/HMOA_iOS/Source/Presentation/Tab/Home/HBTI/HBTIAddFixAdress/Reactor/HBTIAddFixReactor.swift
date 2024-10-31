@@ -15,6 +15,8 @@ final class HBTIAddFixReactor: Reactor {
         case didChangeAddressName(String)
         case didChangePhoneNumber(String)
         case didChangeTelephoneNumber(String)
+        case didChangeAddress(String)
+        case didChangeZipCode(String)
         case didChangeDetailAddress(String)
         case didChangeOrderRequest(String)
         case didTapSaveButton
@@ -25,6 +27,8 @@ final class HBTIAddFixReactor: Reactor {
         case setAddressName(String)
         case setPhoneNumber(String)
         case setTelephoneNumber(String)
+        case setAddress(String)
+        case setZipCode(String)
         case setDetailAddress(String)
         case setOrderRequest(String)
         case setIsEnabledSaveButton(Bool)
@@ -37,8 +41,8 @@ final class HBTIAddFixReactor: Reactor {
         var addressName: String = ""
         var phoneNumber: String = ""
         var telephoneNumber: String = ""
-        var zipCode: String = "12345"
-        var address: String = "인천 연수구"
+        var zipCode: String = ""
+        var address: String = ""
         var detailAddress: String = ""
         var orderRequest: String = ""
         var isEnabledSaveButton: Bool = false
@@ -65,6 +69,12 @@ final class HBTIAddFixReactor: Reactor {
             
         case .didChangeTelephoneNumber(let telephoneNumber):
             return .just(.setTelephoneNumber(telephoneNumber))
+            
+        case .didChangeAddress(let address):
+            return .just(.setAddress(address))
+            
+        case .didChangeZipCode(let zipCode):
+            return .just(.setZipCode(zipCode))
             
         case .didChangeDetailAddress(let detailAddress):
             return .just(.setDetailAddress(detailAddress))
@@ -97,6 +107,12 @@ final class HBTIAddFixReactor: Reactor {
             
         case .setTelephoneNumber(let telephoneNumber):
             state.telephoneNumber = telephoneNumber
+            
+        case .setAddress(let address):
+            state.address = address
+            
+        case .setZipCode(let zipCode):
+            state.zipCode = zipCode
             
         case .setDetailAddress(let detailAddress):
             state.detailAddress = detailAddress

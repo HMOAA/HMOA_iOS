@@ -136,6 +136,16 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        addressTextFieldView.zipCodeSubject
+            .map { Reactor.Action.didChangeZipCode($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        addressTextFieldView.addressSubject
+            .map { Reactor.Action.didChangeAddress($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         addressTextFieldView.detailAddressTextField.rx.text
             .orEmpty
             .distinctUntilChanged()
