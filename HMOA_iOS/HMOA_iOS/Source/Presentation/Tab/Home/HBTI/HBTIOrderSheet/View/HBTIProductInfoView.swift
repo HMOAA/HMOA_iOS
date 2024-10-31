@@ -9,11 +9,16 @@ import UIKit
 import SnapKit
 import Then
 
+protocol HBTIProductInfoViewDelegate: AnyObject {
+    func productInfoView(_ view: HBTIProductInfoView, didRemoveItemAt index: Int)
+}
+
 final class HBTIProductInfoView: UIView {
     
     // MARK: - Properties
     
     private var dataSource: UICollectionViewDiffableDataSource<HBTIOrderSheetProductSection, HBTIOrderSheetProductItem>?
+    weak var delegate: HBTIProductInfoViewDelegate?
     
     // MARK: - UI Components
     
@@ -112,7 +117,10 @@ final class HBTIProductInfoView: UIView {
                     withReuseIdentifier: HBTIProductInfoCell.reuseIdentifier,
                     for: indexPath) as! HBTIProductInfoCell
                 let isSeparatorHidden = indexPath.row == (self.dataSource?.snapshot().itemIdentifiers.count ?? 1) - 1
+                
                 cell.configureCell(product: product, isSeparatorHidden: isSeparatorHidden)
+                cell.removeProductButton.addTarget(self, action: #selector(self.removeProductButtonTapped(_:)), for: .touchUpInside)
+                cell.removeProductButton.tag = indexPath.item
                 
                 return cell
             }
@@ -147,5 +155,9 @@ final class HBTIProductInfoView: UIView {
         dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.updateCollectionViewHeight()
         }
+    }
+    
+    @objc private func removeProductButtonTapped(_ sender: UIButton) {
+        delegate?.productInfoView(self, didRemoveItemAt: sender.tag)
     }
 }
