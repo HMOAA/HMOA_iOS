@@ -113,7 +113,6 @@ extension ChangeProfileImageViewController {
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, isDuplicate in
-                owner.view.endEditing(true)
                 owner.changeCaptionLabelColor(isDuplicate)
             })
             .disposed(by: disposeBag)
