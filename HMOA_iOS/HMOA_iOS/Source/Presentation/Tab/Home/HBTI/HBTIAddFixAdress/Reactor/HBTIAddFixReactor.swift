@@ -48,12 +48,13 @@ final class HBTIAddFixReactor: Reactor {
         var isEnabledSaveButton: Bool = false
         var isPushVC: Bool = false
         let orderId: Int
+        let selectedNoteList: [Int]
     }
     
     var initialState: State
     
-    init(title: String, orderId: Int) {
-        self.initialState = State(title: title, orderId: orderId)
+    init(title: String, orderId: Int, selectedNoteList: [Int]) {
+        self.initialState = State(title: title, orderId: orderId, selectedNoteList: selectedNoteList)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

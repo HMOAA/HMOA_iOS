@@ -17,6 +17,7 @@ final class HBTIOrderReactor: Reactor {
         case didChangePhoneNumber(String)
         case didTapSaveInfoButton
         case didTapEnterAddressButton
+        case didTapRemoveItemButton(Int)
         case didTapAllAgree
         case didTapPolicyAgree
         case didTapPersonalInfoAgree
@@ -43,6 +44,7 @@ final class HBTIOrderReactor: Reactor {
     
     struct State {
         let orderId: Int
+        let selectedNoteList: [Int]
         var productList: [HBTIOrderSheetProductItem] = []
         var productPrice: Int = 0
         var shippingPrice: Int = 0
@@ -63,8 +65,8 @@ final class HBTIOrderReactor: Reactor {
     
     var initialState: State
     
-    init(orderId: Int) {
-        self.initialState = State(orderId: orderId)
+    init(orderId: Int, selectedNoteList: [Int]) {
+        self.initialState = State(orderId: orderId, selectedNoteList: selectedNoteList)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -88,6 +90,10 @@ final class HBTIOrderReactor: Reactor {
         case .didTapEnterAddressButton:
             return .empty()
             
+        case .didTapRemoveItemButton(let index):
+            let productId = currentState.selectedNoteList[index]
+            return deleteOrderItem(productId: productId)
+
         case .didTapAllAgree:
             let isAllAgree = !currentState.isAllAgree
             
@@ -262,6 +268,16 @@ extension HBTIOrderReactor {
                 } else {
                     return .empty()
                 }
+            }
+    }
+    
+    func deleteOrderItem(productId: Int) -> Observable<Mutation> {
+        let orderId = currentState.orderId
+        
+        return HBTIAPI.deleteOrderItem(orderId: orderId, productId: productId)
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                return self.setProductList()
             }
     }
 }

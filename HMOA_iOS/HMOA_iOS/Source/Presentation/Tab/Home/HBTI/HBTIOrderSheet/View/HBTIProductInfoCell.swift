@@ -32,7 +32,7 @@ final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("", font: .pretendard, size: 10, color: .gray3)
     }
     
-    private let removeProductButton = UIButton().then {
+    let removeProductButton = UIButton().then {
         $0.setImage(UIImage(named: "xMark"), for: .normal)
     }
    

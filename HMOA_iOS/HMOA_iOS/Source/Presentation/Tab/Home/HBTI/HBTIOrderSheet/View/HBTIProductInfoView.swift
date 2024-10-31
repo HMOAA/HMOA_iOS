@@ -21,7 +21,7 @@ final class HBTIProductInfoView: UIView {
         $0.setLabelUI("상품 정보", font: .pretendard_bold, size: 18, color: .black)
     }
     
-    private lazy var productCollectionView = UICollectionView(
+    lazy var productCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
@@ -140,10 +140,11 @@ final class HBTIProductInfoView: UIView {
 
     func updateSnapshot(forSection section: HBTIOrderSheetProductSection, withItems items: [HBTIOrderSheetProductItem]) {
         guard let dataSource = self.dataSource else { return }
+        var snapshot = NSDiffableDataSourceSnapshot<HBTIOrderSheetProductSection, HBTIOrderSheetProductItem>()
         
-        var snapshot = dataSource.snapshot()
+        snapshot.appendSections([section])
         snapshot.appendItems(items, toSection: section)
-        dataSource.apply(snapshot, animatingDifferences: false) { [weak self] in
+        dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.updateCollectionViewHeight()
         }
     }
