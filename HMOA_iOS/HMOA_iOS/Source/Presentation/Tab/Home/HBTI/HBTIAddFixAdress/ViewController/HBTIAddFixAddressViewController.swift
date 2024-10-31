@@ -384,6 +384,10 @@ extension HBTIAddFixAddressViewController: UITextFieldDelegate {
 }
 
 extension HBTIAddFixAddressViewController: HBTIAddressTextFieldViewDelegate {
+    func didReceiveAddress(postCode: String, address: String) {
+        addressTextFieldView.postCodeTextField.text = postCode
+        addressTextFieldView.addressTextField.text = address
+    }
     
     // 상세주소 텍스트필드에서 returnKey 탭했을 경우 배송 요청사항 텍스트필드로 이동
     func didTapReturnOnDetailAddressTextField() {
