@@ -44,7 +44,7 @@ class NicknameReactor: Reactor {
             
             return .concat([
                 MemberAPI.checkDuplicateNickname(params: ["nickname": nickname])
-                .map { .setIsDuplicate($0) },
+                    .map { .setIsDuplicate($0) },
                 .just(.setNickname(nickname))
             ])
         case .didTapStartButton:
