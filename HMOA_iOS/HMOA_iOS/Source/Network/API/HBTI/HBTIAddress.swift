@@ -16,6 +16,7 @@ enum HBTIAddress {
     case postOrderNoteList
     case fetchOrderInfo
     case postPurchaseResult
+    case deleteOrderItem
     
     var url: String {
         switch self {
@@ -35,6 +36,8 @@ enum HBTIAddress {
             return "shop/note/order"
         case .postPurchaseResult:
             return "bootpay/confirm"
+        case .deleteOrderItem:
+            return "shop/note/order"
         }
     }
 }

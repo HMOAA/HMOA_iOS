@@ -192,8 +192,9 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
                 let orderId = owner.reactor?.currentState.orderId ?? 0
+                let selectedNoteList = owner.reactor?.currentState.selectedNoteList ?? []
                 
-                owner.presentHBTIOrderSheetViewController(orderId: orderId)
+                owner.presentHBTIOrderSheetViewController(orderId: orderId, selectedNoteList: selectedNoteList)
             })
             .disposed(by: disposeBag)
     }

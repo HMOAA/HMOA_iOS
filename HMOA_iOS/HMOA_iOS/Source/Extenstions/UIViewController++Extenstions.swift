@@ -332,16 +332,16 @@ extension UIViewController {
     }
     
     /// HBTIOrderSheetVC로 push
-    func presentHBTIOrderSheetViewController(orderId: Int) {
+    func presentHBTIOrderSheetViewController(orderId: Int, selectedNoteList: [Int]) {
         let hbtiOrderSheetVC = HBTIOrderSheetViewController()
-        hbtiOrderSheetVC.reactor = HBTIOrderReactor(orderId: orderId)
+        hbtiOrderSheetVC.reactor = HBTIOrderReactor(orderId: orderId, selectedNoteList: selectedNoteList)
         hbtiOrderSheetVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
     }
     
-    func presentHBTIAddFixAddressViewController(title: String, orderId: Int) {
+    func presentHBTIAddFixAddressViewController(title: String, orderId: Int, selectedNoteList: [Int]) {
         let hbtiAddFixAddressVC = HBTIAddFixAddressViewController()
-        hbtiAddFixAddressVC.reactor = HBTIAddFixReactor(title: title, orderId: orderId)
+        hbtiAddFixAddressVC.reactor = HBTIAddFixReactor(title: title, orderId: orderId, selectedNoteList: selectedNoteList)
         hbtiAddFixAddressVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiAddFixAddressVC, animated: true)
     }

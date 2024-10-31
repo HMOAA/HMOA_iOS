@@ -94,8 +94,9 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         ordererInfoView.modifyInfoButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 let orderId = self?.reactor?.currentState.orderId ?? 0
+                let selectedNoteList = self?.reactor?.currentState.selectedNoteList ?? []
                 
-                self?.presentHBTIAddFixAddressViewController(title: "주소 변경", orderId: orderId)
+                self?.presentHBTIAddFixAddressViewController(title: "주소 변경", orderId: orderId, selectedNoteList: selectedNoteList)
             })
             .disposed(by: disposeBag)
         
@@ -122,9 +123,25 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         addressView.saveDeliveryInfoButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 let orderId = self?.reactor?.currentState.orderId ?? 0
+                let selectedNoteList = self?.reactor?.currentState.selectedNoteList ?? []
                 
-                self?.presentHBTIAddFixAddressViewController(title: "주소 추가", orderId: orderId)
+                self?.presentHBTIAddFixAddressViewController(title: "주소 추가", orderId: orderId, selectedNoteList: selectedNoteList)
             })
+            .disposed(by: disposeBag)
+                
+        productInfoView.productCollectionView.rx.itemSelected
+            .compactMap { [weak self] indexPath -> (HBTIProductInfoCell, Int)? in
+                guard let cell = self?.productInfoView.productCollectionView.cellForItem(at: indexPath) as? HBTIProductInfoCell else {
+                    return nil
+                }
+                return (cell, indexPath.item)
+            }
+            .flatMap { cell, itemIndex in
+                cell.removeProductButton.rx.tap
+                    .map { itemIndex }  
+            }
+            .map { Reactor.Action.didTapRemoveItemButton($0) }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         agreementView.allAgreementButton.rx.tap

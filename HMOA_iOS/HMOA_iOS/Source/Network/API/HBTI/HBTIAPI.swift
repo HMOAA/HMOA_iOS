@@ -87,4 +87,14 @@ final class HBTIAPI {
             model: Response.self
         )
     }
+    
+    static func deleteOrderItem(orderId: Int, productId: Int) -> Observable<HBTIOrderInfoResponse> {
+        let url = "\(HBTIAddress.deleteOrderItem.url)/\(orderId)/product/\(productId)"
+        
+        return networking(
+            urlStr: url,
+            method: .delete,
+            data: nil,
+            model: HBTIOrderInfoResponse.self)
+    }
 }
