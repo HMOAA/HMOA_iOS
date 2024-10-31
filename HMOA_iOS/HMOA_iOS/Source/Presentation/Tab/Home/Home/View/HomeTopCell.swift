@@ -87,7 +87,7 @@ extension HomeTopCell {
         // 배너 이미지뷰
         newsImageView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(30)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview().inset(40)
             make.bottom.equalTo(hbtiButton.snp.top).offset(-10)
         }
         
