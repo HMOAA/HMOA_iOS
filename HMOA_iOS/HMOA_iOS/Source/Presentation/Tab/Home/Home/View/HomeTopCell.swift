@@ -82,8 +82,8 @@ extension HomeTopCell {
         
         // 배너 뷰
         bannerView.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview().inset(20)
-            make.horizontalEdges.equalToSuperview().inset(16)
+            make.verticalEdges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
         
         // 향BTI 버튼
