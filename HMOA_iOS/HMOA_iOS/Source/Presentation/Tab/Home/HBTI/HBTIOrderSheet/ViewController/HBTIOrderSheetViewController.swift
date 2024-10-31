@@ -138,7 +138,7 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             }
             .flatMap { cell, itemIndex in
                 cell.removeProductButton.rx.tap
-                    .map { itemIndex }  
+                    .map { itemIndex }
             }
             .map { Reactor.Action.didTapRemoveItemButton($0) }
             .bind(to: reactor.action)
@@ -360,54 +360,57 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     // MARK: - Other Functions
     
     func bootpayStart(totalPrice: Double, orderId: String) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let payload = self.generatePayload(totalPrice: totalPrice, orderId: orderId)
+        let payload = self.generatePayload(totalPrice: totalPrice, orderId: orderId)
+        payload.extra?.separatelyConfirmed = true
+        
+        Bootpay.requestPayment(
+            viewController: self,
+            payload: payload,
+            isModal: true,
+            modalPresentationStyle: .fullScreen,
+            animated: true
+        )
+        .onCancel { data in
+            print("-- cancel: \(data)")
+        }
+        .onIssued { data in
+            print("-- issued: \(data)")
+        }
+        .onConfirm { data in
+            print("-- confirm: \(data)")
             
-            DispatchQueue.main.async {
-                Bootpay.requestPayment(
-                    viewController: self,
-                    payload: payload,
-                    isModal: true,
-                    modalPresentationStyle: .fullScreen,
-                    animated: true
-                )
-                .onCancel { data in
-                    print("-- cancel: \(data)")
-                }
-                .onIssued { data in
-                    print("-- issued: \(data)")
-                }
-                .onConfirm { data in
-                    print("-- confirm: \(data)")
-                    return true
-                }
-                .onDone { data in
-                    print("-- done: \(data)")
-                    
-                    if let dataDict = data["data"] as? [String: Any],
-                       let receiptId = dataDict["receipt_id"] as? String {
-                        let receiptData: [String: String] = [
-                            "receiptId": receiptId
-                        ]
+            if let receiptId = data["receipt_id"] as? String {
+                let receiptData: [String: String] = [
+                    "receiptId": receiptId
+                ]
+                
+                // 서버로 receiptId 전송 및 응답을 받은 후 결제 승인
+                HBTIAPI.postPurchaseResult(params: receiptData)
+                    .subscribe(onNext: { response in
+                        print("==========\n 서버 응답 성공: \(response) \n=========")
                         
-                        HBTIAPI.postPurchaseResult(params: receiptData)
-                            .subscribe(onNext: { response in
-                                print("==========서버 응답 성공: \(response)===========")
-                            }, onError: { error in
-                                print("===========서버 전송 오류: \(error)==============")
-                            })
-                            .disposed(by: self.disposeBag)
-                    }
-                    
-                    self.presentHBTIOrderResultViewController()
-                }
-                .onError { data in
-                    print("-- error: \(data)")
-                }
-                .onClose {
-                    print("-- close")
-                }
+                        Bootpay.transactionConfirm() // 결제를 승인
+                        
+                    }, onError: { error in  // 오류 발생 시 결제를 승인하지 않음
+                        print("===========\n 서버 전송 오류: \(error) \n===========")
+                    })
+                    .disposed(by: self.disposeBag)
+            } else {
+                print("========\n receiptId를 찾을 수 없습니다. \n========")
             }
+            return false // 서버 응답 전까지는 결제를 승인하지 않음
+        }
+        .onDone { data in
+            // 서버 응답 후 결제 승인
+            print("-- done: \(data)")
+            
+            self.presentHBTIOrderResultViewController()
+        }
+        .onError { data in
+            print("-- error: \(data)")
+        }
+        .onClose {
+            print("-- close")
         }
     }
     
@@ -418,6 +421,11 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         payload.orderName = "시향카드 구매"
         payload.price = totalPrice
         payload.orderId = orderId
+        
+        let extra = BootExtra()
+        extra.separatelyConfirmed = true
+        
+        payload.extra = extra
         
         return payload
     }
