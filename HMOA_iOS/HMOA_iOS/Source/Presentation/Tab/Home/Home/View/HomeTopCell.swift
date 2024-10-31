@@ -99,9 +99,9 @@ extension HomeTopCell {
         
         // 향BTI 버튼
         hbtiButton.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(newsImageView.snp.horizontalEdges).inset(16)
-            make.bottom.equalTo(bannerView.snp.bottom).inset(26)
-            make.height.equalTo(47)
+            make.horizontalEdges.equalTo(bannerView.snp.horizontalEdges).inset(16)
+            make.bottom.equalTo(bannerView.snp.bottom).inset(10)
+            make.height.equalTo(48)
         }
         
         // 공지 뷰
