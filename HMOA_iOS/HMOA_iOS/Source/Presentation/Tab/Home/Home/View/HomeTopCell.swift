@@ -22,7 +22,6 @@ class HomeTopCell: UICollectionViewCell {
     
     private let titleLabel = UILabel().then {
         $0.setLabelUI("무료 향BTI 검사 후\n당신만의 향을 찾아보세요", font: .pretendard_medium, size: 20, color: .white)
-//        $0.setTextWithLineHeight(text: ", lineHeight: 20)
         $0.numberOfLines = 2
         $0.textAlignment = .center
     }
@@ -45,14 +44,6 @@ class HomeTopCell: UICollectionViewCell {
         $0.layer.cornerRadius = 8
     }
     
-    private lazy var noticeView = UIView().then {
-        $0.backgroundColor =  #colorLiteral(red: 0.9607843137, green: 0.9450980392, blue: 0.9529411765, alpha: 1)
-    }
-    
-    private lazy var noticeLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_medium, size: 14, color: .banerLabelColor)
-    }
-    
     // MARK: - Lifecycle
     override func layoutSubviews() {
         configureUI()
@@ -64,11 +55,9 @@ class HomeTopCell: UICollectionViewCell {
 extension HomeTopCell {
     
     func configureUI() {
-        noticeView.addSubview(noticeLabel)
         
         [
-            bannerView,
-            noticeView
+            bannerView
         ].forEach { addSubview($0) }
         
         [
@@ -93,7 +82,7 @@ extension HomeTopCell {
         
         // 배너 뷰
         bannerView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
+            make.verticalEdges.equalToSuperview().inset(20)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
         
@@ -103,25 +92,10 @@ extension HomeTopCell {
             make.bottom.equalTo(bannerView.snp.bottom).inset(10)
             make.height.equalTo(48)
         }
-        
-        // 공지 뷰
-        noticeView.snp.makeConstraints { make in
-            make.top.equalTo(bannerView.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(36)
-        }
-        
-        // 공지 라벨
-        noticeLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
-        }
     }
     
     func setImage(_ item: HomeFirstData) {
         let url = URL(string: item.mainImage)
-        noticeLabel.text =  item.banner
         newsImageView.kf.setImage(with: url)
     }
 }
