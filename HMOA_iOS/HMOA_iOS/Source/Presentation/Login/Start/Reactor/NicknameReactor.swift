@@ -40,10 +40,7 @@ class NicknameReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapDuplicateButton:
-            guard let nickname = currentState.nickname
-            else { return .just(.setIsDuplicate(true))}
-            
-            if nickname.isEmpty { return .just(.setIsDuplicate(true))}
+            guard let nickname = currentState.nickname else { return .empty() }
             
             return .concat([
                 MemberAPI.checkDuplicateNickname(params: ["nickname": nickname])
@@ -51,8 +48,7 @@ class NicknameReactor: Reactor {
                 .just(.setNickname(nickname))
             ])
         case .didTapStartButton:
-            guard let nickname = currentState.nickname
-            else { return .just(.setIsPushNextVC(false)) }
+            guard currentState.nickname != nil else { return .just(.setIsPushNextVC(false)) }
             return .concat([
                 .just(.setIsPushNextVC(true)),
                 .just(.setIsPushNextVC(false))
