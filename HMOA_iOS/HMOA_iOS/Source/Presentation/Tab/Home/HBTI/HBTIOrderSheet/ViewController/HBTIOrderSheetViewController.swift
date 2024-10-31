@@ -13,7 +13,7 @@ import RxSwift
 import RxCocoa
 import ReactorKit
 
-final class HBTIOrderSheetViewController: UIViewController, View {
+final class HBTIOrderSheetViewController: UIViewController, View, HBTIProductInfoViewDelegate {
     
     // MARK: - Properties
     
@@ -41,7 +41,9 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     
     private let dividingLineView2 = HBTIOrderDividingLineView(color: .black)
     
-    private let productInfoView = HBTIProductInfoView()
+    private lazy var productInfoView = HBTIProductInfoView().then {
+        $0.delegate = self
+    }
     
     private let dividingLineView3 = HBTIOrderDividingLineView(color: .black)
 
@@ -358,6 +360,10 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     }
     
     // MARK: - Other Functions
+    
+    func productInfoView(_ view: HBTIProductInfoView, didRemoveItemAt index: Int) {
+        reactor?.action.onNext(.didTapRemoveItemButton(index))
+    }
     
     func bootpayStart(totalPrice: Double, orderId: String) {
         let payload = self.generatePayload(totalPrice: totalPrice, orderId: orderId)
