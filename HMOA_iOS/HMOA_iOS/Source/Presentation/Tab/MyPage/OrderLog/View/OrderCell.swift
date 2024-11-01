@@ -203,6 +203,7 @@ final class OrderCell: UICollectionViewCell {
         shippingPriceValueLabel.text = order.products.shippingFee.numberFormatterToHangulWon()
         totalAmountValueLabel.text = order.products.totalAmount.numberFormatterToHangulWon()
         setButtonComposition(for: status)
+        reviewButton.isEnabled = !order.isReviewed
     }
 }
 
