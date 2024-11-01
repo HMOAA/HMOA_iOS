@@ -65,10 +65,10 @@ extension UIViewController {
     }
     
     /// CustomAlertVC로 present
-    func presentAlertVC(title: String, content: String, buttonTitle: String, type: AlertType? = nil) {
-        let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle, type: type)
-        alertVC.modalPresentationStyle = .overFullScreen
-        self.present(alertVC, animated: false)
+    func presentAlertVC(title: String, content: String, buttonTitle: String, type: AlertType? = nil, orderId: Int? = nil) {
+            let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle, type: type, orderId: orderId)
+            alertVC.modalPresentationStyle = .overFullScreen
+            self.present(alertVC, animated: false)
     }
     
     /// communityListVC -> communityDetailVC
