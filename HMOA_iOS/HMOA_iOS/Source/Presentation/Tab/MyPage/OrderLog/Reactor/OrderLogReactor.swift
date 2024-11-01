@@ -15,7 +15,7 @@ final class OrderLogReactor: Reactor {
         case loadNextPage
         case didTapRefundButton(OrderLogItem)
         case didTapReturnButton(OrderLogItem)
-        case didTapReviewButton
+        case didTapReviewButton(OrderLogItem)
     }
     
     enum Mutation {
@@ -66,9 +66,11 @@ final class OrderLogReactor: Reactor {
                 .just(.setIsPushReturnVC(false))
             ])
             
-        case .didTapReviewButton:
+        case .didTapReviewButton(let order):
             return .concat([
+                .just(.setSelectedOrder(order)),
                 .just(.setIsPushReviewVC(true)),
+                .just(.setSelectedOrder(nil)),
                 .just(.setIsPushReviewVC(false))
             ])
         }

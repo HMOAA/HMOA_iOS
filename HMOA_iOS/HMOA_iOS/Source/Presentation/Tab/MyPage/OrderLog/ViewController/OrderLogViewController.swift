@@ -178,7 +178,7 @@ final class OrderLogViewController: UIViewController, View {
                     .disposed(by: cell.disposeBag)
                 
                 cell.reviewButton.rx.tap
-                    .map { Reactor.Action.didTapReviewButton }
+                    .map { Reactor.Action.didTapReviewButton(item) }
                     .bind(to: self.reactor!.action )
                     .disposed(by: cell.disposeBag)
                 
