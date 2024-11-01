@@ -24,7 +24,11 @@ final class OrderCell: UICollectionViewCell {
     }
     
     private let decoLine = UIView().then {
-        $0.backgroundColor = UIColor.customColor(.gray1)
+        $0.backgroundColor = .black
+    }
+    
+    private let dateLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_bold, size: 12, color: .black)
     }
     
     private let categoryStackView = UIStackView().then {
@@ -35,7 +39,7 @@ final class OrderCell: UICollectionViewCell {
     }
     
     private let separatorLineView = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = .customColor(.gray1)
     }
     
     private let shippingInfoView = UIView()
@@ -110,6 +114,7 @@ final class OrderCell: UICollectionViewCell {
         [
             statusLabel,
             decoLine,
+            dateLabel,
             categoryStackView,
             shippingInfoView,
             shippingPriceTitleLabel,
@@ -134,8 +139,13 @@ final class OrderCell: UICollectionViewCell {
         decoLine.snp.makeConstraints { make in
             make.centerY.equalTo(statusLabel.snp.centerY)
             make.leading.equalTo(statusLabel.snp.trailing).offset(12)
-            make.trailing.equalToSuperview()
+            make.trailing.equalTo(dateLabel.snp.leading).offset(-12)
             make.height.equalTo(1)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(statusLabel.snp.centerY)
+            make.trailing.equalToSuperview()
         }
         
         categoryStackView.snp.makeConstraints { make in
@@ -198,6 +208,7 @@ final class OrderCell: UICollectionViewCell {
         let categoryList = order.products.categoryListInfo.categoryList
         
         setStatusLabel(for: status)
+        dateLabel.text = order.createdAt
         setCategoryStackView(categoryList)
         setShippingInfoView(company: order.courierCompany, trackingNumber: order.trackingNumber)
         shippingPriceValueLabel.text = order.products.shippingFee.numberFormatterToHangulWon()
