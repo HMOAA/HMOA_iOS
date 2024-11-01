@@ -74,11 +74,11 @@ final class OrderCell: UICollectionViewCell {
         $0.spacing = 20
     }
     
-    let refundRequestButton = UIButton().grayBorderButton(title: "환불 신청")
+    let refundRequestButton = UIButton().makeBorderButton(title: "환불 신청", color: .black)
     
-    let returnRequestButton = UIButton().grayBorderButton(title: "반품 신청")
+    let returnRequestButton = UIButton().makeBorderButton(title: "반품 신청", color: .black)
     
-    let reviewButton = UIButton().grayBorderButton(title: "후기 작성")
+    let reviewButton = UIButton().makeBorderButton(title: "후기 작성", color: .black)
     
     // MARK: - Init
     
@@ -203,7 +203,7 @@ final class OrderCell: UICollectionViewCell {
         shippingPriceValueLabel.text = order.products.shippingFee.numberFormatterToHangulWon()
         totalAmountValueLabel.text = order.products.totalAmount.numberFormatterToHangulWon()
         setButtonComposition(for: status)
-        reviewButton.isEnabled = !order.isReviewed
+        setReviewButtonEnabled(isReviewed: order.isReviewed)
     }
 }
 
@@ -258,5 +258,10 @@ extension OrderCell {
         default:
             break
         }
+    }
+    
+    private func setReviewButtonEnabled(isReviewed: Bool) {
+        reviewButton.isEnabled = !isReviewed
+        reviewButton.layer.borderColor = isReviewed ? UIColor.customColor(.gray3).cgColor : UIColor.black.cgColor
     }
 }
