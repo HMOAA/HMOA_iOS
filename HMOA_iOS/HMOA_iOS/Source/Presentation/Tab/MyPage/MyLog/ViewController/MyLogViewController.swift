@@ -108,6 +108,8 @@ extension MyLogViewController: UITableViewDelegate {
             writedPostVC.reactor = reactor
             
             navigationController?.pushViewController(writedPostVC, animated: true)
+        case 3:
+            presentHBTIReviewListViewController(isLog: true)
         default:
             break
         }
