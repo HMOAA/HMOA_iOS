@@ -15,9 +15,9 @@ enum HBTIAddress {
     case postPerfumeAnswer
     case postNoteListToCart
     case postOrderNoteList
-    case fetchOrderInfo
+    case fetchOrderInfo(Int)
     case postPurchaseResult
-    case deleteOrderItem
+    case deleteOrderItem(Int, Int)
     case deletePurchase(Int)
     case fetchReviewList
     case putDeleteReviewLike(Int)
@@ -42,12 +42,12 @@ enum HBTIAddress {
             return "shop/note/select"
         case .postOrderNoteList:
             return "shop/note/order"
-        case .fetchOrderInfo:
-            return "shop/note/order"
+        case .fetchOrderInfo(let orderId):
+            return "shop/note/order/\(orderId)"
         case .postPurchaseResult:
             return "bootpay/confirm"
-        case .deleteOrderItem:
-            return "shop/note/order"
+        case .deleteOrderItem(let orderId, let productId):
+            return "shop/note/order/\(orderId)/product/\(productId)"
         case .deletePurchase(let orderId):
             return "bootpay/\(orderId)/cancel"
         case .fetchReviewList:
