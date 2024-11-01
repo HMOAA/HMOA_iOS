@@ -97,4 +97,13 @@ final class HBTIAPI {
             data: nil,
             model: HBTIOrderInfoResponse.self)
     }
+    
+    static func deletePurchase(orderId: Int) -> Observable<Response> {
+        return networking(
+            urlStr: HBTIAddress.deletePurchase(orderId: orderId).url,
+            method: .post,
+            data: nil,
+            model: Response.self
+        )
+    }
 }
