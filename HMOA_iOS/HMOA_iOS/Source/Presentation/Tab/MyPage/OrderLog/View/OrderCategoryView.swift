@@ -120,7 +120,7 @@ final class OrderCategoryView: UIView {
         categoryLabel.text = category.name
         noteListLabel.text = category.noteList.map { $0.name }.joined(separator: ", ")
         quantityLabel.text = "수량 \(category.noteCount)개"
-        unitPriceLabel.text = "\(category.price / category.noteCount)/개"
+        unitPriceLabel.text = "\(category.price / category.noteCount)원/개"
         categoryPriceLabel.text = category.price.numberFormatterToHangulWon()
     }
 }
