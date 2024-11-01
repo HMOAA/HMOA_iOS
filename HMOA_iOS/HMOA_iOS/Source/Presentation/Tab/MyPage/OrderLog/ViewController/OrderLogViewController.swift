@@ -56,8 +56,13 @@ final class OrderLogViewController: UIViewController, View {
     func bind(reactor: OrderLogReactor) {
         
         // MARK: Action
-        rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        rx.viewWillDisappear
+            .map { _ in Reactor.Action.viewWillDisappear }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
@@ -197,6 +202,7 @@ final class OrderLogViewController: UIViewController, View {
         
         var snapshot = dataSource.snapshot()
         
+        snapshot.deleteItems(snapshot.itemIdentifiers(inSection: section))
         snapshot.appendItems(items, toSection: section)
         
         dataSource.apply(snapshot, animatingDifferences: false)
