@@ -18,7 +18,7 @@ enum HBTIAddress {
     case fetchOrderInfo
     case postPurchaseResult
     case deleteOrderItem
-    case deletePurchase(orderId: Int)
+    case deletePurchase(Int)
     case fetchReviewList
     case putDeleteReviewLike(Int)
     case fetchNotReviewedOrderList
