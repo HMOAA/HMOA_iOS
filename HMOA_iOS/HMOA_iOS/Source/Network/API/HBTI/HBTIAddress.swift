@@ -17,6 +17,7 @@ enum HBTIAddress {
     case fetchOrderInfo
     case postPurchaseResult
     case deleteOrderItem
+    case deletePurchase(orderId: Int)
     
     var url: String {
         switch self {
@@ -38,6 +39,8 @@ enum HBTIAddress {
             return "bootpay/confirm"
         case .deleteOrderItem:
             return "shop/note/order"
+        case .deletePurchase(let orderId):
+            return "bootpay/\(orderId)/cancel"
         }
     }
 }
