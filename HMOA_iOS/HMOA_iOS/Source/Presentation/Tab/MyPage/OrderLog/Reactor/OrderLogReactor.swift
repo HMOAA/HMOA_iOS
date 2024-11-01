@@ -11,7 +11,8 @@ import RxSwift
 final class OrderLogReactor: Reactor {
     
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
+        case viewWillDisappear
         case loadNextPage
         case didTapRefundButton(OrderLogItem)
         case didTapReturnButton(OrderLogItem)
@@ -20,6 +21,7 @@ final class OrderLogReactor: Reactor {
     
     enum Mutation {
         case setOrderList([OrderLogItem])
+        case appendOrderList([OrderLogItem])
         case setNextPage(Int)
         case setSelectedOrder(OrderLogItem?)
         case setIsPushRefundVC(Bool)
@@ -44,11 +46,17 @@ final class OrderLogReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return setOrderList()
             
+        case .viewWillDisappear:
+            return .concat([
+                .just(.setNextPage(0)),
+                .just(.setOrderList([]))
+            ])
+            
         case .loadNextPage:
-            return setOrderList()
+            return appendOrderList()
             
         case .didTapRefundButton(let order):
             return .concat([
@@ -81,6 +89,9 @@ final class OrderLogReactor: Reactor {
         
         switch mutation {
         case .setOrderList(let order):
+            state.orderList = order
+            
+        case .appendOrderList(let order):
             state.orderList += order
             
         case .setNextPage(let page):
@@ -105,6 +116,20 @@ final class OrderLogReactor: Reactor {
 
 extension OrderLogReactor {
     func setOrderList() -> Observable<Mutation> {
+        return MemberAPI.fetchOrderList(["cursor": 0])
+            .catch { _ in .empty() }
+            .flatMap { OrderResponseData -> Observable<Mutation> in
+                let orderItemList = OrderResponseData.orders.map { order in
+                    return OrderLogItem.order(order)
+                }
+                return .concat([
+                    .just(.setOrderList(orderItemList)),
+                    .just(.setNextPage(1))
+                ])
+            }
+    }
+    
+    func appendOrderList() -> Observable<Mutation> {
         let page = currentState.nextPage
         let query: [String: Int] = ["cursor": page]
         
@@ -115,7 +140,7 @@ extension OrderLogReactor {
                     return OrderLogItem.order(order)
                 }
                 return .concat([
-                    .just(.setOrderList(orderItemList)),
+                    .just(.appendOrderList(orderItemList)),
                     .just(.setNextPage(page + 1))
                 ])
             }
