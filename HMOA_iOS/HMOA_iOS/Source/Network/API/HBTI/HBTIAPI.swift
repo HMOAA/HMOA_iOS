@@ -76,15 +76,14 @@ final class HBTIAPI {
     }
     
     static func fetchOrderInfo(orderId: Int) -> Observable<HBTIOrderInfoResponse> {
-        let url = "\(HBTIAddress.fetchOrderInfo.url)/\(orderId)"
-        
         return networking(
-            urlStr: url,
+            urlStr: HBTIAddress.fetchOrderInfo(orderId).url,
             method: .get,
             data: nil,
-            model: HBTIOrderInfoResponse.self)
+            model: HBTIOrderInfoResponse.self
+        )
     }
-        
+    
     static func fetchReivewList(fromMember: Bool, page: Int) -> Observable<HBTIReviewListResponse> {
         let url = fromMember ? HBTIAddress.fetchPostedReview.url : HBTIAddress.fetchReviewList.url
         let query = fromMember ? ["cursor": page] : ["page": page]
@@ -110,10 +109,8 @@ final class HBTIAPI {
     }
     
     static func deleteOrderItem(orderId: Int, productId: Int) -> Observable<HBTIOrderInfoResponse> {
-        let url = "\(HBTIAddress.deleteOrderItem.url)/\(orderId)/product/\(productId)"
-        
         return networking(
-            urlStr: url,
+            urlStr: HBTIAddress.deleteOrderItem(orderId, productId).url,
             method: .delete,
             data: nil,
             model: HBTIOrderInfoResponse.self)
@@ -121,7 +118,7 @@ final class HBTIAPI {
     
     static func deletePurchase(orderId: Int) -> Observable<Response> {
         return networking(
-            urlStr: HBTIAddress.deletePurchase(orderId: orderId).url,
+            urlStr: HBTIAddress.deletePurchase(orderId).url,
             method: .delete,
             data: nil,
             model: Response.self

@@ -87,7 +87,7 @@ struct HBTIOrderInfoResponse: Hashable, Codable {
     
     enum CodingKeys: String, CodingKey {
         case productPrice = "paymentAmount"
-        case productInfo = "productInfo"
+        case productInfo
         case shippingPrice = "shippingAmount"
         case totalPrice = "totalAmount"
     }
