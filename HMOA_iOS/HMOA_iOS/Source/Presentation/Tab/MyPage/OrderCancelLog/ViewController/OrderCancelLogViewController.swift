@@ -16,7 +16,12 @@ import Then
 final class OrderCancelLogViewController: UIViewController, View {
 
     // MARK: - UI Components
+    private var noItemView = IconMessageView(title: "취소/환불 내역이 없습니다", iconWidth: 110).then {
+        $0.isHidden = true
+    }
+    
     private lazy var orderCancelLogTableView = UITableView(frame: .zero, style: .plain).then {
+        $0.isHidden = true
         $0.register(OrderCancelLogCell.self, forCellReuseIdentifier: OrderCancelLogCell.identifier)
     }
 
@@ -60,6 +65,7 @@ final class OrderCancelLogViewController: UIViewController, View {
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, items in
+                owner.updateTableViewIsHidden(isHidden: items.isEmpty)
                 owner.updateSnapshot(forSection: .cancel, withItems: items)
             })
             .disposed(by: disposeBag)
@@ -76,7 +82,8 @@ final class OrderCancelLogViewController: UIViewController, View {
     // MARK: Add Views
     private func setAddView() {
         [
-            orderCancelLogTableView
+            orderCancelLogTableView,
+            noItemView
         ]   .forEach { view.addSubview($0) }
     }
 
@@ -86,6 +93,10 @@ final class OrderCancelLogViewController: UIViewController, View {
             make.top.equalToSuperview().inset(3)
             make.horizontalEdges.equalToSuperview().inset(16)
             make.bottom.equalToSuperview()
+        }
+        
+        noItemView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     
@@ -123,4 +134,11 @@ final class OrderCancelLogViewController: UIViewController, View {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 
+}
+
+extension OrderCancelLogViewController {
+    private func updateTableViewIsHidden(isHidden: Bool) {
+        noItemView.isHidden = !isHidden
+        orderCancelLogTableView.isHidden = isHidden
+    }
 }
