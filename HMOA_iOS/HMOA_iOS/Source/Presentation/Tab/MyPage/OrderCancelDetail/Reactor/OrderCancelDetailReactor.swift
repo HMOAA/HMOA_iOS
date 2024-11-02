@@ -61,3 +61,15 @@ final class OrderCancelDetailReactor: Reactor {
         return state
     }
 }
+
+extension OrderCancelDetailReactor {
+    func deletePurchase() -> Observable<Mutation> {
+        guard let orderId = currentState.order.order?.id else { return .empty() }
+        
+        return HBTIAPI.deletePurchase(orderId: orderId)
+            .catch { _ in .empty() }
+            .flatMap { result -> Observable<Mutation> in
+                return .empty()
+            }
+    }
+}

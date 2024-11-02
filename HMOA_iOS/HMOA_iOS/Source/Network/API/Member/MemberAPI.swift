@@ -210,4 +210,34 @@ final class MemberAPI {
             model: OrderResponse.self,
             query: query)
     }
+    
+    static func postMemberOrderInfo(params: [String: String]) -> Observable<Response> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                
+        return networking(
+            urlStr: MemberAddress.postMemberOrderInfo.url,
+            method: .post,
+            data: data,
+            model: Response.self
+        )
+    }
+    
+    static func postMemberAddressInfo(params: [String: String]) -> Observable<Response> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                
+        return networking(
+            urlStr: MemberAddress.postMemberAddressInfo.url,
+            method: .post,
+            data: data,
+            model: Response.self
+        )
+    }
+    
+    static func fetchMemberAddressInfo() -> Observable<MemberAddressInfo> {
+        return networking(
+            urlStr: MemberAddress.fetchMemberAddressInfo.url,
+            method: .get,
+            data: nil,
+            model: MemberAddressInfo.self)
+    }
 }

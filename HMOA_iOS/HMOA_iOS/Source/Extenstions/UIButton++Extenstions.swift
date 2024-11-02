@@ -180,4 +180,43 @@ extension UIButton {
         self.titleLabel?.font = .customFont(.pretendard, 12)
         self.setTitle(title, for: .normal)
     }
+    
+    func makeValidHBTINextButton(title: String) -> UIButton {
+        let button = UIButton().then {
+            $0.setTitle(title, for: .normal)
+            $0.titleLabel?.font = .customFont(.pretendard, 15)
+            $0.setTitleColor(.white, for: .normal)
+            $0.layer.cornerRadius = 5
+            $0.backgroundColor = .black
+        }
+        
+        return button
+    }
+    
+    func makeInvalidHBTINextButton() -> UIButton {
+        let button = UIButton().then {
+            $0.setTitle("다음", for: .normal)
+            $0.titleLabel?.font = .customFont(.pretendard, 15)
+            $0.setTitleColor(.white, for: .normal)
+            $0.layer.cornerRadius = 5
+            $0.backgroundColor = .customColor(.gray3)
+        }
+
+        return button
+    }
+    
+    func makeUnderLineButton(text: String, textColor: Colors) -> UIButton {
+        let button = UIButton()
+        let attributedString = NSAttributedString(
+            string: text,
+            attributes: [
+                .font: UIFont.customFont(.pretendard_medium, 10),
+                .foregroundColor: UIColor.customColor(textColor),
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        button.setAttributedTitle(attributedString, for: .normal)
+        
+        return button
+    }
 }
