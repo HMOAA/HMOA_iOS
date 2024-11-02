@@ -63,7 +63,8 @@ extension OrderLogItem {
             ),
             createdAt: "2024/09/24",
             courierCompany: nil,
-            trackingNumber: nil
+            trackingNumber: nil,
+            isReviewed: false
         )),
         .order(Order(
             id: 2,
@@ -91,7 +92,8 @@ extension OrderLogItem {
             ),
             createdAt: "2024/09/25",
             courierCompany: "대한통운",
-            trackingNumber: "1234567890"
+            trackingNumber: "1234567890",
+            isReviewed: false
         )),
         .order(Order(
             id: 3,
@@ -131,7 +133,8 @@ extension OrderLogItem {
             ),
             createdAt: "2024/09/26",
             courierCompany: "한진택배",
-            trackingNumber: "0987654321"
+            trackingNumber: "0987654321",
+            isReviewed: false
         ))
     ]
 }

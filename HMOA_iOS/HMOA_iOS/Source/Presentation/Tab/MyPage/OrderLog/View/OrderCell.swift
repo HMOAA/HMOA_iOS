@@ -24,7 +24,11 @@ final class OrderCell: UICollectionViewCell {
     }
     
     private let decoLine = UIView().then {
-        $0.backgroundColor = UIColor.customColor(.gray1)
+        $0.backgroundColor = .black
+    }
+    
+    private let dateLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_bold, size: 12, color: .black)
     }
     
     private let categoryStackView = UIStackView().then {
@@ -35,7 +39,7 @@ final class OrderCell: UICollectionViewCell {
     }
     
     private let separatorLineView = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = .customColor(.gray1)
     }
     
     private let shippingInfoView = UIView()
@@ -74,11 +78,11 @@ final class OrderCell: UICollectionViewCell {
         $0.spacing = 20
     }
     
-    let refundRequestButton = UIButton().grayBorderButton(title: "환불 신청")
+    let refundRequestButton = UIButton().makeBorderButton(title: "환불 신청", color: .black)
     
-    let returnRequestButton = UIButton().grayBorderButton(title: "반품 신청")
+    let returnRequestButton = UIButton().makeBorderButton(title: "반품 신청", color: .black)
     
-    let reviewButton = UIButton().grayBorderButton(title: "후기 작성")
+    let reviewButton = UIButton().makeBorderButton(title: "후기 작성", color: .black)
     
     // MARK: - Init
     
@@ -110,6 +114,7 @@ final class OrderCell: UICollectionViewCell {
         [
             statusLabel,
             decoLine,
+            dateLabel,
             categoryStackView,
             shippingInfoView,
             shippingPriceTitleLabel,
@@ -134,8 +139,13 @@ final class OrderCell: UICollectionViewCell {
         decoLine.snp.makeConstraints { make in
             make.centerY.equalTo(statusLabel.snp.centerY)
             make.leading.equalTo(statusLabel.snp.trailing).offset(12)
-            make.trailing.equalToSuperview()
+            make.trailing.equalTo(dateLabel.snp.leading).offset(-12)
             make.height.equalTo(1)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(statusLabel.snp.centerY)
+            make.trailing.equalToSuperview()
         }
         
         categoryStackView.snp.makeConstraints { make in
@@ -198,11 +208,13 @@ final class OrderCell: UICollectionViewCell {
         let categoryList = order.products.categoryListInfo.categoryList
         
         setStatusLabel(for: status)
+        dateLabel.text = order.createdAt
         setCategoryStackView(categoryList)
         setShippingInfoView(company: order.courierCompany, trackingNumber: order.trackingNumber)
         shippingPriceValueLabel.text = order.products.shippingFee.numberFormatterToHangulWon()
         totalAmountValueLabel.text = order.products.totalAmount.numberFormatterToHangulWon()
         setButtonComposition(for: status)
+        setReviewButtonEnabled(isReviewed: order.isReviewed)
     }
 }
 
@@ -257,5 +269,10 @@ extension OrderCell {
         default:
             break
         }
+    }
+    
+    private func setReviewButtonEnabled(isReviewed: Bool) {
+        reviewButton.isEnabled = !isReviewed
+        reviewButton.layer.borderColor = isReviewed ? UIColor.customColor(.gray3).cgColor : UIColor.black.cgColor
     }
 }

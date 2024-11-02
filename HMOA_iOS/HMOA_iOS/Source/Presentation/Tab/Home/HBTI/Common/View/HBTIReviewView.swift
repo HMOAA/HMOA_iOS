@@ -162,7 +162,7 @@ final class HBTIReviewView: UIView {
         dateLabel.text = review.date
         likeCountLabel.text = String(review.likeCount)
         contentLabel.text = review.content
-        productCategoryLabel.text = review.orderTitle
+        productCategoryLabel.text = "향BTI 시향카드 [\(review.orderTitle)]"
     }
     
     

@@ -34,6 +34,7 @@ struct Order: Codable, Hashable {
     let createdAt: String
     let courierCompany: String?
     let trackingNumber: String?
+    let isReviewed: Bool
     
     enum CodingKeys: String, CodingKey {
         case id = "orderId"
@@ -42,6 +43,7 @@ struct Order: Codable, Hashable {
         case createdAt
         case courierCompany
         case trackingNumber
+        case isReviewed
     }
 }
 
