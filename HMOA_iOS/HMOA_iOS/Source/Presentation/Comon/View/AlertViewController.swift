@@ -120,12 +120,12 @@ final class AlertViewController: UIViewController {
                         presentingVC.present(loginVC, animated: true)
                     }
                 case .order:
-                    guard let orderId = owner.orderId else { return }
-
-                    HBTIAPI.deletePurchase(orderId: orderId)
-                        .subscribe()
-                        .disposed(by: owner.disposeBag)
-                    
+                    if let orderId = owner.orderId {
+                        HBTIAPI.deletePurchase(orderId: orderId)
+                            .subscribe()
+                            .disposed(by: owner.disposeBag)
+                    }
+                                       
                     owner.dismiss(animated: false)
                 }
             }
