@@ -43,12 +43,6 @@ final class MemberAPI {
         .map { result -> Bool in
             return result
         }
-        .catch { error -> Observable<Bool> in
-            if let statusCode = error.asAFError?.responseCode, statusCode == 409 {
-                return Observable.just(true)
-            }
-            return Observable.error(error)
-        }
     }
     
     /// 닉네임 업데이트
