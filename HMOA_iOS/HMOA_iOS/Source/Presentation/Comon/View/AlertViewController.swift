@@ -35,11 +35,13 @@ final class AlertViewController: UIViewController {
     }
 
     var alertType: AlertType = .login
+    var orderId: Int?
     
     let disposeBag = DisposeBag()
 
-    init(title: String, content: String, buttonTitle: String, type: AlertType? = nil) {
+    init(title: String, content: String, buttonTitle: String, type: AlertType? = nil, orderId: Int? = nil) {
         super .init(nibName: nil, bundle: nil)
+        self.orderId = orderId
         self.updateAlertView(title: title, content: content, buttonTitle: buttonTitle, type: type)
     }
     
@@ -118,6 +120,12 @@ final class AlertViewController: UIViewController {
                         presentingVC.present(loginVC, animated: true)
                     }
                 case .order:
+                    if let orderId = owner.orderId {
+                        HBTIAPI.deletePurchase(orderId: orderId)
+                            .subscribe()
+                            .disposed(by: owner.disposeBag)
+                    }
+                                       
                     owner.dismiss(animated: false)
                 }
             }
@@ -131,6 +139,11 @@ final class AlertViewController: UIViewController {
         
         guard let type = type else { return }
         alertType = type
+        
+        if alertType == .order {
+            alertView.layer.cornerRadius = 5
+            alertView.clipsToBounds = true
+        }
     }
 }
 

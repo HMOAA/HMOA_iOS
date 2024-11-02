@@ -61,6 +61,28 @@ struct OrderInfo: Codable, Hashable {
     }
 }
 
+struct MemberAddressInfo: Codable, Hashable {
+    let memberName: String
+    let addressName: String
+    let phoneNumber: String
+    let telephoneNumber: String
+    let zipCode: String
+    let streetAddress: String
+    let detailAddress: String
+    let deliveryRequest: String
+    
+    enum CodingKeys: String, CodingKey {
+        case memberName = "name"
+        case addressName
+        case phoneNumber
+        case telephoneNumber = "landlineNumber"
+        case zipCode
+        case streetAddress
+        case detailAddress
+        case deliveryRequest = "request"
+    }
+}
+
 enum OrderStatus: String, Codable {
     case CREATED = "CREATED"
     case PAY_FAILED = "PAY_FAILED"

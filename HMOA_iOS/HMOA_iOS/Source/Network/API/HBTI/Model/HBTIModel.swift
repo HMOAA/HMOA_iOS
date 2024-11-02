@@ -71,6 +71,28 @@ struct HBTISurveyResultNote: Hashable, Codable {
     }
 }
 
+// 1차 후반부
+struct HBTIOrderResult: Hashable, Codable {
+    let isExistMemberAddress: Bool
+    let isExistMemberInfo: Bool
+    let orderId: Int
+    let orderStatus: String
+}
+
+struct HBTIOrderInfoResponse: Hashable, Codable {
+    let productPrice: Int
+    let productInfo: HBTICategoryListInfo
+    let shippingPrice: Int
+    let totalPrice: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case productPrice = "paymentAmount"
+        case productInfo
+        case shippingPrice = "shippingAmount"
+        case totalPrice = "totalAmount"
+    }
+}
+
 // 2차 (배송 후 향수 추천)
 struct HBTIPerfumeServeyResponse: Hashable, Codable {
     let priceQuestion: HBTIQuestion
@@ -115,6 +137,7 @@ struct HBTIPerfume: Hashable, Codable {
 }
 
 // 1차 후반후, 3차
+
 struct HBTICategoryListInfo: Codable, Hashable {
     let totalPrice: Int
     let categoryList: [HBTICategory]

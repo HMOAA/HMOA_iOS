@@ -65,10 +65,10 @@ extension UIViewController {
     }
     
     /// CustomAlertVC로 present
-    func presentAlertVC(title: String, content: String, buttonTitle: String, type: AlertType? = nil) {
-        let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle, type: type)
-        alertVC.modalPresentationStyle = .overFullScreen
-        self.present(alertVC, animated: false)
+    func presentAlertVC(title: String, content: String, buttonTitle: String, type: AlertType? = nil, orderId: Int? = nil) {
+            let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle, type: type, orderId: orderId)
+            alertVC.modalPresentationStyle = .overFullScreen
+            self.present(alertVC, animated: false)
     }
     
     /// communityListVC -> communityDetailVC
@@ -306,6 +306,53 @@ extension UIViewController {
         hbtiPerfumeResultVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiPerfumeResultVC, animated: true)
     }
+  
+    /// HBTINotesCatrgoryVC로 push
+    func presentHBTINotesCategoryViewController(_ selectedQuantity: Int, _ isFreeSelection: Bool, _ noteName: String) {
+        let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
+        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(selectedQuantity, isFreeSelection, noteName)
+        hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
+    }
+  
+    /// HBTIQuantitySelectVC로 push
+    func presentHBTIQuantitySelectViewController(_ recommendation: [String: Any]) {
+        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
+        hbtiQuantitySelectVC.reactor = HBTIQuantitySelectReactor(recommendation)
+        hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
+    }
+  
+    /// HBTIProcessGuideVC로 push
+    func presentHBTIProcessGuideViewController(_ recommendation: [HBTISurveyResultItem]) {
+        let hbtiProcessGuideVC = HBTIProcessGuideViewController()
+        hbtiProcessGuideVC.reactor = HBTIProcessGuideReactor(recommendation)
+        hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
+    }
+    
+    /// HBTIOrderSheetVC로 push
+    func presentHBTIOrderSheetViewController(orderId: Int, selectedNoteList: [Int]) {
+        let hbtiOrderSheetVC = HBTIOrderSheetViewController()
+        hbtiOrderSheetVC.reactor = HBTIOrderReactor(orderId: orderId, selectedNoteList: selectedNoteList)
+        hbtiOrderSheetVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
+    }
+    
+    func presentHBTIAddFixAddressViewController(title: String, orderId: Int, selectedNoteList: [Int]) {
+        let hbtiAddFixAddressVC = HBTIAddFixAddressViewController()
+        hbtiAddFixAddressVC.reactor = HBTIAddFixReactor(title: title, orderId: orderId, selectedNoteList: selectedNoteList)
+        hbtiAddFixAddressVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiAddFixAddressVC, animated: true)
+    }
+    
+    /// HBTINotesResultVC로 push
+    func presentHBTINotesResultViewController(_ selectedNoteList: [Int]) {
+        let hbtiNotesResultVC = HBTINotesResultViewController()
+        hbtiNotesResultVC.reactor = HBTINotesResultReactor(selectedNoteList)
+        hbtiNotesResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNotesResultVC, animated: true)
+    }
     
     /// HBTIReviewWriteVC로 push
     func presentHBTIReviewWriteViewController(orderID: Int) {
@@ -338,6 +385,13 @@ extension UIViewController {
         orderCancelDetailVC.reactor = OrderCancelDetailReactor(order, orderCancelRequest)
         orderCancelDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(orderCancelDetailVC, animated: true)
+    }
+    
+    /// HBTIOrderResultVC로 push
+    func presentHBTIOrderResultViewController() {
+        let hbtiOrderResultVC = HBTIOrderResultViewController()
+        hbtiOrderResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiOrderResultVC, animated: true)
     }
     
     // MARK: Configure NavigationBar
@@ -514,6 +568,20 @@ extension UIViewController {
         }
         
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popToHBTIViewController), imageName: "backButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+    }
+    
+    /// 홈화면으로 이동하는 Back버튼 Navigation Bar
+    func setBackToHomeVCNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "backButton")
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
@@ -716,4 +784,15 @@ extension UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    // MARK: - Other Functions
+    
+    // 텍스트필드에서 returnKey 입력 시 다음 텍스트필드 이동
+    func moveToNextTextField(currentTextField: UITextField, nextTextField: UITextField?) -> Bool {
+        if let next = nextTextField {
+            next.becomeFirstResponder()
+        } else {
+            currentTextField.resignFirstResponder()
+        }
+        return true
+    }
 }
