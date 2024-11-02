@@ -124,7 +124,15 @@ final class OrderCancelDetailViewController: UIViewController, View {
             .drive(with: self, onNext: { owner, _ in
                 let request = reactor.currentState.requestKind
                 if request == .refundRequest {
-                    // TODO: 부트페이 환불
+                    guard let orderId = reactor.currentState.order.order?.id else { return }
+                    
+                    owner.presentAlertVC(
+                        title: "환불하시겠습니까?",
+                        content: "환불은 환불 규정에 따라 진행됩니다.",
+                        buttonTitle: "확인",
+                        type: .order,
+                        orderId: orderId
+                    )
                 } else {
                     owner.presentKakaoChannel()
                 }

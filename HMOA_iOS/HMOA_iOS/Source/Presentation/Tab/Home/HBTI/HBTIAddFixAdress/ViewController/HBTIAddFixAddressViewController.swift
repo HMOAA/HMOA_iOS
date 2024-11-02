@@ -136,6 +136,16 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        addressTextFieldView.zipCodeSubject
+            .map { Reactor.Action.didChangeZipCode($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        addressTextFieldView.addressSubject
+            .map { Reactor.Action.didChangeAddress($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         addressTextFieldView.detailAddressTextField.rx.text
             .orEmpty
             .distinctUntilChanged()
@@ -181,7 +191,10 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             .filter { $0 }
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
-//                owner.presentHBTIOrderSheetViewController()
+                let orderId = owner.reactor?.currentState.orderId ?? 0
+                let selectedNoteList = owner.reactor?.currentState.selectedNoteList ?? []
+                
+                owner.presentHBTIOrderSheetViewController(orderId: orderId, selectedNoteList: selectedNoteList)
             })
             .disposed(by: disposeBag)
     }
@@ -382,6 +395,10 @@ extension HBTIAddFixAddressViewController: UITextFieldDelegate {
 }
 
 extension HBTIAddFixAddressViewController: HBTIAddressTextFieldViewDelegate {
+    func didReceiveAddress(postCode: String, address: String) {
+        addressTextFieldView.postCodeTextField.text = postCode
+        addressTextFieldView.addressTextField.text = address
+    }
     
     // 상세주소 텍스트필드에서 returnKey 탭했을 경우 배송 요청사항 텍스트필드로 이동
     func didTapReturnOnDetailAddressTextField() {
