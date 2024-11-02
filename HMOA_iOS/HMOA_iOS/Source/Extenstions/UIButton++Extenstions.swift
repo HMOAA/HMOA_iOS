@@ -38,6 +38,21 @@ extension UIButton {
         return button
     }
     
+    func makeHBTIFloatingListButton(title: String) -> UIButton {
+        var config = UIButton.Configuration.plain()
+        var titleAttr = AttributedString.init(title)
+        titleAttr.font = .customFont(.pretendard_medium, 12)
+        
+        config.attributedTitle = titleAttr
+        config.titleAlignment = .leading
+        config.baseBackgroundColor = .black
+        config.baseForegroundColor = .white
+        config.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20)
+        let button = UIButton(configuration: config)
+        button.contentHorizontalAlignment = .leading
+        return button
+    }
+    
     func makeImageButton(_ image: UIImage) -> UIButton {
         let button = UIButton().then {
             $0.setImage(image, for: .normal)
@@ -186,6 +201,21 @@ extension UIButton {
             $0.backgroundColor = .customColor(.gray3)
         }
 
+        return button
+    }
+    
+    func makeUnderLineButton(text: String, textColor: Colors) -> UIButton {
+        let button = UIButton()
+        let attributedString = NSAttributedString(
+            string: text,
+            attributes: [
+                .font: UIFont.customFont(.pretendard_medium, 10),
+                .foregroundColor: UIColor.customColor(textColor),
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        button.setAttributedTitle(attributedString, for: .normal)
+        
         return button
     }
 }

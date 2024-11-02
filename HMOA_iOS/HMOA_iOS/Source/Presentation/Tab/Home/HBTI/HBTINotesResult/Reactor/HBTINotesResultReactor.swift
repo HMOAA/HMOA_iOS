@@ -18,10 +18,12 @@ final class HBTINotesResultReactor: Reactor {
     enum Mutation {
         case setCartItemList([HBTINotesResultItem])
         case setTotalPrice(Int)
+        case setOrderId(Int)
         case setIsPushNextVC(Bool)
     }
     
     struct State {
+        var orderId: Int = 0
         let selectedNoteList: [Int]
         var cartItemList: [HBTINotesResultItem] = []
         var totalPrice: Int = 0
@@ -41,7 +43,10 @@ final class HBTINotesResultReactor: Reactor {
             return setCartItemList()
 
         case .didTapNextButton:
-            return .just(.setIsPushNextVC(true))
+            return .concat([
+                setOrderId(),
+                .just(.setIsPushNextVC(true))
+            ])
         }
     }
     
@@ -50,6 +55,9 @@ final class HBTINotesResultReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setOrderId(let orderId):
+            state.orderId = orderId
+            
         case .setCartItemList(let item):
             state.cartItemList = item
             
@@ -80,6 +88,18 @@ extension HBTINotesResultReactor {
                     .just(.setCartItemList(cartItemList)),
                     .just(.setTotalPrice(totalPrice))
                 ])
+            }
+    }
+    
+    func setOrderId() -> Observable<Mutation> {
+        let orderNoteList = currentState.selectedNoteList
+
+        return HBTIAPI.postOrderNoteList(params: ["productIds": orderNoteList])
+            .catch{ _ in .empty() }
+            .flatMap { orderResultData -> Observable<Mutation> in
+                let orderId = orderResultData.orderId
+                
+                return .just(.setOrderId(orderId))
             }
     }
 }

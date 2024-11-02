@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HBTIProductInfoCell: UITableViewCell, ReuseIdentifying {
+final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
@@ -20,34 +20,36 @@ final class HBTIProductInfoCell: UITableViewCell, ReuseIdentifying {
     }
     
     private let productTitleLabel = UILabel().then {
-        $0.setLabelUI("상품명", font: .pretendard_semibold, size: 14, color: .black)
+        $0.setLabelUI("", font: .pretendard_semibold, size: 14, color: .black)
     }
     
     private let productDescriptionLabel = UILabel().then {
-        $0.setLabelUI("상품 상세 설명", font: .pretendard, size: 10, color: .black)
+        $0.setLabelUI("", font: .pretendard, size: 10, color: .black)
         $0.numberOfLines = 0
     }
    
     private let productCountLabel = UILabel().then {
-        $0.setLabelUI("수량 0개", font: .pretendard, size: 10, color: .gray3)
+        $0.setLabelUI("", font: .pretendard, size: 10, color: .gray3)
     }
     
-    private let removeProductButton = UIButton().then {
+    let removeProductButton = UIButton().then {
         $0.setImage(UIImage(named: "xMark"), for: .normal)
     }
    
     private let productPricePerUnitLabel = UILabel().then {
-        $0.setLabelUI("0원/개", font: .pretendard, size: 10, color: .gray3)
+        $0.setLabelUI("", font: .pretendard, size: 10, color: .gray3)
     }
     
     private let productPriceLabel = UILabel().then {
-        $0.setLabelUI("0원", font: .pretendard_semibold, size: 14, color: .black)
+        $0.setLabelUI("", font: .pretendard_semibold, size: 14, color: .black)
     }
+    
+    private let separatorView = HBTIOrderDividingLineView(color: .customColor(.gray1))
     
     // MARK: - Initialization
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setAddView()
         setConstraints()
@@ -67,7 +69,8 @@ final class HBTIProductInfoCell: UITableViewCell, ReuseIdentifying {
          productCountLabel,
          removeProductButton,
          productPricePerUnitLabel,
-         productPriceLabel
+         productPriceLabel,
+         separatorView
         ].forEach(addSubview)
     }
     
@@ -76,7 +79,7 @@ final class HBTIProductInfoCell: UITableViewCell, ReuseIdentifying {
     private func setConstraints() {
         productImageView.snp.makeConstraints {
             $0.leading.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview().offset(20)
             $0.width.height.equalTo(60)
         }
         
@@ -109,14 +112,21 @@ final class HBTIProductInfoCell: UITableViewCell, ReuseIdentifying {
             $0.trailing.equalToSuperview()
             $0.bottom.equalTo(productImageView)
         }
+        
+        separatorView.snp.makeConstraints {
+            $0.top.equalTo(productPriceLabel.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
+        }
     }
     
-    func configureCell(with product: HBTIOrderSheetProductData) {
-        productImageView.image = UIImage(named: product.image)
-        productTitleLabel.text = product.title
-        productDescriptionLabel.text = product.details
-        productCountLabel.text = "수량 \(product.count)개"
-        productPricePerUnitLabel.text = product.pricePerUnit
-        productPriceLabel.text = "\(product.price)원"
+    func configureCell(product: HBTICategory, isSeparatorHidden: Bool) {
+        productImageView.kf.setImage(with: URL(string: product.imageURL))
+        productTitleLabel.text = product.name
+        productDescriptionLabel.text = product.noteList.map { $0.name }.joined(separator: ", ")
+        productCountLabel.text = "수량 \(product.noteCount)개"
+        productPricePerUnitLabel.text = "990원/개"
+        productPriceLabel.text = "\(product.price.numberFormatterToHangulWon())"
+        separatorView.isHidden = isSeparatorHidden
     }
 }

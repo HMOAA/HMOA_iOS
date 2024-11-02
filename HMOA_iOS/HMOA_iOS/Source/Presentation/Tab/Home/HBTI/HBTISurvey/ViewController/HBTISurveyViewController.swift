@@ -183,7 +183,13 @@ final class HBTISurveyViewController: UIViewController, View {
             
             var previousPage: Int = -1
             section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
-                let currentPage = Int(max(0, round(offset.x / env.container.contentSize.width)))
+                let totalWidth = env.container.contentSize.width
+                guard totalWidth > 0 else { return }
+                
+                var currentPage = Int(round(offset.x / totalWidth))
+                let questionCount = self.reactor?.currentState.questionList.count ?? 0
+                currentPage = max(0, min(currentPage, questionCount - 1))
+                
                 if currentPage != previousPage {
                     previousPage = currentPage
                     self.reactor?.action.onNext(.didChangePage(currentPage))

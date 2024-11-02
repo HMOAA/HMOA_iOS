@@ -13,11 +13,10 @@ import RxSwift
 import RxCocoa
 import ReactorKit
 
-final class HBTIOrderSheetViewController: UIViewController, View {
+final class HBTIOrderSheetViewController: UIViewController, View, HBTIProductInfoViewDelegate {
     
     // MARK: - Properties
     
-    var appId = "5b8f6a4d396fa665fdc2b5e9"
     var disposeBag = DisposeBag()
     
     // MARK: - UI Components
@@ -29,6 +28,11 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     
     private let orderContentView = UIView()
     
+    private let memberInfoStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 24
+    }
+    
     private let ordererInfoView = HBTIOrdererInfoView()
     
     private let dividingLineView1 = HBTIOrderDividingLineView(color: .black)
@@ -37,7 +41,9 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     
     private let dividingLineView2 = HBTIOrderDividingLineView(color: .black)
     
-    private let productInfoView = HBTIProductInfoView()
+    private lazy var productInfoView = HBTIProductInfoView().then {
+        $0.delegate = self
+    }
     
     private let dividingLineView3 = HBTIOrderDividingLineView(color: .black)
 
@@ -72,6 +78,30 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         // MARK: Action
         
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ordererInfoView.saveInfoButton.rx.tap
+            .map { Reactor.Action.didTapEnterAddressButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ordererInfoView.modifyInfoButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let orderId = self?.reactor?.currentState.orderId ?? 0
+                let selectedNoteList = self?.reactor?.currentState.selectedNoteList ?? []
+                
+                self?.presentHBTIAddFixAddressViewController(title: "주소 변경", orderId: orderId, selectedNoteList: selectedNoteList)
+            })
+            .disposed(by: disposeBag)
+        
         ordererInfoView.nameTextField.rx.text
             .orEmpty
             .distinctUntilChanged()
@@ -94,8 +124,26 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         addressView.saveDeliveryInfoButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.presentHBTIAddFixAddressViewController(title: "주소 추가")
+                let orderId = self?.reactor?.currentState.orderId ?? 0
+                let selectedNoteList = self?.reactor?.currentState.selectedNoteList ?? []
+                
+                self?.presentHBTIAddFixAddressViewController(title: "주소 추가", orderId: orderId, selectedNoteList: selectedNoteList)
             })
+            .disposed(by: disposeBag)
+                
+        productInfoView.productCollectionView.rx.itemSelected
+            .compactMap { [weak self] indexPath -> (HBTIProductInfoCell, Int)? in
+                guard let cell = self?.productInfoView.productCollectionView.cellForItem(at: indexPath) as? HBTIProductInfoCell else {
+                    return nil
+                }
+                return (cell, indexPath.item)
+            }
+            .flatMap { cell, itemIndex in
+                cell.removeProductButton.rx.tap
+                    .map { itemIndex }
+            }
+            .map { Reactor.Action.didTapRemoveItemButton($0) }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         agreementView.allAgreementButton.rx.tap
@@ -119,13 +167,53 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         
         payButton.rx.tap
             .subscribe(onNext: { [weak self] in
-//                self?.bootpayStart()
-                self?.presentHBTIOrderResultViewController()
+                guard let totalPrice = self?.reactor?.currentState.totalPrice,
+                      let orderId = self?.reactor?.currentState.orderId else { return }
+                
+                self?.bootpayStart(totalPrice: Double(totalPrice), orderId: String(orderId))
             })
             .disposed(by: disposeBag)
         
         // MARK: State
 
+        reactor.state
+            .map { $0.isSavedAddress }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isSavedAddress in
+                let addressName = owner.reactor?.currentState.addressName ?? ""
+                let memberName = owner.reactor?.currentState.name ?? ""
+                let phoneNumber = owner.reactor?.currentState.phoneNumber ?? ""
+                let address = owner.reactor?.currentState.address ?? ""
+                
+                owner.ordererInfoView.setMemberInfoViewVisible(isSavedAddress: isSavedAddress, addressName: addressName, memberName: memberName, phoneNumber: phoneNumber, address: address)
+                owner.addressView.isHidden = isSavedAddress
+                owner.dividingLineView1.isHidden = isSavedAddress
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.productList }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, items in
+                owner.productInfoView.updateSnapshot(forSection: .order, withItems: items)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.totalPrice }
+            .distinctUntilChanged()
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                let totalPrice = owner.reactor?.currentState.totalPrice ?? 0
+                let productPrice = owner.reactor?.currentState.productPrice ?? 0
+                let shippingPrice = owner.reactor?.currentState.shippingPrice ?? 0
+                
+                owner.totalPaymentView.setPriceLabelText(totalPrice: totalPrice, productPrice: productPrice, shippingPrice: shippingPrice)
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.isAllAgree }
             .distinctUntilChanged()
@@ -191,9 +279,7 @@ final class HBTIOrderSheetViewController: UIViewController, View {
         orderScrollView.addSubview(orderContentView)
         
         [
-         ordererInfoView,
-         dividingLineView1,
-         addressView,
+         memberInfoStackView,
          dividingLineView2,
          productInfoView,
          dividingLineView3,
@@ -201,6 +287,12 @@ final class HBTIOrderSheetViewController: UIViewController, View {
          dividingLineView4,
          agreementView
         ].forEach(orderContentView.addSubview)
+        
+        [
+         ordererInfoView,
+         dividingLineView1,
+         addressView,
+        ].forEach(memberInfoStackView.addArrangedSubview)
     }
     
     // MARK: Set Constraints
@@ -217,24 +309,17 @@ final class HBTIOrderSheetViewController: UIViewController, View {
             $0.width.equalToSuperview()
         }
 
-        ordererInfoView.snp.makeConstraints {
+        memberInfoStackView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
         
         dividingLineView1.snp.makeConstraints {
-            $0.top.equalTo(ordererInfoView.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
         }
         
-        addressView.snp.makeConstraints {
-            $0.top.equalTo(dividingLineView1.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-        }
-        
         dividingLineView2.snp.makeConstraints {
-            $0.top.equalTo(addressView.snp.bottom)
+            $0.top.equalTo(memberInfoStackView.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
         }
@@ -276,73 +361,77 @@ final class HBTIOrderSheetViewController: UIViewController, View {
     
     // MARK: - Other Functions
     
-    func bootpayStart() {
-        let payload = generatePayload()
-        
-        Bootpay.requestPayment(viewController: self,
-                               payload: payload,
-                               isModal: true,
-                               modalPresentationStyle: .fullScreen,
-                               animated: true)
-        
-            .onCancel { data in
-                print("-- cancel: \(data)")
-            }
-            .onIssued { data in
-                print("-- issued: \(data)")
-            }
-            .onConfirm { data in
-                print("-- confirm: \(data)")
-                return true //재고가 있어서 결제를 최종 승인하려 할 경우
-//                Bootpay.transactionConfirm()
-//                return false //재고가 없어서 결제를 승인하지 않을때
-            }
-            .onDone { data in
-                print("-- done: \(data)")
-            }
-            .onError { data in
-                print("-- error: \(data)")
-            }
-            .onClose {
-                print("-- close")
-//                self.presentHBTIOrderSheetViewController()
-            }
+    func productInfoView(_ view: HBTIProductInfoView, didRemoveItemAt index: Int) {
+        reactor?.action.onNext(.didTapRemoveItemButton(index))
     }
     
-    func generatePayload() -> Payload {
+    func bootpayStart(totalPrice: Double, orderId: String) {
+        let payload = self.generatePayload(totalPrice: totalPrice, orderId: orderId)
+        payload.extra?.separatelyConfirmed = true
+        
+        Bootpay.requestPayment(
+            viewController: self,
+            payload: payload,
+            isModal: true,
+            modalPresentationStyle: .fullScreen,
+            animated: true
+        )
+        .onCancel { data in
+            print("-- cancel: \(data)")
+        }
+        .onIssued { data in
+            print("-- issued: \(data)")
+        }
+        .onConfirm { data in
+            print("-- confirm: \(data)")
+            
+            if let receiptId = data["receipt_id"] as? String {
+                let receiptData: [String: String] = [
+                    "receiptId": receiptId
+                ]
+                
+                // 서버로 receiptId 전송 및 응답을 받은 후 결제 승인
+                HBTIAPI.postPurchaseResult(params: receiptData)
+                    .subscribe(onNext: { response in
+                        print("==========\n 서버 응답 성공: \(response) \n=========")
+                        
+                        Bootpay.transactionConfirm() // 결제를 승인
+                        
+                    }, onError: { error in  // 오류 발생 시 결제를 승인하지 않음
+                        print("===========\n 서버 전송 오류: \(error) \n===========")
+                    })
+                    .disposed(by: self.disposeBag)
+            } else {
+                print("========\n receiptId를 찾을 수 없습니다. \n========")
+            }
+            return false // 서버 응답 전까지는 결제를 승인하지 않음
+        }
+        .onDone { data in
+            // 서버 응답 후 결제 승인
+            print("-- done: \(data)")
+            
+            self.presentHBTIOrderResultViewController()
+        }
+        .onError { data in
+            print("-- error: \(data)")
+        }
+        .onClose {
+            print("-- close")
+        }
+    }
+    
+    func generatePayload(totalPrice: Double, orderId: String) -> Payload {
         let payload = Payload()
-        payload.applicationId = appId
         
-        payload.price = 15600
-        payload.orderId = String(NSTimeIntervalSince1970)
+        payload.applicationId = Key.BOOTPAY_APP_ID
         payload.orderName = "시향카드 구매"
+        payload.price = totalPrice
+        payload.orderId = orderId
         
-        let item1 = BootItem()
-        item1.name = "프루트"
-        item1.qty = 1
-        item1.id = "3"
-        item1.price = 4800
-
-        let item2 = BootItem()
-        item2.name = "플로럴"
-        item2.qty = 1
-        item2.id = "4"
-        item2.price = 4800
+        let extra = BootExtra()
+        extra.separatelyConfirmed = true
         
-        let item3 = BootItem()
-        item3.name = "시트러스"
-        item3.qty = 1
-        item3.id = "1"
-        item3.price = 6000
-        
-        payload.items = [item1, item2, item3]
-        
-        let testUser = BootUser()
-        testUser.userId = "1"
-        testUser.username = "Test1"
-        testUser.phone = "01012345678"
-        
-        payload.user = testUser
+        payload.extra = extra
         
         return payload
     }

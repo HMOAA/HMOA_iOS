@@ -23,7 +23,7 @@ class MyLogReactor: Reactor {
     }
     
     struct State {
-        var item: [String] = ["좋아요 누른 댓글", "작성한 댓글", "작성한 게시글"]
+        var item: [String] = ["좋아요 누른 댓글", "작성한 댓글", "작성한 게시글", "작성한 리뷰"]
         var selectedRow: Int? = nil
         
     }

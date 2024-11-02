@@ -49,6 +49,11 @@ final class HBTISurveyQuestionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
     // MARK: - Function
     
     private func setAddView() {
