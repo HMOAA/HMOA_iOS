@@ -27,6 +27,7 @@ final class OptionReactor: Reactor {
         case setIsTapDelete(Bool)
         case setCommentData(OptionCommentData)
         case setPostData(OptionPostData)
+        case setReviewData(OptionReviewData)
         case setType(OptionType)
         case setOptions([String])
         case delete
@@ -41,6 +42,7 @@ final class OptionReactor: Reactor {
         var isTapDelete: Bool = false
         var commentData: OptionCommentData? = nil
         var postData: OptionPostData? = nil
+        var reviewData: OptionReviewData? = nil
         var type: OptionType? = nil
         var category: String = ""
         var isTapReport: Bool = false
@@ -93,6 +95,23 @@ final class OptionReactor: Reactor {
                         .just(.setType(type))
                     ])
                 }
+                
+            case .Review(let reviewData):
+                if reviewData.isWrited {
+                    return .concat([
+                        .just(.setOptions(["수정", "삭제"])),
+                        .just(.setReviewData(reviewData)),
+                        .just(.setisHiddenOptionView(false)),
+                        .just(.setType(type))
+                    ])
+                } else {
+                    return .concat([
+                        .just(.setOptions(["신고"])),
+                        .just(.setReviewData(reviewData)),
+                        .just(.setisHiddenOptionView(false)),
+                        .just(.setType(type))
+                    ])
+                }
             }
             
         case .didTapOptionCell(let item):
@@ -113,6 +132,12 @@ final class OptionReactor: Reactor {
                     } else { return deletePerfumeComment() }
                 case .Post(_):
                     return deletePost()
+                case .Review(_):
+                    return .concat([
+                        .just(.setisHiddenOptionView(true)),
+                        .just(.setIsTapDelete(true)),
+                        .just(.setIsTapDelete(false))
+                    ])
                 default: return .empty()
                 }
             case "신고":
@@ -152,6 +177,9 @@ final class OptionReactor: Reactor {
             
         case .setPostData(let data):
             state.postData = data
+            
+        case .setReviewData(let data):
+            state.reviewData = data
             
         case .setType(let type):
             state.type = type
@@ -254,6 +282,19 @@ extension OptionReactor {
             return ReportAPI.reportContent(
                 ["targetId": data.id],
                 .reportCommunity)
+            .catch { _ in .empty() }
+            .flatMap { _ -> Observable<Mutation> in
+                    .concat([
+                        .just(.setisHiddenOptionView(true)),
+                        .just(.setIsReport(true)),
+                        .just(.setIsReport(false))
+                    ])
+            }
+            
+        case .Review(let data):
+            return ReportAPI.reportContent(
+                ["reviewId": data.id],
+                .reportReview(data.id))
             .catch { _ in .empty() }
             .flatMap { _ -> Observable<Mutation> in
                     .concat([

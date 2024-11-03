@@ -11,8 +11,7 @@ import Then
 import SnapKit
 import RxSwift
 
-class AlertViewController: UIViewController {
-    
+final class AlertViewController: UIViewController {
     
     let alertView = UIView().then {
         $0.backgroundColor = .white
@@ -29,18 +28,21 @@ class AlertViewController: UIViewController {
         $0.setLabelUI("", font: .pretendard, size: 12, color: .gray3)
     }
     
-    let loginButton = UIButton().then {
+    let bottomButton = UIButton().then {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 12)
         $0.backgroundColor = .customColor(.gray3)
     }
 
+    var alertType: AlertType = .login
+    var orderId: Int?
+    
     let disposeBag = DisposeBag()
 
-    init(title: String, content: String, buttonTitle: String) {
+    init(title: String, content: String, buttonTitle: String, type: AlertType? = nil, orderId: Int? = nil) {
         super .init(nibName: nil, bundle: nil)
-        self.updateAlertView(title: title, content: content, buttonTitle: buttonTitle)
-        
+        self.orderId = orderId
+        self.updateAlertView(title: title, content: content, buttonTitle: buttonTitle, type: type)
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +67,7 @@ class AlertViewController: UIViewController {
             xButton,
             titleLabel,
             contentLabel,
-            loginButton
+            bottomButton
         ]   .forEach { alertView.addSubview($0) }
         
         view.addSubview(alertView)
@@ -93,7 +95,7 @@ class AlertViewController: UIViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(9)
         }
         
-        loginButton.snp.makeConstraints { make in
+        bottomButton.snp.makeConstraints { make in
             make.bottom.leading.trailing.equalToSuperview()
             make.height.equalTo(40)
         }
@@ -106,22 +108,46 @@ class AlertViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        loginButton.rx.tap
+        bottomButton.rx.tap
             .bind(with: self) { owner, _ in
-                guard let presentingVC = owner.presentingViewController else { return }
-                let loginVC = LoginViewController()
-                loginVC.modalPresentationStyle = .fullScreen
-                loginVC.reactor = LoginReactor(.inApp)
-                owner.dismiss(animated: false) {
-                    presentingVC.present(loginVC, animated: true)
+                switch owner.alertType {
+                case .login:
+                    guard let presentingVC = owner.presentingViewController else { return }
+                    let loginVC = LoginViewController()
+                    loginVC.modalPresentationStyle = .fullScreen
+                    loginVC.reactor = LoginReactor(.inApp)
+                    owner.dismiss(animated: false) {
+                        presentingVC.present(loginVC, animated: true)
+                    }
+                case .order:
+                    if let orderId = owner.orderId {
+                        HBTIAPI.deletePurchase(orderId: orderId)
+                            .subscribe()
+                            .disposed(by: owner.disposeBag)
+                    }
+                                       
+                    owner.dismiss(animated: false)
                 }
             }
             .disposed(by: disposeBag)
     }
     
-    func updateAlertView(title: String, content: String, buttonTitle: String) {
+    func updateAlertView(title: String, content: String, buttonTitle: String, type: AlertType?) {
         titleLabel.text = title
         contentLabel.text = content
-        loginButton.setTitle(buttonTitle, for: .normal)
+        bottomButton.setTitle(buttonTitle, for: .normal)
+        
+        guard let type = type else { return }
+        alertType = type
+        
+        if alertType == .order {
+            alertView.layer.cornerRadius = 5
+            alertView.clipsToBounds = true
+        }
     }
+}
+
+enum AlertType {
+    case login
+    case order
 }

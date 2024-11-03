@@ -19,6 +19,7 @@ enum CommentReactorType {
 enum OptionType {
     case Post(OptionPostData)
     case Comment(OptionCommentData)
+    case Review(OptionReviewData)
 }
     
 struct OptionPostData {
@@ -34,6 +35,12 @@ struct OptionCommentData {
     let content: String
     let isWrited: Bool
     let isCommunity: Bool
+}
+
+struct OptionReviewData {
+    let id: Int
+    let content: String
+    let isWrited: Bool
 }
 
 extension CommentReactorType {

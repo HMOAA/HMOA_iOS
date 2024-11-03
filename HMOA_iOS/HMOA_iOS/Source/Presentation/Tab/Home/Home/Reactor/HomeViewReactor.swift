@@ -18,6 +18,7 @@ final class HomeViewReactor: Reactor {
         case scrollCollectionView
         case didTapBellButton
         case settingIsLogin(Bool)
+        case didTapHBTIButton
     }
     
     enum Mutation {
@@ -28,6 +29,7 @@ final class HomeViewReactor: Reactor {
         case setIsTapWhenNotLogin(Bool?)
         case success
         case setIsLogin(Bool)
+        case setIsTapHBTI(Bool)
     }
     
     struct State {
@@ -37,6 +39,7 @@ final class HomeViewReactor: Reactor {
         var isTapBell: Bool? = nil
         var isTapWhenNotLogin: Bool? = nil
         var isLogin: Bool = false
+        var isTapHBTI: Bool? = nil
     }
     
     init() { self.initialState = State() }
@@ -63,7 +66,7 @@ final class HomeViewReactor: Reactor {
             if !currentState.isLogin {
                 return .concat([
                     .just(.setIsTapWhenNotLogin(true)),
-                    .just(.setIsTapWhenNotLogin(false))
+                    .just(.setIsTapWhenNotLogin(nil))
                 ])
             }
             
@@ -74,6 +77,19 @@ final class HomeViewReactor: Reactor {
             
         case .settingIsLogin(let isLogin):
             return .just(.setIsLogin(isLogin))
+            
+        case .didTapHBTIButton:
+            if !currentState.isLogin {
+                return .concat([
+                    .just(.setIsTapWhenNotLogin(true)),
+                    .just(.setIsTapWhenNotLogin(nil))
+                ])
+            }
+            
+            return .concat([
+                .just(.setIsTapHBTI(true)),
+                .just(.setIsTapHBTI(false))
+                ])
         }
     }
     
@@ -109,6 +125,9 @@ final class HomeViewReactor: Reactor {
             
         case .setIsLogin(let isLogin):
             state.isLogin = isLogin
+            
+        case .setIsTapHBTI(let isTap):
+            state.isTapHBTI = isTap
         }
         return state
     }

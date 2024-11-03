@@ -9,6 +9,20 @@ import UIKit
 
 extension UIButton {
     
+    func makeBorderButton(title: String, color enabledColor: UIColor) -> UIButton {
+        let button = UIButton().then {
+            $0.setTitle(title, for: .normal)
+            $0.titleLabel?.font = .customFont(.pretendard_semibold, 12)
+            $0.setTitleColor(enabledColor, for: .normal)
+            $0.setTitleColor(UIColor.customColor(.gray3), for: .disabled)
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = enabledColor.cgColor
+            $0.layer.cornerRadius = 3
+        }
+        
+        return button
+    }
+    
     func makeFloatingListButton(title: String) -> UIButton {
         var config = UIButton.Configuration.plain()
         var titleAttr = AttributedString.init(title)
@@ -20,6 +34,21 @@ extension UIButton {
         config.titleAlignment = .leading
         config.baseBackgroundColor = .black
         config.baseForegroundColor = .white
+        let button = UIButton(configuration: config)
+        button.contentHorizontalAlignment = .leading
+        return button
+    }
+    
+    func makeHBTIFloatingListButton(title: String) -> UIButton {
+        var config = UIButton.Configuration.plain()
+        var titleAttr = AttributedString.init(title)
+        titleAttr.font = .customFont(.pretendard_medium, 12)
+        
+        config.attributedTitle = titleAttr
+        config.titleAlignment = .leading
+        config.baseBackgroundColor = .black
+        config.baseForegroundColor = .white
+        config.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20)
         let button = UIButton(configuration: config)
         button.contentHorizontalAlignment = .leading
         return button
@@ -143,5 +172,51 @@ extension UIButton {
         self.backgroundColor = .customColor(.gray2)
         self.titleLabel?.font = .customFont(.pretendard, 20)
         self.setTitle("변경", for: .normal)
+    }
+    
+    func setHBTIPriorityButton(title: String) {
+        self.setTitleColor(.init(hexCode: "9C9C9C"), for: .normal)
+        self.setTitleColor(.black, for: .selected)
+        self.titleLabel?.font = .customFont(.pretendard, 12)
+        self.setTitle(title, for: .normal)
+    }
+    
+    func makeValidHBTINextButton(title: String) -> UIButton {
+        let button = UIButton().then {
+            $0.setTitle(title, for: .normal)
+            $0.titleLabel?.font = .customFont(.pretendard, 15)
+            $0.setTitleColor(.white, for: .normal)
+            $0.layer.cornerRadius = 5
+            $0.backgroundColor = .black
+        }
+        
+        return button
+    }
+    
+    func makeInvalidHBTINextButton() -> UIButton {
+        let button = UIButton().then {
+            $0.setTitle("다음", for: .normal)
+            $0.titleLabel?.font = .customFont(.pretendard, 15)
+            $0.setTitleColor(.white, for: .normal)
+            $0.layer.cornerRadius = 5
+            $0.backgroundColor = .customColor(.gray3)
+        }
+
+        return button
+    }
+    
+    func makeUnderLineButton(text: String, textColor: Colors) -> UIButton {
+        let button = UIButton()
+        let attributedString = NSAttributedString(
+            string: text,
+            attributes: [
+                .font: UIFont.customFont(.pretendard_medium, 10),
+                .foregroundColor: UIColor.customColor(textColor),
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        button.setAttributedTitle(attributedString, for: .normal)
+        
+        return button
     }
 }
