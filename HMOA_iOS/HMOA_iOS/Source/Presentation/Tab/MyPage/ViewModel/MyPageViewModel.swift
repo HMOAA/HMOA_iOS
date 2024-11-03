@@ -10,21 +10,31 @@ import UIKit
 enum MyPageType: String, CaseIterable {
     case myProfile = "00"
     
-    case myPerfume = "20"
-    case myLog = "21"
-    case myInformation = "22"
-     
-    case policy = "30"
-    case version = "31"
+    case orderLog = "20"
+    case orderCancelLog = "21"
+    case terms = "22"
     
-    case inquireAccount = "40"
-    case logout = "41"
-    case deleteAccount = "42"
+    case myPerfume = "30"
+    case myLog = "31"
+    case myInformation = "32"
+     
+    case policy = "40"
+    case version = "41"
+    
+    case inquireAccount = "50"
+    case logout = "51"
+    case deleteAccount = "52"
 
     var title: String {
         switch self {
         case .myProfile:
             return ""
+        case .orderLog:
+            return "주문 내역"
+        case .orderCancelLog:
+            return "취소/환불 내역"
+        case .terms:
+            return "이용약관"
         case .myPerfume:
             return "나의 향수"
         case .myLog:

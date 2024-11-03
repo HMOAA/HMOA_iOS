@@ -69,14 +69,11 @@ class ChangeProfileImageReactor: Reactor {
             return updateProfile(image)
             
         case .didTapDuplicateButton(let nickname):
-            guard let nickname = nickname
-            else { return .just(.setIsDuplicate(true))}
-            
-            if nickname.isEmpty { return .just(.setIsDuplicate(true))}
+            guard let nickname = nickname else { return .empty() }
             
             return .concat([
                 MemberAPI.checkDuplicateNickname(params: ["nickname": nickname])
-                .map { .setIsDuplicate($0) },
+                    .map { .setIsDuplicate($0) },
                 .just(.setNickname(nickname))
             ])
 
