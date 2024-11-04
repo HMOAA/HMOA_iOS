@@ -119,8 +119,6 @@
 		3F1EAC7D2C85A045000B657C /* HBTIAddFixAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7C2C85A045000B657C /* HBTIAddFixAddressViewController.swift */; };
 		3F1EAC7F2C85AF7F000B657C /* HBTIContactTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC7E2C85AF7F000B657C /* HBTIContactTextFieldView.swift */; };
 		3F1EAC812C85B557000B657C /* HBTIAddressTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1EAC802C85B557000B657C /* HBTIAddressTextFieldView.swift */; };
-		3F1FBBD12C818BC70022E8A4 /* HBTIPaymentMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */; };
-		3F1FBBD32C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */; };
 		3F1FBBD52C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */; };
 		3F2060A42C6F9CBA00926F14 /* HBTIQuantitySelectData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */; };
 		3F2060A62C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */; };
@@ -507,8 +505,6 @@
 		3F1EAC7C2C85A045000B657C /* HBTIAddFixAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddFixAddressViewController.swift; sourceTree = "<group>"; };
 		3F1EAC7E2C85AF7F000B657C /* HBTIContactTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIContactTextFieldView.swift; sourceTree = "<group>"; };
 		3F1EAC802C85B557000B657C /* HBTIAddressTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAddressTextFieldView.swift; sourceTree = "<group>"; };
-		3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodView.swift; sourceTree = "<group>"; };
-		3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodCell.swift; sourceTree = "<group>"; };
 		3F1FBBD42C8192DF0022E8A4 /* HBTIPaymentMethodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPaymentMethodModel.swift; sourceTree = "<group>"; };
 		3F2060A32C6F9CBA00926F14 /* HBTIQuantitySelectData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectData.swift; sourceTree = "<group>"; };
 		3F2060A52C6FB0A700926F14 /* HBTIQuantitySelectTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIQuantitySelectTopView.swift; sourceTree = "<group>"; };
@@ -1629,8 +1625,6 @@
 				3F5022F52C7F7FDE00230A40 /* HBTIProductInfoView.swift */,
 				3FEB5E022C80421600F3C7F5 /* HBTIProductInfoCell.swift */,
 				3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */,
-				3F1FBBD02C818BC70022E8A4 /* HBTIPaymentMethodView.swift */,
-				3F1FBBD22C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift */,
 				3F1EAC7A2C8593EB000B657C /* HBTIAgreementView.swift */,
 				3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */,
 				3F1EAC7E2C85AF7F000B657C /* HBTIContactTextFieldView.swift */,
@@ -3859,7 +3853,6 @@
 				2C04246E29A3E112009CF0FE /* DetailViewReactor.swift in Sources */,
 				C93AC2E72CA3F550004A1CF5 /* OrderCancelLogViewController.swift in Sources */,
 				2C04246929A3A992009CF0FE /* SearchViewController.swift in Sources */,
-				3F1FBBD12C818BC70022E8A4 /* HBTIPaymentMethodView.swift in Sources */,
 				CA0160A52AB2FAE600D5839D /* AttributeString++Extension.swift in Sources */,
 				CA943AD62AEF93E900A5B717 /* OptionData.swift in Sources */,
 				CA799ED52A249EF3002087BA /* LoginType.swift in Sources */,
@@ -3869,7 +3862,6 @@
 				CAD1EC0F2A78E53E003B21FD /* EvaluationCell.swift in Sources */,
 				CA39D56A2B0B36FF00694677 /* MyLogCommentReactor.swift in Sources */,
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
-				3F1FBBD32C818D9D0022E8A4 /* HBTIPaymentMethodCell.swift in Sources */,
 				CA9810FC2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift in Sources */,
 				3FEB5E032C80421600F3C7F5 /* HBTIProductInfoCell.swift in Sources */,
 				C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */,
@@ -4081,7 +4073,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4131,7 +4123,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
