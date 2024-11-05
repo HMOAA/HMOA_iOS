@@ -21,9 +21,7 @@ final class HBTINotesCategoryReactor: Reactor {
     }
     
     struct State {
-        let selectedQuantity: Int
-        let isFreeSelection: Bool
-        let noteName: String
+        let recommendedNote: String
         var selectedNote: [Int] = []
         var isEnabledNextButton: Bool = false
         var isPushNextVC: Bool = false
@@ -31,8 +29,8 @@ final class HBTINotesCategoryReactor: Reactor {
     
     var initialState: State
     
-    init(_ selectedQuantity: Int, _ isFreeSelection: Bool, _ noteName: String) {
-        self.initialState = State(selectedQuantity: selectedQuantity, isFreeSelection: isFreeSelection, noteName: noteName)
+    init(_ recommendedNote: String) {
+        self.initialState = State(recommendedNote: recommendedNote)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -42,12 +40,11 @@ final class HBTINotesCategoryReactor: Reactor {
             
             if let index = selectedNote.firstIndex(of: id) {
                 selectedNote.remove(at: index)
-            }
-            else if selectedNote.count < currentState.selectedQuantity {
+            } else if selectedNote.count < 8 {
                 selectedNote.append(id)
             }
             
-            let isEnabledNextButton = currentState.isFreeSelection ? selectedNote.count > 0 : selectedNote.count == currentState.selectedQuantity
+            let isEnabledNextButton = selectedNote.count > 0
             
             return .concat([
                 .just(.setSelectedNote(selectedNote)),

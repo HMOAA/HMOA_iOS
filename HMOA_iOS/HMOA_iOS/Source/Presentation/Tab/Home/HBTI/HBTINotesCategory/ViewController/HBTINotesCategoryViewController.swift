@@ -59,7 +59,7 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         // MARK: State
 
         reactor.state
-            .map { $0.noteName }
+            .map { $0.recommendedNote }
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, noteName in
@@ -165,7 +165,7 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             switch item {
             case .note(let noteData):
                 let selectedNotes = self.reactor?.currentState.selectedNote ?? []
-                let noteName = self.reactor?.currentState.noteName ?? ""
+                let noteName = self.reactor?.currentState.recommendedNote ?? ""
                 
                 cell.configureCell(with: [noteData], selectedNote: selectedNotes, noteName: noteName)
             }

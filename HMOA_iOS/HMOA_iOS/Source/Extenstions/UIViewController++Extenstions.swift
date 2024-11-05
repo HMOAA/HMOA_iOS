@@ -308,19 +308,11 @@ extension UIViewController {
     }
   
     /// HBTINotesCatrgoryVC로 push
-    func presentHBTINotesCategoryViewController(_ selectedQuantity: Int, _ isFreeSelection: Bool, _ noteName: String) {
+    func presentHBTINotesCategoryViewController(_ recommendedNote: String) {
         let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
-        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(selectedQuantity, isFreeSelection, noteName)
+        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(recommendedNote)
         hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
-    }
-  
-    /// HBTIQuantitySelectVC로 push
-    func presentHBTIQuantitySelectViewController(_ recommendation: [String: Any]) {
-        let hbtiQuantitySelectVC = HBTIQuantitySelectViewController()
-        hbtiQuantitySelectVC.reactor = HBTIQuantitySelectReactor(recommendation)
-        hbtiQuantitySelectVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(hbtiQuantitySelectVC, animated: true)
     }
   
     /// HBTIProcessGuideVC로 push
