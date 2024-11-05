@@ -22,7 +22,7 @@ final class HBTIProcessGuideViewController: UIViewController, View {
     
     private let hbtiProcessGuideView = HBTIProcessGuideView()
     
-    private let nextButton: UIButton = UIButton().makeValidHBTINextButton(title: "향료 배송 & 향수 추천 받기")
+    private let nextButton: UIButton = UIButton().makeValidHBTINextButton(title: "향료 주문하러 가기")
     
     // MARK: - LifeCycle
     
@@ -56,12 +56,9 @@ final class HBTIProcessGuideViewController: UIViewController, View {
                 guard let recommendNoteList = owner.reactor?.currentState.recommendNoteList else { return }
                 guard let firstRecommendNote = recommendNoteList.first else { return }
                 
-                let recommendNote = [
-                    "id": firstRecommendNote.note?.id ?? 0,
-                    "name": firstRecommendNote.note?.name ?? "Unknown Note"
-                ]
+                let recommendedNote = firstRecommendNote.note?.name ?? "Unknown Note"
                 
-                owner.presentHBTIQuantitySelectViewController(recommendNote)
+                owner.presentHBTINotesCategoryViewController(recommendedNote)
             })
             .disposed(by: disposeBag)
     }
