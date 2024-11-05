@@ -56,12 +56,9 @@ final class HBTIProcessGuideViewController: UIViewController, View {
                 guard let recommendNoteList = owner.reactor?.currentState.recommendNoteList else { return }
                 guard let firstRecommendNote = recommendNoteList.first else { return }
                 
-                let recommendNote = [
-                    "id": firstRecommendNote.note?.id ?? 0,
-                    "name": firstRecommendNote.note?.name ?? "Unknown Note"
-                ]
+                let recommendedNote = firstRecommendNote.note?.name ?? "Unknown Note"
                 
-                owner.presentHBTIQuantitySelectViewController(recommendNote)
+                owner.presentHBTINotesCategoryViewController(recommendedNote)
             })
             .disposed(by: disposeBag)
     }
