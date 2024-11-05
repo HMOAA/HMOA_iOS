@@ -36,7 +36,7 @@ struct HBTICategoryLabelTexts {
          선택해주세요
          """
     }
-    let descriptionLabelText = "· 향료 1개 당 990원"
+    let descriptionLabelText = "*향료 1개 당 990원"
 }
 
 enum HBTINotesCategorySection: Hashable {
