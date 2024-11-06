@@ -257,7 +257,7 @@ final class HBTIOrderSheetViewController: UIViewController, View, HBTIProductInf
    
     private func setUI() {
         view.backgroundColor = .white
-        setClearBackNaviBar("주문서 작성", .black)
+        setBackToHBTIVCNaviBar("주문서 작성")
     }
     
     // MARK: Add Views
