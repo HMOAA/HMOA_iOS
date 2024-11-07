@@ -8,15 +8,15 @@
 import Foundation
 
 struct HBTICategoryLabelTexts {
-    let noteName: String
+    let bestNote: String
     var titleLabelText: String {
          """
-         추천받은 카테고리는 '\(noteName)' 입니다.
+         추천받은 카테고리는 '\(bestNote)' 입니다.
          그 외에 원하는 시향카드 카테고리를
          선택해주세요
          """
     }
-    let descriptionLabelText = "*향료 1개 당 990원"
+    let descriptionLabelText = "*향료 1개당 1,200원"
 }
 
 enum HBTINotesCategorySection: Hashable {
