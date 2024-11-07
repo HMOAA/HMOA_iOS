@@ -10,11 +10,13 @@ import ReactorKit
 
 final class HBTINotesCategoryReactor: Reactor {
     enum Action {
+        case viewDidLoad
         case didTapNote(Int)
         case didTapNextButton
     }
     
     enum Mutation {
+        case setNoteList([HBTINotesCategoryItem])
         case setSelectedNote([Int])
         case setIsEnabledNextButton(Bool)
         case setIsPushNextVC(Bool)
@@ -22,6 +24,7 @@ final class HBTINotesCategoryReactor: Reactor {
     
     struct State {
         let recommendedNote: String
+        var noteList: [HBTINotesCategoryItem] = []
         var selectedNote: [Int] = []
         var isEnabledNextButton: Bool = false
         var isPushNextVC: Bool = false
@@ -35,6 +38,9 @@ final class HBTINotesCategoryReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return setNoteList()
+            
         case .didTapNote(let id):
             var selectedNote = currentState.selectedNote
             
@@ -62,6 +68,9 @@ final class HBTINotesCategoryReactor: Reactor {
         var state = state
         
         switch mutation {
+        case .setNoteList(let noteList):
+            state.noteList = noteList
+            
         case .setSelectedNote(let selectedNotes):
             state.selectedNote = selectedNotes
             
@@ -73,5 +82,27 @@ final class HBTINotesCategoryReactor: Reactor {
         }
         
         return state
+    }
+}
+
+extension HBTINotesCategoryReactor {
+    func setNoteList() -> Observable<Mutation> {
+        return HBTIAPI.fetchNoteList()
+            .catch { _ in .empty() }
+            .flatMap { noteListData -> Observable<Mutation> in
+                let noteItems = noteListData.noteList.map { note in
+                    return HBTINotesCategoryItem.note(
+                        HBTINotesCategory(
+                            noteId: note.noteId,
+                            noteName: note.noteName,
+                            noteComposition: note.noteComposition,
+                            noteImageUrl: note.noteImageUrl,
+                            isRecommended: note.isRecommended,
+                            price: note.price
+                        )
+                    )
+                }
+                return .just(.setNoteList(noteItems))
+            }
     }
 }
