@@ -128,7 +128,7 @@ extension DetailViewController {
             .distinctUntilChanged()
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, comment in 
+            .drive(with: self, onNext: { owner, comment in
                 owner.presentCommentDetailViewController(
                     comment: comment,
                     communityCommet: nil,
@@ -198,7 +198,7 @@ extension DetailViewController {
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(header.countLabel.rx.text)
             .disposed(by: disposeBag)
-
+        
     }
     
     private func bindPerfumeInfoCell(_ cell: PerfumeInfoCell) {
@@ -303,7 +303,7 @@ extension DetailViewController: UICollectionViewDelegate {
                     .disposed(by: evaluationCell.disposeBag)
                 
                 
-            
+                
                 return evaluationCell
                 
             case .commentCell(let comment):
@@ -329,7 +329,7 @@ extension DetailViewController: UICollectionViewDelegate {
                 }
                 
                 commentCell.updateCell(comment)
-    
+                
                 return commentCell
                 
             case .similarCell(let similar):
@@ -340,31 +340,42 @@ extension DetailViewController: UICollectionViewDelegate {
             }
         })
         
-        dataSource?.supplementaryViewProvider = {collectionView, kind, indexPath -> UICollectionReusableView in
-            var header = UICollectionReusableView()
-            
-            switch indexPath.section {
-            case 1:
-                guard let evaluationHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: EvaluationHeaderView.identifier, for: indexPath) as? EvaluationHeaderView else { return UICollectionReusableView() }
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView in
+            if kind == UICollectionView.elementKindSectionHeader {
+                var header = UICollectionReusableView()
                 
-                header = evaluationHeader
-                
-            case 2:
-                guard let commentHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommentHeaderView.identifier, for: indexPath) as? CommentHeaderView else { return UICollectionReusableView() }
-                self.bindHeader(commentHeader)
-                header = commentHeader
-            default:
-                guard let similarHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SimilarHeaderView.identifier, for: indexPath) as? SimilarHeaderView else { return UICollectionReusableView() }
-                
-                header = similarHeader
-            }
-            
-            if kind == UICollectionView.elementKindSectionFooter {
-                
-                guard let commentFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else { return UICollectionReusableView() }
+                switch indexPath.section {
+                case 1:
+                    guard let evaluationHeader = collectionView.dequeueReusableSupplementaryView(
+                        ofKind: kind, withReuseIdentifier: EvaluationHeaderView.identifier, for: indexPath) as? EvaluationHeaderView else {
+                        return UICollectionReusableView()
+                    }
+                    header = evaluationHeader
+                    
+                case 2:
+                    guard let commentHeader = collectionView.dequeueReusableSupplementaryView(
+                        ofKind: kind, withReuseIdentifier: CommentHeaderView.identifier, for: indexPath) as? CommentHeaderView else {
+                        return UICollectionReusableView()
+                    }
+                    self.bindHeader(commentHeader)
+                    header = commentHeader
+                    
+                default:
+                    guard let similarHeader = collectionView.dequeueReusableSupplementaryView(
+                        ofKind: kind, withReuseIdentifier: SimilarHeaderView.identifier, for: indexPath) as? SimilarHeaderView else {
+                        return UICollectionReusableView()
+                    }
+                    header = similarHeader
+                }
+                return header
+            } else if kind == UICollectionView.elementKindSectionFooter {
+                guard let commentFooter = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind, withReuseIdentifier: CommentFooterView.identifier, for: indexPath) as? CommentFooterView else {
+                    return UICollectionReusableView()
+                }
                 
                 self.reactor?.state
-                    .map { $0.commentCount == 0}
+                    .map { $0.commentCount == 0 }
                     .distinctUntilChanged()
                     .asDriver(onErrorRecover: { _ in .empty() })
                     .drive(with: self, onNext: { owner, isZero in
@@ -372,16 +383,14 @@ extension DetailViewController: UICollectionViewDelegate {
                     })
                     .disposed(by: commentFooter.disposeBag)
                 
-                
                 commentFooter.moreButton.rx.tap
                     .map { Reactor.Action.didTapMoreButton }
                     .bind(to: self.reactor!.action)
                     .disposed(by: commentFooter.disposeBag)
                 
                 return commentFooter
-            } else {
-                return header
             }
+            return UICollectionReusableView()
         }
     }
     
