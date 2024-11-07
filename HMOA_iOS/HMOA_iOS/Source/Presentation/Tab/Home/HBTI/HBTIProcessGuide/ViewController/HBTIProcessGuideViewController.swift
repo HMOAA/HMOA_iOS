@@ -67,7 +67,7 @@ final class HBTIProcessGuideViewController: UIViewController, View {
     
     private func setUI() {
         view.backgroundColor = .white
-        setBackItemNaviBar("향BTI")
+        setBackToHBTIVCNaviBar("향BTI")
     }
     
     // MARK: Add Views
