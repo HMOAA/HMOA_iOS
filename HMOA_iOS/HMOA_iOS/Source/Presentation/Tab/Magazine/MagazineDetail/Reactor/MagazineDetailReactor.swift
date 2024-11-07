@@ -23,12 +23,9 @@ class MagazineDetailReactor: Reactor {
         case setInfoItem([MagazineDetailItem])
         case setContentItem([MagazineDetailItem])
         case setTagItem([MagazineDetailItem])
-        case setLikeItem([MagazineDetailItem])
+        case setLikeItem(MagazineDetailItem?)
         case setOtherMagazineItem([MagazineDetailItem])
-        
         case setIsLogin(Bool)
-        case setMagazineLike(Bool)
-        case setMagazineLikeCount(Int)
         case setIsTap(Bool)
         case setSelectedMagazineID(IndexPath?)
     }
@@ -37,13 +34,10 @@ class MagazineDetailReactor: Reactor {
         var infoItems: [MagazineDetailItem] = []
         var contentItems: [MagazineDetailItem] = []
         var tagItems: [MagazineDetailItem] = []
-        var likeItems: [MagazineDetailItem] = []
+        var likeItem: MagazineDetailItem? = nil
         var otherMagazineItems: [MagazineDetailItem] = []
-        
         var magazineID: Int
         var isLogin: Bool = false
-        var isLiked: Bool = true
-        var likeCount: Int? = nil
         var isTapWhenNotLogin: Bool = false
         var selectedMagazineID: Int? = nil
     }
@@ -63,6 +57,7 @@ class MagazineDetailReactor: Reactor {
             ])
             
         case .didTapLikeButton:
+            print("didTapLikeButton")
             return setMagazineLike()
             
         case .loadMagazineList:
@@ -89,19 +84,13 @@ class MagazineDetailReactor: Reactor {
             state.tagItems = item
             
         case .setLikeItem(let item):
-            state.likeItems = item
+            state.likeItem = item
             
         case .setOtherMagazineItem(let item):
             state.otherMagazineItems = item
             
         case .setIsLogin(let isLogin):
             state.isLogin = isLogin
-            
-        case .setMagazineLike(let isLiked):
-            state.isLiked = isLiked
-            
-        case .setMagazineLikeCount(let count):
-            state.likeCount = count
             
         case .setIsTap(let isTap):
             state.isTapWhenNotLogin = isTap
@@ -157,9 +146,7 @@ extension MagazineDetailReactor {
                     .just(.setInfoItem([infoData])),
                     .just(.setContentItem(contentsData)),
                     .just(.setTagItem(tagsData)),
-                    .just(.setLikeItem([likeData])),
-                    .just(.setMagazineLike(isLiked)),
-                    .just(.setMagazineLikeCount(likeCount))
+                    .just(.setLikeItem(likeData))
                 ])
             }
     }
@@ -186,7 +173,7 @@ extension MagazineDetailReactor {
     }
     
     func setMagazineLike() -> Observable<Mutation> {
-        var magazineLike = currentState.likeItems.first!.like!
+        guard var likeItem = currentState.likeItem!.like else { return .empty() }
         
         guard currentState.isLogin else {
             return .concat([
@@ -194,29 +181,23 @@ extension MagazineDetailReactor {
                 .just(.setIsTap(false))
             ]) }
         
-        if !currentState.isLiked {
-            return MagazineAPI.putMagazineLike(id: magazineLike.id)
+        if !likeItem.isLiked {
+            return MagazineAPI.putMagazineLike(id: likeItem.id)
                 .catch { _ in .empty() }
                 .flatMap { _ -> Observable<Mutation> in
-                    magazineLike.isLiked = true
-                    magazineLike.likeCount = self.currentState.likeCount! + 1
+                    likeItem.isLiked = true
+                    likeItem.likeCount += 1
                     
-                    return .concat([
-                        .just(.setMagazineLike(true)),
-                        .just(.setMagazineLikeCount(magazineLike.likeCount))
-                    ])
+                    return .just(.setLikeItem(.like(likeItem)))
                 }
         } else {
-            return MagazineAPI.deleteMagazineLike(id: currentState.magazineID)
+            return MagazineAPI.deleteMagazineLike(id: likeItem.id)
                 .catch { _ in .empty() }
                 .flatMap { _ -> Observable<Mutation> in
-                    magazineLike.isLiked = false
-                    magazineLike.likeCount = self.currentState.likeCount! - 1
+                    likeItem.isLiked = false
+                    likeItem.likeCount -= 1
                     
-                    return .concat([
-                        .just(.setMagazineLike(false)),
-                        .just(.setMagazineLikeCount(magazineLike.likeCount))
-                    ])
+                    return .just(.setLikeItem(.like(likeItem)))
                 }
         }
     }

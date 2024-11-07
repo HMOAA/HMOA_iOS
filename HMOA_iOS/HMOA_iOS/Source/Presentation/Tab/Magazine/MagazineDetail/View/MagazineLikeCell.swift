@@ -48,7 +48,7 @@ class MagazineLikeCell: UICollectionViewCell {
     
     // 좋아요 수 라벨
     let likeCountLabel = UILabel().then {
-        $0.setLabelUI("12,304", font: .pretendard_medium, size: 14, color: .gray2)
+        $0.setLabelUI("00,000", font: .pretendard_medium, size: 14, color: .gray2)
     }
     
     var disposeBag = DisposeBag()
@@ -63,6 +63,10 @@ class MagazineLikeCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
     
     // MARK: - Setup Methods

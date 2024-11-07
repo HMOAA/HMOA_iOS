@@ -98,11 +98,11 @@ class MagazineDetailViewController: UIViewController, View {
         
         // likeItems 변화 감지
         reactor.state
-            .map { $0.likeItems }
+            .compactMap { $0.likeItem }
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(with: self, onNext: { owner, items in
-                owner.updateSnapshot(forSection: .like, withItems: items)
+            .drive(with: self, onNext: { owner, item in
+                owner.updateSnapshot(forSection: .like, withItems: [item])
             })
             .disposed(by: disposeBag)
         
@@ -301,24 +301,6 @@ class MagazineDetailViewController: UIViewController, View {
                     })
                     .disposed(by: cell.disposeBag)
                 
-                self.reactor?.state
-                    .map { $0.isLiked }
-                    .asDriver(onErrorRecover: { _ in .empty() })
-                    .drive(with: self, onNext: { owner, isLiked in
-                        cell.likeButton.isSelected = isLiked
-                        cell.likeCountLabel.textColor = isLiked ? .black : UIColor.customColor(.gray2)
-                    })
-                    .disposed(by: cell.disposeBag)
-                
-                self.reactor?.state
-                    .map { $0.likeCount }
-                    .compactMap { $0 }
-                    .asDriver(onErrorRecover: { _ in .empty() })
-                    .drive(with: self, onNext: { owner, count in
-                        cell.likeCountLabel.text = String(count)
-                    })
-                    .disposed(by: cell.disposeBag)
-                
                 cell.configureCell(item.like!)
                 
                 return cell
@@ -373,6 +355,7 @@ class MagazineDetailViewController: UIViewController, View {
         
         var snapshot = dataSource.snapshot()
         
+        snapshot.deleteItems(snapshot.itemIdentifiers(inSection: section))
         snapshot.appendItems(items, toSection: section)
         
         dataSource.apply(snapshot, animatingDifferences: false)
