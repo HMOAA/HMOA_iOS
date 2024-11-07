@@ -58,15 +58,17 @@ final class HBTINotesCategoryCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configuration
     
-    func configureCell(with notes: [HBTINotesCategoryData], selectedNote: [Int], noteName: String) {
+    func configureCell(with notes: [HBTINotesCategory], selectedNote: [Int], noteName: String) {
         categoryStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         notes.forEach { note in
             let button = HBTINotesCategoryButton()
-            let isSelected = selectedNote.contains(note.id)
-            let selectionIndex = selectedNote.firstIndex(of: note.id)
-            let text = (note.title == noteName) ? "Best!" : nil
-            let isVisible = (note.title == noteName || isSelected)
+            button.setOverlayVisible(false)
+            
+            let isSelected = selectedNote.contains(note.noteId)
+            let selectionIndex = selectedNote.firstIndex(of: note.noteId)
+            let text = (note.noteName == noteName) ? "Best!" : nil
+            let isVisible = (note.noteName == noteName || isSelected)
 
             button.configureButton(with: note)
             button.setOverlayVisible(isSelected)

@@ -20,14 +20,12 @@ final class HBTINotesCategoryButton: UIButton {
     }
     
     private let customTitleLabel = UILabel().then {
-        $0.font = .customFont(.pretendard_semibold, 14)
-        $0.textColor = .black
+        $0.setLabelUI("", font: .pretendard_semibold, size: 14, color: .black)
         $0.textAlignment = .center
     }
     
     private let descriptionLabel = UILabel().then {
-        $0.font = .customFont(.pretendard, 10)
-        $0.textColor = .black
+        $0.setLabelUI("", font: .pretendard, size: 10, color: .black)
         $0.textAlignment = .center
         $0.numberOfLines = 3
     }
@@ -107,6 +105,7 @@ final class HBTINotesCategoryButton: UIButton {
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(customTitleLabel.snp.bottom).offset(4)
             $0.centerX.equalToSuperview()
+            $0.width.lessThanOrEqualToSuperview()
         }
         
         overlayView.snp.makeConstraints {
@@ -128,10 +127,10 @@ final class HBTINotesCategoryButton: UIButton {
         }
     }
     
-    func configureButton(with category: HBTINotesCategoryData) {
-        customImageView.image = UIImage(named: category.image)?.resize(targetSize: CGSize(width: 68, height: 68))
-        customTitleLabel.text = category.title
-        descriptionLabel.text = category.description
+    func configureButton(with category: HBTINotesCategory) {
+        customImageView.kf.setImage(with: URL(string: category.noteImageUrl))
+        customTitleLabel.text = category.noteName
+        descriptionLabel.text = category.noteComposition + "\n(총 \(category.price.numberFormatterToHangulWon()))"
     }
     
     func setOverlayVisible(_ isVisible: Bool) {

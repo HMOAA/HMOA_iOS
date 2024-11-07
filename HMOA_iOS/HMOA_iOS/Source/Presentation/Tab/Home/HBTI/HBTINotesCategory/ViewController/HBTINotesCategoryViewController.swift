@@ -18,8 +18,13 @@ final class HBTINotesCategoryViewController: UIViewController, View {
     
     private let hbtiNotesCategoryTopView = HBTINotesCategoryTopView(labelTexts: HBTICategoryLabelTexts(noteName: ""))
     
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
-        $0.register(HBTINotesCategoryCell.self, forCellWithReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier)
+    private lazy var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()).then {
+        $0.register(
+            HBTINotesCategoryCell.self,
+            forCellWithReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier
+        )
     }
     
     private let nextButton: UIButton = UIButton().makeInvalidHBTINextButton()
@@ -46,6 +51,11 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         
         // MARK: Action
         
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         collectionView.rx.itemSelected
             .map { Reactor.Action.didTapNote($0.item + 1) }
             .bind(to: reactor.action)
@@ -67,12 +77,16 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        reactor.state
-            .map { $0.selectedNote }
-            .distinctUntilChanged()
+        Observable
+            .combineLatest(
+                reactor.state.map { $0.selectedNote }.distinctUntilChanged(),
+                reactor.state.map { $0.noteList }.distinctUntilChanged()
+            )
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(with: self, onNext: { owner, selectedNotes in
-                owner.updateSnapShot(withItems: selectedNotes)
+            .drive(onNext: { [weak self] (_, noteList) in
+                guard let self = self else { return }
+                
+                self.updateSnapShot(forSection: .category, withItems: noteList)
             })
             .disposed(by: disposeBag)
         
@@ -174,17 +188,14 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         
         var snapshot = NSDiffableDataSourceSnapshot<HBTINotesCategorySection, HBTINotesCategoryItem>()
         snapshot.appendSections([.category])
-        let items = HBTINotesCategoryData.data.map { HBTINotesCategoryItem.note($0) }
-        snapshot.appendItems(items, toSection: .category)
         dataSource?.apply(snapshot, animatingDifferences: false)
-    } 
+    }
 
-    private func updateSnapShot(withItems items: [Int]) {
+    private func updateSnapShot(forSection section: HBTINotesCategorySection, withItems items: [HBTINotesCategoryItem]) {
         guard let dataSource = self.dataSource else { return }
-        
         var snapshot = dataSource.snapshot()
-        snapshot.reloadSections([.category])
         
+        snapshot.appendItems(items, toSection: section)
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
