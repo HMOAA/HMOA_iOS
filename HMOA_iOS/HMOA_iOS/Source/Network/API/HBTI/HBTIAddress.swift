@@ -13,6 +13,7 @@ enum HBTIAddress {
     case postAnswerList
     case fetchPerfumeSurvey
     case postPerfumeAnswer
+    case fetchNoteList
     case postNoteListToCart
     case postOrderNoteList
     case fetchOrderInfo(Int)
@@ -38,6 +39,8 @@ enum HBTIAddress {
             return "survey/perfume"
         case .postPerfumeAnswer:
             return "survey/perfume/respond"
+        case .fetchNoteList:
+            return "shop/note"
         case .postNoteListToCart:
             return "shop/note/select"
         case .postOrderNoteList:

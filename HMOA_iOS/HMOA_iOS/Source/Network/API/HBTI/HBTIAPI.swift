@@ -64,6 +64,15 @@ final class HBTIAPI {
         )
     }
     
+    static func fetchNoteList() -> Observable<HBTINotesCategoryResponse> {
+        return networking(
+            urlStr: HBTIAddress.fetchNoteList.url,
+            method: .get,
+            data: nil,
+            model: HBTINotesCategoryResponse.self
+        )
+    }
+    
     static func postOrderNoteList(params: [String: [Int]]) -> Observable<HBTIOrderResult> {
         let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
         
