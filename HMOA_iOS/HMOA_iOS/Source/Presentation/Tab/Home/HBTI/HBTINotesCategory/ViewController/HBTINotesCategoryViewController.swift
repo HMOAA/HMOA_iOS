@@ -15,16 +15,19 @@ import RxCocoa
 final class HBTINotesCategoryViewController: UIViewController, View {
     
     // MARK: - UI Components
-    
-    private let hbtiNotesCategoryTopView = HBTINotesCategoryTopView(labelTexts: HBTICategoryLabelTexts(noteName: ""))
-    
+
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()).then {
-        $0.register(
-            HBTINotesCategoryCell.self,
-            forCellWithReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier
-        )
+            $0.register(
+                HBTINotesCategoryCell.self,
+                forCellWithReuseIdentifier: HBTINotesCategoryCell.reuseIdentifier
+            )
+            $0.register(
+                HBTINotesCategoryHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: HBTINotesCategoryHeaderView.reuseIdentifier
+            )
     }
     
     private let nextButton: UIButton = UIButton().makeInvalidHBTINextButton()
@@ -67,15 +70,6 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         // MARK: State
-
-        reactor.state
-            .map { $0.recommendedNote }
-            .distinctUntilChanged()
-            .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(with: self, onNext: { owner, noteName in
-                owner.hbtiNotesCategoryTopView.updateNoteTitleLabel(with: noteName)
-            })
-            .disposed(by: disposeBag)
         
         Observable
             .combineLatest(
@@ -124,7 +118,6 @@ final class HBTINotesCategoryViewController: UIViewController, View {
     
     private func setAddView() {
         [
-         hbtiNotesCategoryTopView,
          collectionView,
          nextButton
         ].forEach(view.addSubview)
@@ -133,13 +126,8 @@ final class HBTINotesCategoryViewController: UIViewController, View {
     // MARK: Set Constraints
     
     private func setConstraints() {
-        hbtiNotesCategoryTopView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(127)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-        }
-        
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(hbtiNotesCategoryTopView.snp.bottom).offset(24)
+            $0.top.equalToSuperview().offset(127)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(60)
         }
@@ -154,6 +142,12 @@ final class HBTINotesCategoryViewController: UIViewController, View {
     // MARK: Create Layout
         
     private func createLayout() -> UICollectionViewLayout {
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(107))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .estimated(134))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -161,8 +155,10 @@ final class HBTINotesCategoryViewController: UIViewController, View {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
+        
         section.interGroupSpacing = 24
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 16, bottom: 0, trailing: 16)
+        section.boundarySupplementaryItems = [header]
         
         return UICollectionViewCompositionalLayout(section: section)
     }
@@ -184,6 +180,22 @@ final class HBTINotesCategoryViewController: UIViewController, View {
                 cell.configureCell(with: [noteData], selectedNote: selectedNotes, noteName: noteName)
             }
             return cell
+        }
+        
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+            if kind == UICollectionView.elementKindSectionHeader,
+               let headerView = collectionView.dequeueReusableSupplementaryView(
+                   ofKind: kind,
+                   withReuseIdentifier: HBTINotesCategoryHeaderView.reuseIdentifier,
+                   for: indexPath) as? HBTINotesCategoryHeaderView {
+                
+                let recommendedNote = self.reactor?.currentState.recommendedNote ?? ""
+                
+                headerView.configureHeaderViewLabel(bestNote: recommendedNote)
+                
+                return headerView
+            }
+            fatalError("Unexpected element kind or failed to dequeue HBTINotesCategoryHeaderView")
         }
         
         var snapshot = NSDiffableDataSourceSnapshot<HBTINotesCategorySection, HBTINotesCategoryItem>()
