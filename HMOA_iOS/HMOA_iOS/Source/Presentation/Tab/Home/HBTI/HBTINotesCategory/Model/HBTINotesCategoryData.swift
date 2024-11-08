@@ -9,6 +9,7 @@ import Foundation
 
 struct HBTICategoryLabelTexts {
     let bestNote: String
+    let pricePerNote: Int
     var titleLabelText: String {
          """
          추천받은 카테고리는 '\(bestNote)' 입니다.
@@ -16,7 +17,9 @@ struct HBTICategoryLabelTexts {
          선택해주세요
          """
     }
-    let descriptionLabelText = "*향료 1개당 1,200원"
+    var descriptionLabelText: String {
+        "*향료 1개당 \(pricePerNote.numberFormatterToHangulWon())"
+    }
 }
 
 enum HBTINotesCategorySection: Hashable {

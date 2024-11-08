@@ -85,6 +85,20 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         reactor.state
+            .map { ($0.recommendedNote, $0.pricePerNote) }
+            .distinctUntilChanged { $0.1 == $1.1 }
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, state in
+                guard let headerView = owner.collectionView.supplementaryView(
+                    forElementKind: UICollectionView.elementKindSectionHeader,
+                    at: IndexPath(item: 0, section: 0)
+                ) as? HBTINotesCategoryHeaderView else { return }
+                
+                headerView.configureHeaderViewLabel(bestNote: state.0, pricePerNote: state.1)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
             .map { $0.isEnabledNextButton }
             .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in .empty() })
@@ -190,8 +204,9 @@ final class HBTINotesCategoryViewController: UIViewController, View {
                    for: indexPath) as? HBTINotesCategoryHeaderView {
                 
                 let recommendedNote = self.reactor?.currentState.recommendedNote ?? ""
+                let pricePerNote = self.reactor?.currentState.pricePerNote ?? 0
                 
-                headerView.configureHeaderViewLabel(bestNote: recommendedNote)
+                headerView.configureHeaderViewLabel(bestNote: recommendedNote, pricePerNote: pricePerNote)
                 
                 return headerView
             }

@@ -17,6 +17,7 @@ final class HBTINotesCategoryReactor: Reactor {
     
     enum Mutation {
         case setNoteList([HBTINotesCategoryItem])
+        case setPricePerNote(Int)
         case setSelectedNote([Int])
         case setIsEnabledNextButton(Bool)
         case setIsPushNextVC(Bool)
@@ -25,6 +26,7 @@ final class HBTINotesCategoryReactor: Reactor {
     struct State {
         let recommendedNote: String
         var noteList: [HBTINotesCategoryItem] = []
+        var pricePerNote: Int = 0
         var selectedNote: [Int] = []
         var isEnabledNextButton: Bool = false
         var isPushNextVC: Bool = false
@@ -71,6 +73,9 @@ final class HBTINotesCategoryReactor: Reactor {
         case .setNoteList(let noteList):
             state.noteList = noteList
             
+        case .setPricePerNote(let pricePerNote):
+            state.pricePerNote = pricePerNote
+            
         case .setSelectedNote(let selectedNotes):
             state.selectedNote = selectedNotes
             
@@ -102,7 +107,12 @@ extension HBTINotesCategoryReactor {
                         )
                     )
                 }
-                return .just(.setNoteList(noteItems))
+                let pricePerNote = noteListData.noteList[0].price / (noteListData.noteList[0].noteComposition.filter { $0 == "," }.count + 1)
+                
+                return .concat([
+                    .just(.setNoteList(noteItems)),
+                    .just(.setPricePerNote(pricePerNote))
+                ])
             }
     }
 }

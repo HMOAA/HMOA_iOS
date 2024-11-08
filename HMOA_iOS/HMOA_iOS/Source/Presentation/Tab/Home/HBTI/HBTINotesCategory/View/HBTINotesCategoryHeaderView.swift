@@ -73,8 +73,8 @@ final class HBTINotesCategoryHeaderView: UICollectionReusableView, ReuseIdentify
     
     // MARK: Other Functions
     
-    func configureHeaderViewLabel(bestNote: String) {
-        let headerViewLabelText = HBTICategoryLabelTexts(bestNote: bestNote)
+    func configureHeaderViewLabel(bestNote: String, pricePerNote: Int) {
+        let headerViewLabelText = HBTICategoryLabelTexts(bestNote: bestNote, pricePerNote: pricePerNote)
         
         headerViewTitleLabel.text = headerViewLabelText.titleLabelText
         headerViewDescriptionLabel.text = headerViewLabelText.descriptionLabelText
