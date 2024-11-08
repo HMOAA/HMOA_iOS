@@ -29,7 +29,7 @@ final class HomeViewReactor: Reactor {
         case setIsTapWhenNotLogin(Bool?)
         case success
         case setIsLogin(Bool)
-        case setIsTapHBTI(Bool)
+        case setIsTapHBTI(Bool?)
     }
     
     struct State {
@@ -88,7 +88,7 @@ final class HomeViewReactor: Reactor {
             
             return .concat([
                 .just(.setIsTapHBTI(true)),
-                .just(.setIsTapHBTI(false))
+                .just(.setIsTapHBTI(nil))
                 ])
         }
     }
