@@ -163,7 +163,6 @@
 		C9283DD32CC724AC004E9C93 /* HBTIReviewListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD22CC724AC004E9C93 /* HBTIReviewListReactor.swift */; };
 		C9283DD52CC7278A004E9C93 /* HBTIReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD42CC7278A004E9C93 /* HBTIReviewCell.swift */; };
 		C9283DD72CC72C25004E9C93 /* HBTIReviewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD62CC72C25004E9C93 /* HBTIReviewList.swift */; };
-		C92D5C892C9C1A5D007A1CA2 /* ResultPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */; };
 		C939CCFE2CA1647A004E26AE /* OrderLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */; };
 		C939CD002CA164EF004E26AE /* OrderLogReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */; };
 		C93AC2DD2CA3D9C3004A1CF5 /* OrderLogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2DC2CA3D9C3004A1CF5 /* OrderLogSection.swift */; };
@@ -547,7 +546,6 @@
 		C9283DD22CC724AC004E9C93 /* HBTIReviewListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewListReactor.swift; sourceTree = "<group>"; };
 		C9283DD42CC7278A004E9C93 /* HBTIReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewCell.swift; sourceTree = "<group>"; };
 		C9283DD62CC72C25004E9C93 /* HBTIReviewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewList.swift; sourceTree = "<group>"; };
-		C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPriority.swift; sourceTree = "<group>"; };
 		C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogViewController.swift; sourceTree = "<group>"; };
 		C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogReactor.swift; sourceTree = "<group>"; };
 		C93AC2DC2CA3D9C3004A1CF5 /* OrderLogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogSection.swift; sourceTree = "<group>"; };
@@ -2498,7 +2496,6 @@
 			isa = PBXGroup;
 			children = (
 				C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */,
-				C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3618,7 +3615,6 @@
 				CA2238902AAEFCC000452A31 /* CommunityWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				C9819D772C3302270046FE55 /* IconMessageView.swift in Sources */,
-				C92D5C892C9C1A5D007A1CA2 /* ResultPriority.swift in Sources */,
 				C984245D2C429C1300530259 /* HBTISurveyAnswerButton.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
