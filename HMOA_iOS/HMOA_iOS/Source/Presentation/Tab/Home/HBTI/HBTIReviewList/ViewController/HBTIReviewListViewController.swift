@@ -193,7 +193,7 @@ final class HBTIReviewListViewController: UIViewController, View {
                     owner.presentAlertVC(title: "주문 후 이용가능한 서비스입니다",
                                          content: "배송 후 후기를 작성해주세요",
                                          buttonTitle: "확인",
-                                         type: .order)
+                                         type: .none)
                 } else {
                     owner.showFloatingButtonAnimation(
                         floatingButton: owner.floatingButton,
