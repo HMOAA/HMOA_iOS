@@ -128,7 +128,7 @@ final class HBTINotesCategoryButton: UIButton {
     }
     
     func configureButton(with category: HBTINotesCategory) {
-        customImageView.kf.setImage(with: URL(string: category.noteImageUrl))
+        customImageView.kf.setImage(with: URL(string: category.noteImageURL))
         customTitleLabel.text = category.noteName
         descriptionLabel.text = category.noteComposition + "\n(총 \(category.price.numberFormatterToHangulWon()))"
     }

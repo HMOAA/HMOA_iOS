@@ -77,10 +77,8 @@ final class HBTINotesCategoryViewController: UIViewController, View {
                 reactor.state.map { $0.noteList }.distinctUntilChanged()
             )
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(onNext: { [weak self] (_, noteList) in
-                guard let self = self else { return }
-                
-                self.updateSnapShot(forSection: .category, withItems: noteList)
+            .drive(with: self, onNext: { owner, tuple in
+                owner.updateSnapShot(forSection: .category, withItems: tuple.1)
             })
             .disposed(by: disposeBag)
         

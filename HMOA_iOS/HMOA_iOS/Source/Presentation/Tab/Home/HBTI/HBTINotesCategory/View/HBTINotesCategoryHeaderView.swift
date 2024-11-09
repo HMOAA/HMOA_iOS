@@ -44,12 +44,6 @@ final class HBTINotesCategoryHeaderView: UICollectionReusableView, ReuseIdentify
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: Set UI
-    
-    private func setUI() {
-        
-    }
-    
     // MARK: Add Views
     
     private func setAddView() {
