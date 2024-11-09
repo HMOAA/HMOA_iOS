@@ -96,16 +96,7 @@ extension HBTINotesCategoryReactor {
             .catch { _ in .empty() }
             .flatMap { noteListData -> Observable<Mutation> in
                 let noteItems = noteListData.noteList.map { note in
-                    return HBTINotesCategoryItem.note(
-                        HBTINotesCategory(
-                            noteId: note.noteId,
-                            noteName: note.noteName,
-                            noteComposition: note.noteComposition,
-                            noteImageUrl: note.noteImageUrl,
-                            isRecommended: note.isRecommended,
-                            price: note.price
-                        )
-                    )
+                    return HBTINotesCategoryItem.note(note)
                 }
                 let pricePerNote = noteListData.noteList[0].price / (noteListData.noteList[0].noteComposition.filter { $0 == "," }.count + 1)
                 

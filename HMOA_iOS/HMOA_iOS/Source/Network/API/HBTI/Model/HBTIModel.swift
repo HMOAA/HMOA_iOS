@@ -81,18 +81,18 @@ struct HBTINotesCategoryResponse: Hashable, Codable {
 }
 
 struct HBTINotesCategory: Hashable, Codable {
-    let noteId: Int
+    let noteID: Int
     let noteName: String
     let noteComposition: String
-    let noteImageUrl: String
+    let noteImageURL: String
     let isRecommended: Bool
     let price: Int
     
     enum CodingKeys: String, CodingKey {
-        case noteId = "productId"
+        case noteID = "productId"
         case noteName = "productName"
         case noteComposition = "productDetails"
-        case noteImageUrl = "productPhotoUrl"
+        case noteImageURL = "productPhotoUrl"
         case isRecommended
         case price
     }

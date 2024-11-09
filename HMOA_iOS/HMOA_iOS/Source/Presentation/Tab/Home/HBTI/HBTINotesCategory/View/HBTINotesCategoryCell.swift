@@ -65,8 +65,8 @@ final class HBTINotesCategoryCell: UICollectionViewCell, ReuseIdentifying {
             let button = HBTINotesCategoryButton()
             button.setOverlayVisible(false)
             
-            let isSelected = selectedNote.contains(note.noteId)
-            let selectionIndex = selectedNote.firstIndex(of: note.noteId)
+            let isSelected = selectedNote.contains(note.noteID)
+            let selectionIndex = selectedNote.firstIndex(of: note.noteID)
             let text = (note.noteName == noteName) ? "Best!" : nil
             let isVisible = (note.noteName == noteName || isSelected)
 
