@@ -35,13 +35,11 @@ final class AlertViewController: UIViewController {
     }
 
     var alertType: AlertType = .login
-    var orderId: Int?
     
     let disposeBag = DisposeBag()
 
-    init(title: String, content: String, buttonTitle: String, type: AlertType? = nil, orderId: Int? = nil) {
+    init(title: String, content: String, buttonTitle: String, type: AlertType? = nil) {
         super .init(nibName: nil, bundle: nil)
-        self.orderId = orderId
         self.updateAlertView(title: title, content: content, buttonTitle: buttonTitle, type: type)
     }
     
@@ -60,6 +58,8 @@ final class AlertViewController: UIViewController {
     
     private func setUpUI() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        alertView.layer.cornerRadius = 5
+        alertView.clipsToBounds = true
     }
     
     private func setAddView() {
@@ -119,12 +119,10 @@ final class AlertViewController: UIViewController {
                     owner.dismiss(animated: false) {
                         presentingVC.present(loginVC, animated: true)
                     }
-                case .order:
-                    if let orderId = owner.orderId {
-                        HBTIAPI.deletePurchase(orderId: orderId)
-                            .subscribe()
-                            .disposed(by: owner.disposeBag)
-                    }
+                case .order(let order):
+                    HBTIAPI.deletePurchase(orderId: order.id)
+                        .subscribe()
+                        .disposed(by: owner.disposeBag)
                                        
                     owner.dismiss(animated: false)
                     
@@ -142,10 +140,5 @@ final class AlertViewController: UIViewController {
         
         guard let type = type else { return }
         alertType = type
-        
-        if alertType == .order {
-            alertView.layer.cornerRadius = 5
-            alertView.clipsToBounds = true
-        }
     }
 }

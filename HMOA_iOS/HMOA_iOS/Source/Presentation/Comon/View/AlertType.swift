@@ -7,6 +7,6 @@
 
 enum AlertType {
     case login
-    case order
+    case order(Order)
     case none
 }
