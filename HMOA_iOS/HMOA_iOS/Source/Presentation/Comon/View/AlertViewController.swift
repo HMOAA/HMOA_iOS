@@ -127,6 +127,9 @@ final class AlertViewController: UIViewController {
                     }
                                        
                     owner.dismiss(animated: false)
+                    
+                case .none:
+                    owner.dismiss(animated: false)
                 }
             }
             .disposed(by: disposeBag)
@@ -145,9 +148,4 @@ final class AlertViewController: UIViewController {
             alertView.clipsToBounds = true
         }
     }
-}
-
-enum AlertType {
-    case login
-    case order
 }
