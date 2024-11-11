@@ -125,7 +125,7 @@ final class HBTIProductInfoCell: UICollectionViewCell, ReuseIdentifying {
         productTitleLabel.text = product.name
         productDescriptionLabel.text = product.noteList.map { $0.name }.joined(separator: ", ")
         productCountLabel.text = "수량 \(product.noteCount)개"
-        productPricePerUnitLabel.text = "990원/개"
+        productPricePerUnitLabel.text = "\((product.price / product.noteCount).numberFormatterToHangulWon())/개"
         productPriceLabel.text = "\(product.price.numberFormatterToHangulWon())"
         separatorView.isHidden = isSeparatorHidden
     }
