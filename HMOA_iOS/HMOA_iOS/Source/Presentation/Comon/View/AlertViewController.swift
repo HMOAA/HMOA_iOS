@@ -32,7 +32,6 @@ final class AlertViewController: UIViewController {
     let bottomButton = UIButton().then {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 12)
-        $0.backgroundColor = .customColor(.gray3)
     }
 
     var alertType: AlertType = .login
@@ -63,6 +62,7 @@ final class AlertViewController: UIViewController {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         alertView.layer.cornerRadius = 5
         alertView.clipsToBounds = true
+        setBottomButtonBackgroundColor()
     }
     
     private func setAddView() {
@@ -143,12 +143,25 @@ final class AlertViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    func updateAlertView(title: String, content: String, buttonTitle: String, type: AlertType?) {
+    
+}
+
+extension AlertViewController {
+    private func updateAlertView(title: String, content: String, buttonTitle: String, type: AlertType?) {
         titleLabel.text = title
         contentLabel.text = content
         bottomButton.setTitle(buttonTitle, for: .normal)
         
         guard let type = type else { return }
         alertType = type
+    }
+    
+    private func setBottomButtonBackgroundColor() {
+        switch alertType {
+        case .refund(let _):
+            bottomButton.backgroundColor = .black
+        default:
+            bottomButton.backgroundColor = .customColor(.gray3)
+        }
     }
 }
