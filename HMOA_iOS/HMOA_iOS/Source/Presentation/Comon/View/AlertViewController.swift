@@ -119,14 +119,23 @@ final class AlertViewController: UIViewController {
                     owner.dismiss(animated: false) {
                         presentingVC.present(loginVC, animated: true)
                     }
-                case .order(let order):
-                    HBTIAPI.deletePurchase(orderId: order.id)
-                        .subscribe()
-                        .disposed(by: owner.disposeBag)
-                                       
-                    owner.dismiss(animated: false)
+                case .refund(let order):
+                    if let order = order {
+                        HBTIAPI.deletePurchase(orderId: order.id)
+                            .subscribe()
+                            .disposed(by: owner.disposeBag)
+                        owner.updateAlertView(title: "환불이 완료되었습니다.",
+                                              content: "환불은 환불 규정에 따라 진행됩니다.",
+                                              buttonTitle: "확인",
+                                              type: .refund(nil))
+                    } else {
+                        owner.dismiss(animated: false) {
+                            // TODO: presentingVC pop
+                        }
+                    }
                     
                 case .none:
+                    print("alert type none")
                     owner.dismiss(animated: false)
                 }
             }

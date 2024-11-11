@@ -129,8 +129,7 @@ final class OrderCancelDetailViewController: UIViewController, View {
                         title: "환불하시겠습니까?",
                         content: "환불은 환불 규정에 따라 진행됩니다.",
                         buttonTitle: "확인",
-                        type: .order(order)
-                    )
+                        type: .refund(order))
                 } else {
                     owner.presentKakaoChannel()
                 }
