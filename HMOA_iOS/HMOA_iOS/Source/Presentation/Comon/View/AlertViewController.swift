@@ -13,6 +13,7 @@ import RxSwift
 
 final class AlertViewController: UIViewController {
     
+    // MARK: - Componenets
     let alertView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -36,6 +37,8 @@ final class AlertViewController: UIViewController {
 
     var alertType: AlertType = .login
     
+    // MARK: - Properties
+    let confirmButtonTapped = PublishSubject<Void>()
     let disposeBag = DisposeBag()
 
     init(title: String, content: String, buttonTitle: String, type: AlertType? = nil) {
@@ -46,7 +49,7 @@ final class AlertViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: - UIComponents
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -129,13 +132,11 @@ final class AlertViewController: UIViewController {
                                               buttonTitle: "확인",
                                               type: .refund(nil))
                     } else {
-                        owner.dismiss(animated: false) {
-                            // TODO: presentingVC pop
-                        }
+                        owner.confirmButtonTapped.onNext(())
+                        owner.dismiss(animated: false)
                     }
                     
                 case .none:
-                    print("alert type none")
                     owner.dismiss(animated: false)
                 }
             }

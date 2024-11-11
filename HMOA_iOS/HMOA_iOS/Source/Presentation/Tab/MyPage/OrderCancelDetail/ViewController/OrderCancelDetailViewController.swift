@@ -123,14 +123,12 @@ final class OrderCancelDetailViewController: UIViewController, View {
             .asDriver(onErrorRecover: { _ in .empty() })
             .drive(with: self, onNext: { owner, _ in
                 let request = reactor.currentState.requestKind
-                let order = reactor.currentState.order.order!
-                if request == .refundRequest {
-                    owner.presentAlertVC(
-                        title: "환불하시겠습니까?",
-                        content: "환불은 환불 규정에 따라 진행됩니다.",
-                        buttonTitle: "확인",
-                        type: .refund(order))
-                } else {
+                switch request {
+                case .refundRequest:
+                    let order = reactor.currentState.order.order!
+                    let alertVC = owner.createRefundAlertVC(order: order)
+                    owner.presentAlertVC(alertVC: alertVC)
+                case .returnRequest:
                     owner.presentKakaoChannel()
                 }
                 
@@ -287,5 +285,21 @@ extension OrderCancelDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func createRefundAlertVC(order: Order) -> AlertViewController {
+        let alertVC = AlertViewController(title: "환불하시겠습니까?",
+                                          content: "환불은 환불 규정에 따라 진행됩니다.",
+                                          buttonTitle: "확인",
+                                          type: .refund(order))
+        
+        alertVC.confirmButtonTapped
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        return alertVC
     }
 }

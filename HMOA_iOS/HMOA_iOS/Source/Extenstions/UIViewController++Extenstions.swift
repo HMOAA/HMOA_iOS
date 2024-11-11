@@ -71,6 +71,12 @@ extension UIViewController {
             self.present(alertVC, animated: false)
     }
     
+    /// 미리 정의된 AlertVC를 입력으로 받아 present
+    func presentAlertVC(alertVC: AlertViewController) {
+        alertVC.modalPresentationStyle = .overFullScreen
+        self.present(alertVC, animated: false)
+    }
+    
     /// communityListVC -> communityDetailVC
     func presentCommunityDetailVC(_ id: Int, _ reactor: CommunityListReactor) {
         let CommunityDetailVC = CommunityDetailViewController()
