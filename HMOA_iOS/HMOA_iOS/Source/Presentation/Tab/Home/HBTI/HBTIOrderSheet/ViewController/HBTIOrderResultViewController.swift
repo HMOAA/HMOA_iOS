@@ -15,6 +15,10 @@ final class HBTIOrderResultViewController: UIViewController {
     
     private let orderIconMessageView = IconMessageView(title: "결제가 완료 되었습니다.", iconWidth: 110)
     
+    private lazy var goToHomeButton = UIButton().makeValidHBTINextButton(title: "홈으로 돌아가기").then {
+        $0.addTarget(self, action: #selector(goToHome), for: .touchUpInside)
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -39,14 +43,15 @@ final class HBTIOrderResultViewController: UIViewController {
    
     private func setUI() {
         view.backgroundColor = .white
-        setBackToHomeVCNaviBar("결제완료")
+        setNaviBar("결제완료")
     }
     
     // MARK: Add Views
     
     private func setAddView() {
         [
-         orderIconMessageView
+         orderIconMessageView,
+         goToHomeButton
         ].forEach(view.addSubview)
     }
     
@@ -55,6 +60,12 @@ final class HBTIOrderResultViewController: UIViewController {
     private func setConstraints() {
         orderIconMessageView.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+        
+        goToHomeButton.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(40)
+            $0.height.equalTo(52)
         }
     }
 }
