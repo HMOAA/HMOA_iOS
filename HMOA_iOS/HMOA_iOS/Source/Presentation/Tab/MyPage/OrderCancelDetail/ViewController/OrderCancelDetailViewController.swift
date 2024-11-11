@@ -131,7 +131,6 @@ final class OrderCancelDetailViewController: UIViewController, View {
                 case .returnRequest:
                     owner.presentKakaoChannel()
                 }
-                
             })
             .disposed(by: disposeBag)
     }
