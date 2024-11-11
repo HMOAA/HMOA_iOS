@@ -72,6 +72,32 @@ struct HBTISurveyResultNote: Hashable, Codable {
 }
 
 // 1차 후반부
+struct HBTINotesCategoryResponse: Hashable, Codable {
+    let noteList: [HBTINotesCategory]
+    
+    enum CodingKeys: String, CodingKey {
+        case noteList = "data"
+    }
+}
+
+struct HBTINotesCategory: Hashable, Codable {
+    let noteID: Int
+    let noteName: String
+    let noteComposition: String
+    let noteImageURL: String
+    let isRecommended: Bool
+    let price: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case noteID = "productId"
+        case noteName = "productName"
+        case noteComposition = "productDetails"
+        case noteImageURL = "productPhotoUrl"
+        case isRecommended
+        case price
+    }
+}
+
 struct HBTIOrderResult: Hashable, Codable {
     let isExistMemberAddress: Bool
     let isExistMemberInfo: Bool
