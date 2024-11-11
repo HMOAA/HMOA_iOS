@@ -579,6 +579,16 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItems = [backButton]
     }
     
+    /// Back 버튼이 없는 Navigation Bar
+    func setNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.setLabelUI(title, font: .pretendard, size: 20, color: .black)
+        }
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.hidesBackButton = true
+    }
+    
     /// Back 버튼, Share 버튼 NavigationBar
         func setBackShareRightNaviBar(_ title: String) {
             let titleLabel = UILabel().then {
