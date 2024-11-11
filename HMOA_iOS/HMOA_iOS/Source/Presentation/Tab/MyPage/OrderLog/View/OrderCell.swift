@@ -250,6 +250,8 @@ extension OrderCell {
     private func setButtonComposition(for status: OrderStatus?) {
         guard let status = status else { return }
         
+        buttonStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
         switch status {
         case .PAY_COMPLETE:
             buttonStackView.addArrangedSubview(refundRequestButton)
