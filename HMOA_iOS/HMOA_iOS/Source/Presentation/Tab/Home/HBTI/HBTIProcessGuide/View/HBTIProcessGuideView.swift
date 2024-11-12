@@ -13,6 +13,12 @@ final class HBTIProcessGuideView: UIView {
     
     // MARK: - UI Components
     
+    private let processScrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
+    
+    private let processContentView = UIView()
+    
     private let processFullStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 34
@@ -25,8 +31,12 @@ final class HBTIProcessGuideView: UIView {
         $0.backgroundColor = UIColor.customColor(.searchBarColor)
     }
     
-    private let processExampleImageView = UIImageView().then {
-        $0.image = UIImage(named: "process")
+    private let processFirstImageView = UIImageView().then {
+        $0.image = UIImage(named: "ProcessFirst")
+    }
+    
+    private let processSecondImageView = UIImageView().then {
+        $0.image = UIImage(named: "ProcessSecond")
     }
     
     // MARK: - Init
@@ -47,9 +57,18 @@ final class HBTIProcessGuideView: UIView {
     
     private func setAddView() {
         [
-            processFullStackView,
-            processExampleImageView
+            processScrollView
         ].forEach(addSubview)
+        
+        [
+            processContentView
+        ].forEach(processScrollView.addSubview)
+        
+        [
+            processFullStackView,
+            processFirstImageView,
+            processSecondImageView
+        ].forEach(processContentView.addSubview)
         
         processFullStackView.addSubview(lineView)
         processPartStackViews.forEach(processFullStackView.addArrangedSubview)
@@ -58,8 +77,17 @@ final class HBTIProcessGuideView: UIView {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        processScrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        processContentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        
         processFullStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(127)
+            $0.top.equalToSuperview().offset(20)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
@@ -70,9 +98,15 @@ final class HBTIProcessGuideView: UIView {
             $0.centerX.equalTo(processPartStackViews.first!.subviews.first!)
         }
         
-        processExampleImageView.snp.makeConstraints {
+        processFirstImageView.snp.makeConstraints {
             $0.top.equalTo(processFullStackView.snp.bottom).offset(17)
-            $0.horizontalEdges.equalToSuperview().inset(30)
+            $0.centerX.equalToSuperview()
+        }
+
+        processSecondImageView.snp.makeConstraints {
+            $0.top.equalTo(processFirstImageView.snp.bottom)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(60)
         }
     }
     
