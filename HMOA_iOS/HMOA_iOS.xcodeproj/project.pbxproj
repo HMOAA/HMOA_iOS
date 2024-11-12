@@ -226,6 +226,7 @@
 		C99E7B6B2BA9F0B500F359BC /* MagazineDetailLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */; };
 		C9B02B492CA24A0F00F1107C /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B02B482CA24A0F00F1107C /* OrderCell.swift */; };
 		C9B02B4D2CA25A0E00F1107C /* OrderCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B02B4C2CA25A0E00F1107C /* OrderCategoryView.swift */; };
+		C9B78B4B2CDF52900051EA7D /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B78B4A2CDF52900051EA7D /* AlertType.swift */; };
 		C9C594962CC8E2F30072382A /* HBTIHomeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C594952CC8E2F30072382A /* HBTIHomeSection.swift */; };
 		C9C594982CC8E3B80072382A /* HBTIHomeSurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C594972CC8E3B80072382A /* HBTIHomeSurvey.swift */; };
 		C9C5949A2CC8E4BB0072382A /* HBTIHomeSurveyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C594992CC8E4BB0072382A /* HBTIHomeSurveyCell.swift */; };
@@ -610,6 +611,7 @@
 		C99E7B6A2BA9F0B500F359BC /* MagazineDetailLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetailLineView.swift; sourceTree = "<group>"; };
 		C9B02B482CA24A0F00F1107C /* OrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCell.swift; sourceTree = "<group>"; };
 		C9B02B4C2CA25A0E00F1107C /* OrderCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCategoryView.swift; sourceTree = "<group>"; };
+		C9B78B4A2CDF52900051EA7D /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 		C9C594952CC8E2F30072382A /* HBTIHomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIHomeSection.swift; sourceTree = "<group>"; };
 		C9C594972CC8E3B80072382A /* HBTIHomeSurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIHomeSurvey.swift; sourceTree = "<group>"; };
 		C9C594992CC8E4BB0072382A /* HBTIHomeSurveyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIHomeSurveyCell.swift; sourceTree = "<group>"; };
@@ -1567,6 +1569,7 @@
 			children = (
 				2C1BD6BB299785360059A43D /* EmptyPerfumeView.swift */,
 				CA5C9B102AB71C6D007D04BA /* AlertViewController.swift */,
+				C9B78B4A2CDF52900051EA7D /* AlertType.swift */,
 				C96CD7462BA8802E005C9856 /* SupplementaryViewKind.swift */,
 				C9819D762C3302260046FE55 /* IconMessageView.swift */,
 			);
@@ -3669,6 +3672,7 @@
 				3F5565FC2C6F32EC005CCBCA /* HBTIProcessGuideViewController.swift in Sources */,
 				CA7C9C0B2AAADF8500072AB9 /* CommunityListViewController.swift in Sources */,
 				C9C5949A2CC8E4BB0072382A /* HBTIHomeSurveyCell.swift in Sources */,
+				C9B78B4B2CDF52900051EA7D /* AlertType.swift in Sources */,
 				CA9B9D812B1B29F9006BBA10 /* MyPageSwitchCell.swift in Sources */,
 				CAFB9F4029B5C67B0009654C /* LoginReactor.swift in Sources */,
 				C96CD7412BA88010005C9856 /* MagazineDetailReactor.swift in Sources */,
