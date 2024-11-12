@@ -16,7 +16,7 @@ final class HBTIOrderResultViewController: UIViewController {
     private let orderIconMessageView = IconMessageView(title: "결제가 완료 되었습니다.", iconWidth: 110)
     
     private lazy var goToHomeButton = UIButton().makeValidHBTINextButton(title: "홈으로 돌아가기").then {
-        $0.addTarget(self, action: #selector(goToHome), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(popToHBTIViewController), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
