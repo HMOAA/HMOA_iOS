@@ -13,14 +13,14 @@ final class HBTIPerfumeResultReactor: Reactor {
     enum Action {
         case viewDidLoad
         case didTapNextButton
-        case didTapPriorityButton(ResultPriority)
+        case didTapPriorityButton(HBTIPerfumeResultPriority)
         case didTapPerfumeCell(IndexPath)
     }
     
     enum Mutation {
         case setPerfumeList([HBTIPerfumeResultItem])
         case setIsPushNextVC
-        case setResultPriority(ResultPriority)
+        case setResultPriority(HBTIPerfumeResultPriority)
         case setSelectedPerfumeID(IndexPath?)
     }
     
@@ -30,7 +30,7 @@ final class HBTIPerfumeResultReactor: Reactor {
         let selectedNoteList: [String]
         var perfumeList: [HBTIPerfumeResultItem] = []
         var isPushNextVC: Bool = false
-        var resultPriority: ResultPriority = .price
+        var resultPriority: HBTIPerfumeResultPriority = .note
         var selectedPerfumeID: Int? = nil
     }
     
@@ -43,17 +43,15 @@ final class HBTIPerfumeResultReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidLoad:
-            return setPerfumeList(isContainAll: false)
+            return setPerfumeList(type: .note)
             
         case .didTapNextButton:
             return .just(.setIsPushNextVC)
             
         case .didTapPriorityButton(let priority):
-            let noteFirst = priority == .note
-            
             return .concat([
                 .just(.setResultPriority(priority)),
-                setPerfumeList(isContainAll: noteFirst)
+                setPerfumeList(type: priority)
             ])
             
         case .didTapPerfumeCell(let indexPath):
@@ -90,7 +88,7 @@ final class HBTIPerfumeResultReactor: Reactor {
 }
 
 extension HBTIPerfumeResultReactor {
-    private func setPerfumeList(isContainAll: Bool) -> Observable<Mutation> {
+    private func setPerfumeList(type: HBTIPerfumeResultPriority) -> Observable<Mutation> {
         let maxPrice = currentState.maxPrice
         let minPrice = currentState.minPrice
         let notes = currentState.selectedNoteList
@@ -101,7 +99,7 @@ extension HBTIPerfumeResultReactor {
             "notes": notes
         ]
         
-        return HBTIAPI.postPerfumeAnswer(params: params, isContainAll: isContainAll)
+        return HBTIAPI.postPerfumeAnswer(params: params, type: type)
             .catch { _ in .empty() }
             .flatMap { perfumeListData -> Observable<Mutation> in
                 let perfumeList = perfumeListData.perfumeList.map { perfumeData in

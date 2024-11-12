@@ -25,12 +25,12 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
     
     private let priceButton = UIButton().then {
         $0.setHBTIPriorityButton(title: "가격대 우선")
-        $0.isSelected = true
+        $0.isSelected = false
     }
     
     private let noteButton = UIButton().then {
         $0.setHBTIPriorityButton(title: "향료 우선")
-        $0.isSelected = false
+        $0.isSelected = true
     }
     
     private lazy var perfumeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
@@ -238,7 +238,7 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 
-    private func togglePriority(_ priority: ResultPriority) {
+    private func togglePriority(_ priority: HBTIPerfumeResultPriority) {
         priceButton.isSelected = priority == .price
         noteButton.isSelected = priority == .note
     }
