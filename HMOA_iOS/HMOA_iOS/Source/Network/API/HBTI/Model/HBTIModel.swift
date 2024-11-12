@@ -249,3 +249,8 @@ struct NotReviewedOrder: Codable {
         case info = "orderInfo"
     }
 }
+
+enum HBTIPerfumeResultPriority: String {
+    case price = "PRICE"
+    case note = "NOTE"
+}

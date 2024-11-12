@@ -142,7 +142,6 @@
 		3F9F71E42C84543700790FD8 /* HBTIAgreementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */; };
 		3FA0D8A72C739D380085BBE5 /* HBTINotesResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */; };
 		3FA0D8AD2C73AB040085BBE5 /* HBTINotesResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */; };
-		3FA803702CC160F30058A579 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA8036F2CC160F30058A579 /* IgnoerData.swift */; };
 		3FCB3B792CB6C43D008FCCEE /* HBTIOrderReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */; };
 		3FD67FB72C811986005E6235 /* HBTITotalPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */; };
 		3FD9C68D2CB505A6009C800C /* HBTINotesResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD9C68C2CB505A6009C800C /* HBTINotesResultReactor.swift */; };
@@ -164,7 +163,6 @@
 		C9283DD32CC724AC004E9C93 /* HBTIReviewListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD22CC724AC004E9C93 /* HBTIReviewListReactor.swift */; };
 		C9283DD52CC7278A004E9C93 /* HBTIReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD42CC7278A004E9C93 /* HBTIReviewCell.swift */; };
 		C9283DD72CC72C25004E9C93 /* HBTIReviewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9283DD62CC72C25004E9C93 /* HBTIReviewList.swift */; };
-		C92D5C892C9C1A5D007A1CA2 /* ResultPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */; };
 		C939CCFE2CA1647A004E26AE /* OrderLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */; };
 		C939CD002CA164EF004E26AE /* OrderLogReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */; };
 		C93AC2DD2CA3D9C3004A1CF5 /* OrderLogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AC2DC2CA3D9C3004A1CF5 /* OrderLogSection.swift */; };
@@ -180,6 +178,7 @@
 		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
 		C93CA20F2C69E6D600AFD9E8 /* HBTISurveyResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CA20E2C69E6D600AFD9E8 /* HBTISurveyResultViewController.swift */; };
 		C93CA2112C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CA2102C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift */; };
+		C94486042CDC674F00C0DCF8 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94486032CDC674F00C0DCF8 /* IgnoerData.swift */; };
 		C94EE0AF2C1FFBC9005EDC95 /* PushAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */; };
 		C94EE0B22C1FFEDD005EDC95 /* PushAlarmReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */; };
 		C952EE012C89B74600581D3F /* HBTIPerfumeSurveySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952EE002C89B74600581D3F /* HBTIPerfumeSurveySection.swift */; };
@@ -522,7 +521,6 @@
 		3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementCell.swift; sourceTree = "<group>"; };
 		3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultViewController.swift; sourceTree = "<group>"; };
 		3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultCell.swift; sourceTree = "<group>"; };
-		3FA8036F2CC160F30058A579 /* IgnoerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IgnoerData.swift; path = ../../../../../../../../../../Downloads/IgnoerData.swift; sourceTree = "<group>"; };
 		3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderReactor.swift; sourceTree = "<group>"; };
 		3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTITotalPaymentView.swift; sourceTree = "<group>"; };
 		3FD9C68C2CB505A6009C800C /* HBTINotesResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultReactor.swift; sourceTree = "<group>"; };
@@ -548,7 +546,6 @@
 		C9283DD22CC724AC004E9C93 /* HBTIReviewListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewListReactor.swift; sourceTree = "<group>"; };
 		C9283DD42CC7278A004E9C93 /* HBTIReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewCell.swift; sourceTree = "<group>"; };
 		C9283DD62CC72C25004E9C93 /* HBTIReviewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIReviewList.swift; sourceTree = "<group>"; };
-		C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPriority.swift; sourceTree = "<group>"; };
 		C939CCFD2CA1647A004E26AE /* OrderLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogViewController.swift; sourceTree = "<group>"; };
 		C939CCFF2CA164EF004E26AE /* OrderLogReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogReactor.swift; sourceTree = "<group>"; };
 		C93AC2DC2CA3D9C3004A1CF5 /* OrderLogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogSection.swift; sourceTree = "<group>"; };
@@ -564,6 +561,7 @@
 		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
 		C93CA20E2C69E6D600AFD9E8 /* HBTISurveyResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultViewController.swift; sourceTree = "<group>"; };
 		C93CA2102C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultReactor.swift; sourceTree = "<group>"; };
+		C94486032CDC674F00C0DCF8 /* IgnoerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmViewController.swift; sourceTree = "<group>"; };
 		C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmReactor.swift; sourceTree = "<group>"; };
 		C952EE002C89B74600581D3F /* HBTIPerfumeSurveySection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeSurveySection.swift; sourceTree = "<group>"; };
@@ -1817,7 +1815,7 @@
 		3FCCFC452C6E1D28009AE780 /* Key */ = {
 			isa = PBXGroup;
 			children = (
-				3FA8036F2CC160F30058A579 /* IgnoerData.swift */,
+				C94486032CDC674F00C0DCF8 /* IgnoerData.swift */,
 			);
 			path = Key;
 			sourceTree = "<group>";
@@ -2498,7 +2496,6 @@
 			isa = PBXGroup;
 			children = (
 				C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */,
-				C92D5C882C9C1A5D007A1CA2 /* ResultPriority.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3535,7 +3532,6 @@
 				CAFE2F212B0F42FD00054E22 /* HPediaAPI.swift in Sources */,
 				2C8318CC2A0FC6FD004A3ACD /* HomeData.swift in Sources */,
 				CAFA450A29AB7DEA00ACF2C1 /* ChoiceYearViewController.swift in Sources */,
-				3FA803702CC160F30058A579 /* IgnoerData.swift in Sources */,
 				2C4CDC4129C770D900676163 /* BrandDetailCollectionViewCell.swift in Sources */,
 				C96CD7472BA8802E005C9856 /* SupplementaryViewKind.swift in Sources */,
 				2CA7F69529D2E8DB0022E7FD /* TotalPerfumeViewController.swift in Sources */,
@@ -3619,7 +3615,6 @@
 				CA2238902AAEFCC000452A31 /* CommunityWriteViewController.swift in Sources */,
 				CAD1EC112A7A60CF003B21FD /* EvaluationHeaderView.swift in Sources */,
 				C9819D772C3302270046FE55 /* IconMessageView.swift in Sources */,
-				C92D5C892C9C1A5D007A1CA2 /* ResultPriority.swift in Sources */,
 				C984245D2C429C1300530259 /* HBTISurveyAnswerButton.swift in Sources */,
 				2CD023632A092A5200459801 /* UserYearService.swift in Sources */,
 				2C4DD36E29754B410027CE40 /* HomeCell.swift in Sources */,
@@ -3807,6 +3802,7 @@
 				C93AC2F62CA584AF004A1CF5 /* OrderCancelDetailViewController.swift in Sources */,
 				C98424642C43D54200530259 /* HBTIModel.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
+				C94486042CDC674F00C0DCF8 /* IgnoerData.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				3FA0D8A72C739D380085BBE5 /* HBTINotesResultViewController.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
@@ -4042,11 +4038,11 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_ENTITLEMENTS = HMOA_iOS/HMOA_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = WBG9V97XP4;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = TSXWJN7576;
 				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -4070,7 +4066,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hyungyu.HMOA-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = HmoaProvisioningProfile;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = HMOA;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

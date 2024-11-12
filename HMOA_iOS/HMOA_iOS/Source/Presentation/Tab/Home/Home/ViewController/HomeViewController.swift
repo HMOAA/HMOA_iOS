@@ -164,7 +164,6 @@ class HomeViewController: UIViewController, View {
         
         reactor.state
             .compactMap { $0.isTapHBTI }
-            .filter { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, isTap in
                 owner.presentHBTIViewController()

@@ -42,7 +42,7 @@ final class HBTIAPI {
             model: HBTIPerfumeServeyResponse.self)
     }
     
-    static func postPerfumeAnswer(params: [String: Any], isContainAll: Bool) -> Observable<HBTIPerfumeResultResponse> {
+    static func postPerfumeAnswer(params: [String: Any], type: HBTIPerfumeResultPriority) -> Observable<HBTIPerfumeResultResponse> {
         let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
         
         return networking(
@@ -50,7 +50,7 @@ final class HBTIAPI {
             method: .post,
             data: data,
             model: HBTIPerfumeResultResponse.self,
-            query: ["isContainAll": isContainAll])
+            query: ["recommendType": type.rawValue])
     }
     
     static func postNoteListToCart(params: [String: [Int]]) -> Observable<HBTICategoryListInfo> {

@@ -89,7 +89,10 @@ final class HBTIPerfumeSurveyReactor: Reactor {
             
         case .didTapNextButton:
             if currentState.currentPage == 1 {
-                return .just(.setIsPushNextVC(true))
+                return .concat([
+                    .just(.setIsPushNextVC(true)),
+                    .just(.setIsPushNextVC(false))
+                ])
             }
             return .just(.setNextPage(currentState.currentPage + 1))
         }
