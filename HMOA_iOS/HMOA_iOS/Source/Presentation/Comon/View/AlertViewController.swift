@@ -13,6 +13,7 @@ import RxSwift
 
 final class AlertViewController: UIViewController {
     
+    // MARK: - Componenets
     let alertView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -31,24 +32,23 @@ final class AlertViewController: UIViewController {
     let bottomButton = UIButton().then {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 12)
-        $0.backgroundColor = .customColor(.gray3)
     }
 
     var alertType: AlertType = .login
-    var orderId: Int?
     
+    // MARK: - Properties
+    let confirmButtonTapped = PublishSubject<Void>()
     let disposeBag = DisposeBag()
 
-    init(title: String, content: String, buttonTitle: String, type: AlertType? = nil, orderId: Int? = nil) {
+    init(title: String, content: String, buttonTitle: String, type: AlertType? = nil) {
         super .init(nibName: nil, bundle: nil)
-        self.orderId = orderId
         self.updateAlertView(title: title, content: content, buttonTitle: buttonTitle, type: type)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: - UIComponents
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,6 +60,9 @@ final class AlertViewController: UIViewController {
     
     private func setUpUI() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        alertView.layer.cornerRadius = 5
+        alertView.clipsToBounds = true
+        setBottomButtonBackgroundColor()
     }
     
     private func setAddView() {
@@ -119,35 +122,46 @@ final class AlertViewController: UIViewController {
                     owner.dismiss(animated: false) {
                         presentingVC.present(loginVC, animated: true)
                     }
-                case .order:
-                    if let orderId = owner.orderId {
-                        HBTIAPI.deletePurchase(orderId: orderId)
+                case .refund(let order):
+                    if let order = order {
+                        HBTIAPI.deletePurchase(orderId: order.id)
                             .subscribe()
                             .disposed(by: owner.disposeBag)
+                        owner.updateAlertView(title: "환불이 완료되었습니다.",
+                                              content: "환불은 환불 규정에 따라 진행됩니다.",
+                                              buttonTitle: "확인",
+                                              type: .refund(nil))
+                    } else {
+                        owner.confirmButtonTapped.onNext(())
+                        owner.dismiss(animated: false)
                     }
-                                       
+                    
+                case .none:
                     owner.dismiss(animated: false)
                 }
             }
             .disposed(by: disposeBag)
     }
     
-    func updateAlertView(title: String, content: String, buttonTitle: String, type: AlertType?) {
+    
+}
+
+extension AlertViewController {
+    private func updateAlertView(title: String, content: String, buttonTitle: String, type: AlertType?) {
         titleLabel.text = title
         contentLabel.text = content
         bottomButton.setTitle(buttonTitle, for: .normal)
         
         guard let type = type else { return }
         alertType = type
-        
-        if alertType == .order {
-            alertView.layer.cornerRadius = 5
-            alertView.clipsToBounds = true
+    }
+    
+    private func setBottomButtonBackgroundColor() {
+        switch alertType {
+        case .refund(let _):
+            bottomButton.backgroundColor = .black
+        default:
+            bottomButton.backgroundColor = .customColor(.gray3)
         }
     }
-}
-
-enum AlertType {
-    case login
-    case order
 }

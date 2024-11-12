@@ -61,8 +61,8 @@ final class OrderLogViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        rx.viewWillDisappear
-            .map { _ in Reactor.Action.viewWillDisappear }
+        rx.viewDidDisappear
+            .map { _ in Reactor.Action.viewDidDisappear }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         

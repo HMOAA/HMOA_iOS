@@ -89,7 +89,6 @@ final class OrderCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUI()
         setAddView()
         setConstraints()
     }
@@ -100,15 +99,10 @@ final class OrderCell: UICollectionViewCell {
     
     override func prepareForReuse() {
             super.prepareForReuse()
-        
             disposeBag = DisposeBag()
         }
     
     // MARK: - Function
-    
-    private func setUI() {
-        
-    }
     
     private func setAddView() {
         [
@@ -255,6 +249,8 @@ extension OrderCell {
     
     private func setButtonComposition(for status: OrderStatus?) {
         guard let status = status else { return }
+        
+        buttonStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         switch status {
         case .PAY_COMPLETE:

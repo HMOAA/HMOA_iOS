@@ -12,7 +12,7 @@ final class OrderLogReactor: Reactor {
     
     enum Action {
         case viewWillAppear
-        case viewWillDisappear
+        case viewDidDisappear
         case loadNextPage
         case didTapRefundButton(OrderLogItem)
         case didTapReturnButton(OrderLogItem)
@@ -49,7 +49,7 @@ final class OrderLogReactor: Reactor {
         case .viewWillAppear:
             return setOrderList()
             
-        case .viewWillDisappear:
+        case .viewDidDisappear:
             return .concat([
                 .just(.setNextPage(0)),
                 .just(.setOrderList([]))
