@@ -142,6 +142,7 @@
 		3F9F71E42C84543700790FD8 /* HBTIAgreementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */; };
 		3FA0D8A72C739D380085BBE5 /* HBTINotesResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */; };
 		3FA0D8AD2C73AB040085BBE5 /* HBTINotesResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */; };
+		3FBD45962CE38E1C000E1CA1 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBD45952CE38E1C000E1CA1 /* IgnoerData.swift */; };
 		3FCB3B792CB6C43D008FCCEE /* HBTIOrderReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */; };
 		3FD67FB72C811986005E6235 /* HBTITotalPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */; };
 		3FD9C68D2CB505A6009C800C /* HBTINotesResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD9C68C2CB505A6009C800C /* HBTINotesResultReactor.swift */; };
@@ -178,7 +179,6 @@
 		C93BFA782C4295FC00A5D9D2 /* HBTISurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */; };
 		C93CA20F2C69E6D600AFD9E8 /* HBTISurveyResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CA20E2C69E6D600AFD9E8 /* HBTISurveyResultViewController.swift */; };
 		C93CA2112C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CA2102C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift */; };
-		C94486042CDC674F00C0DCF8 /* IgnoerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94486032CDC674F00C0DCF8 /* IgnoerData.swift */; };
 		C94EE0AF2C1FFBC9005EDC95 /* PushAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */; };
 		C94EE0B22C1FFEDD005EDC95 /* PushAlarmReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */; };
 		C952EE012C89B74600581D3F /* HBTIPerfumeSurveySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952EE002C89B74600581D3F /* HBTIPerfumeSurveySection.swift */; };
@@ -522,6 +522,7 @@
 		3F9F71E32C84543700790FD8 /* HBTIAgreementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIAgreementCell.swift; sourceTree = "<group>"; };
 		3FA0D8A62C739D380085BBE5 /* HBTINotesResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultViewController.swift; sourceTree = "<group>"; };
 		3FA0D8AC2C73AB040085BBE5 /* HBTINotesResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultCell.swift; sourceTree = "<group>"; };
+		3FBD45952CE38E1C000E1CA1 /* IgnoerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		3FCB3B782CB6C43D008FCCEE /* HBTIOrderReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIOrderReactor.swift; sourceTree = "<group>"; };
 		3FD67FB62C811986005E6235 /* HBTITotalPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTITotalPaymentView.swift; sourceTree = "<group>"; };
 		3FD9C68C2CB505A6009C800C /* HBTINotesResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTINotesResultReactor.swift; sourceTree = "<group>"; };
@@ -562,7 +563,6 @@
 		C93BFA742C4295FC00A5D9D2 /* HBTISurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTISurveyViewController.swift; sourceTree = "<group>"; };
 		C93CA20E2C69E6D600AFD9E8 /* HBTISurveyResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultViewController.swift; sourceTree = "<group>"; };
 		C93CA2102C69EC6E00AFD9E8 /* HBTISurveyResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultReactor.swift; sourceTree = "<group>"; };
-		C94486032CDC674F00C0DCF8 /* IgnoerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoerData.swift; sourceTree = "<group>"; };
 		C94EE0AE2C1FFBC9005EDC95 /* PushAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmViewController.swift; sourceTree = "<group>"; };
 		C94EE0B12C1FFEDD005EDC95 /* PushAlarmReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmReactor.swift; sourceTree = "<group>"; };
 		C952EE002C89B74600581D3F /* HBTIPerfumeSurveySection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeSurveySection.swift; sourceTree = "<group>"; };
@@ -1788,6 +1788,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3FBD45942CE38E0C000E1CA1 /* Key */ = {
+			isa = PBXGroup;
+			children = (
+				3FBD45952CE38E1C000E1CA1 /* IgnoerData.swift */,
+			);
+			path = Key;
+			sourceTree = "<group>";
+		};
 		3FBF351C2C8E791A00FD0079 /* HBTIAddFixAdress */ = {
 			isa = PBXGroup;
 			children = (
@@ -1813,14 +1821,6 @@
 				3F1EAC802C85B557000B657C /* HBTIAddressTextFieldView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		3FCCFC452C6E1D28009AE780 /* Key */ = {
-			isa = PBXGroup;
-			children = (
-				C94486032CDC674F00C0DCF8 /* IgnoerData.swift */,
-			);
-			path = Key;
 			sourceTree = "<group>";
 		};
 		9C8D9844171A0988EB13A2D4 /* Frameworks */ = {
@@ -3033,7 +3033,7 @@
 		CA914489297E757F00762BC0 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				3FCCFC452C6E1D28009AE780 /* Key */,
+				3FBD45942CE38E0C000E1CA1 /* Key */,
 				CADEAE182B43F9E100BC8964 /* Login */,
 				CA051CAC297FD9BD001865F5 /* Start */,
 			);
@@ -3806,7 +3806,7 @@
 				C93AC2F62CA584AF004A1CF5 /* OrderCancelDetailViewController.swift in Sources */,
 				C98424642C43D54200530259 /* HBTIModel.swift in Sources */,
 				CA19D1622A8F5F8D00B04C6F /* DetailAddress.swift in Sources */,
-				C94486042CDC674F00C0DCF8 /* IgnoerData.swift in Sources */,
+				3FBD45962CE38E1C000E1CA1 /* IgnoerData.swift in Sources */,
 				2CAD9637298E483800974500 /* DetailView.swift in Sources */,
 				3FA0D8A72C739D380085BBE5 /* HBTINotesResultViewController.swift in Sources */,
 				2C710EFF297C1840006BE23B /* MyPageViewModel.swift in Sources */,
