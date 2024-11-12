@@ -36,7 +36,9 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
     private let noMatchPerfumeView = IconMessageView(
         title: "설정하신 가격대 내에\n해당하는 향수가 없습니다.",
         description: "가격대를 재설정 해주세요.",
-        iconWidth: 90
+        iconWidth: 90,
+        titleOffSet: 44,
+        descriptionOffset: 12
     ).then {
         $0.isHidden = true
     }

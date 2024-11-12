@@ -12,10 +12,6 @@ import Then
 
 class IconMessageView: UIView {
     
-    // MARK: - Properties
-    
-    private let iconWidth: CGFloat
-    
     // MARK: - Components
     
     private let iconImageView = UIImageView().then {
@@ -25,6 +21,8 @@ class IconMessageView: UIView {
     private let titleLabel = UILabel().then {
         $0.font = .customFont(.pretendard_bold, 22)
         $0.setTextWithLineHeight(text: "제목", lineHeight: 28)
+        $0.numberOfLines = 0
+        $0.textAlignment = .center
     }
     
     private let descriptionLabel = UILabel().then {
@@ -34,15 +32,14 @@ class IconMessageView: UIView {
     
     // MARK: - Initialize
     
-    init(title: String? = nil, description: String? = nil, iconWidth: CGFloat) {
-        self.iconWidth = iconWidth
+    init(title: String? = nil, description: String? = nil, iconWidth: CGFloat, titleOffSet: CGFloat = 24, descriptionOffset: CGFloat = 62) {
         super.init(frame: .zero)
     
         titleLabel.text = title
         descriptionLabel.text = description
         
         setAddView()
-        setConstraints()
+        setConstraints(iconWidth, titleOffSet, descriptionOffset)
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +62,7 @@ class IconMessageView: UIView {
         subViews.forEach { addSubview($0) }
     }
     
-    private func setConstraints() {
+    private func setConstraints(_ iconWidth: CGFloat, _ titleOffset: CGFloat, _ descriptionOffset: CGFloat) {
         iconImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
@@ -75,14 +72,14 @@ class IconMessageView: UIView {
         if titleLabel.text != "제목" {
             titleLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview()
-                make.top.equalTo(iconImageView.snp.bottom).offset(24)
+                make.top.equalTo(iconImageView.snp.bottom).offset(titleOffset)
             }
         }
         
         if descriptionLabel.text != "설명" {
             descriptionLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview()
-                make.top.equalTo(titleLabel.snp.bottom).offset(62)
+                make.top.equalTo(titleLabel.snp.bottom).offset(descriptionOffset)
                 make.bottom.equalToSuperview()
             }
         }
