@@ -69,7 +69,7 @@ class IconMessageView: UIView {
         iconImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
-            make.width.equalTo(iconWidth)
+            make.width.height.equalTo(iconWidth)
         }
         
         if titleLabel.text != "제목" {
