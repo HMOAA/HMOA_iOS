@@ -6,7 +6,6 @@
 //
 
 import UIKit
-
 import Then
 
 class BrandListCollectionViewCell: UICollectionViewCell {
@@ -15,25 +14,17 @@ class BrandListCollectionViewCell: UICollectionViewCell {
     static let identifier = "BrandListCollectionViewCell"
     
     // MARK: - UI Component
-    private lazy var brandImageBorderView = UIView().then {
-        $0.layer.cornerRadius = 3
-        $0.layer.borderWidth = 2
-        $0.layer.borderColor = UIColor.customColor(.gray2).cgColor
-    }
-    private lazy var brandImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-    }
-    
-    private lazy var brandLabel = UILabel().then {
-        $0.textAlignment = .center
-        $0.numberOfLines = 2
-        $0.font = .customFont(.pretendard, 14)
+    let brandNameLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 12, color: .black)
     }
     
     // MARK: - init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureUI()
+        
+        setUI()
+        setAddView()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -44,32 +35,27 @@ class BrandListCollectionViewCell: UICollectionViewCell {
 extension BrandListCollectionViewCell {
     
     // MARK: - Configure
-    func configureUI() {
-        brandImageBorderView.addSubview(brandImageView)
+    private func setUI() {
+        isSelected = false
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.customColor(.gray2).cgColor
+        layer.cornerRadius = frame.height / 2
+    }
+    
+    private func setAddView() {
         [
-            brandImageBorderView,
-            brandLabel
-        ]   .forEach { addSubview($0) }
-        
-        brandImageBorderView.snp.makeConstraints {
-            $0.leading.top.equalToSuperview()
-            $0.width.equalTo((UIScreen.main.bounds.width - 56) / 4)
-            $0.height.equalTo(brandImageBorderView.snp.width)
-        }
-        
-        brandImageView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(8)
-            $0.top.bottom.equalToSuperview()
-        }
-        
-        brandLabel.snp.makeConstraints {
-            $0.top.equalTo(brandImageBorderView.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview()
+            brandNameLabel
+        ].forEach { addSubview($0) }
+    }
+    
+    private func setConstraints() {
+        brandNameLabel.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview().inset(10)
+            make.horizontalEdges.equalToSuperview().inset(16)
         }
     }
     
     func updateCell(_ item: Brand)  {
-        brandLabel.text = item.brandName
-        brandImageView.kf.setImage(with: URL(string: item.brandImageUrl))
+        brandNameLabel.text = item.brandName
     }
 }
