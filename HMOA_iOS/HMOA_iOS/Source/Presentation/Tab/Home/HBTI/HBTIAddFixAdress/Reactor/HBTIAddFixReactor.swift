@@ -128,17 +128,16 @@ final class HBTIAddFixReactor: Reactor {
             state.isPushVC = isPush
         }
         
-        state.isEnabledSaveButton = isValid(state.name, state.phoneNumber, state.telephoneNumber, state.zipCode, state.address, state.detailAddress)
-
+        state.isEnabledSaveButton = isValid(name: state.name, phoneNumber: state.phoneNumber, zipCode: state.zipCode, address: state.address, detailAddress: state.detailAddress)
+        
         return state
     }
 }
 
 extension HBTIAddFixReactor {
-    func isValid(_ name: String, _ phoneNumber: String, _ telephoneNumber: String, _ zipCode: String, _ address: String, _ detailAddress: String) -> Bool {
+    func isValid(name: String, phoneNumber: String, zipCode: String, address: String, detailAddress: String) -> Bool {
         return !name.isEmpty
             && isValidPhoneNumber(phoneNumber)
-            && (isValidPhoneNumber(telephoneNumber) ||  isValidTelephoneNumber(telephoneNumber))
             && !zipCode.isEmpty
             && !address.isEmpty
             && !detailAddress.isEmpty
@@ -149,13 +148,6 @@ extension HBTIAddFixReactor {
         let predicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
             
         return predicate.evaluate(with: phoneNumber)
-    }
-    
-    func isValidTelephoneNumber(_ telephoneNumber: String) -> Bool {
-        let telephoneRegex = "^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)-\\d{3}-\\d{4}$"
-        let predicate = NSPredicate(format: "SELF MATCHES %@", telephoneRegex)
-            
-        return predicate.evaluate(with: telephoneNumber)
     }
 }
 

@@ -55,7 +55,7 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
     
     private let phoneNumberTextFieldView = HBTIContactTextFieldView(title: "휴대전화")
     
-    private let contactTextFieldView = HBTIContactTextFieldView(title: "전화번호")
+    private let contactTextFieldView = HBTIContactTextFieldView(title: "전화번호(선택)")
     
     lazy var addressTextFieldView = HBTIAddressTextFieldView(title: "주소").then {
         $0.delegate = self
