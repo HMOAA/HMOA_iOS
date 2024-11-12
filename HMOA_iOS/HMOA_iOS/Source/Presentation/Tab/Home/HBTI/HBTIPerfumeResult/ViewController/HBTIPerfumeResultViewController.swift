@@ -48,14 +48,7 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
                     forCellWithReuseIdentifier: HBTIPerfumeResultCell.identifier)
     }
     
-    private let nextButton = UIButton().then {
-        $0.setTitle("다음", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard, 15)
-        $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 5
-        $0.backgroundColor = .black
-        $0.isEnabled = true
-    }
+    private let nextButton = UIButton().makeValidHBTINextButton(title: "홈으로 돌아가기")
     
     // MARK: - Properties
     
