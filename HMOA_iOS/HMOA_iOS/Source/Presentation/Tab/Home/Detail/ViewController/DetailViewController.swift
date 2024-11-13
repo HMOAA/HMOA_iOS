@@ -205,22 +205,6 @@ extension DetailViewController {
         
         // Action
         
-        // BrandView 터치 이벤트
-        cell.perfumeInfoView
-            .brandView.tapGesture.rx.event
-            .map { _ in Reactor.Action.didTapBrandView }
-            .bind(to: self.reactor!.action)
-            .disposed(by: cell.disposeBag)
-        
-        // BrandDetailVC로 present
-        reactor?.state
-            .map { $0.presentBrandId }
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: presentBrandDetailViewController)
-            .disposed(by: cell.disposeBag)
-        
         //좋아요 이미지 변경
         reactor?.state
             .map { $0.isLiked }
