@@ -15,7 +15,6 @@ final class DetailViewReactor: Reactor {
     enum Action {
         case viewDidLoad(Bool)
         case viewWillAppear
-        case didTapBrandView
         case didTapMoreButton
         case didTapWriteButton
         case didTapLikeButton
@@ -38,7 +37,6 @@ final class DetailViewReactor: Reactor {
         case setIsPaging(Bool)
         case setIsLogin(Bool)
         case setIsTap(Bool)
-        case setPresentBrandId(Int?)
         case setLikeCount(Int?)
         case setSelectedCommentRow(Int)
         case setBrandName(String)
@@ -51,7 +49,6 @@ final class DetailViewReactor: Reactor {
         var presentComment: Comment? = nil
         var presentPerfumeId: Int? = nil
         var isPresentCommentWirteVC: Int? = nil
-        var presentBrandId: Int? = nil
         var perfumeId: Int
         var isLiked: Bool? = nil
         var commentCount: Int? = nil
@@ -99,11 +96,6 @@ final class DetailViewReactor: Reactor {
         case .willDisplaySecondSection, .didDeleteComment:
             return setUpSecondDetailSections(id: currentState.perfumeId)
             
-        case .didTapBrandView:
-            return .concat([
-                .just(.setPresentBrandId(currentState.sections[0].items[0].brandId)),
-                .just(.setPresentBrandId(nil))
-            ])
         case .viewWillAppear:
             if currentState.sections.count > 2 {
                 return setUpSecondDetailSections(id: currentState.perfumeId)
@@ -162,9 +154,6 @@ final class DetailViewReactor: Reactor {
             
         case .setIsTap(let isTap):
             state.isTapWhenNotLogin = isTap
-            
-        case .setPresentBrandId(let brandId):
-            state.presentBrandId = brandId
             
         case .setLikeCount(let count):
             state.likeCount = count

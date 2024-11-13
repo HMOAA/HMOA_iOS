@@ -52,8 +52,6 @@ class PerfumeInfoView: UIView {
         $0.backgroundColor = UIColor.customColor(.gray2)
     }
     
-     lazy var brandView = BrandView()
-    
      lazy var tastingLabel = UILabel().then {
         $0.font = UIFont.customFont(.pretendard_medium, 20)
         $0.text = "테이스팅 노트"
@@ -101,7 +99,6 @@ extension PerfumeInfoView {
             priceLabel,
             perfumeView30,
             seperatorLine2,
-            brandView,
             tastingLabel,
             topNote,
             heartNote,
@@ -168,14 +165,8 @@ extension PerfumeInfoView {
             $0.height.equalTo(1)
         }
         
-        brandView.snp.makeConstraints {
-            $0.top.equalTo(seperatorLine2).inset(48)
-            $0.leading.trailing.equalToSuperview().inset(32)
-            $0.height.equalTo(68)
-        }
-        
         tastingLabel.snp.makeConstraints {
-            $0.top.equalTo(brandView.snp.bottom).offset(48)
+            $0.top.equalTo(seperatorLine2.snp.bottom).offset(48)
             $0.leading.equalToSuperview().inset(16)
         }
         

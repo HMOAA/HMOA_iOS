@@ -68,9 +68,6 @@ extension PerfumeInfoCell {
         perfumeInfoView.perfumeImageView.kf.setImage(with: URL(string: item.perfumeImageUrl)!)
         perfumeInfoView.titleKoreanLabel.text = item.koreanName
         perfumeInfoView.priceLabel.text = "₩\(numberFormatter(item.price))"
-        perfumeInfoView.brandView.brandEnglishLabel.text = item.brandEnglishName
-        perfumeInfoView.brandView.brandKoreanLabel.text = item.brandName
-        perfumeInfoView.brandView.brandImageView.kf.setImage(with: URL(string: item.brandImgUrl))
         
         setVolume(item)
         updateNote(item)
