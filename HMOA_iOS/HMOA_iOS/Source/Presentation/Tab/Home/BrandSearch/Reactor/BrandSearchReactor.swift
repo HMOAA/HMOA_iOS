@@ -24,7 +24,6 @@ class BrandSearchReactor: Reactor {
         case setRequestData([BrandList])
         case setSection([BrandListSection])
         case setSearchResult([BrandListSection])
-        case setLoadedPage(Int)
         case setSearchWord(String)
         
     }
@@ -76,9 +75,7 @@ class BrandSearchReactor: Reactor {
                 ])
             
         case .scrollCollectionView(let consonant):
-            return .concat([
-                reqeustBrandList(consonant: consonant)
-                ])
+            return reqeustBrandList(consonant: consonant)
         }
     }
     
@@ -97,13 +94,10 @@ class BrandSearchReactor: Reactor {
             state.searchResult = result
             
         case .setSection(let section):
-            state.brandList = section
+            state.brandList += section
         
         case .setRequestData(let brandList):
-            state.reqeustData = brandList
-            
-        case .setLoadedPage(let page):
-            state.loadedPage.insert(page)
+            state.reqeustData += brandList
             
         case .setSearchWord(let word):
             state.isFiltering = word == "" ? false : true
@@ -116,29 +110,16 @@ class BrandSearchReactor: Reactor {
 extension BrandSearchReactor {
     
     func reqeustBrandList(consonant: Int) -> Observable<Mutation> {
-        if currentState.loadedPage.contains(consonant) { return .empty() }
-        
         return SearchAPI.getBrandPaging(query: ["consonant": consonant])
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                var brand: BrandList!
-                //TODO: 필요없는 코드
-                if data.isEmpty {
-                    brand = BrandList(consonant: consonant, brands: [Brand(brandId: 0, brandImageUrl: "", brandName: "", englishName: "")])
-                } else {
-                    brand = BrandList(consonant: consonant, brands: data)
-                }
-                var newBrandList = self.currentState.reqeustData
-                newBrandList.append(brand)
-                var newSections = self.currentState.brandList
-                
+                if data.isEmpty { return .empty() }
+                let brand = BrandList(consonant: consonant, brands: data)
                 guard let section = brand.section else { return .empty() }
-                newSections.append(section)
                 
                 return .concat([
-                    .just(.setRequestData(newBrandList)),
-                    .just(.setSection(newSections)),
-                    .just(.setLoadedPage(consonant))
+                    .just(.setRequestData([brand])),
+                    .just(.setSection([section]))
                 ])
             }
     }
