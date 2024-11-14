@@ -17,7 +17,6 @@ struct BrandList: Equatable, Hashable, Codable {
 
 struct Brand: Equatable, Hashable, Codable {
     let brandId: Int
-    let brandImageUrl: String
     let brandName: String
     let englishName: String
 }
