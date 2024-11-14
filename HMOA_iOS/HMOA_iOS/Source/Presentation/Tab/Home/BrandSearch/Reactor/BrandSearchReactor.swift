@@ -15,7 +15,7 @@ class BrandSearchReactor: Reactor {
         case didTapBackButton
         case didTapItem(Brand)
         case updateSearchResult(String)
-        case scrollCollectionView(Int)
+        case scrollCollectionView
     }
     
     enum Mutation {
@@ -25,7 +25,7 @@ class BrandSearchReactor: Reactor {
         case setSection([BrandListSection])
         case setSearchResult([BrandListSection])
         case setSearchWord(String)
-        
+        case setNextConsonant(Int)
     }
     
     struct State {
@@ -44,7 +44,7 @@ class BrandSearchReactor: Reactor {
         var brandList: [BrandListSection] = []
         var searchResult: [BrandListSection] = []
         var isFiltering: Bool = false
-        var loadedPage: Set<Int> = []
+        var nextConsonant: Int = 1
     }
     
     init() {
@@ -74,7 +74,8 @@ class BrandSearchReactor: Reactor {
                 findSearhList(word)
                 ])
             
-        case .scrollCollectionView(let consonant):
+        case .scrollCollectionView:
+            let consonant = currentState.nextConsonant
             return reqeustBrandList(consonant: consonant)
         }
     }
@@ -101,6 +102,9 @@ class BrandSearchReactor: Reactor {
             
         case .setSearchWord(let word):
             state.isFiltering = word == "" ? false : true
+            
+        case .setNextConsonant(let index):
+            state.nextConsonant = index
         }
         
         return state
@@ -113,13 +117,16 @@ extension BrandSearchReactor {
         return SearchAPI.getBrandPaging(query: ["consonant": consonant])
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                if data.isEmpty { return .empty() }
+                if data.isEmpty && consonant < 20 {
+                    return self.reqeustBrandList(consonant: consonant + 1)
+                }
                 let brand = BrandList(consonant: consonant, brands: data)
                 guard let section = brand.section else { return .empty() }
                 
                 return .concat([
                     .just(.setRequestData([brand])),
-                    .just(.setSection([section]))
+                    .just(.setSection([section])),
+                    .just(.setNextConsonant(consonant + 1))
                 ])
             }
     }

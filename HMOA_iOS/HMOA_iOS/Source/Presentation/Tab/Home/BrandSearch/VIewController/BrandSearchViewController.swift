@@ -57,7 +57,7 @@ extension BrandSearchViewController {
 
         // MARK: - Action
         rx.viewDidLoad
-            .map { Reactor.Action.scrollCollectionView(1) }
+            .map { Reactor.Action.scrollCollectionView }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -67,10 +67,7 @@ extension BrandSearchViewController {
                 let isFirstItem = cellInfo.at.item == 0
                 return isLastSection && isFirstItem
             }
-            .map { _ in
-                let section = self.collectionView.numberOfSections
-                return Reactor.Action.scrollCollectionView(section + 1)
-            }
+            .map { _ in Reactor.Action.scrollCollectionView }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
