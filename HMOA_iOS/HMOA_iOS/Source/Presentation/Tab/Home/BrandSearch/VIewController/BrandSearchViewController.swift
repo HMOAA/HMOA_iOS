@@ -157,6 +157,9 @@ extension BrandSearchViewController {
             $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
         }
+        
+        collectionView.contentInset.top = 16
+        collectionView.showsVerticalScrollIndicator = false
     }
     
     private func createLayout() -> UICollectionViewLayout {
@@ -165,7 +168,7 @@ extension BrandSearchViewController {
             
             let headerItemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(80)
+                heightDimension: .estimated(22)
             )
             let headerItem = NSCollectionLayoutBoundarySupplementaryItem(
                 layoutSize: headerItemSize,
@@ -184,11 +187,11 @@ extension BrandSearchViewController {
                 heightDimension: .absolute(32)
             )
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-            group.interItemSpacing = .fixed(8)
+            group.interItemSpacing = .fixed(10)
             
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 12
-            section.contentInsets = .init(top: 16, leading: 0, bottom: 24, trailing: 0)
+            section.interGroupSpacing = 10
+            section.contentInsets = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
             section.boundarySupplementaryItems = [headerItem]
             
             return section
