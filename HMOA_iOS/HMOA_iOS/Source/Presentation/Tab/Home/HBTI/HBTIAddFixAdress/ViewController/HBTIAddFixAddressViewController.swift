@@ -73,12 +73,7 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
         $0.returnKeyType = .done
     }
     
-    private let saveAddressInfoButton = UIButton().then {
-        $0.setTitle("저장하기", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard, 15)
-        $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 5
-    }
+    private let saveAddressInfoButton = UIButton().makeValidNextStepButton(title: "저장하기")
     
     // MARK: - LifeCycle
     

@@ -36,7 +36,7 @@ final class HBTINotesResultViewController: UIViewController, View {
     
     private let footerView = HBTINotesResultFooterView()
     
-    private let nextButton: UIButton = UIButton().makeValidHBTINextButton(title: "다음")
+    private let nextButton: UIButton = UIButton().makeValidNextStepButton(title: "다음")
     
     // MARK: - LifeCycle
     
