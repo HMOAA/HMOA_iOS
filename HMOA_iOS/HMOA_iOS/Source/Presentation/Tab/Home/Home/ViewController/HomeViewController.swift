@@ -162,6 +162,7 @@ class HomeViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
+        // 향BTI 버튼 탭
         reactor.state
             .compactMap { $0.isTapHBTI }
             .asDriver(onErrorRecover: { _ in return .empty() })
@@ -204,11 +205,6 @@ extension HomeViewController {
                 homeTopCell.hbtiButton.rx.tap
                     .map { Reactor.Action.didTapHBTIButton }
                     .bind(to: self.reactor!.action)
-                    .disposed(by: self.disposeBag)
-                
-                self.reactor!.state
-                    .compactMap { $0.isTapHBTI }
-                    .bind(to: homeTopCell.hbtiButton.rx.isSelected)
                     .disposed(by: homeTopCell.disposeBag)
                 
                 return homeTopCell
