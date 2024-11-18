@@ -33,19 +33,22 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         $0.isSelected = true
     }
     
+    private let noMatchPerfumeView = IconMessageView(
+        title: "설정하신 가격대 내에\n해당하는 향수가 없습니다.",
+        description: "가격대를 재설정 해주세요.",
+        iconWidth: 90,
+        titleOffSet: 44,
+        descriptionOffset: 12
+    ).then {
+        $0.isHidden = true
+    }
+    
     private lazy var perfumeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
         $0.register(HBTIPerfumeResultCell.self,
                     forCellWithReuseIdentifier: HBTIPerfumeResultCell.identifier)
     }
     
-    private let nextButton = UIButton().then {
-        $0.setTitle("다음", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard, 15)
-        $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 5
-        $0.backgroundColor = .black
-        $0.isEnabled = true
-    }
+    private let nextButton = UIButton().makeValidHBTINextButton(title: "홈으로 돌아가기")
     
     // MARK: - Properties
     
@@ -108,6 +111,7 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
                 owner.togglePriority(priority)
                 
                 let items = reactor.currentState.perfumeList
+                owner.hideCollectionView(when: items.isEmpty)
                 owner.updateSnapshot(forSection: .perfume, withItems: items)
             })
             .disposed(by: disposeBag)
@@ -150,6 +154,7 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
             priceButton,
             noteButton,
             perfumeCollectionView,
+            noMatchPerfumeView,
             nextButton
         ].forEach { view.addSubview($0) }
     }
@@ -176,6 +181,11 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
         perfumeCollectionView.snp.makeConstraints { make in
             make.top.equalTo(priceButton.snp.bottom).offset(22)
             make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        noMatchPerfumeView.snp.makeConstraints { make in
+            make.top.equalTo(priceButton.snp.bottom).offset(65)
+            make.centerX.equalToSuperview()
         }
         
         nextButton.snp.makeConstraints { make in
@@ -241,5 +251,10 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
     private func togglePriority(_ priority: HBTIPerfumeResultPriority) {
         priceButton.isSelected = priority == .price
         noteButton.isSelected = priority == .note
+    }
+    
+    private func hideCollectionView(when noItem: Bool) {
+        perfumeCollectionView.isHidden = noItem
+        noMatchPerfumeView.isHidden = !noItem
     }
 }
