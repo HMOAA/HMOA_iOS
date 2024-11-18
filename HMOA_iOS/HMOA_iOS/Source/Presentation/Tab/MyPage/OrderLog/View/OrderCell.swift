@@ -73,7 +73,7 @@ final class OrderCell: UICollectionViewCell {
     
     private let buttonStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.alignment = .fill
+        $0.alignment = .top
         $0.distribution = .fillEqually
         $0.spacing = 20
     }
@@ -82,7 +82,7 @@ final class OrderCell: UICollectionViewCell {
     
     let returnRequestButton = UIButton().makeBorderButton(title: "반품 신청", color: .black)
     
-    let reviewButton = UIButton().makeBorderButton(title: "후기 작성", color: .black)
+    let reviewButton = UIButton().makeBorderButton(title: "후기 작성(이벤트 자동 응모)", color: .black)
     
     // MARK: - Init
     
@@ -192,9 +192,20 @@ final class OrderCell: UICollectionViewCell {
         buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(totalAmountTitleLabel.snp.bottom).offset(32)
             make.horizontalEdges.bottom.equalToSuperview()
+            make.height.greaterThanOrEqualTo(32)
+        }
+        
+        refundRequestButton.snp.makeConstraints { make in
             make.height.equalTo(32)
         }
         
+        returnRequestButton.snp.makeConstraints { make in
+            make.height.equalTo(32)
+        }
+        
+        reviewButton.snp.makeConstraints { make in
+            make.height.equalTo(32)
+        }
     }
     
     func configureCell(order: Order) {
@@ -258,10 +269,7 @@ extension OrderCell {
         case .SHIPPING_PROGRESS:
             buttonStackView.addArrangedSubview(returnRequestButton)
         case .SHIPPING_COMPLETE:
-            [
-                returnRequestButton,
-                reviewButton
-            ]   .forEach { buttonStackView.addArrangedSubview($0) }
+            setButtonCompositionWhenShippingComplete()
         default:
             break
         }
@@ -270,5 +278,30 @@ extension OrderCell {
     private func setReviewButtonEnabled(isReviewed: Bool) {
         reviewButton.isEnabled = !isReviewed
         reviewButton.layer.borderColor = isReviewed ? UIColor.customColor(.gray3).cgColor : UIColor.black.cgColor
+    }
+    
+    private func setButtonCompositionWhenShippingComplete() {
+        let reviewStack = UIStackView().then  {
+            $0.axis = .vertical
+            $0.alignment = .fill
+            $0.spacing = 6
+        }
+        
+        let eventLabel = UILabel().then {
+            $0.setLabelUI("", font: .pretendard, size: 10, color: .black)
+            $0.setTextWithLineHeight(text: "(5만원 상당 향수 증정 이벤트 응모)\n자세한 내용은 향모아 인스타그램에서 확인하세요.", lineHeight: 12)
+            $0.numberOfLines = 0
+            $0.lineBreakStrategy = .standard
+        }
+        
+        [
+            reviewButton,
+            eventLabel
+        ].forEach { reviewStack.addArrangedSubview($0) }
+        
+        [
+            returnRequestButton,
+            reviewStack
+        ]   .forEach { buttonStackView.addArrangedSubview($0) }
     }
 }

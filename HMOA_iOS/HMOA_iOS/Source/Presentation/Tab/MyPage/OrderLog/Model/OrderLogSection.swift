@@ -26,6 +26,47 @@ extension OrderLogItem {
     
     static let exampleOrder: [OrderLogItem] = [
         .order(Order(
+            id: 3,
+            status: OrderStatus.SHIPPING_COMPLETE.rawValue,
+            products: OrderInfo(
+                categoryListInfo: HBTICategoryListInfo(
+                    totalPrice: 75000,
+                    categoryList: [
+                        HBTICategory(
+                            id: 5,
+                            name: "프루티",
+                            imageURL: "https://example.com/fruity.jpeg",
+                            noteCount: 3,
+                            noteList: [
+                                HBTINote(name: "복숭아", content: "달콤하고 부드러운 복숭아 향"),
+                                HBTINote(name: "블랙베리", content: "진하고 달콤한 블랙베리 향"),
+                                HBTINote(name: "자몽", content: "새콤하고 상큼한 자몽 향")
+                            ],
+                            price: 35000
+                        ),
+                        HBTICategory(
+                            id: 6,
+                            name: "그린",
+                            imageURL: "https://example.com/green.jpeg",
+                            noteCount: 2,
+                            noteList: [
+                                HBTINote(name: "바질", content: "상쾌하고 풍부한 허브 향"),
+                                HBTINote(name: "파인", content: "산뜻하고 시원한 솔잎 향")
+                            ],
+                            price: 40000
+                        )
+                    ]
+                ),
+                paymentAmount: 75000,
+                shippingFee: 3500,
+                totalAmount: 78500
+            ),
+            createdAt: "2024/09/26",
+            courierCompany: "한진택배",
+            trackingNumber: "0987654321",
+            isReviewed: false
+        )),
+        .order(Order(
             id: 1,
             status: OrderStatus.PAY_COMPLETE.rawValue,
             products: OrderInfo(
@@ -93,47 +134,6 @@ extension OrderLogItem {
             createdAt: "2024/09/25",
             courierCompany: "대한통운",
             trackingNumber: "1234567890",
-            isReviewed: false
-        )),
-        .order(Order(
-            id: 3,
-            status: OrderStatus.SHIPPING_COMPLETE.rawValue,
-            products: OrderInfo(
-                categoryListInfo: HBTICategoryListInfo(
-                    totalPrice: 75000,
-                    categoryList: [
-                        HBTICategory(
-                            id: 5,
-                            name: "프루티",
-                            imageURL: "https://example.com/fruity.jpeg",
-                            noteCount: 3,
-                            noteList: [
-                                HBTINote(name: "복숭아", content: "달콤하고 부드러운 복숭아 향"),
-                                HBTINote(name: "블랙베리", content: "진하고 달콤한 블랙베리 향"),
-                                HBTINote(name: "자몽", content: "새콤하고 상큼한 자몽 향")
-                            ],
-                            price: 35000
-                        ),
-                        HBTICategory(
-                            id: 6,
-                            name: "그린",
-                            imageURL: "https://example.com/green.jpeg",
-                            noteCount: 2,
-                            noteList: [
-                                HBTINote(name: "바질", content: "상쾌하고 풍부한 허브 향"),
-                                HBTINote(name: "파인", content: "산뜻하고 시원한 솔잎 향")
-                            ],
-                            price: 40000
-                        )
-                    ]
-                ),
-                paymentAmount: 75000,
-                shippingFee: 3500,
-                totalAmount: 78500
-            ),
-            createdAt: "2024/09/26",
-            courierCompany: "한진택배",
-            trackingNumber: "0987654321",
             isReviewed: false
         ))
     ]

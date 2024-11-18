@@ -193,6 +193,7 @@ final class OrderLogViewController: UIViewController, View {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<OrderLogSection, OrderLogItem>()
         initialSnapshot.appendSections([.order])
+        initialSnapshot.appendItems(OrderLogItem.exampleOrder)
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
