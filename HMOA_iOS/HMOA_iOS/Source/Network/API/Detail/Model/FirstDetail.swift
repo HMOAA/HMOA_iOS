@@ -10,7 +10,6 @@ import UIKit
 struct FirstDetail: Hashable, Codable{
     let perfumeId, heartNum, brandId: Int
     let brandName, brandEnglishName: String
-    let brandImgUrl: String
     let koreanName: String
     let englishName: String?
     let perfumeImageUrl: String
@@ -26,7 +25,7 @@ struct FirstDetail: Hashable, Codable{
     enum CodingKeys: String, CodingKey {
         case evaluation = "review"
         case perfumeId, heartNum, brandId
-        case brandName, brandEnglishName, brandImgUrl
+        case brandName, brandEnglishName
         case notePhotos
         case koreanName, englishName, perfumeImageUrl
         case price, volume, priceVolume

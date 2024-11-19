@@ -21,17 +21,6 @@ class BrandDetailHeaderView: UICollectionReusableView {
         $0.backgroundColor = .black
     }
     
-    private lazy var brandBorderView = UIView().then {
-        $0.backgroundColor = .white
-        $0.layer.cornerRadius = 3
-        $0.layer.borderWidth = 2
-        $0.layer.borderColor = UIColor.customColor(.gray3).cgColor
-    }
-    
-    lazy var brandImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-    }
-    
     lazy var koreanLabel = UILabel().then {
         $0.textColor = .white
         $0.font = .customFont(.pretendard_medium, 14)
@@ -72,15 +61,12 @@ extension BrandDetailHeaderView {
     // MARK: - Configure
     
     private func configureUI() {
-        brandBorderView.addSubview(brandImageView)
-        
         [   brandInfoView,
             sortButton
         ]   .forEach { addSubview($0) }
         
         [   englishLabel,
-            koreanLabel,
-            brandBorderView
+            koreanLabel
         ]   .forEach { brandInfoView.addSubview($0) }
         
         
@@ -98,15 +84,6 @@ extension BrandDetailHeaderView {
             $0.top.equalTo(englishLabel.snp.bottom).offset(6)
             $0.leading.equalTo(englishLabel)
             $0.height.equalTo(14)
-        }
-        
-        brandBorderView.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview().inset(16)
-            $0.width.height.equalTo(100)
-        }
-        brandImageView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(8)
-            $0.top.bottom.equalToSuperview()
         }
         
         sortButton.snp.makeConstraints {
