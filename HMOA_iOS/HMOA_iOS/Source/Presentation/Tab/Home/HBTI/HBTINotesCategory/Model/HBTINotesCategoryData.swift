@@ -18,7 +18,7 @@ struct HBTICategoryLabelTexts {
          """
     }
     var descriptionLabelText: String {
-        "*향료 1개당 \(pricePerNote.numberFormatterToHangulWon())"
+        "*개별구매 불가 SET 로만 구성 (향료 1개당 \(pricePerNote.numberFormatterToHangulWon()))"
     }
 }
 
