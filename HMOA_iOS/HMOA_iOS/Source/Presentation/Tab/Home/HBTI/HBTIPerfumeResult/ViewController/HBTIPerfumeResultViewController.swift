@@ -48,7 +48,7 @@ final class HBTIPerfumeResultViewController: UIViewController, View {
                     forCellWithReuseIdentifier: HBTIPerfumeResultCell.identifier)
     }
     
-    private let nextButton = UIButton().makeValidHBTINextButton(title: "홈으로 돌아가기")
+    private let nextButton = UIButton().makeValidNextStepButton(title: "홈으로 돌아가기")
     
     // MARK: - Properties
     
