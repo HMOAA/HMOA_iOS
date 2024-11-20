@@ -89,7 +89,7 @@ final class HomeViewReactor: Reactor {
             return .concat([
                 .just(.setIsTapHBTI(true)),
                 .just(.setIsTapHBTI(nil))
-                ])
+            ])
         }
     }
     

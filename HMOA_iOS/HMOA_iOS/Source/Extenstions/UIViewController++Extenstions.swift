@@ -450,9 +450,10 @@ extension UIViewController {
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
         
         let homeButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "homeNavi")
-
+        
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
+        appearance.backgroundEffect = nil
         
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.compactAppearance = appearance
@@ -474,7 +475,6 @@ extension UIViewController {
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
         
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .white
         appearance.shadowColor = .white
         
         self.navigationController?.navigationBar.standardAppearance = appearance
@@ -520,16 +520,18 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
 
-        let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.backgroundColor = .clear
-        standardAppearance.shadowColor = .clear
-        standardAppearance.backgroundEffect = nil
-        standardAppearance.titleTextAttributes = [
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+        appearance.backgroundEffect = nil
+        appearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
-        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     // 투명 배경과 흰색 back버튼 NavigationBar
@@ -648,7 +650,8 @@ extension UIViewController {
         self.navigationItem.titleView = searchBarWrapper
         
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
+        appearance.backgroundEffect = nil
         
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.compactAppearance = appearance
