@@ -41,7 +41,7 @@ extension BrandListHeaderView {
         addSubview(consonantLabel)
         
         consonantLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview()
             $0.centerY.equalToSuperview()
             $0.width.equalTo(37)
             $0.height.equalTo(22)

@@ -34,11 +34,9 @@ class BrandSearchViewController: UIViewController, View {
         $0.searchTextField.font = .customFont(.pretendard_light, 16)
         $0.placeholder = "브랜드 검색"
     }
-    
-    private lazy var layout = UICollectionViewFlowLayout()
 
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
-        $0.register(BrandListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandListHeaderView.identifier)
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout()).then {
+        $0.register(BrandListHeaderView.self, forSupplementaryViewOfKind: SupplementaryViewKind.header, withReuseIdentifier: BrandListHeaderView.identifier)
         $0.register(BrandListCollectionViewCell.self, forCellWithReuseIdentifier: BrandListCollectionViewCell.identifier)
     }
     
@@ -48,6 +46,7 @@ class BrandSearchViewController: UIViewController, View {
         super.viewDidLoad()
         configureUI()
         configureSearchNavigationBar(backButton, searchBar: searchBar)
+        configureCollectionViewDataSource()
     }
 }
 
@@ -55,11 +54,20 @@ extension BrandSearchViewController {
     // MARK: - bind
     
     func bind(reactor: BrandSearchReactor) {
-        configureCollectionViewDataSource()
 
         // MARK: - Action
         rx.viewDidLoad
-            .map { Reactor.Action.scrollCollectionView(1) }
+            .map { Reactor.Action.scrollCollectionView }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.willDisplayCell
+            .filter { cellInfo in
+                let isLastSection = cellInfo.at.section == self.collectionView.numberOfSections - 1
+                let isFirstItem = cellInfo.at.item == 0
+                return isLastSection && isFirstItem
+            }
+            .map { _ in Reactor.Action.scrollCollectionView }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -97,13 +105,15 @@ extension BrandSearchViewController {
         // CollectionView 바인딩
         reactor.state
             .map { $0.sections }
+            .distinctUntilChanged()
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, sections in
                 guard let datasource = owner.dataSource else { return }
                 var snapshot = NSDiffableDataSourceSnapshot<BrandListSection, BrandCell>()
-                snapshot.appendSections(sections)
-                
                 sections.forEach { section in
+                    if !snapshot.sectionIdentifiers.contains(section) {
+                        snapshot.appendSections([section])
+                    }
                     snapshot.appendItems(section.items, toSection: section)
                 }
                 
@@ -138,11 +148,7 @@ extension BrandSearchViewController {
     // MARK: - Configure
     
     private func configureUI() {
-        
-        collectionView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
         view.backgroundColor = .white
-        
         
         view.addSubview(collectionView)
         
@@ -151,6 +157,46 @@ extension BrandSearchViewController {
             $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
         }
+        
+        collectionView.contentInset.top = 16
+        collectionView.showsVerticalScrollIndicator = false
+    }
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let headerItemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(22)
+            )
+            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerItemSize,
+                elementKind: SupplementaryViewKind.header,
+                alignment: .top
+            )
+            
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .estimated(60),
+                heightDimension: .absolute(32)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(32)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            group.interItemSpacing = .fixed(10)
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 10
+            section.contentInsets = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
+            section.boundarySupplementaryItems = [headerItem]
+            
+            return section
+        }
+        return layout
     }
     
     private func configureCollectionViewDataSource() {
@@ -167,46 +213,24 @@ extension BrandSearchViewController {
             
         })
         
-        dataSource?.supplementaryViewProvider = { (collectionview, kind, indexPath) -> UICollectionReusableView in
-            
-            guard let header = collectionview.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BrandListHeaderView.identifier, for: indexPath) as? BrandListHeaderView else { return UICollectionReusableView() }
-            
-            header.updateUI(self.reactor!.currentState.sections[indexPath.section].consonant)
-            
-            return header
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+            switch kind {
+            case SupplementaryViewKind.header:
+                let headerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: SupplementaryViewKind.header,
+                    withReuseIdentifier: BrandListHeaderView.identifier,
+                    for: indexPath) as! BrandListHeaderView
+                
+                if self.dataSource?.snapshot() != nil {
+                    let sectionTitle = self.reactor!.currentState.sections[indexPath.section].consonant
+                    headerView.updateUI(sectionTitle)
+                }
+                
+                return headerView
+                
+            default:
+                return nil
+            }
         }
     }
 }
-
-extension BrandSearchViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (UIScreen.main.bounds.width - 56) / 4
-        let heigth = width + 36
-        
-        return CGSize(width: width, height: heigth)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 40)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        if indexPath.row == 0 {
-            var row = indexPath.section + 2
-            if row >= 10 { row += 1 }
-            reactor?.action.onNext(.scrollCollectionView(row))
-        }
-        
-    }
-}
-
