@@ -73,11 +73,10 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
         $0.returnKeyType = .done
     }
     
-    private let saveAddressInfoButton = UIButton().then {
-        $0.setTitle("저장하기", for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard, 15)
-        $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 5
+    private let saveAddressInfoButton = UIButton().makeValidNextStepButton(title: "저장하기")
+    
+    private let alertInvalidLabel = UILabel().then {
+        $0.setLabelUI("내용이 올바르지 않거나, 입력하지 않은 항목이 있습니다", font: .pretendard_semibold, size: 12, color: .red)
     }
     
     // MARK: - LifeCycle
@@ -161,8 +160,13 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         saveAddressInfoButton.rx.tap
-            .map { Reactor.Action.didTapSaveButton }
-            .bind(to: reactor.action)
+            .withLatestFrom(reactor.state.map { $0.isEnabledSaveButton }) 
+            .asDriver(onErrorRecover: { _ in .empty() })
+            .drive(with: self, onNext: { owner, isEnabledSaveButton in
+                isEnabledSaveButton
+                    ? reactor.action.onNext(.didTapSaveButton)
+                    : reactor.action.onNext(.didTapInvalidButton)
+            })
             .disposed(by: disposeBag)
         
         // MARK: State
@@ -176,12 +180,19 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.isEnabledSaveButton }
-            .distinctUntilChanged()
+            .map { ($0.isEnabledSaveButton, $0.isShowAlertLabel) }
+            .distinctUntilChanged { $0 == $1 }
             .asDriver(onErrorRecover: { _ in .empty() })
-            .drive(with: self, onNext: { owner, isEnabled in
-                owner.saveAddressInfoButton.isEnabled = isEnabled
-                owner.saveAddressInfoButton.backgroundColor = isEnabled ? .black : .customColor(.gray3)
+            .drive(with: self, onNext: { owner, tuple in
+                let (isEnabledSaveButton, isShowAlertLabel) = tuple
+                let isShowLabel = (isEnabledSaveButton == false) && isShowAlertLabel
+                
+                if isShowLabel {
+                    owner.alertInvalidLabel.isHidden = false
+                } else {
+                    owner.alertInvalidLabel.isHidden = true
+                }
+                owner.saveAddressInfoButton.backgroundColor = isEnabledSaveButton ? .black : .customColor(.gray3)
             })
             .disposed(by: disposeBag)
         
@@ -217,7 +228,8 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
     private func setAddView() {
         [
          scrollView,
-         saveAddressInfoButton
+         saveAddressInfoButton,
+         alertInvalidLabel
         ].forEach(view.addSubview)
         
         scrollView.addSubview(contentView)
@@ -308,6 +320,11 @@ final class HBTIAddFixAddressViewController: UIViewController, View {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(40)
             $0.height.equalTo(52)
+        }
+        
+        alertInvalidLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(15)
         }
     }
 }

@@ -26,6 +26,10 @@ final class HBTIProductInfoView: UIView {
         $0.setLabelUI("상품 정보", font: .pretendard_bold, size: 18, color: .black)
     }
     
+    private let shippingDurationLabel = UILabel().then {
+        $0.setLabelUI("11시 이전 결제 건까지 당일 발송", font: .pretendard, size: 11, color: .gray4)
+    }
+    
     lazy var productCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
@@ -64,6 +68,7 @@ final class HBTIProductInfoView: UIView {
     private func setAddView() {
         [
          titleLabel,
+         shippingDurationLabel,
          productCollectionView
         ].forEach(addSubview)
     }
@@ -74,6 +79,11 @@ final class HBTIProductInfoView: UIView {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview()
+        }
+        
+        shippingDurationLabel.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel)
+            $0.trailing.equalToSuperview()
         }
         
         productCollectionView.snp.makeConstraints {

@@ -19,6 +19,7 @@ final class HBTIAddFixReactor: Reactor {
         case didChangeZipCode(String)
         case didChangeDetailAddress(String)
         case didChangeOrderRequest(String)
+        case didTapInvalidButton
         case didTapSaveButton
     }
     
@@ -31,6 +32,7 @@ final class HBTIAddFixReactor: Reactor {
         case setZipCode(String)
         case setDetailAddress(String)
         case setOrderRequest(String)
+        case setIsShowAlertLabel(Bool)
         case setIsEnabledSaveButton(Bool)
         case setIsPushVC(Bool)
     }
@@ -45,6 +47,7 @@ final class HBTIAddFixReactor: Reactor {
         var address: String = ""
         var detailAddress: String = ""
         var orderRequest: String = ""
+        var isShowAlertLabel: Bool = false
         var isEnabledSaveButton: Bool = false
         var isPushVC: Bool = false
         let orderId: Int
@@ -83,13 +86,17 @@ final class HBTIAddFixReactor: Reactor {
         case .didChangeOrderRequest(let orderRequest):
             return .just(.setOrderRequest(orderRequest))
             
+        case .didTapInvalidButton:
+            return .just(.setIsShowAlertLabel(true))
+            
         case .didTapSaveButton:
             let isEnabled = currentState.isEnabledSaveButton
-            
+
             return .concat([
-                postMemberAddressInfo(),
-                .just(.setIsPushVC(isEnabled))
-            ])
+                    .just(.setIsEnabledSaveButton(isEnabled)),
+                    isEnabled ? postMemberAddressInfo() : .empty(),
+                    .just(.setIsPushVC(isEnabled))
+                ])
         }
     }
     
@@ -120,6 +127,9 @@ final class HBTIAddFixReactor: Reactor {
             
         case .setOrderRequest(let orderRequest):
             state.orderRequest = orderRequest
+            
+        case .setIsShowAlertLabel(let isShowAlertLabel):
+            state.isShowAlertLabel = isShowAlertLabel
             
         case .setIsEnabledSaveButton(let isEnabled):
             state.isEnabledSaveButton = isEnabled

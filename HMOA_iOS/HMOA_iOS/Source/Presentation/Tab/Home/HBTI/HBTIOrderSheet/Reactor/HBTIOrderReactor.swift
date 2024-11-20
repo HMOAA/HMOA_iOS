@@ -16,7 +16,6 @@ final class HBTIOrderReactor: Reactor {
         case didChangeName(String)
         case didChangePhoneNumber(String)
         case didTapSaveInfoButton
-        case didTapEnterAddressButton
         case didTapRemoveItemButton(Int)
         case didTapAllAgree
         case didTapPolicyAgree
@@ -86,9 +85,6 @@ final class HBTIOrderReactor: Reactor {
         case .didTapSaveInfoButton:
             guard isMemberOrderInfoValid(name: currentState.name, phoneNumber: currentState.phoneNumber) else { return .empty() }
             return setMemberOrderInfo()
-            
-        case .didTapEnterAddressButton:
-            return .empty()
             
         case .didTapRemoveItemButton(let index):
             let productId = currentState.selectedNoteList[index]

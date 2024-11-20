@@ -89,7 +89,7 @@ final class HBTIOrderSheetViewController: UIViewController, View, HBTIProductInf
             .disposed(by: disposeBag)
         
         ordererInfoView.saveInfoButton.rx.tap
-            .map { Reactor.Action.didTapEnterAddressButton }
+            .map { Reactor.Action.didTapSaveInfoButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

@@ -30,7 +30,7 @@ final class HBTINotesCategoryViewController: UIViewController, View {
             )
     }
     
-    private let nextButton: UIButton = UIButton().makeInvalidHBTINextButton()
+    private let nextButton: UIButton = UIButton().makeInvalidNextStepButton(title: "다음")
     
     // MARK: - Properties
     
