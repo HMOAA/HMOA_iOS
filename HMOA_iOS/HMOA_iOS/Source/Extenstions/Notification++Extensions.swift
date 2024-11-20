@@ -6,7 +6,13 @@
 //
 
 import Foundation
+import UIKit
 
 extension Notification.Name {
     static let updateBackgroundImage = Notification.Name("updateBackgroundImage")
+    
+    static let keyboardWillShow = UIResponder.keyboardWillShowNotification
+    
+    static let keyboardWillHide = UIResponder.keyboardWillHideNotification
+    
 }

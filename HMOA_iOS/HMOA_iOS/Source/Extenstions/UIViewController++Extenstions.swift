@@ -65,8 +65,14 @@ extension UIViewController {
     }
     
     /// CustomAlertVC로 present
-    func presentAlertVC(title: String, content: String, buttonTitle: String) {
-        let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle)
+    func presentAlertVC(title: String, content: String, buttonTitle: String, type: AlertType? = nil) {
+            let alertVC = AlertViewController(title: title, content: content, buttonTitle: buttonTitle, type: type)
+            alertVC.modalPresentationStyle = .overFullScreen
+            self.present(alertVC, animated: false)
+    }
+    
+    /// 미리 정의된 AlertVC를 입력으로 받아 present
+    func presentAlertVC(alertVC: AlertViewController) {
         alertVC.modalPresentationStyle = .overFullScreen
         self.present(alertVC, animated: false)
     }
@@ -153,7 +159,7 @@ extension UIViewController {
     }
     
     /// PerfumeDetailVC로 push
-    func presentDatailViewController(_ id: Int, _ service: BrandDetailService? = nil) {
+    func presentDetailViewController(_ id: Int, _ service: BrandDetailService? = nil) {
         let reactor = DetailViewReactor(perfumeId: id, service: service)
         let detailVC = DetailViewController()
         detailVC.reactor = reactor
@@ -260,6 +266,132 @@ extension UIViewController {
         self.navigationController?.pushViewController(magazineDetailVC, animated: true)
     }
     
+    /// NotificationDetailVC로 push
+    func presentPushAlarmViewController() {
+        let pushAlarmVC = PushAlarmViewController()
+        pushAlarmVC.reactor = PushAlarmReactor()
+        self.navigationController?.pushViewController(pushAlarmVC, animated: true)
+    }
+    
+    /// HBTIVC로 push
+    func presentHBTIViewController() {
+        let hbtiVC = HBTIViewController()
+        hbtiVC.reactor = HBTIReactor()
+        hbtiVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiVC, animated: true)
+    }
+    
+    /// HBTISurveyVC로 push
+    func presentHBTISurveyViewController() {
+        let hbtiSurveyVC = HBTISurveyViewController()
+        hbtiSurveyVC.reactor = HBTISurveyReactor()
+        hbtiSurveyVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiSurveyVC, animated: true)
+    }
+    
+    /// HBTISurveyResultVC로 push
+    func presentHBTISurveyResultViewController(_ selectedIDList: [Int]) {
+        let hbtiSurveyResultVC = HBTISurveyResultViewController()
+        hbtiSurveyResultVC.reactor = HBTISurveyResultReactor(selectedIDList)
+        hbtiSurveyResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiSurveyResultVC, animated: true)
+    }
+        
+    /// HBTIPerfumeSurveyVC로 push
+    func presentHBTIPerfumeSurveyViewController() {
+        let hbtiPerfumeSurveyVC = HBTIPerfumeSurveyViewController()
+        hbtiPerfumeSurveyVC.reactor = HBTIPerfumeSurveyReactor()
+        hbtiPerfumeSurveyVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiPerfumeSurveyVC, animated: true)
+    }
+    
+    /// HBTIPerfumeResultVC로 push
+    func presentHBTIPerfumeResultViewController(_ minPrice: Int, _ maxPrice: Int, _ notes: [String]) {
+        let hbtiPerfumeResultVC = HBTIPerfumeResultViewController()
+        hbtiPerfumeResultVC.reactor = HBTIPerfumeResultReactor(minPrice, maxPrice, notes)
+        hbtiPerfumeResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiPerfumeResultVC, animated: true)
+    }
+  
+    /// HBTINotesCatrgoryVC로 push
+    func presentHBTINotesCategoryViewController(_ recommendedNote: String) {
+        let hbtiNotesCategoryVC = HBTINotesCategoryViewController()
+        hbtiNotesCategoryVC.reactor = HBTINotesCategoryReactor(recommendedNote)
+        hbtiNotesCategoryVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNotesCategoryVC, animated: true)
+    }
+  
+    /// HBTIProcessGuideVC로 push
+    func presentHBTIProcessGuideViewController(_ recommendation: [HBTISurveyResultItem]) {
+        let hbtiProcessGuideVC = HBTIProcessGuideViewController()
+        hbtiProcessGuideVC.reactor = HBTIProcessGuideReactor(recommendation)
+        hbtiProcessGuideVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiProcessGuideVC, animated: true)
+    }
+    
+    /// HBTIOrderSheetVC로 push
+    func presentHBTIOrderSheetViewController(orderId: Int, selectedNoteList: [Int]) {
+        let hbtiOrderSheetVC = HBTIOrderSheetViewController()
+        hbtiOrderSheetVC.reactor = HBTIOrderReactor(orderId: orderId, selectedNoteList: selectedNoteList)
+        hbtiOrderSheetVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiOrderSheetVC, animated: true)
+    }
+    
+    func presentHBTIAddFixAddressViewController(title: String, orderId: Int, selectedNoteList: [Int]) {
+        let hbtiAddFixAddressVC = HBTIAddFixAddressViewController()
+        hbtiAddFixAddressVC.reactor = HBTIAddFixReactor(title: title, orderId: orderId, selectedNoteList: selectedNoteList)
+        hbtiAddFixAddressVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiAddFixAddressVC, animated: true)
+    }
+    
+    /// HBTINotesResultVC로 push
+    func presentHBTINotesResultViewController(_ selectedNoteList: [Int]) {
+        let hbtiNotesResultVC = HBTINotesResultViewController()
+        hbtiNotesResultVC.reactor = HBTINotesResultReactor(selectedNoteList)
+        hbtiNotesResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiNotesResultVC, animated: true)
+    }
+    
+    /// HBTIReviewWriteVC로 push
+    func presentHBTIReviewWriteViewController(orderID: Int) {
+        let hbtiReviewWriteVC = HBTIReviewWriteViewController()
+        hbtiReviewWriteVC.reactor = HBTIReviewWriteReactor(orderID: orderID)
+        hbtiReviewWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiReviewWriteVC, animated: true)
+    }
+    
+    func presentHBTIReviewWriteViewController(reviewID: Int, content: String, communityPhotos: [CommunityPhoto]) {
+        let hbtiReviewWriteVC = HBTIReviewWriteViewController()
+        hbtiReviewWriteVC.reactor = HBTIReviewWriteReactor(reviewID: reviewID,
+                                                           content: content,
+                                                           photos: communityPhotos)
+        hbtiReviewWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiReviewWriteVC, animated: true)
+    }
+    
+    /// HBTIReviewListVC로 push
+    func presentHBTIReviewListViewController(isLog: Bool) {
+        let hbtiReviewListVC = HBTIReviewListViewController()
+        hbtiReviewListVC.reactor = HBTIReviewListReactor(isLog: isLog)
+        hbtiReviewListVC.hidesBottomBarWhenPushed = !isLog
+        self.navigationController?.pushViewController(hbtiReviewListVC, animated: true)
+    }
+    
+    /// OrderCancelDetailVC로 push
+    func presentOrderCancelDetailViewController(_ order: OrderLogItem, orderCancelRequest: OrderCancelRequestKind) {
+        let orderCancelDetailVC = OrderCancelDetailViewController()
+        orderCancelDetailVC.reactor = OrderCancelDetailReactor(order, orderCancelRequest)
+        orderCancelDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(orderCancelDetailVC, animated: true)
+    }
+    
+    /// HBTIOrderResultVC로 push
+    func presentHBTIOrderResultViewController() {
+        let hbtiOrderResultVC = HBTIOrderResultViewController()
+        hbtiOrderResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(hbtiOrderResultVC, animated: true)
+    }
+    
     // MARK: Configure NavigationBar
     
     /// 확인 버튼, 취소 버튼 navigation bar
@@ -293,23 +425,6 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItems = [bellButton, searchButton]
     }
     
-    func setSearchBellNaviBar(_ title: String) {
-        let titleLabel = UILabel().then {
-            $0.text = title
-            $0.font = .customFont(.pretendard_medium, 20)
-            $0.textColor = .black
-        }
-        
-        let brandButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToBrand), imageName: "homeMenu")
-        
-        let searchButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToSearch), imageName: "search")
-
-        
-        self.navigationItem.titleView = titleLabel
-        self.navigationItem.leftBarButtonItems = [brandButton]
-        self.navigationItem.rightBarButtonItems = [searchButton]
-    }
-    
     /// BackButton만 있는 NavigationBar
     func setBackItemNaviBar(_ title: String) {
         let titleLabel = UILabel().then {
@@ -335,9 +450,10 @@ extension UIViewController {
         let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
         
         let homeButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "homeNavi")
-
+        
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
+        appearance.backgroundEffect = nil
         
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.compactAppearance = appearance
@@ -346,6 +462,26 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItems = [backButton]
         self.navigationItem.rightBarButtonItems = [homeButton]
+    }
+    
+    /// Back버튼과 Bell 버튼 NavigationBar
+    func setBackBellNaviBar(_ title: String, bellButton: UIBarButtonItem) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "backButton")
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowColor = .white
+        
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+        self.navigationItem.rightBarButtonItems = [bellButton]
     }
     
     /// 투명 NavigationBar
@@ -359,17 +495,106 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
         
 
-        let scrollEdgeAppearance = UINavigationBarAppearance()
-        scrollEdgeAppearance.backgroundColor = .clear
-        scrollEdgeAppearance.shadowColor = .clear
-        scrollEdgeAppearance.backgroundEffect = nil
-        scrollEdgeAppearance.titleTextAttributes = [
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.shadowColor = .clear
+        standardAppearance.backgroundEffect = nil
+        standardAppearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+    }
+    
+    // 투명 배경과 back버튼 Navigation Bar
+    func setClearBackNaviBar(_ title: String, _ titleColor: UIColor) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = titleColor
+        }
         
-        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: titleColor == UIColor.black ? "backButton" : "whiteBack")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+        appearance.backgroundEffect = nil
+        appearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    // 투명 배경과 흰색 back버튼 NavigationBar
+    func setClearWhiteBackNaviBar(_ title: String, _ titleColor: UIColor) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = titleColor
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "whiteBack")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.shadowColor = .clear
+        standardAppearance.backgroundEffect = nil
+        standardAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.customFont(.pretendard_bold, 20),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
+        
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+    }
+    
+    /// 향BTI 홈으로 이동하는 Back버튼 Navigation Bar
+    func setBackToHBTIVCNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard_medium, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popToHBTIViewController), imageName: "backButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+    }
+    
+    /// 홈화면으로 이동하는 Back버튼 Navigation Bar
+    func setBackToHomeVCNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.text = title
+            $0.font = .customFont(.pretendard, 20)
+            $0.textColor = .black
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(goToHome), imageName: "backButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItems = [backButton]
+    }
+    
+    /// Back 버튼이 없는 Navigation Bar
+    func setNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.setLabelUI(title, font: .pretendard, size: 20, color: .black)
+        }
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.hidesBackButton = true
     }
     
     /// Back 버튼, Share 버튼 NavigationBar
@@ -425,7 +650,8 @@ extension UIViewController {
         self.navigationItem.titleView = searchBarWrapper
         
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
+        appearance.backgroundEffect = nil
         
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.compactAppearance = appearance
@@ -470,6 +696,23 @@ extension UIViewController {
 //        }
 //        
 //        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    /// 알림 권한 요청 및 On/Off
+    @objc func pushAlarmSetting() {
+        // TODO: 알림 권한 요청 및 On/Off 기능 구현
+    }
+    
+    // 향BTI 홈으로 이동
+    @objc func popToHBTIViewController() {
+        if let viewControllers = navigationController?.viewControllers {
+            for vc in viewControllers {
+                if vc is HBTIViewController {
+                    navigationController?.popToViewController(vc, animated: true)
+                    break
+                }
+            }
+        }
     }
     
     // MARK: - UI Function
@@ -552,4 +795,15 @@ extension UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    // MARK: - Other Functions
+    
+    // 텍스트필드에서 returnKey 입력 시 다음 텍스트필드 이동
+    func moveToNextTextField(currentTextField: UITextField, nextTextField: UITextField?) -> Bool {
+        if let next = nextTextField {
+            next.becomeFirstResponder()
+        } else {
+            currentTextField.resignFirstResponder()
+        }
+        return true
+    }
 }

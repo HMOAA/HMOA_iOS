@@ -16,6 +16,7 @@ enum Colors {
     case gray2
     case gray3
     case gray4
+    case gray5
     case black
     case blue
     case red
@@ -44,6 +45,8 @@ extension UIColor {
             return #colorLiteral(red: 0.611764729, green: 0.611764729, blue: 0.611764729, alpha: 1)
         case .gray4:
             return #colorLiteral(red: 0.2549019456, green: 0.2549019456, blue: 0.2549019456, alpha: 1)
+        case .gray5:
+            return #colorLiteral(red: 0.3921568394, green: 0.3921568394, blue: 0.3921568394, alpha: 1)
         case .black:
             return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         case .blue:
@@ -63,6 +66,26 @@ extension UIColor {
 }
 
 extension UIColor {
+    // hex값으로 초기화
+    convenience init(hexCode: String, alpha: CGFloat = 1.0) {
+        var hexFormatted: String = hexCode.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()
+        
+        if hexFormatted.hasPrefix("#") {
+            hexFormatted = String(hexFormatted.dropFirst())
+        }
+        
+        assert(hexFormatted.count == 6, "Invalid hex code used.")
+        
+        var rgbValue: UInt64 = 0
+        Scanner(string: hexFormatted).scanHexInt64(&rgbValue)
+        
+        self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+                  green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+                  blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+                  alpha: alpha)
+    }
+    
+    // 랜덤색상
     static var random: UIColor {
         UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1), alpha: 1.0)
     }

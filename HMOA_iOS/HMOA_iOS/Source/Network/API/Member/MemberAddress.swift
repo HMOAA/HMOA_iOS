@@ -21,6 +21,11 @@ enum MemberAddress {
     case fetchCommunityComment
     case fetchWritedPost
     case deleteMember
+    case fetchOrder
+    case fetchOrderCancel
+    case postMemberOrderInfo
+    case postMemberAddressInfo
+    case fetchMemberAddressInfo
 }
 
 extension MemberAddress {
@@ -52,6 +57,16 @@ extension MemberAddress {
             return "member/communities"
         case .deleteMember:
             return "member/delete"
+        case .fetchOrder:
+            return "member/order"
+        case .fetchOrderCancel:
+            return "member/order/cancel"
+        case .postMemberOrderInfo:
+            return "member/orderInfo"
+        case .postMemberAddressInfo:
+            return "member/address"
+        case .fetchMemberAddressInfo:
+            return "member/address"
         }
     }
 }

@@ -230,6 +230,18 @@ class OptionView: UIView, View {
                             reactor.action.onNext(.didTapOkReportAlert)
                         })
                     }
+                    
+                case .Review(_):
+                    if let parentVC = owner.parentVC {
+                        parentVC.showAlert(
+                            title: "신고",
+                            message: "해당 후기를 신고하시겠습니까?",
+                            buttonTitle1: "아니요",
+                            buttonTitle2: "네",
+                            action2: {
+                            reactor.action.onNext(.didTapOkReportAlert)
+                        })
+                    }
                 default:
                     break
                 }

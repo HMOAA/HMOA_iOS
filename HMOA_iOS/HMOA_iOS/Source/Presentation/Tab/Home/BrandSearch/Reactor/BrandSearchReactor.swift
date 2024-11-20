@@ -15,7 +15,7 @@ class BrandSearchReactor: Reactor {
         case didTapBackButton
         case didTapItem(Brand)
         case updateSearchResult(String)
-        case scrollCollectionView(Int)
+        case scrollCollectionView
     }
     
     enum Mutation {
@@ -24,9 +24,8 @@ class BrandSearchReactor: Reactor {
         case setRequestData([BrandList])
         case setSection([BrandListSection])
         case setSearchResult([BrandListSection])
-        case setLoadedPage(Int)
         case setSearchWord(String)
-        
+        case setNextConsonant(Int)
     }
     
     struct State {
@@ -45,7 +44,7 @@ class BrandSearchReactor: Reactor {
         var brandList: [BrandListSection] = []
         var searchResult: [BrandListSection] = []
         var isFiltering: Bool = false
-        var loadedPage: Set<Int> = []
+        var nextConsonant: Int = 1
     }
     
     init() {
@@ -75,10 +74,9 @@ class BrandSearchReactor: Reactor {
                 findSearhList(word)
                 ])
             
-        case .scrollCollectionView(let consonant):
-            return .concat([
-                reqeustBrandList(consonant: consonant)
-                ])
+        case .scrollCollectionView:
+            let consonant = currentState.nextConsonant
+            return reqeustBrandList(consonant: consonant)
         }
     }
     
@@ -97,16 +95,16 @@ class BrandSearchReactor: Reactor {
             state.searchResult = result
             
         case .setSection(let section):
-            state.brandList = section
+            state.brandList += section
         
         case .setRequestData(let brandList):
-            state.reqeustData = brandList
-            
-        case .setLoadedPage(let page):
-            state.loadedPage.insert(page)
+            state.reqeustData += brandList
             
         case .setSearchWord(let word):
             state.isFiltering = word == "" ? false : true
+            
+        case .setNextConsonant(let index):
+            state.nextConsonant = index
         }
         
         return state
@@ -116,29 +114,19 @@ class BrandSearchReactor: Reactor {
 extension BrandSearchReactor {
     
     func reqeustBrandList(consonant: Int) -> Observable<Mutation> {
-        if currentState.loadedPage.contains(consonant) { return .empty() }
-        
         return SearchAPI.getBrandPaging(query: ["consonant": consonant])
             .catch { _ in .empty() }
             .flatMap { data -> Observable<Mutation> in
-                var brand: BrandList!
-                //TODO: 필요없는 코드
-                if data.isEmpty {
-                    brand = BrandList(consonant: consonant, brands: [Brand(brandId: 0, brandImageUrl: "", brandName: "", englishName: "")])
-                } else {
-                    brand = BrandList(consonant: consonant, brands: data)
+                if data.isEmpty && consonant < 20 {
+                    return self.reqeustBrandList(consonant: consonant + 1)
                 }
-                var newBrandList = self.currentState.reqeustData
-                newBrandList.append(brand)
-                var newSections = self.currentState.brandList
-                
+                let brand = BrandList(consonant: consonant, brands: data)
                 guard let section = brand.section else { return .empty() }
-                newSections.append(section)
                 
                 return .concat([
-                    .just(.setRequestData(newBrandList)),
-                    .just(.setSection(newSections)),
-                    .just(.setLoadedPage(consonant))
+                    .just(.setRequestData([brand])),
+                    .just(.setSection([section])),
+                    .just(.setNextConsonant(consonant + 1))
                 ])
             }
     }

@@ -1,0 +1,41 @@
+//
+//  HBTINotesCategoryData.swift
+//  HMOA_iOS
+//
+//  Created by HyoTaek on 8/19/24.
+//
+
+import Foundation
+
+struct HBTICategoryLabelTexts {
+    let bestNote: String
+    let pricePerNote: Int
+    var titleLabelText: String {
+         """
+         추천받은 카테고리는 '\(bestNote)' 입니다.
+         그 외에 원하는 시향카드 카테고리를
+         선택해주세요
+         """
+    }
+    var descriptionLabelText: String {
+        "*개별구매 불가 SET 로만 구성 (향료 1개당 \(pricePerNote.numberFormatterToHangulWon()))"
+    }
+}
+
+enum HBTINotesCategorySection: Hashable {
+    case category
+}
+
+enum HBTINotesCategoryItem: Hashable {
+    case note(HBTINotesCategory)
+}
+
+extension HBTINotesCategoryItem {
+    var result: HBTINotesCategory? {
+        if case .note(let noteList) = self {
+            return noteList
+        } else {
+            return nil
+        }
+    }
+}

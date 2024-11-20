@@ -14,11 +14,12 @@ import RxKakaoSDKAuth
 import KakaoSDKAuth
 import FirebaseCore
 import FirebaseMessaging
+import RxSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var disposeBag = DisposeBag()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -104,6 +105,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// MARK: - NotificationCenterDelegate
+
 extension AppDelegate: UNUserNotificationCenterDelegate {
 
     /// 스위즐링 NO시, APNs등록, 토큰값가져옴
@@ -115,6 +118,38 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     /// 앱화면 보고있는중에 푸시올 때
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.list, .banner, .badge, .sound])
+    }
+    
+    /// 알림 탭 시 처리
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        handleDeeplink(userInfo)
+        
+        readAlarm(userInfo)
+        
+        completionHandler()
+    }
+    
+    func handleDeeplink(_ userInfo: [AnyHashable: Any]) {
+        if let deepLink = userInfo["deeplink"] as? String, let url = URL(string: deepLink) {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let sceneDelegate = windowScene.delegate as? SceneDelegate {
+                sceneDelegate.moveToViewController(by: url)
+            }
+        }
+    }
+    
+    func readAlarm(_ userInfo: [AnyHashable: Any]) {
+        if let notificationIDString = userInfo["id"] as? String,
+           let notificationID = Int(notificationIDString) {
+            PushAlarmAPI.putAlarmRead(ID: notificationID)
+                .subscribe(onNext: { response in
+                    print("Server responded successfully: \(response)")
+                }, onError: { error in
+                    print("Server response failed: \(error)")
+                }).disposed(by: disposeBag)
+        }
     }
     
 }
@@ -132,12 +167,30 @@ extension AppDelegate {
     /// pushAlram 기본 세팅
     func configurePushAlarm(application: UIApplication) {
         UNUserNotificationCenter.current().delegate = self
+        
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: { _, _ in }
+            completionHandler: { (granted: Bool, error: Error?) in
+                UserDefaults.standard.set(granted, forKey: "alarm")
+                if granted {
+                    DispatchQueue.main.async {
+                        application.registerForRemoteNotifications()
+                    }
+                }
+                
+                if let error = error {
+                    print("Request authorization failed: \(error)")
+                }
+            }
         )
-        application.registerForRemoteNotifications()
+        
+        // 알림 권한 상태 확인 및 업데이트
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            let isAuthorized = settings.authorizationStatus == .authorized
+            UserDefaults.standard.set(isAuthorized, forKey: "alarm")
+        }
+        
         Messaging.messaging().isAutoInitEnabled = true
         Messaging.messaging().delegate = self
     }

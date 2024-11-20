@@ -11,7 +11,6 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
-import Kingfisher
 
 class BrandDetailViewController: UIViewController, View {
     typealias Reactor = BrandDetailReactor
@@ -103,7 +102,7 @@ extension BrandDetailViewController {
             .compactMap { $0.presentPerfumeId }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, id in
-                owner.presentDatailViewController(id, reactor.service)
+                owner.presentDetailViewController(id, reactor.service)
             })
             .disposed(by: disposeBag)
         
@@ -127,16 +126,6 @@ extension BrandDetailViewController {
             .bind(to: headerView.koreanLabel.rx.text)
             .disposed(by: headerView.disposeBag)
         
-        // 브랜드 이미지 바인딩
-        reactor.state
-            .compactMap { $0.brand }
-            .map { URL(string: $0.brandImageUrl) }
-        
-            .asDriver(onErrorRecover: { _ in return .empty() })
-            .drive(with: self, onNext: { owner, url in
-                headerView.brandImageView.kf.setImage(with: url)
-            })
-            .disposed(by: headerView.disposeBag)
         // 브랜드 영어 이름 바인딩
         reactor.state
             .compactMap { $0.brand }

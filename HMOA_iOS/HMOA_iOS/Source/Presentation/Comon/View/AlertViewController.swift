@@ -11,9 +11,9 @@ import Then
 import SnapKit
 import RxSwift
 
-class AlertViewController: UIViewController {
+final class AlertViewController: UIViewController {
     
-    
+    // MARK: - Componenets
     let alertView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -29,24 +29,26 @@ class AlertViewController: UIViewController {
         $0.setLabelUI("", font: .pretendard, size: 12, color: .gray3)
     }
     
-    let loginButton = UIButton().then {
+    let bottomButton = UIButton().then {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard, 12)
-        $0.backgroundColor = .customColor(.gray3)
     }
 
+    var alertType: AlertType = .login
+    
+    // MARK: - Properties
+    let confirmButtonTapped = PublishSubject<Void>()
     let disposeBag = DisposeBag()
 
-    init(title: String, content: String, buttonTitle: String) {
+    init(title: String, content: String, buttonTitle: String, type: AlertType? = nil) {
         super .init(nibName: nil, bundle: nil)
-        self.updateAlertView(title: title, content: content, buttonTitle: buttonTitle)
-        
+        self.updateAlertView(title: title, content: content, buttonTitle: buttonTitle, type: type)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: - UIComponents
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,6 +60,9 @@ class AlertViewController: UIViewController {
     
     private func setUpUI() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        alertView.layer.cornerRadius = 5
+        alertView.clipsToBounds = true
+        setBottomButtonBackgroundColor()
     }
     
     private func setAddView() {
@@ -65,7 +70,7 @@ class AlertViewController: UIViewController {
             xButton,
             titleLabel,
             contentLabel,
-            loginButton
+            bottomButton
         ]   .forEach { alertView.addSubview($0) }
         
         view.addSubview(alertView)
@@ -93,7 +98,7 @@ class AlertViewController: UIViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(9)
         }
         
-        loginButton.snp.makeConstraints { make in
+        bottomButton.snp.makeConstraints { make in
             make.bottom.leading.trailing.equalToSuperview()
             make.height.equalTo(40)
         }
@@ -106,22 +111,57 @@ class AlertViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        loginButton.rx.tap
+        bottomButton.rx.tap
             .bind(with: self) { owner, _ in
-                guard let presentingVC = owner.presentingViewController else { return }
-                let loginVC = LoginViewController()
-                loginVC.modalPresentationStyle = .fullScreen
-                loginVC.reactor = LoginReactor(.inApp)
-                owner.dismiss(animated: false) {
-                    presentingVC.present(loginVC, animated: true)
+                switch owner.alertType {
+                case .login:
+                    guard let presentingVC = owner.presentingViewController else { return }
+                    let loginVC = LoginViewController()
+                    loginVC.modalPresentationStyle = .fullScreen
+                    loginVC.reactor = LoginReactor(.inApp)
+                    owner.dismiss(animated: false) {
+                        presentingVC.present(loginVC, animated: true)
+                    }
+                case .refund(let order):
+                    if let order = order {
+                        HBTIAPI.deletePurchase(orderId: order.id)
+                            .subscribe()
+                            .disposed(by: owner.disposeBag)
+                        owner.updateAlertView(title: "환불이 완료되었습니다.",
+                                              content: "환불은 환불 규정에 따라 진행됩니다.",
+                                              buttonTitle: "확인",
+                                              type: .refund(nil))
+                    } else {
+                        owner.confirmButtonTapped.onNext(())
+                        owner.dismiss(animated: false)
+                    }
+                    
+                case .none:
+                    owner.dismiss(animated: false)
                 }
             }
             .disposed(by: disposeBag)
     }
     
-    func updateAlertView(title: String, content: String, buttonTitle: String) {
+    
+}
+
+extension AlertViewController {
+    private func updateAlertView(title: String, content: String, buttonTitle: String, type: AlertType?) {
         titleLabel.text = title
         contentLabel.text = content
-        loginButton.setTitle(buttonTitle, for: .normal)
+        bottomButton.setTitle(buttonTitle, for: .normal)
+        
+        guard let type = type else { return }
+        alertType = type
+    }
+    
+    private func setBottomButtonBackgroundColor() {
+        switch alertType {
+        case .refund(let _):
+            bottomButton.backgroundColor = .black
+        default:
+            bottomButton.backgroundColor = .customColor(.gray3)
+        }
     }
 }

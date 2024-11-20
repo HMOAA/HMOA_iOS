@@ -18,17 +18,15 @@ class HomeViewController: UIViewController, View {
     // MARK: - UI Component
     private lazy var homeView = HomeView()
     
-    // TODO: - 알림 API 구현 후 수정
-    //    private let bellButton = UIButton().then {
-    //        $0.setImage(UIImage(named: "bellOn"), for: .selected)
-    //        $0.setImage(UIImage(named: "bellOff"), for: .normal)
-    //    }
-    //
-    //    private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
-    //        $0.customView?.snp.makeConstraints {
-    //            $0.width.height.equalTo(30)
-    //        }
-    //    }
+    private let bellButton = UIButton().then {
+        $0.setImage(UIImage(named: "homeBell"), for: .normal)
+    }
+    
+    private lazy var bellBarButton = UIBarButtonItem(customView: bellButton).then {
+        $0.customView?.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+        }
+    }
     
     //    lazy var indicatorImageView = UIImageView().then {
     //        $0.contentMode = .scaleAspectFit
@@ -50,8 +48,9 @@ class HomeViewController: UIViewController, View {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
-        setSearchBellNaviBar("H  M  O  A")
+        setSearchBellNaviBar("H  M  O  A", bellButton: bellBarButton)
         configureCollectionViewDataSource()
         navigationController?.delegate = self
         
@@ -72,12 +71,12 @@ class HomeViewController: UIViewController, View {
             $0.trailing.equalToSuperview()
         }
         
-//        indicatorImageView.snp.makeConstraints { make in
-//            make.centerY.centerX.equalToSuperview()
-//            make.width.height.equalTo(110)
-//        }
-//        
-//        indicatorImageView.startAnimating()
+        //        indicatorImageView.snp.makeConstraints { make in
+        //            make.centerY.centerX.equalToSuperview()
+        //            make.width.height.equalTo(110)
+        //        }
+        //
+        //        indicatorImageView.startAnimating()
     }
     
     // MARK: - Bind
@@ -92,23 +91,10 @@ class HomeViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // TODO: - 인앱 알림 기능 추가 시 수정
-        
-        loginManager.isPushAlarmAuthorization
-            .map { Reactor.Action.settingAlarmAuthorization($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        loginManager.isUserSettingAlarm
-            .map { Reactor.Action.settingIsUserSetting($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         loginManager.isLogin
             .map { Reactor.Action.settingIsLogin($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
         
         // collectionView item 클릭
         self.homeView.collectionView.rx.itemSelected
@@ -117,10 +103,10 @@ class HomeViewController: UIViewController, View {
             .disposed(by: self.disposeBag)
         
         // 벨 버튼 터치
-//        bellButton.rx.tap
-//            .map { Reactor.Action.didTapBellButton }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
+        bellButton.rx.tap
+            .map { Reactor.Action.didTapBellButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: - State
         
@@ -147,26 +133,43 @@ class HomeViewController: UIViewController, View {
             .compactMap { $0 }
             .asDriver(onErrorRecover: { _ in return .empty() })
             .drive(with: self, onNext: { owner, id in
-                owner.presentDatailViewController(id)
+                owner.presentDetailViewController(id)
             })
             .disposed(by: disposeBag)
         
-        // 푸시 알람 권한, 유저 셋팅에 따른 ui 바인딩
-//        reactor.state
-//            .map { $0.isPushAlarm }
-//            .compactMap { $0 }
-//            .distinctUntilChanged()
-//            .asDriver(onErrorRecover: { _ in return .empty() })
-//            .drive(with: self, onNext: { owner, isPush in
-//                guard let isLogin = reactor.currentState.isLogin else { return }
-//                if isLogin {
-//                    owner.bellButton.isSelected = isPush
-//                } else { owner.bellButton.isSelected = false }
-//            })
-//            .disposed(by: disposeBag)
+        // 푸시알림 리스트로 push
+        reactor.state
+            .map { $0.isTapBell }
+            .compactMap { $0 }
+            .filter { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isTap in
+                owner.presentPushAlarmViewController()
+            })
+            .disposed(by: disposeBag)
         
-        // TODO: - 인앱 알림 기능 후 수정 예정
+        // 로그아웃일 때 알림리스트 보기 제한
+        reactor.state
+            .map { $0.isTapWhenNotLogin }
+            .compactMap { $0 }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, _ in
+                owner.presentAlertVC(
+                    title: "로그인 후 이용가능한 서비스입니다",
+                    content: "입력하신 내용을 다시 확인해주세요",
+                    buttonTitle: "로그인 하러가기"
+                )
+            })
+            .disposed(by: disposeBag)
         
+        // 향BTI 버튼 탭
+        reactor.state
+            .compactMap { $0.isTapHBTI }
+            .asDriver(onErrorRecover: { _ in return .empty() })
+            .drive(with: self, onNext: { owner, isTap in
+                owner.presentHBTIViewController()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func bindHeader(reactor: HomeHeaderReactor) {
@@ -199,25 +202,28 @@ extension HomeViewController {
                 
                 homeTopCell.setImage(data)
                 
+                homeTopCell.hbtiButton.rx.tap
+                    .map { Reactor.Action.didTapHBTIButton }
+                    .bind(to: self.reactor!.action)
+                    .disposed(by: homeTopCell.disposeBag)
+                
                 return homeTopCell
                 
             case .recommendCell(let data, _):
-                guard let firstCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeFirstCell.identifier,
-                    for: indexPath) as? HomeFirstCell else {
-                    return UICollectionViewCell()
-                }
-                
-                guard let otherCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomeCell.identifier,
-                    for: indexPath) as? HomeCell else {
-                    return UICollectionViewCell()
-                }
-                                
                 if indexPath.section == 1 {
+                    guard let firstCell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: HomeFirstCell.identifier,
+                        for: indexPath) as? HomeFirstCell else {
+                        return UICollectionViewCell()
+                    }
                     firstCell.bindUI(data, indexPath.row)
                     return firstCell
                 } else {
+                    guard let otherCell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: HomeCell.identifier,
+                        for: indexPath) as? HomeCell else {
+                        return UICollectionViewCell()
+                    }
                     otherCell.bindUI(data)
                     return otherCell
                 }
@@ -225,30 +231,29 @@ extension HomeViewController {
         })
         
         datasource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
-            
-            var header = UICollectionReusableView()
+            var header: UICollectionReusableView?
             
             guard let section = self.datasource?.snapshot().sectionIdentifiers[indexPath.section]
-            else { return header }
+            else { return nil }
             
             switch section {
             case .topSection(_):
-                return header
+                return nil
                 
             case .recommendSection(let title, _, let type):
                 guard let homeCellHeader = collectionView.dequeueReusableSupplementaryView(
                     ofKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: HomeCellHeaderView.identifier,
                     for: indexPath) as? HomeCellHeaderView else {
-                    return UICollectionReusableView()
+                    return nil
                 }
                 
                 homeCellHeader.reactor = HomeHeaderReactor(title, type)
                 self.bindHeader(reactor: homeCellHeader.reactor!)
                 header = homeCellHeader
-                
-                return header
             }
+            
+            return header
         }
     }
 }
@@ -258,7 +263,7 @@ extension HomeViewController {
 extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-                
+        
         if indexPath.section == 1 && indexPath.row == 1 {
             if !(reactor?.currentState.isPaging)! {
                 reactor?.action.onNext(.scrollCollectionView)
@@ -293,7 +298,7 @@ extension HomeViewController: UINavigationControllerDelegate {
         }
         return false
     }
-
+    
 }
 
 extension HomeViewController: UIGestureRecognizerDelegate {

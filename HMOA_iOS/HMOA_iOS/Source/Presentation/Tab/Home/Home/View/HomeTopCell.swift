@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import Kingfisher
+import RxSwift
 
 class HomeTopCell: UICollectionViewCell {
     
@@ -17,18 +18,46 @@ class HomeTopCell: UICollectionViewCell {
     
     // MARK: - Properies
     
-    private lazy var newsImageView = UIImageView()
+    var disposeBag = DisposeBag()
     
-    private lazy var banerView = UIView().then {
-        $0.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9450980392, blue: 0.9529411765, alpha: 1)
+    private let titleLabel = UILabel().then {
+        $0.setLabelUI("무료 향BTI 검사 후\n당신만의 향을 찾아보세요", font: .pretendard_medium, size: 20, color: .white)
+        $0.numberOfLines = 2
+        $0.textAlignment = .center
     }
-    private lazy var banerLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_medium, size: 14, color: .banerLabelColor)
+    
+    private let bannerView = UIView().then {
+        $0.backgroundColor = .black
+        $0.layer.cornerRadius = 12
+    }
+    
+    private lazy var newsImageView = UIImageView().then {
+        $0.layer.masksToBounds = true
+        $0.contentMode = .scaleAspectFill
+    }
+    
+    lazy var hbtiButton = UIButton().then {
+        $0.setTitle("# 향bti 검사하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 14)
+        $0.backgroundColor = .customColor(.gray4)
+        $0.layer.cornerRadius = 8
     }
     
     // MARK: - Lifecycle
-    override func layoutSubviews() {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
         configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
 }
 
@@ -37,30 +66,47 @@ class HomeTopCell: UICollectionViewCell {
 extension HomeTopCell {
     
     func configureUI() {
-        banerView.addSubview(banerLabel)
         
-        [newsImageView, banerView] .forEach { addSubview($0) }
+        [
+            bannerView
+        ].forEach { addSubview($0) }
         
-        newsImageView.snp.makeConstraints {
-            $0.leading.trailing.top.equalToSuperview()
+        [
+            titleLabel,
+            newsImageView,
+            hbtiButton
+        ].forEach { bannerView.addSubview($0)}
+        
+        
+        // 배너 문구 라벨
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(25)
+            make.centerX.equalToSuperview()
         }
         
-        banerView.snp.makeConstraints { make in
-            make.top.equalTo(newsImageView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(36)
+        // 배너 이미지뷰
+        newsImageView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(30)
+            make.horizontalEdges.equalToSuperview().inset(40)
+            make.bottom.equalTo(hbtiButton.snp.top).offset(-10)
         }
         
-        banerLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
+        // 배너 뷰
+        bannerView.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        // 향BTI 버튼
+        hbtiButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(bannerView.snp.horizontalEdges).inset(16)
+            make.bottom.equalTo(bannerView.snp.bottom).inset(10)
+            make.height.equalTo(48)
         }
     }
     
     func setImage(_ item: HomeFirstData) {
         let url = URL(string: item.mainImage)
-        banerLabel.text =  item.banner
         newsImageView.kf.setImage(with: url)
     }
 }

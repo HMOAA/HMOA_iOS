@@ -43,12 +43,6 @@ final class MemberAPI {
         .map { result -> Bool in
             return result
         }
-        .catch { error -> Observable<Bool> in
-            if let statusCode = error.asAFError?.responseCode, statusCode == 409 {
-                return Observable.just(true)
-            }
-            return Observable.error(error)
-        }
     }
     
     /// 닉네임 업데이트
@@ -197,5 +191,53 @@ final class MemberAPI {
         } else {
             return .just(false)
         }
+    }
+    
+    static func fetchOrderList(_ query: [String: Int]) -> Observable<OrderResponse> {
+        return networking(
+            urlStr: MemberAddress.fetchOrder.url,
+            method: .get,
+            data: nil,
+            model: OrderResponse.self,
+            query: query)
+    }
+    
+    static func fetchOrderCancelList(_ query: [String: Int]) -> Observable<OrderResponse> {
+        return networking(
+            urlStr: MemberAddress.fetchOrderCancel.url,
+            method: .get,
+            data: nil,
+            model: OrderResponse.self,
+            query: query)
+    }
+    
+    static func postMemberOrderInfo(params: [String: String]) -> Observable<Response> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                
+        return networking(
+            urlStr: MemberAddress.postMemberOrderInfo.url,
+            method: .post,
+            data: data,
+            model: Response.self
+        )
+    }
+    
+    static func postMemberAddressInfo(params: [String: String]) -> Observable<Response> {
+        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                
+        return networking(
+            urlStr: MemberAddress.postMemberAddressInfo.url,
+            method: .post,
+            data: data,
+            model: Response.self
+        )
+    }
+    
+    static func fetchMemberAddressInfo() -> Observable<MemberAddressInfo> {
+        return networking(
+            urlStr: MemberAddress.fetchMemberAddressInfo.url,
+            method: .get,
+            data: nil,
+            model: MemberAddressInfo.self)
     }
 }
