@@ -16,7 +16,6 @@ final class HBTIOrderReactor: Reactor {
         case didChangeName(String)
         case didChangePhoneNumber(String)
         case didTapSaveInfoButton
-//        case didTapEnterAddressButton
         case didTapRemoveItemButton(Int)
         case didTapAllAgree
         case didTapPolicyAgree
