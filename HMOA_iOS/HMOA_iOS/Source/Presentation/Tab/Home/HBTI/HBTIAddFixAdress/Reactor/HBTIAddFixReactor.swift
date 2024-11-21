@@ -95,7 +95,8 @@ final class HBTIAddFixReactor: Reactor {
             return .concat([
                     .just(.setIsEnabledSaveButton(isEnabled)),
                     isEnabled ? postMemberAddressInfo() : .empty(),
-                    .just(.setIsPushVC(isEnabled))
+                    .just(.setIsPushVC(isEnabled)),
+                    .just(.setIsPushVC(false))
                 ])
         }
     }

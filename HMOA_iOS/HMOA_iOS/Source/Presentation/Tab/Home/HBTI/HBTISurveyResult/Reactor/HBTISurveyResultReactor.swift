@@ -17,7 +17,7 @@ final class HBTISurveyResultReactor: Reactor {
     enum Mutation {
         case setNoteItemList([HBTISurveyResultItem])
         case setNickname(String)
-        case setIsPushNextVC
+        case setIsPushNextVC(Bool)
     }
     
     struct State {
@@ -41,7 +41,10 @@ final class HBTISurveyResultReactor: Reactor {
                 setNoteItemList()
             ])
         case .isTapNextButton:
-            return .just(.setIsPushNextVC)
+            return .concat([
+                .just(.setIsPushNextVC(true)),
+                .just(.setIsPushNextVC(false))
+            ])
         }
     }
     
@@ -55,8 +58,8 @@ final class HBTISurveyResultReactor: Reactor {
         case .setNickname(let nickname):
             state.nickname = nickname
             
-        case .setIsPushNextVC:
-            state.isPushNextVC = true
+        case .setIsPushNextVC(let isPushNextVC):
+            state.isPushNextVC = isPushNextVC
         }
         
         return state
