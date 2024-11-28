@@ -31,7 +31,10 @@ final class HBTIProcessGuideReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .didTapNextButton:
-            return .just(.setIsPushNextVC(true))
+            return .concat([
+                .just(.setIsPushNextVC(true)),
+                .just(.setIsPushNextVC(false))
+            ])
         }
     }
     
