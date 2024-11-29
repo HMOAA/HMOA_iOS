@@ -62,7 +62,10 @@ final class HBTINotesCategoryReactor: Reactor {
         case .didTapNextButton:
             let isEnabled = currentState.isEnabledNextButton
             
-            return .just(.setIsPushNextVC(isEnabled))
+            return .concat([
+                .just(.setIsPushNextVC(isEnabled)),
+                .just(.setIsPushNextVC(false))
+            ])
         }
     }
     

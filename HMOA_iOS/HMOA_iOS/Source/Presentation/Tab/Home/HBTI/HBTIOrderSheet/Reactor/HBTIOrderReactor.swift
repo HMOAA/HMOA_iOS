@@ -172,18 +172,17 @@ final class HBTIOrderReactor: Reactor {
             state.isPersonalInfoAgree = isPersonalInfoAgree
         }
         
-        state.isPayValid = isValid(state.name, state.phoneNumber, state.isAllAgree, state.telephoneNumber, state.address, state.zipCode)
+        state.isPayValid = isValid(state.name, state.phoneNumber, state.isAllAgree, state.address, state.zipCode)
         
         return state
     }
 }
 
 extension HBTIOrderReactor {
-    private func isValid(_ name: String, _ phoneNumber: String, _ isAllAgree: Bool, _ telephoneNumber: String, _ address: String, _ zipCode: String) -> Bool {
+    private func isValid(_ name: String, _ phoneNumber: String, _ isAllAgree: Bool, _ address: String, _ zipCode: String) -> Bool {
         return !name.isEmpty
             && isValidPhoneNumber(phoneNumber)
             && isAllAgree
-            && isValidPhoneNumber(telephoneNumber)
             && !address.isEmpty
             && !zipCode.isEmpty
     }

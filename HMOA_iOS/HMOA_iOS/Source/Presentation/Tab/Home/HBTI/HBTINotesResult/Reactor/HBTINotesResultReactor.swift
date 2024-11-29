@@ -45,7 +45,8 @@ final class HBTINotesResultReactor: Reactor {
         case .didTapNextButton:
             return .concat([
                 setOrderId(),
-                .just(.setIsPushNextVC(true))
+                .just(.setIsPushNextVC(true)),
+                .just(.setIsPushNextVC(false))
             ])
         }
     }
