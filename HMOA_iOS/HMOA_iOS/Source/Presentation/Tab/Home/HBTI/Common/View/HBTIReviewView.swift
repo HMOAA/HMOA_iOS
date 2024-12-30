@@ -104,8 +104,8 @@ final class HBTIReviewView: UIView {
     // MARK: - Set Constraints
     private func setConstraints() {
         profileImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(12)
-            make.leading.equalToSuperview().inset(16)
+            make.top.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
             make.height.width.equalTo(imageSize)
         }
         
@@ -132,7 +132,7 @@ final class HBTIReviewView: UIView {
         
         optionButton.snp.makeConstraints { make in
             make.centerY.equalTo(profileImageView.snp.centerY)
-            make.trailing.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(20)
         }
         
         contentLabel.snp.makeConstraints { make in
