@@ -84,7 +84,6 @@ final class HBTIReviewView: UIView {
         layer.cornerRadius = 5
         backgroundColor = .customColor(.gray5)
         profileImageView.layer.cornerRadius = imageSize / 2
-//        imageStackView.addGestureRecognizer(imageStackViewTapGesture)
     }
     
     // MARK: - Set Add View
@@ -97,7 +96,6 @@ final class HBTIReviewView: UIView {
             likeCountLabel,
             optionButton,
             contentLabel,
-//            imageStackView,
             photoCollectionView,
             productCategoryLabel
         ].forEach { addSubview($0) }
