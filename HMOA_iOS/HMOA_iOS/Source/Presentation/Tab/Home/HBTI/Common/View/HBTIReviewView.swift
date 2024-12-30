@@ -147,7 +147,7 @@ final class HBTIReviewView: UIView {
         }
         
         productCategoryLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView.snp.bottom).offset(72)
+            make.top.equalTo(photoCollectionView.snp.bottom).offset(19)
             make.trailing.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(10)
         }
