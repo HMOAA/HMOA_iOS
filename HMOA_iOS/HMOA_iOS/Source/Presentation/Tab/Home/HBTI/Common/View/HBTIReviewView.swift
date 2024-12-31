@@ -84,7 +84,6 @@ final class HBTIReviewView: UIView {
         layer.cornerRadius = 5
         backgroundColor = .customColor(.gray5)
         profileImageView.layer.cornerRadius = imageSize / 2
-//        imageStackView.addGestureRecognizer(imageStackViewTapGesture)
     }
     
     // MARK: - Set Add View
@@ -97,7 +96,6 @@ final class HBTIReviewView: UIView {
             likeCountLabel,
             optionButton,
             contentLabel,
-//            imageStackView,
             photoCollectionView,
             productCategoryLabel
         ].forEach { addSubview($0) }
@@ -106,8 +104,8 @@ final class HBTIReviewView: UIView {
     // MARK: - Set Constraints
     private func setConstraints() {
         profileImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(12)
-            make.leading.equalToSuperview().inset(16)
+            make.top.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
             make.height.width.equalTo(imageSize)
         }
         
@@ -134,7 +132,7 @@ final class HBTIReviewView: UIView {
         
         optionButton.snp.makeConstraints { make in
             make.centerY.equalTo(profileImageView.snp.centerY)
-            make.trailing.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(20)
         }
         
         contentLabel.snp.makeConstraints { make in
@@ -149,7 +147,7 @@ final class HBTIReviewView: UIView {
         }
         
         productCategoryLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView.snp.bottom).offset(72)
+            make.top.equalTo(photoCollectionView.snp.bottom).offset(19)
             make.trailing.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(10)
         }
