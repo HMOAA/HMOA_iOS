@@ -50,6 +50,14 @@ class AppTabbarController: UITabBarController {
         super.viewDidLoad()
         configureTabbar()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        var tabFrame = self.tabBar.frame
+        tabFrame.size.height = 95
+        tabFrame.origin.y = self.view.frame.size.height - 95
+        self.tabBar.frame = tabFrame
+    }
 }
 
 extension AppTabbarController {
@@ -85,13 +93,11 @@ extension AppTabbarController {
         
         self.selectedIndex = 0
         view.backgroundColor = .white
-        tabBar.barTintColor = .white
-        tabBar.tintColor = .black
-        tabBar.backgroundColor = .white
-        tabBar.isTranslucent = false
-        tabBar.unselectedItemTintColor = UIColor.customColor(.gray3)
+        tabBar.barTintColor = .black
+        tabBar.tintColor = .white
+        tabBar.backgroundColor = .black
+        tabBar.unselectedItemTintColor = .white
         tabBar.layer.masksToBounds = true
-        tabBar.layer.addBorder([.top], color: .customColor(.gray1), width: 1)
         
         homeNVC.tabBarItem = homeTab
         hPediaNVC.tabBarItem = hPediaTab
