@@ -231,29 +231,37 @@ extension HomeViewController {
         })
         
         datasource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
-            var header: UICollectionReusableView?
-            
-            guard let section = self.datasource?.snapshot().sectionIdentifiers[indexPath.section]
-            else { return nil }
-            
-            switch section {
-            case .topSection(_):
-                return nil
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                guard let section = self.datasource?.snapshot().sectionIdentifiers[indexPath.section]
+                else { return nil }
                 
-            case .recommendSection(let title, _, let type):
-                guard let homeCellHeader = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: HomeCellHeaderView.identifier,
-                    for: indexPath) as? HomeCellHeaderView else {
+                switch section {
+                case .topSection(_):
                     return nil
+                    
+                case .recommendSection(let title, _, let type):
+                    guard let homeCellHeader = collectionView.dequeueReusableSupplementaryView(
+                        ofKind: UICollectionView.elementKindSectionHeader,
+                        withReuseIdentifier: HomeCellHeaderView.identifier,
+                        for: indexPath) as? HomeCellHeaderView else {
+                        return nil
+                    }
+                    
+                    homeCellHeader.reactor = HomeHeaderReactor(title, type)
+                    self.bindHeader(reactor: homeCellHeader.reactor!)
+                    return homeCellHeader
                 }
                 
-                homeCellHeader.reactor = HomeHeaderReactor(title, type)
-                self.bindHeader(reactor: homeCellHeader.reactor!)
-                header = homeCellHeader
+            case SupplementaryViewKind.footer:
+                let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: SupplementaryViewKind.footer, withReuseIdentifier: HomeFooterView.reuseIdentifier, for: indexPath) as! HomeFooterView
+                footerView.configureFooter()
+                
+                return footerView
+                
+            default:
+                return nil
             }
-            
-            return header
         }
     }
 }

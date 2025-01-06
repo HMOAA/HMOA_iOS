@@ -7,6 +7,7 @@
 
 enum SupplementaryViewKind {
     static let header = "header"
+    static let footer = "footer"
     static let magazineBackground = "magazineBackground"
     static let background = "background"
     static let bottomLine = "bottomLine"

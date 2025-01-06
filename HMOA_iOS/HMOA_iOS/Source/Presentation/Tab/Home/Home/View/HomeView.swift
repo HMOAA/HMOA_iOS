@@ -18,6 +18,7 @@ class HomeView: UIView {
         $0.register(HomeTopCell.self, forCellWithReuseIdentifier: HomeTopCell.identifier)
         $0.register(HomeFirstCell.self, forCellWithReuseIdentifier: HomeFirstCell.identifier)
         $0.register(HomeCellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCellHeaderView.identifier)
+        $0.register(HomeFooterView.self, forSupplementaryViewOfKind: SupplementaryViewKind.footer, withReuseIdentifier: HomeFooterView.reuseIdentifier)
     }
     
     
@@ -58,7 +59,13 @@ extension HomeView {
         return section
     }
     
-    private func homeCellCompositionalLayout() -> NSCollectionLayoutSection {
+    private func homeCellCompositionalLayout(_ isLastSection: Bool) -> NSCollectionLayoutSection {
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(10))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(80))
+        let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: SupplementaryViewKind.footer, alignment: .bottom)
+        
         let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .absolute(126))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 1.5)
@@ -67,15 +74,14 @@ extension HomeView {
 
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(10))
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-        
         let section = NSCollectionLayoutSection(group: group)
-        section.boundarySupplementaryItems = [ sectionHeader ]
+        section.boundarySupplementaryItems = isLastSection ? [sectionHeader, sectionFooter] : [sectionHeader]
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 8
+        section.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 16, bottom: 70, trailing: 16)
         sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 0)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 16, bottom: 70, trailing: 0)
+        sectionFooter.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -16, bottom: 0, trailing: -16)
+        
         return section
     }
     
@@ -130,7 +136,8 @@ extension HomeView {
             case 1:
                 return self.homeFirstCellCompositionalLayout()
             default:
-                return self.homeCellCompositionalLayout()
+                let isLastSection = self.collectionView.numberOfSections - 1 == sectionIndex
+                return self.homeCellCompositionalLayout(isLastSection)
             }
         }
     }
