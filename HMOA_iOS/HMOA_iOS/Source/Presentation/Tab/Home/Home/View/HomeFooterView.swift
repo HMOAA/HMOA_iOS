@@ -47,12 +47,19 @@ class HomeFooterView: UICollectionReusableView, ReuseIdentifying {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setUI()
         setAddView()
         setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Set UI
+    
+    private func setUI() {
+        backgroundColor = .black
     }
     
     // MARK: - Set AddView
@@ -74,7 +81,9 @@ class HomeFooterView: UICollectionReusableView, ReuseIdentifying {
     
     private func setConstraints() {
         stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalToSuperview().inset(32)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(36)
         }
     }
     

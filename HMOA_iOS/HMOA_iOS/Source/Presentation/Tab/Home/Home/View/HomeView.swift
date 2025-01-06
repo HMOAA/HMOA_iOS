@@ -63,7 +63,7 @@ extension HomeView {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(10))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(80))
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(188))
         let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: SupplementaryViewKind.footer, alignment: .bottom)
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(126), heightDimension: .absolute(126))
@@ -80,7 +80,7 @@ extension HomeView {
         section.interGroupSpacing = 8
         section.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 16, bottom: 70, trailing: 16)
         sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 0)
-        sectionFooter.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -16, bottom: 0, trailing: -16)
+        sectionFooter.contentInsets = NSDirectionalEdgeInsets(top: 40, leading: -16, bottom: 0, trailing: -16)
         
         return section
     }
