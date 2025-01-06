@@ -233,6 +233,8 @@
 		C9D2300B2C69F601008ACB9B /* HBTILoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300A2C69F601008ACB9B /* HBTILoadingView.swift */; };
 		C9D2300D2C6AE106008ACB9B /* HBTISurveyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */; };
 		C9D2300F2C6AE63C008ACB9B /* HBTISurveyResultSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */; };
+		C9D370992D2B88B200010BD7 /* HomeFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D370982D2B88B200010BD7 /* HomeFooterView.swift */; };
+		C9D3709B2D2B8A3400010BD7 /* BusinessInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D3709A2D2B8A3400010BD7 /* BusinessInfo.swift */; };
 		C9EBE6F42C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F32C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift */; };
 		C9EBE6F62C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F52C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift */; };
 		C9EBE6F92C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */; };
@@ -617,6 +619,8 @@
 		C9D2300A2C69F601008ACB9B /* HBTILoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTILoadingView.swift; sourceTree = "<group>"; };
 		C9D2300C2C6AE106008ACB9B /* HBTISurveyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultCell.swift; sourceTree = "<group>"; };
 		C9D2300E2C6AE63C008ACB9B /* HBTISurveyResultSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTISurveyResultSection.swift; sourceTree = "<group>"; };
+		C9D370982D2B88B200010BD7 /* HomeFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFooterView.swift; sourceTree = "<group>"; };
+		C9D3709A2D2B8A3400010BD7 /* BusinessInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfo.swift; sourceTree = "<group>"; };
 		C9EBE6F32C8DAA4E007AB66B /* HBTIPerfumeResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultViewController.swift; sourceTree = "<group>"; };
 		C9EBE6F52C8DAC72007AB66B /* HBTIPerfumeResultReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultReactor.swift; sourceTree = "<group>"; };
 		C9EBE6F82C8DCBF8007AB66B /* HBTIPerfumeResultSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBTIPerfumeResultSection.swift; sourceTree = "<group>"; };
@@ -801,6 +805,7 @@
 			isa = PBXGroup;
 			children = (
 				2C04246529A39C30009CF0FE /* HomeSection.swift */,
+				C9D3709A2D2B8A3400010BD7 /* BusinessInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1314,6 +1319,7 @@
 				2C4DD3732976E1A70027CE40 /* HomeView.swift */,
 				2C710EEC29798172006BE23B /* HomeFirstCell.swift */,
 				2C4DD36F29756D3A0027CE40 /* HomeCellHeaderView.swift */,
+				C9D370982D2B88B200010BD7 /* HomeFooterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3559,6 +3565,7 @@
 				CAD18E1B29C2FFCF005BC997 /* LikeCardCell.swift in Sources */,
 				3F964D322C73254200F97CB7 /* HBTINotesCategoryCell.swift in Sources */,
 				CA0160982AB2E15200D5839D /* EvaluationReactor.swift in Sources */,
+				C9D3709B2D2B8A3400010BD7 /* BusinessInfo.swift in Sources */,
 				2C04249D29A65C32009CF0FE /* CommentWriteReactor.swift in Sources */,
 				CA22389B2AAF492D00452A31 /* CommunityPostCell.swift in Sources */,
 				C9728CFE2C8AC7B8009C49B4 /* HBTINoteCategoryHeaderView.swift in Sources */,
@@ -3795,6 +3802,7 @@
 				2CA155A92A0399CD00D7B0C0 /* Member.swift in Sources */,
 				CA9810FC2B6A70E700EB9DA3 /* UserDefaults++Extenstions.swift in Sources */,
 				3FEB5E032C80421600F3C7F5 /* HBTIProductInfoCell.swift in Sources */,
+				C9D370992D2B88B200010BD7 /* HomeFooterView.swift in Sources */,
 				C98970DC2BD2062A00FFD68E /* Notification++Extensions.swift in Sources */,
 				C904BFA02BA94B2E00B28494 /* MagazineInfoCell.swift in Sources */,
 				3F1EAC7F2C85AF7F000B657C /* HBTIContactTextFieldView.swift in Sources */,
